@@ -202,7 +202,6 @@ class Settings extends \XoopsObject
         $imgtray->addElement($fileseltray);
         $form->addElement($imgtray);
 
-
         $form->addElement(new \XoopsFormText(_AM_TDMCREATE_SETTING_AUTHOR_MAIL, 'set_author_mail', 50, 255, $this->getVar('set_author_mail')));
         $form->addElement(new \XoopsFormText(_AM_TDMCREATE_SETTING_AUTHOR_WEBSITE_URL, 'set_author_website_url', 50, 255, $this->getVar('set_author_website_url')));
         $form->addElement(new \XoopsFormText(_AM_TDMCREATE_SETTING_AUTHOR_WEBSITE_NAME, 'set_author_website_name', 50, 255, $this->getVar('set_author_website_name')));

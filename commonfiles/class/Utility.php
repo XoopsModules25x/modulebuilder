@@ -132,7 +132,9 @@ class Utility
             }
         }
         // add the defined ending to the text
-        $truncate .= $ending;
+        if (strlen($truncate) > 0) {
+            $truncate .= $ending;
+        }
         if ($considerHtml) {
             // close all unclosed html-tags
             foreach ($open_tags as $tag) {

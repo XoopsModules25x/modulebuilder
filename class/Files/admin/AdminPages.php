@@ -288,7 +288,7 @@ class AdminPages extends Files\CreateFile
                         $ret .= $xc->getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     default:
-                        $ret .= $axc->getAxcSetVarMisc($tableName, $fieldName, $fieldType, $t);
+                        $ret .= $axc->getAxcSetVarMisc($tableName, $fieldName, $fieldType, $fieldElement, $t);
                         break;
                 }
             }

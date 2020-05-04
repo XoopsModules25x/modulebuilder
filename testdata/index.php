@@ -69,11 +69,10 @@ function loadSampleData()
 
     foreach ($tables as $table) {
         $tabledata = \Xmf\Yaml::readWrapped($language . $table . '.yml');
-        if (is_array($tabledata)) {
         \Xmf\Database\TableLoad::truncateTable($table);
         \Xmf\Database\TableLoad::loadTableFromArray($table, $tabledata);
     }
-}
+
     //  ---  COPY test folder files ---------------
     if (is_array($configurator->copyTestFolders) && count($configurator->copyTestFolders) > 0) {
         //        $file = __DIR__ . '/../testdata/images/';
@@ -97,12 +96,7 @@ function saveSampleData()
 
     $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
 
-    $language = 'english/';
-    if (is_dir(__DIR__ . '/' . $xoopsConfig['language'])) {
-        $language = $xoopsConfig['language'] . '/';
-    }
-
-    $languageFolder = __DIR__ . '/' . $language;
+    $languageFolder = __DIR__ . '/' . $xoopsConfig['language'];
     if (!file_exists($languageFolder . '/')) {
        Utility::createFolder($languageFolder . '/');
     }

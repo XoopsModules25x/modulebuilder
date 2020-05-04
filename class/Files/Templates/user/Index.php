@@ -79,7 +79,7 @@ class Index extends Files\CreateFile
     {
         $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
 
-        return $sc->getSmartyIncludeFile($moduleDirname, 'header') . PHP_EOL;
+        return $sc->getSmartyIncludeFile($moduleDirname, 'header', false, false, '',  "\n");
     }
 
     /**
@@ -98,7 +98,7 @@ class Index extends Files\CreateFile
         $table  = $this->getTemplatesUserIndexTableThead($tableName, $language);
         $table  .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName);
 
-        return $hc->getHtmlTable($table, 'table table-' . $single) . PHP_EOL;
+        return $hc->getHtmlTable($table, 'table table-' . $single);
     }
 
     /**
@@ -114,10 +114,10 @@ class Index extends Files\CreateFile
         $stuTableName = mb_strtoupper($tableName);
         $lang         = $sc->getSmartyConst($language, $stuTableName);
         $col          = $sc->getSmartySingleVar('numb_col');
-        $th           = $hc->getHtmlTableHead($lang, '', $col) . PHP_EOL;
-        $tr           = $hc->getHtmlTableRow($th, 'head') . PHP_EOL;
+        $th           = $hc->getHtmlTableHead($lang, '', $col);
+        $tr           = $hc->getHtmlTableRow($th, 'head') ;
 
-        return $hc->getHtmlTableThead($tr) . PHP_EOL;
+        return $hc->getHtmlTableThead($tr);
     }
 
     /**
@@ -134,13 +134,13 @@ class Index extends Files\CreateFile
         $type    = $sc->getSmartySingleVar('panel_type');
         $include = $sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName);
         $div     = $hc->getHtmlDiv($include, 'panel panel-' . $type);
-        $cont    = $hc->getHtmlTableData($div) . PHP_EOL;
-        $html    = $hc->getHtmlEmpty('</tr><tr>') . PHP_EOL;
-        $cont    .= $sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html) . PHP_EOL;
-        $foreach = $sc->getSmartyForeach($tableSoleName, $tableName, $cont) . PHP_EOL;
-        $tr      = $hc->getHtmlTableRow($foreach) . PHP_EOL;
+        $cont    = $hc->getHtmlTableData($div);
+        $html    = $hc->getHtmlEmpty('</tr><tr>');
+        $cont    .= $sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html);
+        $foreach = $sc->getSmartyForeach($tableSoleName, $tableName, $cont);
+        $tr      = $hc->getHtmlTableRow($foreach);
 
-        return $hc->getHtmlTableTbody($tr) . PHP_EOL;
+        return $hc->getHtmlTableTbody($tr);
     }
 
     /**
@@ -150,10 +150,10 @@ class Index extends Files\CreateFile
     private function getTemplatesUserIndexTableTfoot()
     {
         $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $td = $hc->getHtmlTableData('&nbsp;') . PHP_EOL;
-        $tr = $hc->getHtmlTableRow($td) . PHP_EOL;
+        $td = $hc->getHtmlTableData('&nbsp;');
+        $tr = $hc->getHtmlTableRow($td);
 
-        return $hc->getHtmlTableTfoot($tr) . PHP_EOL;
+        return $hc->getHtmlTableTfoot($tr);
     }
 
     /**
@@ -165,9 +165,50 @@ class Index extends Files\CreateFile
      */
     public function getTemplatesUserIndexBodyDefault($module, $table, $language)
     {
+        $hc     = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc     = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $moduleDirname = $module->getVar('mod_dirname');
         $tableName     = $table->getVar('table_name');
-        $ret           = <<<EOT
+        $th = $hc->getHtmlTableHead("<{\$smarty.const.{$language}TITLE}>  -  <{\$smarty.const.{$language}DESC}>", '', '',"\t\t\t");
+        $tr = $hc->getHtmlTableRow($th,'center',"\t\t");
+        $thead = $hc->getHtmlTableThead($tr,'', "\t");
+        $contTable = $thead;
+        $li = $hc->getHtmlLi("<a href=\"<{\${$moduleDirname}_url}>\"><{\$smarty.const.{$language}INDEX}></a>",'',"\t\t\t\t\t\t");
+        $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        foreach (array_keys($tables) as $i) {
+            $tableNameLi    = $tables[$i]->getVar('table_name');
+            $stuTableNameLi = mb_strtoupper($tableName);
+            $li .= $hc->getHtmlLi("<a href=\"<{\${$moduleDirname}_url}>/{$tableNameLi}.php\"><{\$smarty.const.{$language}{$stuTableNameLi}}></a>",'',"\t\t\t\t\t\t");
+        }
+
+        $ul = $hc->getHtmlUl($li,'menu text-center',"\t\t\t\t\t");
+        $td = $hc->getHtmlTableData($ul, 'bold pad5','',"\t\t\t\t", "\n", true);
+        $tr = $hc->getHtmlTablerow($td, 'center',"\t\t\t");
+
+        $tbody = $hc->getHtmlTableTbody($tr,'', "\t\t");
+        $contTable .= $tbody;
+
+        $tfoot = <<<EOT
+
+    <tfoot>
+    <{if \$adv != ''}>
+        <tr class="center"><td class="center bold pad5"><{\$adv}></td></tr>
+    <{else}>
+        <tr class="center"><td class="center bold pad5">&nbsp;</td></tr>
+    <{/if}>
+    </tfoot>
+EOT;
+
+
+        $contTable .= $tfoot;
+        $contIf = $hc->getHtmlTable($contTable);
+        $ret = $sc->getSmartyConditions("{$tableName}Count", ' > ', '0', $contIf, false, '','',"\t");
+
+
+        $ret           .= '';
+        $ret           .= '*********************************************************';
+
+        $ret           .= <<<EOT
 <{if \${$tableName}Count == 0}>
 <table class="table table-<{\$table_type}>">
     <thead>
@@ -332,6 +373,7 @@ EOT;
             if (in_array(1, $tableCategory, true) && in_array(1, $tableIndex)) {
                 $content .= $this->getTemplateUserIndexCategories($moduleDirname, $tableName, $tableSoleName, $language);
             }
+
             if (in_array(0, $tableCategory, true) && in_array(1, $tableIndex)) {
                 $content .= $this->getTemplateUserIndexTable($moduleDirname, $tableName, $tableSoleName, $language);
             }

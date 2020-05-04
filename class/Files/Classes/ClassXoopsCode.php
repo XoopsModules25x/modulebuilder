@@ -287,7 +287,7 @@ class ClassXoopsCode
     public function getClassXoopsFormTextArea($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
     {
         $area           = 'new \XoopsFormTextArea( ';
-        $getVarTextArea = Tdmcreate\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param2, true);
+        $getVarTextArea = Tdmcreate\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param2, true, '', ", 'e'");
         if (false === $isParam) {
             $ret = "{$t}\${$var} = {$area}{$param1}, '{$param2}', {$getVarTextArea}, {$param3}, {$param4} );\n";
         } else {

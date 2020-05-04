@@ -497,6 +497,7 @@ class UserXoopsVersion extends Files\CreateFile
         $moduleDirname  = $module->getVar('mod_dirname');
         $ret            = $this->getDashComment('Config');
 
+        $table_editors     = 0;
         $table_permissions = 0;
         $table_admin       = 0;
         $table_user        = 0;
@@ -505,10 +506,13 @@ class UserXoopsVersion extends Files\CreateFile
         $table_uploadfile  = 0;
         foreach ($tables as $table) {
             $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+            $stuTablename    = mb_strtoupper($table->getVar('table_name'));
             foreach (array_keys($fields) as $f) {
                 $fieldElement = (int)$fields[$f]->getVar('field_element');
                 switch ($fieldElement) {
                     case 3:
+                        $table_editors = 1;
+                        break;
                     case 4:
                         $fieldName    = $fields[$f]->getVar('field_name');
                         $rpFieldName  = $this->getRightString($fieldName);
@@ -519,14 +523,15 @@ class UserXoopsVersion extends Files\CreateFile
                         $ret          .= $xc->getXcEqualsOperator('$editorHandler' . $ucfFieldName, 'XoopsEditorHandler::getInstance()');
                         $editor       = [
                             'name'        => "'editor_{$rpFieldName}'",
-                            'title'       => "'{$language}EDITOR_{$stuFieldName}'",
-                            'description' => "'{$language}EDITOR_{$stuFieldName}_DESC'",
+                            'title'       => "'{$language}EDITOR_{$stuTablename}_{$stuFieldName}'",
+                            'description' => "'{$language}EDITOR_{$stuTablename}_{$stuFieldName}_DESC'",
                             'formtype'    => "'select'",
                             'valuetype'   => "'text'",
                             'default'     => "'dhtml'",
                             'options'     => 'array_flip($editorHandler' . $ucfFieldName . '->getList())',
                         ];
                         $ret          .= $uxc->getUserModVersionArray(2, $editor, 'config');
+                        $table_editors = 1;
                         break;
                     case 10:
                     case 11:
@@ -555,7 +560,18 @@ class UserXoopsVersion extends Files\CreateFile
                 $table_tag = 1;
             }
         }
-
+        if (1 === $table_editors) {
+            $ret .= $pc->getPhpCodeCommentLine('Editor : max characters admin area');
+            $maxsize_image    = [
+                'name'        => "'editor_maxchar'",
+                'title'       => "'{$language}EDITOR_MAXCHAR'",
+                'description' => "'{$language}EDITOR_MAXCHAR_DESC'",
+                'formtype'    => "'textbox'",
+                'valuetype'   => "'int'",
+                'default'     => '50',
+            ];
+            $ret .= $uxc->getUserModVersionArray(2, $maxsize_image, 'config');
+        }
         if (1 === $table_permissions) {
             $ret    .= $pc->getPhpCodeCommentLine('Get groups');
             $ret    .= $xc->getXcXoopsHandler('member');

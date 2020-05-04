@@ -119,12 +119,12 @@ class CreateXoopsCode
      *
      * @return string
      */
-    public function getXcGetVar($varLeft = '', $handle = '', $var = '', $isParam = false, $t = '')
+    public function getXcGetVar($varLeft = '', $handle = '', $var = '', $isParam = false, $t = '', $format = '')
     {
         if (!$isParam) {
-            $ret = "{$t}\${$varLeft} = \${$handle}->getVar('{$var}');\n";
+            $ret = "{$t}\${$varLeft} = \${$handle}->getVar('{$var}'{$format});\n";
         } else {
-            $ret = "\${$handle}->getVar('{$var}')";
+            $ret = "\${$handle}->getVar('{$var}'{$format})";
         }
 
         return $ret;
@@ -1192,7 +1192,7 @@ class CreateXoopsCode
                         $ret .= $this->getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     default:
-                        $ret .= $axc->getAxcSetVarMisc($tableName, $fieldName, $fieldType, $t);
+                        $ret .= $axc->getAxcSetVarMisc($tableName, $fieldName, $fieldType, $fieldElement, $t);
                         break;
                 }
             }

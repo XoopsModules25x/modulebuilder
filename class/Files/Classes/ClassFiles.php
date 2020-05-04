@@ -134,7 +134,11 @@ class ClassFiles extends Files\CreateFile
                 case 16:
                 case 17:
                 case 18:
-                    $ret .= $this->getInitVar($fieldName, 'TXTAREA');
+                    if ((int)$fields[$f]->getVar('field_element') == 4) {
+                        $ret .= $this->getInitVar($fieldName, 'OTHER');
+                    } else {
+                        $ret .= $this->getInitVar($fieldName, 'TXTAREA');
+                    }
                     break;
                 case 19:
                 case 20:
@@ -380,17 +384,27 @@ class ClassFiles extends Files\CreateFile
         $ucfTableName     = ucfirst($table->getVar('table_name'));
         $ret              = $pc->getPhpCodeCommentMultiLine(['Get' => 'Values', '@param null $keys' => '', '@param null $format' => '', '@param null$maxDepth' => '', '@return' => 'array'], "\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $getValues        = $xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", "\t\t");
-        $getValues        .= $xc->getXcEqualsOperator('$ret', '$this->getValues($keys, $format, $maxDepth)', null, "\t\t");
+        $getValues        = $xc->getXcEqualsOperator('$ret', '$this->getValues($keys, $format, $maxDepth)', null, "\t\t");
         $fieldMainTopic   = null;
+        $helper           = 0;
+        $utility          = 0;
+        $header           = '';
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             $rpFieldName  = $this->getRightString($fieldName);
             switch ($fieldElement) {
                 case 3:
+                    $getValues .= $pc->getPhpCodeStripTags("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}', 'e')", false, "\t\t");
+                    $getValues .= $pc->getPhpCodeStripTags("ret['{$rpFieldName}_short']", "\$this->getVar('{$fieldName}', 'e')", false, "\t\t");
+                    $utility = 1;
+                    break;
                 case 4:
-                    $getValues .= $pc->getPhpCodeStripTags("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", false, "\t\t");
+                    $getValues .= $xc->getXcGetVar("ret['{$rpFieldName}']", 'this', $fieldName, false, "\t\t", ", 'e'");
+                    $getValues .= $xc->getXcEqualsOperator('$editorMaxchar', $xc->getXcGetConfig('editor_maxchar'), false, "\t\t");
+                    $truncate  =  $ucfModuleDirname . "\Utility::truncateHtml(\$ret['{$rpFieldName}'], \$editorMaxchar)";
+                    $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']", $truncate, false, "\t\t");
+                    $utility = 1;
                     break;
                 case 6:
                     $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}']", "(int)\$this->getVar('{$fieldName}') > 0 ? _YES : _NO", false, "\t\t");
@@ -424,16 +438,23 @@ class ClassFiles extends Files\CreateFile
                         $getValues .= $xc->getXcEqualsOperator("\${$topicTableName}Obj", $getTopicTable, null, "\t\t");
                         $fMainTopic = "\${$topicTableName}Obj->getVar('{$fieldMainTopic}')";
                         $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}']", $fMainTopic, null, "\t\t");
-
+                        $helper = 1;
                     } else {
                         $getValues .= $xc->getXcGetVar("ret['{$rpFieldName}']", 'this', $fieldName, false, "\t\t");
                     }
                     break;
             }
         }
+        if ($helper > 0) {
+            $header .= $xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", "\t\t");
+        }
+
+        if ($utility > 0) {
+            $header .= $xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", "\t\t");
+        }
         $getValues .= $this->getSimpleString('return $ret;', "\t\t");
 
-        $ret .= $pc->getPhpCodeFunction('getValues' . $ucfTableName, '$keys = null, $format = null, $maxDepth = null', $getValues, 'public ', false, "\t");
+        $ret .= $pc->getPhpCodeFunction('getValues' . $ucfTableName, '$keys = null, $format = null, $maxDepth = null', $header . $getValues, 'public ', false, "\t");
 
         return $ret;
     }
