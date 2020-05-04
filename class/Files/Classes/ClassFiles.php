@@ -389,6 +389,7 @@ class ClassFiles extends Files\CreateFile
         $helper           = 0;
         $utility          = 0;
         $header           = '';
+        $configMaxchar    = 0;
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -396,14 +397,24 @@ class ClassFiles extends Files\CreateFile
             switch ($fieldElement) {
                 case 3:
                     $getValues .= $pc->getPhpCodeStripTags("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}', 'e')", false, "\t\t");
-                    $getValues .= $pc->getPhpCodeStripTags("ret['{$rpFieldName}_short']", "\$this->getVar('{$fieldName}', 'e')", false, "\t\t");
+                    if ($configMaxchar == 0) {
+                        $getValues .= $xc->getXcEqualsOperator('$editorMaxchar', $xc->getXcGetConfig('editor_maxchar'), false, "\t\t");
+                        $configMaxchar = 1;
+                    }
+                    $truncate  =  "\$utility::truncateHtml(\$ret['{$rpFieldName}'], \$editorMaxchar)";
+                    $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']", $truncate, false, "\t\t");
+                    $helper = 1;
                     $utility = 1;
                     break;
                 case 4:
                     $getValues .= $xc->getXcGetVar("ret['{$rpFieldName}']", 'this', $fieldName, false, "\t\t", ", 'e'");
-                    $getValues .= $xc->getXcEqualsOperator('$editorMaxchar', $xc->getXcGetConfig('editor_maxchar'), false, "\t\t");
-                    $truncate  =  $ucfModuleDirname . "\Utility::truncateHtml(\$ret['{$rpFieldName}'], \$editorMaxchar)";
+                    if ($configMaxchar == 0) {
+                        $getValues .= $xc->getXcEqualsOperator('$editorMaxchar', $xc->getXcGetConfig('editor_maxchar'), false, "\t\t");
+                        $configMaxchar = 1;
+                    }
+                    $truncate  =  "\$utility::truncateHtml(\$ret['{$rpFieldName}'], \$editorMaxchar)";
                     $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']", $truncate, false, "\t\t");
+                    $helper = 1;
                     $utility = 1;
                     break;
                 case 6:
@@ -446,7 +457,10 @@ class ClassFiles extends Files\CreateFile
             }
         }
         if ($helper > 0) {
-            $header .= $xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", "\t\t");
+            $header .= $xc->getXcGetInstance('helper ', "\XoopsModules\\{$ucfModuleDirname}\Helper", "\t\t");
+        }
+        if ($utility > 0) {
+            $header .= $xc->getXcEqualsOperator('$utility', "new \XoopsModules\\{$ucfModuleDirname}\Utility()", '',"\t\t");
         }
         $getValues .= $this->getSimpleString('return $ret;', "\t\t");
 
