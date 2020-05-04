@@ -448,10 +448,6 @@ class ClassFiles extends Files\CreateFile
         if ($helper > 0) {
             $header .= $xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", "\t\t");
         }
-
-        if ($utility > 0) {
-            $header .= $xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", "\t\t");
-        }
         $getValues .= $this->getSimpleString('return $ret;', "\t\t");
 
         $ret .= $pc->getPhpCodeFunction('getValues' . $ucfTableName, '$keys = null, $format = null, $maxDepth = null', $header . $getValues, 'public ', false, "\t");
