@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\User;
+namespace XoopsModules\Tdmcreate\Files\Templates\User\Defstyle;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -27,9 +27,9 @@ use XoopsModules\Tdmcreate\Files;
  */
 
 /**
- * class Rss.
+ * class Pdf.
  */
-class Rss extends Files\CreateFile
+class Pdf extends Files\CreateFile
 {
     /**
      * @public function constructor
@@ -43,7 +43,7 @@ class Rss extends Files\CreateFile
     /**
      * @static function getInstance
      * @param null
-     * @return Rss
+     * @return Pdf
      */
     public static function getInstance()
     {
@@ -56,9 +56,10 @@ class Rss extends Files\CreateFile
     }
 
     /**
-     * @public   function write
-     * @param string $module
-     * @param string $filename
+     * @public function write
+     *
+     * @param $module
+     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -67,53 +68,23 @@ class Rss extends Files\CreateFile
     }
 
     /**
-     * @private function getTemplatesUserRssXml
+     * @private function getTemplatesUserPdfBody
+     *
      * @param null
+     *
      * @return string
      */
-    private function getTemplatesUserRssXml()
+    private function getTemplatesUserPdfBody()
     {
-        $ret = <<<EOT
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-  <channel>
-    <title><{\$channel_title}></title>
-    <link><{\$channel_link}></link>
-    <description><{\$channel_desc}></description>
-    <lastBuildDate><{\$channel_lastbuild}></lastBuildDate>
-    <docs>http://backend.userland.com/rss/</docs>
-    <generator><{\$channel_generator}></generator>
-    <category><{\$channel_category}></category>
-    <managingEditor><{\$channel_editor}></managingEditor>
-    <webMaster><{\$channel_webmaster}></webMaster>
-    <language><{\$channel_language}></language>
-    <{if \$image_url != ""}>
-    <image>
-      <title><{\$channel_title}></title>
-      <url><{\$image_url}></url>
-      <link><{\$channel_link}></link>
-      <width><{\$image_width}></width>
-      <height><{\$image_height}></height>
-    </image>
-    <{/if}>
-    <{foreach item=item from=\$items}>
-    <item>
-      <title><{\$item.title}></title>
-      <link><{\$item.link}></link>
-      <description><{\$item.description}></description>
-      <pubDate><{\$item.pubdate}></pubDate>
-      <guid><{\$item.guid}></guid>
-    </item>
-    <{/foreach}>
-  </channel>
-</rss>\n
+        $ret = <<<'EOT'
+<div><{$pdfoutput}></div>
 EOT;
 
         return $ret;
     }
 
     /**
-     * @public function render
+     * @public   function render
      * @param null
      * @return bool|string
      */
@@ -122,8 +93,7 @@ EOT;
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getTemplatesUserRssXml();
+        $content       = $this->getTemplatesUserPdfBody();
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

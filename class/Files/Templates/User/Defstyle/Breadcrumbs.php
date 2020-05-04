@@ -1,9 +1,10 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\User;
+namespace XoopsModules\Tdmcreate\Files\Templates\User\Defstyle;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Tdmcreate\Files\Templates\User;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -27,14 +28,10 @@ use XoopsModules\Tdmcreate\Files;
  */
 
 /**
- * class MoreFiles.
+ * Class Breadcrumbs.
  */
-class MoreFiles extends Files\CreateFile
+class Breadcrumbs extends Files\CreateFile
 {
-    private $folder = null;
-
-    private $extension = null;
-
     /**
      * @public function constructor
      * @param null
@@ -47,7 +44,7 @@ class MoreFiles extends Files\CreateFile
     /**
      * @static function getInstance
      * @param null
-     * @return MoreFiles
+     * @return User\Breadcrumbs
      */
     public static function getInstance()
     {
@@ -63,32 +60,11 @@ class MoreFiles extends Files\CreateFile
      * @public function write
      * @param string $module
      * @param string $filename
-     * @param        $folder
-     * @param        $extension
      */
-    public function write($module, $folder, $filename, $extension)
+    public function write($module, $filename)
     {
         $this->setModule($module);
         $this->setFileName($filename);
-        $this->folder    = $folder;
-        $this->extension = $extension;
-    }
-
-    /**
-     * @private function getTemplatesUserMoreFile
-     * @param null
-     *
-     * @return string
-     */
-    private function getTemplatesUserMoreFile()
-    {
-        $ret = <<<'EOT'
-<div class="panel">
-	Pleace! Enter here your template code here
-</div>
-EOT;
-
-        return $ret;
     }
 
     /**
@@ -101,10 +77,24 @@ EOT;
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getTemplatesUserMoreFile();
+        $tf            = Tdmcreate\Files\CreateFile::getInstance();
+        $hc            = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc            = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $title         = $sc->getSmartyDoubleVar('itm', 'title');
+        $titleElse     = $sc->getSmartyDoubleVar('itm', 'title', "\t\t\t", "\n") ;
+        $link          = $sc->getSmartyDoubleVar('itm', 'link');
+        $glyph         = $hc->getHtmlTag('i', ['class' => 'glyphicon glyphicon-home'], '', false, '', '');
+        $anchor        = $hc->getHtmlAnchor('<{xoAppUrl index.php}>', $glyph, 'home');
+        $into          = $hc->getHtmlLi($anchor, 'bc-item', "\t");
+        $anchorIf      = $hc->getHtmlAnchor($link, $title, $title, '', '', '', "\t\t\t", "\n");
+        $breadcrumb    = $sc->getSmartyConditions('itm.link', '', '', $anchorIf, $titleElse, false, false, "\t\t", "\n");
+        $foreach       = $hc->getHtmlLi($breadcrumb, 'bc-item',  "\t", "\n", true);
+        $into          .= $sc->getSmartyForeach('itm', 'xoBreadcrumbs', $foreach, 'bcloop', '', "\t");
 
-        $this->create($moduleDirname, $this->folder, $filename . '.' . $this->extension, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $content = $hc->getHtmlOl($into,  'breadcrumb');
 
-        return $this->renderFile();
+        $tf->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $tf->renderFile();
     }
 }

@@ -354,7 +354,7 @@ class AdminXoopsCode
      * @param string $t
      * @return string
      */
-    public function getAxcSetVarMisc($tableName, $fieldName, $fieldType, $t = '')
+    public function getAxcSetVarMisc($tableName, $fieldName, $fieldType, $fieldElement, $t = '')
     {
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         switch ((int)$fieldType){
@@ -375,7 +375,11 @@ class AdminXoopsCode
             case 16:
             case 17:
             case 18:
-                $ret = $xc->getXcSetVarObj($tableName, $fieldName, "Request::getString('{$fieldName}', '')", $t);
+                if ((int)$fieldElement == 4) {
+                    $ret = $xc->getXcSetVarObj($tableName, $fieldName, "Request::getText('{$fieldName}', '')", $t);
+                } else {
+                    $ret = $xc->getXcSetVarObj($tableName, $fieldName, "Request::getString('{$fieldName}', '')", $t);
+                }
                 break;
             case 0:
             default:

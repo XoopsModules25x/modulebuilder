@@ -148,6 +148,11 @@ class TemplatesAdminPages extends Files\CreateFile
             }
             if (1 == $fields[$f]->getVar('field_inlist')) {
                 switch ($fieldElement) {
+                    case 3:
+                    case 4:
+                        $double = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short');
+                        $td     .= $hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
+                        break;
                     case 5:
                         $double = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $src    = $sc->getSmartyNoSimbol('xoModuleIcons16') . $double . '.png';

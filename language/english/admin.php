@@ -447,7 +447,7 @@ define('_AM_TDMCREATE_THEREARENT_SETTINGS', 'There are NO Settings! Please creat
 define('_AM_TDMCREATE_BUILDING_COMMON', "Copied common files and created folder for test data");
 define('_AM_TDMCREATE_FIELD_ELE_TEXT', "Textbox");
 define('_AM_TDMCREATE_FIELD_ELE_TEXTAREA', "TextArea Field");
-define('_AM_TDMCREATE_FIELD_ELE_DHTMLTEXTAREA', "DhtmlTextArea Field");
+define('_AM_TDMCREATE_FIELD_ELE_DHTMLTEXTAREA', "Selectable Editor (Dhtml)");
 define('_AM_TDMCREATE_FIELD_ELE_CHECKBOX', "CheckBox");
 define('_AM_TDMCREATE_FIELD_ELE_RADIOYN', "Radio Yes/No");
 define('_AM_TDMCREATE_FIELD_ELE_SELECTBOX', "Select Listbox");

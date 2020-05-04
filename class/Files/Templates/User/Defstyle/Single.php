@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\User;
+namespace XoopsModules\Tdmcreate\Files\Templates\User\Defstyle;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;

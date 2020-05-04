@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\User;
+namespace XoopsModules\Tdmcreate\Files\Templates\User\Defstyle;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -27,9 +27,9 @@ use XoopsModules\Tdmcreate\Files;
  */
 
 /**
- * class UserPrint.
+ * class Rate.
  */
-class UserPrint extends Files\CreateFile
+class Rate extends Files\CreateFile
 {
     /**
      * @public function constructor
@@ -43,7 +43,7 @@ class UserPrint extends Files\CreateFile
     /**
      * @static function getInstance
      * @param null
-     * @return UserPrint
+     * @return Rate
      */
     public static function getInstance()
     {
@@ -69,14 +69,14 @@ class UserPrint extends Files\CreateFile
     }
 
     /**
-     * @private function getTemplatesUserPrintHeader
+     * @private function getTemplatesUserRateHeader
      * @param string $moduleDirname
      * @param string $table
      * @param string $language
      *
      * @return string
      */
-    private function getTemplatesUserPrintHeader($moduleDirname, $table, $language)
+    private function getTemplatesUserRateHeader($moduleDirname, $table, $language)
     {
         $ret    = <<<EOT
 <{include file="db:{$moduleDirname}_header.tpl"}>
@@ -103,12 +103,14 @@ EOT;
     }
 
     /**
-     * @private function getTemplatesUserPrintBody
+     * @private function getTemplatesUserRateBody
      * @param string $moduleDirname
      * @param string $table
+     * @param string $language
+     *
      * @return string
      */
-    private function getTemplatesUserPrintBody($moduleDirname, $table)
+    private function getTemplatesUserRateBody($moduleDirname, $table, $language)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -157,12 +159,14 @@ EOT;
     }
 
     /**
-     * @private function getTemplatesUserPrintBodyFieldnameEmpty
+     * @private function getTemplatesUserRateBodyFieldnameEmpty
      * @param string $moduleDirname
-     * @param $table
+     * @param string $table
+     * @param string $language
+     *
      * @return string
      */
-    private function getTemplatesUserPrintBodyFieldnameEmpty($moduleDirname, $table)
+    private function getTemplatesUserRateBodyFieldnameEmpty($moduleDirname, $table, $language)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -205,12 +209,12 @@ EOT;
     }
 
     /**
-     * @private function getTemplatesUserPrintFooter
+     * @private function getTemplatesUserRateFooter
      * @param string $moduleDirname
      *
      * @return string
      */
-    private function getTemplatesUserPrintFooter($moduleDirname)
+    private function getTemplatesUserRateFooter($moduleDirname)
     {
         $ret = <<<EOT
 <{include file="db:{$moduleDirname}_footer.tpl"}>
@@ -232,14 +236,14 @@ EOT;
         $moduleDirname  = $module->getVar('mod_dirname');
         $tableFieldname = $table->getVar('table_fieldname');
         $language       = $this->getLanguage($moduleDirname, 'MA');
-        $content        = $this->getTemplatesUserPrintHeader($moduleDirname, $table, $language);
+        $content        = $this->getTemplatesUserRateHeader($moduleDirname, $table, $language);
         // Verify if table_fieldname is not empty
         if (!empty($tableFieldname)) {
-            $content .= $this->getTemplatesUserPrintBody($moduleDirname, $table);
+            $content .= $this->getTemplatesUserRateBody($moduleDirname, $table, $language);
         } else {
-            $content .= $this->getTemplatesUserPrintBodyFieldnameEmpty($moduleDirname, $table);
+            $content .= $this->getTemplatesUserRateBodyFieldnameEmpty($moduleDirname, $table, $language);
         }
-        $content .= $this->getTemplatesUserPrintFooter($moduleDirname);
+        $content .= $this->getTemplatesUserRateFooter($moduleDirname);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\User;
+namespace XoopsModules\Tdmcreate\Files\Templates\User\Defstyle;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -27,9 +27,9 @@ use XoopsModules\Tdmcreate\Files;
  */
 
 /**
- * class FacebookComments.
+ * class Rss.
  */
-class FacebookComments extends Files\CreateFile
+class Rss extends Files\CreateFile
 {
     /**
      * @public function constructor
@@ -43,7 +43,7 @@ class FacebookComments extends Files\CreateFile
     /**
      * @static function getInstance
      * @param null
-     * @return FacebookComments
+     * @return Rss
      */
     public static function getInstance()
     {
@@ -56,7 +56,7 @@ class FacebookComments extends Files\CreateFile
     }
 
     /**
-     * @public function write
+     * @public   function write
      * @param string $module
      * @param string $filename
      */
@@ -67,20 +67,54 @@ class FacebookComments extends Files\CreateFile
     }
 
     /**
-     * @private function getTemplatesCommentCode
+     * @private function getTemplatesUserRssXml
      * @param null
-     *
      * @return string
      */
-    private function getTemplatesCommentCode()
+    private function getTemplatesUserRssXml()
     {
-        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $ret = <<<EOT
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title><{\$channel_title}></title>
+    <link><{\$channel_link}></link>
+    <description><{\$channel_desc}></description>
+    <lastBuildDate><{\$channel_lastbuild}></lastBuildDate>
+    <docs>http://backend.userland.com/rss/</docs>
+    <generator><{\$channel_generator}></generator>
+    <category><{\$channel_category}></category>
+    <managingEditor><{\$channel_editor}></managingEditor>
+    <webMaster><{\$channel_webmaster}></webMaster>
+    <language><{\$channel_language}></language>
+    <{if \$image_url != ""}>
+    <image>
+      <title><{\$channel_title}></title>
+      <url><{\$image_url}></url>
+      <link><{\$channel_link}></link>
+      <width><{\$image_width}></width>
+      <height><{\$image_height}></height>
+    </image>
+    <{/if}>
+    <{foreach item=item from=\$items}>
+    <item>
+      <title><{\$item.title}></title>
+      <link><{\$item.link}></link>
+      <description><{\$item.description}></description>
+      <pubDate><{\$item.pubdate}></pubDate>
+      <guid><{\$item.guid}></guid>
+    </item>
+    <{/foreach}>
+  </channel>
+</rss>\n
+EOT;
 
-        return $hc->getHtmlEmpty('Please! Enter here your comments code');
+        return $ret;
     }
 
     /**
      * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
@@ -88,7 +122,8 @@ class FacebookComments extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getTemplatesCommentCode();
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $content       = $this->getTemplatesUserRssXml();
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

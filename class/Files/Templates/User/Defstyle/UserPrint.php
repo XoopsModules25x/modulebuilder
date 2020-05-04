@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\User;
+namespace XoopsModules\Tdmcreate\Files\Templates\User\Defstyle;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -27,9 +27,9 @@ use XoopsModules\Tdmcreate\Files;
  */
 
 /**
- * class Search.
+ * class UserPrint.
  */
-class Search extends Files\CreateFile
+class UserPrint extends Files\CreateFile
 {
     /**
      * @public function constructor
@@ -43,7 +43,7 @@ class Search extends Files\CreateFile
     /**
      * @static function getInstance
      * @param null
-     * @return Search
+     * @return UserPrint
      */
     public static function getInstance()
     {
@@ -69,14 +69,14 @@ class Search extends Files\CreateFile
     }
 
     /**
-     * @private function getTemplatesUserSearchHeader
+     * @private function getTemplatesUserPrintHeader
      * @param string $moduleDirname
      * @param string $table
      * @param string $language
      *
      * @return string
      */
-    private function getTemplatesUserSearchHeader($moduleDirname, $table, $language)
+    private function getTemplatesUserPrintHeader($moduleDirname, $table, $language)
     {
         $ret    = <<<EOT
 <{include file="db:{$moduleDirname}_header.tpl"}>
@@ -103,14 +103,12 @@ EOT;
     }
 
     /**
-     * @private function getTemplatesUserSearchBody
+     * @private function getTemplatesUserPrintBody
      * @param string $moduleDirname
      * @param string $table
-     * @param string $language
-     *
      * @return string
      */
-    private function getTemplatesUserSearchBody($moduleDirname, $table, $language)
+    private function getTemplatesUserPrintBody($moduleDirname, $table)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -159,14 +157,12 @@ EOT;
     }
 
     /**
-     * @private function getTemplatesUserSearchBodyFieldnameEmpty
+     * @private function getTemplatesUserPrintBodyFieldnameEmpty
      * @param string $moduleDirname
-     * @param string $table
-     * @param string $language
-     *
+     * @param $table
      * @return string
      */
-    private function getTemplatesUserSearchBodyFieldnameEmpty($moduleDirname, $table, $language)
+    private function getTemplatesUserPrintBodyFieldnameEmpty($moduleDirname, $table)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -209,11 +205,12 @@ EOT;
     }
 
     /**
-     * @private function getTemplatesUserSearchFooter
+     * @private function getTemplatesUserPrintFooter
      * @param string $moduleDirname
+     *
      * @return string
      */
-    private function getTemplatesUserSearchFooter($moduleDirname)
+    private function getTemplatesUserPrintFooter($moduleDirname)
     {
         $ret = <<<EOT
 <{include file="db:{$moduleDirname}_footer.tpl"}>
@@ -235,14 +232,14 @@ EOT;
         $moduleDirname  = $module->getVar('mod_dirname');
         $tableFieldname = $table->getVar('table_fieldname');
         $language       = $this->getLanguage($moduleDirname, 'MA');
-        $content        = $this->getTemplatesUserSearchHeader($moduleDirname, $table, $language);
+        $content        = $this->getTemplatesUserPrintHeader($moduleDirname, $table, $language);
         // Verify if table_fieldname is not empty
         if (!empty($tableFieldname)) {
-            $content .= $this->getTemplatesUserSearchBody($moduleDirname, $table, $language);
+            $content .= $this->getTemplatesUserPrintBody($moduleDirname, $table);
         } else {
-            $content .= $this->getTemplatesUserSearchBodyFieldnameEmpty($moduleDirname, $table, $language);
+            $content .= $this->getTemplatesUserPrintBodyFieldnameEmpty($moduleDirname, $table);
         }
-        $content .= $this->getTemplatesUserSearchFooter($moduleDirname);
+        $content .= $this->getTemplatesUserPrintFooter($moduleDirname);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

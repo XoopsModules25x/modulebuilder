@@ -250,23 +250,30 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageConfig($language, $tables)
     {
-        $df         = LanguageDefines::getInstance();
-        $ret        = $df->getAboveDefines('Config');
-        $fieldImage = false;
-        $fieldFile  = false;
-        $useTag     = false;
+        $df          = LanguageDefines::getInstance();
+        $ret         = $df->getAboveDefines('Config');
+        $fieldImage  = false;
+        $fieldFile   = false;
+        $useTag      = false;
+        $fieldEditor = false;
         // $usePermissions = false;
         foreach (array_keys($tables) as $i) {
             $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
+            $ucfTablename    = ucfirst($tables[$i]->getVar('table_name'));
+            $stuTablename    = mb_strtoupper($ucfTablename);
             foreach (array_keys($fields) as $f) {
                 $fieldElement = $fields[$f]->getVar('field_element');
+                if (3 == $fieldElement) {
+                    $fieldEditor = true;
+                }
                 if (4 == $fieldElement) {
                     $fieldName    = $fields[$f]->getVar('field_name');
                     $rpFieldName  = $this->getRightString($fieldName);
                     $ucfFieldName = ucfirst($rpFieldName);
                     $stuFieldName = mb_strtoupper($rpFieldName);
-                    $ret          .= $df->getDefine($language, 'EDITOR_' . $stuFieldName, 'Editor');
-                    $ret          .= $df->getDefine($language, 'EDITOR_' . $stuFieldName . '_DESC', 'Select the Editor ' . $ucfFieldName . ' to use');
+                    $ret          .= $df->getDefine($language, 'EDITOR_' . $stuTablename . '_' . $stuFieldName, 'Editor');
+                    $ret          .= $df->getDefine($language, 'EDITOR_' . $stuTablename . '_' . $stuFieldName . '_DESC', 'Select the editor to use for ' . $ucfTablename . '/'. $ucfFieldName);
+                    $fieldEditor = true;
                 }
                 if (13 == $fieldElement) {
                     $fieldImage = true;
@@ -279,6 +286,10 @@ class LanguageModinfo extends Files\CreateFile
                 $useTag = true;
             }
             // if (0 != $tables[$i]->getVar('table_permissions')) {$usePermissions = true;}
+        }
+        if ($fieldEditor) {
+            $ret .= $df->getDefine($language, 'EDITOR_MAXCHAR', 'Text max characters');
+            $ret .= $df->getDefine($language, 'EDITOR_MAXCHAR_DESC', 'Max characters for showing text of a textarea or editor field in admin area');
         }
         $ret .= $df->getDefine($language, 'KEYWORDS', 'Keywords');
         $ret .= $df->getDefine($language, 'KEYWORDS_DESC', 'Insert here the keywords (separate by comma)');

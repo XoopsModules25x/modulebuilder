@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\User;
+namespace XoopsModules\Tdmcreate\Files\Templates\User\Defstyle;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -27,10 +27,14 @@ use XoopsModules\Tdmcreate\Files;
  */
 
 /**
- * class DisqusComments.
+ * class MoreFiles.
  */
-class DisqusComments extends Files\CreateFile
+class MoreFiles extends Files\CreateFile
 {
+    private $folder = null;
+
+    private $extension = null;
+
     /**
      * @public function constructor
      * @param null
@@ -43,7 +47,7 @@ class DisqusComments extends Files\CreateFile
     /**
      * @static function getInstance
      * @param null
-     * @return DisqusComments
+     * @return MoreFiles
      */
     public static function getInstance()
     {
@@ -59,28 +63,37 @@ class DisqusComments extends Files\CreateFile
      * @public function write
      * @param string $module
      * @param string $filename
+     * @param        $folder
+     * @param        $extension
      */
-    public function write($module, $filename)
+    public function write($module, $folder, $filename, $extension)
     {
         $this->setModule($module);
         $this->setFileName($filename);
+        $this->folder    = $folder;
+        $this->extension = $extension;
     }
 
     /**
-     * @private function getTemplatesCommentCode
+     * @private function getTemplatesUserMoreFile
      * @param null
      *
      * @return string
      */
-    private function getTemplatesCommentCode()
+    private function getTemplatesUserMoreFile()
     {
-        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $ret = <<<'EOT'
+<div class="panel">
+	Pleace! Enter here your template code here
+</div>
+EOT;
 
-        return $hc->getHtmlEmpty('Please! Enter here your comments code');
+        return $ret;
     }
 
     /**
      * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
@@ -88,9 +101,9 @@ class DisqusComments extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getTemplatesCommentCode();
+        $content       = $this->getTemplatesUserMoreFile();
 
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, $this->folder, $filename . '.' . $this->extension, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -25,6 +25,8 @@
 - added new field elements SelectStatus, SelectCombo, Password, SelectCountry and SelectLang (goffy)
 - rebuilt include/search.inc.php (goffy)
 - added default values for form elements (goffy)
+- adapted editor handling (goffy)
+- preparation for new tpl styles (goffy)
 
 <h5>3.01 Alpha 2   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.2
 <hr>
