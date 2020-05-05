@@ -540,20 +540,6 @@ class CreateArchitecture extends CreateStructure
                 $userNotificationUpdate->write($module, 'notification_update.php');
                 $ret[] = $userNotificationUpdate->render();
             }
-            // User Broken File
-            if (in_array(1, $tableBroken)) {
-                $userBroken = Tdmcreate\Files\User\UserBroken::getInstance();
-                $userBroken->write($module, $table, 'broken.php');
-                $ret[] = $userBroken->render();
-                // User Templates Broken File
-                if ($templateType  == 'bootstrap') {
-                    $userTemplatesBroken = Tdmcreate\Files\Templates\User\Bootstrap\Broken::getInstance();
-                } else {
-                    $userTemplatesBroken = Tdmcreate\Files\Templates\User\Defstyle\Broken::getInstance();
-                }
-                $userTemplatesBroken->write($module, $table, $moduleDirname . '_broken.tpl');
-                $ret[] = $userTemplatesBroken->render();
-            }
             // User Pdf File
             if (in_array(1, $tablePdf)) {
                 $userPdf = Tdmcreate\Files\User\UserPdf::getInstance();
@@ -625,21 +611,6 @@ class CreateArchitecture extends CreateStructure
                 }
                 $userTemplatesSingle->write($module, $table, $moduleDirname . '_single.tpl');
                 $ret[] = $userTemplatesSingle->render();
-            }
-
-            // User Submit File
-            if (in_array(1, $tableSubmit)) {
-                $userSubmit = Tdmcreate\Files\User\UserSubmit::getInstance();
-                $userSubmit->write($module, $table, 'submit.php');
-                $ret[] = $userSubmit->render();
-                // User Templates Submit File
-                if ($templateType  == 'bootstrap') {
-                    $userTemplatesSubmit = Tdmcreate\Files\Templates\User\Bootstrap\Submit::getInstance();
-                } else {
-                    $userTemplatesSubmit = Tdmcreate\Files\Templates\User\Defstyle\Submit::getInstance();
-                }
-                $userTemplatesSubmit->write($module, $table, $moduleDirname . '_submit.tpl');
-                $ret[] = $userTemplatesSubmit->render();
             }
             // User Visit File
             if (in_array(1, $tableVisit)) {

@@ -90,23 +90,16 @@ class UserHeader extends Files\CreateFile
 
         $table  = $this->getTable();
         $tables = $this->getTables();
-        if (is_object($table) && '' != $table->getVar('table_name')) {
-            $ret .= $xc->getXcHelperGetInstance($moduleDirname);
-        }
+        $ret .= $xc->getXcHelperGetInstance($moduleDirname);
         if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
                 $ret       .= $xc->getXcHandlerLine($tableName);
             }
         }
-        $ret .= $pc->getPhpCodeCommentLine('Permission');
-        $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret .= $xc->getXcXoopsHandler('groupperm');
-
-        $condIf   = $xc->getXcEqualsOperator('$groups ', '$xoopsUser->getGroups()', null, "\t");
-        $condElse = $xc->getXcEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS', null, "\t");
-
-        $ret .= $pc->getPhpCodeConditions('is_object($xoopsUser)', '', '', $condIf, $condElse);
+        if (1 == $table->getVar('table_permissions')) {
+            $ret       .= $xc->getXcHandlerLine('permissions');
+        }
         $ret .= $pc->getPhpCodeCommentLine();
         $ret .= $xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
         $ret .= $pc->getPhpCodeCommentLine('Default Css Style');

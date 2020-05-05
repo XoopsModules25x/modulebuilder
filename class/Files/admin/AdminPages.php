@@ -170,7 +170,6 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, $t = '')
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
 
@@ -183,10 +182,7 @@ class AdminPages extends Files\CreateFile
             $ret .= $axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
             $ret .= $xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
         }
-        $ret .= $pc->getPhpCodeCommentLine('Get Form', null, $t);
-        $ret .= $xc->getXcHandlerCreateObj($tableName, $t);
-        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
-        $ret .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
+        $ret .= $xc->getXcCommonPagesNew($tableName, $t);
 
         return $ret;
     }
@@ -336,7 +332,6 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, $t = '')
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
 
@@ -355,10 +350,7 @@ class AdminPages extends Files\CreateFile
             $ret .= $axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
             $ret .= $xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
         }
-        $ret .= $pc->getPhpCodeCommentLine('Get Form', null, "\t\t");
-        $ret .= $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
-        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
-        $ret .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
+        $ret .= $xc->getXcCommonPagesEdit($tableName, $ccFieldId, $t);
 
         return $ret;
     }
@@ -374,9 +366,9 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain, $t = '')
     {
-        $axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
+        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
 
-        return $axc->getAdminCodeCaseDelete($language, $tableName, $fieldId, $fieldMain, $t);
+        return $xc->getXcCommonPagesDelete($language, $tableName, $fieldId, $fieldMain, $t);
     }
 
     /**

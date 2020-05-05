@@ -238,6 +238,7 @@ class LanguageAdmin extends Files\CreateFile
             $ret .= $this->defines->getDefine($language, 'STATUS_OFFLINE', 'Offline');
             $ret .= $this->defines->getDefine($language, 'STATUS_SUBMITTED', 'Submitted');
             $ret .= $this->defines->getDefine($language, 'STATUS_APPROVED', 'Approved');
+            $ret .= $this->defines->getDefine($language, 'STATUS_BROKEN', 'Broken');
         }
         if ($fieldSampleListValue > 0) {
             $ret .= $this->defines->getAboveDefines('Sample List Values');

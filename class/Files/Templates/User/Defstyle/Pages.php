@@ -175,6 +175,38 @@ class Pages extends Files\CreateFile
     }
 
     /**
+     * @private function getTemplatesUserPagesForm
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSoleName
+     * @param $language
+     * @return string
+     */
+    private function getTemplatesUserPagesForm($t = '')
+    {
+        $sc    = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $var  = $sc->getSmartySingleVar('form', "\t", "\n");
+
+        return $sc->getSmartyConditions('form', '', '', $var, false, false, true);
+    }
+
+    /**
+     * @private function getTemplatesUserPagesError
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSoleName
+     * @param $language
+     * @return string
+     */
+    private function getTemplatesUserPagesError($t = '')
+    {
+        $sc    = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $var  = $sc->getSmartySingleVar('error', "\t", "\n");
+
+        return $sc->getSmartyConditions('error', '', '', $var, false, false, true);
+    }
+
+    /**
      * @private function getTemplatesUserPagesFooter
      * @param string $moduleDirname
      *
@@ -207,6 +239,8 @@ class Pages extends Files\CreateFile
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getTemplatesUserPagesHeader($moduleDirname);
         $content       .= $this->getTemplatesUserPages($moduleDirname, $tableName, $tableSoleName, $language);
+        $content       .= $this->getTemplatesUserPagesForm();
+        $content       .= $this->getTemplatesUserPagesError();
         $content       .= $this->getTemplatesUserPagesFooter($moduleDirname);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

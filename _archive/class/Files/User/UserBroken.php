@@ -162,8 +162,8 @@ class UserBroken extends Files\CreateFile
 
         $condElse      = $pc->getPhpCodeCommentLine('Insert Data', null, $t . "\t");
         $insert        = $xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
-        $redirctHeader = $xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK", true, $t . "\t\t");
-        $condElse      .= $pc->getPhpCodeConditions($insert, '', '', $redirctHeader, false, $t . "\t");
+        $redirectHeader = $xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK", true, $t . "\t\t");
+        $condElse      .= $pc->getPhpCodeConditions($insert, '', '', $redirectHeader, false, $t . "\t");
         $assigne       = $xc->getXcXoopsTplAssign('error_message', '$errorMessage', true, $t . "\t");
         $ret           .= $pc->getPhpCodeConditions('$error', ' === ', 'true', $assigne, $condElse, $t);
 

@@ -630,6 +630,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
         $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', "Constants::STATUS_OFFLINE, {$languageShort}STATUS_OFFLINE", $t);
         $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', "Constants::STATUS_SUBMITTED, {$languageShort}STATUS_SUBMITTED", $t);
         $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', "Constants::STATUS_APPROVED, {$languageShort}STATUS_APPROVED", $t);
+        $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', "Constants::STATUS_BROKEN, {$languageShort}STATUS_BROKEN", $t);
         $ret          .= $cxc->getClassAddElement('form', "\${$ccFieldName}Select{$required}", $t);
 
         return $ret;

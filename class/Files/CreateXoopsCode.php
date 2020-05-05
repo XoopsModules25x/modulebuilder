@@ -111,12 +111,13 @@ class CreateXoopsCode
 
     /**
      * @public function getXcGetVar
-     * @param $varLeft
-     * @param $handle
-     * @param $var
-     * @param $isParam
-     * @param $t
+     * @param string $varLeft
+     * @param string $handle
+     * @param string $var
+     * @param bool $isParam
+     * @param string $t
      *
+     * @param string $format
      * @return string
      */
     public function getXcGetVar($varLeft = '', $handle = '', $var = '', $isParam = false, $t = '', $format = '')
@@ -1673,5 +1674,83 @@ class CreateXoopsCode
     public function getXcXoopsHandler($left, $t = '', $n = "\n")
     {
         return "{$t}\${$left}Handler = xoops_getHandler('{$left}');{$n}";
+    }
+
+
+    /*************************************************************/
+    /** common components for user and admin pages */
+    /*************************************************************/
+
+    /**
+     * @public  function getXcCommonPagesEdit
+     * @param        $tableName
+     * @param        $ccFieldId
+     * @param string $t
+     * @return string
+     */
+    public function getXcCommonPagesEdit($tableName, $ccFieldId, $t = '')
+    {
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+
+        $ret = $pc->getPhpCodeCommentLine('Get Form', null, "\t\t");
+        $ret .= $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
+        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
+        $ret .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
+
+        return $ret;
+    }
+
+    /**
+     * @public  function getXcCommonPagesNew
+     * @param        $tableName
+     * @param string $t
+     * @return string
+     */
+    public function getXcCommonPagesNew($tableName, $t = '')
+    {
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+
+        $ret = $pc->getPhpCodeCommentLine('Form Create', null, $t);
+        $ret .= $xc->getXcHandlerCreateObj($tableName, $t);
+        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
+        $ret .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
+
+        return $ret;
+    }
+
+    /**
+     * @public function getXcCommonPagesDelete
+     * @param        $language
+     * @param        $tableName
+     * @param        $fieldId
+     * @param        $fieldMain
+     * @param string $t
+     * @return string
+     */
+    public function getXcCommonPagesDelete($language, $tableName, $fieldId, $fieldMain, $t = '')
+    {
+        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $cf = Tdmcreate\Files\CreateFile::getInstance();
+        $ccFieldId              = $cf->getCamelCase($fieldId, false, true);
+        $ret                    = $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', '', $t);
+        $reqOk                  = "_REQUEST['ok']";
+        $isset                  = $pc->getPhpCodeIsset($reqOk);
+        $xoopsSecurityCheck     = $xc->getXcXoopsSecurityCheck();
+        $xoopsSecurityErrors    = $xc->getXcXoopsSecurityErrors();
+        $implode                = $pc->getPhpCodeImplode(', ', $xoopsSecurityErrors);
+        $redirectHeaderErrors   = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t\t");
+        $delete                 = $xc->getXcHandlerDelete($tableName, $tableName, 'Obj', 'Handler');
+        $condition              = $pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectHeaderErrors, false, $t . "\t");
+        $redirectHeaderLanguage = $xc->getXcRedirectHeader($tableName, '', '3', "{$language}FORM_DELETE_OK", true, $t . "\t\t");
+        $htmlErrors             = $xc->getXcHtmlErrors($tableName, true);
+        $internalElse           = $xc->getXcXoopsTplAssign('error', $htmlErrors, true, $t . "\t\t");
+        $condition              .= $pc->getPhpCodeConditions($delete, '', '', $redirectHeaderLanguage, $internalElse, $t . "\t");
+        $mainElse               = $xc->getXcXoopsConfirm($tableName, $language, $fieldId, $fieldMain, 'delete', $t . "\t");
+        $ret                    .= $pc->getPhpCodeConditions($isset, ' && ', "1 == \${$reqOk}", $condition, $mainElse, $t);
+
+        return $ret;
     }
 }
