@@ -168,13 +168,20 @@ class AdminMenu extends Files\CreateFile
         $ret    = '';
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $tablePermissions = [];
+        $tableBroken      = [];
         foreach (array_keys($tables) as $t) {
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');
+            $tableBroken[]      = $tables[$t]->getVar('table_broken');
             if (1 == $tables[$t]->getVar('table_admin')) {
                 ++$menu;
                 $param1 = ['title' => "{$language}{$menu}", 'link' => "'admin/{$tables[$t]->getVar('table_name')}.php'", 'icon' => "'assets/icons/32/{$tables[$t]->getVar('table_image')}'"];
                 $ret    .= $this->getAdminMenuArray($param1, true);
             }
+        }
+        if (in_array(1, $tableBroken)) {
+            ++$menu;
+            $param2 = ['title' => "{$language}{$menu}", 'link' => "'admin/broken.php'", 'icon' => "\$sysPathIcon32.'/brokenlink.png'"];
+            $ret    .= $this->getAdminMenuArray($param2, true);
         }
         if (in_array(1, $tablePermissions)) {
             ++$menu;

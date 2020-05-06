@@ -111,11 +111,17 @@ class LanguageModinfo extends Files\CreateFile
         $ret              = $df->getAboveHeadDefines('Admin Menu');
         $ret              .= $df->getDefine($language, "ADMENU{$menu}", 'Dashboard');
         $tablePermissions = [];
+        $tableBroken      = [];
         foreach (array_keys($tables) as $i) {
             ++$menu;
             $tablePermissions[] = $tables[$i]->getVar('table_permissions');
+            $tableBroken[]      = $tables[$i]->getVar('table_broken');
             $ucfTableName       = ucfirst($tables[$i]->getVar('table_name'));
             $ret                .= $df->getDefine($language, "ADMENU{$menu}", $ucfTableName);
+        }
+        if (in_array(1, $tableBroken)) {
+            ++$menu;
+            $ret    .= $df->getDefine($language, "ADMENU{$menu}", 'Broken items');
         }
         if (in_array(1, $tablePermissions)) {
             ++$menu;
@@ -162,18 +168,18 @@ class LanguageModinfo extends Files\CreateFile
         $tableSearch = [];
         foreach (array_keys($tables) as $t) {
             $tableName     = $tables[$t]->getVar('table_name');
-            $tableSubmit[] = $tables[$t]->getVar('table_submit');
             $tableSearch[] = $tables[$t]->getVar('table_search');
-            $desc          = ucfirst(mb_strtolower($tableName));
+            $ucfTablename  = ucfirst(mb_strtolower($tableName));
             if (1 == $tables[$t]->getVar('table_submenu')) {
-                $ret .= $df->getDefine($language, "SMNAME{$i}", $desc);
+                $ret .= $df->getDefine($language, "SMNAME{$i}", $ucfTablename);
             }
             ++$i;
+            if (1 == $tables[$t]->getVar('table_submit')) {
+                $ret .= $df->getDefine($language, "SMNAME{$i}", 'Submit ' . $ucfTablename);
+                ++$i;
+            }
         }
-        if (in_array(1, $tableSubmit)) {
-            $ret .= $df->getDefine($language, "SMNAME{$i}", 'Submit');
-            ++$i;
-        }
+
         if (in_array(1, $tableSearch)) {
             $ret .= $df->getDefine($language, "SMNAME{$i}", 'Search');
         }

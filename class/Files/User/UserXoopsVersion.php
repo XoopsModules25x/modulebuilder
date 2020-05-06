@@ -262,10 +262,15 @@ class UserXoopsVersion extends Files\CreateFile
             $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', '', true);
             $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', '', true);
             $tablePermissions = [];
+            $tableBroken      = [];
             foreach (array_keys($tables) as $t) {
                 $tableName          = $tables[$t]->getVar('table_name');
                 $tablePermissions[] = $tables[$t]->getVar('table_permissions');
+                $tableBroken[]      = $tables[$t]->getVar('table_broken');
                 $item[]             .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '', true);
+            }
+            if (in_array(1, $tableBroken)) {
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'broken', '', true);
             }
             if (in_array(1, $tablePermissions)) {
                 $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'permissions', '', true);
@@ -299,9 +304,6 @@ class UserXoopsVersion extends Files\CreateFile
                 $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
             }
             $item[]  = $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs', '');
-            if (in_array(1, $tableBroken)) {
-                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'broken', '');
-            }
             if (in_array(1, $tablePdf)) {
                 $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'pdf', '');
             }
@@ -319,9 +321,6 @@ class UserXoopsVersion extends Files\CreateFile
             }
             if (in_array(1, $tableSingle)) {
                 $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'single', '');
-            }
-            if (in_array(1, $tableSubmit)) {
-                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'submit', '');
             }
             $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer', '');
         }
@@ -381,11 +380,9 @@ class UserXoopsVersion extends Files\CreateFile
         ];
         $contentIf  = $uxc->getUserModVersionArray(2, $descriptions, 'sub', '','', "\t");
 
-        $tableSubmit = [];
         $tableSearch = [];
         foreach (array_keys($tables) as $t) {
             $tableName     = $tables[$t]->getVar('table_name');
-            $tableSubmit[] = $tables[$t]->getVar('table_submit');
             $tableSearch[] = $tables[$t]->getVar('table_search');
             if (1 == $tables[$t]->getVar('table_submenu')) {
                 $contentIf .= $pc->getPhpCodeCommentLine('Sub', $tableName, "\t");
@@ -397,16 +394,17 @@ class UserXoopsVersion extends Files\CreateFile
                 unset($item);
             }
             ++$i;
+            if (1 == $tables[$t]->getVar('table_submit')) {
+                $contentIf .= $pc->getPhpCodeCommentLine('Sub', 'Submit', "\t");
+                $descriptions = [
+                    'name' => "{$language}SMNAME{$i}",
+                    'url'  => "'{$tableName}.php?op=new'",
+                ];
+                $contentIf  .= $uxc->getUserModVersionArray(2, $descriptions, 'sub', '','', "\t");
+                ++$i;
+            }
         }
-        if (in_array(1, $tableSubmit)) {
-            $contentIf .= $pc->getPhpCodeCommentLine('Sub', 'Submit', "\t");
-            $descriptions = [
-                'name' => "{$language}SMNAME{$i}",
-                'url'  => "'submit.php'",
-            ];
-            $contentIf  .= $uxc->getUserModVersionArray(2, $descriptions, 'sub', '','', "\t");
-            ++$i;
-        }
+
         //TODO: after finalizing creation of search.php by User/UserSearch.php this sub menu item can be activated
         /*
         if (in_array(1, $tableSearch)) {

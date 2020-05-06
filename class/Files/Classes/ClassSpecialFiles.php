@@ -242,6 +242,8 @@ class ClassSpecialFiles extends Files\CreateFile
         $contentClass .= $pc->getPhpCodeConstant("STATUS_OFFLINE  ", 1, "\t");
         $contentClass .= $pc->getPhpCodeConstant("STATUS_SUBMITTED", 2, "\t");
         $contentClass .= $pc->getPhpCodeConstant("STATUS_APPROVED ", 3, "\t");
+        $contentClass .= $pc->getPhpCodeConstant("STATUS_BROKEN   ", 4, "\t");
+
 
         if (in_array(1, $tablePermissions)) {
             $constPerm = $pc->getPhpCodeBlankLine();

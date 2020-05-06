@@ -418,38 +418,4 @@ class AdminXoopsCode
     {
         return "{$t}\${$anchor}->setPrefix({$var})";
     }
-
-    /**
-     * @public function getAdminCodeCaseDelete
-     * @param        $language
-     * @param        $tableName
-     * @param        $fieldId
-     * @param        $fieldMain
-     * @param string $t
-     * @return string
-     */
-    public function getAdminCodeCaseDelete($language, $tableName, $fieldId, $fieldMain, $t = '')
-    {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cf = Tdmcreate\Files\CreateFile::getInstance();
-        $ccFieldId              = $cf->getCamelCase($fieldId, false, true);
-        $ret                    = $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', '', $t);
-        $reqOk                  = "_REQUEST['ok']";
-        $isset                  = $pc->getPhpCodeIsset($reqOk);
-        $xoopsSecurityCheck     = $xc->getXcXoopsSecurityCheck();
-        $xoopsSecurityErrors    = $xc->getXcXoopsSecurityErrors();
-        $implode                = $pc->getPhpCodeImplode(', ', $xoopsSecurityErrors);
-        $redirectHeaderErrors   = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t\t");
-        $delete                 = $xc->getXcHandlerDelete($tableName, $tableName, 'Obj', 'Handler');
-        $condition              = $pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectHeaderErrors, false, $t . "\t");
-        $redirectHeaderLanguage = $xc->getXcRedirectHeader($tableName, '', '3', "{$language}FORM_DELETE_OK", true, $t . "\t\t");
-        $htmlErrors             = $xc->getXcHtmlErrors($tableName, true);
-        $internalElse           = $xc->getXcXoopsTplAssign('error', $htmlErrors, true, $t . "\t\t");
-        $condition              .= $pc->getPhpCodeConditions($delete, '', '', $redirectHeaderLanguage, $internalElse, $t . "\t");
-        $mainElse               = $xc->getXcXoopsConfirm($tableName, $language, $fieldId, $fieldMain, 'delete', $t . "\t");
-        $ret                    .= $pc->getPhpCodeConditions($isset, ' && ', "1 == \${$reqOk}", $condition, $mainElse, $t);
-
-        return $ret;
-    }
 }
