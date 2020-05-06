@@ -30,22 +30,7 @@ this file currently is not rating
 *****************************
 Open questions:
 ***************
-Addfiles:
-are the files class/Addfiles.php and Addfileshandler.php still needed?
 
 search.php:
 what should this file do, additionally to regular search?
 UserSearch has to be adapted
-
-
-single.php:
-what should this file show?
-what should it be used for?
-
-
-visit.php:
-what should this file show?
-what should it be used for?
-
-
-

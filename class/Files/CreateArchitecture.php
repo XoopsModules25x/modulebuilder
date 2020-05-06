@@ -609,26 +609,6 @@ class CreateArchitecture extends CreateStructure
                 $userTemplatesRss->write($module, $moduleDirname . '_rss.tpl');
                 $ret[] = $userTemplatesRss->render();
             }
-            // User Single File
-            if (in_array(1, $tableSingle)) {
-                $userSingle = Tdmcreate\Files\User\UserSingle::getInstance();
-                $userSingle->write($module, $table, 'single.php');
-                $ret[] = $userSingle->render();
-                // User Templates Single File
-                if ($templateType  == 'bootstrap') {
-                    $userTemplatesSingle = Tdmcreate\Files\Templates\User\Bootstrap\Single::getInstance();
-                } else {
-                    $userTemplatesSingle = Tdmcreate\Files\Templates\User\Defstyle\Single::getInstance();
-                }
-                $userTemplatesSingle->write($module, $table, $moduleDirname . '_single.tpl');
-                $ret[] = $userTemplatesSingle->render();
-            }
-            // User Visit File
-            if (in_array(1, $tableVisit)) {
-                $userVisit = Tdmcreate\Files\User\UserVisit::getInstance();
-                $userVisit->write($module, $table, 'visit.php');
-                $ret[] = $userVisit->render();
-            }
 
             // User Tag Files
             if (in_array(1, $tableTag)) {

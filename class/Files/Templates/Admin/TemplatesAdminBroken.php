@@ -164,7 +164,7 @@ class TemplatesAdminBroken extends Files\CreateFile
         $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $tbody  = $this->getTemplatesAdminBrokenTableThead($language, "\t\t");
         $tbody  .= $this->getTemplatesAdminBrokenTableTBody($tableName, $tableSoleName, $language, "\t\t");
-        $ret    .= $hc->getHtmlTable($tbody, 'table table-bordered', "\t");
+        $ret    = $hc->getHtmlTable($tbody, 'table table-bordered', "\t");
 
         return $ret;
     }

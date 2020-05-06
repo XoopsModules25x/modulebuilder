@@ -1,49 +1,52 @@
 <h5>3.02 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.2
 <hr>
-- added implementation of common files (goffy)
-- changed modversion from xoops_version.php into arrays (goffy)
-- changed submenu in xoops_version.php (goffy)
-- splitted class files into class and classhandler (goffy)
-- added usage of namespaces in created modules (goffy)
-- added sample data (goffy)
-- rebuild install, uninstall and update (goffy)
-- implememted feedback (goffy)
-- replaced Xmf\Request::... by use Xmf\Request + Request::... (goffy)
-- implemented image resizer (goffy)
-- rebuild language defines for upload in forms (goffy)
-- fixed bug with multiple upload formfields in one form (goffy)
-- updated permissions to handle multiple permissions (goffy)
-- added permissions class and permissions handler (goffy)
-- cosmetics (goffy)
-- fixed bugs in getXoopsFormSelectFile and getClassGetTableSolenameById (goffy)
-- added save/load group permissions to sample data (goffy)
-- rebuild blocks file (goffy)
-- splitted CreateHtmlSmartycodes into CreateHtmlcode/CreateSmartycode for better handling (goffy)
-- added images for checkbox and status in lists in admin area (goffy)
-- fixed bugs at building (goffy)
-- renamed functions for better sorting (goffy)
-- added new field elements SelectStatus, SelectCombo, Password, SelectCountry and SelectLang (goffy)
-- rebuilt include/search.inc.php (goffy)
-- added default values for form elements (goffy)
-- adapted editor handling (goffy)
-- preparation for new tpl styles (goffy)
-- transfered code broken from brocken.php to the userpage (goffy)
-- transfered code broken from submit.php to the userpage (goffy)
-- added handling broken to admin area (goffy)
+work done by goffy:
+ - added implementation of common files
+ - changed modversion from xoops_version.php into arrays
+ - changed submenu in xoops_version.php
+ - splitted class files into class and classhandler
+ - added usage of namespaces in created modules
+ - added sample data
+ - rebuild install, uninstall and update
+ - implememted feedback
+ - replaced Xmf\Request::... by use Xmf\Request + Request::...
+ - implemented image resizer
+ - rebuild language defines for upload in forms
+ - fixed bug with multiple upload formfields in one form
+ - updated permissions to handle multiple permissions
+ - added permissions class and permissions handler
+ - cosmetics
+ - fixed bugs in getXoopsFormSelectFile and getClassGetTableSolenameById
+ - added save/load group permissions to sample data
+ - rebuild blocks file
+ - splitted CreateHtmlSmartycodes into CreateHtmlcode/CreateSmartycode for better handling
+ - added images for checkbox and status in lists in admin area
+ - fixed bugs at building
+ - renamed functions for better sorting
+ - added new field elements SelectStatus, SelectCombo, Password, SelectCountry and SelectLang
+ - rebuilt include/search.inc.php
+ - added default values for form elements
+ - adapted editor handling
+ - preparation for new tpl styles
+ - transfered code broken from brocken.php to the corresponding table page
+ - transfered code submit from submit.php to the corresponding table page
+ - added handling broken to admin area
+ - removed class/Addfiles.php and Addfileshandler.php (duplication of morefiles)
+ - removed class/Files/User/UserSingle.php and UserVisit.php
 
 <h5>3.01 Alpha 2   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.2
 <hr>
-- code cosmetics (mamba)
-- added "Build" icons to Modules and Tables tabs - time saver (mamba)
-- cosmetics admin area (goffy)
-- fixed problems with test data (goffy)
-- fixed bug with upload file/images in admin pages (goffy)
-- fixed bug with save permissions in admin pages (goffy)
-- fixed bugs in tpl creation (goffy)
-- improved tpl creation (goffy)
-- added check for upload permission to form class (goffy)
-- removed fb and disqus comments preferences (goffy)
-- fixed bug in print.php (goffy)
+ - code cosmetics (mamba)
+ - added "Build" icons to Modules and Tables tabs - time saver (mamba)
+ - cosmetics admin area (goffy)
+ - fixed problems with test data (goffy)
+ - fixed bug with upload file/images in admin pages (goffy)
+ - fixed bug with save permissions in admin pages (goffy)
+ - fixed bugs in tpl creation (goffy)
+ - improved tpl creation (goffy)
+ - added check for upload permission to form class (goffy)
+ - removed fb and disqus comments preferences (goffy)
+ - fixed bug in print.php (goffy)
 
 *************************************************************
 THIS IS LAST VERSION WHICH CREATES MODULES WITHOUT NAMESPACES
@@ -51,280 +54,280 @@ THIS IS LAST VERSION WHICH CREATES MODULES WITHOUT NAMESPACES
 
 <h5>3.01 Alpha 1   [2020-01-01]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.1
 <hr>
-- namespaces (mamba)
-- class autoloading (mamba)
-- added feedback page (mamba)
-- PSR12 cosmetics (mamba)
-- fixed sorting of fields (mamba)
-- updated Scrutinizer config (mamba)
-- added Config (mamba)
-- moved icons to /images (mamba)
+ - namespaces (mamba)
+ - class autoloading (mamba)
+ - added feedback page (mamba)
+ - PSR12 cosmetics (mamba)
+ - fixed sorting of fields (mamba)
+ - updated Scrutinizer config (mamba)
+ - added Config (mamba)
+ - moved icons to /images (mamba)
 
 =================================================
 2018/03/27: Version 1.91 alpha 3.6 [NOT RELEASED]
 =================================================
-- change from adminMenu to adminObject (mamba)
-- buttons on left (mamba)
-- replace static calls (mamba)
-- fix statistics (mamba)
-- implemented yoda in file creation (goffy)
-- css corrections (goffy)
-- yoda corrections (goffy)
-- corrected css for templates admin tables/fields (goffy)
-- replace < br /> by < br >; changed also function TDMCreateHTMLCode, TDMCreateHTMLSmartyCode (goffy)
-- corrected typing errors (e.g. getVat) (goffy)
-- removed unnecessary semicolons in js (goffy)
-- added PHPDocs (goffy)
-- replace double quote in language define by single quote; changed also function getXcTplDisplay, getDefine (goffy)
-- removed unnecessary closing tag (img) (goffy)
-- changed getXcLoadLanguage (include moduledir) (goffy)
-- cosmetics (goffy)
-- changed comparision to stict (===) (goffy)
-- solved wrong string concatenate (goffy)
-- Update README.md (timgno)
-- fixed notification of no return value from php code inspection (goffy)
-- XoopsFormTextDateSelect: created var for isNew was not used (goffy)
-- Class files - getValues... function: changed from {fieldname} to {tablename}Obj (goffy)
-- Class files - getForm: added field names to comment lines (goffy)
-- Creation of xoopsversion.php: config was based on last table (goffy)
-- config name for xoopseditorhandler was too long (goffy)
-- corrected case mismatch: xoops_gethandler into xoops_getHandler (goffy)
-- unnecessary parentheses: removed brackets (goffy)
-- unnecessary double quotes (goffy)
-- fixed bug in function getValuesInObject (wrong object name) (goffy)
-- creation of form: replaced XoopsFormButton by XoopsFormButtonTray (goffy)
-- LanguageModinfo.php: Config items have been created only by fields of last table; changed to all tables (goffy)
+ - change from adminMenu to adminObject (mamba)
+ - buttons on left (mamba)
+ - replace static calls (mamba)
+ - fix statistics (mamba)
+ - implemented yoda in file creation (goffy)
+ - css corrections (goffy)
+ - yoda corrections (goffy)
+ - corrected css for templates admin tables/fields (goffy)
+ - replace < br /> by < br >; changed also function TDMCreateHTMLCode, TDMCreateHTMLSmartyCode (goffy)
+ - corrected typing errors (e.g. getVat) (goffy)
+ - removed unnecessary semicolons in js (goffy)
+ - added PHPDocs (goffy)
+ - replace double quote in language define by single quote; changed also function getXcTplDisplay, getDefine (goffy)
+ - removed unnecessary closing tag (img) (goffy)
+ - changed getXcLoadLanguage (include moduledir) (goffy)
+ - cosmetics (goffy)
+ - changed comparision to stict (===) (goffy)
+ - solved wrong string concatenate (goffy)
+ - Update README.md (timgno)
+ - fixed notification of no return value from php code inspection (goffy)
+ - XoopsFormTextDateSelect: created var for isNew was not used (goffy)
+ - Class files - getValues... function: changed from {fieldname} to {tablename}Obj (goffy)
+ - Class files - getForm: added field names to comment lines (goffy)
+ - Creation of xoopsversion.php: config was based on last table (goffy)
+ - config name for xoopseditorhandler was too long (goffy)
+ - corrected case mismatch: xoops_gethandler into xoops_getHandler (goffy)
+ - unnecessary parentheses: removed brackets (goffy)
+ - unnecessary double quotes (goffy)
+ - fixed bug in function getValuesInObject (wrong object name) (goffy)
+ - creation of form: replaced XoopsFormButton by XoopsFormButtonTray (goffy)
+ - LanguageModinfo.php: Config items have been created only by fields of last table; changed to all tables (goffy)
 
 =================================
 1.91 alpha 3.5  [NOT RELEASED]
 =================================
-- cosmetics, PHP 7 (mamba)
-- admin/settings.php: bug in xoopsSecurity during save  (goffy)
-- created tdmxoops_logo.png (copy of tdmxoops_logo.gif) in .../assets/images/logos/ in order to fix error when building new module
-- adoption in module creation procedure  (goffy)
-  -- changed module logo creator - module name will be used instead of module dir name
-  -- class/files/header/AdminHeader.php:
-   --- adopted to XMF
-   --- some tabs in if-conditions were not set
-  -- class/files/language/LanguageAdmin.php: if the last field in a table is not in form for admin, then in language/admin.php the defines for "{$ucfTableSoleName} add/edit" are not created  (goffy)
-  -- fixed bug in helper.php/function getConfig: adopted for case when config is an array
-  -- fixed bug in xoopsverion: release date must be format Y/m/d, otherwise moduladmin.php causes an error
-  -- fixed various cases of wrong number of indentions/tabs)
-- changed buttons from right to left (mamba)
-- renamed $adminMenu to $adminObject (mamba)
+ - cosmetics, PHP 7 (mamba)
+ - admin/settings.php: bug in xoopsSecurity during save  (goffy)
+ - created tdmxoops_logo.png (copy of tdmxoops_logo.gif) in .../assets/images/logos/ in order to fix error when building new module
+ - adoption in module creation procedure  (goffy)
+   -- changed module logo creator - module name will be used instead of module dir name
+   -- class/files/header/AdminHeader.php:
+      --- adopted to XMF
+      --- some tabs in if-conditions were not set
+   -- class/files/language/LanguageAdmin.php: if the last field in a table is not in form for admin, then in language/admin.php the defines for "{$ucfTableSoleName} add/edit" are not created  (goffy)
+   -- fixed bug in helper.php/function getConfig: adopted for case when config is an array
+   -- fixed bug in xoopsverion: release date must be format Y/m/d, otherwise moduladmin.php causes an error
+   -- fixed various cases of wrong number of indentions/tabs)
+ - changed buttons from right to left (mamba)
+ - renamed $adminMenu to $adminObject (mamba)
 
 =================================
 2016/01/28: Version 1.91 alpha 3.x
 =================================
 
-- Refactoring Classes with Php Functions in place of Heredoc
-- Alpha Contribute & Testers (Timgno, Mamba, Goffy)
-- fixes for calls to "getXcEqualsOperator" from tdmcreate\class\files\user\UserXoopsVersion.php (mamba)
+ - Refactoring Classes with Php Functions in place of Heredoc
+ - Alpha Contribute & Testers (Timgno, Mamba, Goffy)
+ - fixes for calls to "getXcEqualsOperator" from tdmcreate\class\files\user\UserXoopsVersion.php (mamba)
 
 =================================
 2015/06/01: Version 1.91 alpha 3
 =================================
 
-- Added templates breacrumbs
-- Added index in tables form to put code in user/index.php
-- Added more functions in classes
-- Added more field database in tables form
+ - Added templates breacrumbs
+ - Added index in tables form to put code in user/index.php
+ - Added more functions in classes
+ - Added more field database in tables form
 
 =================================
 2015/04/27: Version 1.91 alpha 2
 =================================
 
-- Added templates item for tables & fields
-- Added sortable table for tables & fields
-- Added more parameters in tables form
-- Added more parameters in fields form
-- Added more field database in tables form
-- Added more field database in fields form
-- Added checkAll checkbox in modules & tables form
-- Added more files for user side
-- Added autoload file for all classes
-- Added settings to customize module informations
+ - Added templates item for tables & fields
+ - Added sortable table for tables & fields
+ - Added more parameters in tables form
+ - Added more parameters in fields form
+ - Added more field database in tables form
+ - Added more field database in fields form
+ - Added checkAll checkbox in modules & tables form
+ - Added more files for user side
+ - Added autoload file for all classes
+ - Added settings to customize module informations
 
 =================================
 2014/01/02: Version 1.91 alpha 1
 =================================
 
-- Refactoring
-- Rewritten from scratch
-- Added templates admin
-- Added fields table
-- Added more parameters in fields form
+ - Refactoring
+ - Rewritten from scratch
+ - Added templates admin
+ - Added fields table
+ - Added more parameters in fields form
 
 =================================
 2013/09/02: Version 1.91 alpha 1
 =================================
 
-- Skipped to versione 1.91 alpha 1
+ - Skipped to versione 1.91 alpha 1
 
 =================================
 2013/05/12: Version 1.39 RC 1
 =================================
 
-- Added minimum php textbox in admin/modules.php
-- Added minimum xoops textbox in admin/modules.php
-- Added minimum admin textbox in admin/modules.php
-- Added minimum mysql textbox in admin/modules.php
-- fixed bugs
+ - Added minimum php textbox in admin/modules.php
+ - Added minimum xoops textbox in admin/modules.php
+ - Added minimum admin textbox in admin/modules.php
+ - Added minimum mysql textbox in admin/modules.php
+ - fixed bugs
 
 =================================
 2013/04/01: Version 1.39 Beta 4
 =================================
 
-- fixed several error notices and bugs
+ - fixed several error notices and bugs
 
 =================================
 2013/03/28: Version 1.39 Beta 3
 =================================
 
-- fixed several error notices and bugs
+ - fixed several error notices and bugs
 
 =================================
 2013/03/25: Version 1.39 Beta 2
 =================================
 
-- fixed several error notices and bugs
+ - fixed several error notices and bugs
 
 =================================
 2013/03/22: Version 1.39 Beta 1
 =================================
 
-- fixed several error notices and bugs
+ - fixed several error notices and bugs
 
 =================================
 2013/02/23: Version 1.38.6 Beta 1
 =================================
 
-- added: fields notifications, paypal button and subversion in modules
-- added: fields notifications in tables
-- modified: file const_header.php for subversion
-- modified: file const_admin_about.php for paypal button
-- added: module info pulled from Preferences
-- fixed several error notices and bugs
+ - added: fields notifications, paypal button and subversion in modules
+ - added: fields notifications in tables
+ - modified: file const_header.php for subversion
+ - modified: file const_admin_about.php for paypal button
+ - added: module info pulled from Preferences
+ - fixed several error notices and bugs
 
 =================================
 2012/09/24: Version 1.38.1 Beta 1
 =================================
 
-- added: option to rename module and tables
-- added: generated tables start with "mod_"
-- added: logo image generator
-- added: user info stored in Preferences
-- added: module info pulled from Preferences
-- added: plugins for Waiting module
-- clean-up of English translations, and constants
-- fixed several error notices and bugs 
+ - added: option to rename module and tables
+ - added: generated tables start with "mod_"
+ - added: logo image generator
+ - added: user info stored in Preferences
+ - added: module info pulled from Preferences
+ - added: plugins for Waiting module
+ - clean-up of English translations, and constants
+ - fixed several error notices and bugs 
 
 =================================
 2012/07/13: Version 1.38 Final
 =================================
 
-- Fixed bug (Timgno)
-- Release only for xoops 2.5.5 (Timgno)
+ - Fixed bug (Timgno)
+ - Release only for xoops 2.5.5 (Timgno)
 
 =================================
 2012/01/29: Version 1.37 Final
 =================================
 
-- Fixed bug default string in sql file (Timgno)
-- Added class for const_architecture.php (Timgno)
-- Release only for xoops 2.5.x (Timgno)
+ - Fixed bug default string in sql file (Timgno)
+ - Added class for const_architecture.php (Timgno)
+ - Release only for xoops 2.5.x (Timgno)
 
 =================================
 2011/10/10: Version 1.37 RC 3
 =================================
 
-- Fixed default and optional button paypal in admin/about.php (Timgno)
-- Fixed default image module string in $module_name_slogo (Timgno)
-- Deleted code creations folders deco & admin in file const_architecture.php (Timgno)
-- Release only for xoops 2.5.x (Timgno)
+ - Fixed default and optional button paypal in admin/about.php (Timgno)
+ - Fixed default image module string in $module_name_slogo (Timgno)
+ - Deleted code creations folders deco & admin in file const_architecture.php (Timgno)
+ - Release only for xoops 2.5.x (Timgno)
 
 =================================
 2011/10/03: Version 1.37 RC 2
 =================================
 
-- Bugfixed directory select images tables from & upload to Frameworks (Timgno)
-- Added in mysql options fields, decimal/float/enum (Timgno)
+ - Bugfixed directory select images tables from & upload to Frameworks (Timgno)
+ - Added in mysql options fields, decimal/float/enum (Timgno)
 
 =================================
 2011/09/15: Version 1.37 RC 1
 =================================
 
-- Added code directory select images tables from & upload to Frameworks (Timgno)
+ - Added code directory select images tables from & upload to Frameworks (Timgno)
 
 =================================
 2011/09/07: Version 1.37 beta 4
 =================================
 
-- Added buttons New Table, New Categories & List Table (Timgno)
+ - Added buttons New Table, New Categories & List Table (Timgno)
 
 =================================
 2011/08/24: Version 1.37 beta 3
 =================================
 
-- Added buttons New Table, New Categories & List Table (Timgno)
+ - Added buttons New Table, New Categories & List Table (Timgno)
 
 =================================
 2011/08/08: Version 1.37 beta 2
 =================================
 
-- Added buttons New Module & List Module (Timgno)
+ - Added buttons New Module & List Module (Timgno)
 
 =================================
 2011/08/07: Version 1.37 beta 1
 =================================
 
-- Added class constArch (Timgno)
+ - Added class constArch (Timgno)
 
 =================================
 2011/06/27: Version 1.36 beta
 =================================
 
-- fixed (Mamba)
+ - fixed (Mamba)
 
 =================================
 2011/04/22: Version 1.18
 =================================
 
-- Added field forum url (Timgno)
-- Added field forum title (Timgno)
-- Added function createFile (Timgno)
-- Changes code lines all files in cost folder for create file with function createFile (Timgno)
+ - Added field forum url (Timgno)
+ - Added field forum title (Timgno)
+ - Added function createFile (Timgno)
+ - Changes code lines all files in cost folder for create file with function createFile (Timgno)
 
 =================================
 2011/03/07: Version 1.15
 =================================
 
-- Email Author (timgno)
-- Advertise in const_xoops_version.php (timgno)
-- Keywords for SEO in const_xoops_version.php (timgno)
-- Datetime php function, copyright autoincrement years in const_entete.php (timgno)
-- Defines in language pack (timgno)
-- Added const_changelog.php (timgno)
-- Added const_templates.php (timgno)
-- Added const_main_language.php (timgno)
+ - Email Author (timgno)
+ - Advertise in const_xoops_version.php (timgno)
+ - Keywords for SEO in const_xoops_version.php (timgno)
+ - Datetime php function, copyright autoincrement years in const_entete.php (timgno)
+ - Defines in language pack (timgno)
+ - Added const_changelog.php (timgno)
+ - Added const_templates.php (timgno)
+ - Added const_main_language.php (timgno)
 
 =================================
 2010/12/25: Version 1.11
 =================================
 
-- changes admin gui for xoops 2.5.x (Mamba)
-- internationalization - the created module will local language based (mamba)
-- added changelog (mamba)
-- updated English translations (Mamba)
-- replaced GIF images to PNG (Mamba)
+ - changes admin gui for xoops 2.5.x (Mamba)
+ - internationalization - the created module will local language based (mamba)
+ - added changelog (mamba)
+ - updated English translations (Mamba)
+ - replaced GIF images to PNG (Mamba)
 
 =================================
 2009/07/23: Version 1.1
 =================================
 
-- Base changes (TDM)
+ - Base changes (TDM)
 
 =================================
 2009/07/17: Version 1.0
 =================================
-- Original release (TDM)
+ - Original release (TDM)
