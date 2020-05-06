@@ -423,6 +423,17 @@ class CreateArchitecture extends CreateStructure
             $languageBlocks->write($module, $tables, 'blocks.php');
             $ret[] = $languageBlocks->render();
         }
+        // Creation of admin broken files
+        if (in_array(1, $tableBroken)) {
+            // Admin broken File
+            $adminPermissions = Tdmcreate\Files\Admin\AdminBroken::getInstance();
+            $adminPermissions->write($module, $tables, 'broken.php');
+            $ret[] = $adminPermissions->render();
+            // Templates Admin broken File
+            $adminTemplatesPermissions = Tdmcreate\Files\Templates\Admin\TemplatesAdminBroken::getInstance();
+            $adminTemplatesPermissions->write($module, $tables, $moduleDirname . '_admin_broken.tpl');
+            $ret[] = $adminTemplatesPermissions->render();
+        }
         // Creation of admin permission files
         if (in_array(1, $tablePermissions)) {
             // Admin Permissions File

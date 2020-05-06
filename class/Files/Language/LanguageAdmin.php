@@ -157,6 +157,7 @@ class LanguageAdmin extends Files\CreateFile
             $tableId          = $tables[$t]->getVar('table_id');
             $tableMid         = $tables[$t]->getVar('table_mid');
             $tableSoleName    = $tables[$t]->getVar('table_solename');
+            $tableBroken      = $tables[$t]->getVar('table_broken');
             $ucfTableSoleName = ucfirst($tableSoleName);
 
             $fields      = $this->getTableFields($tableMid, $tableId);
@@ -240,6 +241,16 @@ class LanguageAdmin extends Files\CreateFile
             $ret .= $this->defines->getDefine($language, 'STATUS_APPROVED', 'Approved');
             $ret .= $this->defines->getDefine($language, 'STATUS_BROKEN', 'Broken');
         }
+        if ($tableBroken > 0) {
+            $ret .= $this->defines->getAboveDefines('Broken');
+            $ret .= $this->defines->getDefine($language, 'BROKEN_RESULT', 'Broken items in table %s');
+            $ret .= $this->defines->getDefine($language, 'BROKEN_NODATA', 'No broken items in table %s');
+            $ret .= $this->defines->getDefine($language, 'BROKEN_TABLE', 'Table');
+            $ret .= $this->defines->getDefine($language, 'BROKEN_KEY', 'Key field');
+            $ret .= $this->defines->getDefine($language, 'BROKEN_KEYVAL', 'Key value');
+            $ret .= $this->defines->getDefine($language, 'BROKEN_MAIN', 'Info main');
+        }
+
         if ($fieldSampleListValue > 0) {
             $ret .= $this->defines->getAboveDefines('Sample List Values');
             $ret .= $this->defines->getDefine($language, 'LIST_1', 'Sample List Value 1');

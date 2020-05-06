@@ -132,11 +132,12 @@ class CreateSmartyCode
      * @param string $language
      * @param mixed  $const
      * @param string $t
+     * @param string $n
      * @return string
      */
-    public function getSmartyConst($language, $const, $t = '')
+    public function getSmartyConst($language, $const, $t = '', $n = '')
     {
-        return "{$t}<{\$smarty.const.{$language}{$const}}>";
+        return "{$t}<{\$smarty.const.{$language}{$const}}>{$n}";
     }
 
     /**

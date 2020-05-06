@@ -1209,13 +1209,13 @@ class CreateXoopsCode
      * @param string $t
      * @return string
      */
-    public function getXcPageNav($tableName, $t = '')
+    public function getXcPageNav($tableName, $t = '', $paramStart = 'start', $paramOp = "'op=list&limit=' . \$limit")
     {
         $pc        = Tdmcreate\Files\CreatePhpCode::getInstance();
         $cxc       = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
         $ret       = $pc->getPhpCodeCommentLine('Display Navigation', null, $t);
         $condition = $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/pagenav', true, false, 'include', $t . "\t");
-        $condition .= $cxc->getClassXoopsPageNav('pagenav', $tableName . 'Count', 'limit', 'start', 'start', "'op=list&limit=' . \$limit", false, $t . "\t");
+        $condition .= $cxc->getClassXoopsPageNav('pagenav', $tableName . 'Count', 'limit', 'start', $paramStart, $paramOp, false, $t . "\t");
         $condition .= $this->getXcXoopsTplAssign('pagenav', '$pagenav->renderNav(4)', true, $t . "\t");
         $ret       .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '$limit', $condition, false, $t);
 

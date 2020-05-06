@@ -262,10 +262,15 @@ class UserXoopsVersion extends Files\CreateFile
             $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', '', true);
             $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', '', true);
             $tablePermissions = [];
+            $tableBroken      = [];
             foreach (array_keys($tables) as $t) {
                 $tableName          = $tables[$t]->getVar('table_name');
                 $tablePermissions[] = $tables[$t]->getVar('table_permissions');
+                $tableBroken[]      = $tables[$t]->getVar('table_broken');
                 $item[]             .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '', true);
+            }
+            if (in_array(1, $tableBroken)) {
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'broken', '', true);
             }
             if (in_array(1, $tablePermissions)) {
                 $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'permissions', '', true);

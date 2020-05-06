@@ -111,11 +111,17 @@ class LanguageModinfo extends Files\CreateFile
         $ret              = $df->getAboveHeadDefines('Admin Menu');
         $ret              .= $df->getDefine($language, "ADMENU{$menu}", 'Dashboard');
         $tablePermissions = [];
+        $tableBroken      = [];
         foreach (array_keys($tables) as $i) {
             ++$menu;
             $tablePermissions[] = $tables[$i]->getVar('table_permissions');
+            $tableBroken[]      = $tables[$i]->getVar('table_broken');
             $ucfTableName       = ucfirst($tables[$i]->getVar('table_name'));
             $ret                .= $df->getDefine($language, "ADMENU{$menu}", $ucfTableName);
+        }
+        if (in_array(1, $tableBroken)) {
+            ++$menu;
+            $ret    .= $df->getDefine($language, "ADMENU{$menu}", 'Broken items');
         }
         if (in_array(1, $tablePermissions)) {
             ++$menu;
