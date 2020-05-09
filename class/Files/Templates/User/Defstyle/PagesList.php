@@ -93,11 +93,11 @@ class PagesList extends Files\CreateFile
                 if (1 == $fields[$f]->getVar('field_thead')) {
                     switch ($fieldElement) {
                         default:
-                        case 2:
+                        //case 2:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
                             $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retNumb     = $hc->getHtmlHNumb($doubleVar, '3', 'panel-title', "\t");
+                            $retNumb     .= $hc->getHtmlHNumb($doubleVar, '3', 'panel-title', "\t");
                             break;
                     }
                 }
@@ -111,8 +111,8 @@ class PagesList extends Files\CreateFile
                 if (1 == $fields[$f]->getVar('field_tbody')) {
                     switch ($fieldElement) {
                         default:
-                        case 3:
-                        case 4:
+                        //case 3:
+                        //case 4:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
                             $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);

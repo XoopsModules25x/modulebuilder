@@ -77,7 +77,7 @@ class TemplatesAdminPages extends Files\CreateFile
     {
         $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
-        $ret = $hc->getHtmlComment('Header', "\n");
+        $ret = $hc->getHtmlComment('Header', '',"\n");
         $ret .= $sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
 
         return $ret;
@@ -273,7 +273,7 @@ class TemplatesAdminPages extends Files\CreateFile
     {
         $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
-        $ret = $hc->getHtmlComment('Footer', "\n");
+        $ret = $hc->getHtmlComment('Footer', '', "\n");
         $ret .= $sc->getSmartyIncludeFile($moduleDirname, 'footer', true);
 
         return $ret;

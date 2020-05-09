@@ -114,9 +114,9 @@ class CreateHtmlCode
 	 * @param string $n
      * @return string
      */
-    public function getHtmlComment($htmlComment = '', $n = '')
+    public function getHtmlComment($htmlComment = '', $t = '', $n = '')
     {
-        return "<!-- {$htmlComment} -->{$n}";
+        return "{$t}<!-- {$htmlComment} -->{$n}";
     }
 
     /**

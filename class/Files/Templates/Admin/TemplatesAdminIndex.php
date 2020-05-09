@@ -78,12 +78,12 @@ class TemplatesAdminIndex extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
 
-        $content = $hc->getHtmlComment('Header') . PHP_EOL;
+        $content = $hc->getHtmlComment('Header', '', "\n") ;
         $content .= $sc->getSmartyIncludeFile($moduleDirname, 'header', true, true) . PHP_EOL;
-        $content .= $hc->getHtmlComment('Index Page') . PHP_EOL;
+        $content .= $hc->getHtmlComment('Index Page', '', "\n") ;
         $single  = $sc->getSmartySingleVar('index');
         $content .= $hc->getHtmlTag('div', ['class' => 'top'], $single) . PHP_EOL;
-        $content .= $hc->getHtmlComment('Footer') . PHP_EOL;
+        $content .= $hc->getHtmlComment('Footer', '', "\n");
         $content .= $sc->getSmartyIncludeFile($moduleDirname, 'footer', true, true);
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

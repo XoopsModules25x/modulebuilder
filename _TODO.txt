@@ -12,7 +12,9 @@ TODOs:
 implement constants interface
 
 
-
+Broken files:
+Notification for broken files in xoops_version adapt?
+add initiate event when click on broken file
 
 
 Notifications:
