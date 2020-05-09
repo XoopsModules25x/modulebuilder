@@ -1,6 +1,6 @@
 <?php
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -12,7 +12,7 @@ use XoopsModules\Tdmcreate;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -27,7 +27,7 @@ $funct    = \Xmf\Request::getString('funct', '', 'GET');
 $iconName = \Xmf\Request::getString('iconName', '', 'GET');
 $caption  = \Xmf\Request::getString('caption', '', 'GET');
 if (function_exists($funct)) {
-    $ret = Tdmcreate\Logo::getInstance()->createLogo($iconName, $caption);
+    $ret = Modulebuilder\Logo::getInstance()->createLogo($iconName, $caption);
     phpFunction($ret);
 } else {
     redirect_header('logo.php', 3, 'Method Not Exist');

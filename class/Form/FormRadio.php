@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Form;
+namespace XoopsModules\Modulebuilder\Form;
 
 /**
  * XOOPS form radio compo.

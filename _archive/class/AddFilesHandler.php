@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -36,7 +36,7 @@ class AddFilesHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_addfiles', AddFiles::class, 'file_id', 'file_name');
+        parent::__construct($db, 'modulebuilder_addfiles', AddFiles::class, 'file_id', 'file_name');
     }
 
     /**

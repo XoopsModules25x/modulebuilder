@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Form;
+namespace XoopsModules\Modulebuilder\Form;
 
 /*
  You may not change or alter any portion of this comment or credits

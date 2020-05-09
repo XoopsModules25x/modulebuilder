@@ -14,9 +14,9 @@
  * @author          Michael Beck (aka Mamba)
  */
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Common;
-use XoopsModules\Tdmcreate\Utility;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Common;
+use XoopsModules\Modulebuilder\Utility;
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require dirname(__DIR__) . '/preloads/autoloader.php';
@@ -26,7 +26,7 @@ $op = \Xmf\Request::getCmd('op', '');
 $moduleDirName = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-$helper = Tdmcreate\Helper::getInstance();
+$helper = Modulebuilder\Helper::getInstance();
 // Load language files
 $helper->loadLanguage('common');
 
@@ -57,7 +57,7 @@ function loadSampleData()
     $moduleDirName = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-    $utility      = new Tdmcreate\Utility();
+    $utility      = new Modulebuilder\Utility();
     $configurator = new Common\Configurator();
 
     $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
@@ -140,7 +140,7 @@ function exportSchema()
 
     try {
         // TODO set exportSchema
-        //        $migrate = new Tdmcreate\Migrate($moduleDirName);
+        //        $migrate = new Modulebuilder\Migrate($moduleDirName);
         //        $migrate->saveCurrentSchema();
         //
         //        redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS'));

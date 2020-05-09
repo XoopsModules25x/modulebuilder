@@ -8,7 +8,7 @@
  * @link            https://xoops.org XOOPS
  */
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /**
  * Prepares system prior to attempting to uninstall module
@@ -16,7 +16,7 @@ use XoopsModules\Tdmcreate;
  *
  * @return bool true if ready to uninstall, false if not
  */
-function xoops_module_pre_uninstall_tdmcreate(\XoopsModule $module)
+function xoops_module_pre_uninstall_modulebuilder(\XoopsModule $module)
 {
     // Do some synchronization
     return true;
@@ -28,17 +28,17 @@ function xoops_module_pre_uninstall_tdmcreate(\XoopsModule $module)
  *
  * @return bool true if uninstallation successful, false if not
  */
-function xoops_module_uninstall_tdmcreate(\XoopsModule $module)
+function xoops_module_uninstall_modulebuilder(\XoopsModule $module)
 {
     //    return true;
 
     $moduleDirName      = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-    /** @var Tdmcreate\Helper $helper */
-    $helper = Tdmcreate\Helper::getInstance();
+    /** @var Modulebuilder\Helper $helper */
+    $helper = Modulebuilder\Helper::getInstance();
 
-    /** @var Tdmcreate\Utility $utility */
-    $utility = new Tdmcreate\Utility();
+    /** @var Modulebuilder\Utility $utility */
+    $utility = new Modulebuilder\Utility();
 
     $success = true;
     $helper->loadLanguage('admin');
@@ -67,7 +67,7 @@ function xoops_module_uninstall_tdmcreate(\XoopsModule $module)
     $xmlfile = $GLOBALS['xoops']->path('xsitemap.xml');
     if (is_file($xmlfile)) {
         if (false === ($delOk = unlink($xmlfile))) {
-            $module->setErrors(sprintf(_AM_TDMCREATE_ERROR_BAD_REMOVE, $xmlfile));
+            $module->setErrors(sprintf(_AM_MODULEBUILDER_ERROR_BAD_REMOVE, $xmlfile));
         }
     }
 //    return $success && $delOk; // use this if you're using this routine

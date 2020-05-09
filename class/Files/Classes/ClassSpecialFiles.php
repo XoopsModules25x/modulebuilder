@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Classes;
+namespace XoopsModules\Modulebuilder\Files\Classes;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -89,8 +89,8 @@ class ClassSpecialFiles extends Files\CreateFile
      */
     public function getGlobalPerms($permId)
     {
-        $pc             = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc             = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc             = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc             = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $module         = $this->getModule();
         $moduleDirname  = $module->getVar('mod_dirname');
 
@@ -154,8 +154,8 @@ class ClassSpecialFiles extends Files\CreateFile
      */
     public function renderClass()
     {
-        $pc             = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc             = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc             = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc             = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $module         = $this->getModule();
         $filename       = $this->getFileName();
         $moduleDirname  = $module->getVar('mod_dirname');
@@ -175,7 +175,7 @@ class ClassSpecialFiles extends Files\CreateFile
         $cCl            .= $pc->getPhpCodeFunction('getInstance', '', $getInstance, 'public static ', false, "\t");
         $content        .= $pc->getPhpCodeClass($this->className, $cCl, '\XoopsObject');
 
-        $this->create($moduleDirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'class', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
 
 
@@ -190,7 +190,7 @@ class ClassSpecialFiles extends Files\CreateFile
      */
     public function renderPermissionsHandler()
     {
-        $pc             = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc             = Modulebuilder\Files\CreatePhpCode::getInstance();
         $module         = $this->getModule();
         $filename       = $this->getFileName();
         $moduleDirname  = $module->getVar('mod_dirname');
@@ -208,7 +208,7 @@ class ClassSpecialFiles extends Files\CreateFile
         $functions      .= $this->getGlobalPerms(16);
 
         $content        .= $pc->getPhpCodeClass($this->className, $functions, '\XoopsPersistableObjectHandler');
-        $this->create($moduleDirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'class', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }
@@ -221,7 +221,7 @@ class ClassSpecialFiles extends Files\CreateFile
      */
     public function renderConstants()
     {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
 
         $module           = $this->getModule();
         $filename         = $this->getFileName();
@@ -257,14 +257,14 @@ class ClassSpecialFiles extends Files\CreateFile
         $contentClass        .= $pc->getPhpCodeBlankLine();
         $contentFile   .= $pc->getPhpCodeClass($this->className, $contentClass);
 
-        $this->create($moduleDirname, 'class', $filename, $contentFile, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'class', $filename, $contentFile, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }
 
     public function renderConstantsTestInterface()
     {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
 
         $module           = $this->getModule();
         $filename         = $this->getFileName();
@@ -298,7 +298,7 @@ class ClassSpecialFiles extends Files\CreateFile
 
         $contentFile   .= $pc->getPhpCodeInterface($this->className, $contentClass);
 
-        $this->create($moduleDirname, 'class', $filename, $contentFile, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'class', $filename, $contentFile, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

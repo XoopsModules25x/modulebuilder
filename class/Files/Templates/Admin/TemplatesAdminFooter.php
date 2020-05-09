@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\Admin;
+namespace XoopsModules\Modulebuilder\Files\Templates\Admin;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -72,8 +72,8 @@ class TemplatesAdminFooter extends Files\CreateFile
      */
     public function render()
     {
-        $hc            = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc            = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc            = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc            = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleName    = $module->getVar('mod_name');
@@ -89,7 +89,7 @@ class TemplatesAdminFooter extends Files\CreateFile
         $tree        .= $hc->getHtmlTag('a', ['href' => '<{$maintainedby}>', 'title' => 'Visit ' . $supportName, 'class' => 'tooltip', 'rel' => 'external'], $supportName);
         $content     .= $hc->getHtmlTag('div', ['class' => 'center smallsmall italic pad5'], "\n\t" . $tree);
 
-        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Includes;
+namespace XoopsModules\Modulebuilder\Files\Includes;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -43,7 +43,7 @@ class IncludeSearch extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = Tdmcreate\Files\CreateFile::getInstance();
+        $this->tdmcfile = Modulebuilder\Files\CreateFile::getInstance();
     }
 
     /**
@@ -82,8 +82,8 @@ class IncludeSearch extends Files\CreateFile
      */
     public function getSearchFunction($moduleDirname)
     {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc               = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $ucfModuleDirname = ucfirst($moduleDirname);
         $tables           = $this->getTables();
         $t     = "\t";
@@ -191,7 +191,7 @@ class IncludeSearch extends Files\CreateFile
      */
     public function render()
     {
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
@@ -199,7 +199,7 @@ class IncludeSearch extends Files\CreateFile
         $content       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
         $content       .= $this->getSearchFunction($moduleDirname);
 
-        $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }

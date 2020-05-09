@@ -16,7 +16,7 @@ function showImgSelected2(imgId, selectId, imgDir, extra, xoopsUrl) {
     if (selectDom.options[selectDom.selectedIndex].value != "") {
         imgDom.src = xoopsUrl + "/" + imgDir + "/" + selectDom.options[selectDom.selectedIndex].value + extra;
     } else {
-        imgDom.src = xoopsUrl + "/modules/tdmcreate/assets/images/blank.png";
+        imgDom.src = xoopsUrl + "/modules/modulebuilder/assets/images/blank.png";
     }
 }
 
@@ -76,7 +76,7 @@ $(document).ready(function () {
     });
 });
 
-function tdmcreate_setStatus(data, img, file) {
+function modulebuilder_setStatus(data, img, file) {
     // Post request
     $.post(file, data, function (reponse, textStatus) {
         if (textStatus == 'success') {

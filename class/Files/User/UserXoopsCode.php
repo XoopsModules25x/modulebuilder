@@ -1,8 +1,8 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\User;
+namespace XoopsModules\Modulebuilder\Files\User;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -14,7 +14,7 @@ use XoopsModules\Tdmcreate;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -73,7 +73,7 @@ class UserXoopsCode
      */
     public function getUserAddMeta($type, $language, $tableName, $t = '')
     {
-        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
         $stuTableName = mb_strtoupper($tableName);
         $stripTags    = $pc->getPhpCodeStripTags('', $language . $stuTableName, true);
 
@@ -89,7 +89,7 @@ class UserXoopsCode
      */
     public function getUserMetaKeywords($moduleDirname)
     {
-        $pc      = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc      = Modulebuilder\Files\CreatePhpCode::getInstance();
         $implode = $pc->getPhpCodeImplode(',', '$keywords');
 
         return "{$moduleDirname}MetaKeywords(\$helper->getConfig('keywords').', '. {$implode});\n";
@@ -120,7 +120,7 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbs($language, $tableName = 'index', $t = '')
     {
-        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
         $stuTableName = mb_strtoupper($tableName);
         $title        = ["'title'" => "{$language}{$stuTableName}"];
 
@@ -137,7 +137,7 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbsHeaderFile($moduleDirname, $language)
     {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ret              = $pc->getPhpCodeCommentLine('Breadcrumbs');
         $ret              .= $pc->getPhpCodeArray('xoBreadcrumbs', null, false, '');
@@ -154,8 +154,8 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbsFooterFile()
     {
-        $pc   = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc   = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc   = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc   = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $cond = $xc->getXcXoopsTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
         $ret  = $pc->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
 

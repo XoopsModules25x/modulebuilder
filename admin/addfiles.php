@@ -11,7 +11,7 @@
  */
 
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -21,7 +21,7 @@
  * @author          Txmod Xoops <support@txmodxoops.org>
  *
  */
-$GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_addfiles.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'modulebuilder_addfiles.tpl';
 
 include __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
@@ -35,11 +35,11 @@ switch ($op) {
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('addfiles_adminpager'));
         // Define main template
-        //        $templateMain = 'tdmcreate_addfiles.tpl';
-        $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
-        $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
+        //        $templateMain = 'modulebuilder_addfiles.tpl';
+        $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
+        $GLOBALS['xoTheme']->addStylesheet('modules/modulebuilder/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('addfiles.php'));
-        $adminObject->addItemButton(_AM_TDMCREATE_ADD_FILE, 'addfiles.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_FILE, 'addfiles.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgfile_url', TDMC_UPLOAD_IMGMOD_URL);
@@ -48,7 +48,7 @@ switch ($op) {
         $modulesCount = $helper->getHandler('Modules')->getCountModules();
         // Redirect if there aren't modules
         if (0 == $modulesCount) {
-            redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOT_MODULES);
+            redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_NOT_MODULES);
         }
         $addfilesCount = $helper->getHandler('Addfiles')->getCountAddFiles();
         $addfilesAll   = $helper->getHandler('Addfiles')->getAllAddFiles($start, $limit);
@@ -65,15 +65,15 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
-            $GLOBALS['xoopsTpl']->assign('error', _AM_TDMCREATE_THEREARENT_MODULES);
+            $GLOBALS['xoopsTpl']->assign('error', _AM_MODULEBUILDER_THEREARENT_MODULES);
         }
         break;
     case 'new':
         // Define main template
-        //        $templateMain = 'tdmcreate_addfiles.tpl';
-        $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
+        //        $templateMain = 'modulebuilder_addfiles.tpl';
+        $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('addfiles.php'));
-        $adminObject->addItemButton(_AM_TDMCREATE_ADDFILES_LIST, 'addfiles.php', 'list');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_ADDFILES_LIST, 'addfiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $addfilesObj = $helper->getHandler('Addfiles')->create();
@@ -101,9 +101,9 @@ switch ($op) {
 
         if ($helper->getHandler('Addfiles')->insert($addfilesObj)) {
             if ($addfilesObj->isNew()) {
-                redirect_header('addfiles.php', 5, sprintf(_AM_TDMCREATE_FILE_FORM_CREATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
+                redirect_header('addfiles.php', 5, sprintf(_AM_MODULEBUILDER_FILE_FORM_CREATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
             } else {
-                redirect_header('addfiles.php', 5, sprintf(_AM_TDMCREATE_FILE_FORM_UPDATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
+                redirect_header('addfiles.php', 5, sprintf(_AM_MODULEBUILDER_FILE_FORM_UPDATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
             }
         }
 
@@ -113,11 +113,11 @@ switch ($op) {
         break;
     case 'edit':
         // Define main template
-        //        $templateMain = 'tdmcreate_addfiles.tpl';
-        $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
+        //        $templateMain = 'modulebuilder_addfiles.tpl';
+        $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('addfiles.php'));
-        $adminObject->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'addfiles.php?op=new', 'add');
-        $adminObject->addItemButton(_AM_TDMCREATE_ADDFILES_LIST, 'addfiles.php', 'list');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_MODULE, 'addfiles.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_ADDFILES_LIST, 'addfiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $addfilesObj = $helper->getHandler('Addfiles')->get($fileId);
@@ -131,12 +131,12 @@ switch ($op) {
                 redirect_header('addfiles.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($helper->getHandler('Addfiles')->delete($addfilesObj)) {
-                redirect_header('addfiles.php', 3, _AM_TDMCREATE_FORM_DELETED_OK);
+                redirect_header('addfiles.php', 3, _AM_MODULEBUILDER_FORM_DELETED_OK);
             } else {
                 $GLOBALS['xoopsTpl']->assign('error', $addfilesObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_TDMCREATE_FORM_SURE_DELETE, $addfilesObj->getVar('file_name')));
+            xoops_confirm(['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_MODULEBUILDER_FORM_SURE_DELETE, $addfilesObj->getVar('file_name')));
         }
         break;
 }

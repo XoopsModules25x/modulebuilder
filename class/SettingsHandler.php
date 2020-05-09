@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -35,7 +35,7 @@ class SettingsHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_settings', Settings::class, 'set_id', 'set_name');
+        parent::__construct($db, 'modulebuilder_settings', Settings::class, 'set_id', 'set_name');
     }
 
     /**

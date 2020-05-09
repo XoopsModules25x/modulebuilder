@@ -1,8 +1,8 @@
 <?php
 
-namespace XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -14,7 +14,7 @@ use XoopsModules\Tdmcreate;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -36,7 +36,7 @@ class FieldElementsHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_fieldelements', FieldElements::class, 'fieldelement_id', 'fieldelement_name');
+        parent::__construct($db, 'modulebuilder_fieldelements', FieldElements::class, 'fieldelement_id', 'fieldelement_name');
     }
 
     /**
@@ -145,7 +145,7 @@ class FieldElementsHandler extends \XoopsPersistableObjectHandler
             if (1 == $i) {
                 $fieldele[$i] = '...';
             } else {
-                $fieldele[$i] = constant ('_AM_TDMCREATE_FIELD_ELE_' . $stuFeName);
+                $fieldele[$i] = constant ('_AM_MODULEBUILDER_FIELD_ELE_' . $stuFeName);
             }
         }
         return $fieldele;

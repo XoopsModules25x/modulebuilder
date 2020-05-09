@@ -1,8 +1,8 @@
 <?php
 
-namespace XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -33,7 +33,7 @@ use XoopsModules\Tdmcreate;
 class AddFiles extends \XoopsObject
 {
     /**
-     * Tdmcreate.
+     * Modulebuilder.
      *
      * @var mixed
      */
@@ -52,7 +52,7 @@ class AddFiles extends \XoopsObject
      */
     public function __construct()
     {
-        $this->helper = Tdmcreate\Helper::getInstance();
+        $this->helper = Modulebuilder\Helper::getInstance();
 
         $this->initVar('file_id', XOBJ_DTYPE_INT);
         $this->initVar('file_mid', XOBJ_DTYPE_INT);
@@ -102,7 +102,7 @@ class AddFiles extends \XoopsObject
         }
 
         $isNew = $this->isNew();
-        $title = $isNew ? sprintf(_AM_TDMCREATE_ADDFILES_NEW) : sprintf(_AM_TDMCREATE_ADDFILES_EDIT);
+        $title = $isNew ? sprintf(_AM_MODULEBUILDER_ADDFILES_NEW) : sprintf(_AM_MODULEBUILDER_ADDFILES_EDIT);
 
         xoops_load('XoopsFormLoader');
 
@@ -110,23 +110,23 @@ class AddFiles extends \XoopsObject
         $form->setExtra('enctype="multipart/form-data"');
 
         $modules       = $this->helper->getHandler('modules')->getObjects(null);
-        $modulesSelect = new \XoopsFormSelect(_AM_TDMCREATE_ADDFILES_MODULES, 'file_mid', $this->getVar('file_mid'));
-        $modulesSelect->addOption('', _AM_TDMCREATE_ADDFILES_MODULE_SELECT);
+        $modulesSelect = new \XoopsFormSelect(_AM_MODULEBUILDER_ADDFILES_MODULES, 'file_mid', $this->getVar('file_mid'));
+        $modulesSelect->addOption('', _AM_MODULEBUILDER_ADDFILES_MODULE_SELECT);
         foreach ($modules as $mod) {
             $modulesSelect->addOption($mod->getVar('mod_id'), $mod->getVar('mod_name'));
         }
         $form->addElement($modulesSelect, true);
 
-        $modName = new \XoopsFormText(_AM_TDMCREATE_ADDFILES_NAME, 'file_name', 50, 255, $this->getVar('file_name'));
-        $modName->setDescription(_AM_TDMCREATE_ADDFILES_NAME_DESC);
+        $modName = new \XoopsFormText(_AM_MODULEBUILDER_ADDFILES_NAME, 'file_name', 50, 255, $this->getVar('file_name'));
+        $modName->setDescription(_AM_MODULEBUILDER_ADDFILES_NAME_DESC);
         $form->addElement($modName, true);
 
-        $fileEstension = new \XoopsFormText(_AM_TDMCREATE_ADDFILES_EXTENSION, 'file_extension', 50, 255, $this->getVar('file_extension'));
-        $fileEstension->setDescription(_AM_TDMCREATE_ADDFILES_EXTENSION_DESC);
+        $fileEstension = new \XoopsFormText(_AM_MODULEBUILDER_ADDFILES_EXTENSION, 'file_extension', 50, 255, $this->getVar('file_extension'));
+        $fileEstension->setDescription(_AM_MODULEBUILDER_ADDFILES_EXTENSION_DESC);
         $form->addElement($fileEstension, true);
 
-        $fileInfolder = new \XoopsFormText(_AM_TDMCREATE_ADDFILES_INFOLDER, 'file_infolder', 50, 255, $this->getVar('file_infolder'));
-        $fileInfolder->setDescription(_AM_TDMCREATE_ADDFILES_INFOLDER_DESC);
+        $fileInfolder = new \XoopsFormText(_AM_MODULEBUILDER_ADDFILES_INFOLDER, 'file_infolder', 50, 255, $this->getVar('file_infolder'));
+        $fileInfolder->setDescription(_AM_MODULEBUILDER_ADDFILES_INFOLDER_DESC);
         $form->addElement($fileInfolder, true);
 
         $form->addElement(new \XoopsFormHidden('op', 'save'));

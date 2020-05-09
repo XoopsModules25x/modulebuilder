@@ -1,10 +1,10 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\User\Defstyle;
+namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
-use XoopsModules\Tdmcreate\Files\Templates\User;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\Files\Templates\User;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -16,7 +16,7 @@ use XoopsModules\Tdmcreate\Files\Templates\User;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -229,8 +229,8 @@ EOT;
      */
     private function getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName)
     {
-        $hc      = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc      = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc      = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc      = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $fields  = $this->getTableFields($tableMid, $tableId);
         $ret     = '';
         $retElem = '';
@@ -300,7 +300,7 @@ EOT;
             }
         }
 
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

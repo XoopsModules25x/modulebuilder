@@ -10,7 +10,7 @@
  */
 
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -34,9 +34,9 @@ $modPathIcon16 = $GLOBALS['xoopsModule']->getInfo('modicons16');
 $modPathIcon32 = $GLOBALS['xoopsModule']->getInfo('modicons32');
 //$pathModuleAdmin = $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
 
-/** @var \XoopsModules\Tdmcreate\Helper $helper */
-$helper = \XoopsModules\Tdmcreate\Helper::getInstance();
-$utility = new \XoopsModules\Tdmcreate\Utility();
+/** @var \XoopsModules\Modulebuilder\Helper $helper */
+$helper = \XoopsModules\Modulebuilder\Helper::getInstance();
+$utility = new \XoopsModules\Modulebuilder\Utility();
 
 // MyTextSanitizer
 $myts = MyTextSanitizer::getInstance();

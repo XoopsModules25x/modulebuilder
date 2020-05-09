@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\User;
+namespace XoopsModules\Modulebuilder\Files\User;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -111,11 +111,11 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionHeader($module, $language)
     {
-        $xc   = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $xc   = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $uxc  = UserXoopsCode::getInstance();
         $date = date('Y/m/d');
         $ret  = $this->getSimpleString('');
-        $ret  .= Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine();
+        $ret  .= Modulebuilder\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine();
         $ret  .= $xc->getXcEqualsOperator('$moduleDirName     ', 'basename(__DIR__)');
         $ret  .= $xc->getXcEqualsOperator('$moduleDirNameUpper', 'mb_strtoupper($moduleDirName)');
         $ret  .= $this->getDashComment('Informations');
@@ -191,7 +191,7 @@ class UserXoopsVersion extends Files\CreateFile
             $ret         .= $this->getDashComment('Mysql');
             $description = "'sql/mysql.sql'";
             $ret         .= $uxc->getUserModVersionText(2, $description, 'sqlfile', "'mysql'");
-            $ret         .= Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('Tables');
+            $ret         .= Modulebuilder\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('Tables');
 
             foreach (array_keys($tables) as $t) {
                 $items[] = "'{$moduleDirname}_{$tables[$t]->getVar('table_name')}'";
@@ -233,7 +233,7 @@ class UserXoopsVersion extends Files\CreateFile
         $ret          = $this->getDashComment('Comments');
         $ret          .= $uxc->getUserModVersionText(2, "'comments.php'", 'comments', "'pageName'");
         $ret          .= $uxc->getUserModVersionText(2, "'com_id'", 'comments', "'itemName'");
-        $ret          .= Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('Comment callback functions');
+        $ret          .= Modulebuilder\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('Comment callback functions');
         $ret          .= $uxc->getUserModVersionText(2, "'include/comment_functions.php'", 'comments', "'callbackFile'");
         $descriptions = ['approve' => "'{$moduleDirname}CommentsApprove'", 'update' => "'{$moduleDirname}CommentsUpdate'"];
         $ret          .= $uxc->getUserModVersionArray(2, $descriptions, 'comments', "'callback'");
@@ -253,7 +253,7 @@ class UserXoopsVersion extends Files\CreateFile
     private function getXoopsVersionTemplatesAdminUser($moduleDirname, $tables, $admin, $user)
     {
         $uxc  = UserXoopsCode::getInstance();
-        $pc   = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc   = Modulebuilder\Files\CreatePhpCode::getInstance();
         $ret  = $this->getDashComment('Templates');
         $item = [];
         if ($admin) {
@@ -364,7 +364,7 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionSubmenu($language, $tables)
     {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
         $uxc = UserXoopsCode::getInstance();
 
         $ret     = $this->getDashComment('Menu');
@@ -460,7 +460,7 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionTypeBlocks($moduleDirname, $tableName, $stuTableSoleName, $language, $type)
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
         $uxc = UserXoopsCode::getInstance();
         $stuTableName    = mb_strtoupper($tableName);
         $ucfTableName    = ucfirst($tableName);
@@ -489,8 +489,8 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionConfig($module, $tables, $language)
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $uxc = UserXoopsCode::getInstance();
         $moduleDirname  = $module->getVar('mod_dirname');
         $ret            = $this->getDashComment('Config');
@@ -811,7 +811,7 @@ class UserXoopsVersion extends Files\CreateFile
 
         /*
          * removed, as there are no system templates in xoops core for fb or disqus comments
-         * tdmcreate currently is also not creatings tpl files for this
+         * modulebuilder currently is also not creatings tpl files for this
         $ret              .= $pc->getPhpCodeCommentLine('Facebook Comments');
         $facebookComments = [
             'name'        => "'facebook_comments'",
@@ -874,7 +874,7 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getNotificationsType($language, $type, $tableName, $notifyFile, $item, $typeOfNotify)
     {
-        $pc              = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc              = Modulebuilder\Files\CreatePhpCode::getInstance();
         $uxc             = UserXoopsCode::getInstance();
         $stuTableName    = mb_strtoupper($tableName);
         $stuTypeOfNotify = mb_strtoupper($typeOfNotify);
@@ -1017,7 +1017,7 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionNotificationGlobal($language, $type, $name, $title, $from, $num)
     {
-        $pc          = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc          = Modulebuilder\Files\CreatePhpCode::getInstance();
         $uxc         = UserXoopsCode::getInstance();
         $title       = mb_strtoupper($title);
         $implodeFrom = implode(".php', '", $from);
@@ -1047,7 +1047,7 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionNotificationCategory($language, $type, $name, $title, $file, $item, $allow, $num)
     {
-        $pc     = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc     = Modulebuilder\Files\CreatePhpCode::getInstance();
         $uxc    = UserXoopsCode::getInstance();
         $title  = mb_strtoupper($title);
         $impFile = implode(".php', '", $file);
@@ -1080,7 +1080,7 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionNotificationTableName($language, $type, $name, $title, $file, $item, $allow, $num)
     {
-        $pc       = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc       = Modulebuilder\Files\CreatePhpCode::getInstance();
         $uxc      = UserXoopsCode::getInstance();
         $stuTitle = mb_strtoupper($title);
         $ucfTitle = ucfirst($title);
@@ -1113,7 +1113,7 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionNotificationCodeComplete($language, $type, $name, $category, $admin, $title, $mail, $num)
     {
-        $pc       = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc       = Modulebuilder\Files\CreatePhpCode::getInstance();
         $uxc      = UserXoopsCode::getInstance();
         $title    = mb_strtoupper($title);
         $ucfTitle = ucfirst($title);
@@ -1141,8 +1141,8 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionSelectSizeMB($moduleDirname, $t = '')
     {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $ucModuleDirname       = mb_strtoupper($moduleDirname);
 
         $ret  = $pc->getPhpCodeCommentLine('create increment steps for file size');
@@ -1222,7 +1222,7 @@ class UserXoopsVersion extends Files\CreateFile
         if (in_array(1, $tableNotifications)) {
             $content .= $this->getXoopsVersionNotifications($module, $language);
         }
-        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

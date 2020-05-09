@@ -1,8 +1,8 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files;
+namespace XoopsModules\Modulebuilder\Files;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -14,7 +14,7 @@ use XoopsModules\Tdmcreate;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -65,7 +65,7 @@ abstract class CreateAbstractClass
      */
     public function setModule($module)
     {
-        if (is_object($module) && ($module instanceof TDMCreate\Modules)) {
+        if (is_object($module) && ($module instanceof ModuleBuilder\Modules)) {
             $this->module = $module;
         }
     }
@@ -87,7 +87,7 @@ abstract class CreateAbstractClass
      */
     public function setTable($table)
     {
-        if (is_object($table) && ($table instanceof Tdmcreate\Tables)) {
+        if (is_object($table) && ($table instanceof Modulebuilder\Tables)) {
             $this->table = $table;
         }
     }
@@ -131,7 +131,7 @@ abstract class CreateAbstractClass
      */
     public function setFields($fields)
     {
-        if (is_object($fields) && ($fields instanceof Tdmcreate\Fields)) {
+        if (is_object($fields) && ($fields instanceof Modulebuilder\Fields)) {
             $this->fields = $fields;
         }
     }
