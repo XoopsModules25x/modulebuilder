@@ -201,9 +201,9 @@ class CreateSmartyCode
      * @param string $n
      * @return string
      */
-    public function getSmartyIncludeFileListSection($moduleDirname, $fileName, $tableFieldName, $t = '', $n = '')
+    public function getSmartyIncludeFileListSection($moduleDirname, $fileName, $itemName, $arrayName, $t = '', $n = '')
     {
-        return "{$t}<{include file='db:{$moduleDirname}_{$fileName}_list.tpl' {$tableFieldName}=\${$tableFieldName}[i]}>{$n}";
+        return "{$t}<{include file='db:{$moduleDirname}_{$fileName}_list.tpl' {$itemName}=\${$arrayName}[i]}>{$n}";
     }
 
     /**
@@ -233,31 +233,28 @@ class CreateSmartyCode
      * @param string $n
      * @return string
      */
-    public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false, $t = '', $n = "\n")
+    public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false, $t = '', $n = "\n", $split = true)
     {
-        if (!$contentElse) {
-            if (!$count) {
-                $ret = "{$t}<{if \${$condition}{$operator}{$type}}>{$n}";
-            } elseif (!$noSimbol) {
-                $ret = "{$t}<{if {$condition}{$operator}{$type}}>{$n}";
-            } else {
-                $ret = "{$t}<{if count(\${$condition}){$operator}{$type}}>{$n}";
-            }
-            $ret .= "{$contentIf}";
-            $ret .= "{$t}<{/if}>{$n}";
-        } else {
-            if (!$count) {
-                $ret = "{$t}<{if \${$condition}{$operator}{$type}}>{$n}";
-            } elseif (!$noSimbol) {
-                $ret = "{$t}<{if {$condition}{$operator}{$type}}>{$n}";
-            } else {
-                $ret = "{$t}<{if count(\${$condition}){$operator}{$type}}>{$n}";
-            }
-            $ret .= "{$contentIf}";
-            $ret .= "{$t}<{else}>{$n}";
-            $ret .= "{$contentElse}";
-            $ret .= "{$t}<{/if}>{$n}";
+        $ns = '';
+        $ts = '';
+        if ($split) {
+            $ns = $n;
+            $ts = $t;
         }
+        if (!$count) {
+            $ret = "{$t}<{if \${$condition}{$operator}{$type}}>{$ns}";
+        } elseif (!$noSimbol) {
+            $ret = "{$t}<{if {$condition}{$operator}{$type}}>{$ns}";
+        } else {
+            $ret = "{$t}<{if count(\${$condition}){$operator}{$type}}>{$ns}";
+        }
+        $ret .= "{$contentIf}";
+        if ($contentElse) {
+            $ret .= "{$ts}<{else}>{$ns}";
+            $ret .= "{$contentElse}";
+        }
+        $ret .= "{$ts}<{/if}>{$n}";
+
 
         return $ret;
     }
