@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\Admin;
+namespace XoopsModules\Modulebuilder\Files\Templates\Admin;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -75,8 +75,8 @@ class TemplatesAdminBroken extends Files\CreateFile
      */
     private function getTemplatesAdminBrokenHeader($moduleDirname)
     {
-        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $ret = $hc->getHtmlComment('Header', '',"\n");
         $ret .= $sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
 
@@ -93,8 +93,8 @@ class TemplatesAdminBroken extends Files\CreateFile
      */
     private function getTemplatesAdminBrokenTableThead($language, $t)
     {
-        $hc         = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc         = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc         = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc         = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $th         = '';
 
         $lang = $sc->getSmartyConst($language, 'BROKEN_TABLE');
@@ -121,8 +121,8 @@ class TemplatesAdminBroken extends Files\CreateFile
      */
     private function getTemplatesAdminBrokenTableTBody($tableName, $tableSoleName, $language)
     {
-        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $td = '';
 
         $doubleKey = $sc->getSmartyDoubleVar($tableSoleName, 'key');
@@ -161,7 +161,7 @@ class TemplatesAdminBroken extends Files\CreateFile
      */
     private function getTemplatesAdminBrokenTable($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
         $tbody  = $this->getTemplatesAdminBrokenTableThead($language, "\t\t");
         $tbody  .= $this->getTemplatesAdminBrokenTableTBody($tableName, $tableSoleName, $language, "\t\t");
         $ret    = $hc->getHtmlTable($tbody, 'table table-bordered', "\t");
@@ -181,8 +181,8 @@ class TemplatesAdminBroken extends Files\CreateFile
      */
     private function getTemplatesAdminBrokenList($moduleDirname, $table, $language, $t = '')
     {
-        $hc = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $tableName     = $table->getVar('table_name');
         $tableSoleName = $table->getVar('table_solename');
         $ucfTableName  = ucfirst($tableName);
@@ -214,8 +214,8 @@ class TemplatesAdminBroken extends Files\CreateFile
      */
     private function getTemplatesAdminBrokenFooter($moduleDirname)
     {
-        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $single = $sc->getSmartySingleVar('error');
         $strong = $hc->getHtmlTag('strong', [], $single, false, '', '');
         $div    = $hc->getHtmlDiv($strong, 'errorMsg', "\t", "\n");
@@ -247,7 +247,7 @@ class TemplatesAdminBroken extends Files\CreateFile
         }
         $content .= $this->getTemplatesAdminBrokenFooter($moduleDirname);
 
-        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

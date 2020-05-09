@@ -1,8 +1,8 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Form;
+namespace XoopsModules\Modulebuilder\Form;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -28,7 +28,7 @@ use XoopsModules\Tdmcreate;
 \XoopsLoad::load('XoopsFormElementTray');
 
 /**
- * Class Tdmcreate\FormTabTray.
+ * Class Modulebuilder\FormTabTray.
  */
 class FormTabTray extends \XoopsFormElementTray
 {
@@ -71,7 +71,7 @@ class FormTabTray extends \XoopsFormElementTray
         $ret = '<div id="tabs_' . $this->getName() . '">' . NWLINE;
         $ret .= '<ul>' . NWLINE;
         foreach ($this->getElements() as $ele) {
-            if ($ele instanceof Tdmcreate\Form\FormTab) {
+            if ($ele instanceof Modulebuilder\Form\FormTab) {
                 $ret .= '<li><a href="#tab_' . $ele->getName() . '"><span>' . $ele->getCaption() . '</span></a></li>' . NWLINE;
             }
         }
@@ -83,8 +83,8 @@ class FormTabTray extends \XoopsFormElementTray
         foreach ($this->getElements() as $ele) {
             /* @var \XoopsFormElement $ele */
             if (!$ele->isHidden()) {
-                if (!$ele instanceof Tdmcreate\Form\FormRaw) {
-                    if ($ele instanceof Tdmcreate\Form\FormTab) {
+                if (!$ele instanceof Modulebuilder\Form\FormRaw) {
+                    if ($ele instanceof Modulebuilder\Form\FormTab) {
                         $ret .= '<div id="tab_' . $ele->getName() . '">' . NWLINE;
                         $ret .= '<table class="outer" style="border-spacing:5px;">' . NWLINE;
                         $ret .= $ele->render();

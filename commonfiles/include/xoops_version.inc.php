@@ -22,7 +22,7 @@
  * @param $val
  * @return float|int
  */
-function tdmcreateReturnBytes($val)
+function modulebuilderReturnBytes($val)
 {
     switch (mb_substr($val, -1)) {
         case 'K':

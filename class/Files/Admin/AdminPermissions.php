@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Admin;
+namespace XoopsModules\Modulebuilder\Files\Admin;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -85,10 +85,10 @@ class AdminPermissions extends Files\CreateFile
      */
     private function getPermissionsHeader($module, $language)
     {
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc            = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cc            = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
-        $axc           = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
+        $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc            = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cc            = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
+        $axc           = Modulebuilder\Files\Admin\AdminXoopsCode::getInstance();
         $moduleDirname = $module->getVar('mod_dirname');
         $tables        = $this->getTableTables($module->getVar('mod_id'));
         $tableNames    = [];
@@ -133,7 +133,7 @@ class AdminPermissions extends Files\CreateFile
      */
     private function getPermissionsSwitch($module, $language)
     {
-        $pc    = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc    = Modulebuilder\Files\CreatePhpCode::getInstance();
 
         $moduleDirname = $module->getVar('mod_dirname');
         $tables        = $this->getTableTables($module->getVar('mod_id'));
@@ -184,8 +184,8 @@ class AdminPermissions extends Files\CreateFile
      */
     private function getPermissionsBody($module, $language)
     {
-        $pc       = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc       = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc       = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc       = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $tables   = $this->getTableTables($module->getVar('mod_id'));
 
         $ret      = $xc->getXcGetVar('moduleId', 'xoopsModule', 'mid');
@@ -255,7 +255,7 @@ class AdminPermissions extends Files\CreateFile
         $content       .= $this->getPermissionsBody($module, $language);
         $content       .= $this->getInclude('footer');
 
-        $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

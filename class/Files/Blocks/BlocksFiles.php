@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Blocks;
+namespace XoopsModules\Modulebuilder\Files\Blocks;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 
 /*
@@ -16,7 +16,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -81,8 +81,8 @@ class BlocksFiles extends Files\CreateFile
      */
     private function getBlocksShow($moduleDirname, $tableName, $tableFieldname, $fields, $fieldId, $fieldParent = 0)
     {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc               = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfTableName     = ucfirst($tableName);
         $critName         = 'cr' . $ucfTableName;
@@ -238,8 +238,8 @@ class BlocksFiles extends Files\CreateFile
      */
     private function getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language)
     {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc               = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $stuTableName     = mb_strtoupper($tableName);
         $ucfTableName     = ucfirst($tableName);
@@ -289,7 +289,7 @@ class BlocksFiles extends Files\CreateFile
      */
     public function render()
     {
-        $pc             = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc             = Modulebuilder\Files\CreatePhpCode::getInstance();
         $module         = $this->getModule();
         $filename       = $this->getFileName();
         $table          = $this->getTable();
@@ -319,7 +319,7 @@ class BlocksFiles extends Files\CreateFile
         $content .= $this->getBlocksShow($moduleDirname, $tableName, $tableFieldname, $fields, $fieldId, $fieldParent);
         $content .= $this->getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language);
 
-        $this->create($moduleDirname, 'blocks', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'blocks', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

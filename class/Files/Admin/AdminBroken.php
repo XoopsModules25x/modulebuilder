@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Admin;
+namespace XoopsModules\Modulebuilder\Files\Admin;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -77,9 +77,9 @@ class AdminBroken extends Files\CreateFile
      */
     private function getAdminBrokenHeader($moduleDirname, $tableName, $t = '')
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $axc = Modulebuilder\Files\Admin\AdminXoopsCode::getInstance();
         $ret        = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret        .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret        .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
@@ -103,8 +103,8 @@ class AdminBroken extends Files\CreateFile
      */
     private function getAdminBrokenList($tables, $language, $t = '')
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
         $ret = '';
         foreach (array_keys($tables) as $i) {
@@ -175,7 +175,7 @@ class AdminBroken extends Files\CreateFile
      */
     public function render()
     {
-        $tf  = Tdmcreate\Files\CreateFile::getInstance();
+        $tf  = Modulebuilder\Files\CreateFile::getInstance();
 
         $module        = $this->getModule();
         $tables        = $this->getTables();
@@ -188,7 +188,7 @@ class AdminBroken extends Files\CreateFile
         $content .= $this->getAdminBrokenList($tables, $language);
         $content .= $this->getInclude('footer');
 
-        $tf->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $tf->create($moduleDirname, 'admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $tf->renderFile();
     }

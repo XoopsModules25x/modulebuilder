@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\Blocks\Defstyle;
+namespace XoopsModules\Modulebuilder\Files\Templates\Blocks\Defstyle;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -78,8 +78,8 @@ class TemplatesBlocks extends Files\CreateFile
      */
     private function getTemplatesBlocksTableThead($tableId, $tableMid, $language, $tableAutoincrement)
     {
-        $hc     = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc     = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc     = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc     = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $th     = '';
 		if (1 == $tableAutoincrement) {
             $th .= $hc->getHtmlTableHead('&nbsp;', '', '', "\t\t\t");
@@ -110,8 +110,8 @@ class TemplatesBlocks extends Files\CreateFile
      */
     private function getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement)
     {
-        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $td = '';
         if (1 == $tableAutoincrement) {
             $double = $sc->getSmartyDoubleVar($tableSoleName, 'id');
@@ -184,7 +184,7 @@ class TemplatesBlocks extends Files\CreateFile
      */
     private function getTemplatesBlocksTableTfoot()
     {
-        $hc = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
         $td = $hc->getHtmlTag('td', [], "&nbsp;", false, '', '');
         $tr = $hc->getHtmlTag('tr', [], $td, false, '', '');
 
@@ -204,8 +204,8 @@ class TemplatesBlocks extends Files\CreateFile
      */
     private function getTemplatesBlocksTable($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
-        $hc     = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc     = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc     = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc     = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $tbody  = $this->getTemplatesBlocksTableThead($tableId, $tableMid, $language, $tableAutoincrement);
         $tbody  .= $this->getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement);
         $tbody  .= $this->getTemplatesBlocksTableTfoot();
@@ -234,7 +234,7 @@ class TemplatesBlocks extends Files\CreateFile
         $language           = $this->getLanguage($moduleDirname, 'MB');
         $content            = $this->getTemplatesBlocksTable($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language);
 
-        $this->create($moduleDirname, 'templates/blocks', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/blocks', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

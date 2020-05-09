@@ -11,7 +11,7 @@
  */
 
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -23,9 +23,9 @@
  */
 
 /**
- * Class TDMCreateHelper.
+ * Class ModuleBuilderHelper.
  */
-class TDMCreateHelper
+class ModuleBuilderHelper
 {
     /**
      * @var string
@@ -69,7 +69,7 @@ class TDMCreateHelper
     /**
      * @param bool $debug
      *
-     * @return bool|\TDMCreateHelper
+     * @return bool|\ModuleBuilderHelper
      */
     public static function getInstance($debug = false)
     {

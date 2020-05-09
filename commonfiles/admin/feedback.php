@@ -25,7 +25,7 @@ include __DIR__ . '/header.php';
 
 $adminObject = \Xmf\Module\Admin::getInstance();
 
-$feedback = new \XoopsModules\Tdmcreate\Common\ModuleFeedback();
+$feedback = new \XoopsModules\Modulebuilder\Common\ModuleFeedback();
 
 // It recovered the value of argument op in URL$
 $op                 = Request::getString('op', 'list');

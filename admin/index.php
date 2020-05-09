@@ -11,7 +11,7 @@
  */
 
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -21,7 +21,7 @@
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
-$GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_index.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'modulebuilder_index.tpl';
 
 include __DIR__ . '/header.php';
 $countSettings = $helper->getHandler('Settings')->getCount();
@@ -31,13 +31,13 @@ $countFields   = $helper->getHandler('Fields')->getCount();
 $countFiles    = $helper->getHandler('Morefiles')->getCount();
 unset($criteria);
 
-//$templateMain = 'tdmcreate_index.tpl';
-$adminObject->addInfoBox(_AM_TDMCREATE_ADMIN_NUMMODULES);
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMSETTINGS . '</label>', $countSettings), 'Blue');
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMMODULES . '</label>', $countModules), 'Green');
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMTABLES . '</label>', $countTables), 'Orange');
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMFIELDS . '</label>', $countFields), 'Gray');
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMFILES . '</label>', $countFiles), 'Red');
+//$templateMain = 'modulebuilder_index.tpl';
+$adminObject->addInfoBox(_AM_MODULEBUILDER_ADMIN_NUMMODULES);
+$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMSETTINGS . '</label>', $countSettings), 'Blue');
+$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMMODULES . '</label>', $countModules), 'Green');
+$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMTABLES . '</label>', $countTables), 'Orange');
+$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMFIELDS . '</label>', $countFields), 'Gray');
+$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMFILES . '</label>', $countFiles), 'Red');
 // Upload Folders
 $folder = [
     TDMC_UPLOAD_PATH,

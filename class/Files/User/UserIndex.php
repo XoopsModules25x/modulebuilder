@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\User;
+namespace XoopsModules\Modulebuilder\Files\User;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -76,8 +76,8 @@ class UserIndex extends Files\CreateFile
      */
     private function getTemplateHeaderFile($moduleDirname)
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $uxc = UserXoopsCode::getInstance();
         $ret = $this->getInclude();
         $ret .= $uxc->getUserTplMain($moduleDirname);
@@ -107,8 +107,8 @@ class UserIndex extends Files\CreateFile
             $fieldParentId[] = $fields[$f]->getVar('field_parent');
         }
         $ret = '';
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
         if (in_array(1, $fieldParentId)) {
             $ret .= $xc->getXcHandlerCountObj($tableName);
             $ret .= $pc->getPhpCodeCommentLine('If there are ', $tableName);
@@ -145,8 +145,8 @@ class UserIndex extends Files\CreateFile
      */
     private function getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc               = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfTableName     = ucfirst($tableName);
         $ret              = $pc->getPhpCodeCommentLine();
@@ -204,8 +204,8 @@ class UserIndex extends Files\CreateFile
      */
     private function getUserIndexFooter($moduleDirname, $language)
     {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc               = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $uxc              = UserXoopsCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ret              = $pc->getPhpCodeCommentLine('Breadcrumbs');
@@ -230,7 +230,7 @@ class UserIndex extends Files\CreateFile
      */
     public function render()
     {
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
         $module        = $this->getModule();
         $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $filename      = $this->getFileName();
@@ -258,7 +258,7 @@ class UserIndex extends Files\CreateFile
         }
         $content .= $this->getUserIndexFooter($moduleDirname, $language);
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

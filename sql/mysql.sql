@@ -1,4 +1,4 @@
-# SQL Dump for tdmcreate module
+# SQL Dump for modulebuilder module
 # PhpMyAdmin Version: 4.0.4
 # http://www.phpmyadmin.net
 #
@@ -8,10 +8,10 @@
 # PHP Version: 5.3.13
 
 #
-# Table structure for table `tdmcreate_settings` 40
+# Table structure for table `modulebuilder_settings` 40
 #
 
-CREATE TABLE `tdmcreate_settings` (
+CREATE TABLE `modulebuilder_settings` (
   `set_id`                  INT(5)     UNSIGNED NOT NULL AUTO_INCREMENT,
   `set_name`                VARCHAR(255)        NOT NULL DEFAULT 'My Module',
   `set_dirname`             VARCHAR(100)        NOT NULL DEFAULT 'mymoduledirname',
@@ -58,17 +58,17 @@ CREATE TABLE `tdmcreate_settings` (
   AUTO_INCREMENT = 2
   DEFAULT CHARSET = utf8;
 
-INSERT INTO `tdmcreate_settings` (`set_id`, `set_name`, `set_dirname`, `set_version`, `set_since`, `set_min_php`, `set_min_xoops`, `set_min_admin`, `set_min_mysql`, `set_description`, `set_author`, `set_author_mail`, `set_author_website_url`, `set_author_website_name`, `set_credits`, `set_license`, `set_release_info`, `set_release_file`, `set_manual`, `set_manual_file`, `set_image`, `set_demo_site_url`, `set_demo_site_name`, `set_support_url`, `set_support_name`, `set_website_url`, `set_website_name`, `set_release`, `set_status`, `set_admin`, `set_user`, `set_blocks`, `set_search`, `set_comments`, `set_notifications`, `set_permissions`, `set_inroot_copy`, `set_donations`, `set_subversion`, `set_type`)
+INSERT INTO `modulebuilder_settings` (`set_id`, `set_name`, `set_dirname`, `set_version`, `set_since`, `set_min_php`, `set_min_xoops`, `set_min_admin`, `set_min_mysql`, `set_description`, `set_author`, `set_author_mail`, `set_author_website_url`, `set_author_website_name`, `set_credits`, `set_license`, `set_release_info`, `set_release_file`, `set_manual`, `set_manual_file`, `set_image`, `set_demo_site_url`, `set_demo_site_name`, `set_support_url`, `set_support_name`, `set_website_url`, `set_website_name`, `set_release`, `set_status`, `set_admin`, `set_user`, `set_blocks`, `set_search`, `set_comments`, `set_notifications`, `set_permissions`, `set_inroot_copy`, `set_donations`, `set_subversion`, `set_type`)
 VALUES
   (1, 'My Module', 'mymoduledirname', '1.0', '1.0', '7.0', '2.5.9', '1.2', '5.6', 'This module is for doing following...', 'TDM XOOPS', 'info@email.com', 'http://xoops.org', 'XOOPS Project', 'XOOPS Development Team', 'GPL 2.0 or later', 'release_info', 'release_info file', 'link to manual file',
                                                                                                                                         'install.txt', 'empty.png', 'https://xoops.org', 'XOOPS Demo Site', 'https://xoops.org/modules/newbb', 'Support Forum', 'www.xoops.org', 'XOOPS Project',
                                                                                                                                                                     '2017-12-02', 'Beta 1', '1', '1', '1', '0', '0', '0', '0', '0', '6KJ7RW5DR3VTJ', '13070', 1);
 
 #
-# Table structure for table `tdmcreate_modules` 39
+# Table structure for table `modulebuilder_modules` 39
 #
 
-CREATE TABLE `tdmcreate_modules` (
+CREATE TABLE `modulebuilder_modules` (
   `mod_id`                  INT(5)     UNSIGNED NOT NULL AUTO_INCREMENT,
   `mod_name`                VARCHAR(200)        NOT NULL DEFAULT '',
   `mod_dirname`             VARCHAR(100)        NOT NULL DEFAULT '',
@@ -115,10 +115,10 @@ CREATE TABLE `tdmcreate_modules` (
   ENGINE = InnoDB;
 
 #
-# Table structure for table `tdmcreate_tables` 28
+# Table structure for table `modulebuilder_tables` 28
 #
 
-CREATE TABLE `tdmcreate_tables` (
+CREATE TABLE `modulebuilder_tables` (
   `table_id`            INT(5) UNSIGNED     NOT NULL AUTO_INCREMENT,
   `table_mid`           INT(5) UNSIGNED     NOT NULL DEFAULT '0',
   `table_category`      TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
@@ -155,10 +155,10 @@ CREATE TABLE `tdmcreate_tables` (
   ENGINE = InnoDB;
 
 #
-# Table structure for table `tdmcreate_fields` 24
+# Table structure for table `modulebuilder_fields` 24
 #
 
-CREATE TABLE `tdmcreate_fields` (
+CREATE TABLE `modulebuilder_fields` (
   `field_id`        INT(8)       UNSIGNED NOT NULL AUTO_INCREMENT,
   `field_mid`       INT(5)       UNSIGNED NOT NULL DEFAULT '0',
   `field_tid`       INT(5)       UNSIGNED NOT NULL DEFAULT '0',
@@ -190,10 +190,10 @@ CREATE TABLE `tdmcreate_fields` (
   ENGINE = InnoDB;
 
 #
-# Table structure for table `tdmcreate_languages` 5
+# Table structure for table `modulebuilder_languages` 5
 #
 
-CREATE TABLE `tdmcreate_languages` (
+CREATE TABLE `modulebuilder_languages` (
   `lng_id`          INT(5)       UNSIGNED NOT NULL AUTO_INCREMENT,
   `lng_mid`         INT(5)       UNSIGNED NOT NULL DEFAULT '0',
   `lng_file`        VARCHAR(255)          NOT NULL DEFAULT '',
@@ -205,10 +205,10 @@ CREATE TABLE `tdmcreate_languages` (
   ENGINE = InnoDB;
 
 #
-# Table structure for table `tdmcreate_fieldtype` 2
+# Table structure for table `modulebuilder_fieldtype` 2
 #
 
-CREATE TABLE `tdmcreate_fieldtype` (
+CREATE TABLE `modulebuilder_fieldtype` (
   `fieldtype_id`    INT(5)       UNSIGNED NOT NULL AUTO_INCREMENT,
   `fieldtype_name`  VARCHAR(15)           NOT NULL DEFAULT '',
   `fieldtype_value` VARCHAR(15)           NOT NULL DEFAULT '',
@@ -217,7 +217,7 @@ CREATE TABLE `tdmcreate_fieldtype` (
 )
   ENGINE = InnoDB;
 
-INSERT INTO `tdmcreate_fieldtype` (`fieldtype_id`, `fieldtype_name`, `fieldtype_value`) VALUES
+INSERT INTO `modulebuilder_fieldtype` (`fieldtype_id`, `fieldtype_name`, `fieldtype_value`) VALUES
   (1, '...', ''),
   (2, 'INT', 'INT'),
   (3, 'TINYINT', 'TINYINT'),
@@ -243,10 +243,10 @@ INSERT INTO `tdmcreate_fieldtype` (`fieldtype_id`, `fieldtype_name`, `fieldtype_
   (23, 'YEAR', 'YEAR');
 
 #
-# Table structure for table `tdmcreate_fieldattributes` 3
+# Table structure for table `modulebuilder_fieldattributes` 3
 #
 
-CREATE TABLE `tdmcreate_fieldattributes` (
+CREATE TABLE `modulebuilder_fieldattributes` (
   `fieldattribute_id`    INT(5)       UNSIGNED NOT NULL AUTO_INCREMENT,
   `fieldattribute_name`  VARCHAR(100)          NOT NULL DEFAULT '',
   `fieldattribute_value` VARCHAR(100)          NOT NULL DEFAULT '',
@@ -255,7 +255,7 @@ CREATE TABLE `tdmcreate_fieldattributes` (
 )
   ENGINE = InnoDB;
 
-INSERT INTO `tdmcreate_fieldattributes` (`fieldattribute_id`, `fieldattribute_name`, `fieldattribute_value`) VALUES
+INSERT INTO `modulebuilder_fieldattributes` (`fieldattribute_id`, `fieldattribute_name`, `fieldattribute_value`) VALUES
   (1, '...', ''),
   (2, 'BINARY', 'BINARY'),
   (3, 'UNSIGNED', 'UNSIGNED'),
@@ -263,10 +263,10 @@ INSERT INTO `tdmcreate_fieldattributes` (`fieldattribute_id`, `fieldattribute_na
   (5, 'CURRENT_TIMESTAMP', 'CURRENT_TIMESTAMP');
 
 #
-# Table structure for table `tdmcreate_fieldnull` 3
+# Table structure for table `modulebuilder_fieldnull` 3
 #
 
-CREATE TABLE `tdmcreate_fieldnull` (
+CREATE TABLE `modulebuilder_fieldnull` (
   `fieldnull_id`    INT(5)       UNSIGNED NOT NULL AUTO_INCREMENT,
   `fieldnull_name`  VARCHAR(100)          NOT NULL DEFAULT '',
   `fieldnull_value` VARCHAR(100)          NOT NULL DEFAULT '',
@@ -275,16 +275,16 @@ CREATE TABLE `tdmcreate_fieldnull` (
 )
   ENGINE = InnoDB;
 
-INSERT INTO `tdmcreate_fieldnull` (`fieldnull_id`, `fieldnull_name`, `fieldnull_value`) VALUES
+INSERT INTO `modulebuilder_fieldnull` (`fieldnull_id`, `fieldnull_name`, `fieldnull_value`) VALUES
   (1, '...', ''),
   (2, 'NOT NULL', 'NOT NULL'),
   (3, 'NULL', 'NULL');
 
 #
-# Table structure for table `tdmcreate_fieldkey` 3
+# Table structure for table `modulebuilder_fieldkey` 3
 #
 
-CREATE TABLE `tdmcreate_fieldkey` (
+CREATE TABLE `modulebuilder_fieldkey` (
   `fieldkey_id`    INT(5)       UNSIGNED NOT NULL AUTO_INCREMENT,
   `fieldkey_name`  VARCHAR(100)          NOT NULL DEFAULT '',
   `fieldkey_value` VARCHAR(100)          NOT NULL DEFAULT '',
@@ -293,7 +293,7 @@ CREATE TABLE `tdmcreate_fieldkey` (
 )
   ENGINE = InnoDB;
 
-INSERT INTO `tdmcreate_fieldkey` (`fieldkey_id`, `fieldkey_name`, `fieldkey_value`) VALUES
+INSERT INTO `modulebuilder_fieldkey` (`fieldkey_id`, `fieldkey_name`, `fieldkey_value`) VALUES
   (1, '...', ''),
   (2, 'PRIMARY', 'PRIMARY'),
   (3, 'UNIQUE', 'UNIQUE'),
@@ -302,10 +302,10 @@ INSERT INTO `tdmcreate_fieldkey` (`fieldkey_id`, `fieldkey_name`, `fieldkey_valu
   (6, 'FULLTEXT', 'FULLTEXT');
 
 #
-# Table structure for table `tdmcreate_fieldelements` 5
+# Table structure for table `modulebuilder_fieldelements` 5
 #
 
-CREATE TABLE `tdmcreate_fieldelements` (
+CREATE TABLE `modulebuilder_fieldelements` (
   `fieldelement_id`       INT(5)       UNSIGNED NOT NULL AUTO_INCREMENT,
   `fieldelement_mid`      INT(11)      UNSIGNED NOT NULL DEFAULT '0',
   `fieldelement_tid`      INT(11)      UNSIGNED NOT NULL DEFAULT '0',
@@ -320,7 +320,7 @@ CREATE TABLE `tdmcreate_fieldelements` (
 )
   ENGINE = InnoDB;
 
-INSERT INTO `tdmcreate_fieldelements` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES
+INSERT INTO `modulebuilder_fieldelements` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES
 (1, 0, 0, '...', '', 0, 0, 0),
 (2, 0, 0, 'Text', 'XoopsFormText', 1, 14, 255),
 (3, 0, 0, 'TextArea', 'XoopsFormTextArea', 2, 15, 0),
@@ -345,10 +345,10 @@ INSERT INTO `tdmcreate_fieldelements` (`fieldelement_id`, `fieldelement_mid`, `f
 (22, 0, 0, 'SelectCombo', 'XoopsFormSelectCombo', 8, 2, 10);
 
 #
-# Table structure for table `tdmcreate_morefiles` 5
+# Table structure for table `modulebuilder_morefiles` 5
 #
 
-CREATE TABLE `tdmcreate_morefiles` (
+CREATE TABLE `modulebuilder_morefiles` (
   `file_id`        INT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
   `file_mid`       INT(5) UNSIGNED NOT NULL DEFAULT '0',
   `file_name`      VARCHAR(100)    NOT NULL DEFAULT '',

@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\User;
+namespace XoopsModules\Modulebuilder\Files\User;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -77,8 +77,8 @@ class UserPages extends Files\CreateFile
      */
     private function getUserPagesHeader($moduleDirname, $tableName, $fieldId)
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $uxc = UserXoopsCode::getInstance();
 
         $stuModuleDirname = mb_strtoupper($moduleDirname);
@@ -118,8 +118,8 @@ class UserPages extends Files\CreateFile
      */
     private function getUserPagesList($tableName, $fieldId, $fieldMain, $t = '')
     {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
         $ucfTableName     = ucfirst($tableName);
         $ccFieldId        = $this->getCamelCase($fieldId, false, true);
@@ -168,8 +168,8 @@ class UserPages extends Files\CreateFile
      */
     public function getUserPagesSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $language, $t = '')
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
 
         $ret                = $pc->getPhpCodeCommentLine('Security Check', '', $t);
         $xoopsSecurityCheck = $xc->getXcXoopsSecurityCheck();
@@ -237,8 +237,8 @@ class UserPages extends Files\CreateFile
      */
     private function getPermissionsSave($moduleDirname, $perm = 'view')
     {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
         $ret     = $pc->getPhpCodeCommentLine('Permission to', $perm, "\t\t\t");
         $ret     .= $xc->getXcDeleteRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$mid', '$permId', false, "\t\t\t");
@@ -258,8 +258,8 @@ class UserPages extends Files\CreateFile
      */
     public function getUserPagesNew($tableName, $language, $t = '')
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
 
         $ret    = $pc->getPhpCodeCommentLine('Check permissions', '', $t);
         $contIf = $xc->getXcRedirectHeader($tableName, '?op=list', 3, '_NOPERM', true, $t . "\t");
@@ -278,8 +278,8 @@ class UserPages extends Files\CreateFile
      */
     public function getUserPagesEdit($moduleDirname, $tableName, $fieldId, $language, $t = '')
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
 
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret       = $pc->getPhpCodeCommentLine('Check permissions', '', $t);
@@ -304,8 +304,8 @@ class UserPages extends Files\CreateFile
      */
     private function getUserPagesDelete($tableName, $language, $fieldId, $fieldMain, $t = '')
     {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret       = $pc->getPhpCodeCommentLine('Check permissions', '', $t);
@@ -330,8 +330,8 @@ class UserPages extends Files\CreateFile
      */
     private function getUserPagesBroken($tableName, $language, $fieldId, $fieldSatus, $t = '')
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret       = $pc->getPhpCodeCommentLine('Check params', '', $t);
@@ -375,8 +375,8 @@ class UserPages extends Files\CreateFile
      */
     private function getUserPagesFooter($moduleDirname, $tableName, $language)
     {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $uxc = UserXoopsCode::getInstance();
 
         $stuModuleDirname = mb_strtoupper($moduleDirname);
@@ -413,7 +413,7 @@ class UserPages extends Files\CreateFile
      */
     private function getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldSatus, $language, $t)
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
         $fields = $this->getTableFields($tableMid, $tableId);
         $cases['list'] = [$this->getUserPagesList($tableName, $fieldId, $fieldMain, "\t\t")];
@@ -471,7 +471,7 @@ class UserPages extends Files\CreateFile
         $content       .= $this->getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldSatus, $language, "\t");
         $content       .= $this->getUserPagesFooter($moduleDirname, $tableName, $language);
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

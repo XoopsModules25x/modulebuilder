@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\User\Defstyle;
+namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -75,7 +75,7 @@ class Submit extends Files\CreateFile
      */
     private function getTemplatesUserSubmitHeader($moduleDirname)
     {
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
 
         return $sc->getSmartyIncludeFile($moduleDirname, 'header');
     }
@@ -89,8 +89,8 @@ class Submit extends Files\CreateFile
      */
     private function getTemplatesUserSubmit($moduleDirname, $language)
     {
-        $hc    = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc    = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc    = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc    = Modulebuilder\Files\CreateSmartyCode::getInstance();
 
         $const = $sc->getSmartyConst($language, 'SUBMIT_SUBMITONCE');
         $li    = $hc->getHtmlLi($const, '',"\t\t");
@@ -122,7 +122,7 @@ class Submit extends Files\CreateFile
      */
     private function getTemplatesUserSubmitFooter($moduleDirname)
     {
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
 
         return $sc->getSmartyIncludeFile($moduleDirname, 'footer');
     }
@@ -144,7 +144,7 @@ class Submit extends Files\CreateFile
         $content        .= $this->getTemplatesUserSubmit($moduleDirname, $language);
         $content        .= $this->getTemplatesUserSubmitFooter($moduleDirname);
 
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

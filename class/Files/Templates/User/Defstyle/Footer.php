@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\User\Defstyle;
+namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -102,8 +102,8 @@ class Footer extends Files\CreateFile
      */
     private function getTemplateUserFooterContent($moduleDirname, $language)
     {
-        $hc = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $ret     = $hc->getHtmlDiv('<{$copyright}>', 'pull-left', '', "\n", false);
         $ret     .= $hc->getHtmlEmpty("\n");
         $contIf  = $hc->getHtmlDiv('<{$pagenav}>', 'pull-right', "\t", "\n", false);
@@ -138,7 +138,7 @@ class Footer extends Files\CreateFile
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getTemplateUserFooterContent($moduleDirname, $language);
 
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

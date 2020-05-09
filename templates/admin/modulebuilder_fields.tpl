@@ -1,24 +1,24 @@
 <!-- Header -->
-<{includeq file="db:tdmcreate_header.tpl"}>
+<{includeq file="db:modulebuilder_header.tpl"}>
 <!-- Display tables list -->
 <{if $tables_list}>
     <table class='outer width100'>
         <thead>
         <tr>
-            <th class='center cell cell-width1-2'><{$smarty.const._AM_TDMCREATE_ID_LIST}></th>
-            <th class='center cell cell-width2-2'><{$smarty.const._AM_TDMCREATE_NAME_LIST}></th>
-            <th class='center cell cell-width3-2'><{$smarty.const._AM_TDMCREATE_IMAGE_LIST}></th>
-            <th class='center cell cell-width4-2'><{$smarty.const._AM_TDMCREATE_NBFIELDS_LIST}></th>
-            <th class='center cell cell-width5-2'><{$smarty.const._AM_TDMCREATE_PARENT_LIST}></th>
-            <th class='center cell cell-width6-2'><{$smarty.const._AM_TDMCREATE_INLIST_LIST}></th>
-            <th class='center cell cell-width7-2'><{$smarty.const._AM_TDMCREATE_INFORM_LIST}></th>
-            <th class='center cell cell-width8-2'><{$smarty.const._AM_TDMCREATE_ADMIN_LIST}></th>
-            <th class='center cell cell-width9-2'><{$smarty.const._AM_TDMCREATE_USER_LIST}></th>
-            <th class='center cell cell-width10-2'><{$smarty.const._AM_TDMCREATE_BLOCK_LIST}></th>
-            <th class='center cell cell-width11-2'><{$smarty.const._AM_TDMCREATE_MAIN_LIST}></th>
-            <th class='center cell cell-width12-2'><{$smarty.const._AM_TDMCREATE_SEARCH_LIST}></th>
-            <th class='center cell cell-width13-2'><{$smarty.const._AM_TDMCREATE_REQUIRED_LIST}></th>
-            <th class='center cell cell-width14-2'><{$smarty.const._AM_TDMCREATE_FORMACTION}></th>
+            <th class='center cell cell-width1-2'><{$smarty.const._AM_MODULEBUILDER_ID_LIST}></th>
+            <th class='center cell cell-width2-2'><{$smarty.const._AM_MODULEBUILDER_NAME_LIST}></th>
+            <th class='center cell cell-width3-2'><{$smarty.const._AM_MODULEBUILDER_IMAGE_LIST}></th>
+            <th class='center cell cell-width4-2'><{$smarty.const._AM_MODULEBUILDER_NBFIELDS_LIST}></th>
+            <th class='center cell cell-width5-2'><{$smarty.const._AM_MODULEBUILDER_PARENT_LIST}></th>
+            <th class='center cell cell-width6-2'><{$smarty.const._AM_MODULEBUILDER_INLIST_LIST}></th>
+            <th class='center cell cell-width7-2'><{$smarty.const._AM_MODULEBUILDER_INFORM_LIST}></th>
+            <th class='center cell cell-width8-2'><{$smarty.const._AM_MODULEBUILDER_ADMIN_LIST}></th>
+            <th class='center cell cell-width9-2'><{$smarty.const._AM_MODULEBUILDER_USER_LIST}></th>
+            <th class='center cell cell-width10-2'><{$smarty.const._AM_MODULEBUILDER_BLOCK_LIST}></th>
+            <th class='center cell cell-width11-2'><{$smarty.const._AM_MODULEBUILDER_MAIN_LIST}></th>
+            <th class='center cell cell-width12-2'><{$smarty.const._AM_MODULEBUILDER_SEARCH_LIST}></th>
+            <th class='center cell cell-width13-2'><{$smarty.const._AM_MODULEBUILDER_REQUIRED_LIST}></th>
+            <th class='center cell cell-width14-2'><{$smarty.const._AM_MODULEBUILDER_FORMACTION}></th>
         </tr>
         </thead>
         <tbody>
@@ -43,11 +43,11 @@
                     <td class='center cell cell-width12-2'><img src="<{$modPathIcon16}>/fields.png"/></td>
                     <td class='center cell cell-width13-2'><img src="<{$modPathIcon16}>/fields.png"/></td>
                     <td class='xo-actions center cell cell-width14-2'>
-                        <a href="tables.php?op=edit&amp;table_mid=<{$table.mid}>&amp;table_id=<{$table.id}>" title="<{$smarty.const._AM_TDMCREATE_EDIT_TABLE}>">
-                            <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._AM_TDMCREATE_EDIT_TABLE}>"/>
+                        <a href="tables.php?op=edit&amp;table_mid=<{$table.mid}>&amp;table_id=<{$table.id}>" title="<{$smarty.const._AM_MODULEBUILDER_EDIT_TABLE}>">
+                            <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._AM_MODULEBUILDER_EDIT_TABLE}>"/>
                         </a>
-                        <a href="fields.php?op=edit&amp;field_mid=<{$table.mid}>&amp;field_tid=<{$table.id}>" title="<{$smarty.const._AM_TDMCREATE_EDIT_FIELDS}>">
-                            <img src="<{xoModuleIcons16 inserttable.png}>" alt="<{$smarty.const._AM_TDMCREATE_EDIT_FIELDS}>"/>
+                        <a href="fields.php?op=edit&amp;field_mid=<{$table.mid}>&amp;field_tid=<{$table.id}>" title="<{$smarty.const._AM_MODULEBUILDER_EDIT_FIELDS}>">
+                            <img src="<{xoModuleIcons16 inserttable.png}>" alt="<{$smarty.const._AM_MODULEBUILDER_EDIT_FIELDS}>"/>
                         </a>
                         <a href="tables.php?op=delete&amp;field_tid=<{$table.id}>" title="<{$smarty.const._DELETE}>">
                             <img src="<{xoModuleIcons16 delete.png}>" alt="<{$smarty.const._DELETE}>"/>
@@ -55,7 +55,7 @@
                     </td>
                 </tr>
                 <tr class="toggleChild">
-                    <td class="sortable" colspan="14"><{includeq file="db:tdmcreate_fields_item.tpl" table=$table}></td>
+                    <td class="sortable" colspan="14"><{includeq file="db:modulebuilder_fields_item.tpl" table=$table}></td>
                 </tr>
             <{/if}>
         <{/foreach}>
@@ -80,4 +80,4 @@
     <div class="spacer"><{$form}></div>
 <{/if}>
 <!-- Footer -->
-<{*<{includeq file="db:tdmcreate_footer.tpl"}>*}>
+<{*<{includeq file="db:modulebuilder_footer.tpl"}>*}>

@@ -1,7 +1,7 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files;
-use XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder;
 
 /**
  * Class CreateClone

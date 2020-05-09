@@ -11,7 +11,7 @@
  */
 
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -23,7 +23,7 @@
  */
 
 // Define main template
-$templateMain = 'tdmcreate_settings.tpl';
+$templateMain = 'modulebuilder_settings.tpl';
 
 include __DIR__ . '/header.php';
 
@@ -36,10 +36,10 @@ switch ($op) {
     default:
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('settings_adminpager'));
-        $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
-        $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
+        $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
+        $GLOBALS['xoTheme']->addStylesheet('modules/modulebuilder/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
-        $adminObject->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_SETTING, 'settings.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
@@ -60,13 +60,13 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
-            $GLOBALS['xoopsTpl']->assign('error', _AM_TDMCREATE_THEREARENT_SETTINGS);
+            $GLOBALS['xoopsTpl']->assign('error', _AM_MODULEBUILDER_THEREARENT_SETTINGS);
         }
         break;
     case 'new':
-        $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
+        $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
-        $adminObject->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_SETTINGS_LIST, 'settings.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $settingsObj = $helper->getHandler('Settings')->create();
@@ -138,7 +138,7 @@ switch ($op) {
         }
 
         if ($helper->getHandler('Settings')->insert($settingsObj)) {
-            redirect_header('settings.php', 5, sprintf(_AM_TDMCREATE_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('set_name', '', 'POST')));
+            redirect_header('settings.php', 5, sprintf(_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('set_name', '', 'POST')));
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
@@ -147,8 +147,8 @@ switch ($op) {
         break;
     case 'edit':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
-        $adminObject->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
-        $adminObject->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_SETTING, 'settings.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_SETTINGS_LIST, 'settings.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $settingsObj = $helper->getHandler('Settings')->get($setId);
         $form        = $settingsObj->getFormSettings();
@@ -161,12 +161,12 @@ switch ($op) {
                 redirect_header('settings.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($helper->getHandler('Settings')->delete($settingsObj)) {
-                redirect_header('settings.php', 3, _AM_TDMCREATE_FORMDELOK);
+                redirect_header('settings.php', 3, _AM_MODULEBUILDER_FORMDELOK);
             } else {
                 $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(['ok' => 1, 'set_id' => $setId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_TDMCREATE_FORMSUREDEL, $settingsObj->getVar('set_name')));
+            xoops_confirm(['ok' => 1, 'set_id' => $setId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_MODULEBUILDER_FORMSUREDEL, $settingsObj->getVar('set_name')));
         }
         break;
     case 'display':

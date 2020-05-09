@@ -1,8 +1,8 @@
 <?php
 
-namespace XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -95,13 +95,13 @@ class MoreFiles extends \XoopsObject
      */
     public function getFormMoreFiles($action = false)
     {
-        $helper = Tdmcreate\Helper::getInstance();
+        $helper = Modulebuilder\Helper::getInstance();
         if (false === $action) {
             $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
 
         $isNew = $this->isNew();
-        $title = $isNew ? sprintf(_AM_TDMCREATE_MORE_FILES_NEW) : sprintf(_AM_TDMCREATE_MORE_FILES_EDIT);
+        $title = $isNew ? sprintf(_AM_MODULEBUILDER_MORE_FILES_NEW) : sprintf(_AM_MODULEBUILDER_MORE_FILES_EDIT);
 
         xoops_load('XoopsFormLoader');
 
@@ -109,24 +109,24 @@ class MoreFiles extends \XoopsObject
         $form->setExtra('enctype="multipart/form-data"');
 
         $modules       = $helper->getHandler('Modules')->getObjects(null);
-        $modulesSelect = new \XoopsFormSelect(_AM_TDMCREATE_MORE_FILES_MODULES, 'file_mid', $this->getVar('file_mid'));
-        $modulesSelect->addOption('', _AM_TDMCREATE_MORE_FILES_MODULE_SELECT);
+        $modulesSelect = new \XoopsFormSelect(_AM_MODULEBUILDER_MORE_FILES_MODULES, 'file_mid', $this->getVar('file_mid'));
+        $modulesSelect->addOption('', _AM_MODULEBUILDER_MORE_FILES_MODULE_SELECT);
         foreach ($modules as $mod) {
             //$modulesSelect->addOptionArray();
             $modulesSelect->addOption($mod->getVar('mod_id'), $mod->getVar('mod_name'));
         }
         $form->addElement($modulesSelect, true);
 
-        $modName = new \XoopsFormText(_AM_TDMCREATE_MORE_FILES_NAME, 'file_name', 50, 255, $this->getVar('file_name'));
-        $modName->setDescription(_AM_TDMCREATE_MORE_FILES_NAME_DESC);
+        $modName = new \XoopsFormText(_AM_MODULEBUILDER_MORE_FILES_NAME, 'file_name', 50, 255, $this->getVar('file_name'));
+        $modName->setDescription(_AM_MODULEBUILDER_MORE_FILES_NAME_DESC);
         $form->addElement($modName, true);
 
-        $fileEstension = new \XoopsFormText(_AM_TDMCREATE_MORE_FILES_EXTENSION, 'file_extension', 50, 255, $this->getVar('file_extension'));
-        $fileEstension->setDescription(_AM_TDMCREATE_MORE_FILES_EXTENSION_DESC);
+        $fileEstension = new \XoopsFormText(_AM_MODULEBUILDER_MORE_FILES_EXTENSION, 'file_extension', 50, 255, $this->getVar('file_extension'));
+        $fileEstension->setDescription(_AM_MODULEBUILDER_MORE_FILES_EXTENSION_DESC);
         $form->addElement($fileEstension, true);
 
-        $fileInfolder = new \XoopsFormText(_AM_TDMCREATE_MORE_FILES_INFOLDER, 'file_infolder', 50, 255, $this->getVar('file_infolder'));
-        $fileInfolder->setDescription(_AM_TDMCREATE_MORE_FILES_INFOLDER_DESC);
+        $fileInfolder = new \XoopsFormText(_AM_MODULEBUILDER_MORE_FILES_INFOLDER, 'file_infolder', 50, 255, $this->getVar('file_infolder'));
+        $fileInfolder->setDescription(_AM_MODULEBUILDER_MORE_FILES_INFOLDER_DESC);
         $form->addElement($fileInfolder, true);
 
         $form->addElement(new \XoopsFormHidden('op', 'save'));
@@ -146,7 +146,7 @@ class MoreFiles extends \XoopsObject
      */
     public function getValuesMoreFiles($keys = null, $format = null, $maxDepth = null)
     {
-        $helper = Tdmcreate\Helper::getInstance();
+        $helper = Modulebuilder\Helper::getInstance();
         $ret    = $this->getValues($keys, $format, $maxDepth);
         // Values
         $ret['id']        = $this->getVar('file_id');

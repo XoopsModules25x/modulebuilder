@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -110,7 +110,7 @@ class Logo
             }
         }
 
-        $dirname      = 'tdmcreate';
+        $dirname      = 'modulebuilder';
         $iconFileName = XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32/' . basename($logoIcon);
 
         //$dirFonts = TDMC_PATH . "/assets/fonts";

@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Common;
+namespace XoopsModules\Modulebuilder\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -22,7 +22,7 @@ namespace XoopsModules\Tdmcreate\Common;
 trait ModuleStats
 {
     /**
-     * @param \XoopsModules\Tdmcreate\Common\Configurator $configurator
+     * @param \XoopsModules\Modulebuilder\Common\Configurator $configurator
      * @param array                                       $moduleStats
      * @return array
      */

@@ -1,6 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate;
+<?php namespace XoopsModules\Modulebuilder;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -12,7 +12,7 @@ use XoopsModules\Tdmcreate;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -32,10 +32,10 @@ function phpFunction($val = '')
     echo $val;
 }
 
-$myfunction = '\\XoopsModules\\Tdmcreate\\' . $_GET['f'];
+$myfunction = '\\XoopsModules\\Modulebuilder\\' . $_GET['f'];
 
 if (function_exists($myfunction)) {
-    $ret = \XoopsModules\Tdmcreate\LogoGenerator::createLogo($_GET['iconName'], $_GET['caption']);
+    $ret = \XoopsModules\Modulebuilder\LogoGenerator::createLogo($_GET['iconName'], $_GET['caption']);
     phpFunction($ret);
 } else {
     echo 'Method Not Exist';
@@ -65,7 +65,7 @@ class LogoGenerator
             }
         }
 
-        $dirname      = 'tdmcreate';
+        $dirname      = 'modulebuilder';
         $iconFileName = XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32/' . basename($logoIcon);
 
         //$dirFonts = TDMC_PATH . "/assets/fonts";
