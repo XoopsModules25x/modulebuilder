@@ -166,7 +166,7 @@ EOT;
         \${$tableName}Obj->setVar('{$fieldName}', formatUrl(\$_REQUEST['{$fieldName}']));\n
 		// Set Var {$fieldName}
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
-        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/files/{$tableName}';
+        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/Files/{$tableName}';
         \$uploader = new \XoopsMediaUploader(\$uploaddir, \$helper->getConfig('mimetypes_file'),
                                                          \$helper->getConfig('maxsize_file'), null, null);
         if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][])) {
@@ -264,7 +264,7 @@ EOT;
         $ret              = <<<EOT
         // Set Var {$fieldName}
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
-        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/files/{$tableName}';
+        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/Files/{$tableName}';
         \$uploader = new \XoopsMediaUploader(\$uploaddir, \$helper->getConfig('mimetypes_file'),
                                                          \$helper->getConfig('maxsize_file'), null, null);
         if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][])) {

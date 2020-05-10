@@ -45,7 +45,7 @@ class DirectoryChecker
      */
     public static function getDirectoryStatus($path, $mode = 0777, $redirectFile = null)
     {
-        global $pathIcon16;
+        $pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
 
         if (empty($path)) {
             return false;

@@ -495,7 +495,7 @@ class CreateFile extends CreateTableFields
         $ret .= "\n{$namespace}/*\n";
 
 
-        $filename = TDMC_CLASS_PATH . '/files/docs/license.txt';
+        $filename = TDMC_CLASS_PATH . '/Files/Docs/license.txt';
         $handle   = fopen($filename, 'rb');
         $data     = fread($handle, filesize($filename));
         fclose($handle);

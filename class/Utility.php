@@ -40,7 +40,7 @@ class Utility extends Common\SysUtility
      * @param $about
      * @return string
      */
-    public static function MakeDonationForm($about)
+    public static function makeDonationForm($about)
     {
         $donationform = [
             0   => '<form name="donation" id="donation" action="http://www.txmodxoops.org/modules/xdonations/" method="post" onsubmit="return xoopsFormValidate_donation();">',

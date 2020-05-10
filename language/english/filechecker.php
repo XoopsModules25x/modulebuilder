@@ -9,6 +9,9 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+$moduleDirName      = basename(dirname(dirname(__DIR__)));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
 define('CO_' . $moduleDirNameUpper . '_' . 'FC_AVAILABLE', "<span style='color: green;'>Available</span>");
 define('CO_' . $moduleDirNameUpper . '_' . 'FC_NOTAVAILABLE', "<span style='color: red;'>Not available</span>");
 define('CO_' . $moduleDirNameUpper . '_' . 'FC_NOTWRITABLE', "<span style='color: red;'>Should have permission ( %d ), but it has ( %d )</span>");
