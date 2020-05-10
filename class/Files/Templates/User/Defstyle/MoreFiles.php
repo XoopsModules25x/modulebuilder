@@ -27,9 +27,9 @@ use XoopsModules\Modulebuilder\Files;
  */
 
 /**
- * class MoreFiles.
+ * class Morefiles.
  */
-class MoreFiles extends Files\CreateFile
+class Morefiles extends Files\CreateFile
 {
     private $folder = null;
 
@@ -47,7 +47,7 @@ class MoreFiles extends Files\CreateFile
     /**
      * @static function getInstance
      * @param null
-     * @return MoreFiles
+     * @return Morefiles
      */
     public static function getInstance()
     {

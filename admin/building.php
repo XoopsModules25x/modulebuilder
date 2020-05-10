@@ -62,7 +62,7 @@ switch ($op) {
             }
         }
         // Structure
-        // include_once TDMC_CLASS_PATH . '/files/Architecture.php';
+        // include_once TDMC_CLASS_PATH . '/Files/Architecture.php';
         $handler = Modulebuilder\Files\CreateArchitecture::getInstance();
         // Creation of the structure of folders and files
         $baseArchitecture = $handler->setBaseFoldersFiles($moduleObj);

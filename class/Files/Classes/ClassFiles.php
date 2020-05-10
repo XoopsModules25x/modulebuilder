@@ -180,7 +180,7 @@ class ClassFiles extends Files\CreateFile
             $fieldName        = $fields[$f]->getVar('field_name');
             $fieldElement     = $fields[$f]->getVar('field_element');
             $fieldInForm[]    = $fields[$f]->getVar('field_inform');
-            $fieldElements    = $tc->getHandler('fieldelements')->get($fieldElement);
+            $fieldElements    = $tc->getHandler('Fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
             $rpFieldName      = $this->getRightString($fieldName);
             if (in_array(5, $fieldElementId)) {
@@ -430,7 +430,7 @@ class ClassFiles extends Files\CreateFile
                     $getValues .= $xc->getXcFormatTimeStamp("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", 'm', "\t\t");
                     break;
                 default:
-                    $fieldElements    = $tc->getHandler('fieldelements')->get($fieldElement);
+                    $fieldElements    = $tc->getHandler('Fieldelements')->get($fieldElement);
                     $fieldElementTid  = $fieldElements->getVar('fieldelement_tid');
                     if ((int)$fieldElementTid > 0 ) {
                         $fieldElementMid = $fieldElements->getVar('fieldelement_mid');
@@ -517,7 +517,7 @@ class ClassFiles extends Files\CreateFile
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
 
-            $fieldElements  = $tc->getHandler('fieldelements')->get($fieldElement);
+            $fieldElements  = $tc->getHandler('Fieldelements')->get($fieldElement);
             $fieldElementId = $fieldElements->getVar('fieldelement_id');
             $rpFieldName    = $this->getRightString($fieldName);
             if (5 == $fieldElementId) {

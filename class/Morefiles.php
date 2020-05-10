@@ -27,14 +27,14 @@ use XoopsModules\Modulebuilder;
  */
 //include __DIR__.'/autoload.php';
 /*
-*  @Class MoreFiles
+*  @Class Morefiles
 *  @extends \XoopsObject
 */
 
 /**
- * Class MoreFiles.
+ * Class Morefiles.
  */
-class MoreFiles extends \XoopsObject
+class Morefiles extends \XoopsObject
 {
     /**
      * Settings.
@@ -75,7 +75,7 @@ class MoreFiles extends \XoopsObject
      *
      * @param null
      *
-     * @return MoreFiles
+     * @return Morefiles
      */
     public static function getInstance()
     {
@@ -88,12 +88,12 @@ class MoreFiles extends \XoopsObject
     }
 
     /**
-     * @public function getFormMoreFiles
+     * @public function getFormMorefiles
      *
      * @param bool|mixed $action
      * @return \XoopsThemeForm
      */
-    public function getFormMoreFiles($action = false)
+    public function getFormMorefiles($action = false)
     {
         $helper = Modulebuilder\Helper::getInstance();
         if (false === $action) {
@@ -144,7 +144,7 @@ class MoreFiles extends \XoopsObject
      *
      * @return array
      */
-    public function getValuesMoreFiles($keys = null, $format = null, $maxDepth = null)
+    public function getValuesMorefiles($keys = null, $format = null, $maxDepth = null)
     {
         $helper = Modulebuilder\Helper::getInstance();
         $ret    = $this->getValues($keys, $format, $maxDepth);

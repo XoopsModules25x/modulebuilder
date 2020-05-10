@@ -63,5 +63,5 @@ define('TDMC_UPLOAD_IMGTAB_PATH', TDMC_UPLOAD_PATH . '/images/tables');
 define('TDMC_UPLOAD_IMGTAB_URL', TDMC_UPLOAD_URL . '/images/tables');
 // Xoops Request
 include_once XOOPS_ROOT_PATH . '/class/xoopsrequest.php';
-include_once TDMC_PATH . '/include/functions.php';
-include_once TDMC_PATH . '/class/helper.php';
+//include_once TDMC_PATH . '/include/functions.php';
+

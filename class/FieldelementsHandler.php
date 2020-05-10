@@ -26,9 +26,9 @@ use XoopsModules\Modulebuilder;
  */
 
 /**
- * Class FieldElementsHandler.
+ * Class FieldelementsHandler.
  */
-class FieldElementsHandler extends \XoopsPersistableObjectHandler
+class FieldelementsHandler extends \XoopsPersistableObjectHandler
 {
     /**
      * @public function constructor class
@@ -36,7 +36,7 @@ class FieldElementsHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'modulebuilder_fieldelements', FieldElements::class, 'fieldelement_id', 'fieldelement_name');
+        parent::__construct($db, 'modulebuilder_fieldelements', Fieldelements::class, 'fieldelement_id', 'fieldelement_name');
     }
 
     /**
@@ -47,10 +47,10 @@ class FieldElementsHandler extends \XoopsPersistableObjectHandler
      * @param string $order
      * @return int
      */
-    public function getCountFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
+    public function getCountFieldelements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
         $crCountFieldElems = new \CriteriaCompo();
-        $crCountFieldElems = $this->getFieldElementsCriteria($crCountFieldElems, $start, $limit, $sort, $order);
+        $crCountFieldElems = $this->getFieldelementsCriteria($crCountFieldElems, $start, $limit, $sort, $order);
 
         return parent::getCount($crCountFieldElems);
     }
@@ -63,10 +63,10 @@ class FieldElementsHandler extends \XoopsPersistableObjectHandler
      * @param string $order
      * @return array
      */
-    public function getObjectsFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
+    public function getObjectsFieldelements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
         $crObjectsFieldElems = new \CriteriaCompo();
-        $crObjectsFieldElems = $this->getFieldElementsCriteria($crObjectsFieldElems, $start, $limit, $sort, $order);
+        $crObjectsFieldElems = $this->getFieldelementsCriteria($crObjectsFieldElems, $start, $limit, $sort, $order);
 
         return $this->getObjects($crObjectsFieldElems);
     }
@@ -79,10 +79,10 @@ class FieldElementsHandler extends \XoopsPersistableObjectHandler
      * @param string $order
      * @return array
      */
-    public function getAllFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
+    public function getAllFieldelements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
         $crAllFieldElems = new \CriteriaCompo();
-        $crAllFieldElems = $this->getFieldElementsCriteria($crAllFieldElems, $start, $limit, $sort, $order);
+        $crAllFieldElems = $this->getFieldelementsCriteria($crAllFieldElems, $start, $limit, $sort, $order);
 
         return $this->getAll($crAllFieldElems);
     }
@@ -97,18 +97,18 @@ class FieldElementsHandler extends \XoopsPersistableObjectHandler
      * @param string $order
      * @return array
      */
-    public function getAllFieldElementsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
+    public function getAllFieldelementsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
         $crAllFieldElemsByModule = new \CriteriaCompo();
         $crAllFieldElemsByModule->add(new \Criteria('fieldelement_mid', $modId));
         $crAllFieldElemsByModule->add(new \Criteria('fieldelement_tid', $tabId));
-        $crAllFieldElemsByModule = $this->getFieldElementsCriteria($crAllFieldElemsByModule, $start, $limit, $sort, $order);
+        $crAllFieldElemsByModule = $this->getFieldelementsCriteria($crAllFieldElemsByModule, $start, $limit, $sort, $order);
 
         return $this->getAll($crAllFieldElemsByModule);
     }
 
     /**
-     * Get FieldElements Criteria.
+     * Get Fieldelements Criteria.
      * @param $crFieldElemsCriteria
      * @param $start
      * @param $limit
@@ -116,7 +116,7 @@ class FieldElementsHandler extends \XoopsPersistableObjectHandler
      * @param $order
      * @return mixed
      */
-    private function getFieldElementsCriteria($crFieldElemsCriteria, $start, $limit, $sort, $order)
+    private function getFieldelementsCriteria($crFieldElemsCriteria, $start, $limit, $sort, $order)
     {
         $crFieldElemsCriteria->setStart($start);
         $crFieldElemsCriteria->setLimit($limit);
@@ -127,7 +127,7 @@ class FieldElementsHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * Get FieldElements Criteria.
+     * Get Fieldelements Criteria.
      * @param $crFieldElemsCriteria
      * @param $start
      * @param $limit
@@ -135,9 +135,9 @@ class FieldElementsHandler extends \XoopsPersistableObjectHandler
      * @param $order
      * @return mixed
      */
-    public function getFieldElementsList($crFieldElemsCriteria, $start = 0, $limit = 0, $sort = 'fieldelement_sort', $order = 'ASC')
+    public function getFieldelementsList($crFieldElemsCriteria, $start = 0, $limit = 0, $sort = 'fieldelement_sort', $order = 'ASC')
     {
-        $crFieldElems = $this->getFieldElementsCriteria($crFieldElemsCriteria, $start, $limit, $sort, $order);
+        $crFieldElems = $this->getFieldelementsCriteria($crFieldElemsCriteria, $start, $limit, $sort, $order);
         $fieldeleArr  = $this->getAll($crFieldElems);
         $fieldele     = [];
         foreach (array_keys($fieldeleArr) as $i) {

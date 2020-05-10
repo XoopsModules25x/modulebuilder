@@ -797,7 +797,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
 
         $t   = "\t\t";
         $ret = '';
-        $fElement           = $tc->getHandler('fieldelements')->get($fieldElement);
+        $fElement           = $tc->getHandler('Fieldelements')->get($fieldElement);
         $rpFieldelementName = mb_strtolower(str_replace('Table : ', '', $fElement->getVar('fieldelement_name')));
         $ret                .= $pc->getPhpCodeCommentLine('Form Table', $rpFieldelementName, $t);
         $ccFieldName        = $tf->getCamelCase($fieldName, false, true);
@@ -910,7 +910,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
             $language    = $languageFunct . mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
             $required    = (1 == $fields[$f]->getVar('field_required')) ? ', true' : '';
 
-            $fieldElements    = $tc->getHandler('fieldelements')->get($fieldElement);
+            $fieldElements    = $tc->getHandler('Fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
 
             if (1 == $fieldInForm) {
@@ -994,7 +994,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
                         break;
                 }
 
-                $fieldElements    = $tc->getHandler('fieldelements')->get($fieldElement);
+                $fieldElements    = $tc->getHandler('Fieldelements')->get($fieldElement);
                 $fieldElementTid  = $fieldElements->getVar('fieldelement_tid');
                 if ((int)$fieldElementTid > 0 ) {
                     if ((1 == $fieldParent) || 1 == $table->getVar('table_category')) {

@@ -21,6 +21,9 @@
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
+
+use XoopsModules\Modulebuilder\Common;
+
 $GLOBALS['xoopsOption']['template_main'] = 'modulebuilder_index.tpl';
 
 include __DIR__ . '/header.php';
@@ -47,10 +50,24 @@ $folder = [
 ];
 
 // Uploads Folders Created
+//foreach (array_keys($folder) as $i) {
+//    $utility::createFolder($folder[$i]);
+//    $adminObject->addConfigBoxLine($folder[$i], 'folder');
+//    $adminObject->addConfigBoxLine([$folder[$i], '777'], 'chmod');
+//}
+
+//------ check Upload Folders ---------------
+
+$adminObject->addConfigBoxLine('');
+$redirectFile = $_SERVER['SCRIPT_NAME'];
+
 foreach (array_keys($folder) as $i) {
-    $adminObject->addConfigBoxLine($folder[$i], 'folder');
-    $adminObject->addConfigBoxLine([$folder[$i], '777'], 'chmod');
+    $adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($folder[$i], 0777, $redirectFile));
 }
+
+//foreach ($pathArray as $path) {
+//    $adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path['dir'], $path['perm'], $languageConstants, $path['action']));
+//}
 
 
 $adminObject->displayNavigation(basename(__FILE__));

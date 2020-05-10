@@ -183,7 +183,7 @@ class LanguageAdmin extends Files\CreateFile
 
                 $rpFieldName = $this->getRightString($fieldName);
                 if ($fieldElement > 16) {
-                    $fieldElements    = Modulebuilder\Helper::getInstance()->getHandler('fieldelements')->get($fieldElement);
+                    $fieldElements    = Modulebuilder\Helper::getInstance()->getHandler('Fieldelements')->get($fieldElement);
                     $fieldElementName = $fieldElements->getVar('fieldelement_name');
                     $fieldNameDesc    = mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
                     $fieldNameDesc    = str_replace(': ', '', $fieldNameDesc);

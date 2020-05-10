@@ -246,7 +246,7 @@ switch ($op) {
             }
             if ($helper->getHandler('Tables')->delete($tablesObj)) {
                 // Delete items in table fieldelements - idea by goffy
-                $fieldelements = $helper->getHandler('Fieldelements')->getAllFieldElementsByModuleAndTableId($tableMid, $tableId);
+                $fieldelements = $helper->getHandler('Fieldelements')->getAllFieldelementsByModuleAndTableId($tableMid, $tableId);
                 foreach (array_keys($fieldelements) as $fe) {
                     $fieldElementsObj = $helper->getHandler('Fieldelements')->get($fieldelements[$fe]->getVar('fieldelement_id'));
                     if (!$helper->getHandler('Fieldelements')->delete($fieldElementsObj)) {

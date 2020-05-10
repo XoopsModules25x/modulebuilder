@@ -233,7 +233,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $pc                = Modulebuilder\Files\CreatePhpCode::getInstance();
         $xc                = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $ucfTableName      = ucfirst($tableName);
-        $fieldElements     = $tc->getHandler('fieldelements')->get($fieldElement);
+        $fieldElements     = $tc->getHandler('Fieldelements')->get($fieldElement);
         $fieldElementName  = $fieldElements->getVar('fieldelement_name');
         $fieldNameDesc     = ucfirst(mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName)));
         $topicTableName    = str_replace(': ', '', $fieldNameDesc);
@@ -354,7 +354,7 @@ class ClassHandlerFiles extends Files\CreateFile
             }
             $fieldElement = $fields[$f]->getVar('field_element');
 
-            $fieldElements    = $tc->getHandler('fieldelements')->get($fieldElement);
+            $fieldElements    = $tc->getHandler('Fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
         }
         $namespace = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);

@@ -26,10 +26,10 @@ namespace XoopsModules\Modulebuilder;
 //include __DIR__.'/autoload.php';
 
 /**
- * @Class MoreFilesHandler
+ * @Class MorefilesHandler
  * @extends \XoopsPersistableObjectHandler
  */
-class MoreFilesHandler extends \XoopsPersistableObjectHandler
+class MorefilesHandler extends \XoopsPersistableObjectHandler
 {
     /**
      * @public function constructor class
@@ -38,7 +38,7 @@ class MoreFilesHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'modulebuilder_morefiles', MoreFiles::class, 'file_id', 'file_name');
+        parent::__construct($db, 'modulebuilder_morefiles', Morefiles::class, 'file_id', 'file_name');
     }
 
     /**
@@ -78,7 +78,7 @@ class MoreFilesHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * Get Count MoreFiles.
+     * Get Count Morefiles.
      *
      * @param int    $start
      * @param int    $limit
@@ -87,16 +87,16 @@ class MoreFilesHandler extends \XoopsPersistableObjectHandler
      *
      * @return int
      */
-    public function getCountMoreFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
+    public function getCountMorefiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
-        $crMoreFilesCount = new \CriteriaCompo();
-        $crMoreFilesCount = $this->getMoreFilesCriteria($crMoreFilesCount, $start, $limit, $sort, $order);
+        $crMorefilesCount = new \CriteriaCompo();
+        $crMorefilesCount = $this->getMorefilesCriteria($crMorefilesCount, $start, $limit, $sort, $order);
 
-        return $this->getCount($crMoreFilesCount);
+        return $this->getCount($crMorefilesCount);
     }
 
     /**
-     * Get All MoreFiles.
+     * Get All Morefiles.
      *
      * @param int    $start
      * @param int    $limit
@@ -105,16 +105,16 @@ class MoreFilesHandler extends \XoopsPersistableObjectHandler
      *
      * @return array
      */
-    public function getAllMoreFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
+    public function getAllMorefiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
-        $crMoreFilesAdd = new \CriteriaCompo();
-        $crMoreFilesAdd = $this->getMoreFilesCriteria($crMoreFilesAdd, $start, $limit, $sort, $order);
+        $crMorefilesAdd = new \CriteriaCompo();
+        $crMorefilesAdd = $this->getMorefilesCriteria($crMorefilesAdd, $start, $limit, $sort, $order);
 
-        return $this->getAll($crMoreFilesAdd);
+        return $this->getAll($crMorefilesAdd);
     }
 
     /**
-     * Get All MoreFiles By Module Id.
+     * Get All Morefiles By Module Id.
      *
      * @param        $modId
      * @param int    $start
@@ -124,19 +124,19 @@ class MoreFilesHandler extends \XoopsPersistableObjectHandler
      *
      * @return array
      */
-    public function getAllMoreFilesByModuleId($modId, $start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
+    public function getAllMorefilesByModuleId($modId, $start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
-        $crMoreFilesByModuleId = new \CriteriaCompo();
-        $crMoreFilesByModuleId->add(new \Criteria('file_mid', $modId));
-        $crMoreFilesByModuleId = $this->getMoreFilesCriteria($crMoreFilesByModuleId, $start, $limit, $sort, $order);
+        $crMorefilesByModuleId = new \CriteriaCompo();
+        $crMorefilesByModuleId->add(new \Criteria('file_mid', $modId));
+        $crMorefilesByModuleId = $this->getMorefilesCriteria($crMorefilesByModuleId, $start, $limit, $sort, $order);
 
-        return $this->getAll($crMoreFilesByModuleId);
+        return $this->getAll($crMorefilesByModuleId);
     }
 
     /**
-     * Get MoreFiles Criteria.
+     * Get Morefiles Criteria.
      *
-     * @param $crMoreFiles
+     * @param $crMorefiles
      * @param $start
      * @param $limit
      * @param $sort
@@ -144,13 +144,13 @@ class MoreFilesHandler extends \XoopsPersistableObjectHandler
      *
      * @return mixed
      */
-    private function getMoreFilesCriteria($crMoreFiles, $start, $limit, $sort, $order)
+    private function getMorefilesCriteria($crMorefiles, $start, $limit, $sort, $order)
     {
-        $crMoreFiles->setStart($start);
-        $crMoreFiles->setLimit($limit);
-        $crMoreFiles->setSort($sort);
-        $crMoreFiles->setOrder($order);
+        $crMorefiles->setStart($start);
+        $crMorefiles->setLimit($limit);
+        $crMorefiles->setSort($sort);
+        $crMorefiles->setOrder($order);
 
-        return $crMoreFiles;
+        return $crMorefiles;
     }
 }
