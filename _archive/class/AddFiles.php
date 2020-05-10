@@ -15,7 +15,7 @@ use XoopsModules\Modulebuilder;
  */
 
 /**
- * morefiles class.
+ * AddFiles class.
  *
  * @copyright       The XOOPS Project http:sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http:www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -28,7 +28,7 @@ use XoopsModules\Modulebuilder;
 //include __DIR__.'/autoload.php';
 
 /**
- * Class MoreFiles.
+ * Class AddFiles.
  */
 class AddFiles extends \XoopsObject
 {
@@ -90,7 +90,7 @@ class AddFiles extends \XoopsObject
     }
 
     /**
-     * @public function getFormMoreFiles
+     * @public function getFormMorefiles
      * @param mixed $action
      *
      * @return \XoopsThemeForm

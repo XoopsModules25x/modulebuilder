@@ -200,7 +200,7 @@ class CreateArchitecture extends CreateStructure
         $moduleDirname = $module->getVar('mod_dirname');
         $icon32        = 'assets/icons/32';
         $tables        = $tf->getTableTables($modId);
-        $files         = $tf->getTableMoreFiles($modId);
+        $files         = $tf->getTableMorefiles($modId);
         $ret           = [];
         $templateType  = 'defstyle';
 
@@ -355,7 +355,7 @@ class CreateArchitecture extends CreateStructure
             $fileExtension = $files[$t]->getVar('file_extension');
             $fileInfolder  = $files[$t]->getVar('file_infolder');
             // More File
-            $moreFiles = Modulebuilder\MoreFiles::getInstance();
+            $moreFiles = Modulebuilder\Morefiles::getInstance();
             $moreFiles->write($module, $fileName, $fileInfolder, $fileExtension);
             $ret[] = $moreFiles->render();
         }

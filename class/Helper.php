@@ -71,7 +71,7 @@ class Helper extends \Xmf\Module\Helper
     public function getHandler($name)
     {
 
-        $class = '\\XoopsModules\\' . ucfirst(mb_strtolower(basename(dirname(__DIR__)))) . '\\' . $name . 'Handler';
+        $class =  __NAMESPACE__ . '\\' . $name . 'Handler';
         if (!class_exists($class)) {
             throw new \RuntimeException("Class '$class' not found");
         }
@@ -84,4 +84,3 @@ class Helper extends \Xmf\Module\Helper
         return $ret;
     }
 }
-//require __DIR__ . '/../../mainfile.php';

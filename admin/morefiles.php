@@ -50,12 +50,12 @@ switch ($op) {
         if (0 == $modulesCount) {
             redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_NOTMODULES);
         }
-        $morefilesCount = $helper->getHandler('Morefiles')->getCountMoreFiles();
-        $morefilesAll   = $helper->getHandler('Morefiles')->getAllMoreFiles($start, $limit);
+        $morefilesCount = $helper->getHandler('Morefiles')->getCountMorefiles();
+        $morefilesAll   = $helper->getHandler('Morefiles')->getAllMorefiles($start, $limit);
         // Display morefiles list
         if ($morefilesCount > 0) {
             foreach (array_keys($morefilesAll) as $i) {
-                $files = $morefilesAll[$i]->getValuesMoreFiles();
+                $files = $morefilesAll[$i]->getValuesMorefiles();
                 $GLOBALS['xoopsTpl']->append('files_list', $files);
                 unset($files);
             }
@@ -75,7 +75,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $morefilesObj = $helper->getHandler('Morefiles')->create();
-        $form         = $morefilesObj->getFormMoreFiles();
+        $form         = $morefilesObj->getFormMorefiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'save':
@@ -106,7 +106,7 @@ switch ($op) {
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $morefilesObj->getHtmlErrors());
-        $form = $morefilesObj->getFormMoreFiles();
+        $form = $morefilesObj->getFormMorefiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'edit':
@@ -119,7 +119,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $morefilesObj = $helper->getHandler('Morefiles')->get($fileId);
-        $form         = $morefilesObj->getFormMoreFiles();
+        $form         = $morefilesObj->getFormMorefiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'delete':

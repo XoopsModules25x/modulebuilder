@@ -98,7 +98,7 @@ class CreateTableFields extends Files\CreateAbstractClass
     }
 
     /**
-     * @public function getTableFieldElements
+     * @public function getTableFieldelements
      *
      * @param        $mId
      * @param        $tId
@@ -107,7 +107,7 @@ class CreateTableFields extends Files\CreateAbstractClass
      * @param string $order
      * @return mixed
      */
-    public function getTableFieldElements($mId = null, $tId = null, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
+    public function getTableFieldelements($mId = null, $tId = null, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
         $criteria = new \CriteriaCompo();
         if (null != $mId) {
@@ -127,7 +127,7 @@ class CreateTableFields extends Files\CreateAbstractClass
     }
 
     /**
-     * @public function getTableMoreFiles
+     * @public function getTableMorefiles
      *
      * @param        $mId
      *
@@ -135,7 +135,7 @@ class CreateTableFields extends Files\CreateAbstractClass
      * @param string $order
      * @return mixed
      */
-    public function getTableMoreFiles($mId, $sort = 'file_id ASC, file_name', $order = 'ASC')
+    public function getTableMorefiles($mId, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('file_mid', $mId)); // $mId = module Id

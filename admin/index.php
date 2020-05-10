@@ -48,6 +48,7 @@ $folder = [
 
 // Uploads Folders Created
 foreach (array_keys($folder) as $i) {
+    $utility::createFolder($folder[$i]);
     $adminObject->addConfigBoxLine($folder[$i], 'folder');
     $adminObject->addConfigBoxLine([$folder[$i], '777'], 'chmod');
 }

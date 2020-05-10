@@ -26,9 +26,9 @@ use XoopsModules\Modulebuilder;
  */
 
 /**
- * Class FieldElements.
+ * Class Fieldelements.
  */
-class FieldElements extends \XoopsObject
+class Fieldelements extends \XoopsObject
 {
     /**
      * @public function constructor class
@@ -62,7 +62,7 @@ class FieldElements extends \XoopsObject
     /**
      * @static function getInstance
      * @param null
-     * @return FieldElements
+     * @return Fieldelements
      */
     public static function getInstance()
     {
@@ -81,7 +81,7 @@ class FieldElements extends \XoopsObject
      * @param null $maxDepth
      * @return array
      */
-    public function getValuesFieldElements($keys = null, $format = null, $maxDepth = null)
+    public function getValuesFieldelements($keys = null, $format = null, $maxDepth = null)
     {
         $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
