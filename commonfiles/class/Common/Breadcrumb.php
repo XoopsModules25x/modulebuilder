@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Common;
+namespace XoopsModules\Modulebuilder\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -18,7 +18,7 @@ namespace XoopsModules\Tdmcreate\Common;
  * @copyright   The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      lucio <lucio.rota@gmail.com>
- * @package     Tdmcreate
+ * @package     Modulebuilder
  *
  * Example:
  * $breadcrumb = new Common\Breadcrumb();
@@ -28,8 +28,8 @@ namespace XoopsModules\Tdmcreate\Common;
  * echo $breadcrumb->render();
  */
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Common;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Common;
 
 defined('XOOPS_ROOT_PATH') || exit('XOOPS Root Path not defined');
 

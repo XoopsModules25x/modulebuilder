@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\User\Defstyle;
+namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -27,9 +27,9 @@ use XoopsModules\Tdmcreate\Files;
  */
 
 /**
- * class MoreFiles.
+ * class Morefiles.
  */
-class MoreFiles extends Files\CreateFile
+class Morefiles extends Files\CreateFile
 {
     private $folder = null;
 
@@ -47,7 +47,7 @@ class MoreFiles extends Files\CreateFile
     /**
      * @static function getInstance
      * @param null
-     * @return MoreFiles
+     * @return Morefiles
      */
     public static function getInstance()
     {
@@ -103,7 +103,7 @@ EOT;
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getTemplatesUserMoreFile();
 
-        $this->create($moduleDirname, $this->folder, $filename . '.' . $this->extension, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, $this->folder, $filename . '.' . $this->extension, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

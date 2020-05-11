@@ -1,8 +1,8 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files;
+namespace XoopsModules\Modulebuilder\Files;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -14,7 +14,7 @@ use XoopsModules\Tdmcreate;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -48,7 +48,7 @@ class CreateArchitecture extends CreateStructure
      *
      * @param null
      *
-     * @return Tdmcreate\Files\CreateArchitecture
+     * @return Modulebuilder\Files\CreateArchitecture
      */
     public static function getInstance()
     {
@@ -67,8 +67,8 @@ class CreateArchitecture extends CreateStructure
      */
     public function setBaseFoldersFiles($module)
     {
-        $helper = Tdmcreate\Helper::getInstance();
-        $tf     = Tdmcreate\Files\CreateFile::getInstance();
+        $helper = Modulebuilder\Helper::getInstance();
+        $tf     = Modulebuilder\Files\CreateFile::getInstance();
         // Module
         $modId = $module->getVar('mod_id');
         // Id of tables
@@ -193,14 +193,14 @@ class CreateArchitecture extends CreateStructure
      */
     public function setFilesToBuilding($module)
     {
-        $helper = Tdmcreate\Helper::getInstance();
-        $tf     = Tdmcreate\Files\CreateFile::getInstance();
+        $helper = Modulebuilder\Helper::getInstance();
+        $tf     = Modulebuilder\Files\CreateFile::getInstance();
         // Module
         $modId         = $module->getVar('mod_id');
         $moduleDirname = $module->getVar('mod_dirname');
         $icon32        = 'assets/icons/32';
         $tables        = $tf->getTableTables($modId);
-        $files         = $tf->getTableMoreFiles($modId);
+        $files         = $tf->getTableMorefiles($modId);
         $ret           = [];
         $templateType  = 'defstyle';
 
@@ -257,25 +257,25 @@ class CreateArchitecture extends CreateStructure
             // Creation of admin files
             if (1 === (int)$tables[$t]->getVar('table_admin')) {
                 // Admin Pages File
-                $adminPages = Tdmcreate\Files\Admin\AdminPages::getInstance();
+                $adminPages = Modulebuilder\Files\Admin\AdminPages::getInstance();
                 $adminPages->write($module, $table, $tableName . '.php');
                 $ret[] = $adminPages->render();
                 // Admin Templates File
-                $adminTemplatesPages = Tdmcreate\Files\Templates\Admin\TemplatesAdminPages::getInstance();
+                $adminTemplatesPages = Modulebuilder\Files\Templates\Admin\TemplatesAdminPages::getInstance();
                 $adminTemplatesPages->write($module, $table, $moduleDirname . '_admin_' . $tableName . '.tpl');
                 $ret[] = $adminTemplatesPages->render();
             }
             // Creation of blocks
             if (1 === (int)$tables[$t]->getVar('table_blocks')) {
                 // Blocks Files
-                $blocksFiles = Tdmcreate\Files\Blocks\BlocksFiles::getInstance();
+                $blocksFiles = Modulebuilder\Files\Blocks\BlocksFiles::getInstance();
                 $blocksFiles->write($module, $table, $tableName . '.php');
                 $ret[] = $blocksFiles->render();
                 // Templates Blocks Files
                 if ($templateType  == 'bootstrap') {
-                    $templatesBlocks = Tdmcreate\Files\Templates\Blocks\Bootstrap\TemplatesBlocks::getInstance();
+                    $templatesBlocks = Modulebuilder\Files\Templates\Blocks\Bootstrap\TemplatesBlocks::getInstance();
                 } else {
-                    $templatesBlocks = Tdmcreate\Files\Templates\Blocks\Defstyle\TemplatesBlocks::getInstance();
+                    $templatesBlocks = Modulebuilder\Files\Templates\Blocks\Defstyle\TemplatesBlocks::getInstance();
                 }
                 $templatesBlocks->write($module, $table, $moduleDirname . '_block_' . $tableName . '.tpl');
                 $ret[] = $templatesBlocks->render();
@@ -283,36 +283,36 @@ class CreateArchitecture extends CreateStructure
             // Creation of classes
             if (1 === (int)$tables[$t]->getVar('table_admin') || 1 === (int)$tables[$t]->getVar('table_user')) {
                 // Class Files
-                $classFiles = Tdmcreate\Files\Classes\ClassFiles::getInstance();
+                $classFiles = Modulebuilder\Files\Classes\ClassFiles::getInstance();
                 $classFiles->write($module, $table, $tables, ucfirst($tableName) . '.php');
                 $ret[] = $classFiles->render();
             }
             // Creation of classhandlers
             if (1 === (int)$tables[$t]->getVar('table_admin') || 1 === (int)$tables[$t]->getVar('table_user')) {
                 // Class Files
-                $classFiles = Tdmcreate\Files\Classes\ClassHandlerFiles::getInstance();
+                $classFiles = Modulebuilder\Files\Classes\ClassHandlerFiles::getInstance();
                 $classFiles->write($module, $table, $tables, ucfirst($tableName) . 'handler.php');
                 $ret[] = $classFiles->render();
             }
             // Creation of user files
             if (1 === (int)$tables[$t]->getVar('table_user')) {
                 // User Pages File
-                $userPages = Tdmcreate\Files\User\UserPages::getInstance();
+                $userPages = Modulebuilder\Files\User\UserPages::getInstance();
                 $userPages->write($module, $table, $tableName . '.php');
                 $ret[] = $userPages->render();
                 // User Templates File
                 if ($templateType  == 'bootstrap') {
-                    $userTemplatesPages = Tdmcreate\Files\Templates\User\Bootstrap\Pages::getInstance();
+                    $userTemplatesPages = Modulebuilder\Files\Templates\User\Bootstrap\Pages::getInstance();
                 } else {
-                    $userTemplatesPages = Tdmcreate\Files\Templates\User\Defstyle\Pages::getInstance();
+                    $userTemplatesPages = Modulebuilder\Files\Templates\User\Defstyle\Pages::getInstance();
                 }
                 $userTemplatesPages->write($module, $table, $moduleDirname . '_' . $tableName . '.tpl');
                 $ret[] = $userTemplatesPages->render();
                 // User List Templates File
                 if ($templateType  == 'bootstrap') {
-                    $userTemplatesPagesList = Tdmcreate\Files\Templates\User\Bootstrap\PagesList::getInstance();
+                    $userTemplatesPagesList = Modulebuilder\Files\Templates\User\Bootstrap\PagesList::getInstance();
                 } else {
-                    $userTemplatesPagesList = Tdmcreate\Files\Templates\User\Defstyle\PagesList::getInstance();
+                    $userTemplatesPagesList = Modulebuilder\Files\Templates\User\Defstyle\PagesList::getInstance();
                 }
                 $userTemplatesPagesList->write($module, $table, $tables, $moduleDirname . '_' . $tableName . '_list' . '.tpl');
                 $ret[] = $userTemplatesPagesList->render();
@@ -330,7 +330,7 @@ class CreateArchitecture extends CreateStructure
         }
 
         // Creation of constants
-        $classSpecialFiles = Tdmcreate\Files\Classes\ClassSpecialFiles::getInstance();
+        $classSpecialFiles = Modulebuilder\Files\Classes\ClassSpecialFiles::getInstance();
         $classSpecialFiles->write($module, '', $tables, ucfirst('constants') . '.php');
         $classSpecialFiles->className = 'Constants';
         $ret[] = $classSpecialFiles->renderConstants();
@@ -338,13 +338,13 @@ class CreateArchitecture extends CreateStructure
         // Creation of permissions
         if (in_array(1, $tablePermissions)) {
             // Creation of classes
-            $classSpecialFiles = Tdmcreate\Files\Classes\ClassSpecialFiles::getInstance();
+            $classSpecialFiles = Modulebuilder\Files\Classes\ClassSpecialFiles::getInstance();
             $classSpecialFiles->write($module, '', null, ucfirst('permissions') . '.php');
             $classSpecialFiles->className = 'Permissions';
             $ret[] = $classSpecialFiles->renderClass();
 
             // Creation of classhandlers
-            $classSpecialFiles = Tdmcreate\Files\Classes\ClassSpecialFiles::getInstance();
+            $classSpecialFiles = Modulebuilder\Files\Classes\ClassSpecialFiles::getInstance();
             $classSpecialFiles->write($module, '', $permTables, ucfirst('permissionshandler') . '.php');
             $classSpecialFiles->className = 'Permissionshandler';
             $ret[] = $classSpecialFiles->renderPermissionsHandler();
@@ -355,53 +355,53 @@ class CreateArchitecture extends CreateStructure
             $fileExtension = $files[$t]->getVar('file_extension');
             $fileInfolder  = $files[$t]->getVar('file_infolder');
             // More File
-            $moreFiles = Tdmcreate\MoreFiles::getInstance();
+            $moreFiles = Modulebuilder\Morefiles::getInstance();
             $moreFiles->write($module, $fileName, $fileInfolder, $fileExtension);
             $ret[] = $moreFiles->render();
         }
         // Language Modinfo File
-        $languageModinfo = Tdmcreate\Files\Language\LanguageModinfo::getInstance();
+        $languageModinfo = Modulebuilder\Files\Language\LanguageModinfo::getInstance();
         $languageModinfo->write($module, $table, 'modinfo.php');
         $ret[] = $languageModinfo->render();
         if (1 == $module->getVar('mod_admin')) {
             // Admin Header File
-            $adminHeader = Tdmcreate\Files\Admin\AdminHeader::getInstance();
+            $adminHeader = Modulebuilder\Files\Admin\AdminHeader::getInstance();
             $adminHeader->write($module, $table, $tables, 'header.php');
             $ret[] = $adminHeader->render();
             // Admin Index File
-            $adminIndex = Tdmcreate\Files\Admin\AdminIndex::getInstance();
+            $adminIndex = Modulebuilder\Files\Admin\AdminIndex::getInstance();
             $adminIndex->write($module, $tables, 'index.php');
             $ret[] = $adminIndex->render();
             // Admin Menu File
-            $adminObject = Tdmcreate\Files\Admin\AdminMenu::getInstance();
+            $adminObject = Modulebuilder\Files\Admin\AdminMenu::getInstance();
             $adminObject->write($module, 'menu.php');
             $ret[] = $adminObject->render();
             // Admin About File
-            $adminAbout = Tdmcreate\Files\Admin\AdminAbout::getInstance();
+            $adminAbout = Modulebuilder\Files\Admin\AdminAbout::getInstance();
             $adminAbout->write($module, 'about.php');
             $ret[] = $adminAbout->render();
             // Admin Footer File
-            $adminFooter = Tdmcreate\Files\Admin\AdminFooter::getInstance();
+            $adminFooter = Modulebuilder\Files\Admin\AdminFooter::getInstance();
             $adminFooter->write($module, 'footer.php');
             $ret[] = $adminFooter->render();
             // Templates Admin About File
-            $adminTemplatesAbout = Tdmcreate\Files\Templates\Admin\TemplatesAdminAbout::getInstance();
+            $adminTemplatesAbout = Modulebuilder\Files\Templates\Admin\TemplatesAdminAbout::getInstance();
             $adminTemplatesAbout->write($module, $moduleDirname . '_admin_about.tpl');
             $ret[] = $adminTemplatesAbout->render();
             // Templates Admin Index File
-            $adminTemplatesIndex = Tdmcreate\Files\Templates\Admin\TemplatesAdminIndex::getInstance();
+            $adminTemplatesIndex = Modulebuilder\Files\Templates\Admin\TemplatesAdminIndex::getInstance();
             $adminTemplatesIndex->write($module, $moduleDirname . '_admin_index.tpl');
             $ret[] = $adminTemplatesIndex->render();
             // Templates Admin Footer File
-            $adminTemplatesFooter = Tdmcreate\Files\Templates\Admin\TemplatesAdminFooter::getInstance();
+            $adminTemplatesFooter = Modulebuilder\Files\Templates\Admin\TemplatesAdminFooter::getInstance();
             $adminTemplatesFooter->write($module, $moduleDirname . '_admin_footer.tpl');
             $ret[] = $adminTemplatesFooter->render();
             // Templates Admin Header File
-            $adminTemplatesHeader = Tdmcreate\Files\Templates\Admin\TemplatesAdminHeader::getInstance();
+            $adminTemplatesHeader = Modulebuilder\Files\Templates\Admin\TemplatesAdminHeader::getInstance();
             $adminTemplatesHeader->write($module, $moduleDirname . '_admin_header.tpl');
             $ret[] = $adminTemplatesHeader->render();
             // Language Admin File
-            $languageAdmin = Tdmcreate\Files\Language\LanguageAdmin::getInstance();
+            $languageAdmin = Modulebuilder\Files\Language\LanguageAdmin::getInstance();
             $languageAdmin->write($module, $table, $tables, 'admin.php');
             $ret[] = $languageAdmin->render();
         }
@@ -409,7 +409,7 @@ class CreateArchitecture extends CreateStructure
         // Class Helper File ==> setCommonFiles
 
         // Include Functions File
-        $includeFunctions = Tdmcreate\Files\Includes\IncludeFunctions::getInstance();
+        $includeFunctions = Modulebuilder\Files\Includes\IncludeFunctions::getInstance();
         $includeFunctions->write($module, 'functions.php');
         $ret[] = $includeFunctions->render();
 
@@ -419,47 +419,47 @@ class CreateArchitecture extends CreateStructure
 
         if (in_array(1, $tableBlocks)) {
             // Language Blocks File
-            $languageBlocks = Tdmcreate\Files\Language\LanguageBlocks::getInstance();
+            $languageBlocks = Modulebuilder\Files\Language\LanguageBlocks::getInstance();
             $languageBlocks->write($module, $tables, 'blocks.php');
             $ret[] = $languageBlocks->render();
         }
         // Creation of admin broken files
         if (in_array(1, $tableBroken)) {
             // Admin broken File
-            $adminPermissions = Tdmcreate\Files\Admin\AdminBroken::getInstance();
+            $adminPermissions = Modulebuilder\Files\Admin\AdminBroken::getInstance();
             $adminPermissions->write($module, $tables, 'broken.php');
             $ret[] = $adminPermissions->render();
             // Templates Admin broken File
-            $adminTemplatesPermissions = Tdmcreate\Files\Templates\Admin\TemplatesAdminBroken::getInstance();
+            $adminTemplatesPermissions = Modulebuilder\Files\Templates\Admin\TemplatesAdminBroken::getInstance();
             $adminTemplatesPermissions->write($module, $tables, $moduleDirname . '_admin_broken.tpl');
             $ret[] = $adminTemplatesPermissions->render();
         }
         // Creation of admin permission files
         if (in_array(1, $tablePermissions)) {
             // Admin Permissions File
-            $adminPermissions = Tdmcreate\Files\Admin\AdminPermissions::getInstance();
+            $adminPermissions = Modulebuilder\Files\Admin\AdminPermissions::getInstance();
             $adminPermissions->write($module, $tables, 'permissions.php');
             $ret[] = $adminPermissions->render();
             // Templates Admin Permissions File
-            $adminTemplatesPermissions = Tdmcreate\Files\Templates\Admin\TemplatesAdminPermissions::getInstance();
+            $adminTemplatesPermissions = Modulebuilder\Files\Templates\Admin\TemplatesAdminPermissions::getInstance();
             $adminTemplatesPermissions->write($module, $moduleDirname . '_admin_permissions.tpl');
             $ret[] = $adminTemplatesPermissions->render();
         }
         // Creation of notifications files
         if (in_array(1, $tableNotifications)) {
             // Include Notifications File
-            $includeNotifications = Tdmcreate\Files\Includes\IncludeNotifications::getInstance();
+            $includeNotifications = Modulebuilder\Files\Includes\IncludeNotifications::getInstance();
             $includeNotifications->write($module, $tables, 'notifications.inc.php');
             $ret[] = $includeNotifications->render();
             // Language Mail Template Category File
-            $languageMailTpl = Tdmcreate\Files\Language\LanguageMailTpl::getInstance();
+            $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
             $languageMailTpl->write($module, 'category_new_notify.tpl');
             $ret[] = $languageMailTpl->render();
         }
         // Creation of sql file
         if (null != $table->getVar('table_name')) {
             // Sql File
-            $sqlFile = Tdmcreate\Files\Sql\SqlFile::getInstance();
+            $sqlFile = Modulebuilder\Files\Sql\SqlFile::getInstance();
             $sqlFile->write($module, 'mysql.sql');
             $ret[] = $sqlFile->render();
         }
@@ -468,12 +468,12 @@ class CreateArchitecture extends CreateStructure
             // Search File
             //TODO: UserSearch has to be adapted
             /*
-            $userSearch = Tdmcreate\Files\User\UserSearch::getInstance();
+            $userSearch = Modulebuilder\Files\User\UserSearch::getInstance();
             $userSearch->write($module, $table, 'search.php');
             $ret[] = $userSearch->render();
             */
             // Include Search File
-            $includeSearch = Tdmcreate\Files\Includes\IncludeSearch::getInstance();
+            $includeSearch = Modulebuilder\Files\Includes\IncludeSearch::getInstance();
             $includeSearch->write($module, $tables, 'search.inc.php');
             $ret[] = $includeSearch->render();
         }
@@ -482,29 +482,29 @@ class CreateArchitecture extends CreateStructure
             /*
              * TODO: are this comment files required?
             // Include Comments File
-            $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
+            $includeComments = Modulebuilder\Files\Includes\IncludeComments::getInstance();
             $includeComments->write($module, $table);
             $ret[] = $includeComments->renderCommentsIncludes($module, 'comment_edit');
             // Include Comments File
-            $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
+            $includeComments = Modulebuilder\Files\Includes\IncludeComments::getInstance();
             $includeComments->write($module, $table);
             $ret[] = $includeComments->renderCommentsIncludes($module, 'comment_delete');
             // Include Comments File
-            $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
+            $includeComments = Modulebuilder\Files\Includes\IncludeComments::getInstance();
             $includeComments->write($module, $table);
             $ret[] = $includeComments->renderCommentsIncludes($module, 'comment_post');
             // Include Comments File
-            $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
+            $includeComments = Modulebuilder\Files\Includes\IncludeComments::getInstance();
             $includeComments->write($module, $table);
             $ret[] = $includeComments->renderCommentsIncludes($module, 'comment_reply');
             // Include Comments File
-            $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
+            $includeComments = Modulebuilder\Files\Includes\IncludeComments::getInstance();
             $includeComments->write($module, $table);
             $ret[] = $includeComments->renderCommentsNew($module, 'comment_new');
             */
 
             // Include Comment Functions File
-            $includeCommentFunctions = Tdmcreate\Files\Includes\IncludeCommentFunctions::getInstance();
+            $includeCommentFunctions = Modulebuilder\Files\Includes\IncludeCommentFunctions::getInstance();
             $includeCommentFunctions->write($module, $table, 'comment_functions.php');
             $ret[] = $includeCommentFunctions->render();
         }
@@ -513,68 +513,68 @@ class CreateArchitecture extends CreateStructure
             // Creation of user template files
             // Templates Index File
             if ($templateType  == 'bootstrap') {
-                $userTemplatesIndex = Tdmcreate\Files\Templates\User\Bootstrap\Index::getInstance();
+                $userTemplatesIndex = Modulebuilder\Files\Templates\User\Bootstrap\Index::getInstance();
             } else {
-                $userTemplatesIndex = Tdmcreate\Files\Templates\User\Defstyle\Index::getInstance();
+                $userTemplatesIndex = Modulebuilder\Files\Templates\User\Defstyle\Index::getInstance();
             }
             $userTemplatesIndex->write($module, $table, $tables, $moduleDirname . '_index.tpl');
             $ret[] = $userTemplatesIndex->render();
             // Templates Footer File
             if ($templateType  == 'bootstrap') {
-                $userTemplatesFooter = Tdmcreate\Files\Templates\User\Bootstrap\Footer::getInstance();
+                $userTemplatesFooter = Modulebuilder\Files\Templates\User\Bootstrap\Footer::getInstance();
             } else {
-                $userTemplatesFooter = Tdmcreate\Files\Templates\User\Defstyle\Footer::getInstance();
+                $userTemplatesFooter = Modulebuilder\Files\Templates\User\Defstyle\Footer::getInstance();
             }
             $userTemplatesFooter->write($module, $table, $moduleDirname . '_footer.tpl');
             $ret[] = $userTemplatesFooter->render();
             // Templates Header File
             if ($templateType  == 'bootstrap') {
-                $userTemplatesHeader = Tdmcreate\Files\Templates\User\Bootstrap\Header::getInstance();
+                $userTemplatesHeader = Modulebuilder\Files\Templates\User\Bootstrap\Header::getInstance();
             } else {
-                $userTemplatesHeader = Tdmcreate\Files\Templates\User\Defstyle\Header::getInstance();
+                $userTemplatesHeader = Modulebuilder\Files\Templates\User\Defstyle\Header::getInstance();
             }
             $userTemplatesHeader->write($module, $moduleDirname . '_header.tpl');
             $ret[] = $userTemplatesHeader->render();
 
             // Creation of user files
             // User Footer File
-            $userFooter = Tdmcreate\Files\User\UserFooter::getInstance();
+            $userFooter = Modulebuilder\Files\User\UserFooter::getInstance();
             $userFooter->write($module, 'footer.php');
             $ret[] = $userFooter->render();
             // User Header File
-            $userHeader = Tdmcreate\Files\User\UserHeader::getInstance();
+            $userHeader = Modulebuilder\Files\User\UserHeader::getInstance();
             $userHeader->write($module, $table, $tables, 'header.php');
             $ret[] = $userHeader->render();
             // User Notification Update File
             if ((1 == $module->getVar('mod_notifications')) && in_array(1, $tableNotifications)) {
-                $userNotificationUpdate = Tdmcreate\Files\User\UserNotificationUpdate::getInstance();
+                $userNotificationUpdate = Modulebuilder\Files\User\UserNotificationUpdate::getInstance();
                 $userNotificationUpdate->write($module, 'notification_update.php');
                 $ret[] = $userNotificationUpdate->render();
             }
             // User Pdf File
             if (in_array(1, $tablePdf)) {
-                $userPdf = Tdmcreate\Files\User\UserPdf::getInstance();
+                $userPdf = Modulebuilder\Files\User\UserPdf::getInstance();
                 $userPdf->write($module, $table, 'pdf.php');
                 $ret[] = $userPdf->render();
                 // User Templates Pdf File
                 if ($templateType  == 'bootstrap') {
-                    $userTemplatesPdf = Tdmcreate\Files\Templates\User\Bootstrap\Pdf::getInstance();
+                    $userTemplatesPdf = Modulebuilder\Files\Templates\User\Bootstrap\Pdf::getInstance();
                 } else {
-                    $userTemplatesPdf = Tdmcreate\Files\Templates\User\Defstyle\Pdf::getInstance();
+                    $userTemplatesPdf = Modulebuilder\Files\Templates\User\Defstyle\Pdf::getInstance();
                 }
                 $userTemplatesPdf->write($module, $moduleDirname . '_pdf.tpl');
                 $ret[] = $userTemplatesPdf->render();
             }
             // User Print File
             if (in_array(1, $tablePrint)) {
-                $userPrint = Tdmcreate\Files\User\UserPrint::getInstance();
+                $userPrint = Modulebuilder\Files\User\UserPrint::getInstance();
                 $userPrint->write($module, $table, 'print.php');
                 $ret[] = $userPrint->render();
                 // User Templates Print File
                 if ($templateType  == 'bootstrap') {
-                    $userTemplatesPrint = Tdmcreate\Files\Templates\User\Bootstrap\UserPrint::getInstance();
+                    $userTemplatesPrint = Modulebuilder\Files\Templates\User\Bootstrap\UserPrint::getInstance();
                 } else {
-                    $userTemplatesPrint = Tdmcreate\Files\Templates\User\Defstyle\UserPrint::getInstance();
+                    $userTemplatesPrint = Modulebuilder\Files\Templates\User\Defstyle\UserPrint::getInstance();
                 }
                 $userTemplatesPrint->write($module, $table, $moduleDirname . '_print.tpl');
                 $ret[] = $userTemplatesPrint->render();
@@ -582,14 +582,14 @@ class CreateArchitecture extends CreateStructure
             // User Rate File
             //TODO: UserSearch has to be adapted
             if (in_array(1, $tableRate)) {
-                $userRate = Tdmcreate\Files\User\UserRate::getInstance();
+                $userRate = Modulebuilder\Files\User\UserRate::getInstance();
                 $userRate->write($module, $table, 'rate.php');
                 $ret[] = $userRate->render();
                 // User Templates Rate File
                 if ($templateType  == 'bootstrap') {
-                    $userTemplatesRate = Tdmcreate\Files\Templates\User\Bootstrap\Rate::getInstance();
+                    $userTemplatesRate = Modulebuilder\Files\Templates\User\Bootstrap\Rate::getInstance();
                 } else {
-                    $userTemplatesRate = Tdmcreate\Files\Templates\User\Defstyle\Rate::getInstance();
+                    $userTemplatesRate = Modulebuilder\Files\Templates\User\Defstyle\Rate::getInstance();
                 }
                 $userTemplatesRate->write($module, $table, $moduleDirname . '_rate.tpl');
                 $ret[] = $userTemplatesRate->render();
@@ -597,14 +597,14 @@ class CreateArchitecture extends CreateStructure
 
             // User Rss File
             if (in_array(1, $tableRss)) {
-                $userRss = Tdmcreate\Files\User\UserRss::getInstance();
+                $userRss = Modulebuilder\Files\User\UserRss::getInstance();
                 $userRss->write($module, $table, 'rss.php');
                 $ret[] = $userRss->render();
                 // User Templates Rss File
                 if ($templateType  == 'bootstrap') {
-                    $userTemplatesRss = Tdmcreate\Files\Templates\User\Bootstrap\Rss::getInstance();
+                    $userTemplatesRss = Modulebuilder\Files\Templates\User\Bootstrap\Rss::getInstance();
                 } else {
-                    $userTemplatesRss = Tdmcreate\Files\Templates\User\Defstyle\Rss::getInstance();
+                    $userTemplatesRss = Modulebuilder\Files\Templates\User\Defstyle\Rss::getInstance();
                 }
                 $userTemplatesRss->write($module, $moduleDirname . '_rss.tpl');
                 $ret[] = $userTemplatesRss->render();
@@ -612,60 +612,60 @@ class CreateArchitecture extends CreateStructure
 
             // User Tag Files
             if (in_array(1, $tableTag)) {
-                $userListTag = Tdmcreate\Files\User\UserListTag::getInstance();
+                $userListTag = Modulebuilder\Files\User\UserListTag::getInstance();
                 $userListTag->write($module, 'list.tag.php');
                 $ret[]       = $userListTag->render();
-                $userViewTag = Tdmcreate\Files\User\UserViewTag::getInstance();
+                $userViewTag = Modulebuilder\Files\User\UserViewTag::getInstance();
                 $userViewTag->write($module, 'view.tag.php');
                 $ret[] = $userViewTag->render();
             }
             // User Index File
-            $userIndex = Tdmcreate\Files\User\UserIndex::getInstance();
+            $userIndex = Modulebuilder\Files\User\UserIndex::getInstance();
             $userIndex->write($module, $table, 'index.php');
             $ret[] = $userIndex->render();
             // Language Main File
-            $languageMain = Tdmcreate\Files\Language\LanguageMain::getInstance();
+            $languageMain = Modulebuilder\Files\Language\LanguageMain::getInstance();
             $languageMain->write($module, $tables, 'main.php');
             $ret[] = $languageMain->render();
             // User Templates Submit File
             if ($templateType  == 'bootstrap') {
-                $userTemplatesUserBreadcrumbs = Tdmcreate\Files\Templates\User\Bootstrap\Breadcrumbs::getInstance();
+                $userTemplatesUserBreadcrumbs = Modulebuilder\Files\Templates\User\Bootstrap\Breadcrumbs::getInstance();
             } else {
-                $userTemplatesUserBreadcrumbs = Tdmcreate\Files\Templates\User\Defstyle\Breadcrumbs::getInstance();
+                $userTemplatesUserBreadcrumbs = Modulebuilder\Files\Templates\User\Defstyle\Breadcrumbs::getInstance();
             }
             $userTemplatesUserBreadcrumbs->write($module, $moduleDirname . '_breadcrumbs.tpl');
             $ret[] = $userTemplatesUserBreadcrumbs->render();
         }
         // Css Admin Styles File
-        $cssStyles = Tdmcreate\Files\Assets\Css\Admin\CssAdminStyles::getInstance();
+        $cssStyles = Modulebuilder\Files\Assets\Css\Admin\CssAdminStyles::getInstance();
         $cssStyles->write($module, 'style.css');
         $ret[] = $cssStyles->render();
         // Css Styles File
-        $cssStyles = Tdmcreate\Files\Assets\Css\CssStyles::getInstance();
+        $cssStyles = Modulebuilder\Files\Assets\Css\CssStyles::getInstance();
         $cssStyles->write($module, 'style.css');
         $ret[] = $cssStyles->render();
         // Include Jquery File
-        $JavascriptJQuery = Tdmcreate\Files\Assets\Js\JavascriptJQuery::getInstance();
+        $JavascriptJQuery = Modulebuilder\Files\Assets\Js\JavascriptJQuery::getInstance();
         $JavascriptJQuery->write($module, 'functions.js');
         $ret[] = $JavascriptJQuery->render();
         // Include Common File
-        $includeCommon = Tdmcreate\Files\Includes\IncludeCommon::getInstance();
+        $includeCommon = Modulebuilder\Files\Includes\IncludeCommon::getInstance();
         $includeCommon->write($module, $table, 'common.php');
         $ret[] = $includeCommon->render();
         // Common Config File
-        $includeConfig = Tdmcreate\Files\Config\ConfigConfig::getInstance();
+        $includeConfig = Modulebuilder\Files\Config\ConfigConfig::getInstance();
         $includeConfig->write($module, $tables, 'config.php');
         $ret[] = $includeConfig->render();
         // Docs Changelog File
-        $docsChangelog = Tdmcreate\Files\Docs\DocsChangelog::getInstance();
+        $docsChangelog = Modulebuilder\Files\Docs\DocsChangelog::getInstance();
         $docsChangelog->write($module, 'changelog.txt');
         $ret[] = $docsChangelog->render();
         // Language Help File
-        $languageHelp = Tdmcreate\Files\Language\LanguageHelp::getInstance();
+        $languageHelp = Modulebuilder\Files\Language\LanguageHelp::getInstance();
         $languageHelp->write($module, 'help.html');
         $ret[] = $languageHelp->render();
         // User Xoops Version File
-        $userXoopsVersion = Tdmcreate\Files\User\UserXoopsVersion::getInstance();
+        $userXoopsVersion = Modulebuilder\Files\User\UserXoopsVersion::getInstance();
         $userXoopsVersion->write($module, $table, $tables, 'xoops_version.php');
         $ret[] = $userXoopsVersion->render();
 
@@ -682,14 +682,14 @@ class CreateArchitecture extends CreateStructure
     {
 
         $moduleName = $module->getVar('mod_dirname');
-        //$src_path   = XOOPS_ROOT_PATH . '/modules/tdmcreate/files';
-        //$tmp_path   = XOOPS_UPLOAD_PATH . '/tdmcreate/temp';
+        //$src_path   = XOOPS_ROOT_PATH . '/modules/modulebuilder/files';
+        //$tmp_path   = XOOPS_UPLOAD_PATH . '/modulebuilder/temp';
         $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleName);
 
         $patterns = [
-            mb_strtolower('tdmcreate')          => mb_strtolower($moduleName),
-            mb_strtoupper('tdmcreate')          => mb_strtoupper($moduleName),
-            ucfirst(mb_strtolower('tdmcreate')) => ucfirst(mb_strtolower($moduleName)),
+            mb_strtolower('modulebuilder')          => mb_strtolower($moduleName),
+            mb_strtoupper('modulebuilder')          => mb_strtoupper($moduleName),
+            ucfirst(mb_strtolower('modulebuilder')) => ucfirst(mb_strtolower($moduleName)),
         ];
 
         $patKeys   = array_keys($patterns);
@@ -702,7 +702,7 @@ class CreateArchitecture extends CreateStructure
             'rcode' => true
         ];
         foreach ($cloneFolders as $folder) {
-            Tdmcreate\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
+            Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
         }
         unset($cloneFolders);
 
@@ -730,7 +730,7 @@ class CreateArchitecture extends CreateStructure
                 'rcode' => false
             ];
             foreach ($cloneFolders as $folder) {
-                Tdmcreate\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
+                Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
             }
             unset($cloneFolders);
         }
@@ -755,7 +755,7 @@ class CreateArchitecture extends CreateStructure
             'rcode' => true
         ];
         foreach ($cloneFiles as $file) {
-            Tdmcreate\Files\CreateClone::cloneFile($file['src'] . $file['file'], $file['dst'] . $file['file'], $file['rcode'], $patKeys, $patValues);
+            Modulebuilder\Files\CreateClone::cloneFile($file['src'] . $file['file'], $file['dst'] . $file['file'], $file['rcode'], $patKeys, $patValues);
         }
         unset($cloneFiles);
     }

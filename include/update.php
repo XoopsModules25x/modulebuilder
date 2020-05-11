@@ -11,7 +11,7 @@
  */
 
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -30,19 +30,19 @@
  *
  * @return bool|null
  */
-function xoops_module_update_tdmcreate(&$module, $prev_version = null)
+function xoops_module_update_modulebuilder(&$module, $prev_version = null)
 {
 
     $ret = null;
     if ($prev_version < 191) {
-        update_tdmcreate_v191($module);
+        update_modulebuilder_v191($module);
     }
 
-	tdmcreate_check_db($module);
+	modulebuilder_check_db($module);
 	
 	//check upload directory
 	include_once __DIR__ . '/install.php';
-    xoops_module_install_tdmcreate($module);
+    xoops_module_install_modulebuilder($module);
 	
     $errors = $module->getErrors();
     if (!empty($errors)) {
@@ -59,7 +59,7 @@ function xoops_module_update_tdmcreate(&$module, $prev_version = null)
  *
  * @return bool
  */
-function update_tdmcreate_v191(&$module)
+function update_modulebuilder_v191(&$module)
 {
     global $xoopsDB;
     $result = $xoopsDB->query(
@@ -118,7 +118,7 @@ function update_tdmcreate_v191(&$module)
  *
  * @return bool
  */
-function tdmcreate_check_db($module)
+function modulebuilder_check_db($module)
 {
     $ret = true;
 	//insert here code for database check
@@ -129,29 +129,29 @@ function tdmcreate_check_db($module)
     $fid    = 16;
     $fvalue = 'XoopsFormSelectStatus';
     $result = $xoopsDB->query(
-        'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
+        'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
         $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
+            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
         );
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
             list($fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value) = $xoopsDB->fetchRow($result);
             //add existing element at end of table
-            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
             $result = $xoopsDB->query($sql);
             // update table fields to new id of previous 16
             $newId = $xoopsDB->getInsertId();
-            $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('tdmcreate_fields') . "`.`field_element` = '{$fid}';";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
             $result = $xoopsDB->query($sql);
             // update 16 to new element
-            $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
             $result = $xoopsDB->query($sql);
         } else {
             //add missing element
-            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
             $result = $xoopsDB->query($sql);
         }
     }
@@ -161,29 +161,29 @@ function tdmcreate_check_db($module)
     $fid    = 17;
     $fvalue = 'XoopsFormPassword';
     $result = $xoopsDB->query(
-        'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
+        'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
         $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
+            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
         );
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
             list($fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value) = $xoopsDB->fetchRow($result);
             //add existing element at end of table
-            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
             $result = $xoopsDB->query($sql);
             // update table fields to new id of previous 16
             $newId = $xoopsDB->getInsertId();
-            $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('tdmcreate_fields') . "`.`field_element` = '{$fid}';";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
             $result = $xoopsDB->query($sql);
             // update 16 to new element
-            $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
             $result = $xoopsDB->query($sql);
         } else {
             //add missing element
-            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
             $result = $xoopsDB->query($sql);
         }
     }
@@ -193,29 +193,29 @@ function tdmcreate_check_db($module)
     $fid    = 18;
     $fvalue = 'XoopsFormSelectCountry';
     $result = $xoopsDB->query(
-        'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
+        'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
         $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
+            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
         );
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
             list($fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value) = $xoopsDB->fetchRow($result);
             //add existing element at end of table
-            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
             $result = $xoopsDB->query($sql);
             // update table fields to new id of previous 16
             $newId = $xoopsDB->getInsertId();
-            $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('tdmcreate_fields') . "`.`field_element` = '{$fid}';";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
             $result = $xoopsDB->query($sql);
             // update 16 to new element
-            $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
             $result = $xoopsDB->query($sql);
         } else {
             //add missing element
-            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
             $result = $xoopsDB->query($sql);
         }
     }
@@ -225,29 +225,29 @@ function tdmcreate_check_db($module)
     $fid    = 19;
     $fvalue = 'XoopsFormSelectLang';
     $result = $xoopsDB->query(
-        'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
+        'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
         $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
+            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
         );
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
             list($fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value) = $xoopsDB->fetchRow($result);
             //add existing element at end of table
-            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
             $result = $xoopsDB->query($sql);
             // update table fields to new id of previous 16
             $newId = $xoopsDB->getInsertId();
-            $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('tdmcreate_fields') . "`.`field_element` = '{$fid}';";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
             $result = $xoopsDB->query($sql);
             // update 16 to new element
-            $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
             $result = $xoopsDB->query($sql);
         } else {
             //add missing element
-            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
             $result = $xoopsDB->query($sql);
         }
     }
@@ -257,29 +257,29 @@ function tdmcreate_check_db($module)
     $fid    = 20;
     $fvalue = 'XoopsFormRadio';
     $result = $xoopsDB->query(
-        'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
+        'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
         $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
+            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
         );
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
             list($fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value) = $xoopsDB->fetchRow($result);
             //add existing element at end of table
-            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
             $result = $xoopsDB->query($sql);
             // update table fields to new id of previous 16
             $newId = $xoopsDB->getInsertId();
-            $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('tdmcreate_fields') . "`.`field_element` = '{$fid}';";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
             $result = $xoopsDB->query($sql);
             // update 16 to new element
-            $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
             $result = $xoopsDB->query($sql);
         } else {
             //add missing element
-            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
             $result = $xoopsDB->query($sql);
         }
     }
@@ -289,29 +289,29 @@ function tdmcreate_check_db($module)
     $fid    = 21;
     $fvalue = 'XoopsFormDateTime';
     $result = $xoopsDB->query(
-        'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
+        'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
         $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
+            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
         );
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
             list($fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value) = $xoopsDB->fetchRow($result);
             //add existing element at end of table
-            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
             $result = $xoopsDB->query($sql);
             // update table fields to new id of previous 16
             $newId = $xoopsDB->getInsertId();
-            $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('tdmcreate_fields') . "`.`field_element` = '{$fid}';";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
             $result = $xoopsDB->query($sql);
             // update 16 to new element
-            $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
             $result = $xoopsDB->query($sql);
         } else {
             //add missing element
-            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
             $result = $xoopsDB->query($sql);
         }
     }
@@ -321,35 +321,35 @@ function tdmcreate_check_db($module)
     $fid    = 22;
     $fvalue = 'XoopsFormSelectCombo';
     $result = $xoopsDB->query(
-        'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
+        'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
         $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
+            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
         );
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
             list($fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value) = $xoopsDB->fetchRow($result);
             //add existing element at end of table
-            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
             $result = $xoopsDB->query($sql);
             // update table fields to new id of previous 16
             $newId = $xoopsDB->getInsertId();
-            $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('tdmcreate_fields') . "`.`field_element` = '{$fid}';";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
             $result = $xoopsDB->query($sql);
             // update 16 to new element
-            $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
             $result = $xoopsDB->query($sql);
         } else {
             //add missing element
-            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
             $result = $xoopsDB->query($sql);
         }
     }
 
-    // update table 'tdmcreate_fieldelements'
-    $table   = $GLOBALS['xoopsDB']->prefix('tdmcreate_fieldelements');
+    // update table 'modulebuilder_fieldelements'
+    $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_fieldelements');
     $field   = 'fieldelement_sort';
     $check   = $GLOBALS['xoopsDB']->queryF('SHOW COLUMNS FROM `' . $table . "` LIKE '" . $field . "'");
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
@@ -362,8 +362,8 @@ function tdmcreate_check_db($module)
         }
     }
 
-    // update table 'tdmcreate_fieldelements'
-    $table   = $GLOBALS['xoopsDB']->prefix('tdmcreate_fieldelements');
+    // update table 'modulebuilder_fieldelements'
+    $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_fieldelements');
     $field   = 'fieldelement_deftype';
     $check   = $GLOBALS['xoopsDB']->queryF('SHOW COLUMNS FROM `' . $table . "` LIKE '" . $field . "'");
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
@@ -376,8 +376,8 @@ function tdmcreate_check_db($module)
         }
     }
 
-    // update table 'tdmcreate_fieldelements'
-    $table   = $GLOBALS['xoopsDB']->prefix('tdmcreate_fieldelements');
+    // update table 'modulebuilder_fieldelements'
+    $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_fieldelements');
     $field   = 'fieldelement_defvalue';
     $check   = $GLOBALS['xoopsDB']->queryF('SHOW COLUMNS FROM `' . $table . "` LIKE '" . $field . "'");
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
@@ -391,14 +391,14 @@ function tdmcreate_check_db($module)
     }
 
     // set default values for form elements
-    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 14, `fieldelement_defvalue` = '255' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_id` in(2, 10, 11, 12, 13, 14, 17)");
-    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 15, `fieldelement_defvalue` = '0' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_id` in (3, 4)");
-    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 2, `fieldelement_defvalue` = '10' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_id` in(5, 7, 8, 15, 20, 21, 22)");
-    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 2, `fieldelement_defvalue` = '1' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_id` in(6, 16)");
-    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 14, `fieldelement_defvalue` = '7' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_id` in(9)");
-    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 14, `fieldelement_defvalue` = '3' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_id` in(18)");
-    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 14, `fieldelement_defvalue` = '100' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_id` in(19)");
-    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 2, `fieldelement_defvalue` = '10' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_mid` > 0");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " SET `fieldelement_deftype` = 14, `fieldelement_defvalue` = '255' WHERE `xc_modulebuilder_fieldelements`.`fieldelement_id` in(2, 10, 11, 12, 13, 14, 17)");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " SET `fieldelement_deftype` = 15, `fieldelement_defvalue` = '0' WHERE `xc_modulebuilder_fieldelements`.`fieldelement_id` in (3, 4)");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " SET `fieldelement_deftype` = 2, `fieldelement_defvalue` = '10' WHERE `xc_modulebuilder_fieldelements`.`fieldelement_id` in(5, 7, 8, 15, 20, 21, 22)");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " SET `fieldelement_deftype` = 2, `fieldelement_defvalue` = '1' WHERE `xc_modulebuilder_fieldelements`.`fieldelement_id` in(6, 16)");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " SET `fieldelement_deftype` = 14, `fieldelement_defvalue` = '7' WHERE `xc_modulebuilder_fieldelements`.`fieldelement_id` in(9)");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " SET `fieldelement_deftype` = 14, `fieldelement_defvalue` = '3' WHERE `xc_modulebuilder_fieldelements`.`fieldelement_id` in(18)");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " SET `fieldelement_deftype` = 14, `fieldelement_defvalue` = '100' WHERE `xc_modulebuilder_fieldelements`.`fieldelement_id` in(19)");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " SET `fieldelement_deftype` = 2, `fieldelement_defvalue` = '10' WHERE `xc_modulebuilder_fieldelements`.`fieldelement_mid` > 0");
 
     return $ret;
 }

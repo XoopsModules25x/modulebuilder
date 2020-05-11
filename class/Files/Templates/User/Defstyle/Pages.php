@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\User\Defstyle;
+namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -75,7 +75,7 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesHeader($moduleDirname)
     {
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
 
         return $sc->getSmartyIncludeFile($moduleDirname, 'header', '','','',"\n\n");
     }
@@ -90,8 +90,8 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $hc     = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc     = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc     = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc     = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $tbody  = $this->getTemplatesUserPagesTableThead($tableName, $language);
         $tbody  .= $this->getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName);
         $tbody  .= $this->getTemplatesUserPagesTableTfoot();
@@ -108,8 +108,8 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesTableThead($tableName, $language)
     {
-        $hc           = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc           = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc           = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc           = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $stuTableName = mb_strtoupper($tableName);
         $single       = $sc->getSmartySingleVar('divideby');
         $lang         = $sc->getSmartyConst($language, $stuTableName . '_TITLE');
@@ -128,8 +128,8 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName)
     {
-        $hc      = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc      = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc      = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc      = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $single  = $sc->getSmartySingleVar('panel_type');
         $include = $sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName, "\t\t\t\t\t\t", "\n");
         $div     = $hc->getHtmlDiv($include, 'panel panel-' . $single, "\t\t\t\t\t", "\n");
@@ -149,7 +149,7 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesTableTfoot()
     {
-        $hc = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
         $td = $hc->getHtmlTableData("&nbsp;", '', '', '', '');
         $tr = $hc->getHtmlTableRow($td, '', '', '');
 
@@ -166,8 +166,8 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPages($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $hc    = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc    = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc    = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc    = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language);
         $div   = $hc->getHtmlDiv($table, 'table-responsive');
 
@@ -184,7 +184,7 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesForm($t = '')
     {
-        $sc    = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $sc    = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $var  = $sc->getSmartySingleVar('form', "\t", "\n");
 
         return $sc->getSmartyConditions('form', '', '', $var, false, false, true);
@@ -200,7 +200,7 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesError($t = '')
     {
-        $sc    = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $sc    = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $var  = $sc->getSmartySingleVar('error', "\t", "\n");
 
         return $sc->getSmartyConditions('error', '', '', $var, false, false, true);
@@ -214,8 +214,8 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesFooter($moduleDirname)
     {
-        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $ret = $hc->getHtmlEmpty('', '', "\n");
         $ret .= $sc->getSmartyIncludeFile($moduleDirname, 'footer');
 
@@ -243,7 +243,7 @@ class Pages extends Files\CreateFile
         $content       .= $this->getTemplatesUserPagesError();
         $content       .= $this->getTemplatesUserPagesFooter($moduleDirname);
 
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -30,7 +30,7 @@
 // ------------------------------------------------------------------------- //
 
 use Xmf\Request;
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 require_once __DIR__ . '/header.php';
 //xoops_cp_header();
@@ -53,11 +53,11 @@ EOF;
 
 //XoopsLoad::load('migrate', 'newbb');
 
-/** @var Tdmcreate\Common\Configurator $configurator */
-$configurator = new Tdmcreate\Common\Configurator();
+/** @var Modulebuilder\Common\Configurator $configurator */
+$configurator = new Modulebuilder\Common\Configurator();
 
-/** @var \XoopsModules\Tdmcreate\Common\Migrate $migrator */
-$migrator = new \XoopsModules\Tdmcreate\Common\Migrate($configurator);
+/** @var \XoopsModules\Modulebuilder\Common\Migrate $migrator */
+$migrator = new \XoopsModules\Modulebuilder\Common\Migrate($configurator);
 
 $op = Request::getCmd('op', 'default');
 $opShow = Request::getCmd('show', null, 'POST');

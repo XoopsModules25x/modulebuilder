@@ -10,28 +10,28 @@
 */
 
 /**
- * Tdmcreate module for xoops
+ * Modulebuilder module for xoops
  *
  * @copyright      module for xoops
  * @license        GPL 2.0 or later
- * @package        Tdmcreate
+ * @package        Modulebuilder
  * @since          1.0
  * @min_xoops      2.5.9
  * @author         Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com> XOOPS Project (www.xoops.org) $
  */
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Common;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Common;
 
 /**
  * @param \XoopsModule $module
  * @return bool
  */
-function xoops_module_pre_install_tdmcreate(\XoopsModule $module)
+function xoops_module_pre_install_modulebuilder(\XoopsModule $module)
 {
     require dirname(__DIR__) . '/preloads/autoloader.php';
-    /** @var Tdmcreate\Utility $utility */
-    $utility = new Tdmcreate\Utility();
+    /** @var Modulebuilder\Utility $utility */
+    $utility = new Modulebuilder\Utility();
 
     //check for minimum XOOPS version
     $xoopsSuccess = $utility::checkVerXoops($module);
@@ -53,15 +53,15 @@ function xoops_module_pre_install_tdmcreate(\XoopsModule $module)
  * @param \XoopsModule $module
  * @return bool|string
  */
-function xoops_module_install_tdmcreate(\XoopsModule $module)
+function xoops_module_install_modulebuilder(\XoopsModule $module)
 {
     require dirname(__DIR__) . '/preloads/autoloader.php';
 
-    /** @var Tdmcreate\Helper $helper */ 
-    /** @var Tdmcreate\Utility $utility */
+    /** @var Modulebuilder\Helper $helper */ 
+    /** @var Modulebuilder\Utility $utility */
     /** @var Common\Configurator $configurator */
-    $helper       = Tdmcreate\Helper::getInstance();
-    $utility      = new Tdmcreate\Utility();
+    $helper       = Modulebuilder\Helper::getInstance();
+    $utility      = new Modulebuilder\Utility();
     $configurator = new Common\Configurator();
 
     // Load language files

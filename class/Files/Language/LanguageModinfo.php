@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Language;
+namespace XoopsModules\Modulebuilder\Files\Language;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -84,7 +84,7 @@ class LanguageModinfo extends Files\CreateFile
     private function getLanguageMain($language, $module)
     {
         $df  = LanguageDefines::getInstance();
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
         $ret = $df->getBlankLine();
         $ret .= $pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
         $ret .= $df->getBlankLine();
@@ -105,7 +105,7 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageMenu($module, $language)
     {
-        $df               = Tdmcreate\Files\Language\LanguageDefines::getInstance();
+        $df               = Modulebuilder\Files\Language\LanguageDefines::getInstance();
         $tables           = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $menu             = 1;
         $ret              = $df->getAboveHeadDefines('Admin Menu');
@@ -529,7 +529,7 @@ class LanguageModinfo extends Files\CreateFile
         }
         $content .= $this->getLanguageFooter();
 
-        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

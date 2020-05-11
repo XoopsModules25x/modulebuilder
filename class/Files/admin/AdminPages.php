@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Admin;
+namespace XoopsModules\Modulebuilder\Files\Admin;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -77,8 +77,8 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesHeader($moduleDirname, $fieldId)
     {
-        $pc        = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc        = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc        = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc        = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret       = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
@@ -100,7 +100,7 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesSwitch($cases = [])
     {
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
         $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, true, false, "\t");
 
         return $pc->getPhpCodeSwitch('op', $contentSwitch);
@@ -117,9 +117,9 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesList($moduleDirname, $table, $language, $fieldInForm, $t = '')
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $axc = Modulebuilder\Files\Admin\AdminXoopsCode::getInstance();
 
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $tableName        = $table->getVar('table_name');
@@ -170,8 +170,8 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, $t = '')
     {
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $axc = Modulebuilder\Files\Admin\AdminXoopsCode::getInstance();
 
         $stuTableName = mb_strtoupper($tableName);
         $ret          = $axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
@@ -196,8 +196,8 @@ class AdminPages extends Files\CreateFile
      */
     private function getPermissionsSave($moduleDirname, $perm = 'view')
     {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
         $ret     = $pc->getPhpCodeCommentLine('Permission to', $perm, "\t\t\t");
         $ret     .= $xc->getXcDeleteRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$mid', '$permId', false, "\t\t\t");
@@ -223,9 +223,9 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesSave($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldMain, $tablePerms, $t = '')
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $axc = Modulebuilder\Files\Admin\AdminXoopsCode::getInstance();
 
         $ccFieldId          = $this->getCamelCase($fieldId, false, true);
         $ret                = $pc->getPhpCodeCommentLine('Security Check','',  $t);
@@ -332,8 +332,8 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, $t = '')
     {
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $axc = Modulebuilder\Files\Admin\AdminXoopsCode::getInstance();
 
         $tableName         = $table->getVar('table_name');
         $tableSoleName     = $table->getVar('table_solename');
@@ -366,7 +366,7 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain, $t = '')
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
         return $xc->getXcCommonPagesDelete($language, $tableName, $fieldId, $fieldMain, $t);
     }
@@ -379,7 +379,7 @@ class AdminPages extends Files\CreateFile
      */
     public function render()
     {
-        $tf  = Tdmcreate\Files\CreateFile::getInstance();
+        $tf  = Modulebuilder\Files\CreateFile::getInstance();
         $new = $save = $edit = '';
 
         $module        = $this->getModule();
@@ -424,7 +424,7 @@ class AdminPages extends Files\CreateFile
         $content .= $this->getAdminPagesSwitch($cases);
         $content .= $this->getInclude('footer');
 
-        $tf->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $tf->create($moduleDirname, 'admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $tf->renderFile();
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -38,7 +38,7 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_modules', Modules::class, 'mod_id', 'mod_name');
+        parent::__construct($db, 'modulebuilder_modules', Modules::class, 'mod_id', 'mod_name');
     }
 
     /**

@@ -1,10 +1,10 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\User\Defstyle;
+namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
-use XoopsModules\Tdmcreate\Files\Templates\User;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\Files\Templates\User;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -16,7 +16,7 @@ use XoopsModules\Tdmcreate\Files\Templates\User;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -77,7 +77,7 @@ class Broken extends Files\CreateFile
      */
     private function getTemplatesUserBrokenFileHeader($moduleDirname)
     {
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
 
         return $sc->getSmartyIncludeFile($moduleDirname, 'header');
     }
@@ -92,8 +92,8 @@ class Broken extends Files\CreateFile
      */
     private function getTemplatesUserBrokenTableHead($tableMid, $tableId, $tableAutoincrement, $language)
     {
-        $hc     = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc     = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc     = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc     = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $th     = '';
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
@@ -121,8 +121,8 @@ class Broken extends Files\CreateFile
      */
     private function getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableAutoincrement)
     {
-        $hc     = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc     = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc     = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc     = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $ret    = '';
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
@@ -163,7 +163,7 @@ class Broken extends Files\CreateFile
      */
     private function getTemplatesUserBrokenFileFooter($moduleDirname)
     {
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
 
         return $sc->getSmartyIncludeFile($moduleDirname, 'footer');
     }
@@ -174,7 +174,7 @@ class Broken extends Files\CreateFile
      */
     public function render()
     {
-        $hc                 = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $hc                 = Modulebuilder\Files\CreateHtmlCode::getInstance();
         $module             = $this->getModule();
         $table              = $this->getTable();
         $filename           = $this->getFileName();
@@ -191,7 +191,7 @@ class Broken extends Files\CreateFile
         $content            .= $hc->getHtmlTable($contentTable, 'table table-bordered');
         $content            .= $this->getTemplatesUserBrokenFileFooter($moduleDirname);
 
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

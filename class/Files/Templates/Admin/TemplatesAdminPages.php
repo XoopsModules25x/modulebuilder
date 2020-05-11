@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Templates\Admin;
+namespace XoopsModules\Modulebuilder\Files\Templates\Admin;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -75,8 +75,8 @@ class TemplatesAdminPages extends Files\CreateFile
      */
     private function getTemplatesAdminPagesHeader($moduleDirname)
     {
-        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $ret = $hc->getHtmlComment('Header', '',"\n");
         $ret .= $sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
 
@@ -93,8 +93,8 @@ class TemplatesAdminPages extends Files\CreateFile
      */
     private function getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language)
     {
-        $hc         = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc         = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc         = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc         = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $th         = '';
         $langHeadId = mb_strtoupper($tableSoleName) . '_ID';
         if (1 == $tableAutoincrement) {
@@ -131,8 +131,8 @@ class TemplatesAdminPages extends Files\CreateFile
      */
     private function getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields)
     {
-        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $td = '';
         if (1 == $tableAutoincrement) {
             $double = $sc->getSmartyDoubleVar($tableSoleName, 'id');
@@ -225,7 +225,7 @@ class TemplatesAdminPages extends Files\CreateFile
      */
     private function getTemplatesAdminPagesTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
     {
-        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
         $tbody = $this->getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language);
         $tbody .= $this->getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields);
 
@@ -244,8 +244,8 @@ class TemplatesAdminPages extends Files\CreateFile
      */
     private function getTemplatesAdminPages($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
     {
-        $hc        = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc        = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc        = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc        = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $htmlTable = $this->getTemplatesAdminPagesTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language);
         $htmlTable .= $hc->getHtmlTag('div', ['class' => 'clear'], '&nbsp;', false, "\t");
         $single    = $sc->getSmartySingleVar('pagenav');
@@ -271,8 +271,8 @@ class TemplatesAdminPages extends Files\CreateFile
      */
     private function getTemplatesAdminPagesFooter($moduleDirname)
     {
-        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $ret = $hc->getHtmlComment('Footer', '', "\n");
         $ret .= $sc->getSmartyIncludeFile($moduleDirname, 'footer', true);
 
@@ -296,7 +296,7 @@ class TemplatesAdminPages extends Files\CreateFile
         $content       .= $this->getTemplatesAdminPages($moduleDirname, $table->getVar('table_name'), $table->getVar('table_solename'), $table->getVar('table_autoincrement'), $fields, $language);
         $content       .= $this->getTemplatesAdminPagesFooter($moduleDirname);
 
-        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\User;
+namespace XoopsModules\Modulebuilder\Files\User;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -166,7 +166,7 @@ EOT;
         \${$tableName}Obj->setVar('{$fieldName}', formatUrl(\$_REQUEST['{$fieldName}']));\n
 		// Set Var {$fieldName}
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
-        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/files/{$tableName}';
+        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/Files/{$tableName}';
         \$uploader = new \XoopsMediaUploader(\$uploaddir, \$helper->getConfig('mimetypes_file'),
                                                          \$helper->getConfig('maxsize_file'), null, null);
         if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][])) {
@@ -264,7 +264,7 @@ EOT;
         $ret              = <<<EOT
         // Set Var {$fieldName}
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
-        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/files/{$tableName}';
+        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/Files/{$tableName}';
         \$uploader = new \XoopsMediaUploader(\$uploaddir, \$helper->getConfig('mimetypes_file'),
                                                          \$helper->getConfig('maxsize_file'), null, null);
         if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][])) {

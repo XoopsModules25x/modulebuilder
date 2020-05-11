@@ -10,11 +10,11 @@
 */
 
 /**
- * Tdmcreate module for xoops
+ * Modulebuilder module for xoops
  *
  * @param mixed      $module
  * @param null|mixed $prev_version
- * @package        Tdmcreate
+ * @package        Modulebuilder
  * @since          1.0
  * @min_xoops      2.5.9
  * @author         Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com>
@@ -29,18 +29,18 @@
  *
  * @return bool|null
  */
-function xoops_module_update_tdmcreate(&$module, $prev_version = null)
+function xoops_module_update_modulebuilder(&$module, $prev_version = null)
 {
     $ret = null;
     if ($prev_version < 10) {
-        $ret = update_tdmcreate_v10($module);
+        $ret = update_modulebuilder_v10($module);
     }
 
-    $ret = tdmcreate_check_db($module);
+    $ret = modulebuilder_check_db($module);
 
     //check upload directory
 	include_once __DIR__ . '/install.php';
-    $ret = xoops_module_install_tdmcreate($module);
+    $ret = xoops_module_install_modulebuilder($module);
 
     $errors = $module->getErrors();
     if (!empty($errors)) {
@@ -57,7 +57,7 @@ function xoops_module_update_tdmcreate(&$module, $prev_version = null)
  *
  * @return bool
  */
-function update_tdmcreate_v10($module)
+function update_modulebuilder_v10($module)
 {
     global $xoopsDB;
     $result = $xoopsDB->query(
@@ -110,14 +110,14 @@ function update_tdmcreate_v10($module)
  *
  * @return bool
  */
-function tdmcreate_check_db($module)
+function modulebuilder_check_db($module)
 {
     $ret = true;
 	//insert here code for database check
 
     /*
     // Example: update table (add new field)
-    $table   = $GLOBALS['xoopsDB']->prefix('tdmcreate_images');
+    $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_images');
     $field   = 'img_exif';
     $check   = $GLOBALS['xoopsDB']->queryF('SHOW COLUMNS FROM `' . $table . "` LIKE '" . $field . "'");
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
@@ -131,11 +131,11 @@ function tdmcreate_check_db($module)
     }
 
     // Example: create new table
-    $table   = $GLOBALS['xoopsDB']->prefix('tdmcreate_categories');
+    $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_categories');
     $check   = $GLOBALS['xoopsDB']->queryF("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='$table'");
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
     if (!$numRows) {
-        // create new table 'tdmcreate_categories'
+        // create new table 'modulebuilder_categories'
         $sql = "CREATE TABLE `$table` (
                   `cat_id`        INT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
                   `cat_text`      VARCHAR(100)    NOT NULL DEFAULT '',

@@ -17,9 +17,9 @@
 defined('XOOPS_ROOT_PATH') || die('Restricted access.');
 
 /**
- * Class TdmcreateCorePreload
+ * Class ModulebuilderCorePreload
  */
-class TdmcreateCorePreload extends \XoopsPreloadItem
+class ModulebuilderCorePreload extends \XoopsPreloadItem
 {
     // to add PSR-4 autoloader
 

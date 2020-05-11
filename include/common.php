@@ -10,7 +10,7 @@
  */
 
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -21,7 +21,7 @@
  *
  */
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 include dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));
@@ -63,5 +63,5 @@ define('TDMC_UPLOAD_IMGTAB_PATH', TDMC_UPLOAD_PATH . '/images/tables');
 define('TDMC_UPLOAD_IMGTAB_URL', TDMC_UPLOAD_URL . '/images/tables');
 // Xoops Request
 include_once XOOPS_ROOT_PATH . '/class/xoopsrequest.php';
-include_once TDMC_PATH . '/include/functions.php';
-include_once TDMC_PATH . '/class/helper.php';
+//include_once TDMC_PATH . '/include/functions.php';
+

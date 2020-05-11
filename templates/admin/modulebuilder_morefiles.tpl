@@ -1,15 +1,15 @@
 <!-- Header -->
-<{includeq file="db:tdmcreate_header.tpl"}>
+<{includeq file="db:modulebuilder_header.tpl"}>
 <!-- Display files list -->
 <{if $files_list}>
     <table class='outer width100'>
         <tr>
-            <th class='center'><{$smarty.const._AM_TDMCREATE_FILE_ID}></th>
-            <th class='center'><{$smarty.const._AM_TDMCREATE_FILE_MID_LIST}></th>
-            <th class='center'><{$smarty.const._AM_TDMCREATE_FILE_INFOLDER_LIST}></th>
-            <th class='center'><{$smarty.const._AM_TDMCREATE_FILE_NAME_LIST}></th>
-            <th class='center'><{$smarty.const._AM_TDMCREATE_FILE_EXTENSION_LIST}></th>
-            <th class='center width5'><{$smarty.const._AM_TDMCREATE_FORM_ACTION}></th>
+            <th class='center'><{$smarty.const._AM_MODULEBUILDER_FILE_ID}></th>
+            <th class='center'><{$smarty.const._AM_MODULEBUILDER_FILE_MID_LIST}></th>
+            <th class='center'><{$smarty.const._AM_MODULEBUILDER_FILE_INFOLDER_LIST}></th>
+            <th class='center'><{$smarty.const._AM_MODULEBUILDER_FILE_NAME_LIST}></th>
+            <th class='center'><{$smarty.const._AM_MODULEBUILDER_FILE_EXTENSION_LIST}></th>
+            <th class='center width5'><{$smarty.const._AM_MODULEBUILDER_FORM_ACTION}></th>
         </tr>
         <{foreach item=file from=$files_list key=file_id}>
             <tr id="file<{$file.id}>" class="files">
@@ -49,4 +49,4 @@
     </div>
 <{/if}>
 <!-- Footer -->
-<{includeq file="db:tdmcreate_footer.tpl"}>
+<{includeq file="db:modulebuilder_footer.tpl"}>

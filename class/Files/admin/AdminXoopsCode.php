@@ -1,8 +1,8 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Admin;
+namespace XoopsModules\Modulebuilder\Files\Admin;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -14,7 +14,7 @@ use XoopsModules\Tdmcreate;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -177,8 +177,8 @@ class AdminXoopsCode
      */
     public function getAxcSetVarImageList($tableName, $fieldName, $t = '', $countUploader = 0)
     {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $ret         = $pc->getPhpCodeCommentLine('Set Var', $fieldName, $t);
         $ret         .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
         $xRootPath   = "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'";
@@ -210,8 +210,8 @@ class AdminXoopsCode
      */
     public function getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, $t = '', $countUploader = 0)
     {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ret          = $pc->getPhpCodeCommentLine('Set Var', $fieldName, $t);
@@ -291,8 +291,8 @@ class AdminXoopsCode
      */
     private function getAxcSetVarImageFile($dirname, $tableName, $fieldName, $formatUrl = false, $t = '', $countUploader = 0, $fieldMain = '', $mimetype = 'mimetypes_image', $maxsize = 'maxsize_image')
     {
-        $pc     = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc     = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc     = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc     = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $ret    = '';
         $files  = '';
         $contIf = '';
@@ -334,9 +334,9 @@ class AdminXoopsCode
      */
     public function getAxcSetVarPassword($tableName, $fieldName, $t = '')
     {
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $cf  = Tdmcreate\Files\CreateFile::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $cf  = Modulebuilder\Files\CreateFile::getInstance();
         $ccFieldId = $cf->getCamelCase($fieldName, false, true);
         $ret       = $xc->getXcEqualsOperator("\${$ccFieldId}", "Request::getString('{$fieldName}', '')", '',$t);
         $contIf    = $xc->getXcSetVarObj($tableName, $fieldName, "password_hash(\${$ccFieldId}, PASSWORD_DEFAULT)", $t . "\t");
@@ -356,7 +356,7 @@ class AdminXoopsCode
      */
     public function getAxcSetVarMisc($tableName, $fieldName, $fieldType, $fieldElement, $t = '')
     {
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
         switch ((int)$fieldType){
             case 2:
             case 3:

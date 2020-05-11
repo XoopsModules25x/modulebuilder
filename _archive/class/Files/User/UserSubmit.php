@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\User;
+namespace XoopsModules\Modulebuilder\Files\User;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -77,8 +77,8 @@ class UserSubmit extends Files\CreateFile
      */
     public function getUserSubmitHeader($moduleDirname, $tablePermissions)
     {
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
         $uxc = UserXoopsCode::getInstance();
         $t   = "\t";
         $ret = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
@@ -113,8 +113,8 @@ class UserSubmit extends Files\CreateFile
      */
     public function getUserSubmitForm($tableName, $language, $t = '')
     {
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
         $uxc = UserXoopsCode::getInstance();
         $ret = $pc->getPhpCodeCommentLine('Navigation', '', $t);
         $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER", '', $t);
@@ -147,8 +147,8 @@ class UserSubmit extends Files\CreateFile
      */
     public function getUserSubmitSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $language, $t = '')
     {
-        $xc                 = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc                 = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc                 = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $pc                 = Modulebuilder\Files\CreatePhpCode::getInstance();
         $ret                = $pc->getPhpCodeCommentLine('Security Check', '', $t);
         $xoopsSecurityCheck = $xc->getXcXoopsSecurityCheck();
         $securityError      = $xc->getXcXoopsSecurityErrors();
@@ -212,7 +212,7 @@ class UserSubmit extends Files\CreateFile
      */
     public function getUserSubmitFooter($language)
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
         $uxc = UserXoopsCode::getInstance();
         $ret = $pc->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $uxc->getUserBreadcrumbs($language, 'SUBMIT');
@@ -236,7 +236,7 @@ class UserSubmit extends Files\CreateFile
      */
     private function getUserSubmitSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $language, $t)
     {
-        $xc     = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $xc     = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $fields = $this->getTableFields($tableMid, $tableId);
         $cases  = [
             'form' => [$this->getUserSubmitForm($tableName, $language, $t . "\t")],
@@ -255,8 +255,8 @@ class UserSubmit extends Files\CreateFile
      */
     private function getPermissionsSave($moduleDirname, $perm = 'view')
     {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
         $ret     = $pc->getPhpCodeCommentLine('Permission to', $perm, "\t\t\t");
         $ret     .= $xc->getXcDeleteRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$mid', '$permId', false, "\t\t\t");
@@ -298,7 +298,7 @@ class UserSubmit extends Files\CreateFile
         $content  .= $this->getUserSubmitSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $language, "\t");
         $content  .= $this->getUserSubmitFooter($language);
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

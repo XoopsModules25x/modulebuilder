@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Common;
+namespace XoopsModules\Modulebuilder\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -12,7 +12,7 @@ namespace XoopsModules\Tdmcreate\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-use \XoopsModules\Tdmcreate\Common;
+use \XoopsModules\Modulebuilder\Common;
 
 /**
  * Class Migrate synchronize existing tables with target schema

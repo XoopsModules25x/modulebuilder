@@ -1,3 +1,18 @@
+<h5>3.03 Alpha 3   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
+<hr>
+- fix class names to case-sensitive  (heyula/mamba)
+- fix folder names to case-sensitive  (mamba)
+- add folder & file checkers (mamba)
+- add SysUtility class (mamba)
+- fix $pathIcon16 (mamba)
+- add __NAMESPACE__ to Helper (mamba)
+
+
+<h5>3.03 Alpha 2   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
+<hr>
+- rename to ModuleBuilder (mamba)
+
+
 <h5>3.02 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.2
 <hr>
 work done by goffy:
@@ -74,7 +89,7 @@ THIS IS LAST VERSION WHICH CREATES MODULES WITHOUT NAMESPACES
  - css corrections (goffy)
  - yoda corrections (goffy)
  - corrected css for templates admin tables/fields (goffy)
- - replace < br /> by < br >; changed also function TDMCreateHTMLCode, TDMCreateHTMLSmartyCode (goffy)
+ - replace < br /> by < br >; changed also function ModuleBuilderHTMLCode, ModuleBuilderHTMLSmartyCode (goffy)
  - corrected typing errors (e.g. getVat) (goffy)
  - removed unnecessary semicolons in js (goffy)
  - added PHPDocs (goffy)
@@ -122,7 +137,7 @@ THIS IS LAST VERSION WHICH CREATES MODULES WITHOUT NAMESPACES
 
  - Refactoring Classes with Php Functions in place of Heredoc
  - Alpha Contribute & Testers (Timgno, Mamba, Goffy)
- - fixes for calls to "getXcEqualsOperator" from tdmcreate\class\files\user\UserXoopsVersion.php (mamba)
+ - fixes for calls to "getXcEqualsOperator" from modulebuilder\class\files\user\UserXoopsVersion.php (mamba)
 
 =================================
 2015/06/01: Version 1.91 alpha 3

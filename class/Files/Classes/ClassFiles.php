@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Classes;
+namespace XoopsModules\Modulebuilder\Files\Classes;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -84,7 +84,7 @@ class ClassFiles extends Files\CreateFile
      */
     private function getInitVar($fieldName, $type = 'INT')
     {
-        $cxc = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $cxc = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
 
         return $cxc->getClassInitVar($fieldName, $type);
     }
@@ -162,9 +162,9 @@ class ClassFiles extends Files\CreateFile
      */
     private function getClassObject($module, $table, $fields)
     {
-        $tc               = Tdmcreate\Helper::getInstance();
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $tc               = Modulebuilder\Helper::getInstance();
+        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc               = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $moduleDirname    = $module->getVar('mod_dirname');
         $tableName        = $table->getVar('table_name');
         $ucfTableName     = ucfirst($tableName);
@@ -180,7 +180,7 @@ class ClassFiles extends Files\CreateFile
             $fieldName        = $fields[$f]->getVar('field_name');
             $fieldElement     = $fields[$f]->getVar('field_element');
             $fieldInForm[]    = $fields[$f]->getVar('field_inform');
-            $fieldElements    = $tc->getHandler('fieldelements')->get($fieldElement);
+            $fieldElements    = $tc->getHandler('Fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
             $rpFieldName      = $this->getRightString($fieldName);
             if (in_array(5, $fieldElementId)) {
@@ -235,8 +235,8 @@ class ClassFiles extends Files\CreateFile
      */
     private function getNewInsertId($table)
     {
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc            = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc            = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $tableName     = $table->getVar('table_name');
         $ucfTableName  = ucfirst($tableName);
         $ret           = $pc->getPhpCodeCommentMultiLine(['The new inserted' => '$Id', '@return' => 'inserted id'], "\t");
@@ -260,9 +260,9 @@ class ClassFiles extends Files\CreateFile
      */
     private function getFunctionForm($module, $table, $fieldId, $fieldInForm)
     {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc              = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc               = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc              = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $fe               = ClassFormElements::getInstance();
         $moduleDirname    = $module->getVar('mod_dirname');
         $tableName        = $table->getVar('table_name');
@@ -326,9 +326,9 @@ class ClassFiles extends Files\CreateFile
      */
     private function getPermissionsInForm($moduleDirname, $fieldId, $tableName)
     {
-        $pc                = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc                = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc               = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $pc                = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc                = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc               = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $permissionApprove = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_APPROVE');
         $permissionSubmit  = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_SUBMIT');
         $permissionView    = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_VIEW');
@@ -378,9 +378,9 @@ class ClassFiles extends Files\CreateFile
      */
     private function getValuesInObject($moduleDirname, $table, $fields)
     {
-        $tc               = Tdmcreate\Helper::getInstance();
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $tc               = Modulebuilder\Helper::getInstance();
+        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc               = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $ucfTableName     = ucfirst($table->getVar('table_name'));
         $ret              = $pc->getPhpCodeCommentMultiLine(['Get' => 'Values', '@param null $keys' => '', '@param null $format' => '', '@param null$maxDepth' => '', '@return' => 'array'], "\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
@@ -430,7 +430,7 @@ class ClassFiles extends Files\CreateFile
                     $getValues .= $xc->getXcFormatTimeStamp("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", 'm', "\t\t");
                     break;
                 default:
-                    $fieldElements    = $tc->getHandler('fieldelements')->get($fieldElement);
+                    $fieldElements    = $tc->getHandler('Fieldelements')->get($fieldElement);
                     $fieldElementTid  = $fieldElements->getVar('fieldelement_tid');
                     if ((int)$fieldElementTid > 0 ) {
                         $fieldElementMid = $fieldElements->getVar('fieldelement_mid');
@@ -478,8 +478,8 @@ class ClassFiles extends Files\CreateFile
      */
     private function getToArrayInObject($table)
     {
-        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc           = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc           = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $tableName    = $table->getVar('table_name');
         $ucfTableName = ucfirst($tableName);
         $multiLineCom = ['Returns an array representation' => 'of the object', '' => '', '@return' => 'array'];
@@ -505,8 +505,8 @@ class ClassFiles extends Files\CreateFile
      */
     private function getOptionsCheck($table)
     {
-        $tc           = Tdmcreate\Helper::getInstance();
-        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $tc           = Modulebuilder\Helper::getInstance();
+        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
         $tableName    = $table->getVar('table_name');
         $ucfTableName = ucfirst($tableName);
         $ret          = $pc->getPhpCodeCommentMultiLine(['Get' => 'Options'], "\t");
@@ -517,7 +517,7 @@ class ClassFiles extends Files\CreateFile
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
 
-            $fieldElements  = $tc->getHandler('fieldelements')->get($fieldElement);
+            $fieldElements  = $tc->getHandler('Fieldelements')->get($fieldElement);
             $fieldElementId = $fieldElements->getVar('fieldelement_id');
             $rpFieldName    = $this->getRightString($fieldName);
             if (5 == $fieldElementId) {
@@ -541,7 +541,7 @@ class ClassFiles extends Files\CreateFile
      */
     public function render()
     {
-        $pc             = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc             = Modulebuilder\Files\CreatePhpCode::getInstance();
         $module         = $this->getModule();
         $table          = $this->getTable();
         $filename       = $this->getFileName();
@@ -553,7 +553,7 @@ class ClassFiles extends Files\CreateFile
         $content   .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
         $content   .= $this->getClassObject($module, $table, $fields);
 
-        $this->create($moduleDirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'class', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

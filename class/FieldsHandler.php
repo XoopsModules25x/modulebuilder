@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -13,7 +13,7 @@ namespace XoopsModules\Tdmcreate;
  */
 
 /**
- * tdmcreatereate module.
+ * modulebuilderreate module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -37,7 +37,7 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_fields', Fields::class, 'field_id', 'field_name');
+        parent::__construct($db, 'modulebuilder_fields', Fields::class, 'field_id', 'field_name');
     }
 
     /**

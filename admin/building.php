@@ -1,6 +1,6 @@
 <?php
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -12,7 +12,7 @@ use XoopsModules\Tdmcreate;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -23,14 +23,14 @@ use XoopsModules\Tdmcreate;
  *
  */
 
-$templateMain = 'tdmcreate_building.tpl';
+$templateMain = 'modulebuilder_building.tpl';
 
 include __DIR__ . '/header.php';
 $op          = \Xmf\Request::getString('op', 'default');
 $mid         = \Xmf\Request::getInt('mod_id');
 $inroot_copy = \Xmf\Request::getInt('inroot_copy');
 $moduleObj   = $helper->getHandler('Modules')->get($mid);
-$cachePath   = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
+$cachePath   = XOOPS_VAR_PATH . '/caches/modulebuilder_cache';
 if (!is_dir($cachePath)) {
     if (!mkdir($cachePath, 0777) && !is_dir($cachePath)) {
         throw new \RuntimeException(sprintf('Directory "%s" was not created', $cachePath));
@@ -56,14 +56,14 @@ switch ($op) {
         // include_once TDMC_CLASS_PATH . '/building.php';
         if (isset($moduleDirname)) {
             // Clear this module if it's in repository
-            $building = Tdmcreate\Building::getInstance();
+            $building = Modulebuilder\Building::getInstance();
             if (is_dir($fromDir)) {
                 $building->clearDir($fromDir);
             }
         }
         // Structure
-        // include_once TDMC_CLASS_PATH . '/files/Architecture.php';
-        $handler = Tdmcreate\Files\CreateArchitecture::getInstance();
+        // include_once TDMC_CLASS_PATH . '/Files/Architecture.php';
+        $handler = Modulebuilder\Files\CreateArchitecture::getInstance();
         // Creation of the structure of folders and files
         $baseArchitecture = $handler->setBaseFoldersFiles($moduleObj);
         if (false !== $baseArchitecture) {
@@ -84,17 +84,17 @@ switch ($op) {
 
         // Get common files
         $resCommon = $handler->setCommonFiles($moduleObj);
-        $build['list'] = _AM_TDMCREATE_BUILDING_COMMON;
+        $build['list'] = _AM_MODULEBUILDER_BUILDING_COMMON;
         $GLOBALS['xoopsTpl']->append('builds', $build);
         unset($build);
 
 
         // Directory to saved all files
-		$building_directory = sprintf(_AM_TDMCREATE_BUILDING_DIRECTORY, $moduleDirname);
+		$building_directory = sprintf(_AM_MODULEBUILDER_BUILDING_DIRECTORY, $moduleDirname);
         
         // Copy this module in root modules
         if (1 === $inroot_copy) {
-            $building = Tdmcreate\Building::getInstance();
+            $building = Modulebuilder\Building::getInstance();
             if (isset($moduleDirname)) {
                 // Clear this module if it's in root/modules
                 // Warning: If you have an older operating module with the same name,
@@ -105,7 +105,7 @@ switch ($op) {
                 }
             }
             $building->copyDir($fromDir, $toDir);
-			$building_directory .= sprintf(_AM_TDMCREATE_BUILDING_DIRECTORY_INROOT, $toDir);
+			$building_directory .= sprintf(_AM_MODULEBUILDER_BUILDING_DIRECTORY_INROOT, $toDir);
         }
 		$GLOBALS['xoopsTpl']->assign('building_directory', $building_directory);
         break;
@@ -115,11 +115,11 @@ switch ($op) {
         // Redirect if there aren't modules
         $nbModules = $helper->getHandler('Modules')->getCount();
         if (0 == $nbModules) {
-            redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOTMODULES);
+            redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_NOTMODULES);
         }
         unset($nbModules);
         // include_once TDMC_CLASS_PATH . '/building.php';
-        $building = Tdmcreate\Building::getInstance();
+        $building = Modulebuilder\Building::getInstance();
         $form     = $building->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;

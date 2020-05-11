@@ -11,7 +11,7 @@
  */
 
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -23,7 +23,7 @@
  */
 
 // Define main template
-$templateMain = 'tdmcreate_tables.tpl';
+$templateMain = 'modulebuilder_tables.tpl';
 
 include __DIR__ . '/header.php';
 // Recovered value of arguments op in the URL $
@@ -42,12 +42,12 @@ switch ($op) {
     default:
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('modules_adminpager'));
-        $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
+        $GLOBALS['xoTheme']->addStylesheet('modules/modulebuilder/assets/css/admin/style.css');
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
-        $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
-        $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/sortable.js');
+        $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
+        $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/sortable.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('tables.php'));
-        $adminObject->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_TABLE, 'tables.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
@@ -55,13 +55,13 @@ switch ($op) {
         $modulesCount = $helper->getHandler('Modules')->getCountModules();
         // Redirect if there aren't modules
         if (0 == $modulesCount) {
-            redirect_header('modules.php?op=new', 10, _AM_TDMCREATE_NOTMODULES);
+            redirect_header('modules.php?op=new', 10, _AM_MODULEBUILDER_NOTMODULES);
         }
         $modulesAll  = $helper->getHandler('Modules')->getAllModules($start, $limit);
         $tablesCount = $helper->getHandler('Tables')->getObjects(null);
         // Redirect if there aren't tables
         if (0 == $tablesCount) {
-            redirect_header('tables.php?op=new', 10, _AM_TDMCREATE_NOTTABLES);
+            redirect_header('tables.php?op=new', 10, _AM_MODULEBUILDER_NOTTABLES);
         }
         unset($tablesCount);
         // Display modules list
@@ -94,12 +94,12 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
-            $GLOBALS['xoopsTpl']->assign('error', _AM_TDMCREATE_THEREARENT_TABLES);
+            $GLOBALS['xoopsTpl']->assign('error', _AM_MODULEBUILDER_THEREARENT_TABLES);
         }
         break;
     case 'new':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('tables.php'));
-        $adminObject->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_TABLES_LIST, 'tables.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $tablesObj = $helper->getHandler('Tables')->create();
@@ -125,7 +125,7 @@ switch ($op) {
             //unset($criteria);
             foreach (array_keys($tableNameSearch) as $t) {
                 if ($tableNameSearch[$t]->getVar('table_name') === \Xmf\Request::getString('table_name', '', 'POST')) {
-                    redirect_header('tables.php?op=new', 3, sprintf(_AM_TDMCREATE_ERROR_TABLE_NAME_EXIST, \Xmf\Request::getString('table_name', '', 'POST')));
+                    redirect_header('tables.php?op=new', 3, sprintf(_AM_MODULEBUILDER_ERROR_TABLE_NAME_EXIST, \Xmf\Request::getString('table_name', '', 'POST')));
                 }
             }
             $tablesObj = $tables->create();
@@ -198,9 +198,9 @@ switch ($op) {
                 if (!$helper->getHandler('Fieldelements')->insert($fieldelementObj)) {
                     $GLOBALS['xoopsTpl']->assign('error', $fieldelementObj->getHtmlErrors() . ' Field element');
                 }
-                redirect_header('fields.php?op=new' . $tableAction, 5, sprintf(_AM_TDMCREATE_TABLE_FORM_CREATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
+                redirect_header('fields.php?op=new' . $tableAction, 5, sprintf(_AM_MODULEBUILDER_TABLE_FORM_CREATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
             } else {
-                redirect_header('tables.php', 5, sprintf(_AM_TDMCREATE_TABLE_FORM_UPDATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
+                redirect_header('tables.php', 5, sprintf(_AM_MODULEBUILDER_TABLE_FORM_UPDATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
             }
         }
 
@@ -210,8 +210,8 @@ switch ($op) {
         break;
     case 'edit':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('tables.php'));
-        $adminObject->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
-        $adminObject->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php?op=list', 'list');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_TABLE, 'tables.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_TABLES_LIST, 'tables.php?op=list', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $tablesObj = $helper->getHandler('Tables')->get($tableId);
@@ -233,7 +233,7 @@ switch ($op) {
                     ++$i;
                 }
             }
-            redirect_header('tables.php', 5, _AM_TDMCREATE_TABLE_ORDER_ERROR);
+            redirect_header('tables.php', 5, _AM_MODULEBUILDER_TABLE_ORDER_ERROR);
             unset($i);
         }
         exit;
@@ -246,7 +246,7 @@ switch ($op) {
             }
             if ($helper->getHandler('Tables')->delete($tablesObj)) {
                 // Delete items in table fieldelements - idea by goffy
-                $fieldelements = $helper->getHandler('Fieldelements')->getAllFieldElementsByModuleAndTableId($tableMid, $tableId);
+                $fieldelements = $helper->getHandler('Fieldelements')->getAllFieldelementsByModuleAndTableId($tableMid, $tableId);
                 foreach (array_keys($fieldelements) as $fe) {
                     $fieldElementsObj = $helper->getHandler('Fieldelements')->get($fieldelements[$fe]->getVar('fieldelement_id'));
                     if (!$helper->getHandler('Fieldelements')->delete($fieldElementsObj)) {
@@ -254,12 +254,12 @@ switch ($op) {
                     }
                     unset($fieldElementsObj);
                 }
-                redirect_header('tables.php', 3, _AM_TDMCREATE_FORMDELOK);
+                redirect_header('tables.php', 3, _AM_MODULEBUILDER_FORMDELOK);
             } else {
                 $GLOBALS['xoopsTpl']->assign('error', $tablesObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(['ok' => 1, 'table_id' => $tableId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_TDMCREATE_FORMSUREDEL, $tablesObj->getVar('table_name')));
+            xoops_confirm(['ok' => 1, 'table_id' => $tableId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_MODULEBUILDER_FORMSUREDEL, $tablesObj->getVar('table_name')));
         }
         break;
     case 'display':
@@ -274,7 +274,7 @@ switch ($op) {
                 }
             }
             if ($helper->getHandler('Modules')->insert($modulesObj)) {
-                redirect_header('modules.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
+                redirect_header('modules.php', 3, _AM_MODULEBUILDER_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
         }
@@ -289,7 +289,7 @@ switch ($op) {
                 }
             }
             if ($helper->getHandler('Tables')->insert($tablesObj)) {
-                redirect_header('tables.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
+                redirect_header('tables.php', 3, _AM_MODULEBUILDER_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $tablesObj->getHtmlErrors());
         }

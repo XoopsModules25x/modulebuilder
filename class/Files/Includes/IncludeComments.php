@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Includes;
+namespace XoopsModules\Modulebuilder\Files\Includes;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -75,13 +75,13 @@ class IncludeComments extends Files\CreateFile
      */
     public function renderCommentsIncludes($module, $filename)
     {
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $pc->getPhpCodeIncludeDir("__DIR__ . '/../../../mainfile.php'",'',true, true);
         $content       .= $pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/include/{$filename}.php'",'',true, true);
 
-        $this->create($moduleDirname, 'include', $filename . '.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename . '.php', $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }
@@ -95,8 +95,8 @@ class IncludeComments extends Files\CreateFile
      */
     public function renderCommentsNew($module, $filename)
     {
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc            = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc            = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $table         = $this->getTable();
         $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
         $tableName     = $table->getVar('table_name');
@@ -118,7 +118,7 @@ class IncludeComments extends Files\CreateFile
         $contIf  .= $pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/include/{$filename}.php'",'',true, true, '',"\t");
         $content .= $pc->getPhpCodeConditions('$com_itemid',' > ', '0', $contIf);
 
-        $this->create($moduleDirname, 'include', $filename . '.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename . '.php', $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }
@@ -137,27 +137,27 @@ class IncludeComments extends Files\CreateFile
         switch($filename) {
             case 'comment_edit.php':
                 $content .= $this->getCommentsIncludes('comment_edit');
-                $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+                $this->create($moduleDirname, 'include', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
                 return $this->render();
             break;
             case 'comment_delete.php':
                 $content .= $this->getCommentsIncludes('comment_delete');
-                $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+                $this->create($moduleDirname, 'include', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
                 return $this->render();
             break;
             case 'comment_post.php':
                 $content .= $this->getCommentsIncludes('comment_post');
-                $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+                $this->create($moduleDirname, 'include', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
                 return $this->render();
             break;
             case 'comment_reply.php':
                 $content .= $this->getCommentsIncludes('comment_reply');
-                $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+                $this->create($moduleDirname, 'include', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
                 return $this->render();
             break;
             case 'comment_new.php':
                 $content .= $this->getCommentsNew($moduleDirname, 'comment_new');
-                $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+                $this->create($moduleDirname, 'include', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
                 return $this->render();
             break;
         }

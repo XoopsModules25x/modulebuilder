@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Language;
+namespace XoopsModules\Modulebuilder\Files\Language;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -103,7 +103,7 @@ Detailed instructions on installing modules are available in the <a href="http:/
     </p>
     <h4 class="odd">Features</h4>
     <p class="even">
-        The TDMCreate module continues to expand, to get to the conditions to create modules, more and more sophisticated.<br>
+        The ModuleBuilder module continues to expand, to get to the conditions to create modules, more and more sophisticated.<br>
         For this reason, I invite all developers to report and send in svn any changes or additions to this module, so that we can jointly contribute to the development <br><br>
     </p>
     <h4 class="odd">Tutorial</h4>
@@ -114,9 +114,9 @@ Detailed instructions on installing modules are available in the <a href="http:/
 </div>
 EOT;
         if ('english' !== $language) {
-            $this->create($moduleDirname, 'language/' . $language . '/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+            $this->create($moduleDirname, 'language/' . $language . '/help', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
         }
-        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'] . '/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'] . '/help', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

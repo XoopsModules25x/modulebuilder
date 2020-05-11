@@ -10,7 +10,7 @@
  */
 
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -24,11 +24,11 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 $moduleDirName      = basename(__DIR__);
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-$modversion['version']             = 3.02;
-$modversion['module_status']       = 'Alpha 2';
-$modversion['release_date']        = '2020/01/01';
-$modversion['name']                = _MI_TDMCREATE_NAME;
-$modversion['description']         = _MI_TDMCREATE_DESC;
+$modversion['version']             = 3.03;
+$modversion['module_status']       = 'Alpha 3';
+$modversion['release_date']        = '2020/05/10';
+$modversion['name']                = _MI_MODULEBUILDER_NAME;
+$modversion['description']         = _MI_MODULEBUILDER_DESC;
 $modversion['author']              = 'Xoops TDM';
 $modversion['author_website_url']  = 'https://xoops.org/';
 $modversion['author_website_name'] = 'Xoops Team Developers Module';
@@ -38,7 +38,7 @@ $modversion['help']                = 'page=help';
 $modversion['license']             = 'GNU GPL 2.0 or later';
 $modversion['license_url']         = 'www.gnu.org/licenses/gpl-2.0.html/';
 $modversion['release_info']        = 'README';
-$modversion['release_file']        = 'https://github.com/txmodxoops/tdmcreate-1.91/releases';
+$modversion['release_file']        = 'https://github.com/txmodxoops/modulebuilder-1.91/releases';
 $modversion['manual']              = 'MANUAL';
 $modversion['manual_file']         = XOOPS_URL . "/modules/{$moduleDirName}/docs/manual.txt";
 $modversion['image']               = "assets/images/logoModule.png";
@@ -51,7 +51,7 @@ $modversion['sysicons32']     = '../../Frameworks/moduleclasses/icons/32';
 $modversion['modicons16']          = 'assets/images/icons/16';
 $modversion['modicons32']          = 'assets/images/icons/32';
 $modversion['targetdir']           = XOOPS_UPLOAD_PATH . "/{$moduleDirName}/repository/";
-$modversion['module_website_url']  = 'https://github.com/txmodxoops/tdmcreate-1.91';
+$modversion['module_website_url']  = 'https://github.com/txmodxoops/modulebuilder-1.91';
 $modversion['module_website_name'] = 'GitHub Txmodx Xoops';
 $modversion['min_php']             = '7.0';
 $modversion['min_xoops']           = '2.5.9';
@@ -61,7 +61,7 @@ $modversion['min_db']              = ['mysql' => '5.5'];
 $modversion['demo_site_url']       = 'https://xoops.org/';
 $modversion['demo_site_name']      = 'Xoops TDM';
 $modversion['forum_site_url']      = 'https://xoops.org/modules/newbb/viewtopic.php?post_id=358118';
-$modversion['forum_site_name']     = 'TDMCreate 1.91 alpha for Testing';
+$modversion['forum_site_name']     = 'ModuleBuilder 1.91 alpha for Testing';
 $modversion['module_website_name'] = 'Xoops TDM';
 // Admin things
 $modversion['system_menu'] = 1;
@@ -69,18 +69,18 @@ $modversion['hasAdmin']    = 1;
 $modversion['adminindex']  = 'admin/index.php';
 $modversion['adminmenu']   = 'admin/menu.php';
 // Templates admin
-$modversion['templates'][] = ['file' => 'tdmcreate_about.tpl', 'description' => '', 'type' => 'admin'];
-$modversion['templates'][] = ['file' => 'tdmcreate_building.tpl', 'description' => '', 'type' => 'admin'];
-$modversion['templates'][] = ['file' => 'tdmcreate_fields.tpl', 'description' => '', 'type' => 'admin'];
-$modversion['templates'][] = ['file' => 'tdmcreate_fields_item.tpl', 'description' => '', 'type' => 'admin'];
-$modversion['templates'][] = ['file' => 'tdmcreate_footer.tpl', 'description' => '', 'type' => 'admin'];
-$modversion['templates'][] = ['file' => 'tdmcreate_header.tpl', 'description' => '', 'type' => 'admin'];
-$modversion['templates'][] = ['file' => 'tdmcreate_index.tpl', 'description' => '', 'type' => 'admin'];
-$modversion['templates'][] = ['file' => 'tdmcreate_modules.tpl', 'description' => '', 'type' => 'admin'];
-$modversion['templates'][] = ['file' => 'tdmcreate_tables.tpl', 'description' => '', 'type' => 'admin'];
-$modversion['templates'][] = ['file' => 'tdmcreate_tables_item.tpl', 'description' => '', 'type' => 'admin'];
-$modversion['templates'][] = ['file' => 'tdmcreate_settings.tpl', 'description' => '', 'type' => 'admin'];
-$modversion['templates'][] = ['file' => 'tdmcreate_morefiles.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'modulebuilder_about.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'modulebuilder_building.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'modulebuilder_fields.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'modulebuilder_fields_item.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'modulebuilder_footer.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'modulebuilder_header.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'modulebuilder_index.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'modulebuilder_modules.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'modulebuilder_tables.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'modulebuilder_tables_item.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'modulebuilder_settings.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'modulebuilder_morefiles.tpl', 'description' => '', 'type' => 'admin'];
 
 // ------------------- Mysql ------------------- //
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
@@ -108,8 +108,8 @@ $c = 1;
 
 $modversion['config'][] = [
     'name'        => 'break' . $c,
-    'title'       => '_MI_TDMCREATE_CONFIG_BREAK_GENERAL',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_BREAK_GENERAL',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'head',
@@ -119,9 +119,9 @@ xoops_load('xoopseditorhandler');
 $editorHandler = \XoopsEditorHandler::getInstance();
 
 $modversion['config'][] = [
-    'name'        => 'tdmcreate_editor',
-    'title'       => '_MI_TDMCREATE_CONFIG_EDITOR',
-    'description' => '_MI_TDMCREATE_CONFIG_EDITOR_DESC',
+    'name'        => 'modulebuilder_editor',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_EDITOR',
+    'description' => '_MI_MODULEBUILDER_CONFIG_EDITOR_DESC',
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'default'     => 'dhtml',
@@ -131,8 +131,8 @@ $modversion['config'][] = [
 $modversion['config'][] = [
     //Uploads : mimetypes
     'name'        => 'mimetypes_image',
-    'title'       => '_MI_TDMCREATE_CONFIG_MIMETYPES_IMAGE',
-    'description' => '_MI_TDMCREATE_CONFIG_MIMETYPES_IMAGE_DESC',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_MIMETYPES_IMAGE',
+    'description' => '_MI_MODULEBUILDER_CONFIG_MIMETYPES_IMAGE_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'gif|jpeg|pjpeg|png',
@@ -141,8 +141,8 @@ $modversion['config'][] = [
 $modversion['config'][] = [
     //Uploads : maxsize
     'name'        => 'maxsize_image',
-    'title'       => '_MI_TDMCREATE_CONFIG_MAXSIZE_IMAGE',
-    'description' => '_MI_TDMCREATE_CONFIG_MAXSIZE_IMAGE_DESC',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_MAXSIZE_IMAGE',
+    'description' => '_MI_MODULEBUILDER_CONFIG_MAXSIZE_IMAGE_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => '5000000',
@@ -150,8 +150,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'settings_adminpager',
-    'title'       => '_MI_TDMCREATE_CONFIG_SETTINGS_ADMINPAGER',
-    'description' => '_MI_TDMCREATE_CONFIG_SETTINGS_ADMINPAGER_DESC',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_SETTINGS_ADMINPAGER',
+    'description' => '_MI_MODULEBUILDER_CONFIG_SETTINGS_ADMINPAGER_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 10,
@@ -159,8 +159,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'modules_adminpager',
-    'title'       => '_MI_TDMCREATE_CONFIG_MODULES_ADMINPAGER',
-    'description' => '_MI_TDMCREATE_CONFIG_MODULES_ADMINPAGER_DESC',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_MODULES_ADMINPAGER',
+    'description' => '_MI_MODULEBUILDER_CONFIG_MODULES_ADMINPAGER_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 10,
@@ -168,8 +168,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'tables_adminpager',
-    'title'       => '_MI_TDMCREATE_CONFIG_TABLES_ADMINPAGER',
-    'description' => '_MI_TDMCREATE_CONFIG_TABLES_ADMINPAGER_DESC',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_TABLES_ADMINPAGER',
+    'description' => '_MI_MODULEBUILDER_CONFIG_TABLES_ADMINPAGER_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 10,
@@ -177,8 +177,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'fields_adminpager',
-    'title'       => '_MI_TDMCREATE_CONFIG_FIELDS_ADMINPAGER',
-    'description' => '_MI_TDMCREATE_CONFIG_FIELDS_ADMINPAGER_DESC',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_FIELDS_ADMINPAGER',
+    'description' => '_MI_MODULEBUILDER_CONFIG_FIELDS_ADMINPAGER_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 10,
@@ -186,8 +186,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'morefiles_adminpager',
-    'title'       => '_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER',
-    'description' => '_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER_DESC',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_MOREFILES_ADMINPAGER',
+    'description' => '_MI_MODULEBUILDER_CONFIG_MOREFILES_ADMINPAGER_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 10,
@@ -196,8 +196,8 @@ $modversion['config'][] = [
 ++$c;
 $modversion['config'][] = [
     'name'        => 'break' . $c,
-    'title'       => '_MI_TDMCREATE_CONFIG_BREAK_REQUIRED',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_BREAK_REQUIRED',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'head',
@@ -205,8 +205,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'name',
-    'title'       => '_MI_TDMCREATE_CONFIG_NAME',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_NAME',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'My Module',
@@ -214,8 +214,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'dirname',
-    'title'       => '_MI_TDMCREATE_CONFIG_DIRNAME',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_DIRNAME',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'mymoduledirname',
@@ -223,8 +223,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'version',
-    'title'       => '_MI_TDMCREATE_CONFIG_VERSION',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_VERSION',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '1.0',
@@ -232,8 +232,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'since',
-    'title'       => '_MI_TDMCREATE_CONFIG_SINCE',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_SINCE',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '1.0',
@@ -241,8 +241,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'min_php',
-    'title'       => '_MI_TDMCREATE_CONFIG_MIN_PHP',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_MIN_PHP',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '5.5',
@@ -250,8 +250,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'min_xoops',
-    'title'       => '_MI_TDMCREATE_CONFIG_MIN_XOOPS',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_MIN_XOOPS',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '2.5.9',
@@ -259,8 +259,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'min_admin',
-    'title'       => '_MI_TDMCREATE_CONFIG_MIN_ADMIN',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_MIN_ADMIN',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '1.2',
@@ -268,8 +268,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'min_mysql',
-    'title'       => '_MI_TDMCREATE_CONFIG_MIN_MYSQL',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_MIN_MYSQL',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '5.5',
@@ -277,8 +277,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'description',
-    'title'       => '_MI_TDMCREATE_CONFIG_DESCRIPTION',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_DESCRIPTION',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textarea',
     'valuetype'   => 'text',
     'default'     => 'This module is for doing following...',
@@ -286,8 +286,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'author',
-    'title'       => '_MI_TDMCREATE_CONFIG_AUTHOR',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_AUTHOR',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'XOOPS Development Team',
@@ -295,8 +295,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'image',
-    'title'       => '_MI_TDMCREATE_CONFIG_IMAGE',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_IMAGE',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'empty.png',
@@ -304,8 +304,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'display_admin',
-    'title'       => '_MI_TDMCREATE_CONFIG_DISPLAY_ADMIN_SIDE',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_DISPLAY_ADMIN_SIDE',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
@@ -313,8 +313,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'display_user',
-    'title'       => '_MI_TDMCREATE_CONFIG_DISPLAY_USER_SIDE',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_DISPLAY_USER_SIDE',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
@@ -322,8 +322,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'active_blocks',
-    'title'       => '_MI_TDMCREATE_CONFIG_ACTIVE_BLOCKS',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_ACTIVE_BLOCKS',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
@@ -331,8 +331,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'active_search',
-    'title'       => '_MI_TDMCREATE_CONFIG_ACTIVE_SEARCH',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_ACTIVE_SEARCH',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
@@ -340,8 +340,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'active_comments',
-    'title'       => '_MI_TDMCREATE_CONFIG_ACTIVE_COMMENTS',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_ACTIVE_COMMENTS',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
@@ -349,8 +349,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'active_notifications',
-    'title'       => '_MI_TDMCREATE_CONFIG_ACTIVE_NOTIFICATIONS',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_ACTIVE_NOTIFICATIONS',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
@@ -358,8 +358,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'active_permissions',
-    'title'       => '_MI_TDMCREATE_CONFIG_ACTIVE_PERMISSIONS',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_ACTIVE_PERMISSIONS',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
@@ -367,8 +367,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'inroot_copy',
-    'title'       => '_MI_TDMCREATE_CONFIG_INROOT_COPY',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_INROOT_COPY',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
@@ -377,8 +377,8 @@ $modversion['config'][] = [
 ++$c;
 $modversion['config'][] = [
     'name'        => 'break' . $c,
-    'title'       => '_MI_TDMCREATE_CONFIG_BREAK_OPTIONAL',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_BREAK_OPTIONAL',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'head',
@@ -386,8 +386,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'author_email',
-    'title'       => '_MI_TDMCREATE_CONFIG_AUTHOR_EMAIL',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_AUTHOR_EMAIL',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'name@site.com',
@@ -395,8 +395,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'author_website_url',
-    'title'       => '_MI_TDMCREATE_CONFIG_AUTHOR_WEBSITE_URL',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_AUTHOR_WEBSITE_URL',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'https://xoops.org',
@@ -404,8 +404,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'author_website_name',
-    'title'       => '_MI_TDMCREATE_CONFIG_AUTHOR_WEBSITE_NAME',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_AUTHOR_WEBSITE_NAME',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'XOOPS Project',
@@ -413,8 +413,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'credits',
-    'title'       => '_MI_TDMCREATE_CONFIG_CREDITS',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_CREDITS',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'XOOPS Development Team',
@@ -422,8 +422,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'license',
-    'title'       => '_MI_TDMCREATE_CONFIG_LICENSE',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_LICENSE',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'GPL 2.0 or later',
@@ -431,8 +431,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'license_url',
-    'title'       => '_MI_TDMCREATE_CONFIG_LICENSE_URL',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_LICENSE_URL',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'http://www.gnu.org/licenses/old-licenses/gpl-2.0.html',
@@ -440,17 +440,17 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'repository',
-    'title'       => '_MI_TDMCREATE_CONFIG_REPOSITORY',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_REPOSITORY',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => 'https://github.com/txmodxoops/TDMCreate-1.91',
+    'default'     => 'https://github.com/txmodxoops/ModuleBuilder-1.91',
 ];
 
 $modversion['config'][] = [
     'name'        => 'release_info',
-    'title'       => '_MI_TDMCREATE_CONFIG_RELEASE_INFO',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_RELEASE_INFO',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'release_info',
@@ -458,8 +458,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'release_file',
-    'title'       => '_MI_TDMCREATE_CONFIG_RELEASE_FILE',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_RELEASE_FILE',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'release_info file',
@@ -467,8 +467,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'manual',
-    'title'       => '_MI_TDMCREATE_CONFIG_MANUAL',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_MANUAL',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'link to manual file',
@@ -476,8 +476,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'manual_file',
-    'title'       => '_MI_TDMCREATE_CONFIG_MANUAL_FILE',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_MANUAL_FILE',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'install.txt',
@@ -485,8 +485,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'demo_site_url',
-    'title'       => '_MI_TDMCREATE_CONFIG_DEMO_SITE_URL',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_DEMO_SITE_URL',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'https://xoops.org',
@@ -494,8 +494,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'demo_site_name',
-    'title'       => '_MI_TDMCREATE_CONFIG_DEMO_SITE_NAME',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_DEMO_SITE_NAME',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'XOOPS Demo Site',
@@ -503,8 +503,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'support_url',
-    'title'       => '_MI_TDMCREATE_CONFIG_SUPPORT_URL',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_SUPPORT_URL',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'https://xoops.org/modules/newbb',
@@ -512,8 +512,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'support_name',
-    'title'       => '_MI_TDMCREATE_CONFIG_SUPPORT_NAME',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_SUPPORT_NAME',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'Support Forum',
@@ -521,8 +521,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'website_url',
-    'title'       => '_MI_TDMCREATE_CONFIG_WEBSITE_URL',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_WEBSITE_URL',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'www.xoops.org',
@@ -530,8 +530,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'website_name',
-    'title'       => '_MI_TDMCREATE_CONFIG_WEBSITE_NAME',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_WEBSITE_NAME',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'XOOPS Project',
@@ -539,8 +539,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'release_date',
-    'title'       => '_MI_TDMCREATE_CONFIG_RELEASE_DATE',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_RELEASE_DATE',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => date(_DBDATESTRING),
@@ -548,8 +548,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'status',
-    'title'       => '_MI_TDMCREATE_CONFIG_STATUS',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_STATUS',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'Beta 1',
@@ -557,8 +557,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'donations',
-    'title'       => '_MI_TDMCREATE_CONFIG_PAYPAL_BUTTON',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_PAYPAL_BUTTON',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '6KJ7RW5DR3VTJ',
@@ -566,8 +566,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'subversion',
-    'title'       => '_MI_TDMCREATE_CONFIG_SUBVERSION',
-    'description' => '_MI_TDMCREATE_CONFIG_',
+    'title'       => '_MI_MODULEBUILDER_CONFIG_SUBVERSION',
+    'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '13040',

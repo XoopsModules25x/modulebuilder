@@ -11,7 +11,7 @@
  */
 
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -23,7 +23,7 @@
  */
 
 // Define main template
-$templateMain = 'tdmcreate_morefiles.tpl';
+$templateMain = 'modulebuilder_morefiles.tpl';
 
 include __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
@@ -36,10 +36,10 @@ switch ($op) {
     default:
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('morefiles_adminpager'));
-        $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
-        $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
+        $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
+        $GLOBALS['xoTheme']->addStylesheet('modules/modulebuilder/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
-        $adminObject->addItemButton(_AM_TDMCREATE_ADD_MORE_FILE, 'morefiles.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_MORE_FILE, 'morefiles.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgfile_url', TDMC_UPLOAD_IMGMOD_URL);
@@ -48,14 +48,14 @@ switch ($op) {
         $modulesCount = $helper->getHandler('Modules')->getCountModules();
         // Redirect if there aren't modules
         if (0 == $modulesCount) {
-            redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOTMODULES);
+            redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_NOTMODULES);
         }
-        $morefilesCount = $helper->getHandler('Morefiles')->getCountMoreFiles();
-        $morefilesAll   = $helper->getHandler('Morefiles')->getAllMoreFiles($start, $limit);
+        $morefilesCount = $helper->getHandler('Morefiles')->getCountMorefiles();
+        $morefilesAll   = $helper->getHandler('Morefiles')->getAllMorefiles($start, $limit);
         // Display morefiles list
         if ($morefilesCount > 0) {
             foreach (array_keys($morefilesAll) as $i) {
-                $files = $morefilesAll[$i]->getValuesMoreFiles();
+                $files = $morefilesAll[$i]->getValuesMorefiles();
                 $GLOBALS['xoopsTpl']->append('files_list', $files);
                 unset($files);
             }
@@ -65,17 +65,17 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
-            $GLOBALS['xoopsTpl']->assign('error', _AM_TDMCREATE_THEREARENT_MORE_FILES);
+            $GLOBALS['xoopsTpl']->assign('error', _AM_MODULEBUILDER_THEREARENT_MORE_FILES);
         }
         break;
     case 'new':
-        $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
+        $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
-        $adminObject->addItemButton(_AM_TDMCREATE_MORE_FILES_LIST, 'morefiles.php', 'list');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_MORE_FILES_LIST, 'morefiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $morefilesObj = $helper->getHandler('Morefiles')->create();
-        $form         = $morefilesObj->getFormMoreFiles();
+        $form         = $morefilesObj->getFormMorefiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'save':
@@ -99,27 +99,27 @@ switch ($op) {
 
         if ($helper->getHandler('Morefiles')->insert($morefilesObj)) {
             if ($morefilesObj->isNew()) {
-                redirect_header('morefiles.php', 5, sprintf(_AM_TDMCREATE_FILE_FORM_CREATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
+                redirect_header('morefiles.php', 5, sprintf(_AM_MODULEBUILDER_FILE_FORM_CREATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
             } else {
-                redirect_header('morefiles.php', 5, sprintf(_AM_TDMCREATE_FILE_FORM_UPDATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
+                redirect_header('morefiles.php', 5, sprintf(_AM_MODULEBUILDER_FILE_FORM_UPDATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
             }
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $morefilesObj->getHtmlErrors());
-        $form = $morefilesObj->getFormMoreFiles();
+        $form = $morefilesObj->getFormMorefiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'edit':
         // Define main template
-        //        $templateMain = 'tdmcreate_morefiles.tpl';
-        $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
+        //        $templateMain = 'modulebuilder_morefiles.tpl';
+        $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
-        $adminObject->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'morefiles.php?op=new', 'add');
-        $adminObject->addItemButton(_AM_TDMCREATE_MORE_FILES_LIST, 'morefiles.php', 'list');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_MODULE, 'morefiles.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_MORE_FILES_LIST, 'morefiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $morefilesObj = $helper->getHandler('Morefiles')->get($fileId);
-        $form         = $morefilesObj->getFormMoreFiles();
+        $form         = $morefilesObj->getFormMorefiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'delete':
@@ -129,12 +129,12 @@ switch ($op) {
                 redirect_header('morefiles.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($helper->getHandler('Morefiles')->delete($morefilesObj)) {
-                redirect_header('morefiles.php', 3, _AM_TDMCREATE_FORM_DELETED_OK);
+                redirect_header('morefiles.php', 3, _AM_MODULEBUILDER_FORM_DELETED_OK);
             } else {
                 $GLOBALS['xoopsTpl']->assign('error', $morefilesObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_TDMCREATE_FORM_SURE_DELETE, $morefilesObj->getVar('file_name')));
+            xoops_confirm(['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_MODULEBUILDER_FORM_SURE_DELETE, $morefilesObj->getVar('file_name')));
         }
         break;
 }

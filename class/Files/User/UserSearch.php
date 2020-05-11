@@ -1,9 +1,9 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\User;
+namespace XoopsModules\Modulebuilder\Files\User;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,7 +15,7 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -48,8 +48,8 @@ class UserSearch extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xoopscode = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $this->phpcode   = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $this->xoopscode = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->phpcode   = Modulebuilder\Files\CreatePhpCode::getInstance();
         $this->usercode  = UserXoopsCode::getInstance();
     }
 
@@ -92,7 +92,7 @@ class UserSearch extends Files\CreateFile
      */
     private function getUserSearchHeader($moduleDirname, $table, $fields)
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
         $ret = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
@@ -186,7 +186,7 @@ EOT;
         $content       .= $this->getUserSearch($moduleDirname, $tableName, $language);
         $content       .= $this->getUserSearchFooter($moduleDirname, $tableName, $language);
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

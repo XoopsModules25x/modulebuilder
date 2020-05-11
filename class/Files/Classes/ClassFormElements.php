@@ -1,8 +1,8 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files\Classes;
+namespace XoopsModules\Modulebuilder\Files\Classes;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -28,7 +28,7 @@ use XoopsModules\Tdmcreate;
 /**
  * Class ClassFormElements.
  */
-class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
+class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
 {
     /**
      * @static function getInstance
@@ -69,9 +69,9 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormText($language, $fieldName, $fieldDefault, $required = 'false')
     {
-        $tf           = Tdmcreate\Files\CreateFile::getInstance();
-        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $cxc          = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf           = Modulebuilder\Files\CreateFile::getInstance();
+        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $cxc          = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ccFieldName  = $tf->getCamelCase($fieldName, false, true);
         if ('' != $fieldDefault) {
             $ret      = $pc->getPhpCodeCommentLine('Form Text', $ccFieldName, "\t\t");
@@ -98,9 +98,9 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormTextArea($language, $fieldName, $required = 'false')
     {
-        $tf           = Tdmcreate\Files\CreateFile::getInstance();
-        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $cxc          = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf           = Modulebuilder\Files\CreateFile::getInstance();
+        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $cxc          = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ccFieldName  = $tf->getCamelCase($fieldName, false, true);
         $ret          = $pc->getPhpCodeCommentLine('Form Editor', 'TextArea ' . $ccFieldName, "\t\t");
         $formTextArea = $cxc->getClassXoopsFormTextArea('', $language, $fieldName, 4, 47, true);
@@ -120,10 +120,10 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormDhtmlTextArea($language, $fieldName, $required = 'false')
     {
-        $tf          = Tdmcreate\Files\CreateFile::getInstance();
-        $pc          = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc          = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc         = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf          = Modulebuilder\Files\CreateFile::getInstance();
+        $pc          = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc          = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc         = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $rpFieldName = $tf->getRightString($fieldName);
         $ccFieldName = $tf->getCamelCase($fieldName, false, true);
         $ret         = $pc->getPhpCodeCommentLine('Form Editor', 'DhtmlTextArea ' . $ccFieldName, "\t\t");
@@ -159,10 +159,10 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormCheckBox($language, $tableSoleName, $fieldName, $fieldElementId, $required = 'false')
     {
-        $tf               = Tdmcreate\Files\CreateFile::getInstance();
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc              = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf               = Modulebuilder\Files\CreateFile::getInstance();
+        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc               = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc              = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $stuTableSoleName = mb_strtoupper($tableSoleName);
         $ucfFieldName     = $tf->getCamelCase($fieldName, true);
         $ccFieldName      = $tf->getCamelCase($fieldName, false, true);
@@ -198,9 +198,9 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormHidden($fieldName)
     {
-        $tf           = Tdmcreate\Files\CreateFile::getInstance();
-        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $cxc          = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf           = Modulebuilder\Files\CreateFile::getInstance();
+        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $cxc          = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ccFieldName  = $tf->getCamelCase($fieldName, false, true);
         $ret          = $pc->getPhpCodeCommentLine('Form Hidden', $ccFieldName, "\t\t");
         $formHidden   = $cxc->getClassXoopsFormHidden('', $fieldName, $fieldName, true, true);
@@ -222,10 +222,10 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormImageList($language, $moduleDirname, $fieldName, $required = 'false')
     {
-        $tf              = Tdmcreate\Files\CreateFile::getInstance();
-        $pc              = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc              = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc             = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf              = Modulebuilder\Files\CreateFile::getInstance();
+        $pc              = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc              = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc             = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ucfFieldName    = $tf->getCamelCase($fieldName, true);
         $ccFieldName     = $tf->getCamelCase($fieldName, false, true);
         $languageShort   = substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
@@ -276,10 +276,10 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormSelectFile($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
     {
-        $tf              = Tdmcreate\Files\CreateFile::getInstance();
-        $pc              = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc              = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc             = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf              = Modulebuilder\Files\CreateFile::getInstance();
+        $pc              = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc              = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc             = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ucfFieldName    = $tf->getCamelCase($fieldName, true);
         $ccFieldName     = $tf->getCamelCase($fieldName, false, true);
         $languageShort   = substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
@@ -332,10 +332,10 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormUrlFile($language, $moduleDirname, $fieldName, $fieldDefault, $required = 'false')
     {
-        $tf            = Tdmcreate\Files\CreateFile::getInstance();
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc            = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc           = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf            = Modulebuilder\Files\CreateFile::getInstance();
+        $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc            = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc           = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ccFieldName    = $tf->getCamelCase($fieldName, false, true);
         $languageShort = substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
         $t             = "\t\t";
@@ -365,10 +365,10 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormUploadImage($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
     {
-        $tf              = Tdmcreate\Files\CreateFile::getInstance();
-        $pc              = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc              = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc             = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf              = Modulebuilder\Files\CreateFile::getInstance();
+        $pc              = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc              = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc             = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ucfFieldName    = $tf->getCamelCase($fieldName, true);
         $ccFieldName     = $tf->getCamelCase($fieldName, false, true);
         $languageShort   = substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
@@ -426,10 +426,10 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormUploadFile($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
     {
-        $tf             = Tdmcreate\Files\CreateFile::getInstance();
-        $pc             = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc             = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc            = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf             = Modulebuilder\Files\CreateFile::getInstance();
+        $pc             = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc             = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc            = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ccFieldName    = $tf->getCamelCase($fieldName, false, true);
         $languageShort  = substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
         $t              = "\t\t\t";
@@ -468,10 +468,10 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormColorPicker($language, $fieldName, $required = 'false')
     {
-        $tf            = Tdmcreate\Files\CreateFile::getInstance();
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc            = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc           = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf            = Modulebuilder\Files\CreateFile::getInstance();
+        $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc            = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc           = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ccFieldName   = $tf->getCamelCase($fieldName, false, true);
         $t             = "\t\t";
         $ret           = $pc->getPhpCodeCommentLine('Form Color', 'Picker ' . $ccFieldName, $t);
@@ -494,10 +494,10 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormSelectBox($language, $tableName, $fieldName, $required = 'false')
     {
-        $tf           = Tdmcreate\Files\CreateFile::getInstance();
-        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc           = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc          = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf           = Modulebuilder\Files\CreateFile::getInstance();
+        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc           = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc          = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ucfTableName = ucfirst($tableName);
         $ccFieldName  = $tf->getCamelCase($fieldName, false, true);
         $t            = "\t\t";
@@ -522,9 +522,9 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormSelectUser($language, $fieldName, $required = 'false')
     {
-        $tf              = Tdmcreate\Files\CreateFile::getInstance();
-        $pc              = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $cxc             = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf              = Modulebuilder\Files\CreateFile::getInstance();
+        $pc              = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $cxc             = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ccFieldName     = $tf->getCamelCase($fieldName, false, true);
         $t               = "\t\t";
         $ret             = $pc->getPhpCodeCommentLine('Form Select', 'User ' . $ccFieldName, $t);
@@ -545,9 +545,9 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormRadioYN($language, $fieldName, $required = 'false')
     {
-        $tf           = Tdmcreate\Files\CreateFile::getInstance();
-        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $cxc          = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf           = Modulebuilder\Files\CreateFile::getInstance();
+        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $cxc          = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ccFieldName  = $tf->getCamelCase($fieldName, false, true);
         $t            = "\t\t";
         $ret          = $pc->getPhpCodeCommentLine('Form Radio', 'Yes/No ' . $ccFieldName, $t);
@@ -569,9 +569,9 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormTextDateSelect($language, $fieldName, $required = 'false')
     {
-        $tf                  = Tdmcreate\Files\CreateFile::getInstance();
-        $pc                  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $cxc                 = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf                  = Modulebuilder\Files\CreateFile::getInstance();
+        $pc                  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $cxc                 = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $t                   = "\t\t";
         $ccFieldName         = $tf->getCamelCase($fieldName, false, true);
         $ret                 = $pc->getPhpCodeCommentLine('Form Text', 'Date Select ' . $ccFieldName, $t);
@@ -593,9 +593,9 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormDateTime($language, $fieldName, $required = 'false')
     {
-        $tf                  = Tdmcreate\Files\CreateFile::getInstance();
-        $pc                  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $cxc                 = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf                  = Modulebuilder\Files\CreateFile::getInstance();
+        $pc                  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $cxc                 = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $t                   = "\t\t";
         $ccFieldName         = $tf->getCamelCase($fieldName, false, true);
         $ret                 = $pc->getPhpCodeCommentLine('Form Text', 'Date Select ' . $ccFieldName, $t);
@@ -618,9 +618,9 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormSelectStatus($language, $moduleDirname, $fieldName, $required = 'false')
     {
-        $tf           = Tdmcreate\Files\CreateFile::getInstance();
-        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $cxc          = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf           = Modulebuilder\Files\CreateFile::getInstance();
+        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $cxc          = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ccFieldName  = $tf->getCamelCase($fieldName, false, true);
         $languageShort = substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
         $t            = "\t\t";
@@ -647,9 +647,9 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormPassword($language, $fieldName, $required = 'false')
     {
-        $tf            = Tdmcreate\Files\CreateFile::getInstance();
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $cxc           = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf            = Modulebuilder\Files\CreateFile::getInstance();
+        $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $cxc           = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $t             = "\t\t";
         $ccFieldName   = $tf->getCamelCase($fieldName, false, true);
         $ret           = $pc->getPhpCodeCommentLine('Form Text', 'Enter Password ' . $ccFieldName, $t);
@@ -670,10 +670,10 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormSelectCountry($language, $fieldName, $required = 'false')
     {
-        $tf           = Tdmcreate\Files\CreateFile::getInstance();
-        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $cxc          = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
-        $xc           = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $tf           = Modulebuilder\Files\CreateFile::getInstance();
+        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $cxc          = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
+        $xc           = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $ccFieldName  = $tf->getCamelCase($fieldName, false, true);
         $t            = "\t\t";
         $ret          = $pc->getPhpCodeCommentLine('Form Select', 'Country ' . $ccFieldName, $t);
@@ -697,10 +697,10 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormSelectLang($language, $fieldName, $required = 'false')
     {
-        $tf           = Tdmcreate\Files\CreateFile::getInstance();
-        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $cxc          = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
-        $xc           = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $tf           = Modulebuilder\Files\CreateFile::getInstance();
+        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $cxc          = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
+        $xc           = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $ccFieldName  = $tf->getCamelCase($fieldName, false, true);
         $t            = "\t\t";
         $ret          = $pc->getPhpCodeCommentLine('Form Select', 'Lang ' . $ccFieldName, $t);
@@ -725,9 +725,9 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormRadio($language, $moduleDirname, $fieldName, $required = 'false')
     {
-        $tf            = Tdmcreate\Files\CreateFile::getInstance();
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $cxc           = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf            = Modulebuilder\Files\CreateFile::getInstance();
+        $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $cxc           = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ccFieldName   = $tf->getCamelCase($fieldName, false, true);
         $languageShort = substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
         $t             = "\t\t";
@@ -756,10 +756,10 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormSelectCombo($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
     {
-        $tf            = Tdmcreate\Files\CreateFile::getInstance();
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc            = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc           = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf            = Modulebuilder\Files\CreateFile::getInstance();
+        $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc            = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc           = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ucfTableName  = ucfirst($tableName);
         $ccFieldName   = $tf->getCamelCase($fieldName, false, true);
         $languageShort = substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
@@ -789,15 +789,15 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormTable($language,$fieldName, $fieldElement, $required = 'false')
     {
-        $tc  = Tdmcreate\Helper::getInstance();
-        $tf  = Tdmcreate\Files\CreateFile::getInstance();
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tc  = Modulebuilder\Helper::getInstance();
+        $tf  = Modulebuilder\Files\CreateFile::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
 
         $t   = "\t\t";
         $ret = '';
-        $fElement           = $tc->getHandler('fieldelements')->get($fieldElement);
+        $fElement           = $tc->getHandler('Fieldelements')->get($fieldElement);
         $rpFieldelementName = mb_strtolower(str_replace('Table : ', '', $fElement->getVar('fieldelement_name')));
         $ret                .= $pc->getPhpCodeCommentLine('Form Table', $rpFieldelementName, $t);
         $ccFieldName        = $tf->getCamelCase($fieldName, false, true);
@@ -821,10 +821,10 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormTopic($language, $topicTableName, $fieldId, $fieldPid, $fieldMain)
     {
-        $tf                = Tdmcreate\Files\CreateFile::getInstance();
-        $pc                = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc                = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc               = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $tf                = Modulebuilder\Files\CreateFile::getInstance();
+        $pc                = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc                = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc               = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ucfTopicTableName = ucfirst($topicTableName);
         $stlTopicTableName = mb_strtolower($topicTableName);
         $ccFieldPid        = $tf->getCamelCase($fieldPid, false, true);
@@ -855,9 +855,9 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormTag($fieldId, $required = 'false')
     {
-        $pc        = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc        = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cxc       = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $pc        = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc        = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cxc       = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $t         = "\t\t";
         $ret       = $pc->getPhpCodeCommentLine('Use tag', 'module', $t);
         $isDir     = $pc->getPhpCodeIsDir("XOOPS_ROOT_PATH . '/modules/tag'");
@@ -879,9 +879,9 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     public function renderElements()
     {
-        $tc            = Tdmcreate\Helper::getInstance();
-        $tf            = Tdmcreate\Files\CreateFile::getInstance();
-        $ttf           = Tdmcreate\Files\CreateTableFields::getInstance();
+        $tc            = Modulebuilder\Helper::getInstance();
+        $tf            = Modulebuilder\Files\CreateFile::getInstance();
+        $ttf           = Modulebuilder\Files\CreateTableFields::getInstance();
         $module        = $this->getModule();
         $table         = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
@@ -910,7 +910,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
             $language    = $languageFunct . mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
             $required    = (1 == $fields[$f]->getVar('field_required')) ? ', true' : '';
 
-            $fieldElements    = $tc->getHandler('fieldelements')->get($fieldElement);
+            $fieldElements    = $tc->getHandler('Fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
 
             if (1 == $fieldInForm) {
@@ -994,7 +994,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
                         break;
                 }
 
-                $fieldElements    = $tc->getHandler('fieldelements')->get($fieldElement);
+                $fieldElements    = $tc->getHandler('Fieldelements')->get($fieldElement);
                 $fieldElementTid  = $fieldElements->getVar('fieldelement_tid');
                 if ((int)$fieldElementTid > 0 ) {
                     if ((1 == $fieldParent) || 1 == $table->getVar('table_category')) {

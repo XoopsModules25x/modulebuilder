@@ -1,4 +1,4 @@
-tdmcreate_settings:
+modulebuilder_settings:
     options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8'
     columns:
         -
@@ -125,7 +125,7 @@ tdmcreate_settings:
         PRIMARY:
             columns: set_id
             unique: true
-tdmcreate_modules:
+modulebuilder_modules:
     options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8'
     columns:
         -
@@ -255,7 +255,7 @@ tdmcreate_modules:
         PRIMARY:
             columns: mod_id
             unique: true
-tdmcreate_tables:
+modulebuilder_tables:
     options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8'
     columns:
         -
@@ -355,7 +355,7 @@ tdmcreate_tables:
         table_name:
             columns: table_name
             unique: false
-tdmcreate_fields:
+modulebuilder_fields:
     options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8'
     columns:
         -
@@ -440,7 +440,7 @@ tdmcreate_fields:
         PRIMARY:
             columns: field_id
             unique: true
-tdmcreate_languages:
+modulebuilder_languages:
     options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8'
     columns:
         -
@@ -465,7 +465,7 @@ tdmcreate_languages:
         PRIMARY:
             columns: lng_id
             unique: true
-tdmcreate_fieldtype:
+modulebuilder_fieldtype:
     options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8'
     columns:
         -
@@ -484,7 +484,7 @@ tdmcreate_fieldtype:
         PRIMARY:
             columns: fieldtype_id
             unique: true
-tdmcreate_fieldattributes:
+modulebuilder_fieldattributes:
     options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8'
     columns:
         -
@@ -503,7 +503,7 @@ tdmcreate_fieldattributes:
         PRIMARY:
             columns: fieldattribute_id
             unique: true
-tdmcreate_fieldnull:
+modulebuilder_fieldnull:
     options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8'
     columns:
         -
@@ -522,7 +522,7 @@ tdmcreate_fieldnull:
         PRIMARY:
             columns: fieldnull_id
             unique: true
-tdmcreate_fieldkey:
+modulebuilder_fieldkey:
     options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8'
     columns:
         -
@@ -541,7 +541,7 @@ tdmcreate_fieldkey:
         PRIMARY:
             columns: fieldkey_id
             unique: true
-tdmcreate_fieldelements:
+modulebuilder_fieldelements:
     options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8'
     columns:
         -
@@ -569,7 +569,7 @@ tdmcreate_fieldelements:
         PRIMARY:
             columns: fieldelement_id
             unique: true
-tdmcreate_morefiles:
+modulebuilder_morefiles:
     options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8'
     columns:
         -

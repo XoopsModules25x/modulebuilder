@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -13,7 +13,7 @@ namespace XoopsModules\Tdmcreate;
  */
 
 /**
- * morefiles class.
+ * AddFilesHandler class.
  *
  * @copyright       The XOOPS Project http:sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http:www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -26,7 +26,7 @@ namespace XoopsModules\Tdmcreate;
 //include __DIR__.'/autoload.php';
 
 /**
- * Class MoreFilesHandler.
+ * Class AddFilesHandler.
  */
 class AddFilesHandler extends \XoopsPersistableObjectHandler
 {
@@ -36,7 +36,7 @@ class AddFilesHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_addfiles', AddFiles::class, 'file_id', 'file_name');
+        parent::__construct($db, 'modulebuilder_addfiles', AddFiles::class, 'file_id', 'file_name');
     }
 
     /**

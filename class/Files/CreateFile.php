@@ -1,8 +1,8 @@
 <?php
 
-namespace XoopsModules\Tdmcreate\Files;
+namespace XoopsModules\Modulebuilder\Files;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -14,7 +14,7 @@ use XoopsModules\Tdmcreate;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -100,7 +100,7 @@ class CreateFile extends CreateTableFields
     /**
      * @public static function getInstance
      * @param null
-     * @return Tdmcreate\Files\CreateFile
+     * @return Modulebuilder\Files\CreateFile
      */
     public static function getInstance()
     {
@@ -472,7 +472,7 @@ class CreateFile extends CreateTableFields
      */
     public function getHeaderFilesComments($module, $noPhpFile = null, $namespace = '')
     {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
         $name             = $module->getVar('mod_name');
         $dirname          = $module->getVar('mod_dirname');
         $version          = $module->getVar('mod_version');
@@ -495,7 +495,7 @@ class CreateFile extends CreateTableFields
         $ret .= "\n{$namespace}/*\n";
 
 
-        $filename = TDMC_CLASS_PATH . '/files/docs/license.txt';
+        $filename = TDMC_CLASS_PATH . '/Files/Docs/license.txt';
         $handle   = fopen($filename, 'rb');
         $data     = fread($handle, filesize($filename));
         fclose($handle);

@@ -1,8 +1,8 @@
 <?php
 
-namespace XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -14,7 +14,7 @@ use XoopsModules\Tdmcreate;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- *  TDMCreate class.
+ *  ModuleBuilder class.
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
