@@ -318,11 +318,11 @@ class CreateArchitecture extends CreateStructure
                 $ret[] = $userTemplatesPagesList->render();
                 if (1 === (int)$tables[$t]->getVar('table_category')) {
                     // User List Templates File
-                    $userTemplatesCategories = Templates\User\Categories::getInstance();
+                    $userTemplatesCategories = Templates\User\Defstyle\Categories::getInstance();
                     $userTemplatesCategories->write($module, $table, $moduleDirname . '_' . $tableName . '_cat.tpl');
                     $ret[] = $userTemplatesCategories->render();
                     // User List Templates File
-                    $userTemplatesCategoriesList = Templates\User\CategoriesList::getInstance();
+                    $userTemplatesCategoriesList = Templates\User\Defstyle\CategoriesList::getInstance();
                     $userTemplatesCategoriesList->write($module, $table, $moduleDirname . '_' . $tableName . '_cat_list' . '.tpl');
                     $ret[] = $userTemplatesCategoriesList->render();
                 }
