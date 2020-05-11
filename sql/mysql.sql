@@ -338,13 +338,13 @@ INSERT INTO `modulebuilder_fieldelements` (`fieldelement_id`, `fieldelement_mid`
 (12, 0, 0, 'UrlFile', 'XoopsFormUrlFile', 16, 14, 255),
 (13, 0, 0, 'UploadImage', 'XoopsFormUploadImage', 14, 14, 255),
 (14, 0, 0, 'UploadFile', 'XoopsFormUploadFile', 15, 14, 255),
-(15, 0, 0, 'TextDateSelect', 'XoopsFormTextDateSelect', 17, 2, 10),
+(15, 0, 0, 'TextDateSelect', 'XoopsFormTextDateSelect', 17, 2, 11),
 (16, 0, 0, 'SelectStatus', 'XoopsFormSelectStatus', 20, 2, 1),
 (17, 0, 0, 'Password', 'XoopsFormPassword', 21, 14, 255),
 (18, 0, 0, 'SelectCountry', 'XoopsFormSelectCountry', 11, 14, 3),
 (19, 0, 0, 'SelectLang', 'XoopsFormSelectLang', 12, 14, 100),
 (20, 0, 0, 'Radio', 'XoopsFormRadio', 5, 2, 10),
-(21, 0, 0, 'DateTime', 'XoopsFormDateTime', 18, 2, 10),
+(21, 0, 0, 'DateTime', 'XoopsFormDateTime', 18, 2, 11),
 (22, 0, 0, 'SelectCombo', 'XoopsFormSelectCombo', 8, 2, 10);
 
 #

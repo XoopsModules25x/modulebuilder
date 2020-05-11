@@ -407,7 +407,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $formHidden      = $cxc->getClassXoopsFormHidden('', $fieldName, $ccFieldName, true, true, $t, true);
         $contElse        = $cxc->getClassAddElement('imageTray', $formHidden, $t . "\t");
         $ret             .= $pc->getPhpCodeConditions('$permissionUpload', null, null, $contIf, $contElse, "\t\t");
-        $ret             .= $cxc->getClassAddElement('form', "\$imageTray, {$required}", $t);
+        $ret             .= $cxc->getClassAddElement('form', "\$imageTray {$required}", $t);
 
         return $ret;
     }
@@ -501,7 +501,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $ucfTableName = ucfirst($tableName);
         $ccFieldName  = $tf->getCamelCase($fieldName, false, true);
         $t            = "\t\t";
-        $ret          = $pc->getPhpCodeCommentLine($ucfTableName, 'handler', $t);
+        $ret          = $pc->getPhpCodeCommentLine($ucfTableName, 'Handler', $t);
         $ret          .= $xc->getXcHandlerLine($tableName, $t);
         $ret          .= $pc->getPhpCodeCommentLine('Form', 'Select ' . $ccFieldName, $t);
         $ret          .= $cxc->getClassXoopsFormSelect($ccFieldName . 'Select', $language, $fieldName, "this->getVar('{$fieldName}')", null, '', false, $t);
@@ -764,7 +764,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $ccFieldName   = $tf->getCamelCase($fieldName, false, true);
         $languageShort = substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
         $t             = "\t\t";
-        $ret           = $pc->getPhpCodeCommentLine($ucfTableName, 'handler', $t);
+        $ret           = $pc->getPhpCodeCommentLine($ucfTableName, 'Handler', $t);
         $ret           .= $xc->getXcHandlerLine($tableName, $t);
         $ret           .= $pc->getPhpCodeCommentLine('Form', 'Select ' . $ccFieldName, $t);
         $ret           .= $cxc->getClassXoopsFormSelect($ccFieldName . 'Select', $language, $fieldName, "this->getVar('{$fieldName}')", '5', '', false, $t);
@@ -908,7 +908,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
             }
             $rpFieldName = $tf->getRightString($fieldName);
             $language    = $languageFunct . mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
-            $required    = (1 == $fields[$f]->getVar('field_required')) ? ', true' : '';
+            $required    = (1 == $fields[$f]->getVar('field_required')) ? ', true' : ' ';
 
             $fieldElements    = $tc->getHandler('Fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
