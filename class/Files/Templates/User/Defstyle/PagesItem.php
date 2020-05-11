@@ -27,9 +27,9 @@ use XoopsModules\Modulebuilder\Files;
  */
 
 /**
- * class PagesList.
+ * class PagesItem.
  */
-class PagesList extends Files\CreateFile
+class PagesItem extends Files\CreateFile
 {
     /**
      * @public function constructor
@@ -43,7 +43,7 @@ class PagesList extends Files\CreateFile
     /**
      * @static function getInstance
      * @param null
-     * @return PagesList
+     * @return PagesItem
      */
     public static function getInstance()
     {
@@ -71,7 +71,7 @@ class PagesList extends Files\CreateFile
     }
 
     /**
-     * @private function getTemplatesUserPagesListPanel
+     * @private function getTemplatesUserPagesItemPanel
      * @param string $moduleDirname
      * @param        $tableId
      * @param        $tableMid
@@ -80,7 +80,7 @@ class PagesList extends Files\CreateFile
      * @param        $language
      * @return string
      */
-    private function getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserPagesItemPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
         $hc      = Modulebuilder\Files\CreateHtmlCode::getInstance();
         $sc      = Modulebuilder\Files\CreateSmartyCode::getInstance();
@@ -90,7 +90,7 @@ class PagesList extends Files\CreateFile
         foreach (array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_user')) {
-                if (1 == $fields[$f]->getVar('field_ihead')) {
+                if (1 == $fields[$f]->getVar('field_thead')) {
                     switch ($fieldElement) {
                         default:
                         //case 2:
@@ -108,7 +108,7 @@ class PagesList extends Files\CreateFile
         foreach (array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_user')) {
-                if (1 == $fields[$f]->getVar('field_ibody')) {
+                if (1 == $fields[$f]->getVar('field_tbody')) {
                     switch ($fieldElement) {
                         default:
                         //case 3:
@@ -144,7 +144,7 @@ class PagesList extends Files\CreateFile
         $retFoot = '';
         foreach (array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_user')) {
-                if (1 == $fields[$f]->getVar('field_ifoot')) {
+                if (1 == $fields[$f]->getVar('field_tfoot')) {
                     $fieldName   = $fields[$f]->getVar('field_name');
                     $rpFieldName = $this->getRightString($fieldName);
                     $langConst   = mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
@@ -181,7 +181,7 @@ class PagesList extends Files\CreateFile
         $tableCategory[] = $table->getVar('table_category');
         //$tableIndex      = $table->getVar('table_index');
         if (in_array(0, $tableCategory)) {
-            $content .= $this->getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
+            $content .= $this->getTemplatesUserPagesItemPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
         }
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);

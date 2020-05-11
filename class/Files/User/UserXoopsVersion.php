@@ -302,6 +302,7 @@ class UserXoopsVersion extends Files\CreateFile
                 $tableSubmit[] = $tables[$t]->getVar('table_submit');
                 $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '');
                 $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
+                $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'item');
             }
             $item[]  = $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs', '');
             if (in_array(1, $tablePdf)) {

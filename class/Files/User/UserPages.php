@@ -416,6 +416,7 @@ class UserPages extends Files\CreateFile
         $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
         $fields = $this->getTableFields($tableMid, $tableId);
+        $cases['show'] = [];
         $cases['list'] = [$this->getUserPagesList($tableName, $fieldId, $fieldMain, "\t\t")];
         if (1 == $tableSubmit) {
             $cases['save']   = [$this->getUserPagesSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $language, "\t\t")];

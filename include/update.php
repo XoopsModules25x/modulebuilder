@@ -400,5 +400,44 @@ function modulebuilder_check_db($module)
     $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " SET `fieldelement_deftype` = 14, `fieldelement_defvalue` = '100' WHERE `xc_modulebuilder_fieldelements`.`fieldelement_id` in(19)");
     $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " SET `fieldelement_deftype` = 2, `fieldelement_defvalue` = '10' WHERE `xc_modulebuilder_fieldelements`.`fieldelement_mid` > 0");
 
+    // update table 'modulebuilder_fields'
+    $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_fields');
+    $field   = 'field_ifoot';
+    $check   = $GLOBALS['xoopsDB']->queryF('SHOW COLUMNS FROM `' . $table . "` LIKE '" . $field . "'");
+    $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
+    if (!$numRows) {
+        $sql = "ALTER TABLE `$table` ADD `$field` INT(8) NOT NULL DEFAULT '0' AFTER `field_user`;";
+        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+            xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
+            $module->setErrors("Error when adding '$field' to table '$table'.");
+            $ret = false;
+        }
+    }
+    // update table 'modulebuilder_fields'
+    $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_fields');
+    $field   = 'field_ibody';
+    $check   = $GLOBALS['xoopsDB']->queryF('SHOW COLUMNS FROM `' . $table . "` LIKE '" . $field . "'");
+    $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
+    if (!$numRows) {
+        $sql = "ALTER TABLE `$table` ADD `$field` INT(8) NOT NULL DEFAULT '0' AFTER `field_user`;";
+        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+            xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
+            $module->setErrors("Error when adding '$field' to table '$table'.");
+            $ret = false;
+        }
+    }
+    // update table 'modulebuilder_fields'
+    $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_fields');
+    $field   = 'field_ihead';
+    $check   = $GLOBALS['xoopsDB']->queryF('SHOW COLUMNS FROM `' . $table . "` LIKE '" . $field . "'");
+    $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
+    if (!$numRows) {
+        $sql = "ALTER TABLE `$table` ADD `$field` INT(8) NOT NULL DEFAULT '0' AFTER `field_user`;";
+        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+            xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
+            $module->setErrors("Error when adding '$field' to table '$table'.");
+            $ret = false;
+        }
+    }
     return $ret;
 }

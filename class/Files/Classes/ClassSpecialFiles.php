@@ -227,23 +227,28 @@ class ClassSpecialFiles extends Files\CreateFile
         $filename         = $this->getFileName();
         $tables           = $this->getTables();
         $tablePermissions = [];
-        foreach (array_keys($tables) as $t) {
-            $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
-        }
-        $moduleDirname  = $module->getVar('mod_dirname');
-        $namespace      = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
-        $contentFile    = $this->getHeaderFilesComments($module, null, $namespace);
-        $contentFile    .= $pc->getPhpCodeDefined();
-        $contentFile    .= $pc->getPhpCodeCommentMultiLine(['Class ' => $this->className]);
+
+        $moduleDirname = $module->getVar('mod_dirname');
+        $namespace     = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
+        $contentFile   = $this->getHeaderFilesComments($module, null, $namespace);
+        $contentFile   .= $pc->getPhpCodeDefined();
+        $contentFile   .= $pc->getPhpCodeCommentMultiLine(['Class ' => $this->className]);
 
         $contentClass   = $pc->getPhpCodeBlankLine();
+        $contentClass .= $pc->getPhpCodeCommentLine('Constants for tables', '', "\t");
+        foreach (array_keys($tables) as $t) {
+            $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
+            $stuTableName = mb_strtoupper($tables[$t]->getVar('table_name'));
+            $contentClass .= $pc->getPhpCodeConstant("TABLE_" . $stuTableName, $t, "\t");
+        }
+
+        $contentClass .= $pc->getPhpCodeBlankLine();
         $contentClass .= $pc->getPhpCodeCommentLine('Constants for status', '', "\t");
         $contentClass .= $pc->getPhpCodeConstant("STATUS_NONE     ", 0, "\t");
         $contentClass .= $pc->getPhpCodeConstant("STATUS_OFFLINE  ", 1, "\t");
         $contentClass .= $pc->getPhpCodeConstant("STATUS_SUBMITTED", 2, "\t");
         $contentClass .= $pc->getPhpCodeConstant("STATUS_APPROVED ", 3, "\t");
         $contentClass .= $pc->getPhpCodeConstant("STATUS_BROKEN   ", 4, "\t");
-
 
         if (in_array(1, $tablePermissions)) {
             $constPerm = $pc->getPhpCodeBlankLine();
@@ -254,8 +259,8 @@ class ClassSpecialFiles extends Files\CreateFile
             $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3, "\t");
             $contentClass .= $constPerm;
         }
-        $contentClass        .= $pc->getPhpCodeBlankLine();
-        $contentFile   .= $pc->getPhpCodeClass($this->className, $contentClass);
+        $contentClass .= $pc->getPhpCodeBlankLine();
+        $contentFile  .= $pc->getPhpCodeClass($this->className, $contentClass);
 
         $this->create($moduleDirname, 'class', $filename, $contentFile, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
