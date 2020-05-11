@@ -123,7 +123,7 @@ class CreateArchitecture extends CreateStructure
             $this->makeDirAndCopyFile($k, $v, 'index.html');
         }
         //Copy the logo of the module
-        $modImage = str_replace(' ', '', mb_strtolower($module->getVar('mod_image')));
+        $modImage = str_replace(' ', '', $module->getVar('mod_image'));
         $targetImage = 'logoModule.png';
         $this->copyFile('assets/images', TDMC_UPLOAD_IMGMOD_PATH . '/' . $modImage, $targetImage);
 
@@ -291,7 +291,7 @@ class CreateArchitecture extends CreateStructure
             if (1 === (int)$tables[$t]->getVar('table_admin') || 1 === (int)$tables[$t]->getVar('table_user')) {
                 // Class Files
                 $classFiles = Modulebuilder\Files\Classes\ClassHandlerFiles::getInstance();
-                $classFiles->write($module, $table, $tables, ucfirst($tableName) . 'handler.php');
+                $classFiles->write($module, $table, $tables, ucfirst($tableName) . 'Handler.php');
                 $ret[] = $classFiles->render();
             }
             // Creation of user files
@@ -318,11 +318,11 @@ class CreateArchitecture extends CreateStructure
                 $ret[] = $userTemplatesPagesList->render();
                 if (1 === (int)$tables[$t]->getVar('table_category')) {
                     // User List Templates File
-                    $userTemplatesCategories = Templates\User\Categories::getInstance();
+                    $userTemplatesCategories = Templates\User\Defstyle\Categories::getInstance();
                     $userTemplatesCategories->write($module, $table, $moduleDirname . '_' . $tableName . '_cat.tpl');
                     $ret[] = $userTemplatesCategories->render();
                     // User List Templates File
-                    $userTemplatesCategoriesList = Templates\User\CategoriesList::getInstance();
+                    $userTemplatesCategoriesList = Templates\User\Defstyle\CategoriesList::getInstance();
                     $userTemplatesCategoriesList->write($module, $table, $moduleDirname . '_' . $tableName . '_cat_list' . '.tpl');
                     $ret[] = $userTemplatesCategoriesList->render();
                 }
@@ -345,8 +345,8 @@ class CreateArchitecture extends CreateStructure
 
             // Creation of classhandlers
             $classSpecialFiles = Modulebuilder\Files\Classes\ClassSpecialFiles::getInstance();
-            $classSpecialFiles->write($module, '', $permTables, ucfirst('permissionshandler') . '.php');
-            $classSpecialFiles->className = 'Permissionshandler';
+            $classSpecialFiles->write($module, '', $permTables, ucfirst('PermissionsHandler') . '.php');
+            $classSpecialFiles->className = 'PermissionsHandler';
             $ret[] = $classSpecialFiles->renderPermissionsHandler();
 
         }
