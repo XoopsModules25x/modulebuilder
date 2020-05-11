@@ -123,7 +123,7 @@ class CreateArchitecture extends CreateStructure
             $this->makeDirAndCopyFile($k, $v, 'index.html');
         }
         //Copy the logo of the module
-        $modImage = str_replace(' ', '', mb_strtolower($module->getVar('mod_image')));
+        $modImage = str_replace(' ', '', $module->getVar('mod_image'));
         $targetImage = 'logoModule.png';
         $this->copyFile('assets/images', TDMC_UPLOAD_IMGMOD_PATH . '/' . $modImage, $targetImage);
 
