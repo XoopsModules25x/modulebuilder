@@ -501,7 +501,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $ucfTableName = ucfirst($tableName);
         $ccFieldName  = $tf->getCamelCase($fieldName, false, true);
         $t            = "\t\t";
-        $ret          = $pc->getPhpCodeCommentLine($ucfTableName, 'handler', $t);
+        $ret          = $pc->getPhpCodeCommentLine($ucfTableName, 'Handler', $t);
         $ret          .= $xc->getXcHandlerLine($tableName, $t);
         $ret          .= $pc->getPhpCodeCommentLine('Form', 'Select ' . $ccFieldName, $t);
         $ret          .= $cxc->getClassXoopsFormSelect($ccFieldName . 'Select', $language, $fieldName, "this->getVar('{$fieldName}')", null, '', false, $t);
@@ -764,7 +764,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $ccFieldName   = $tf->getCamelCase($fieldName, false, true);
         $languageShort = substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
         $t             = "\t\t";
-        $ret           = $pc->getPhpCodeCommentLine($ucfTableName, 'handler', $t);
+        $ret           = $pc->getPhpCodeCommentLine($ucfTableName, 'Handler', $t);
         $ret           .= $xc->getXcHandlerLine($tableName, $t);
         $ret           .= $pc->getPhpCodeCommentLine('Form', 'Select ' . $ccFieldName, $t);
         $ret           .= $cxc->getClassXoopsFormSelect($ccFieldName . 'Select', $language, $fieldName, "this->getVar('{$fieldName}')", '5', '', false, $t);

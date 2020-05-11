@@ -291,7 +291,7 @@ class CreateArchitecture extends CreateStructure
             if (1 === (int)$tables[$t]->getVar('table_admin') || 1 === (int)$tables[$t]->getVar('table_user')) {
                 // Class Files
                 $classFiles = Modulebuilder\Files\Classes\ClassHandlerFiles::getInstance();
-                $classFiles->write($module, $table, $tables, ucfirst($tableName) . 'handler.php');
+                $classFiles->write($module, $table, $tables, ucfirst($tableName) . 'Handler.php');
                 $ret[] = $classFiles->render();
             }
             // Creation of user files
@@ -345,8 +345,8 @@ class CreateArchitecture extends CreateStructure
 
             // Creation of classhandlers
             $classSpecialFiles = Modulebuilder\Files\Classes\ClassSpecialFiles::getInstance();
-            $classSpecialFiles->write($module, '', $permTables, ucfirst('permissionshandler') . '.php');
-            $classSpecialFiles->className = 'Permissionshandler';
+            $classSpecialFiles->write($module, '', $permTables, ucfirst('PermissionsHandler') . '.php');
+            $classSpecialFiles->className = 'PermissionsHandler';
             $ret[] = $classSpecialFiles->renderPermissionsHandler();
 
         }
