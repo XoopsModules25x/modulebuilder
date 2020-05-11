@@ -407,7 +407,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $formHidden      = $cxc->getClassXoopsFormHidden('', $fieldName, $ccFieldName, true, true, $t, true);
         $contElse        = $cxc->getClassAddElement('imageTray', $formHidden, $t . "\t");
         $ret             .= $pc->getPhpCodeConditions('$permissionUpload', null, null, $contIf, $contElse, "\t\t");
-        $ret             .= $cxc->getClassAddElement('form', "\$imageTray, {$required}", $t);
+        $ret             .= $cxc->getClassAddElement('form', "\$imageTray {$required}", $t);
 
         return $ret;
     }
@@ -908,7 +908,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
             }
             $rpFieldName = $tf->getRightString($fieldName);
             $language    = $languageFunct . mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
-            $required    = (1 == $fields[$f]->getVar('field_required')) ? ', true' : '';
+            $required    = (1 == $fields[$f]->getVar('field_required')) ? ', true' : ' ';
 
             $fieldElements    = $tc->getHandler('Fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
