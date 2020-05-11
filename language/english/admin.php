@@ -280,9 +280,9 @@ define('_AM_MODULEBUILDER_FIELD_SEARCH', 'Search: Index');
 define('_AM_MODULEBUILDER_FIELD_REQUIRED', 'Field: Required');
 define('_AM_MODULEBUILDER_ADMIN_SUBMIT', 'Send');
 // Added in version 1.91
-define('_AM_MODULEBUILDER_FIELD_THEAD', 'User: In Thead');
-define('_AM_MODULEBUILDER_FIELD_TBODY', 'User: In Tbody');
-define('_AM_MODULEBUILDER_FIELD_TFOOT', 'User: In Tfoot');
+define('_AM_MODULEBUILDER_FIELD_THEAD', 'User file: in header');
+define('_AM_MODULEBUILDER_FIELD_TBODY', 'User file: in body');
+define('_AM_MODULEBUILDER_FIELD_TFOOT', 'User file: in footer');
 define('_AM_MODULEBUILDER_FIELD_RECOMMENDED', "It is recommended to create following fields:<br>
 - %s_date:      for sorting items by date it is necessary to have a field, where date of creation/relevant date is stored<br>
 - %s_submitter: for sorting items by submitter it is necessary to have a field, where user of creation is stored<br> 
@@ -469,3 +469,7 @@ define('_AM_MODULEBUILDER_FIELD_ELE_SELECTCOMBO', "Select Combobox");
 define('_AM_MODULEBUILDER_FIELD_ELE_RADIO', "Radio");
 define('_AM_MODULEBUILDER_FIELD_ELE_RADIO_1', "Radio Value 1");
 define('_AM_MODULEBUILDER_FIELD_ELE_RADIO_2', "Radio Value 2");
+// added Version 3.03
+define('_AM_MODULEBUILDER_FIELD_IHEAD', 'User index: in header');
+define('_AM_MODULEBUILDER_FIELD_IBODY', 'User index: in body');
+define('_AM_MODULEBUILDER_FIELD_IFOOT', 'User index: in footer');

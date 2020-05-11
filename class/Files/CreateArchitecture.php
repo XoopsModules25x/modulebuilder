@@ -316,6 +316,14 @@ class CreateArchitecture extends CreateStructure
                 }
                 $userTemplatesPagesList->write($module, $table, $tables, $moduleDirname . '_' . $tableName . '_list' . '.tpl');
                 $ret[] = $userTemplatesPagesList->render();
+                // User Item Templates File
+                if ($templateType  == 'bootstrap') {
+                    $userTemplatesPagesItem = Modulebuilder\Files\Templates\User\Bootstrap\PagesItem::getInstance();
+                } else {
+                    $userTemplatesPagesItem = Modulebuilder\Files\Templates\User\Defstyle\PagesItem::getInstance();
+                }
+                $userTemplatesPagesItem->write($module, $table, $tables, $moduleDirname . '_' . $tableName . '_item' . '.tpl');
+                $ret[] = $userTemplatesPagesItem->render();
                 if (1 === (int)$tables[$t]->getVar('table_category')) {
                     // User List Templates File
                     $userTemplatesCategories = Templates\User\Defstyle\Categories::getInstance();

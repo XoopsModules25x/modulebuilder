@@ -56,6 +56,9 @@ class Fields extends \XoopsObject
         $this->initVar('field_inlist', XOBJ_DTYPE_INT);
         $this->initVar('field_inform', XOBJ_DTYPE_INT);
         $this->initVar('field_user', XOBJ_DTYPE_INT);
+        $this->initVar('field_ihead', XOBJ_DTYPE_INT);
+        $this->initVar('field_ibody', XOBJ_DTYPE_INT);
+        $this->initVar('field_ifoot', XOBJ_DTYPE_INT);
         $this->initVar('field_thead', XOBJ_DTYPE_INT);
         $this->initVar('field_tbody', XOBJ_DTYPE_INT);
         $this->initVar('field_tfoot', XOBJ_DTYPE_INT);
@@ -272,6 +275,21 @@ class Fields extends \XoopsObject
             $checkFieldUser->addOption(1, _AM_MODULEBUILDER_FIELD_USER);
             $parametersTray->addElement($checkFieldUser);
 
+            $field_ihead     = 0;
+            $checkFieldIhead = new \XoopsFormCheckBox(' ', 'field_ihead[' . $i . ']', $field_ihead);
+            $checkFieldIhead->addOption(1, _AM_MODULEBUILDER_FIELD_IHEAD);
+            $parametersTray->addElement($checkFieldIhead);
+
+            $field_ibody     = 0;
+            $checkFieldIbody = new \XoopsFormCheckBox(' ', 'field_ibody[' . $i . ']', $field_ibody);
+            $checkFieldIbody->addOption(1, _AM_MODULEBUILDER_FIELD_IBODY);
+            $parametersTray->addElement($checkFieldIbody);
+
+            $field_ifoot     = 0;
+            $checkFieldIfoot = new \XoopsFormCheckBox(' ', 'field_ifoot[' . $i . ']', $field_ifoot);
+            $checkFieldIfoot->addOption(1, _AM_MODULEBUILDER_FIELD_IFOOT);
+            $parametersTray->addElement($checkFieldIfoot);
+
             $field_thead     = 0;
             $checkFieldThead = new \XoopsFormCheckBox(' ', 'field_thead[' . $i . ']', $field_thead);
             $checkFieldThead->addOption(1, _AM_MODULEBUILDER_FIELD_THEAD);
@@ -428,6 +446,18 @@ class Fields extends \XoopsObject
                     $checkFieldUser = new \XoopsFormCheckBox(' ', 'field_user[' . $id . ']', $field->getVar('field_user'));
                     $checkFieldUser->addOption(1, _AM_MODULEBUILDER_FIELD_USER);
                     $parametersTray->addElement($checkFieldUser);
+
+                    $checkFieldIhead = new \XoopsFormCheckBox(' ', 'field_ihead[' . $id . ']', $field->getVar('field_ihead'));
+                    $checkFieldIhead->addOption(1, _AM_MODULEBUILDER_FIELD_IHEAD);
+                    $parametersTray->addElement($checkFieldIhead);
+
+                    $checkFieldIbody = new \XoopsFormCheckBox(' ', 'field_ibody[' . $id . ']', $field->getVar('field_ibody'));
+                    $checkFieldIbody->addOption(1, _AM_MODULEBUILDER_FIELD_IBODY);
+                    $parametersTray->addElement($checkFieldIbody);
+
+                    $checkFieldIfoot = new \XoopsFormCheckBox(' ', 'field_ifoot[' . $id . ']', $field->getVar('field_ifoot'));
+                    $checkFieldIfoot->addOption(1, _AM_MODULEBUILDER_FIELD_IFOOT);
+                    $parametersTray->addElement($checkFieldIfoot);
 
                     $checkFieldThead = new \XoopsFormCheckBox(' ', 'field_thead[' . $id . ']', $field->getVar('field_thead'));
                     $checkFieldThead->addOption(1, _AM_MODULEBUILDER_FIELD_THEAD);

@@ -154,6 +154,9 @@ switch ($op) {
             $fieldsObj->setVar('field_inlist', (1 == $_REQUEST['field_inlist'][$key]) ? 1 : 0);
             $fieldsObj->setVar('field_inform', (1 == $_REQUEST['field_inform'][$key]) ? 1 : 0);
             $fieldsObj->setVar('field_user', (1 == $_REQUEST['field_user'][$key]) ? 1 : 0);
+            $fieldsObj->setVar('field_ihead', (1 == $_REQUEST['field_ihead'][$key]) ? 1 : 0);
+            $fieldsObj->setVar('field_ibody', (1 == $_REQUEST['field_ibody'][$key]) ? 1 : 0);
+            $fieldsObj->setVar('field_ifoot', (1 == $_REQUEST['field_ifoot'][$key]) ? 1 : 0);
             $fieldsObj->setVar('field_thead', (1 == $_REQUEST['field_thead'][$key]) ? 1 : 0);
             $fieldsObj->setVar('field_tbody', (1 == $_REQUEST['field_tbody'][$key]) ? 1 : 0);
             $fieldsObj->setVar('field_tfoot', (1 == $_REQUEST['field_tfoot'][$key]) ? 1 : 0);

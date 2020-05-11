@@ -459,7 +459,9 @@ class CreatePhpCode
         $def = "{$t}default:\n";
         foreach ($cases as $case => $value) {
             $case = is_string($case) ? "'{$case}'" : $case;
-            if (!empty($case)) {
+            if (empty($value)) {
+                $ret .= "{$t}case {$case}:\n";
+            } else if (!empty($case)) {
                 $ret .= "{$t}case {$case}:\n";
                 if (false !== $defaultAfterCase) {
                     $ret .= $def;
@@ -470,8 +472,8 @@ class CreatePhpCode
                     }
                 }
                 $ret .= "{$t}break;\n";
+                $defaultAfterCase = false;
             }
-            $defaultAfterCase = false;
         }
         if (false !== $default) {
             $ret .= $def;
