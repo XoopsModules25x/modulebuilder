@@ -133,7 +133,7 @@ class IncludeCommon extends Files\CreateFile
         $replace = $xc->getXcEqualsOperator('$copyright', '"' . $anchor . '"');
         $ret     .= str_replace("\n", '', $replace) . PHP_EOL;
         $ret     .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsrequest', true);
-        $ret     .= $pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'class/helper', true);
+//        $ret     .= $pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'class/helper', true);
         $ret     .= $pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'include/functions', true);
 
         return $ret;
