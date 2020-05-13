@@ -131,7 +131,6 @@ class Pages extends Files\CreateFile
         $hc      = Modulebuilder\Files\CreateHtmlCode::getInstance();
         $sc      = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $single  = $sc->getSmartySingleVar('panel_type');
-        //$include = $sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName, "\t\t\t\t\t\t", "\n");
         $include = $sc->getSmartyIncludeFile($moduleDirname, $tableName . '_item', false,false, "\t\t\t\t\t\t", "\n");
         $div     = $hc->getHtmlDiv($include, 'panel panel-' . $single, "\t\t\t\t\t", "\n");
         $cont    = $hc->getHtmlTableData($div, '', '', "\t\t\t\t", "\n", true);

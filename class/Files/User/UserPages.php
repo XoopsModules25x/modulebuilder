@@ -110,10 +110,10 @@ class UserPages extends Files\CreateFile
 
     /**
      * @private function getUserPagesList
-     * @param $moduleDirname
      * @param $tableName
      * @param $fieldId
      * @param $fieldMain
+     * @param string $t
      * @return string
      */
     private function getUserPagesList($tableName, $fieldId, $fieldMain, $t = '')
@@ -160,13 +160,12 @@ class UserPages extends Files\CreateFile
      * @param        $fields
      * @param string $tableName
      * @param        $tableSoleName
-     * @param        $tableSubmit
      * @param $tablePermissions
      * @param        $language
      * @param string $t
      * @return string
      */
-    public function getUserPagesSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $language, $t = '')
+    public function getUserPagesSave($moduleDirname, $fields, $tableName, $tableSoleName, $tablePermissions, $language, $t = '')
     {
         $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
@@ -252,11 +251,10 @@ class UserPages extends Files\CreateFile
     /**
      * @public function getUserPagesNew
      * @param        $tableName
-     * @param        $language
      * @param string $t
      * @return string
      */
-    public function getUserPagesNew($tableName, $language, $t = '')
+    public function getUserPagesNew($tableName, $t = '')
     {
         $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
@@ -272,11 +270,12 @@ class UserPages extends Files\CreateFile
     /**
      * @public function getUserPagesEdit
      * @param        $tableName
+     * @param $fieldId
      * @param        $language
      * @param string $t
      * @return string
      */
-    public function getUserPagesEdit($moduleDirname, $tableName, $fieldId, $language, $t = '')
+    public function getUserPagesEdit($tableName, $fieldId, $language, $t = '')
     {
         $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
@@ -321,22 +320,29 @@ class UserPages extends Files\CreateFile
 
     /**
      * @private function getUserPagesBroken
-     * @param        $tableName
      * @param        $language
+     * @param $moduleDirname
+     * @param        $tableName
+     * @param $tableSoleName
      * @param        $fieldId
+     * @param $fieldSatus
      * @param        $fieldMain
      * @param string $t
      * @return string
      */
-    private function getUserPagesBroken($tableName, $language, $fieldId, $fieldSatus, $t = '')
+    private function getUserPagesBroken($language, $moduleDirname, $tableName, $tableSoleName, $fieldId, $fieldSatus, $fieldMain, $t = '')
     {
         $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
         $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
-        $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret       = $pc->getPhpCodeCommentLine('Check params', '', $t);
-        $contIf    = $xc->getXcRedirectHeader($tableName, '?op=list', 3, "{$language}INVALID_PARAM", true, $t . "\t");
-        $ret       .= $pc->getPhpCodeConditions("\${$ccFieldId}", ' == ', '0', $contIf, false, $t);
+        $stuFieldMain     = mb_strtoupper($fieldMain);
+        $stuTableSoleName = mb_strtoupper($tableSoleName);
+        $ccFieldId        = $this->getCamelCase($fieldId, false, true);
+        $ccFieldMain      = $this->getCamelCase($fieldMain, false, true);
+
+        $ret    = $pc->getPhpCodeCommentLine('Check params', '', $t);
+        $contIf = $xc->getXcRedirectHeader($tableName, '?op=list', 3, "{$language}INVALID_PARAM", true, $t . "\t");
+        $ret    .= $pc->getPhpCodeConditions("\${$ccFieldId}", ' == ', '0', $contIf, false, $t);
 
         $ret    .= $this->getSimpleString('$error = false;', $t);
         $ret    .= $this->getSimpleString("\$errorMessage = '';", $t);
@@ -348,13 +354,22 @@ class UserPages extends Files\CreateFile
         $contIf .= $this->getSimpleString('break;', $t . "\t");
         $ret    .= $pc->getPhpCodeConditions('!$xoopsCaptcha->verify()', '', '', $contIf, false, $t);
 
-        $ret .= $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
-        $ret .= $xc->getXcSetVarObj($tableName, $fieldSatus, 'Constants::STATUS_BROKEN', $t);
+        $ret        .= $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
+        $ret        .= $xc->getXcSetVarObj($tableName, $fieldSatus, 'Constants::STATUS_BROKEN', $t);
+        $ret        .= $pc->getPhpCodeCommentLine('Insert Data', null, $t);
+        $insert     = $xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
+        $contInsert = $pc->getPhpCodeCommentLine('Event broken notification', null, $t . "\t");
+        $contInsert .= $xc->getXcGetVar($ccFieldMain, "{$tableName}Obj", $fieldMain, false, $t . "\t");
+        $contInsert .= $pc->getPhpCodeArray('tags', [], false, $t . "\t");
+        $contInsert .= $xc->getXcEqualsOperator("\$tags['{$stuFieldMain}']", "\${$ccFieldMain}", '.', $t . "\t");
+        $url        = "XOOPS_URL . '/modules/{$moduleDirname}/{$tableName}.php?op=show&{$fieldId}=' . \${$ccFieldId}";
+        $contInsert .= $xc->getXcEqualsOperator("\$tags['{$stuTableSoleName}_URL']", $url, '.', $t . "\t");
+        $contInsert .= $xc->getXcXoopsHandler('notification', $t . "\t");
+        $contInsert .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \${$ccFieldId}, 'broken', \$tags);", $t . "\t");
+        $contInsert .= $pc->getPhpCodeCommentLine('redirect after success', null, $t . "\t");
+        $contInsert .= $xc->getXcRedirectHeader($tableName, '', '2', "{$language}FORM_OK", true, $t . "\t");
+        $ret        .= $pc->getPhpCodeConditions($insert, '', '', $contInsert, false, $t);
 
-        $ret           .= $pc->getPhpCodeCommentLine('Insert Data', null, $t);
-        $insert         = $xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
-        $redirectHeader = $xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK", true, $t . "\t");
-        $ret           .= $pc->getPhpCodeConditions($insert, '', '', $redirectHeader, false, $t);
         $ret .= $pc->getPhpCodeBlankLine();
         $ret .= $pc->getPhpCodeCommentLine('Get Form Error', null, $t);
         $ret .= $xc->getXcXoopsTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, $t);
@@ -407,6 +422,10 @@ class UserPages extends Files\CreateFile
      * @param $tableSoleName
      * @param $tableSubmit
      * @param $tablePermissions
+     * @param $tableBroken
+     * @param $fieldId
+     * @param $fieldMain
+     * @param $fieldSatus
      * @param $language
      * @param $t
      * @return string
@@ -417,15 +436,15 @@ class UserPages extends Files\CreateFile
 
         $fields = $this->getTableFields($tableMid, $tableId);
         $cases['show'] = [];
-        $cases['list'] = [$this->getUserPagesList($tableName, $fieldId, $fieldMain, "\t\t")];
+        $cases['list'] = [$this->getUserPagesList($tableName, $fieldId, $fieldMain, $t . "\t")];
         if (1 == $tableSubmit) {
-            $cases['save']   = [$this->getUserPagesSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $language, "\t\t")];
-            $cases['new']    = [$this->getUserPagesNew($tableName, $language, "\t\t")];
-            $cases['edit']   = [$this->getUserPagesEdit($moduleDirname, $tableName, $fieldId, $language, "\t\t")];
-            $cases['delete'] = [$this->getUserPagesDelete($tableName, $language, $fieldId, $fieldMain,"\t\t")];
+            $cases['save']   = [$this->getUserPagesSave($moduleDirname, $fields, $tableName, $tableSoleName, $tablePermissions, $language, $t . "\t")];
+            $cases['new']    = [$this->getUserPagesNew($tableName, $t . "\t")];
+            $cases['edit']   = [$this->getUserPagesEdit($tableName, $fieldId, $language, $t . "\t")];
+            $cases['delete'] = [$this->getUserPagesDelete($tableName, $language, $fieldId, $fieldMain,$t . "\t")];
         }
         if (1 == $tableBroken) {
-            $cases['broken']  = [$this->getUserPagesBroken($tableName, $language, $fieldId, $fieldSatus,"\t\t")];
+            $cases['broken']  = [$this->getUserPagesBroken($language, $moduleDirname, $tableName, $tableSoleName, $fieldId, $fieldSatus, $fieldMain, $t . "\t")];
         }
 
         return $xc->getXcSwitch('op', $cases, true, false);

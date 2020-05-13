@@ -938,6 +938,7 @@ class UserXoopsVersion extends Files\CreateFile
         $tableId       = null;
         $tableMid      = null;
         $tableSoleName = '';
+
         foreach (array_keys($tables) as $t) {
             $tableId         = $tables[$t]->getVar('table_id');
             $tableMid        = $tables[$t]->getVar('table_mid');

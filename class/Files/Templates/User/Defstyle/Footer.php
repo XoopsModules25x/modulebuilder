@@ -120,6 +120,7 @@ class Footer extends Files\CreateFile
         $contDiv = $sc->getSmartyConditions('comment_mode', ' == ', '"flat"', $contIf, false, '','',"\t\t");
         $contIf  = $hc->getHtmlDiv($contDiv, 'pad2 marg2', "\t", "\n", true);
         $ret     .= $sc->getSmartyConditions('comment_mode', '', '', $contIf);
+        $ret     .= $sc->getSmartyIncludeFile('system_notification','select');
 
         return $ret;
     }
