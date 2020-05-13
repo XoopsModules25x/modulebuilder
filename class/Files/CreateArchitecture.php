@@ -487,7 +487,7 @@ class CreateArchitecture extends CreateStructure
             $ret[] = $includeNotifications->render();
             // Language Mail Template Category File
             $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
-            $languageMailTpl->write($module, 'category_new_notify.tpl');
+            $languageMailTpl->write($module, $table, 'category_new_notify.tpl');
             $ret[] = $languageMailTpl->render();
         }
         // Creation of sql file
