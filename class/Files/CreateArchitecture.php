@@ -227,6 +227,7 @@ class CreateArchitecture extends CreateStructure
         foreach (array_keys($tables) as $t) {
             $tableId              = $tables[$t]->getVar('table_id');
             $tableName            = $tables[$t]->getVar('table_name');
+            $tableSoleName        = $tables[$t]->getVar('table_solename');
             $tableCategory[]      = $tables[$t]->getVar('table_category');
             $tableImage           = $tables[$t]->getVar('table_image');
             $tableAdmin[]         = $tables[$t]->getVar('table_admin');
@@ -246,6 +247,7 @@ class CreateArchitecture extends CreateStructure
             $tableSubmit[]        = $tables[$t]->getVar('table_submit');
             $tableVisit[]         = $tables[$t]->getVar('table_visit');
             $tableTag[]           = $tables[$t]->getVar('table_tag');
+
             // Get Table Object
             $table = $helper->getHandler('Tables')->get($tableId);
             // Copy of tables images file
@@ -336,28 +338,25 @@ class CreateArchitecture extends CreateStructure
                 }
                 // Creation of notifications files
                 if (1 === (int)$tables[$t]->getVar('table_notifications')) {
-                    // Language Mail Template New File
                     $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
-                    $languageMailTpl->write($module, $table,  $tableName . '_new_notify.tpl');
+                    // Language Mail Template New File
+                    $languageMailTpl->write($module, $table,  $tableSoleName . '_new_notify.tpl');
                     $ret[] = $languageMailTpl->render();
                     // Language Mail Template Modify File
-                    $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
-                    $languageMailTpl->write($module, $table,  $tableName . '_modify_notify.tpl');
+                    $languageMailTpl->write($module, $table,  $tableSoleName . '_modify_notify.tpl');
                     $ret[] = $languageMailTpl->render();
                     // Language Mail Template Delete File
-                    $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
-                    $languageMailTpl->write($module, $table,  $tableName . '_delete_notify.tpl');
+                    $languageMailTpl->write($module, $table,  $tableSoleName . '_delete_notify.tpl');
                     $ret[] = $languageMailTpl->render();
                     // Language Mail Template Approve File
-                    $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
-                    $languageMailTpl->write($module, $table,  $tableName . '_approve_notify.tpl');
+                    $languageMailTpl->write($module, $table,  $tableSoleName . '_approve_notify.tpl');
                     $ret[] = $languageMailTpl->render();
                 }
                 // Creation of notifications files
                 if (1 === (int)$tables[$t]->getVar('table_broken')) {
                     // Language Mail Template Category File
                     $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
-                    $languageMailTpl->write($module, $table,  $tableName . '_broken_notify.tpl');
+                    $languageMailTpl->write($module, $table,  $tableSoleName . '_broken_notify.tpl');
                     $ret[] = $languageMailTpl->render();
                 }
             }
@@ -367,7 +366,7 @@ class CreateArchitecture extends CreateStructure
         $classSpecialFiles = Modulebuilder\Files\Classes\ClassSpecialFiles::getInstance();
         $classSpecialFiles->write($module, '', $tables, ucfirst('constants') . '.php');
         $classSpecialFiles->className = 'Constants';
-        $ret[] = $classSpecialFiles->renderConstants();
+        $ret[] = $classSpecialFiles->renderConstantsInterface();
 
         // Creation of permissions
         if (in_array(1, $tablePermissions)) {
@@ -483,12 +482,29 @@ class CreateArchitecture extends CreateStructure
         if (in_array(1, $tableNotifications)) {
             // Include Notifications File
             $includeNotifications = Modulebuilder\Files\Includes\IncludeNotifications::getInstance();
-            $includeNotifications->write($module, $tables, 'notifications.inc.php');
+            $includeNotifications->write($module, $tables, 'notification.inc.php');
             $ret[] = $includeNotifications->render();
-            // Language Mail Template Category File
             $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
-            $languageMailTpl->write($module, $table, 'category_new_notify.tpl');
+            // Language Mail Template Category File
+            //$languageMailTpl->write($module, $table, 'category_new_notify.tpl');
+            //$ret[] = $languageMailTpl->render();
+            // Language Mail Template New File
+            $languageMailTpl->write($module, $table, 'global_new_notify.tpl');
             $ret[] = $languageMailTpl->render();
+            // Language Mail Template Modify File
+            $languageMailTpl->write($module, $table, 'global_modify_notify.tpl');
+            $ret[] = $languageMailTpl->render();
+            // Language Mail Template Delete File
+            $languageMailTpl->write($module, $table, 'global_delete_notify.tpl');
+            $ret[] = $languageMailTpl->render();
+            // Language Mail Template Approve File
+            $languageMailTpl->write($module, $table, 'global_approve_notify.tpl');
+            $ret[] = $languageMailTpl->render();
+            if (in_array(1, $tableBroken)) {
+                // Language Mail Template Broken File
+                $languageMailTpl->write($module, $table, 'global_broken_notify.tpl');
+                $ret[] = $languageMailTpl->render();
+            }
         }
         // Creation of sql file
         if (null != $table->getVar('table_name')) {

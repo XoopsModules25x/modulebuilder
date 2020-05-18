@@ -87,7 +87,15 @@ class PagesItem extends Files\CreateFile
         $fields  = $this->getTableFields($tableMid, $tableId);
         $ret     = '';
         $retNumb = '';
+        $fieldId   = '';
+        $ccFieldId = '';
+        $keyDouble = '';
         foreach (array_keys($fields) as $f) {
+            if (0 == $f) {
+                $fieldId = $fields[$f]->getVar('field_name');
+                $ccFieldId = $this->getCamelCase($fieldId, false, true);
+                $keyDouble = $sc->getSmartyDoubleVar($tableSoleName, $fieldId);
+            }
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_thead')) {
@@ -103,6 +111,7 @@ class PagesItem extends Files\CreateFile
                 }
             }
         }
+        $ret     .= $hc->getHtmlI('', '', $ccFieldId . '_' . $keyDouble);
         $ret     .= $hc->getHtmlDiv($retNumb, 'panel-heading');
         $retElem = '';
         foreach (array_keys($fields) as $f) {
@@ -140,8 +149,9 @@ class PagesItem extends Files\CreateFile
                 }
             }
         }
-        $ret     .= $hc->getHtmlDiv($retElem, 'panel-body');
-        $retFoot = '';
+        $ret .= $hc->getHtmlDiv($retElem, 'panel-body');
+
+        $retFoot   = '';
         foreach (array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_tfoot')) {
@@ -154,6 +164,21 @@ class PagesItem extends Files\CreateFile
                 }
             }
         }
+
+        $anchors = '';
+        $lang        = $sc->getSmartyConst($language, mb_strtoupper($tableName) . '_LIST');
+        $contIf =  $hc->getHtmlAnchor($tableName . ".php?op=list&amp;#{$ccFieldId}_" . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
+        $lang        = $sc->getSmartyConst($language, 'DETAILS');
+        $contElse =  $hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
+        $anchors .= $sc->getSmartyConditions('showItem', '', '', $contIf, $contElse, '', '', "\t\t");
+        $lang        = $sc->getSmartyConst('', '_EDIT');
+        $contIf =  $hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
+        $lang        = $sc->getSmartyConst('', '_DELETE');
+        $contIf .=  $hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-danger right', '', "\t\t\t", "\n");
+        $anchors .= $sc->getSmartyConditions('permEdit', '', '', $contIf, false, '', '', "\t\t");
+        $lang        = $sc->getSmartyConst($language, 'BROKEN');
+        $anchors .=  $hc->getHtmlAnchor($tableName . ".php?op=broken&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-warning right', '', "\t\t", "\n");
+        $retFoot     .= $hc->getHtmlDiv($anchors, 'col-sm-12 right',"\t", "\n", );
         $ret .= $hc->getHtmlDiv($retFoot, 'panel-foot');
 
         return $ret;

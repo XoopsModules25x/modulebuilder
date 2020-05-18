@@ -104,8 +104,14 @@ class PagesList extends Files\CreateFile
             }
         }
         $ret     .= $hc->getHtmlDiv($retNumb, 'panel-heading');
-        $retElem = '';
+        $retElem   = '';
+        $fieldId   = '';
+        $keyDouble = '';
         foreach (array_keys($fields) as $f) {
+            if (0 == $f) {
+                $fieldId = $fields[$f]->getVar('field_name');
+                $keyDouble = $sc->getSmartyDoubleVar($tableSoleName, $fieldId);
+            }
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_ibody')) {
@@ -140,6 +146,8 @@ class PagesList extends Files\CreateFile
                 }
             }
         }
+
+
         $ret     .= $hc->getHtmlDiv($retElem, 'panel-body');
         $retFoot = '';
         foreach (array_keys($fields) as $f) {
@@ -154,7 +162,43 @@ class PagesList extends Files\CreateFile
                 }
             }
         }
+        $lang        = $sc->getSmartyConst($language, 'DETAILS');
+        $anchor =  $hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-primary', '', '', '');
+        $retFoot     .= $hc->getHtmlSpan($anchor, 'col-sm-12',"\t");
         $ret .= $hc->getHtmlDiv($retFoot, 'panel-foot');
+
+        return $ret;
+    }
+
+    /**
+     * @private function getTemplatesUserPagesListPanel
+     * @param string $moduleDirname
+     * @param        $tableId
+     * @param        $tableMid
+     * @param        $tableName
+     * @param        $tableSoleName
+     * @param        $language
+     * @return string
+     */
+    private function getElement($moduleDirname, $tableName, $tableSoleName, $fieldElement, $fieldName, $rpFieldName)
+    {
+        $hc      = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $sc      = Modulebuilder\Files\CreateSmartyCode::getInstance();
+
+        switch ($fieldElement) {
+            default:
+                $ret   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+            case 10:
+                $singleVar   = $sc->getSmartySingleVar('xoops_icons32_url');
+                $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                $ret         = $hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
+                break;
+            case 13:
+                $singleVar   = $sc->getSmartySingleVar($moduleDirname . '_upload_url');
+                $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                $ret         = $hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
+                break;
+        }
 
         return $ret;
     }

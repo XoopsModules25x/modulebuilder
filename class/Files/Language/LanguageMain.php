@@ -105,6 +105,8 @@ As you can see, you have created a page with a list of links at the top to navig
         );
         $ret        .= $this->defines->getDefine($language, 'NO_PDF_LIBRARY', 'Libraries TCPDF not there yet, upload them in root/Frameworks');
         $ret        .= $this->defines->getDefine($language, 'NO', 'No');
+        $ret        .= $this->defines->getDefine($language, 'DETAILS', 'Show details');
+        $ret        .= $this->defines->getDefine($language, 'BROKEN', 'Notify broken');
         $ret        .= $this->defines->getAboveHeadDefines('Contents');
         $ucfTableName     = '';
         $ucfTableSoleName = '';
@@ -126,6 +128,7 @@ As you can see, you have created a page with a list of links at the top to navig
             $ret              .= $this->defines->getDefine($language, $stuTableName, $ucfTableName);
             $ret              .= $this->defines->getDefine($language, "{$stuTableName}_TITLE", "{$ucfTableName} title");
             $ret              .= $this->defines->getDefine($language, "{$stuTableName}_DESC", "{$ucfTableName} description");
+            $ret              .= $this->defines->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
             $ret              .= $this->defines->getAboveDefines("Caption of {$ucfTableSoleName}");
             $fields           = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
             foreach (array_keys($fields) as $f) {

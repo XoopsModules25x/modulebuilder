@@ -273,12 +273,6 @@ class LanguageModinfo extends Files\CreateFile
                     $fieldEditor = true;
                 }
                 if (4 == $fieldElement) {
-                    $fieldName    = $fields[$f]->getVar('field_name');
-                    $rpFieldName  = $this->getRightString($fieldName);
-                    $ucfFieldName = ucfirst($rpFieldName);
-                    $stuFieldName = mb_strtoupper($rpFieldName);
-                    $ret          .= $df->getDefine($language, 'EDITOR_' . $stuTablename . '_' . $stuFieldName, 'Editor');
-                    $ret          .= $df->getDefine($language, 'EDITOR_' . $stuTablename . '_' . $stuFieldName . '_DESC', 'Select the editor to use for ' . $ucfTablename . '/'. $ucfFieldName);
                     $fieldEditor = true;
                 }
                 if (13 == $fieldElement) {
@@ -294,6 +288,8 @@ class LanguageModinfo extends Files\CreateFile
             // if (0 != $tables[$i]->getVar('table_permissions')) {$usePermissions = true;}
         }
         if ($fieldEditor) {
+            $ret .= $df->getDefine($language, 'EDITOR_DEFAULT', 'Editor');
+            $ret .= $df->getDefine($language, 'EDITOR_DEFAULT_DESC', 'Select the editor which should be used for text area fields');
             $ret .= $df->getDefine($language, 'EDITOR_MAXCHAR', 'Text max characters');
             $ret .= $df->getDefine($language, 'EDITOR_MAXCHAR_DESC', 'Max characters for showing text of a textarea or editor field in admin area');
         }
@@ -360,81 +356,44 @@ class LanguageModinfo extends Files\CreateFile
     }
 
     /**
-     * @private function getLanguageNotifications
+     * @private function getLanguageNotificationsGlobal
      * @param       $language
      * @param mixed $tableSoleName
      *
      * @return string
      */
-    private function getLanguageNotifications($language, $tableSoleName)
+    private function getLanguageNotificationsGlobal($language)
     {
         $df               = LanguageDefines::getInstance();
         $ret              = $df->getAboveDefines('Notifications');
-        $stuTableSoleName = mb_strtoupper($tableSoleName);
-        $ucfTableSoleName = ucfirst($tableSoleName);
         $getDefinesNotif  = [
-            'GLOBAL_NOTIFY'                  => 'Global notify',
-            'GLOBAL_NOTIFY_DESC'             => 'Global notify desc',
-            'GLOBAL_MODIFY_NOTIFY'           => 'Global modify notify',
-            'GLOBAL_MODIFY_NOTIFY_CAPTION'   => 'Global modify notify caption',
-            'GLOBAL_MODIFY_NOTIFY_DESC'      => 'Global modify notify desc',
-            'GLOBAL_MODIFY_NOTIFY_SUBJECT'   => 'Global modify notify subject',
-            'GLOBAL_BROKEN_NOTIFY'           => 'Global broken notify',
-            'GLOBAL_BROKEN_NOTIFY_CAPTION'   => 'Global broken notify caption',
-            'GLOBAL_BROKEN_NOTIFY_DESC'      => 'Global broken notify desc',
-            'GLOBAL_BROKEN_NOTIFY_SUBJECT'   => 'Global broken notify subject',
-            'GLOBAL_SUBMIT_NOTIFY'           => 'Global submit notify',
-            'GLOBAL_SUBMIT_NOTIFY_CAPTION'   => 'Global submit notify caption',
-            'GLOBAL_SUBMIT_NOTIFY_DESC'      => 'Global submit notify desc',
-            'GLOBAL_SUBMIT_NOTIFY_SUBJECT'   => 'Global submit notify subject',
-            'GLOBAL_NEW_NOTIFY'              => 'Global new notify',
-            'GLOBAL_NEW_NOTIFY_CAPTION'      => 'Global new notify caption',
-            'GLOBAL_NEW_NOTIFY_DESC'         => 'Global new notify desc',
-            'GLOBAL_NEW_NOTIFY_SUBJECT'      => 'Global new notify subject',
-            'CATEGORY_NOTIFY'                => 'Category notify',
-            'CATEGORY_NOTIFY_DESC'           => 'Category notify desc',
-            'CATEGORY_NOTIFY_CAPTION'        => 'Category notify caption',
-            'CATEGORY_NOTIFY_SUBJECT'        => 'Category notify Subject',
-            'CATEGORY_SUBMIT_NOTIFY'         => 'Category submit notify',
-            'CATEGORY_SUBMIT_NOTIFY_CAPTION' => 'Category submit notify caption',
-            'CATEGORY_SUBMIT_NOTIFY_DESC'    => 'Category submit notify desc',
-            'CATEGORY_SUBMIT_NOTIFY_SUBJECT' => 'Category submit notify subject',
-            $stuTableSoleName . '_NOTIFY'         => $ucfTableSoleName . ' notify',
-            $stuTableSoleName . '_NOTIFY_DESC'    => $ucfTableSoleName . ' notify desc',
-            $stuTableSoleName . '_NOTIFY_CAPTION' => $ucfTableSoleName . ' notify caption',
-            $stuTableSoleName . '_NOTIFY_SUBJECT' => $ucfTableSoleName . ' notify subject',
-            'GLOBAL_NEW_CATEGORY_NOTIFY'          => 'Global newcategory notify',
-            'GLOBAL_NEW_CATEGORY_NOTIFY_CAPTION'  => 'Global newcategory notify caption',
-            'GLOBAL_NEW_CATEGORY_NOTIFY_DESC'     => 'Global newcategory notify desc',
-            'GLOBAL_NEW_CATEGORY_NOTIFY_SUBJECT'  => 'Global newcategory notify subject',
-            'GLOBAL_' . $stuTableSoleName . '_MODIFY_NOTIFY'           => 'Global ' . $tableSoleName . ' modify notify',
-            'GLOBAL_' . $stuTableSoleName . '_MODIFY_NOTIFY_CAPTION'   => 'Global ' . $tableSoleName . ' modify notify caption',
-            'GLOBAL_' . $stuTableSoleName . '_MODIFY_NOTIFY_DESC'      => 'Global ' . $tableSoleName . ' modify notify desc',
-            'GLOBAL_' . $stuTableSoleName . '_MODIFY_NOTIFY_SUBJECT'   => 'Global ' . $tableSoleName . ' modify notify subject',
-            'GLOBAL_' . $stuTableSoleName . '_BROKEN_NOTIFY'           => 'Global ' . $tableSoleName . ' broken notify',
-            'GLOBAL_' . $stuTableSoleName . '_BROKEN_NOTIFY_CAPTION'   => 'Global ' . $tableSoleName . ' broken notify caption',
-            'GLOBAL_' . $stuTableSoleName . '_BROKEN_NOTIFY_DESC'      => 'Global ' . $tableSoleName . ' broken notify desc',
-            'GLOBAL_' . $stuTableSoleName . '_BROKEN_NOTIFY_SUBJECT'   => 'Global ' . $tableSoleName . ' broken notify subject',
-            'GLOBAL_' . $stuTableSoleName . '_SUBMIT_NOTIFY'           => 'Global ' . $tableSoleName . ' submit notify',
-            'GLOBAL_' . $stuTableSoleName . '_SUBMIT_NOTIFY_CAPTION'   => 'Global ' . $tableSoleName . ' submit notify caption',
-            'GLOBAL_' . $stuTableSoleName . '_SUBMIT_NOTIFY_DESC'      => 'Global ' . $tableSoleName . ' submit notify desc',
-            'GLOBAL_' . $stuTableSoleName . '_SUBMIT_NOTIFY_SUBJECT'   => 'Global ' . $tableSoleName . ' submit notify subject',
-            'GLOBAL_NEW_' . $stuTableSoleName . '_NOTIFY'              => 'Global new ' . $tableSoleName . ' notify',
-            'GLOBAL_NEW_' . $stuTableSoleName . '_NOTIFY_CAPTION'      => 'Global new ' . $tableSoleName . ' notify caption',
-            'GLOBAL_NEW_' . $stuTableSoleName . '_NOTIFY_DESC'         => 'Global new ' . $tableSoleName . ' notify desc',
-            'GLOBAL_NEW_' . $stuTableSoleName . '_NOTIFY_SUBJECT'      => 'Global new ' . $tableSoleName . ' notify subject',
-            'CATEGORY_' . $stuTableSoleName . '_SUBMIT_NOTIFY'         => 'Category ' . $tableSoleName . ' submit notify',
-            'CATEGORY_' . $stuTableSoleName . '_SUBMIT_NOTIFY_CAPTION' => 'Category ' . $tableSoleName . ' submit notify caption',
-            'CATEGORY_' . $stuTableSoleName . '_SUBMIT_NOTIFY_DESC'    => 'Category ' . $tableSoleName . ' submit notify desc',
-            'CATEGORY_' . $stuTableSoleName . '_SUBMIT_NOTIFY_SUBJECT' => 'Category ' . $tableSoleName . ' submit notify subject',
-            'CATEGORY_NEW_' . $stuTableSoleName . '_NOTIFY'            => 'Category new ' . $tableSoleName . ' notify',
-            'CATEGORY_NEW_' . $stuTableSoleName . '_NOTIFY_CAPTION'    => 'Category new ' . $tableSoleName . ' notify caption',
-            'CATEGORY_NEW_' . $stuTableSoleName . '_NOTIFY_DESC'       => 'Category new ' . $tableSoleName . ' notify desc',
-            'CATEGORY_NEW_' . $stuTableSoleName . '_NOTIFY_SUBJECT'    => 'Category new ' . $tableSoleName . ' notify subject',
-            'APPROVE_NOTIFY'                      => $ucfTableSoleName . ' approve notify',
-            'APPROVE_NOTIFY_CAPTION'              => $ucfTableSoleName . ' approve notify caption',
-            'APPROVE_NOTIFY_DESC'                 => $ucfTableSoleName . ' approve notify desc',
-            'APPROVE_NOTIFY_SUBJECT'              => $ucfTableSoleName . ' approve notify subject',
+            'GLOBAL_NOTIFY'                  => 'Global notification',
+            'GLOBAL_NOTIFY_DESC'             => 'Global notification desc',
+            'GLOBAL_NEW_NOTIFY'              => 'New item',
+            'GLOBAL_NEW_NOTIFY_CAPTION'      => 'Notify me about new items',
+            'GLOBAL_NEW_NOTIFY_SUBJECT'      => 'Notification new item',
+            'GLOBAL_MODIFY_NOTIFY'           => 'Item modification',
+            'GLOBAL_MODIFY_NOTIFY_CAPTION'   => 'Notify me about item modification',
+            'GLOBAL_MODIFY_NOTIFY_SUBJECT'   => 'Notification about modification',
+            'GLOBAL_DELETE_NOTIFY'           => 'Item deleted',
+            'GLOBAL_DELETE_NOTIFY_CAPTION'   => 'Notify me about deleted items',
+            'GLOBAL_DELETE_NOTIFY_SUBJECT'   => 'Notification delete item',
+            'GLOBAL_APPROVE_NOTIFY'          => 'Item approve',
+            'GLOBAL_APPROVE_NOTIFY_CAPTION'  => 'Notify me about items waiting for approvement',
+            'GLOBAL_APPROVE_NOTIFY_SUBJECT'  => 'Notification item waiting for approvement',
+            'GLOBAL_BROKEN_NOTIFY'           => 'Item broken',
+            'GLOBAL_BROKEN_NOTIFY_CAPTION'   => 'Notify me about broken item',
+            'GLOBAL_BROKEN_NOTIFY_SUBJECT'   => 'Notification about broken item',
+
+            //'CATEGORY_NOTIFY'                => 'Category notification',
+            //'CATEGORY_NOTIFY_DESC'           => 'Category notification desc',
+            //'CATEGORY_NOTIFY_CAPTION'        => 'Category notification caption',
+            //'CATEGORY_NOTIFY_SUBJECT'        => 'Category notification Subject',
+            //'CATEGORY_SUBMIT_NOTIFY'         => 'Category submit notification',
+            //'CATEGORY_SUBMIT_NOTIFY_CAPTION' => 'Category submit notification caption',
+            //'CATEGORY_SUBMIT_NOTIFY_DESC'    => 'Category submit notification desc',
+            //'CATEGORY_SUBMIT_NOTIFY_SUBJECT' => 'Category submit notification subject',
+
         ];
         foreach ($getDefinesNotif as $defn => $descn) {
             $ret .= $df->getDefine($language, $defn, $descn);
@@ -443,6 +402,45 @@ class LanguageModinfo extends Files\CreateFile
         return $ret;
     }
 
+    /**
+     * @private function getLanguageNotificationsTable
+     * @param       $language
+     * @param mixed $tableSoleName
+     *
+     * @return string
+     */
+    private function getLanguageNotificationsTable($language, $tableName, $tableSoleName)
+    {
+        $df               = LanguageDefines::getInstance();
+        $ret              = $df->getAboveDefines('Notifications');
+        $stuTableSoleName = mb_strtoupper($tableSoleName);
+        $ucfTableSoleName = ucfirst($tableSoleName);
+        $getDefinesNotif  = [
+            $stuTableSoleName . '_NOTIFY'         => $ucfTableSoleName . ' notification',
+            $stuTableSoleName . '_NOTIFY_CAPTION' => $ucfTableSoleName . ' notification caption',
+            $stuTableSoleName . '_NOTIFY_SUBJECT' => $ucfTableSoleName . ' notification subject',
+            $stuTableSoleName . '_NEW_NOTIFY'              => "New {$tableSoleName}",
+            $stuTableSoleName . '_NEW_NOTIFY_CAPTION'      => "Notify me about new {$tableName}",
+            $stuTableSoleName . '_NEW_NOTIFY_SUBJECT'      => "Notification new {$tableSoleName}",
+            $stuTableSoleName . '_MODIFY_NOTIFY'           => "{$ucfTableSoleName} modification",
+            $stuTableSoleName . '_MODIFY_NOTIFY_CAPTION'   => "Notify me about {$tableSoleName} modification",
+            $stuTableSoleName . '_MODIFY_NOTIFY_SUBJECT'   => "Notification about modification",
+            $stuTableSoleName . '_DELETE_NOTIFY'           => "{$ucfTableSoleName} deleted",
+            $stuTableSoleName . '_DELETE_NOTIFY_CAPTION'   => "Notify me about deleted {$tableName}",
+            $stuTableSoleName . '_DELETE_NOTIFY_SUBJECT'   => "Notification delete {$tableSoleName}",
+            $stuTableSoleName . '_APPROVE_NOTIFY'          => "{$ucfTableSoleName} approve",
+            $stuTableSoleName . '_APPROVE_NOTIFY_CAPTION'  => "Notify me about {$tableName} waiting for approvement",
+            $stuTableSoleName . '_APPROVE_NOTIFY_SUBJECT'  => "Notification {$tableSoleName} waiting for approvement",
+            $stuTableSoleName . '_BROKEN_NOTIFY'           => "{$ucfTableSoleName} broken",
+            $stuTableSoleName . '_BROKEN_NOTIFY_CAPTION'   => "Notify me about broken {$tableSoleName}",
+            $stuTableSoleName . '_BROKEN_NOTIFY_SUBJECT'   => "Notification about broken {$tableSoleName}",
+        ];
+        foreach ($getDefinesNotif as $defn => $descn) {
+            $ret .= $df->getDefine($language, $defn, $descn);
+        }
+
+        return $ret;
+    }
     /**
      * @private function getLanguagePermissionsGroups
      * @param $language
@@ -486,6 +484,9 @@ class LanguageModinfo extends Files\CreateFile
     {
         $module             = $this->getModule();
         $tables             = $this->getTableTables($module->getVar('mod_id'));
+        $filename           = $this->getFileName();
+        $moduleDirname      = $module->getVar('mod_dirname');
+        $language           = $this->getLanguage($moduleDirname, 'MI');
         $tableAdmin         = [];
         $tableUser          = [];
         $tableSubmenu       = [];
@@ -493,18 +494,21 @@ class LanguageModinfo extends Files\CreateFile
         $tableNotifications = [];
         $tablePermissions   = [];
         $tableSoleName      = '';
+        $notifTable         = '';
         foreach (array_keys($tables) as $t) {
+            $tableName            = $tables[$t]->getVar('table_name');
             $tableSoleName        = $tables[$t]->getVar('table_solename');
             $tableAdmin[]         = $tables[$t]->getVar('table_admin');
             $tableUser[]          = $tables[$t]->getVar('table_user');
             $tableSubmenu[]       = $tables[$t]->getVar('table_submenu');
             $tableBlocks[]        = $tables[$t]->getVar('table_blocks');
             $tableNotifications[] = $tables[$t]->getVar('table_notifications');
+            if (1 === (int)$tables[$t]->getVar('table_notifications')) {
+                $notifTable .= $this->getLanguageNotificationsTable($language, $tableName, $tableSoleName);
+            }
             $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
         }
-        $filename      = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MI');
+
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getLanguageMain($language, $module);
         $content       .= $this->getLanguageMenu($module, $language);
@@ -522,7 +526,8 @@ class LanguageModinfo extends Files\CreateFile
         //}
         $content .= $this->getLanguageConfig($language, $tables);
         if (in_array(1, $tableNotifications)) {
-            $content .= $this->getLanguageNotifications($language, $tableSoleName);
+            $content .= $this->getLanguageNotificationsGlobal($language);
+            $content .= $notifTable;
         }
         if (in_array(1, $tablePermissions)) {
             $content .= $this->getLanguagePermissionsGroups($language);
