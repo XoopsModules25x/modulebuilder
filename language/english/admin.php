@@ -447,7 +447,7 @@ define('_AM_MODULEBUILDER_THEREARENT_SETTINGS', 'There are NO Settings! Please c
 // added Version 3.02
 define('_AM_MODULEBUILDER_BUILDING_COMMON', "Copied common files and created folder for test data");
 define('_AM_MODULEBUILDER_FIELD_ELE_TEXT', "Textbox");
-define('_AM_MODULEBUILDER_FIELD_ELE_TEXTAREA', "TextArea Field");
+define('_AM_MODULEBUILDER_FIELD_ELE_TEXTAREA', "Plain TextArea Field");
 define('_AM_MODULEBUILDER_FIELD_ELE_DHTMLTEXTAREA', "Selectable Editor (Dhtml)");
 define('_AM_MODULEBUILDER_FIELD_ELE_CHECKBOX', "CheckBox");
 define('_AM_MODULEBUILDER_FIELD_ELE_RADIOYN', "Radio Yes/No");
@@ -473,3 +473,5 @@ define('_AM_MODULEBUILDER_FIELD_ELE_RADIO_2', "Radio Value 2");
 define('_AM_MODULEBUILDER_FIELD_IHEAD', 'User index: in header');
 define('_AM_MODULEBUILDER_FIELD_IBODY', 'User index: in body');
 define('_AM_MODULEBUILDER_FIELD_IFOOT', 'User index: in footer');
+define('_AM_MODULEBUILDER_ADMIN_BUILD_TEST', 'Save and restore test data of selcted module');
+define('_AM_MODULEBUILDER_ADMIN_BUILD_TEST_DESC', '<br>If you create copy of this module in root/modules then all data of previous module will be deleted.<br>If you select this option, then data of selected module will be stored temporary and copied back as test data to new build module');

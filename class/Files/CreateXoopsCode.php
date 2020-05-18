@@ -1408,6 +1408,20 @@ class CreateXoopsCode
 
 
     /*************************************************************/
+    /** special components */
+    /*************************************************************/
+    /**
+     * @public function getXcGetConstants
+     * @param null
+     * @return string
+     */
+    public function getXcGetConstants($const)
+    {
+        $ret = "Constants::{$const}";
+        return $ret;
+    }
+
+    /*************************************************************/
     /** other Xoops components */
     /*************************************************************/
 

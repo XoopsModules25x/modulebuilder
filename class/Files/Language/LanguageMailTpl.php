@@ -79,10 +79,8 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateDummy($tableSoleName, $stuTableSoleName, $stuFieldMain, $line)
     {
-        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
 
-        $ret = $pc->getPhpCodeCommentLine('Templates Mail Content Dummy');
-        $ret .= $this->getSimpleString('Hello {X_UNAME},');
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('A new ' . $tableSoleName . ' "{' . $stuFieldMain . '}" has been added at {X_SITENAME}.');
         $ret .= $this->getSimpleString('');
@@ -107,10 +105,8 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateTableNew($tableSoleName, $stuTableSoleName, $stuFieldMain, $line)
     {
-        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
 
-        $ret = $pc->getPhpCodeCommentLine('Templates Mail Notification New');
-        $ret .= $this->getSimpleString('Hello {X_UNAME},');
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('A new ' . $tableSoleName . ' "{' . $stuFieldMain . '}" has been added at {X_SITENAME}.');
         $ret .= $this->getSimpleString('');
@@ -134,10 +130,8 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateTableModify($tableSoleName, $stuTableSoleName, $stuFieldMain, $line)
     {
-        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
 
-        $ret = $pc->getPhpCodeCommentLine('Templates Mail Notification Modify');
-        $ret .= $this->getSimpleString('Hello {X_UNAME},');
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{' . $stuFieldMain . '}" has been modified at {X_SITENAME}.');
         $ret .= $this->getSimpleString('');
@@ -160,10 +154,8 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateTableDelete($tableSoleName, $stuFieldMain, $line)
     {
-        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
 
-        $ret = $pc->getPhpCodeCommentLine('Templates Mail Notification Delete');
-        $ret .= $this->getSimpleString('Hello {X_UNAME},');
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{' . $stuFieldMain . '}" has been deleted from {X_SITENAME}.');
         $ret .= $this->getSimpleString('');
@@ -184,10 +176,8 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateTableApprove($tableSoleName, $stuTableSoleName, $stuFieldMain, $line)
     {
-        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
 
-        $ret = $pc->getPhpCodeCommentLine('Templates Mail Notification Approve');
-        $ret .= $this->getSimpleString('Hello {X_UNAME},');
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('A new ' . $tableSoleName . ' "{' . $stuFieldMain . '}" is waiting for approval at {X_SITENAME}.');
         $ret .= $this->getSimpleString('');
@@ -211,10 +201,8 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateTableBroken($tableSoleName, $stuTableSoleName, $stuFieldMain, $line)
     {
-        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
 
-        $ret = $pc->getPhpCodeCommentLine('Templates Mail Notification Broken');
-        $ret .= $this->getSimpleString('Hello {X_UNAME},');
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{' . $stuFieldMain . '}" has been notified as broken at {X_SITENAME}.');
         $ret .= $this->getSimpleString('');
@@ -228,6 +216,112 @@ class LanguageMailTpl extends Files\CreateFile
         return $ret;
     }
 
+    /**
+     * @public function getTemplateGlobalNew
+     * @param $line
+     * @return string
+     */
+    public function getTemplateGlobalNew($line)
+    {
+
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('A new item "{ITEM_NAME}" has been added at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this item here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when a new item is added to our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateGlobalModify
+     * @param $line
+     * @return string
+     */
+    public function getTemplateGlobalModify($line)
+    {
+
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('The item "{ITEM_NAME}" has been modified at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this item here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when an item is modified on our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateGlobalDelete
+     * @param $line
+     * @return string
+     */
+    public function getTemplateGlobalDelete($line)
+    {
+
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('The item "{ITEM_NAME}" has been deleted from {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when an item is deleted from our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateGlobalApprove
+     * @param $line
+     * @return string
+     */
+    public function getTemplateGlobalApprove($line)
+    {
+
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('The item "{ITEM_NAME}" is waiting for approval at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this item here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when an item is waitung for approval on our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateGlobalBroken
+     * @param $line
+     * @return string
+     */
+    public function getTemplateGlobalBroken($line)
+    {
+
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('The item "{ITEM_NAME}" has been notified as broken at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this item here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when an item is notified as broken on our site.');
+
+        return $ret;
+    }
     /**
      * @public function getTemplateTableApprove
      * @param $line
@@ -287,19 +381,34 @@ class LanguageMailTpl extends Files\CreateFile
             default:
                 $content .= $this->getTemplateDummy('story', 'STORY', 'STORY_NAME', $line);
                 break;
-            case $tableName . '_new_notify.tpl':
+            case 'global_new_notify.tpl':
+                $content .= $this->getTemplateGlobalNew($line);
+                break;
+            case'global_modify_notify.tpl':
+                $content .= $this->getTemplateGlobalModify($line);
+                break;
+            case 'global_delete_notify.tpl':
+                $content .= $this->getTemplateGlobalDelete($line);
+                break;
+            case 'global_approve_notify.tpl':
+                $content .= $this->getTemplateGlobalApprove($line);
+                break;
+            case 'global_broken_notify.tpl':
+                $content .= $this->getTemplateGlobalBroken($line);
+                break;
+            case $tableSoleName . '_new_notify.tpl':
                 $content .= $this->getTemplateTableNew($tableSoleName, $stuTableSoleName, $stuFieldMain, $line);
                 break;
-            case $tableName . '_modify_notify.tpl':
+            case $tableSoleName . '_modify_notify.tpl':
                 $content .= $this->getTemplateTableModify($tableSoleName, $stuTableSoleName, $stuFieldMain, $line);
                 break;
-            case $tableName . '_delete_notify.tpl':
+            case $tableSoleName . '_delete_notify.tpl':
                 $content .= $this->getTemplateTableDelete($tableSoleName, $stuFieldMain, $line);
                 break;
-            case $tableName . '_approve_notify.tpl':
+            case $tableSoleName . '_approve_notify.tpl':
                 $content .= $this->getTemplateTableApprove($tableSoleName, $stuTableSoleName, $stuFieldMain, $line);
                 break;
-            case $tableName . '_broken_notify.tpl':
+            case $tableSoleName . '_broken_notify.tpl':
                 $content .= $this->getTemplateTableBroken($tableSoleName, $stuTableSoleName, $stuFieldMain, $line);
                 break;
         }

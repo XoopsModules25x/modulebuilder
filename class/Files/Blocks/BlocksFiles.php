@@ -127,7 +127,8 @@ class BlocksFiles extends Files\CreateFile
             }
         }
         if ('' !== $fieldStatus) {
-            $crit = $xc->getXcCriteria('', "'{$fieldStatus}'", 'Constants::PERM_GLOBAL_VIEW', '', true);
+            $constant   = $xc->getXcGetConstants('PERM_GLOBAL_VIEW');
+			$crit       = $xc->getXcCriteria('', "'{$fieldStatus}'", $constant, '', true);
             $critStatus .= $xc->getXcCriteriaAdd($critName, $crit, "\t\t\t");
         }
 

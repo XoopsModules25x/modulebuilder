@@ -128,7 +128,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $ccFieldName = $tf->getCamelCase($fieldName, false, true);
         $ret         = $pc->getPhpCodeCommentLine('Form Editor', 'DhtmlTextArea ' . $ccFieldName, "\t\t");
         $ret         .= $pc->getPhpCodeArray('editorConfigs', null, false, "\t\t");
-        $getConfig   = $xc->getXcGetConfig('editor_' . $rpFieldName);
+        $getConfig   = $xc->getXcGetConfig('editor_default');
         $configs     = [
             'name'   => "'{$fieldName}'",
             'value'  => "\$this->getVar('{$fieldName}', 'e')",
@@ -620,17 +620,18 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     {
         $tf           = Modulebuilder\Files\CreateFile::getInstance();
         $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc           = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $cxc          = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ccFieldName  = $tf->getCamelCase($fieldName, false, true);
         $languageShort = substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
         $t            = "\t\t";
         $ret          = $pc->getPhpCodeCommentLine('Form Select', 'Status ' . $ccFieldName, $t);
         $ret          .= $cxc->getClassXoopsFormSelect($ccFieldName . 'Select', $language, $fieldName, "this->getVar('{$fieldName}')", null, '', false, $t);
-        $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', "Constants::STATUS_NONE, {$languageShort}STATUS_NONE", $t);
-        $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', "Constants::STATUS_OFFLINE, {$languageShort}STATUS_OFFLINE", $t);
-        $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', "Constants::STATUS_SUBMITTED, {$languageShort}STATUS_SUBMITTED", $t);
-        $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', "Constants::STATUS_APPROVED, {$languageShort}STATUS_APPROVED", $t);
-        $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', "Constants::STATUS_BROKEN, {$languageShort}STATUS_BROKEN", $t);
+        $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', $xc->getXcGetConstants('STATUS_NONE') . ", {$languageShort}STATUS_NONE", $t);
+        $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', $xc->getXcGetConstants('STATUS_OFFLINE') . ", {$languageShort}STATUS_OFFLINE", $t);
+        $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', $xc->getXcGetConstants('STATUS_SUBMITTED') . ", {$languageShort}STATUS_SUBMITTED", $t);
+        $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', $xc->getXcGetConstants('STATUS_APPROVED') . ", {$languageShort}STATUS_APPROVED", $t);
+        $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', $xc->getXcGetConstants('STATUS_BROKEN') . ", {$languageShort}STATUS_BROKEN", $t);
         $ret          .= $cxc->getClassAddElement('form', "\${$ccFieldName}Select{$required}", $t);
 
         return $ret;

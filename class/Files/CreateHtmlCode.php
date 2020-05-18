@@ -205,10 +205,18 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlSpan($content = '', $spanClass = '', $t = '', $n = "\n")
+    public function getHtmlSpan($content = '', $spanClass = '', $t = '', $n = "\n", $split = false)
     {
         $rSpanClass = ('' != $spanClass) ? " class='{$spanClass}'" : '';
-        $ret        = "{$t}<span{$rSpanClass}>{$content}</span>{$n}";
+        $ret        = "{$t}<span{$rSpanClass}>";
+        if ($split) {
+            $ret .= "\n";
+        }
+        $ret .= "{$content}";
+        if ($split) {
+            $ret .= "\n{$t}";
+        }
+        $ret .= "</span>{$n}";
 
         return $ret;
     }
@@ -239,10 +247,11 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlI($content = '', $iClass = '', $t = '', $n = "\n")
+    public function getHtmlI($content = '', $iClass = '', $iId = '', $t = '', $n = "\n")
     {
         $rIClass = ('' != $iClass) ? " class='{$iClass}'" : '';
-        $ret     = "{$t}<i{$rIClass}>{$content}</i>{$n}";
+        $rIId     = ('' != $iId) ? " id='{$iId}'" : '';
+        $ret     = "{$t}<i{$rIClass}{$rIId}>{$content}</i>{$n}";
 
         return $ret;
     }

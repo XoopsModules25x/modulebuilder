@@ -156,11 +156,11 @@ class CreateStructure
     }
 
     /**
-     * @private function isDir
+     * @public function isDir
      *
      * @param $dname
      */
-    private function isDir($dname)
+    public function isDir($dname)
     {
         if (!is_dir($dname)) {
             if (!mkdir($dname, 0755) && !is_dir($dname)) {

@@ -136,13 +136,14 @@ class AdminBroken extends Files\CreateFile
                     }
                 }
 
-                $ret     .= $xc->getXcCriteriaCompo($critName, $t);
-                $crit     = $xc->getXcCriteria('', "'{$fieldSatus}'", 'Constants::STATUS_BROKEN', '', true);
-                $ret     .= $xc->getXcCriteriaAdd($critName, $crit, $t, "\n");
-                $ret     .= $xc->getXcHandlerCountClear($tableName . 'Count', $tableName, '$' . $critName, $t);
-                $ret     .= $xc->getXcXoopsTplAssign($tableName . '_count', "\${$tableName}Count", true, $t);
+                $ret      .= $xc->getXcCriteriaCompo($critName, $t);
+                $constant = $xc->getXcGetConstants('STATUS_BROKEN');
+                $crit     = $xc->getXcCriteria('', "'{$fieldSatus}'", $constant, '', true);
+                $ret      .= $xc->getXcCriteriaAdd($critName, $crit, $t, "\n");
+                $ret      .= $xc->getXcHandlerCountClear($tableName . 'Count', $tableName, '$' . $critName, $t);
+                $ret      .= $xc->getXcXoopsTplAssign($tableName . '_count', "\${$tableName}Count", true, $t);
                 $sprintf  = $pc->getPhpCodeSprintf($language . 'BROKEN_RESULT', "'{$ucfTableName}'");
-                $ret     .= $xc->getXcXoopsTplAssign($tableName . '_result', $sprintf, true, $t);
+                $ret      .= $xc->getXcXoopsTplAssign($tableName . '_result', $sprintf, true, $t);
 
                 $ret      .= $xc->getXcCriteriaSetStart($critName,'$start', $t);
                 $ret      .= $xc->getXcCriteriaSetLimit($critName,'$limit', $t);

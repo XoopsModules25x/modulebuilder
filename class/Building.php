@@ -71,7 +71,8 @@ class Building
         $form->addElement($mod_select, true);
         
         $form->addElement(new \XoopsFormRadioYN(_AM_MODULEBUILDER_MODULE_INROOT_COPY, 'inroot_copy', $helper->getConfig('inroot_copy')));
-        
+        $form->addElement(new \XoopsFormRadioYN(_AM_MODULEBUILDER_ADMIN_BUILD_TEST . _AM_MODULEBUILDER_ADMIN_BUILD_TEST_DESC, 'testdata_restore', 0));
+
         $form->addElement(new \XoopsFormHidden('op', 'build'));
         $form->addElement(new \XoopsFormButton(_REQUIRED . ' <sup class="red bold">*</sup>', 'submit', _SUBMIT, 'submit'));
 

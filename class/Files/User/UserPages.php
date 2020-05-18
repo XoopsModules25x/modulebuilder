@@ -104,6 +104,10 @@ class UserPages extends Files\CreateFile
         $ret       .= $pc->getPhpCodeBlankLine();
         $ret       .= $pc->getPhpCodeArray('keywords', null, false, '');
         $ret       .= $pc->getPhpCodeBlankLine();
+        $ret       .= $xc->getXcEqualsOperator('$permEdit', '$permissionsHandler->getPermGlobalSubmit()', );
+        $ret       .= $xc->getXcXoopsTplAssign("permEdit", '$permEdit');
+        $ret       .= $xc->getXcXoopsTplAssign("showItem", "\${$ccFieldId} > 0");
+        $ret       .= $pc->getPhpCodeBlankLine();
 
         return $ret;
     }
@@ -355,17 +359,19 @@ class UserPages extends Files\CreateFile
         $ret    .= $pc->getPhpCodeConditions('!$xoopsCaptcha->verify()', '', '', $contIf, false, $t);
 
         $ret        .= $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
-        $ret        .= $xc->getXcSetVarObj($tableName, $fieldSatus, 'Constants::STATUS_BROKEN', $t);
+		$constant   = $xc->getXcGetConstants('STATUS_BROKEN');
+        $ret        .= $xc->getXcSetVarObj($tableName, $fieldSatus, $constant, $t);
+        $ret        .= $xc->getXcGetVar($ccFieldMain, "{$tableName}Obj", $fieldMain, false, $t);
         $ret        .= $pc->getPhpCodeCommentLine('Insert Data', null, $t);
         $insert     = $xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
         $contInsert = $pc->getPhpCodeCommentLine('Event broken notification', null, $t . "\t");
-        $contInsert .= $xc->getXcGetVar($ccFieldMain, "{$tableName}Obj", $fieldMain, false, $t . "\t");
         $contInsert .= $pc->getPhpCodeArray('tags', [], false, $t . "\t");
-        $contInsert .= $xc->getXcEqualsOperator("\$tags['{$stuFieldMain}']", "\${$ccFieldMain}", '.', $t . "\t");
+        $contInsert .= $xc->getXcEqualsOperator("\$tags['{$stuFieldMain}']", "\${$ccFieldMain}", '', $t . "\t");
         $url        = "XOOPS_URL . '/modules/{$moduleDirname}/{$tableName}.php?op=show&{$fieldId}=' . \${$ccFieldId}";
-        $contInsert .= $xc->getXcEqualsOperator("\$tags['{$stuTableSoleName}_URL']", $url, '.', $t . "\t");
+        $contInsert .= $xc->getXcEqualsOperator("\$tags['{$stuTableSoleName}_URL']", $url, '', $t . "\t");
         $contInsert .= $xc->getXcXoopsHandler('notification', $t . "\t");
-        $contInsert .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \${$ccFieldId}, 'broken', \$tags);", $t . "\t");
+        $contInsert .= $this->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_broken', \$tags);", $t . "\t");
+        $contInsert .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \${$ccFieldId}, '{$tableSoleName}_broken', \$tags);", $t . "\t");
         $contInsert .= $pc->getPhpCodeCommentLine('redirect after success', null, $t . "\t");
         $contInsert .= $xc->getXcRedirectHeader($tableName, '', '2', "{$language}FORM_OK", true, $t . "\t");
         $ret        .= $pc->getPhpCodeConditions($insert, '', '', $contInsert, false, $t);
