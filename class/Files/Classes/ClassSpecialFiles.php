@@ -267,7 +267,7 @@ class ClassSpecialFiles extends Files\CreateFile
         return $this->renderFile();
     }
 
-    public function renderConstantsTestInterface()
+    public function renderConstantsInterface_Version_Zyspec()
     {
         $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
 
@@ -283,14 +283,29 @@ class ClassSpecialFiles extends Files\CreateFile
         $contentFile    = $this->getHeaderFilesComments($module, null, $namespace);
         $contentFile        .= $pc->getPhpCodeDefined();
         $contentFile        .= $pc->getPhpCodeCommentMultiLine(['Interface ' => $this->className]);
-        $contentClass = '';
+
+        $contentClass   = $pc->getPhpCodeBlankLine();
+        $contentClass .= $pc->getPhpCodeCommentLine('Constants for tables', '', "\t");
+        foreach (array_keys($tables) as $t) {
+            $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
+            $stuTableName = mb_strtoupper($tables[$t]->getVar('table_name'));
+            $contentClass .= $pc->getPhpCodeConstant("TABLE_" . $stuTableName, $t, "\t",'protected static');
+        }
+
+        $contentClass .= $pc->getPhpCodeBlankLine();
+        $contentClass .= $pc->getPhpCodeCommentLine('Constants for status', '', "\t");
+        $contentClass .= $pc->getPhpCodeConstant("STATUS_NONE     ", 0, "\t",'protected static');
+        $contentClass .= $pc->getPhpCodeConstant("STATUS_OFFLINE  ", 1, "\t",'protected static');
+        $contentClass .= $pc->getPhpCodeConstant("STATUS_SUBMITTED", 2, "\t",'protected static');
+        $contentClass .= $pc->getPhpCodeConstant("STATUS_APPROVED ", 3, "\t",'protected static');
+        $contentClass .= $pc->getPhpCodeConstant("STATUS_BROKEN   ", 4, "\t",'protected static');
         if (in_array(1, $tablePermissions)) {
             $constPerm = $pc->getPhpCodeBlankLine();
             $constPerm .= $pc->getPhpCodeCommentLine('Constants for permissions', '', "\t");
-            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_NONE   ", 0, 'protected static',"\t");
-            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_VIEW   ", 1, 'protected static',"\t");
-            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_SUBMIT ", 2, 'protected static',"\t");
-            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3, 'protected static',"\t");
+            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_NONE   ", 0, "\t",'protected static');
+            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_VIEW   ", 1,"\t", 'protected static');
+            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_SUBMIT ", 2,"\t", 'protected static');
+            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3,"\t", 'protected static');
             $contentClass .= $constPerm;
         }
         $contentClass        .= $pc->getPhpCodeBlankLine();
@@ -308,4 +323,66 @@ class ClassSpecialFiles extends Files\CreateFile
         return $this->renderFile();
     }
 
+    public function renderConstantsInterface()
+    {
+        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
+
+        $module           = $this->getModule();
+        $filename         = $this->getFileName();
+        $tables           = $this->getTables();
+        $tablePermissions = [];
+        foreach (array_keys($tables) as $t) {
+            $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
+        }
+        $moduleDirname  = $module->getVar('mod_dirname');
+        $ucfModuleDirname = ucfirst($moduleDirname);
+        $namespace      = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
+        $contentFile    = $this->getHeaderFilesComments($module, null, $namespace);
+        $contentFile        .= $pc->getPhpCodeDefined();
+        $contentFile   .= $pc->getPhpCodeBlankLine();
+
+        $contentInterface = $pc->getPhpCodeCommentMultiLine(['Interface ' => $ucfModuleDirname . 'Interface']);
+
+
+        $contentInterface .= $pc->getPhpCodeCommentLine('Constants for tables', '', "\t");
+        foreach (array_keys($tables) as $t) {
+            $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
+            $stuTableName = mb_strtoupper($tables[$t]->getVar('table_name'));
+            $contentInterface .= $pc->getPhpCodeConstant("TABLE_" . $stuTableName, $t, "\t",'public const');
+        }
+
+        $contentInterface .= $pc->getPhpCodeBlankLine();
+        $contentInterface .= $pc->getPhpCodeCommentLine('Constants for status', '', "\t");
+        $contentInterface .= $pc->getPhpCodeConstant("STATUS_NONE     ", 0, "\t",'public const' );
+        $contentInterface .= $pc->getPhpCodeConstant("STATUS_OFFLINE  ", 1, "\t",'public const');
+        $contentInterface .= $pc->getPhpCodeConstant("STATUS_SUBMITTED", 2, "\t",'public const' );
+        $contentInterface .= $pc->getPhpCodeConstant("STATUS_APPROVED ", 3, "\t",'public const');
+        $contentInterface .= $pc->getPhpCodeConstant("STATUS_BROKEN   ", 4, "\t",'public const');
+        if (in_array(1, $tablePermissions)) {
+            $constPerm = $pc->getPhpCodeBlankLine();
+            $constPerm .= $pc->getPhpCodeCommentLine('Constants for permissions', '', "\t");
+            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_NONE   ", 0, "\t",'public const');
+            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_VIEW   ", 1,"\t", 'public const');
+            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_SUBMIT ", 2,"\t", 'public const');
+            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3,"\t", 'public const');
+            $contentInterface .= $constPerm;
+        }
+        $contentInterface   .= $pc->getPhpCodeBlankLine();
+        $contentFile   .= $pc->getPhpCodeInterface($ucfModuleDirname . 'Interface', $contentInterface);
+        $contentFile   .= $pc->getPhpCodeBlankLine();
+
+        $contentClass        = $pc->getPhpCodeBlankLine();
+        $func = $pc->getPhpCodeCommentLine('trigger a warning if invalid "constant" requested', '', "\t\t");
+        $if  = $pc->getPhpCodeTriggerError("\"Invalid Constant requested ('{\$val}')\"", 'E_USER_WARNING', "\t\t\t");
+        $if  .= $this->getSimpleString("return false;", "\t\t\t");
+        $func     .= $pc->getPhpCodeConditions('!defined(constant("self::$val"))', null, null, $if, false, "\t\t");
+        $func  .= $this->getSimpleString('return constant("self::$val");', "\t");
+        $contentClass         .= $pc->getPhpCodeFunction('getConstant', '$val', $func, 'final public static ', false, "\t");
+
+        $contentFile   .= $pc->getPhpCodeClass($this->className, $contentClass, null, null, $ucfModuleDirname . 'Interface');
+
+        $this->create($moduleDirname, 'class', $filename, $contentFile, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+
+        return $this->renderFile();
+    }
 }

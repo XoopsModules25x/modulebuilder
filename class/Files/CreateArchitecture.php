@@ -334,6 +334,32 @@ class CreateArchitecture extends CreateStructure
                     $userTemplatesCategoriesList->write($module, $table, $moduleDirname . '_' . $tableName . '_cat_list' . '.tpl');
                     $ret[] = $userTemplatesCategoriesList->render();
                 }
+                // Creation of notifications files
+                if (1 === (int)$tables[$t]->getVar('table_notifications')) {
+                    // Language Mail Template New File
+                    $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
+                    $languageMailTpl->write($module, $table,  $tableName . '_new_notify.tpl');
+                    $ret[] = $languageMailTpl->render();
+                    // Language Mail Template Modify File
+                    $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
+                    $languageMailTpl->write($module, $table,  $tableName . '_modify_notify.tpl');
+                    $ret[] = $languageMailTpl->render();
+                    // Language Mail Template Delete File
+                    $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
+                    $languageMailTpl->write($module, $table,  $tableName . '_delete_notify.tpl');
+                    $ret[] = $languageMailTpl->render();
+                    // Language Mail Template Approve File
+                    $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
+                    $languageMailTpl->write($module, $table,  $tableName . '_approve_notify.tpl');
+                    $ret[] = $languageMailTpl->render();
+                }
+                // Creation of notifications files
+                if (1 === (int)$tables[$t]->getVar('table_broken')) {
+                    // Language Mail Template Category File
+                    $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
+                    $languageMailTpl->write($module, $table,  $tableName . '_broken_notify.tpl');
+                    $ret[] = $languageMailTpl->render();
+                }
             }
         }
 
@@ -461,7 +487,7 @@ class CreateArchitecture extends CreateStructure
             $ret[] = $includeNotifications->render();
             // Language Mail Template Category File
             $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
-            $languageMailTpl->write($module, 'category_new_notify.tpl');
+            $languageMailTpl->write($module, $table, 'category_new_notify.tpl');
             $ret[] = $languageMailTpl->render();
         }
         // Creation of sql file
@@ -635,7 +661,7 @@ class CreateArchitecture extends CreateStructure
             $languageMain = Modulebuilder\Files\Language\LanguageMain::getInstance();
             $languageMain->write($module, $tables, 'main.php');
             $ret[] = $languageMain->render();
-            // User Templates Submit File
+            // User Templates Breadcrumbs File
             if ($templateType  == 'bootstrap') {
                 $userTemplatesUserBreadcrumbs = Modulebuilder\Files\Templates\User\Bootstrap\Breadcrumbs::getInstance();
             } else {

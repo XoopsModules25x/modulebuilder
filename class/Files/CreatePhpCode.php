@@ -253,11 +253,12 @@ class CreatePhpCode
      *
      * @return string
      */
-    public function getPhpCodeClass($name = null, $content = null, $extends = null, $type = null)
+    public function getPhpCodeClass($name = null, $content = null, $extends = null, $type = null, $implements = null)
     {
         $typ = (null != $type) ? "{$type} " : '';
         $ext = (null != $extends) ? " extends {$extends}" : '';
-        $ret = "{$typ}class {$name}{$ext}\n";
+        $imp = (null != $implements) ? " implements {$implements}" : '';
+        $ret = "{$typ}class {$name}{$ext}{$imp}\n";
         $ret .= '{';
         $ret .= $content;
         $ret .= "}\n";
