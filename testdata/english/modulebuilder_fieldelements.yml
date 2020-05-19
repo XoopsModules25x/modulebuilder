@@ -199,27 +199,27 @@
 -
     fieldelement_id: '23'
     fieldelement_mid: '1'
-    fieldelement_tid: '1'
-    fieldelement_name: 'Table : Topics'
-    fieldelement_value: XoopsFormTables-Topics
+    fieldelement_tid: '3'
+    fieldelement_name: 'Table : Testfields'
+    fieldelement_value: XoopsFormTables-Testfields
     fieldelement_sort: '0'
-    fieldelement_deftype: '0'
-    fieldelement_defvalue: '0'
+    fieldelement_deftype: '2'
+    fieldelement_defvalue: '10'
 -
     fieldelement_id: '24'
+    fieldelement_mid: '1'
+    fieldelement_tid: '1'
+    fieldelement_name: 'Table : Categories'
+    fieldelement_value: XoopsFormTables-Categories
+    fieldelement_sort: '0'
+    fieldelement_deftype: '2'
+    fieldelement_defvalue: '10'
+-
+    fieldelement_id: '25'
     fieldelement_mid: '1'
     fieldelement_tid: '2'
     fieldelement_name: 'Table : Articles'
     fieldelement_value: XoopsFormTables-Articles
     fieldelement_sort: '0'
-    fieldelement_deftype: '0'
-    fieldelement_defvalue: '0'
--
-    fieldelement_id: '25'
-    fieldelement_mid: '1'
-    fieldelement_tid: '3'
-    fieldelement_name: 'Table : Zzz'
-    fieldelement_value: XoopsFormTables-Zzz
-    fieldelement_sort: '0'
-    fieldelement_deftype: '0'
-    fieldelement_defvalue: '0'
+    fieldelement_deftype: '2'
+    fieldelement_defvalue: '10'

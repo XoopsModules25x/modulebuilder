@@ -19,7 +19,7 @@
     mod_release_file: 'release_info file'
     mod_manual: 'link to manual file'
     mod_manual_file: install.txt
-    mod_image: logoModule.png
+    mod_image: MyModule_logo.png
     mod_demo_site_url: 'https://xoops.org'
     mod_demo_site_name: 'XOOPS Demo Site'
     mod_support_url: 'https://xoops.org/modules/newbb'
