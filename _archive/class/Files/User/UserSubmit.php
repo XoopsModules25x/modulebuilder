@@ -87,7 +87,7 @@ class UserSubmit extends Files\CreateFile
         $ret .= $this->getInclude();
         $ret .= $xc->getXcXoopsLoadLanguage('admin', '', $moduleDirname);
         $ret .= $pc->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
-        $ret .= $xc->getXcXoopsRequest('op', 'op', 'form');
+        $ret .= $xc->getXcXoopsRequest('op', 'op', 'form', 'Cmd');
         $ret .= $pc->getPhpCodeCommentLine('Template');
         $ret .= $uxc->getUserTplMain($moduleDirname, 'submit');
         $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);

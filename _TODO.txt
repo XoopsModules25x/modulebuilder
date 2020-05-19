@@ -9,7 +9,7 @@ I moved files, where I do not know whether they are still needed into folder _ar
 
 TODOs:
 
-implement constants interface
+new xoops_confirm
 
 
 Broken files:

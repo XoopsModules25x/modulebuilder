@@ -43,8 +43,7 @@ class Breadcrumbs extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
-     * @return User\Breadcrumbs
+     * @return bool|Breadcrumbs
      */
     public static function getInstance()
     {

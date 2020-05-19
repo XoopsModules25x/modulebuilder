@@ -632,6 +632,8 @@ class CreateXoopsCode
             $ret .= "{$t}\${$left} = Request::getInt({$intVars});\n";
         } elseif ('Int' === $type && false !== $method) {
             $ret .= "{$t}\${$left} = Request::getInt({$intVars}, '{$method}');\n";
+        } else {
+            $ret .= "{$t}\${$left} = Request::get{$type}('{$var1}', '{$var2}');\n";
         }
 
         return $ret;
@@ -729,6 +731,19 @@ class CreateXoopsCode
     public function getXcHandlerCreateObj($tableName, $t = '')
     {
         return "{$t}\${$tableName}Obj = \${$tableName}Handler->create();\n";
+    }
+
+    /**
+     * @public function getXcHandlerGetObj
+     *
+     * @param        $tableName
+     * @param        $ccFieldId
+     * @param string $t
+     * @return string
+     */
+    public function getXcHandlerGetObj($tableName, $ccFieldId, $t = '')
+    {
+        return "{$t}\${$tableName}Obj = \${$tableName}Handler->get(\${$ccFieldId});\n";
     }
 
     /**
@@ -1207,6 +1222,8 @@ class CreateXoopsCode
      * @param        $tableName
      *
      * @param string $t
+     * @param string $paramStart
+     * @param string $paramOp
      * @return string
      */
     public function getXcPageNav($tableName, $t = '', $paramStart = 'start', $paramOp = "'op=list&limit=' . \$limit")
@@ -1738,32 +1755,49 @@ class CreateXoopsCode
      * @public function getXcCommonPagesDelete
      * @param        $language
      * @param        $tableName
+     * @param $tableSoleName
      * @param        $fieldId
      * @param        $fieldMain
+     * @param $tableNotifications
      * @param string $t
+     * @param bool $admin
      * @return string
      */
-    public function getXcCommonPagesDelete($language, $tableName, $fieldId, $fieldMain, $t = '')
+    public function getXcCommonPagesDelete($language, $tableName, $tableSoleName, $fieldId, $fieldMain, $tableNotifications, $t = '', $admin = false)
     {
         $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
         $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $cf = Modulebuilder\Files\CreateFile::getInstance();
-        $ccFieldId              = $cf->getCamelCase($fieldId, false, true);
-        $ret                    = $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', '', $t);
-        $reqOk                  = "_REQUEST['ok']";
-        $isset                  = $pc->getPhpCodeIsset($reqOk);
-        $xoopsSecurityCheck     = $xc->getXcXoopsSecurityCheck();
-        $xoopsSecurityErrors    = $xc->getXcXoopsSecurityErrors();
-        $implode                = $pc->getPhpCodeImplode(', ', $xoopsSecurityErrors);
-        $redirectHeaderErrors   = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t\t");
-        $delete                 = $xc->getXcHandlerDelete($tableName, $tableName, 'Obj', 'Handler');
-        $condition              = $pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectHeaderErrors, false, $t . "\t");
-        $redirectHeaderLanguage = $xc->getXcRedirectHeader($tableName, '', '3', "{$language}FORM_DELETE_OK", true, $t . "\t\t");
-        $htmlErrors             = $xc->getXcHtmlErrors($tableName, true);
-        $internalElse           = $xc->getXcXoopsTplAssign('error', $htmlErrors, true, $t . "\t\t");
-        $condition              .= $pc->getPhpCodeConditions($delete, '', '', $redirectHeaderLanguage, $internalElse, $t . "\t");
-        $mainElse               = $xc->getXcXoopsConfirm($tableName, $language, $fieldId, $fieldMain, 'delete', $t . "\t");
-        $ret                    .= $pc->getPhpCodeConditions($isset, ' && ', "1 == \${$reqOk}", $condition, $mainElse, $t);
+
+        $ccFieldId    = $cf->getCamelCase($fieldId, false, true);
+        $stuFieldMain = mb_strtoupper($fieldMain);
+        $ccFieldMain  = $cf->getCamelCase($fieldMain, false, true);
+
+        $ret                  = $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', '', $t);
+        $ret                  .= $xc->getXcGetVar($ccFieldMain, "{$tableName}Obj", $fieldMain, false, $t);
+        $reqOk                = "_REQUEST['ok']";
+        $isset                = $pc->getPhpCodeIsset($reqOk);
+        $xoopsSecurityCheck   = $xc->getXcXoopsSecurityCheck();
+        $xoopsSecurityErrors  = $xc->getXcXoopsSecurityErrors();
+        $implode              = $pc->getPhpCodeImplode(', ', $xoopsSecurityErrors);
+        $redirectHeaderErrors = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t\t");
+        $delete               = $xc->getXcHandlerDelete($tableName, $tableName, 'Obj', 'Handler');
+        $condition            = $pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectHeaderErrors, false, $t . "\t");
+        $contInsert = '';
+        if (!$admin && 1 == $tableNotifications) {
+            $contInsert .= $pc->getPhpCodeCommentLine('Event delete notification', null, $t . "\t\t");
+            $contInsert .= $pc->getPhpCodeArray('tags', [], false, $t . "\t\t");
+            $contInsert .= $xc->getXcEqualsOperator("\$tags['{$stuFieldMain}']", "\${$ccFieldMain}", '', $t . "\t\t");
+            $contInsert .= $xc->getXcXoopsHandler('notification', $t . "\t\t");
+            $contInsert .= $cf->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_delete', \$tags);", $t . "\t\t");
+            $contInsert .= $cf->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \${$ccFieldId}, '{$tableSoleName}_delete', \$tags);", $t . "\t\t");
+        }
+        $contInsert   .= $xc->getXcRedirectHeader($tableName, '', '3', "{$language}FORM_DELETE_OK", true, $t . "\t\t");
+        $htmlErrors   = $xc->getXcHtmlErrors($tableName, true);
+        $internalElse = $xc->getXcXoopsTplAssign('error', $htmlErrors, true, $t . "\t\t");
+        $condition    .= $pc->getPhpCodeConditions($delete, '', '', $contInsert, $internalElse, $t . "\t");
+        $mainElse     = $xc->getXcXoopsConfirm($tableName, $language, $fieldId, $fieldMain, 'delete', $t . "\t");
+        $ret          .= $pc->getPhpCodeConditions($isset, ' && ', "1 == \${$reqOk}", $condition, $mainElse, $t);
 
         return $ret;
     }

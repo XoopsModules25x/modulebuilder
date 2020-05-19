@@ -105,7 +105,7 @@ class UserRate extends Files\CreateFile
         $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $ret .= $this->getInclude();
-        $ret .= $this->xc->getXcXoopsRequest('op', 'op', 'form');
+        $ret .= $this->xc->getXcXoopsRequest('op', 'op', 'form', 'Cmd');
         $ret .= $this->xc->getXcXoopsRequest('lid', 'lid', '', 'Int');
         $ret .= $this->uxc->getUserTplMain($moduleDirname, $tableName);
         $ret .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
@@ -193,7 +193,7 @@ class UserRate extends Files\CreateFile
         $ret .= $this->pc->getPhpCodeCommentLine('Get Form Error', null, "\t\t");
         $ret .= $this->xc->getXcXoopsTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, "\t\t");
         $ret .= $this->xc->getXcGetForm('form', $tableName, 'Obj', "\t\t");
-        $ret .= $this->xc->getXcXoopsTplAssign('form', '$form->display()', true, "\t\t");
+        $ret .= $this->xc->getXcXoopsTplAssign('form', '$form->render()', true, "\t\t");
 
         return $ret;
     }

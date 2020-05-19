@@ -111,7 +111,8 @@ class CreateHtmlCode
     /**
      * @public function getHtmlComment
      * @param string $htmlComment
-	 * @param string $n
+     * @param string $t
+     * @param string $n
      * @return string
      */
     public function getHtmlComment($htmlComment = '', $t = '', $n = '')
@@ -203,6 +204,7 @@ class CreateHtmlCode
      * @param string $spanClass
      * @param string $t
      * @param string $n
+     * @param bool $split
      * @return string
      */
     public function getHtmlSpan($content = '', $spanClass = '', $t = '', $n = "\n", $split = false)
@@ -243,6 +245,7 @@ class CreateHtmlCode
      * @public function getHtmlI
      * @param string $content
      * @param string $iClass
+     * @param string $iId
      * @param string $t
      * @param string $n
      * @return string

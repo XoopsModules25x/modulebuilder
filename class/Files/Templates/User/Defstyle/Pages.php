@@ -176,10 +176,7 @@ class Pages extends Files\CreateFile
 
     /**
      * @private function getTemplatesUserPagesForm
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $tableSoleName
-     * @param $language
+     * @param string $t
      * @return string
      */
     private function getTemplatesUserPagesForm($t = '')
@@ -192,10 +189,7 @@ class Pages extends Files\CreateFile
 
     /**
      * @private function getTemplatesUserPagesError
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $tableSoleName
-     * @param $language
+     * @param string $t
      * @return string
      */
     private function getTemplatesUserPagesError($t = '')

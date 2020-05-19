@@ -97,7 +97,8 @@ class Footer extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
+     * @param $moduleDirname
+     * @param $language
      * @return bool|string
      */
     private function getTemplateUserFooterContent($moduleDirname, $language)

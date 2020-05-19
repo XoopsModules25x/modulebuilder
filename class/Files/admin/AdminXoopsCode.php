@@ -340,7 +340,7 @@ class AdminXoopsCode
         $ccFieldId = $cf->getCamelCase($fieldName, false, true);
         $ret       = $xc->getXcEqualsOperator("\${$ccFieldId}", "Request::getString('{$fieldName}', '')", '',$t);
         $contIf    = $xc->getXcSetVarObj($tableName, $fieldName, "password_hash(\${$ccFieldId}, PASSWORD_DEFAULT)", $t . "\t");
-        $ret       .= $pc->getPhpCodeConditions("''", ' !== ', "\${$ccFieldId}",$contIf, false, $t);
+        $ret       .= $pc->getPhpCodeConditions("\${$ccFieldId}", ' !== ', "''", $contIf, false, $t);
 
         return $ret;
     }
@@ -351,6 +351,7 @@ class AdminXoopsCode
      * @param        $tableName
      * @param        $fieldName
      * @param $fieldType
+     * @param $fieldElement
      * @param string $t
      * @return string
      */

@@ -152,7 +152,8 @@ class LanguageAdmin extends Files\CreateFile
     public function getLanguageAdminClass($language, $tables)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Classes');
-
+        $fieldStatus          = 0;
+        $fieldSampleListValue = 0;
         foreach (array_keys($tables) as $t) {
             $tableId          = $tables[$t]->getVar('table_id');
             $tableMid         = $tables[$t]->getVar('table_mid');
@@ -162,7 +163,6 @@ class LanguageAdmin extends Files\CreateFile
 
             $fields      = $this->getTableFields($tableMid, $tableId);
             $fieldInForm = 0;
-
             foreach (array_keys($fields) as $f) {
                 if ($fieldInForm < $fields[$f]->getVar('field_inform')) {
                     $fieldInForm = $fields[$f]->getVar('field_inform');
@@ -175,12 +175,9 @@ class LanguageAdmin extends Files\CreateFile
             }
             $ret .= $this->defines->getAboveDefines("Elements of {$ucfTableSoleName}");
 
-            $fieldStatus          = 0;
-            $fieldSampleListValue = 0;
             foreach (array_keys($fields) as $f) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');
-
                 $rpFieldName = $this->getRightString($fieldName);
                 if ($fieldElement > 16) {
                     $fieldElements    = Modulebuilder\Helper::getInstance()->getHandler('Fieldelements')->get($fieldElement);
@@ -190,7 +187,6 @@ class LanguageAdmin extends Files\CreateFile
                 } else {
                     $fieldNameDesc = false !== mb_strpos($rpFieldName, '_') ? str_replace('_', ' ', ucfirst($rpFieldName)) : ucfirst($rpFieldName);
                 }
-
                 $ret          .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName, $fieldNameDesc);
 
                 switch ($fieldElement) {
@@ -232,7 +228,6 @@ class LanguageAdmin extends Files\CreateFile
         $ret .= $this->defines->getDefine($language, 'FORM_ACTION', 'Action');
         $ret .= $this->defines->getDefine($language, 'FORM_EDIT', 'Modification');
         $ret .= $this->defines->getDefine($language, 'FORM_DELETE', 'Clear');
-
         if ($fieldStatus > 0) {
             $ret .= $this->defines->getAboveDefines('Status');
             $ret .= $this->defines->getDefine($language, 'STATUS_NONE', 'No status');
@@ -250,7 +245,6 @@ class LanguageAdmin extends Files\CreateFile
             $ret .= $this->defines->getDefine($language, 'BROKEN_KEYVAL', 'Key value');
             $ret .= $this->defines->getDefine($language, 'BROKEN_MAIN', 'Info main');
         }
-
         if ($fieldSampleListValue > 0) {
             $ret .= $this->defines->getAboveDefines('Sample List Values');
             $ret .= $this->defines->getDefine($language, 'LIST_1', 'Sample List Value 1');

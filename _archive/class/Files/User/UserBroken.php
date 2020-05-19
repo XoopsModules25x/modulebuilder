@@ -85,7 +85,7 @@ class UserBroken extends Files\CreateFile
         $ret       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $ret       .= $this->getInclude();
-        $ret       .= $xc->getXcXoopsRequest('op', 'op', 'list');
+        $ret       .= $xc->getXcXoopsRequest('op', 'op', 'list', 'Cmd');
         $ret       .= $xc->getXcXoopsRequest($ccFieldId, $fieldId, '', 'Int');
         $ret       .= $pc->getPhpCodeCommentLine('Template');
         $ret       .= $uxc->getUserTplMain($moduleDirname, 'broken');
