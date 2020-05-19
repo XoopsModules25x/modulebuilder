@@ -82,10 +82,10 @@ class LanguageMailTpl extends Files\CreateFile
 
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
-        $ret .= $this->getSimpleString('A new ' . $tableSoleName . ' "{' . $stuFieldMain . '}" has been added at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('A new ' . $tableSoleName . ' "{ITEM_NAME}" has been added at {X_SITENAME}.');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('You can view this ' . $tableSoleName . ' here:');
-        $ret .= $this->getSimpleString('{' . $stuTableSoleName . '_URL}');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString($line);
         $ret .= $this->getSimpleString('');
@@ -108,10 +108,10 @@ class LanguageMailTpl extends Files\CreateFile
 
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
-        $ret .= $this->getSimpleString('A new ' . $tableSoleName . ' "{' . $stuFieldMain . '}" has been added at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('A new ' . $tableSoleName . ' "{ITEM_NAME}" has been added at {X_SITENAME}.');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('You can view this ' . $tableSoleName . ' here:');
-        $ret .= $this->getSimpleString('{' . $stuTableSoleName . '_URL}');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString($line);
         $ret .= $this->getSimpleString('');
@@ -133,10 +133,10 @@ class LanguageMailTpl extends Files\CreateFile
 
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
-        $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{' . $stuFieldMain . '}" has been modified at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{ITEM_NAME}" has been modified at {X_SITENAME}.');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('You can view this ' . $tableSoleName . ' here:');
-        $ret .= $this->getSimpleString('{' . $stuTableSoleName . '_URL}');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString($line);
         $ret .= $this->getSimpleString('');
@@ -157,7 +157,7 @@ class LanguageMailTpl extends Files\CreateFile
 
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
-        $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{' . $stuFieldMain . '}" has been deleted from {X_SITENAME}.');
+        $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{ITEM_NAME}" has been deleted from {X_SITENAME}.');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString($line);
         $ret .= $this->getSimpleString('');
@@ -179,10 +179,10 @@ class LanguageMailTpl extends Files\CreateFile
 
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
-        $ret .= $this->getSimpleString('A new ' . $tableSoleName . ' "{' . $stuFieldMain . '}" is waiting for approval at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('A new ' . $tableSoleName . ' "{ITEM_NAME}" is waiting for approval at {X_SITENAME}.');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('You can view this ' . $tableSoleName . ' here:');
-        $ret .= $this->getSimpleString('{' . $stuTableSoleName . '_URL}');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString($line);
         $ret .= $this->getSimpleString('');
@@ -204,10 +204,10 @@ class LanguageMailTpl extends Files\CreateFile
 
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
-        $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{' . $stuFieldMain . '}" has been notified as broken at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{ITEM_NAME}" has been notified as broken at {X_SITENAME}.');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('You can view this ' . $tableSoleName . ' here:');
-        $ret .= $this->getSimpleString('{' . $stuTableSoleName . '_URL}');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString($line);
         $ret .= $this->getSimpleString('');
@@ -358,7 +358,6 @@ class LanguageMailTpl extends Files\CreateFile
         $filename      = $this->getFileName();
         $table         = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tableName     = $table->getVar('table_name');
         $tableSoleName = $table->getVar('table_solename');
         $stuTableSoleName = mb_strtoupper($tableSoleName);
         $fieldMain  = '';

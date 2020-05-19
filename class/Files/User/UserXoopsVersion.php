@@ -505,7 +505,7 @@ class UserXoopsVersion extends Files\CreateFile
         $table_uploadfile  = 0;
         foreach ($tables as $table) {
             $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-            $stuTablename    = mb_strtoupper($table->getVar('table_name'));
+            //$stuTablename    = mb_strtoupper($table->getVar('table_name'));
             foreach (array_keys($fields) as $f) {
                 $fieldElement = (int)$fields[$f]->getVar('field_element');
                 switch ($fieldElement) {
@@ -543,17 +543,30 @@ class UserXoopsVersion extends Files\CreateFile
             }
         }
         if (1 === $table_editors) {
-            $fieldName    = $fields[$f]->getVar('field_name');
-            $rpFieldName  = $this->getRightString($fieldName);
-            $ucfFieldName = ucfirst($rpFieldName);
-            $stuFieldName = mb_strtoupper($rpFieldName);
-            $ret          .= $pc->getPhpCodeCommentLine('Editor', '');
+            //$fieldName    = $fields[$f]->getVar('field_name');
+            //$rpFieldName  = $this->getRightString($fieldName);
+            //$ucfFieldName = ucfirst($rpFieldName);
+            //$stuFieldName = mb_strtoupper($rpFieldName);
+            $ret          .= $pc->getPhpCodeCommentLine('Editor Admin', '');
             $ret          .= $xc->getXcXoopsLoad('xoopseditorhandler');
             $ret          .= $xc->getXcEqualsOperator('$editorHandler', 'XoopsEditorHandler::getInstance()');
             $editor       = [
-                'name'        => "'editor_default'",
-                'title'       => "'{$language}EDITOR_DEFAULT'",
-                'description' => "'{$language}EDITOR_DEFAULT_DESC'",
+                'name'        => "'editor_admin'",
+                'title'       => "'{$language}EDITOR_ADMIN'",
+                'description' => "'{$language}EDITOR_ADMIN_DESC'",
+                'formtype'    => "'select'",
+                'valuetype'   => "'text'",
+                'default'     => "'dhtml'",
+                'options'     => 'array_flip($editorHandler->getList())',
+            ];
+            $ret          .= $uxc->getUserModVersionArray(2, $editor, 'config');
+            $ret          .= $pc->getPhpCodeCommentLine('Editor User', '');
+            $ret          .= $xc->getXcXoopsLoad('xoopseditorhandler');
+            $ret          .= $xc->getXcEqualsOperator('$editorHandler', 'XoopsEditorHandler::getInstance()');
+            $editor       = [
+                'name'        => "'editor_user'",
+                'title'       => "'{$language}EDITOR_USER'",
+                'description' => "'{$language}EDITOR_USER_DESC'",
                 'formtype'    => "'select'",
                 'valuetype'   => "'text'",
                 'default'     => "'dhtml'",
@@ -937,7 +950,7 @@ class UserXoopsVersion extends Files\CreateFile
         $tableSubmit   = [];
         $tableId       = null;
         $tableMid      = null;
-        $tableSoleName = '';
+        //$tableSoleName = '';
         $notifyCategory   = '';
         $notifyEvent ='';
 
@@ -961,13 +974,13 @@ class UserXoopsVersion extends Files\CreateFile
             $fieldParent = null;
             foreach (array_keys($fields) as $f) {
                 $fieldName    = $fields[$f]->getVar('field_name');
-                $fieldElement = $fields[$f]->getVar('field_element');
+                //$fieldElement = $fields[$f]->getVar('field_element');
                 if (0 == $f) {
                     $fieldId = $fieldName;
                 }
-                if ($fieldElement > 16) {
-                    $fieldParent = $fieldName;
-                }
+                //if ($fieldElement > 16) {
+                //    $fieldParent = $fieldName;
+                //}
             }
             if (1 == $tables[$t]->getVar('table_single')) {
                 $single = $tableName;
@@ -1032,7 +1045,6 @@ class UserXoopsVersion extends Files\CreateFile
      * @param $title
      * @param $from
      *
-     * @param $num
      * @return string
      */
     private function getXoopsVersionNotificationGlobal($language, $type, $name, $title, $from)
@@ -1062,9 +1074,9 @@ class UserXoopsVersion extends Files\CreateFile
      * @param $file
      * @param $item
      * @param $allow
-     * @param $num
      * @return string
      */
+    /*
     private function getXoopsVersionNotificationCategory($language, $type, $name, $title, $file, $item, $allow)
     {
         $pc     = Modulebuilder\Files\CreatePhpCode::getInstance();
@@ -1084,6 +1096,7 @@ class UserXoopsVersion extends Files\CreateFile
 
         return $ret;
     }
+    */
 
     /**
      * @private function getXoopsVersionNotificationTableName
@@ -1095,7 +1108,6 @@ class UserXoopsVersion extends Files\CreateFile
      * @param $item
      * @param $allow
      *
-     * @param $num
      * @return string
      */
     private function getXoopsVersionNotificationTableName($language, $type, $name, $title, $file, $item, $allow)
@@ -1128,7 +1140,6 @@ class UserXoopsVersion extends Files\CreateFile
      * @param $title
      * @param $mail
      *
-     * @param $num
      * @return string
      */
     private function getXoopsVersionNotificationCodeComplete($language, $type, $name, $category, $admin, $title, $mail)

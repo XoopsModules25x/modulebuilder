@@ -106,7 +106,7 @@ class AdminPermissions extends Files\CreateFile
         $ret           .= $axc->getAdminTemplateMain($moduleDirname, 'permissions');
         $ret           .= $xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('permissions.php')");
         $ret           .= $pc->getPhpCodeBlankLine();
-        $ret           .= $xc->getXcXoopsRequest('op', 'op', 'global');
+        $ret           .= $xc->getXcXoopsRequest('op', 'op', 'global', 'Cmd');
         $ret           .= $pc->getPhpCodeBlankLine();
         $ret           .= $pc->getPhpCodeCommentLine('Get Form');
         $ret           .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);

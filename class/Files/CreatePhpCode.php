@@ -251,6 +251,7 @@ class CreatePhpCode
      * @param $extends
      * @param $type
      *
+     * @param null $implements
      * @return string
      */
     public function getPhpCodeClass($name = null, $content = null, $extends = null, $type = null, $implements = null)
@@ -337,12 +338,20 @@ class CreatePhpCode
      */
     public function getPhpCodeConditions($condition = null, $operator = null, $type = null, $contentIf = null, $contentElse = false, $t = '', $conditionElse = '')
     {
+        if ('==' === trim($operator) || '===' === trim($operator) || '!=' === trim($operator) || '!==' === trim($operator)) {
+            //yoda conditions
+            $left  = $type;
+            $right = $condition;
+        } else {
+            $left  = $condition;
+            $right = $type;
+        }
         if (false === $contentElse) {
-            $ret = "{$t}if ({$condition}{$operator}{$type}) {\n";
+            $ret = "{$t}if ({$left}{$operator}{$right}) {\n";
             $ret .= $contentIf;
             $ret .= "{$t}}\n";
         } else {
-            $ret = "{$t}if ({$condition}{$operator}{$type}) {\n";
+            $ret = "{$t}if ({$left}{$operator}{$right}) {\n";
             $ret .= $contentIf;
             if ('' !== $conditionElse) {
                 $ret .= "{$t}} elseif ({$conditionElse}) {\n";

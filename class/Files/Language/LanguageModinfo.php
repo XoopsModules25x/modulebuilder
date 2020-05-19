@@ -288,8 +288,10 @@ class LanguageModinfo extends Files\CreateFile
             // if (0 != $tables[$i]->getVar('table_permissions')) {$usePermissions = true;}
         }
         if ($fieldEditor) {
-            $ret .= $df->getDefine($language, 'EDITOR_DEFAULT', 'Editor');
-            $ret .= $df->getDefine($language, 'EDITOR_DEFAULT_DESC', 'Select the editor which should be used for text area fields');
+            $ret .= $df->getDefine($language, 'EDITOR_ADMIN', 'Editor admin');
+            $ret .= $df->getDefine($language, 'EDITOR_ADMIN_DESC', 'Select the editor which should be used in admin area for text area fields');
+            $ret .= $df->getDefine($language, 'EDITOR_USER', 'Editor user');
+            $ret .= $df->getDefine($language, 'EDITOR_USER_DESC', 'Select the editor which should be used in user area for text area fields');
             $ret .= $df->getDefine($language, 'EDITOR_MAXCHAR', 'Text max characters');
             $ret .= $df->getDefine($language, 'EDITOR_MAXCHAR_DESC', 'Max characters for showing text of a textarea or editor field in admin area');
         }
@@ -358,8 +360,6 @@ class LanguageModinfo extends Files\CreateFile
     /**
      * @private function getLanguageNotificationsGlobal
      * @param       $language
-     * @param mixed $tableSoleName
-     *
      * @return string
      */
     private function getLanguageNotificationsGlobal($language)
@@ -405,6 +405,7 @@ class LanguageModinfo extends Files\CreateFile
     /**
      * @private function getLanguageNotificationsTable
      * @param       $language
+     * @param $tableName
      * @param mixed $tableSoleName
      *
      * @return string

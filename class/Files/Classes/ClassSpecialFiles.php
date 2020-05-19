@@ -138,7 +138,7 @@ class ClassSpecialFiles extends Files\CreateFile
 
         $contIfInt      = $xc->getXcEqualsOperator('$my_group_ids', '[XOOPS_GROUP_ANONYMOUS]', null, "\t\t\t");
         $contElseInt    = $xc->getXcEqualsOperator('$my_group_ids', '$memberHandler->getGroupsByUser($currentuid);', null, "\t\t\t");
-        $globalContent  .= $pc->getPhpCodeConditions('0', ' == ', '$currentuid', $contIfInt, $contElseInt, "\t\t");
+        $globalContent  .= $pc->getPhpCodeConditions('$currentuid', ' == ', '0', $contIfInt, $contElseInt, "\t\t");
         $globalContent  .= $cond;
         $globalContent  .= $this->getSimpleString("return false;", "\t\t");
         $functions      .= $pc->getPhpCodeFunction($funcname, '', $globalContent, 'public ', false, "\t");

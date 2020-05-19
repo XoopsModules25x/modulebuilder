@@ -124,11 +124,17 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $pc          = Modulebuilder\Files\CreatePhpCode::getInstance();
         $xc          = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $cxc         = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
-        $rpFieldName = $tf->getRightString($fieldName);
+        //$rpFieldName = $tf->getRightString($fieldName);
         $ccFieldName = $tf->getCamelCase($fieldName, false, true);
         $ret         = $pc->getPhpCodeCommentLine('Form Editor', 'DhtmlTextArea ' . $ccFieldName, "\t\t");
         $ret         .= $pc->getPhpCodeArray('editorConfigs', null, false, "\t\t");
-        $getConfig   = $xc->getXcGetConfig('editor_default');
+        $getConfig    = $xc->getXcGetConfig('editor_admin');
+        $contIf       = $xc->getXcEqualsOperator("\$editor", $getConfig, null, "\t\t\t");
+        $getConfig    = $xc->getXcGetConfig('editor_user');
+        $contElse     = $xc->getXcEqualsOperator("\$editor", $getConfig, null, "\t\t\t");
+        $ret      .= $pc->getPhpCodeConditions('$isAdmin','','', $contIf,  $contElse, "\t\t");
+
+
         $configs     = [
             'name'   => "'{$fieldName}'",
             'value'  => "\$this->getVar('{$fieldName}', 'e')",
@@ -136,7 +142,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
             'cols'   => 40,
             'width'  => "'100%'",
             'height' => "'400px'",
-            'editor' => $getConfig,
+            'editor' => '$editor',
         ];
         foreach ($configs as $c => $d) {
             $ret .= $xc->getXcEqualsOperator("\$editorConfigs['{$c}']", $d, null, "\t\t");

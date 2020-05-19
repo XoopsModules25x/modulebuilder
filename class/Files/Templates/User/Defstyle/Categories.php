@@ -43,8 +43,7 @@ class Categories extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
-     * @return User\Categories
+     * @return bool|Categories
      */
     public static function getInstance()
     {

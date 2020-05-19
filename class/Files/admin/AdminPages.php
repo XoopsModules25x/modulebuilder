@@ -85,7 +85,7 @@ class AdminPages extends Files\CreateFile
         $ret       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $ret       .= $this->getInclude();
         $ret       .= $pc->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
-        $ret       .= $xc->getXcXoopsRequest('op', 'op', 'list');
+        $ret       .= $xc->getXcXoopsRequest('op', 'op', 'list', 'Cmd');
         $ret       .= $pc->getPhpCodeCommentLine("Request {$fieldId}");
         $ret       .= $xc->getXcXoopsRequest($ccFieldId, $fieldId, '', 'Int');
 
@@ -235,11 +235,10 @@ class AdminPages extends Files\CreateFile
         $redirectError      = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t");
         $ret                .= $pc->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, $t);
 
-        $isset       = $pc->getPhpCodeIsset($ccFieldId);
-        $contentIf   = $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t . "\t");
-        $contentElse = $xc->getXcHandlerCreateObj($tableName, "\t\t\t");
-        $ret         .= $pc->getPhpCodeConditions($isset, '', '', $contentIf, $contentElse, $t);
-        $ret         .= $pc->getPhpCodeCommentLine('Set Vars', null, "\t\t");
+        $contentIf   = $xc->getXcHandlerGetObj($tableName, $ccFieldId,  $t . "\t");
+        $contentElse = $xc->getXcHandlerCreateObj($tableName, $t . "\t");
+        $ret         .= $pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $contentIf, $contentElse, $t);
+        $ret         .= $pc->getPhpCodeCommentLine('Set Vars', null, $t);
         $countUploader = 0;
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
@@ -289,7 +288,7 @@ class AdminPages extends Files\CreateFile
                 }
             }
         }
-        $ret           .= $pc->getPhpCodeCommentLine('Insert Data', null, "\t\t");
+        $ret           .= $pc->getPhpCodeCommentLine('Insert Data', null, $t);
         $insert        = $xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
         $contentInsert = '';
         //if (1 == $tableCategory) {
@@ -307,12 +306,12 @@ class AdminPages extends Files\CreateFile
         if ($countUploader > 0) {
             $errIf         = $xc->getXcRedirectHeader("'{$tableName}.php?op=edit&{$fieldId}=' . \${$ccFieldId}", '', '5', '$uploaderErrors', false, $t . "\t\t");
             $errElse       = $xc->getXcRedirectHeader($tableName, '?op=list', '2', "{$language}FORM_OK", true, $t . "\t\t");
-            $contentInsert .= $pc->getPhpCodeConditions("''", ' !== ', '$uploaderErrors', $errIf, $errElse, $t . "\t");
+            $contentInsert .= $pc->getPhpCodeConditions('$uploaderErrors', ' !== ',"''" , $errIf, $errElse, $t . "\t");
         } else {
             $contentInsert .= $xc->getXcRedirectHeader($tableName . '', '?op=list', '2', "{$language}FORM_OK", true, $t . "\t");
         }
         $ret .= $pc->getPhpCodeConditions($insert, '', '', $contentInsert, false, $t);
-        $ret .= $pc->getPhpCodeCommentLine('Get Form', null, "\t\t");
+        $ret .= $pc->getPhpCodeCommentLine('Get Form', null, $t);
         $ret .= $xc->getXcXoopsTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, $t);
         $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
         $ret .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
@@ -358,17 +357,19 @@ class AdminPages extends Files\CreateFile
     /**
      * @private function getAdminPagesDelete
      * @param        $tableName
+     * @param $tableSoleName
      * @param        $language
      * @param        $fieldId
      * @param        $fieldMain
+     * @param $tableNotifications
      * @param string $t
      * @return string
      */
-    private function getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain, $t = '')
+    private function getAdminPagesDelete($tableName, $tableSoleName, $language, $fieldId, $fieldMain, $tableNotifications, $t = '')
     {
         $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
-        return $xc->getXcCommonPagesDelete($language, $tableName, $fieldId, $fieldMain, $t);
+        return $xc->getXcCommonPagesDelete($language, $tableName, $tableSoleName, $fieldId, $fieldMain, $tableNotifications, $t, true);
     }
 
     /**
@@ -382,18 +383,19 @@ class AdminPages extends Files\CreateFile
         $tf  = Modulebuilder\Files\CreateFile::getInstance();
         $new = $save = $edit = '';
 
-        $module        = $this->getModule();
-        $table         = $this->getTable();
-        $filename      = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tableName     = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
-        $tablePerms    = $table->getVar('table_permissions');
-        $language      = $this->getLanguage($moduleDirname, 'AM');
-        $fields        = $tf->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $fieldInForm   = null;
-        $fieldId       = null;
-        $fieldMain     = null;
+        $module             = $this->getModule();
+        $table              = $this->getTable();
+        $filename           = $this->getFileName();
+        $moduleDirname      = $module->getVar('mod_dirname');
+        $tableName          = $table->getVar('table_name');
+        $tableSoleName      = $table->getVar('table_solename');
+        $tablePerms         = $table->getVar('table_permissions');
+        $tableNotifications = $table->getVar('table_notifications');
+        $language           = $this->getLanguage($moduleDirname, 'AM');
+        $fields             = $tf->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fieldInForm        = null;
+        $fieldId            = null;
+        $fieldMain          = null;
         foreach (array_keys($fields) as $f) {
             $fieldName     = $fields[$f]->getVar('field_name');
             $fieldInForm[] = $fields[$f]->getVar('field_inform');
@@ -412,7 +414,7 @@ class AdminPages extends Files\CreateFile
             $save = $this->getAdminPagesSave($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldMain, $tablePerms, "\t\t");
             $edit = $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, "\t\t");
         }
-        $delete = $this->getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain, "\t\t");
+        $delete = $this->getAdminPagesDelete($tableName, $tableSoleName, $language, $fieldId, $fieldMain, $tableNotifications, "\t\t");
 
         $cases   = [
             'list'   => [$list],

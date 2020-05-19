@@ -276,9 +276,10 @@ class ClassFiles extends Files\CreateFile
         $action           = $xc->getXcEqualsOperator('$action', "\$_SERVER['REQUEST_URI']", null, "\t\t\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
         $getForm          = $xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", "\t\t");
-        $getForm          .= $pc->getPhpCodeConditions('false', ' === ', '$action', $action, false, "\t\t");
+        $getForm          .= $pc->getPhpCodeConditions('$action', ' === ', 'false', $action, false, "\t\t");
         $xUser            = $pc->getPhpCodeGlobals('xoopsUser');
         $xModule          = $pc->getPhpCodeGlobals('xoopsModule');
+        $getForm          .= $xc->getXcEqualsOperator('$isAdmin', $xUser . '->isAdmin(' . $xModule . '->mid())', null, "\t\t");
         $permString = 'upload_groups';
         if (1 != $tableCategory/* && (1 == $tablePermissions)*/) {
             $getForm          .= $pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
@@ -288,7 +289,7 @@ class ClassFiles extends Files\CreateFile
             $ternaryOperator  = $pc->getPhpCodeTernaryOperator('permissionUpload', $checkRight, 'true', 'false', "\t\t\t");
             $permissionUpload = $xc->getXcEqualsOperator('$permissionUpload', 'true', null, "\t\t\t\t");
             $ternOperator     = $pc->getPhpCodeRemoveCarriageReturn($ternaryOperator, '', "\r");
-            $if               = $pc->getPhpCodeConditions('!' . $xUser . '->isAdmin(' . $xModule . '->mid())', '', '', "\t" . $ternaryOperator, $permissionUpload, "\t\t\t");
+            $if               = $pc->getPhpCodeConditions('$isAdmin', '', '', "\t" . $ternaryOperator, $permissionUpload, "\t\t\t");
             $getForm          .= $pc->getPhpCodeConditions($xUser, '', '', $if, $ternOperator, "\t\t");
         }
         $getForm .= $pc->getPhpCodeCommentLine('Title', '', "\t\t");
@@ -390,44 +391,57 @@ class ClassFiles extends Files\CreateFile
         $utility          = 0;
         $header           = '';
         $configMaxchar    = 0;
+        $lenMaxName       = 0;
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            $rpFieldName  = $this->getRightString($fieldName);
+            $len = strlen($rpFieldName);
+            if (3 == $fields[$f]->getVar('field_element') || 4 == $fields[$f]->getVar('field_element')) {
+                $len = $len + strlen('_short');
+            }
+            $lenMaxName = max($len, $lenMaxName);
+        }
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             $rpFieldName  = $this->getRightString($fieldName);
+            $spacer = str_repeat(' ', $lenMaxName - strlen($rpFieldName));
             switch ($fieldElement) {
                 case 3:
-                    $getValues .= $pc->getPhpCodeStripTags("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}', 'e')", false, "\t\t");
+                    $getValues .= $pc->getPhpCodeStripTags("ret['{$rpFieldName}']{$spacer}", "\$this->getVar('{$fieldName}', 'e')", false, "\t\t");
                     if ($configMaxchar == 0) {
                         $getValues .= $xc->getXcEqualsOperator('$editorMaxchar', $xc->getXcGetConfig('editor_maxchar'), false, "\t\t");
                         $configMaxchar = 1;
                     }
                     $truncate  =  "\$utility::truncateHtml(\$ret['{$rpFieldName}'], \$editorMaxchar)";
-                    $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']", $truncate, false, "\t\t");
+                    $spacer = str_repeat(' ', $lenMaxName - strlen($rpFieldName) - strlen('_short'));
+                    $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']{$spacer}", $truncate, false, "\t\t");
                     $helper = 1;
                     $utility = 1;
                     break;
                 case 4:
-                    $getValues .= $xc->getXcGetVar("ret['{$rpFieldName}']", 'this', $fieldName, false, "\t\t", ", 'e'");
+                    $getValues .= $xc->getXcGetVar("ret['{$rpFieldName}']{$spacer}", 'this', $fieldName, false, "\t\t", ", 'e'");
                     if ($configMaxchar == 0) {
                         $getValues .= $xc->getXcEqualsOperator('$editorMaxchar', $xc->getXcGetConfig('editor_maxchar'), false, "\t\t");
                         $configMaxchar = 1;
                     }
                     $truncate  =  "\$utility::truncateHtml(\$ret['{$rpFieldName}'], \$editorMaxchar)";
-                    $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']", $truncate, false, "\t\t");
+                    $spacer = str_repeat(' ', $lenMaxName - strlen($rpFieldName) - strlen('_short'));
+                    $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']{$spacer}", $truncate, false, "\t\t");
                     $helper = 1;
                     $utility = 1;
                     break;
                 case 6:
-                    $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}']", "(int)\$this->getVar('{$fieldName}') > 0 ? _YES : _NO", false, "\t\t");
+                    $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}']{$spacer}", "(int)\$this->getVar('{$fieldName}') > 0 ? _YES : _NO", false, "\t\t");
                     break;
                 case 8:
-                    $getValues .= $xc->getXcXoopsUserUnameFromId("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", "\t\t");
+                    $getValues .= $xc->getXcXoopsUserUnameFromId("ret['{$rpFieldName}']{$spacer}", "\$this->getVar('{$fieldName}')", "\t\t");
                     break;
                 case 15:
-                    $getValues .= $xc->getXcFormatTimeStamp("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", 's', "\t\t");
+                    $getValues .= $xc->getXcFormatTimeStamp("ret['{$rpFieldName}']{$spacer}", "\$this->getVar('{$fieldName}')", 's', "\t\t");
                     break;
                 case 21:
-                    $getValues .= $xc->getXcFormatTimeStamp("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", 'm', "\t\t");
+                    $getValues .= $xc->getXcFormatTimeStamp("ret['{$rpFieldName}']{$spacer}", "\$this->getVar('{$fieldName}')", 'm', "\t\t");
                     break;
                 default:
                     $fieldElements    = $tc->getHandler('Fieldelements')->get($fieldElement);
@@ -448,10 +462,10 @@ class ClassFiles extends Files\CreateFile
                         $getTopicTable = "\${$topicTableName}Handler->get(\$this->getVar('{$fieldName}'))";
                         $getValues .= $xc->getXcEqualsOperator("\${$topicTableName}Obj", $getTopicTable, null, "\t\t");
                         $fMainTopic = "\${$topicTableName}Obj->getVar('{$fieldMainTopic}')";
-                        $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}']", $fMainTopic, null, "\t\t");
+                        $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}']{$spacer}", $fMainTopic, null, "\t\t");
                         $helper = 1;
                     } else {
-                        $getValues .= $xc->getXcGetVar("ret['{$rpFieldName}']", 'this', $fieldName, false, "\t\t");
+                        $getValues .= $xc->getXcGetVar("ret['{$rpFieldName}']{$spacer}", 'this', $fieldName, false, "\t\t");
                     }
                     break;
             }
@@ -522,7 +536,7 @@ class ClassFiles extends Files\CreateFile
             $rpFieldName    = $this->getRightString($fieldName);
             if (5 == $fieldElementId) {
                 $arrayPush  = $pc->getPhpCodeArrayType('ret', 'push', "'{$rpFieldName}'", null, false, "\t\t\t");
-                $getOptions .= $pc->getPhpCodeConditions(1, ' == ', "\$this->getVar('{$fieldName}')", $arrayPush, false, "\t\t");
+                $getOptions .= $pc->getPhpCodeConditions("\$this->getVar('{$fieldName}')", ' == ', '1', $arrayPush, false, "\t\t");
             }
         }
 

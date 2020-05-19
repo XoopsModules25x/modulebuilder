@@ -172,9 +172,9 @@ class PagesItem extends Files\CreateFile
         $contElse =  $hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
         $anchors .= $sc->getSmartyConditions('showItem', '', '', $contIf, $contElse, '', '', "\t\t");
         $lang        = $sc->getSmartyConst('', '_EDIT');
-        $contIf =  $hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
+        $contIf =  $hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
         $lang        = $sc->getSmartyConst('', '_DELETE');
-        $contIf .=  $hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-danger right', '', "\t\t\t", "\n");
+        $contIf .=  $hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-danger right', '', "\t\t\t", "\n");
         $anchors .= $sc->getSmartyConditions('permEdit', '', '', $contIf, false, '', '', "\t\t");
         $lang        = $sc->getSmartyConst($language, 'BROKEN');
         $anchors .=  $hc->getHtmlAnchor($tableName . ".php?op=broken&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-warning right', '', "\t\t", "\n");

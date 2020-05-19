@@ -72,7 +72,8 @@ class AdminBroken extends Files\CreateFile
     /**
      * @private function getAdminBrokenHeader
      * @param $moduleDirname
-     * @param $fieldId
+     * @param $tableName
+     * @param string $t
      * @return string
      */
     private function getAdminBrokenHeader($moduleDirname, $tableName, $t = '')
@@ -96,7 +97,7 @@ class AdminBroken extends Files\CreateFile
 
     /**
      * @private  function getAdminBrokenList
-     * @param        $table
+     * @param $tables
      * @param        $language
      * @param string $t
      * @return string

@@ -173,11 +173,11 @@ class PagesList extends Files\CreateFile
     /**
      * @private function getTemplatesUserPagesListPanel
      * @param string $moduleDirname
-     * @param        $tableId
-     * @param        $tableMid
      * @param        $tableName
      * @param        $tableSoleName
-     * @param        $language
+     * @param $fieldElement
+     * @param $fieldName
+     * @param $rpFieldName
      * @return string
      */
     private function getElement($moduleDirname, $tableName, $tableSoleName, $fieldElement, $fieldName, $rpFieldName)

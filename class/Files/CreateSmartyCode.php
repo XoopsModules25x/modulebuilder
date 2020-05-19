@@ -196,7 +196,8 @@ class CreateSmartyCode
      * @public function getSmartyIncludeFileListSection
      * @param $moduleDirname
      * @param $fileName
-     * @param $tableFieldName
+     * @param $itemName
+     * @param $arrayName
      * @param string $t
      * @param string $n
      * @return string
@@ -231,6 +232,7 @@ class CreateSmartyCode
      * @param bool $noSimbol
      * @param string $t
      * @param string $n
+     * @param bool $split
      * @return string
      */
     public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false, $t = '', $n = "\n", $split = true)

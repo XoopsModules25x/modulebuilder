@@ -58,7 +58,7 @@ class TemplatesAdminBroken extends Files\CreateFile
     /**
      * @public function write
      * @param string $module
-     * @param string $table
+     * @param $tables
      * @param        $filename
      */
     public function write($module, $tables, $filename)
@@ -85,10 +85,8 @@ class TemplatesAdminBroken extends Files\CreateFile
 
     /**
      * @private  function getTemplatesAdminBrokenTableThead
-     * @param        $tableSoleName
-     * @param        $tableAutoincrement
-     * @param string $fields
      * @param string $language
+     * @param $t
      * @return string
      */
     private function getTemplatesAdminBrokenTableThead($language, $t)
@@ -111,11 +109,9 @@ class TemplatesAdminBroken extends Files\CreateFile
 
     /**
      * @private  function getTemplatesAdminBrokenTableTBody
-     * @param string $moduleDirname
      * @param string $tableName
      * @param        $tableSoleName
-     * @param        $tableAutoincrement
-     * @param string $fields
+     * @param $language
      * @return string
      * @internal param string $language
      */
@@ -154,8 +150,6 @@ class TemplatesAdminBroken extends Files\CreateFile
      * @param string $moduleDirname
      * @param string $tableName
      * @param        $tableSoleName
-     * @param        $tableAutoincrement
-     * @param string $fields
      * @param string $language
      * @return string
      */
@@ -172,11 +166,9 @@ class TemplatesAdminBroken extends Files\CreateFile
     /**
      * @private function getTemplatesAdminBrokenList
      * @param string $moduleDirname
-     * @param string $tableName
-     * @param        $tableSoleName
-     * @param        $tableAutoincrement
-     * @param string $fields
+     * @param $table
      * @param string $language
+     * @param string $t
      * @return string
      */
     private function getTemplatesAdminBrokenList($moduleDirname, $table, $language, $t = '')
