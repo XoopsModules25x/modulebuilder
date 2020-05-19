@@ -448,7 +448,7 @@ class ClassFiles extends Files\CreateFile
                     $fieldElementTid  = $fieldElements->getVar('fieldelement_tid');
                     if ((int)$fieldElementTid > 0 ) {
                         $fieldElementMid = $fieldElements->getVar('fieldelement_mid');
-                        $fieldElementName = $fieldElements->getVar('fieldelement_name');
+                        $fieldElementName = (string)$fieldElements->getVar('fieldelement_name');
                         $fieldNameDesc = mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
                         $topicTableName = str_replace(': ', '', mb_strtolower($fieldNameDesc));
                         $fieldsTopics = $this->getTableFields($fieldElementMid, $fieldElementTid);

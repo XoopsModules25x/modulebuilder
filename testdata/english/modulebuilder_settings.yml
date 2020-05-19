@@ -1,15 +1,15 @@
 -
     set_id: '1'
-    set_name: Test1
-    set_dirname: test1
+    set_name: 'My Module'
+    set_dirname: mymoduledirname
     set_version: '1.0'
     set_since: '1.0'
     set_min_php: '7.0'
-    set_min_xoops: 2.5.10
+    set_min_xoops: 2.5.9
     set_min_admin: '1.2'
     set_min_mysql: '5.6'
     set_description: 'This module is for doing following...'
-    set_author: Mamba
+    set_author: 'TDM XOOPS'
     set_author_mail: info@email.com
     set_author_website_url: 'http://xoops.org'
     set_author_website_name: 'XOOPS Project'
@@ -26,15 +26,15 @@
     set_support_name: 'Support Forum'
     set_website_url: www.xoops.org
     set_website_name: 'XOOPS Project'
-    set_release: 05/10/2020
+    set_release: '2017-12-02'
     set_status: 'Beta 1'
     set_admin: '1'
     set_user: '1'
     set_blocks: '1'
-    set_search: '1'
-    set_comments: '1'
-    set_notifications: '1'
-    set_permissions: '1'
+    set_search: '0'
+    set_comments: '0'
+    set_notifications: '0'
+    set_permissions: '0'
     set_inroot_copy: '0'
     set_donations: 6KJ7RW5DR3VTJ
     set_subversion: '13070'

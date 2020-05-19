@@ -11,6 +11,7 @@ TODOs:
 
 new xoops_confirm
 
+catch error when notification selected but no status field exists
 
 Broken files:
 Notification for broken files in xoops_version adapt?

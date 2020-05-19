@@ -2,12 +2,42 @@
     table_id: '1'
     table_mid: '1'
     table_category: '1'
-    table_name: topics
-    table_solename: Topic
-    table_fieldname: ''
-    table_nbfields: '7'
+    table_name: categories
+    table_solename: category
+    table_fieldname: cat
+    table_nbfields: '5'
     table_order: '1'
     table_image: category.png
+    table_autoincrement: '1'
+    table_install: '1'
+    table_index: '0'
+    table_blocks: '0'
+    table_admin: '1'
+    table_user: '0'
+    table_submenu: '0'
+    table_submit: '0'
+    table_tag: '0'
+    table_broken: '0'
+    table_search: '0'
+    table_comments: '0'
+    table_notifications: '0'
+    table_permissions: '0'
+    table_rate: '0'
+    table_print: '0'
+    table_pdf: '0'
+    table_rss: '0'
+    table_single: '0'
+    table_visit: '0'
+-
+    table_id: '2'
+    table_mid: '1'
+    table_category: '0'
+    table_name: articles
+    table_solename: article
+    table_fieldname: art
+    table_nbfields: '9'
+    table_order: '1'
+    table_image: penguin.png
     table_autoincrement: '1'
     table_install: '1'
     table_index: '1'
@@ -29,15 +59,15 @@
     table_single: '1'
     table_visit: '1'
 -
-    table_id: '2'
+    table_id: '3'
     table_mid: '1'
     table_category: '0'
-    table_name: articles
-    table_solename: Article
-    table_fieldname: ''
-    table_nbfields: '7'
+    table_name: testfields
+    table_solename: testfield
+    table_fieldname: tf
+    table_nbfields: '22'
     table_order: '1'
-    table_image: translations.png
+    table_image: alert.png
     table_autoincrement: '1'
     table_install: '1'
     table_index: '1'

@@ -181,6 +181,9 @@ class UserPages extends Files\CreateFile
         $ccFieldId     = '';
         $fieldMain     = '';
         $fieldStatus   = '';
+        $ucfFieldId    = '';
+        $ccFieldMain   = '';
+        $ccFieldStatus = '';
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
@@ -193,13 +196,11 @@ class UserPages extends Files\CreateFile
             }
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain    = $fieldName; // fieldMain = fields parameters main field
-                $stuFieldMain = mb_strtoupper($fieldMain);
                 $ccFieldMain  = $this->getCamelCase($fieldMain, false, true);
             }
             if ($fields[$f]->getVar('field_element') == 16) {
                 $fieldStatus   = $fieldName;
                 $ccFieldStatus = $this->getCamelCase($fieldStatus, false, true);
-
             }
         }
 
@@ -391,7 +392,7 @@ class UserPages extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    private function getUserPagesBroken($language, $moduleDirname, $tableName, $tableSoleName, $fieldId, $fieldSatus, $fieldMain, $tableNotifications, $t = '')
+    private function getUserPagesBroken($language, $moduleDirname, $tableName, $tableSoleName, $fieldId, $fieldStatus, $fieldMain, $tableNotifications, $t = '')
     {
         $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
         $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
@@ -406,7 +407,7 @@ class UserPages extends Files\CreateFile
         $ret        .= $pc->getPhpCodeConditions("\${$ccFieldId}", ' == ', '0', $contIf, false, $t);
         $ret        .= $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
 		$constant   = $xc->getXcGetConstants('STATUS_BROKEN');
-        $ret        .= $xc->getXcSetVarObj($tableName, $fieldSatus, $constant, $t);
+        $ret        .= $xc->getXcSetVarObj($tableName, $fieldStatus, $constant, $t);
         $ret        .= $xc->getXcGetVar($ccFieldMain, "{$tableName}Obj", $fieldMain, false, $t);
         $ret        .= $pc->getPhpCodeCommentLine('Insert Data', null, $t);
         $insert     = $xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
@@ -479,7 +480,7 @@ class UserPages extends Files\CreateFile
      * @param $t
      * @return string
      */
-    private function getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldSatus, $tableNotifications, $language, $t)
+    private function getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $language, $t)
     {
         $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
@@ -493,7 +494,7 @@ class UserPages extends Files\CreateFile
             $cases['delete'] = [$this->getUserPagesDelete($tableName, $tableSoleName, $language, $fieldId, $fieldMain, $tableNotifications,$t . "\t")];
         }
         if (1 == $tableBroken) {
-            $cases['broken']  = [$this->getUserPagesBroken($language, $moduleDirname, $tableName, $tableSoleName, $fieldId, $fieldSatus, $fieldMain, $tableNotifications, $t . "\t")];
+            $cases['broken']  = [$this->getUserPagesBroken($language, $moduleDirname, $tableName, $tableSoleName, $fieldId, $fieldStatus, $fieldMain, $tableNotifications, $t . "\t")];
         }
 
         return $xc->getXcSwitch('op', $cases, true, false);
@@ -522,7 +523,7 @@ class UserPages extends Files\CreateFile
         // Fields
         $fieldId    = '';
         $fieldMain  = '';
-        $fieldSatus = '';
+        $fieldStatus = '';
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -533,12 +534,12 @@ class UserPages extends Files\CreateFile
                 $fieldMain = $fieldName; // fieldMain = fields parameters main field
             }
             if (16 == $fields[$f]->getVar('field_element')) {
-                $fieldSatus = $fieldName; // fieldMain = fields parameters main field
+                $fieldStatus = $fieldName; // fieldMain = fields parameters main field
             }
         }
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserPagesHeader($moduleDirname, $tableName, $fieldId);
-        $content       .= $this->getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldSatus, $tableNotifications, $language, "\t");
+        $content       .= $this->getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $language, "\t");
         $content       .= $this->getUserPagesFooter($moduleDirname, $tableName, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
