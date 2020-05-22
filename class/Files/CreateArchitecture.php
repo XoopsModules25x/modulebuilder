@@ -339,9 +339,6 @@ class CreateArchitecture extends CreateStructure
                 // Creation of notifications files
                 if (1 === (int)$tables[$t]->getVar('table_notifications')) {
                     $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
-                    // Language Mail Template New File
-                    $languageMailTpl->write($module, $table,  $tableSoleName . '_new_notify.tpl');
-                    $ret[] = $languageMailTpl->render();
                     // Language Mail Template Modify File
                     $languageMailTpl->write($module, $table,  $tableSoleName . '_modify_notify.tpl');
                     $ret[] = $languageMailTpl->render();

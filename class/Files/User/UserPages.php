@@ -248,7 +248,7 @@ class UserPages extends Files\CreateFile
                 $not2If        .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \$new{$ucfFieldId}, '{$tableSoleName}_modify', \$tags);", $t . "\t\t");
                 $not2Else      = $pc->getPhpCodeCommentLine('Event new notification', null, $t . "\t\t");
                 $not2Else      .= $this->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_new', \$tags);", $t . "\t\t");
-                $not2Else      .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \$new{$ucfFieldId}, '{$tableSoleName}_new', \$tags);", $t . "\t\t");
+                //$not2Else      .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \$new{$ucfFieldId}, '{$tableSoleName}_new', \$tags);", $t . "\t\t");
                 $not1Else      = $pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $not2If, $not2Else, $t . "\t");
                 $contentInsert .= $not1Else;
             } else {
@@ -260,9 +260,8 @@ class UserPages extends Files\CreateFile
                 $not2If        .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \$new{$ucfFieldId}, '{$tableSoleName}_modify', \$tags);", $t . "\t\t\t");
                 $not2Else      = $pc->getPhpCodeCommentLine('Event new notification', null, $t . "\t\t\t");
                 $not2Else      .= $this->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_new', \$tags);", $t . "\t\t\t");
-                $not2Else      .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \$new{$ucfFieldId}, '{$tableSoleName}_new', \$tags);", $t . "\t\t\t");
                 $not1Else      = $pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $not2If, $not2Else, $t . "\t\t");
-                $contentInsert .= $pc->getPhpCodeConditions("\${$ccFieldStatus}", ' == ', $xc->getXcGetConstants('STATUS_APPROVED'), $not1If, $not1Else, $t . "\t");
+                $contentInsert .= $pc->getPhpCodeConditions("\${$ccFieldStatus}", ' == ', $xc->getXcGetConstants('STATUS_SUBMITTED'), $not1If, $not1Else, $t . "\t");
             }
         }
 

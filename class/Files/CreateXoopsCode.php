@@ -1787,7 +1787,7 @@ class CreateXoopsCode
         if (!$admin && 1 == $tableNotifications) {
             $contInsert .= $pc->getPhpCodeCommentLine('Event delete notification', null, $t . "\t\t");
             $contInsert .= $pc->getPhpCodeArray('tags', [], false, $t . "\t\t");
-            $contInsert .= $xc->getXcEqualsOperator("\$tags['{$stuFieldMain}']", "\${$ccFieldMain}", '', $t . "\t\t");
+            $contInsert .= $xc->getXcEqualsOperator("\$tags['ITEM_NAME']", "\${$ccFieldMain}", '', $t . "\t\t");
             $contInsert .= $xc->getXcXoopsHandler('notification', $t . "\t\t");
             $contInsert .= $cf->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_delete', \$tags);", $t . "\t\t");
             $contInsert .= $cf->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \${$ccFieldId}, '{$tableSoleName}_delete', \$tags);", $t . "\t\t");

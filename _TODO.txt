@@ -11,23 +11,29 @@ TODOs:
 
 new xoops_confirm
 
-catch error when notification selected but no status field exists
-
-Broken files:
-Notification for broken files in xoops_version adapt?
-add initiate event when click on broken file
 
 
 Notifications:
-there are too much notification, which are not needed/working
-- reduce xoops_version.php to needed
-- adapt language/modinfo.php (make nice text of e.g.: Global newcategory notify caption)
+notification comments
 
 
 rate.php:
 this file currently is not rating
 
 
+Comment files
+are the comment files (CreateArchitecture.php line 533 ff) required?
+
+
+Permissions:
+check handling for different groups
+implement autoapprove
+
+
+Test:
+ändern auf testen, nicht bei building ausführen
+in user file, but no decision where (header?body?footer?)
+keine Doppelverwendung:header?body?footer?
 
 
 *****************************

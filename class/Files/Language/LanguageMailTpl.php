@@ -96,31 +96,6 @@ class LanguageMailTpl extends Files\CreateFile
     }
 
     /**
-     * @public function getTemplateTableNew
-     * @param $tableSoleName
-     * @param $stuTableSoleName
-     * @param $stuFieldMain
-     * @param $line
-     * @return string
-     */
-    public function getTemplateTableNew($tableSoleName, $stuTableSoleName, $stuFieldMain, $line)
-    {
-
-        $ret = $this->getSimpleString('Hello {X_UNAME},');
-        $ret .= $this->getSimpleString('');
-        $ret .= $this->getSimpleString('A new ' . $tableSoleName . ' "{ITEM_NAME}" has been added at {X_SITENAME}.');
-        $ret .= $this->getSimpleString('');
-        $ret .= $this->getSimpleString('You can view this ' . $tableSoleName . ' here:');
-        $ret .= $this->getSimpleString('{ITEM_URL}');
-        $ret .= $this->getSimpleString('');
-        $ret .= $this->getSimpleString($line);
-        $ret .= $this->getSimpleString('');
-        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when a new ' . $tableSoleName . ' is added to our site.');
-
-        return $ret;
-    }
-
-    /**
      * @public function getTemplateTableModify
      * @param $tableSoleName
      * @param $stuTableSoleName
@@ -394,9 +369,6 @@ class LanguageMailTpl extends Files\CreateFile
                 break;
             case 'global_broken_notify.tpl':
                 $content .= $this->getTemplateGlobalBroken($line);
-                break;
-            case $tableSoleName . '_new_notify.tpl':
-                $content .= $this->getTemplateTableNew($tableSoleName, $stuTableSoleName, $stuFieldMain, $line);
                 break;
             case $tableSoleName . '_modify_notify.tpl':
                 $content .= $this->getTemplateTableModify($tableSoleName, $stuTableSoleName, $stuFieldMain, $line);

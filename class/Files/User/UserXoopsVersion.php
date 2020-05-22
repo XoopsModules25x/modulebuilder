@@ -900,7 +900,7 @@ class UserXoopsVersion extends Files\CreateFile
                 $ret      .= $pc->getPhpCodeCommentLine('Category Notify');
                 $category = [
                     'name'             => "'category'",
-                    'title'            => "'{$language}{$stuTableName}_NOTIFY'",
+                    'title'            => "'{$language}NOTIFY_{$stuTableName}'",
                     'description'      => "''",
                     'subscribe_from'   => "['index.php',{$notifyFile}]",
                     'item_name'        => "'{$item}'",
@@ -914,11 +914,11 @@ class UserXoopsVersion extends Files\CreateFile
                     'name'          => "'{$typeOfNotify}'",
                     'category'      => "'{$tableName}'",
                     'admin_only'    => '1',
-                    "'title'"       => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY'",
-                    'caption'       => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_CAPTION'",
+                    "'title'"       => "'{$language}NOTIFY_{$stuTableName}_{$stuTypeOfNotify}'",
+                    'caption'       => "'{$language}NOTIFY_{$stuTableName}_{$stuTypeOfNotify}_CAPTION'",
                     'description'   => "''",
-                    'mail_template' => "'{$tableName}_{$typeOfNotify}_notify'",
-                    'mail_subject'  => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_SUBJECT'",
+                    'mail_template' => "'notify_{$tableName}_{$typeOfNotify}'",
+                    'mail_subject'  => "'{$language}NOTIFY_{$stuTableName}_{$stuTypeOfNotify}_SUBJECT'",
                 ];
                 $ret   .= $uxc->getUserModVersionArray(2, $event, 'notification', "'{$type}'");
                 break;
@@ -955,11 +955,11 @@ class UserXoopsVersion extends Files\CreateFile
         $notifyEvent ='';
 
         //global events
-        $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_new', 'global', 0, 'global_new', 'global_' . 'new_notify');
-        $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_modify', 'global', 0, 'global_modify', 'global_' . 'modify_notify');
-        $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_delete', 'global', 0, 'global_delete', 'global_' . 'delete_notify');
-        $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_approve', 'global', 0, 'global_approve', 'global_' . 'approve_notify');
-        $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_broken', 'global', 0, 'global_broken', 'global_' . 'broken_notify');
+        $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_new', 'global', 0, 'global_new', 'global_new_notify');
+        $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_modify', 'global', 0, 'global_modify', 'global_modify_notify');
+        $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_delete', 'global', 0, 'global_delete', 'global_delete_notify');
+        $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_approve', 'global', 0, 'global_approve', 'global_approve_notify');
+        $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_broken', 'global', 0, 'global_broken', 'global_broken_notify');
 
         foreach (array_keys($tables) as $t) {
             $tableId         = $tables[$t]->getVar('table_id');
@@ -988,13 +988,13 @@ class UserXoopsVersion extends Files\CreateFile
             if (1 == $tables[$t]->getVar('table_notifications')) {
                 $notifyFiles[] = $tableName;
                 $notifyCategory .= $this->getXoopsVersionNotificationTableName($language, 'category', $tableName, $tableSoleName, $single, $fieldId, 1);
-                $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName . '_new', $tableName, 0, $tableSoleName, $tableSoleName . '_new_notify');
-                $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName . '_modify', $tableName, 0, $tableSoleName, $tableSoleName . '_modify_notify');
-                $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName . '_delete', $tableName, 0, $tableSoleName, $tableSoleName . '_delete_notify');
-                $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName . '_approve', $tableName, 0, $tableSoleName, $tableSoleName . '_approve_notify');
-            }
-            if (1 == $tables[$t]->getVar('table_broken')) {
-                $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName . '_broken', $tableName, 0, $tableSoleName . '_broken', $tableSoleName . '_broken_notify');
+                //$notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName . '_new', $tableName, 0, $tableSoleName, $tableSoleName . '_new_notify');
+                $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName . '_modify', $tableName, 0, $tableSoleName . '_modify', $tableSoleName . '_modify_notify');
+                $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName . '_delete', $tableName, 0, $tableSoleName . '_delete', $tableSoleName . '_delete_notify');
+                $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName . '_approve', $tableName, 0, $tableSoleName . '_approve', $tableSoleName . '_approve_notify');
+                if (1 == $tables[$t]->getVar('table_broken')) {
+                    $notifyEvent .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName . '_broken', $tableName, 0, $tableSoleName . '_broken', $tableSoleName . '_broken_notify');
+                }
             }
         }
 
@@ -1056,8 +1056,8 @@ class UserXoopsVersion extends Files\CreateFile
         $ret         = $pc->getPhpCodeCommentLine('Global Notify');
         $global      = [
             'name'           => "'{$name}'",
-            'title'          => "{$language}{$title}_NOTIFY",
-            'description'    => "{$language}{$title}_NOTIFY_DESC",
+            'title'          => "{$language}NOTIFY_{$title}",
+            'description'    => "''",
             'subscribe_from' => "['index.php', '{$implodeFrom}.php']",
         ];
         $ret         .= $uxc->getUserModVersionArray(3, $global, 'notification', "'{$type}'");
@@ -1119,7 +1119,7 @@ class UserXoopsVersion extends Files\CreateFile
         $ret      = $pc->getPhpCodeCommentLine($ucfTitle . ' Notify');
         $table    = [
             'name'           => "'{$name}'",
-            'title'          => "{$language}{$stuTitle}_NOTIFY",
+            'title'          => "{$language}NOTIFY_{$stuTitle}",
             'description'    => "''",
             'subscribe_from' => "'{$file}.php'",
             'item_name'      => "'{$item}'",
@@ -1153,11 +1153,11 @@ class UserXoopsVersion extends Files\CreateFile
             'name'          => "'{$name}'",
             'category'      => "'{$category}'",
             'admin_only'    => (string)$admin,
-            'title'         => "{$language}{$title}_NOTIFY",
-            'caption'       => "{$language}{$title}_NOTIFY_CAPTION",
+            'title'         => "{$language}NOTIFY_{$title}",
+            'caption'       => "{$language}NOTIFY_{$title}_CAPTION",
             'description'   => "''",
             'mail_template' => "'{$mail}'",
-            'mail_subject'  => "{$language}{$title}_NOTIFY_SUBJECT",
+            'mail_subject'  => "{$language}NOTIFY_{$title}_SUBJECT",
         ];
         $ret .= $uxc->getUserModVersionArray(3, $event, 'notification', "'{$type}'");
 

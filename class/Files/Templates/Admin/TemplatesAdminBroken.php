@@ -194,7 +194,7 @@ class TemplatesAdminBroken extends Files\CreateFile
         $div       .= $hc->getHtmlBr('2', '', $t . "\t");
         $contElse  = $sc->getSmartyConditions('nodata' . $ucfTableName, '', '', $div, false, '', '', $t);
         $ret       .= $sc->getSmartyConditions($tableName . '_count', '', '', $htmlTable, $contElse);
-        $ret       .= $hc->getHtmlEmpty('', '', "\n");
+        $ret       .= $hc->getHtmlBr('3');
 
         return $ret;
     }
