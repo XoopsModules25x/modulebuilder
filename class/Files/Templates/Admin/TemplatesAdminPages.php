@@ -87,7 +87,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @private  function getTemplatesAdminPagesTableThead
      * @param        $tableSoleName
      * @param        $tableAutoincrement
-     * @param string $fields
+     * @param array $fields
      * @param string $language
      * @return string
      */
@@ -125,7 +125,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @param string $tableName
      * @param        $tableSoleName
      * @param        $tableAutoincrement
-     * @param string $fields
+     * @param array $fields
      * @return string
      * @internal param string $language
      */

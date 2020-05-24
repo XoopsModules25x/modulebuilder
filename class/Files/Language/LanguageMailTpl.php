@@ -72,12 +72,10 @@ class LanguageMailTpl extends Files\CreateFile
     /**
      * @public function getTemplateDummy
      * @param $tableSoleName
-     * @param $stuTableSoleName
-     * @param $stuFieldMain
      * @param $line
      * @return string
      */
-    public function getTemplateDummy($tableSoleName, $stuTableSoleName, $stuFieldMain, $line)
+    public function getTemplateDummy($tableSoleName, $line)
     {
 
         $ret = $this->getSimpleString('Hello {X_UNAME},');
@@ -98,12 +96,10 @@ class LanguageMailTpl extends Files\CreateFile
     /**
      * @public function getTemplateTableModify
      * @param $tableSoleName
-     * @param $stuTableSoleName
-     * @param $stuFieldMain
      * @param $line
      * @return string
      */
-    public function getTemplateTableModify($tableSoleName, $stuTableSoleName, $stuFieldMain, $line)
+    public function getTemplateTableModify($tableSoleName, $line)
     {
 
         $ret = $this->getSimpleString('Hello {X_UNAME},');
@@ -123,11 +119,10 @@ class LanguageMailTpl extends Files\CreateFile
     /**
      * @public function getTemplateTableDelete
      * @param $tableSoleName
-     * @param $stuFieldMain
      * @param $line
      * @return string
      */
-    public function getTemplateTableDelete($tableSoleName, $stuFieldMain, $line)
+    public function getTemplateTableDelete($tableSoleName, $line)
     {
 
         $ret = $this->getSimpleString('Hello {X_UNAME},');
@@ -144,12 +139,10 @@ class LanguageMailTpl extends Files\CreateFile
     /**
      * @public function getTemplateTableApprove
      * @param $tableSoleName
-     * @param $stuTableSoleName
-     * @param $stuFieldMain
      * @param $line
      * @return string
      */
-    public function getTemplateTableApprove($tableSoleName, $stuTableSoleName, $stuFieldMain, $line)
+    public function getTemplateTableApprove($tableSoleName, $line)
     {
 
         $ret = $this->getSimpleString('Hello {X_UNAME},');
@@ -169,12 +162,10 @@ class LanguageMailTpl extends Files\CreateFile
     /**
      * @public function getTemplateTableApprove
      * @param $tableSoleName
-     * @param $stuTableSoleName
-     * @param $stuFieldMain
      * @param $line
      * @return string
      */
-    public function getTemplateTableBroken($tableSoleName, $stuTableSoleName, $stuFieldMain, $line)
+    public function getTemplateTableBroken($tableSoleName, $line)
     {
 
         $ret = $this->getSimpleString('Hello {X_UNAME},');
@@ -187,6 +178,29 @@ class LanguageMailTpl extends Files\CreateFile
         $ret .= $this->getSimpleString($line);
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when a ' . $tableSoleName . ' is notified as broken on our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateTableComment
+     * @param $tableSoleName
+     * @param $line
+     * @return string
+     */
+    public function getTemplateTableComment($tableSoleName, $line)
+    {
+
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('A comment was published for ' . $tableSoleName . ' "{ITEM_NAME}" at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this comment here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when a ' . $tableSoleName . ' is modified on our site.');
 
         return $ret;
     }
@@ -297,6 +311,29 @@ class LanguageMailTpl extends Files\CreateFile
 
         return $ret;
     }
+
+    /**
+     * @public function getTemplateGlobalNew
+     * @param $line
+     * @return string
+     */
+    public function getTemplateGlobalComment($line)
+    {
+
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('A new comment has been added to "{ITEM_NAME}" at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this comment here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when a new comment is added to an item of our site.');
+
+        return $ret;
+    }
+
     /**
      * @public function getTemplateTableApprove
      * @param $line
@@ -334,7 +371,7 @@ class LanguageMailTpl extends Files\CreateFile
         $table         = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
         $tableSoleName = $table->getVar('table_solename');
-        $stuTableSoleName = mb_strtoupper($tableSoleName);
+        //$stuTableSoleName = mb_strtoupper($tableSoleName);
         $fieldMain  = '';
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
@@ -343,7 +380,7 @@ class LanguageMailTpl extends Files\CreateFile
                 $fieldMain = $fieldName; // fieldMain = fields parameters main field
             }
         }
-        $stuFieldMain = mb_strtoupper($fieldMain);
+        //$stuFieldMain = mb_strtoupper($fieldMain);
 
         $line = '------------------------------------------------------------------';
         $content = '';
@@ -353,7 +390,7 @@ class LanguageMailTpl extends Files\CreateFile
                 //break;
             case 'default':
             default:
-                $content .= $this->getTemplateDummy('story', 'STORY', 'STORY_NAME', $line);
+                $content .= $this->getTemplateDummy($tableSoleName, $line);
                 break;
             case 'global_new_notify.tpl':
                 $content .= $this->getTemplateGlobalNew($line);
@@ -370,17 +407,23 @@ class LanguageMailTpl extends Files\CreateFile
             case 'global_broken_notify.tpl':
                 $content .= $this->getTemplateGlobalBroken($line);
                 break;
+            case 'global_comment_notify.tpl':
+                $content .= $this->getTemplateGlobalComment($line);
+                break;
             case $tableSoleName . '_modify_notify.tpl':
-                $content .= $this->getTemplateTableModify($tableSoleName, $stuTableSoleName, $stuFieldMain, $line);
+                $content .= $this->getTemplateTableModify($tableSoleName, $line);
                 break;
             case $tableSoleName . '_delete_notify.tpl':
-                $content .= $this->getTemplateTableDelete($tableSoleName, $stuFieldMain, $line);
+                $content .= $this->getTemplateTableDelete($tableSoleName, $line);
                 break;
             case $tableSoleName . '_approve_notify.tpl':
-                $content .= $this->getTemplateTableApprove($tableSoleName, $stuTableSoleName, $stuFieldMain, $line);
+                $content .= $this->getTemplateTableApprove($tableSoleName, $line);
                 break;
             case $tableSoleName . '_broken_notify.tpl':
-                $content .= $this->getTemplateTableBroken($tableSoleName, $stuTableSoleName, $stuFieldMain, $line);
+                $content .= $this->getTemplateTableBroken($tableSoleName, $line);
+                break;
+            case $tableSoleName . '_comment_notify.tpl':
+                $content .= $this->getTemplateTableComment($tableSoleName, $line);
                 break;
         }
         $content .= $this->getTemplateTableFooter($line);

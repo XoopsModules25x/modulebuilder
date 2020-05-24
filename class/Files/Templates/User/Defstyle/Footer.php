@@ -97,11 +97,10 @@ class Footer extends Files\CreateFile
 
     /**
      * @public function render
-     * @param $moduleDirname
      * @param $language
      * @return bool|string
      */
-    private function getTemplateUserFooterContent($moduleDirname, $language)
+    private function getTemplateUserFooterContent($language)
     {
         $hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
         $sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
@@ -138,7 +137,7 @@ class Footer extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getTemplateUserFooterContent($moduleDirname, $language);
+        $content       = $this->getTemplateUserFooterContent($language);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 

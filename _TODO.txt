@@ -12,28 +12,17 @@ TODOs:
 new xoops_confirm
 
 
-
-Notifications:
-notification comments
-
-
 rate.php:
 this file currently is not rating
 
 
-Comment files
-are the comment files (CreateArchitecture.php line 533 ff) required?
+
 
 
 Permissions:
 check handling for different groups
 implement autoapprove
 
-
-Test:
-ändern auf testen, nicht bei building ausführen
-in user file, but no decision where (header?body?footer?)
-keine Doppelverwendung:header?body?footer?
 
 
 *****************************

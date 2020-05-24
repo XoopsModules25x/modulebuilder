@@ -93,10 +93,12 @@ class UserSearch extends Files\CreateFile
     private function getUserSearchHeader($moduleDirname, $table, $fields)
     {
         $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $ret = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
-        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
-        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $ret .= $this->getInclude();
+        $ret      = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret      .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret      .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret      .= $this->getInclude();
+        $fieldId  = 0;
+        $fieldPid = 0;
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {

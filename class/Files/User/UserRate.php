@@ -122,16 +122,15 @@ class UserRate extends Files\CreateFile
      * @param $tableMid
      * @param $tableName
      * @param $tableSoleName
-     * @param $tableAutoincrement
      * @param $language
      * @return string
      */
-    private function getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
+    private function getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
         $fields = $this->getTableFields($tableMid, $tableId);
         $cases  = [
             'form' => [$this->getUserRateForm($tableName, $language)],
-            'save' => [$this->getUserRateSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)],
+            'save' => [$this->getUserRateSave($moduleDirname, $fields, $tableName, $tableSoleName, $language)],
         ];
 
         return $this->xc->getXcSwitch('op', $cases, true, false, "\t");
@@ -169,11 +168,10 @@ class UserRate extends Files\CreateFile
      * @param $fields
      * @param $tableName
      * @param $tableSoleName
-     * @param $tableAutoincrement
      * @param $language
      * @return string
      */
-    public function getUserRateSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)
+    public function getUserRateSave($moduleDirname, $fields, $tableName, $tableSoleName, $language)
     {
         $ret                = $this->pc->getPhpCodeCommentLine('Security Check');
         $xoopsSecurityCheck = $this->xc->getXcXoopsSecurityCheck();
@@ -200,11 +198,10 @@ class UserRate extends Files\CreateFile
 
     /**
      * @public function getUserRateFooter
-     * @param $moduleDirname
      * @param $language
      * @return string
      */
-    public function getUserRateFooter($moduleDirname, $language)
+    public function getUserRateFooter($language)
     {
         $ret              = $this->pc->getPhpCodeCommentLine('Breadcrumbs');
         $ret              .= $this->uxc->getUserBreadcrumbs('RATE', $language);
@@ -224,16 +221,16 @@ class UserRate extends Files\CreateFile
         $table              = $this->getTable();
         $filename           = $this->getFileName();
         $moduleDirname      = $module->getVar('mod_dirname');
-        $tableId            = $table->getVar('table_id');
-        $tableMid           = $table->getVar('table_mid');
-        $tableName          = $table->getVar('table_name');
-        $tableSoleName      = $table->getVar('table_solename');
-        $tableAutoincrement = $table->getVar('table_autoincrement');
-        $language           = $this->getLanguage($moduleDirname, 'MA');
+        //$tableId            = $table->getVar('table_id');
+        //$tableMid           = $table->getVar('table_mid');
+        //$tableName          = $table->getVar('table_name');
+        //$tableSoleName      = $table->getVar('table_solename');
+        //$tableAutoincrement = $table->getVar('table_autoincrement');
+        //$language           = $this->getLanguage($moduleDirname, 'MA');
         $content            = $this->getHeaderFilesComments($module);
         //$content            .= $this->getUserRateHeader($moduleDirname, $tableName);
-        //$content            .= $this->getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language);
-        //$content            .= $this->getUserRateFooter($moduleDirname, $language);
+        //$content            .= $this->getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
+        //$content            .= $this->getUserRateFooter($language);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 

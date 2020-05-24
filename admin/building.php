@@ -1,7 +1,5 @@
 <?php
 
-use XoopsModules\Modulebuilder;
-
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -23,6 +21,8 @@ use XoopsModules\Modulebuilder;
  *
  */
 
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 use Xmf\Request;
 
 $templateMain = 'modulebuilder_building.tpl';

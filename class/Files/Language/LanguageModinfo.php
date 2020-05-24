@@ -266,7 +266,7 @@ class LanguageModinfo extends Files\CreateFile
         foreach (array_keys($tables) as $i) {
             $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
             $ucfTablename    = ucfirst($tables[$i]->getVar('table_name'));
-            $stuTablename    = mb_strtoupper($ucfTablename);
+            //$stuTablename    = mb_strtoupper($ucfTablename);
             foreach (array_keys($fields) as $f) {
                 $fieldElement = $fields[$f]->getVar('field_element');
                 if (3 == $fieldElement) {
@@ -360,9 +360,11 @@ class LanguageModinfo extends Files\CreateFile
     /**
      * @private function getLanguageNotificationsGlobal
      * @param       $language
+     * @param $tableBroken
+     * @param $tableComment
      * @return string
      */
-    private function getLanguageNotificationsGlobal($language)
+    private function getLanguageNotificationsGlobal($language, $tableBroken, $tableComment)
     {
         $df               = LanguageDefines::getInstance();
         $ret              = $df->getAboveDefines('Global notifications');
@@ -380,10 +382,6 @@ class LanguageModinfo extends Files\CreateFile
             'NOTIFY_GLOBAL_APPROVE'          => 'Any item to approve',
             'NOTIFY_GLOBAL_APPROVE_CAPTION'  => 'Notify me about any item waiting for approvement',
             'NOTIFY_GLOBAL_APPROVE_SUBJECT'  => 'Notification about item waiting for approvement',
-            'NOTIFY_GLOBAL_BROKEN'           => 'Any broken item',
-            'NOTIFY_GLOBAL_BROKEN_CAPTION'   => 'Notify me about any broken item',
-            'NOTIFY_GLOBAL_BROKEN_SUBJECT'   => 'Notification about broken item',
-
             //'CATEGORY_NOTIFY'                => 'Category notification',
             //'CATEGORY_NOTIFY_DESC'           => 'Category notification desc',
             //'CATEGORY_NOTIFY_CAPTION'        => 'Category notification caption',
@@ -392,8 +390,17 @@ class LanguageModinfo extends Files\CreateFile
             //'CATEGORY_SUBMIT_NOTIFY_CAPTION' => 'Category submit notification caption',
             //'CATEGORY_SUBMIT_NOTIFY_DESC'    => 'Category submit notification desc',
             //'CATEGORY_SUBMIT_NOTIFY_SUBJECT' => 'Category submit notification subject',
-
         ];
+        if ($tableBroken) {
+            $getDefinesNotif['NOTIFY_GLOBAL_BROKEN']         = 'Any broken item';
+            $getDefinesNotif['NOTIFY_GLOBAL_BROKEN_CAPTION'] = 'Notify me about any broken item';
+            $getDefinesNotif['NOTIFY_GLOBAL_BROKEN_SUBJECT'] = 'Notification about broken item';
+        }
+        if ($tableComment) {
+            $getDefinesNotif['NOTIFY_GLOBAL_COMMENT']         = 'Any comments';
+            $getDefinesNotif['NOTIFY_GLOBAL_COMMENT_CAPTION'] = 'Notify me about any comment';
+            $getDefinesNotif['NOTIFY_GLOBAL_COMMENT_SUBJECT'] = 'Notification about any comment';
+        }
         foreach ($getDefinesNotif as $defn => $descn) {
             $ret .= $df->getDefine($language, $defn, $descn);
         }
@@ -407,9 +414,11 @@ class LanguageModinfo extends Files\CreateFile
      * @param $tableName
      * @param mixed $tableSoleName
      *
+     * @param $tableBroken
+     * @param $tableComment
      * @return string
      */
-    private function getLanguageNotificationsTable($language, $tableName, $tableSoleName)
+    private function getLanguageNotificationsTable($language, $tableName, $tableSoleName, $tableBroken, $tableComment)
     {
         $df               = LanguageDefines::getInstance();
         $stuTableSoleName = mb_strtoupper($tableSoleName);
@@ -426,10 +435,17 @@ class LanguageModinfo extends Files\CreateFile
             'NOTIFY_' . $stuTableSoleName . '_APPROVE'          => "{$ucfTableSoleName} approve",
             'NOTIFY_' . $stuTableSoleName . '_APPROVE_CAPTION'  => "Notify me about {$tableName} waiting for approvement",
             'NOTIFY_' . $stuTableSoleName . '_APPROVE_SUBJECT'  => "Notification {$tableSoleName} waiting for approvement",
-            'NOTIFY_' . $stuTableSoleName . '_BROKEN'           => "{$ucfTableSoleName} broken",
-            'NOTIFY_' . $stuTableSoleName . '_BROKEN_CAPTION'   => "Notify me about broken {$tableSoleName}",
-            'NOTIFY_' . $stuTableSoleName . '_BROKEN_SUBJECT'   => "Notification about broken {$tableSoleName}",
         ];
+        if (1 == $tableBroken) {
+            $getDefinesNotif['NOTIFY_' . $stuTableSoleName . '_BROKEN']         = "{$ucfTableSoleName} broken";
+            $getDefinesNotif['NOTIFY_' . $stuTableSoleName . '_BROKEN_CAPTION'] = "Notify me about broken {$tableSoleName}";
+            $getDefinesNotif['NOTIFY_' . $stuTableSoleName . '_BROKEN_SUBJECT'] = "Notification about broken {$tableSoleName}";
+        }
+        if (1 == $tableComment) {
+            $getDefinesNotif['NOTIFY_' . $stuTableSoleName . '_COMMENT']         = "{$ucfTableSoleName} comment";
+            $getDefinesNotif['NOTIFY_' . $stuTableSoleName . '_COMMENT_CAPTION'] = "Notify me about comments for {$tableSoleName}";
+            $getDefinesNotif['NOTIFY_' . $stuTableSoleName . '_COMMENT_SUBJECT'] = "Notification about comments for {$tableSoleName}";
+        }
         foreach ($getDefinesNotif as $defn => $descn) {
             $ret .= $df->getDefine($language, $defn, $descn);
         }
@@ -488,8 +504,9 @@ class LanguageModinfo extends Files\CreateFile
         $tableBlocks        = [];
         $tableNotifications = [];
         $tablePermissions   = [];
-        $tableSoleName      = '';
         $notifTable         = '';
+        $tableBroken        = 0;
+        $tableComments      = [];
         foreach (array_keys($tables) as $t) {
             $tableName            = $tables[$t]->getVar('table_name');
             $tableSoleName        = $tables[$t]->getVar('table_solename');
@@ -498,8 +515,12 @@ class LanguageModinfo extends Files\CreateFile
             $tableSubmenu[]       = $tables[$t]->getVar('table_submenu');
             $tableBlocks[]        = $tables[$t]->getVar('table_blocks');
             $tableNotifications[] = $tables[$t]->getVar('table_notifications');
+            $tableBroken          = $tables[$t]->getVar('table_broken');
+            $tableBrokens[]       = $tables[$t]->getVar('table_broken');
+            $tableComment         = $tables[$t]->getVar('table_comments');
+            $tableComments[]       = $tables[$t]->getVar('table_comments');
             if (1 === (int)$tables[$t]->getVar('table_notifications')) {
-                $notifTable .= $this->getLanguageNotificationsTable($language, $tableName, $tableSoleName);
+                $notifTable .= $this->getLanguageNotificationsTable($language, $tableName, $tableSoleName, $tableBroken, $tableComment);
             }
             $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
         }
@@ -521,7 +542,7 @@ class LanguageModinfo extends Files\CreateFile
         //}
         $content .= $this->getLanguageConfig($language, $tables);
         if (in_array(1, $tableNotifications)) {
-            $content .= $this->getLanguageNotificationsGlobal($language);
+            $content .= $this->getLanguageNotificationsGlobal($language, in_array(1, $tableBrokens), in_array(1, $tableComments));
             $content .= $notifTable;
         }
         if (in_array(1, $tablePermissions)) {

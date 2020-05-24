@@ -50,7 +50,7 @@
             <p><img src="<{$modPathIcon16}>/<{$check.icon}>.png" alt=""/><{$check.info}></p>
         <{/foreach}>
         <p><{$smarty.const._AM_MODULEBUILDER_CHECKPREBUILD_SOLVE}></p>
-        <p>------------------------------------------------------------------------------------------------------------------
+        <p class='small'><br><br>------------------------------------------------------------------------------------------------------------------
             <br><img src="<{$modPathIcon16}>/error.png" alt=""/><{$smarty.const._AM_MODULEBUILDER_CHECKPREBUILD_ERROR_DESC}><br><img src="<{$modPathIcon16}>/warning.png" alt=""/><{$smarty.const._AM_MODULEBUILDER_CHECKPREBUILD_WARNING_DESC}><br>
         </p>
     <{/if}>

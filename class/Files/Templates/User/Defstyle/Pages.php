@@ -179,10 +179,10 @@ class Pages extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    private function getTemplatesUserPagesForm($t = '')
+    private function getTemplatesUserPagesForm($t = "\t")
     {
         $sc    = Modulebuilder\Files\CreateSmartyCode::getInstance();
-        $var  = $sc->getSmartySingleVar('form', "\t", "\n");
+        $var  = $sc->getSmartySingleVar('form', $t, "\n");
 
         return $sc->getSmartyConditions('form', '', '', $var, false, false, true);
     }
@@ -192,10 +192,10 @@ class Pages extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    private function getTemplatesUserPagesError($t = '')
+    private function getTemplatesUserPagesError($t = "\t")
     {
         $sc    = Modulebuilder\Files\CreateSmartyCode::getInstance();
-        $var  = $sc->getSmartySingleVar('error', "\t", "\n");
+        $var  = $sc->getSmartySingleVar('error', $t, "\n");
 
         return $sc->getSmartyConditions('error', '', '', $var, false, false, true);
     }

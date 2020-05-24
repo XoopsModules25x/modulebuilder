@@ -96,6 +96,9 @@ class UserRss extends Files\CreateFile
         $pc        = Modulebuilder\Files\CreatePhpCode::getInstance();
         $table     = $this->getTable();
         $tableName = $table->getVar('table_name');
+        $fppf      = '';
+        $fpmf      = '';
+        $fieldId   = '';
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName     = $fields[$f]->getVar('field_name');
@@ -210,7 +213,7 @@ EOT;
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MA');
+        //$language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserRss($moduleDirname);
         $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);

@@ -77,7 +77,7 @@ class CssSelectors
         } else {
             $ret .= $content . ';';
         }
-        $ret = '}';
+        $ret .= '}';
 
         return $ret;
     }

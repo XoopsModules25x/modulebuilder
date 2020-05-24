@@ -113,11 +113,15 @@ As you can see, you have created a page with a list of links at the top to navig
         $stuTableSoleName = '';
         $tableSoleName    = '';
         $tableSubmit      = 0;
+        $tableBroken      = 0;
         foreach (array_keys($tables) as $i) {
             $tableName        = $tables[$i]->getVar('table_name');
             $tableSoleName    = $tables[$i]->getVar('table_solename');
             if (1 === (int)$tables[$i]->getVar('table_submit')) {
                 $tableSubmit = 1;
+            }
+            if (1 === (int)$tables[$i]->getVar('table_broken')) {
+                $tableBroken = 1;
             }
             $stuTableName     = mb_strtoupper($tableName);
             $stuTableSoleName = mb_strtoupper($tableSoleName);
@@ -150,12 +154,15 @@ As you can see, you have created a page with a list of links at the top to navig
         $ret .= $this->defines->getDefine($language, 'SUBMIT_RECEIVED', "We have received your {$tableSoleName} info. Thank you !");
         $ret .= $this->defines->getDefine($language, 'SUBMIT_SUBMITONCE', "Submit your {$tableSoleName}/script only once.");
         $ret .= $this->defines->getDefine($language, 'SUBMIT_TAKEDAYS', "This will take many days to see your {$tableSoleName}/script added successfully in our database.");
-        if (1 == $tableSubmit) {
+        if (1 === $tableSubmit) {
             $ret .= $this->defines->getAboveDefines('Form');
             $ret .= $this->defines->getDefine($language, 'FORM_OK', 'Successfully saved');
             $ret .= $this->defines->getDefine($language, 'FORM_DELETE_OK', 'Successfully deleted');
             $ret .= $this->defines->getDefine($language, 'FORM_SURE_DELETE', "Are you sure to delete: <b><span style='color : Red;'>%s </span></b>", true);
             $ret .= $this->defines->getDefine($language, 'FORM_SURE_RENEW', "Are you sure to update: <b><span style='color : Red;'>%s </span></b>", true);
+            if (1 === $tableBroken) {
+                $ret .= $this->defines->getDefine($language, 'FORM_SURE_BROKEN', "Are you sure to notify as broken: <b><span style='color : Red;'>%s </span></b>", true);
+            }
             $ret .= $this->defines->getDefine($language, 'INVALID_PARAM', "Invalid parameter", true);
         }
         return $ret;

@@ -286,7 +286,7 @@ EOT;
         $filename      = $this->getFileName();
         $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $moduleDirname = $module->getVar('mod_dirname');
-        $language = $this->getLanguage($moduleDirname, 'MA');
+        //$language = $this->getLanguage($moduleDirname, 'MA');
         $content  = '';
         foreach (array_keys($tables) as $t) {
             $tableId         = $tables[$t]->getVar('table_id');
@@ -295,7 +295,7 @@ EOT;
             $tableSoleName   = $tables[$t]->getVar('table_solename');
             $tableCategory[] = $tables[$t]->getVar('table_category');
             if (in_array(1, $tableCategory)) {
-                $content .= $this->getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
+                $content .= $this->getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName);
             }
         }
 
