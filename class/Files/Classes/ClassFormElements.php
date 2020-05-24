@@ -632,10 +632,15 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $languageShort = substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
         $t            = "\t\t";
         $ret          = $pc->getPhpCodeCommentLine('Form Select', 'Status ' . $ccFieldName, $t);
+        $ret          .= $xc->getXcHandlerLine('permissions', $t);
         $ret          .= $cxc->getClassXoopsFormSelect($ccFieldName . 'Select', $language, $fieldName, "this->getVar('{$fieldName}')", null, '', false, $t);
         $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', $xc->getXcGetConstants('STATUS_NONE') . ", {$languageShort}STATUS_NONE", $t);
         $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', $xc->getXcGetConstants('STATUS_OFFLINE') . ", {$languageShort}STATUS_OFFLINE", $t);
         $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', $xc->getXcGetConstants('STATUS_SUBMITTED') . ", {$languageShort}STATUS_SUBMITTED", $t);
+
+        $contIf    = $cxc->getClassAddOption($ccFieldName . 'Select', $xc->getXcGetConstants('STATUS_APPROVED') . ", {$languageShort}STATUS_APPROVED", $t . "\t");
+        $ret       .= $pc->getPhpCodeConditions('$permissionsHandler->getPermGlobalApprove()', '', '', $contIf, false, $t);
+
         $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', $xc->getXcGetConstants('STATUS_APPROVED') . ", {$languageShort}STATUS_APPROVED", $t);
         $ret          .= $cxc->getClassAddOption($ccFieldName . 'Select', $xc->getXcGetConstants('STATUS_BROKEN') . ", {$languageShort}STATUS_BROKEN", $t);
         $ret          .= $cxc->getClassAddElement('form', "\${$ccFieldName}Select{$required}", $t);

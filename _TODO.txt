@@ -18,9 +18,7 @@ this file currently is not rating
 
 
 
-
 Permissions:
-check handling for different groups
 implement autoapprove
 
 
