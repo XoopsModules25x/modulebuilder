@@ -1,7 +1,5 @@
 <?php
 
-use XoopsModules\Modulebuilder;
-
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -23,17 +21,21 @@ use XoopsModules\Modulebuilder;
  *
  */
 
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 use Xmf\Request;
 
 $templateMain = 'modulebuilder_building.tpl';
 
 include __DIR__ . '/header.php';
-$op               = Request::getString('op', 'default');
-$mid              = Request::getInt('mod_id');
-$inroot_copy      = Request::getInt('inroot_copy');
-$testdata_restore = Request::getInt('testdata_restore');
-$moduleObj        = $helper->getHandler('Modules')->get($mid);
-$cachePath        = XOOPS_VAR_PATH . '/caches/modulebuilder_cache';
+$op              = Request::getString('op', 'default');
+$mid             = Request::getInt('mod_id');
+$inrootCopy      = Request::getInt('inroot_copy');
+$testdataRestore = Request::getInt('testdata_restore');
+$checkData       = Request::hasVar('check_data');
+$moduleObj       = $helper->getHandler('Modules')->get($mid);
+
+$cachePath       = XOOPS_VAR_PATH . '/caches/modulebuilder_cache_';
 if (!is_dir($cachePath)) {
     if (!mkdir($cachePath, 0777) && !is_dir($cachePath)) {
         throw new \RuntimeException(sprintf('Directory "%s" was not created', $cachePath));
@@ -47,16 +49,40 @@ if (file_exists($cache = $cachePath . '/classpaths.cache')) {
 if (!file_exists($indexFile = $cachePath . '/index.html')) {
     copy('index.html', $indexFile);
 }
+
+if ($checkData > 0) {
+    $op = 'check_data';
+}
 // Switch option
 switch ($op) {
+    case 'check_data':
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
+        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
+        $checkdata    = Modulebuilder\Files\CheckData::getInstance();
+
+        // check data for inconsistences
+        $checkResults = [];
+        $checkResults = $checkdata->getCheckPreBuilding($moduleObj);
+
+        if (count($checkResults) > 0) {
+            //$GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
+            $GLOBALS['xoopsTpl']->assign('checkResults', $checkResults);
+        } else {
+            $GLOBALS['xoopsTpl']->assign('checkResultsNice', true);
+        }
+
+        break;
     case 'build':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
         $building     = Modulebuilder\Building::getInstance();
         $structure    = Modulebuilder\Files\CreateStructure::getInstance();
         $architecture = Modulebuilder\Files\CreateArchitecture::getInstance();
+        $checkdata    = Modulebuilder\Files\CheckData::getInstance();
         // Get var module dirname
         $moduleDirname = $moduleObj->getVar('mod_dirname');
-        if (1 === $testdata_restore) {
+
+        //save test data of selected module before building new version
+        if (1 === $testdataRestore) {
             // Directories for copy from
             $fromDir   = XOOPS_ROOT_PATH . '/modules/' . mb_strtolower($moduleDirname) . '/testdata';
             if (is_dir($fromDir)) {
@@ -71,7 +97,7 @@ switch ($op) {
                 }
                 $building->copyDir($fromDir, $toDir);
             } else {
-                $testdata_restore = 0;
+                $testdataRestore = 0;
             }
         }
 
@@ -115,7 +141,7 @@ switch ($op) {
 		$building_directory = sprintf(_AM_MODULEBUILDER_BUILDING_DIRECTORY, $moduleDirname);
         
         // Copy this module in root modules
-        if (1 === $inroot_copy) {
+        if (1 === $inrootCopy) {
             if (isset($moduleDirname)) {
                 // Clear this module if it's in root/modules
                 // Warning: If you have an older operating module with the same name,
@@ -128,11 +154,16 @@ switch ($op) {
             $building->copyDir($fromDir, $toDir);
 			$building_directory .= sprintf(_AM_MODULEBUILDER_BUILDING_DIRECTORY_INROOT, $toDir);
         }
-        if (1 === $testdata_restore) {
+        if (1 === $testdataRestore) {
             // Directories for copy from to
             $fromDir = TDMC_UPLOAD_TEMP_PATH . '/' . mb_strtolower($moduleDirname) . '/testdata';
             $toDir   = XOOPS_ROOT_PATH . '/modules/' . mb_strtolower($moduleDirname) . '/testdata';
-            $building->copyDir($fromDir, $toDir);
+            if (is_dir($toDir)) {
+                $building->clearDir($toDir);
+            }
+            if (is_dir($fromDir)) {
+                $building->copyDir($fromDir, $toDir);
+            }
         }
 
         $GLOBALS['xoopsTpl']->assign('building_directory', $building_directory);

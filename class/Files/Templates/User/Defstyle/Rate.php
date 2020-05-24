@@ -106,11 +106,10 @@ EOT;
      * @private function getTemplatesUserRateBody
      * @param string $moduleDirname
      * @param string $table
-     * @param string $language
      *
      * @return string
      */
-    private function getTemplatesUserRateBody($moduleDirname, $table, $language)
+    private function getTemplatesUserRateBody($moduleDirname, $table)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -162,11 +161,10 @@ EOT;
      * @private function getTemplatesUserRateBodyFieldnameEmpty
      * @param string $moduleDirname
      * @param string $table
-     * @param string $language
      *
      * @return string
      */
-    private function getTemplatesUserRateBodyFieldnameEmpty($moduleDirname, $table, $language)
+    private function getTemplatesUserRateBodyFieldnameEmpty($moduleDirname, $table)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -239,9 +237,9 @@ EOT;
         $content        = $this->getTemplatesUserRateHeader($moduleDirname, $table, $language);
         // Verify if table_fieldname is not empty
         if (!empty($tableFieldname)) {
-            $content .= $this->getTemplatesUserRateBody($moduleDirname, $table, $language);
+            $content .= $this->getTemplatesUserRateBody($moduleDirname, $table);
         } else {
-            $content .= $this->getTemplatesUserRateBodyFieldnameEmpty($moduleDirname, $table, $language);
+            $content .= $this->getTemplatesUserRateBodyFieldnameEmpty($moduleDirname, $table);
         }
         $content .= $this->getTemplatesUserRateFooter($moduleDirname);
 

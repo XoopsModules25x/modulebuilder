@@ -475,16 +475,16 @@ class CreateFile extends CreateTableFields
         $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
         $name             = $module->getVar('mod_name');
         $dirname          = $module->getVar('mod_dirname');
-        $version          = $module->getVar('mod_version');
+        //$version          = $module->getVar('mod_version');
         $since            = $module->getVar('mod_since');
         $minXoops         = $module->getVar('mod_min_xoops');
         $author           = $module->getVar('mod_author');
-        $credits          = $module->getVar('mod_credits');
+        //$credits          = $module->getVar('mod_credits');
         $authorMail       = $module->getVar('mod_author_mail');
         $authorWebsiteUrl = $module->getVar('mod_author_website_url');
         $license          = $module->getVar('mod_license');
-        $subversion       = $module->getVar('mod_subversion');
-        $date             = date('D Y-m-d H:i:s');
+        //$subversion       = $module->getVar('mod_subversion');
+        //$date             = date('D Y-m-d H:i:s');
         if (null === $noPhpFile) {
             $ret = "<?php";
         } elseif (is_string($noPhpFile)) {
@@ -539,7 +539,7 @@ class CreateFile extends CreateTableFields
                     if (!$this->xf->write($this->getContent(), $mode, true)) {
                         $ret .= sprintf($notCreated, $fileName, $folderName);
                         $GLOBALS['xoopsTpl']->assign('created', false);
-                        exit();
+                        return $ret;
                     }
                     // Created
                     $ret .= sprintf($created, $fileName, $folderName);

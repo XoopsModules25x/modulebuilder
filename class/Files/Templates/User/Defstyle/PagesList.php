@@ -171,39 +171,6 @@ class PagesList extends Files\CreateFile
     }
 
     /**
-     * @private function getTemplatesUserPagesListPanel
-     * @param string $moduleDirname
-     * @param        $tableName
-     * @param        $tableSoleName
-     * @param $fieldElement
-     * @param $fieldName
-     * @param $rpFieldName
-     * @return string
-     */
-    private function getElement($moduleDirname, $tableName, $tableSoleName, $fieldElement, $fieldName, $rpFieldName)
-    {
-        $hc      = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc      = Modulebuilder\Files\CreateSmartyCode::getInstance();
-
-        switch ($fieldElement) {
-            default:
-                $ret   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-            case 10:
-                $singleVar   = $sc->getSmartySingleVar('xoops_icons32_url');
-                $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                $ret         = $hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
-                break;
-            case 13:
-                $singleVar   = $sc->getSmartySingleVar($moduleDirname . '_upload_url');
-                $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                $ret         = $hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
-                break;
-        }
-
-        return $ret;
-    }
-
-    /**
      * @public function render
      * @param null
      * @return bool|string

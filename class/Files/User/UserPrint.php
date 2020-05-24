@@ -103,6 +103,7 @@ class UserPrint extends Files\CreateFile
         $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldId          = '';
         $fieldMain        = '';
+        $fieldName        = '';
         $ucfFieldName     = '';
         foreach (array_keys($fields) as $f) {
             $fieldName   = $fields[$f]->getVar('field_name');

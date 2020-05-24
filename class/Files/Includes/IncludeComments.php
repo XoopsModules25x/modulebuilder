@@ -78,10 +78,10 @@ class IncludeComments extends Files\CreateFile
         $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module);
-        $content       .= $pc->getPhpCodeIncludeDir("__DIR__ . '/../../../mainfile.php'",'',true, true);
+        $content       .= $pc->getPhpCodeIncludeDir("dirname(dirname(__DIR__)) . '/mainfile.php'",'',true, true);
         $content       .= $pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/include/{$filename}.php'",'',true, true);
 
-        $this->create($moduleDirname, 'include', $filename . '.php', $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '', $filename . '.php', $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -248,7 +248,7 @@ class UserPages extends Files\CreateFile
                 $not2If        .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \$new{$ucfFieldId}, '{$tableSoleName}_modify', \$tags);", $t . "\t\t");
                 $not2Else      = $pc->getPhpCodeCommentLine('Event new notification', null, $t . "\t\t");
                 $not2Else      .= $this->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_new', \$tags);", $t . "\t\t");
-                $not2Else      .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \$new{$ucfFieldId}, '{$tableSoleName}_new', \$tags);", $t . "\t\t");
+                //$not2Else      .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \$new{$ucfFieldId}, '{$tableSoleName}_new', \$tags);", $t . "\t\t");
                 $not1Else      = $pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $not2If, $not2Else, $t . "\t");
                 $contentInsert .= $not1Else;
             } else {
@@ -260,9 +260,8 @@ class UserPages extends Files\CreateFile
                 $not2If        .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \$new{$ucfFieldId}, '{$tableSoleName}_modify', \$tags);", $t . "\t\t\t");
                 $not2Else      = $pc->getPhpCodeCommentLine('Event new notification', null, $t . "\t\t\t");
                 $not2Else      .= $this->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_new', \$tags);", $t . "\t\t\t");
-                $not2Else      .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \$new{$ucfFieldId}, '{$tableSoleName}_new', \$tags);", $t . "\t\t\t");
                 $not1Else      = $pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $not2If, $not2Else, $t . "\t\t");
-                $contentInsert .= $pc->getPhpCodeConditions("\${$ccFieldStatus}", ' == ', $xc->getXcGetConstants('STATUS_APPROVED'), $not1If, $not1Else, $t . "\t");
+                $contentInsert .= $pc->getPhpCodeConditions("\${$ccFieldStatus}", ' == ', $xc->getXcGetConstants('STATUS_SUBMITTED'), $not1If, $not1Else, $t . "\t");
             }
         }
 
@@ -382,13 +381,13 @@ class UserPages extends Files\CreateFile
     /**
      * @private function getUserPagesBroken
      * @param        $language
-     * @param $moduleDirname
+     * @param        $moduleDirname
      * @param        $tableName
-     * @param $tableSoleName
+     * @param        $tableSoleName
      * @param        $fieldId
-     * @param $fieldSatus
+     * @param $fieldStatus
      * @param        $fieldMain
-     * @param $tableNotifications
+     * @param        $tableNotifications
      * @param string $t
      * @return string
      */
@@ -397,34 +396,43 @@ class UserPages extends Files\CreateFile
         $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
         $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
-        //$stuFieldMain     = mb_strtoupper($fieldMain);
-        //$stuTableSoleName = mb_strtoupper($tableSoleName);
-        $ccFieldId        = $this->getCamelCase($fieldId, false, true);
-        $ccFieldMain      = $this->getCamelCase($fieldMain, false, true);
+        $ccFieldId   = $this->getCamelCase($fieldId, false, true);
+        $ccFieldMain = $this->getCamelCase($fieldMain, false, true);
 
-        $ret        = $pc->getPhpCodeCommentLine('Check params', '', $t);
-        $contIf     = $xc->getXcRedirectHeader($tableName, '?op=list', 3, "{$language}INVALID_PARAM", true, $t . "\t");
-        $ret        .= $pc->getPhpCodeConditions("\${$ccFieldId}", ' == ', '0', $contIf, false, $t);
-        $ret        .= $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
-		$constant   = $xc->getXcGetConstants('STATUS_BROKEN');
-        $ret        .= $xc->getXcSetVarObj($tableName, $fieldStatus, $constant, $t);
-        $ret        .= $xc->getXcGetVar($ccFieldMain, "{$tableName}Obj", $fieldMain, false, $t);
-        $ret        .= $pc->getPhpCodeCommentLine('Insert Data', null, $t);
-        $insert     = $xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
+        $ret    = $pc->getPhpCodeCommentLine('Check params', '', $t);
+        $contIf = $xc->getXcRedirectHeader($tableName, '?op=list', 3, "{$language}INVALID_PARAM", true, $t . "\t");
+        $ret    .= $pc->getPhpCodeConditions("\${$ccFieldId}", ' == ', '0', $contIf, false, $t);
+
+        $ret                  .= $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', '', $t);
+        $ret                  .= $xc->getXcGetVar($ccFieldMain, "{$tableName}Obj", $fieldMain, false, $t);
+        $reqOk                = "_REQUEST['ok']";
+        $isset                = $pc->getPhpCodeIsset($reqOk);
+        $xoopsSecurityCheck   = $xc->getXcXoopsSecurityCheck();
+        $xoopsSecurityErrors  = $xc->getXcXoopsSecurityErrors();
+        $implode              = $pc->getPhpCodeImplode(', ', $xoopsSecurityErrors);
+        $redirectHeaderErrors = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t\t");
+        $insert               = $xc->getXcHandlerInsert($tableName, $tableName, 'Obj', 'Handler');
+        $condition            = $pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectHeaderErrors, false, $t . "\t");
+        $constant             = $xc->getXcGetConstants('STATUS_BROKEN');
+        $condition            .= $xc->getXcSetVarObj($tableName, $fieldStatus, $constant, $t . "\t");
+
         $contInsert = '';
         if (1 == $tableNotifications) {
-            $contInsert .= $pc->getPhpCodeCommentLine('Event broken notification', null, $t . "\t");
-            $contInsert .= $pc->getPhpCodeArray('tags', [], false, $t . "\t");
-            $contInsert .= $xc->getXcEqualsOperator("\$tags['ITEM_NAME']", "\${$ccFieldMain}", '', $t . "\t");
+            $contInsert .= $pc->getPhpCodeCommentLine('Event broken notification', null, $t . "\t\t");
+            $contInsert .= $pc->getPhpCodeArray('tags', [], false, $t . "\t\t");
+            $contInsert .= $xc->getXcEqualsOperator("\$tags['ITEM_NAME']", "\${$ccFieldMain}", '', $t . "\t\t");
             $url = "XOOPS_URL . '/modules/{$moduleDirname}/{$tableName}.php?op=show&{$fieldId}=' . \${$ccFieldId}";
-            $contInsert .= $xc->getXcEqualsOperator("\$tags['ITEM_URL'] ", $url, '', $t . "\t");
-            $contInsert .= $xc->getXcXoopsHandler('notification', $t . "\t");
-            $contInsert .= $this->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_broken', \$tags);", $t . "\t");
-            $contInsert .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \${$ccFieldId}, '{$tableSoleName}_broken', \$tags);", $t . "\t");
+            $contInsert .= $xc->getXcEqualsOperator("\$tags['ITEM_URL'] ", $url, '', $t . "\t\t");
+            $contInsert .= $xc->getXcXoopsHandler('notification', $t . "\t\t");
+            $contInsert .= $this->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_broken', \$tags);", $t . "\t\t");
+            $contInsert .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \${$ccFieldId}, '{$tableSoleName}_broken', \$tags);", $t . "\t\t");
         }
-        $contInsert .= $pc->getPhpCodeCommentLine('redirect after success', null, $t . "\t");
-        $contInsert .= $xc->getXcRedirectHeader($tableName, '', '2', "{$language}FORM_OK", true, $t . "\t");
-        $ret        .= $pc->getPhpCodeConditions($insert, '', '', $contInsert, false, $t);
+        $contInsert   .= $xc->getXcRedirectHeader($tableName, '', '3', "{$language}FORM_OK", true, $t . "\t\t");
+        $htmlErrors   = $xc->getXcHtmlErrors($tableName, true);
+        $internalElse = $xc->getXcXoopsTplAssign('error', $htmlErrors, true, $t . "\t\t");
+        $condition    .= $pc->getPhpCodeConditions($insert, '', '', $contInsert, $internalElse, $t . "\t");
+        $mainElse     = $xc->getXcXoopsConfirm($tableName, $language, $fieldId, $fieldMain, 'broken', $t . "\t");
+        $ret          .= $pc->getPhpCodeConditions($isset, ' && ', "1 == \${$reqOk}", $condition, $mainElse, $t);
 
         return $ret;
     }
@@ -433,31 +441,39 @@ class UserPages extends Files\CreateFile
      * @private function getUserPagesFooter
      * @param $moduleDirname
      * @param $tableName
+     * @param $tableComments
      * @param $language
      *
      * @return string
      */
-    private function getUserPagesFooter($moduleDirname, $tableName, $language)
+    private function getUserPagesFooter($moduleDirname, $tableName, $tableComments, $language)
     {
-        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $uxc = UserXoopsCode::getInstance();
 
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $stuTableName     = mb_strtoupper($tableName);
-        $ret              = $pc->getPhpCodeBlankLine();
-        $ret              .= $pc->getPhpCodeCommentLine('Breadcrumbs');
-        $ret              .= $uxc->getUserBreadcrumbs($language, $stuTableName);
-        $ret              .= $pc->getPhpCodeBlankLine();
-        $ret              .= $pc->getPhpCodeCommentLine('Keywords');
-        $ret              .= $uxc->getUserMetaKeywords($moduleDirname);
-        $ret              .= $pc->getPhpCodeUnset('keywords');
-        $ret              .= $pc->getPhpCodeBlankLine();
-        $ret              .= $pc->getPhpCodeCommentLine('Description');
-        $ret              .= $uxc->getUserMetaDesc($moduleDirname, $language, $stuTableName);
-        $ret              .= $xc->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/{$tableName}.php'");
-        $ret              .= $xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
-        $ret              .= $this->getInclude('footer');
+
+        $ret = $pc->getPhpCodeBlankLine();
+        $ret .= $pc->getPhpCodeCommentLine('Breadcrumbs');
+        $ret .= $uxc->getUserBreadcrumbs($language, $stuTableName);
+        $ret .= $pc->getPhpCodeBlankLine();
+        $ret .= $pc->getPhpCodeCommentLine('Keywords');
+        $ret .= $uxc->getUserMetaKeywords($moduleDirname);
+        $ret .= $pc->getPhpCodeUnset('keywords');
+        $ret .= $pc->getPhpCodeBlankLine();
+        $ret .= $pc->getPhpCodeCommentLine('Description');
+        $ret .= $uxc->getUserMetaDesc($moduleDirname, $language, $stuTableName);
+        $ret .= $xc->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/{$tableName}.php'");
+        $ret .= $xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        if (1 == $tableComments) {
+            $ret .= $pc->getPhpCodeBlankLine();
+            $ret .= $pc->getPhpCodeCommentLine('View comments');
+            $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'include/comment_view', true, false, 'require');
+        }
+        $ret .= $pc->getPhpCodeBlankLine();
+        $ret .= $this->getInclude('footer');
 
         return $ret;
     }
@@ -474,7 +490,7 @@ class UserPages extends Files\CreateFile
      * @param $tableBroken
      * @param $fieldId
      * @param $fieldMain
-     * @param $fieldSatus
+     * @param $fieldStatus
      * @param $tableNotifications
      * @param $language
      * @param $t
@@ -517,6 +533,7 @@ class UserPages extends Files\CreateFile
         $tableSoleName      = $table->getVar('table_solename');
         $tableBroken        = $table->getVar('table_broken');
         $tableNotifications = $table->getVar('table_notifications');
+        $tableComments      = $table->getVar('table_comments');
         $filename           = $this->getFileName();
         $moduleDirname      = $module->getVar('mod_dirname');
         $language           = $this->getLanguage($moduleDirname, 'MA');
@@ -540,7 +557,7 @@ class UserPages extends Files\CreateFile
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserPagesHeader($moduleDirname, $tableName, $fieldId);
         $content       .= $this->getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $language, "\t");
-        $content       .= $this->getUserPagesFooter($moduleDirname, $tableName, $language);
+        $content       .= $this->getUserPagesFooter($moduleDirname, $tableName, $tableComments, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 

@@ -717,7 +717,8 @@ class CreateXoopsCode
      */
     public function getXcHandlerLine($tableName, $t = '')
     {
-        return "{$t}\${$tableName}Handler = \$helper->getHandler('{$tableName}');\n";
+        $ucfTableName = ucfirst($tableName);
+        return "{$t}\${$tableName}Handler = \$helper->getHandler('{$ucfTableName}');\n";
     }
 
     /**
@@ -1020,7 +1021,7 @@ class CreateXoopsCode
         $stuOptions = mb_strtoupper($options);
         $ccFieldId  = Modulebuilder\Files\CreateFile::getInstance()->getCamelCase($fieldId, false, true);
         $pc         = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $array      = "array('ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'op' => '{$options}')";
+        $array      = "['ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'op' => '{$options}']";
         $server     = $pc->getPhpCodeGlobalsVariables('REQUEST_URI', 'SERVER');
         $getVar     = $this->getXcGetVar('', $tableName . 'Obj', $fieldMain, true, '');
         $sprintf    = $pc->getPhpCodeSprintf($language . 'FORM_SURE_' . $stuOptions, $getVar);
@@ -1770,7 +1771,6 @@ class CreateXoopsCode
         $cf = Modulebuilder\Files\CreateFile::getInstance();
 
         $ccFieldId    = $cf->getCamelCase($fieldId, false, true);
-        $stuFieldMain = mb_strtoupper($fieldMain);
         $ccFieldMain  = $cf->getCamelCase($fieldMain, false, true);
 
         $ret                  = $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', '', $t);
@@ -1787,7 +1787,7 @@ class CreateXoopsCode
         if (!$admin && 1 == $tableNotifications) {
             $contInsert .= $pc->getPhpCodeCommentLine('Event delete notification', null, $t . "\t\t");
             $contInsert .= $pc->getPhpCodeArray('tags', [], false, $t . "\t\t");
-            $contInsert .= $xc->getXcEqualsOperator("\$tags['{$stuFieldMain}']", "\${$ccFieldMain}", '', $t . "\t\t");
+            $contInsert .= $xc->getXcEqualsOperator("\$tags['ITEM_NAME']", "\${$ccFieldMain}", '', $t . "\t\t");
             $contInsert .= $xc->getXcXoopsHandler('notification', $t . "\t\t");
             $contInsert .= $cf->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_delete', \$tags);", $t . "\t\t");
             $contInsert .= $cf->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \${$ccFieldId}, '{$tableSoleName}_delete', \$tags);", $t . "\t\t");

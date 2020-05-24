@@ -134,6 +134,7 @@ class IncludeFunctions extends Files\CreateFile
     private function getFunctionNumbersOfEntries($moduleDirname, $tableMid, $tableId, $tableName)
     {
         $fields = $this->getTableFields($tableMid, $tableId);
+        $fieldId = '';
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {

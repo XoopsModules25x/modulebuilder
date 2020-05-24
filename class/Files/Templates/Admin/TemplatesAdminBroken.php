@@ -111,11 +111,11 @@ class TemplatesAdminBroken extends Files\CreateFile
      * @private  function getTemplatesAdminBrokenTableTBody
      * @param string $tableName
      * @param        $tableSoleName
-     * @param $language
+     * @param $t
      * @return string
      * @internal param string $language
      */
-    private function getTemplatesAdminBrokenTableTBody($tableName, $tableSoleName, $language)
+    private function getTemplatesAdminBrokenTableTBody($tableName, $tableSoleName, $t)
     {
         $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
         $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
@@ -125,39 +125,38 @@ class TemplatesAdminBroken extends Files\CreateFile
         $doubleVal = $sc->getSmartyDoubleVar($tableSoleName, 'keyval');
 
         $double  = $sc->getSmartyDoubleVar($tableSoleName, 'table');
-        $td      .= $hc->getHtmlTableData($double, 'center', '', "\t\t\t\t");
+        $td      .= $hc->getHtmlTableData($double, 'center', '', $t . "\t\t");
         $double  = $sc->getSmartyDoubleVar($tableSoleName, 'main');
-        $td      .= $hc->getHtmlTableData($double, 'center', '', "\t\t\t\t");
+        $td      .= $hc->getHtmlTableData($double, 'center', '', $t . "\t\t");
         $lang    = $sc->getSmartyConst('', '_EDIT');
         $src     = $sc->getSmartyNoSimbol('xoModuleIcons16 edit.png');
         $img     = $hc->getHtmlImage($src, $tableName, '', '', '');
-        $anchor  = $hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$doubleKey}=" . $doubleVal, $img, $lang, '', '', '', "\t\t\t\t\t", "\n");
+        $anchor  = $hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$doubleKey}=" . $doubleVal, $img, $lang, '', '', '', $t . "\t\t\t", "\n");
         $lang    = $sc->getSmartyConst('', '_DELETE');
         $src     = $sc->getSmartyNoSimbol('xoModuleIcons16 delete.png');
         $img     = $hc->getHtmlImage($src, $tableName, '', '', '');
-        $anchor  .= $hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$doubleKey}=" . $doubleVal, $img, $lang, '', '', '', "\t\t\t\t\t", "\n");
-        $td      .= $hc->getHtmlTableData($anchor, 'center width5', '', "\t\t\t\t", "\n", true);
+        $anchor  .= $hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$doubleKey}=" . $doubleVal, $img, $lang, '', '', '', $t . "t\t\t", "\n");
+        $td      .= $hc->getHtmlTableData($anchor, 'center width5', '', $t . "\t\t", "\n", true);
         $cycle   = $sc->getSmartyNoSimbol('cycle values=\'odd, even\'');
-        $tr      = $hc->getHtmlTableRow($td, $cycle, "\t\t\t");
-        $foreach = $sc->getSmartyForeach($tableSoleName, $tableName . '_list', $tr, '','', "\t\t\t");
-        $tbody   = $hc->getHtmlTableTbody($foreach,'' , "\t\t");
+        $tr      = $hc->getHtmlTableRow($td, $cycle, $t . "\t");
+        $foreach = $sc->getSmartyForeach($tableSoleName, $tableName . '_list', $tr, '','', $t . "\t");
+        $tbody   = $hc->getHtmlTableTbody($foreach,'' , $t);
 
         return $tbody;
     }
 
     /**
      * @private function getTemplatesAdminBrokenTable
-     * @param string $moduleDirname
      * @param string $tableName
      * @param        $tableSoleName
      * @param string $language
      * @return string
      */
-    private function getTemplatesAdminBrokenTable($moduleDirname, $tableName, $tableSoleName, $language)
+    private function getTemplatesAdminBrokenTable($tableName, $tableSoleName, $language)
     {
         $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
         $tbody  = $this->getTemplatesAdminBrokenTableThead($language, "\t\t");
-        $tbody  .= $this->getTemplatesAdminBrokenTableTBody($tableName, $tableSoleName, $language, "\t\t");
+        $tbody  .= $this->getTemplatesAdminBrokenTableTBody($tableName, $tableSoleName, "\t\t");
         $ret    = $hc->getHtmlTable($tbody, 'table table-bordered', "\t");
 
         return $ret;
@@ -180,7 +179,7 @@ class TemplatesAdminBroken extends Files\CreateFile
         $ucfTableName  = ucfirst($tableName);
         $double    = $sc->getSmartySingleVar($tableName . '_result');
         $ret       = $hc->getHtmlHNumb($double, 3, '');
-        $htmlTable = $this->getTemplatesAdminBrokenTable($moduleDirname, $tableName, $tableSoleName, $language);
+        $htmlTable = $this->getTemplatesAdminBrokenTable($tableName, $tableSoleName, $language);
         $htmlTable .= $hc->getHtmlDiv('&nbsp;', 'clear', $t, "\n", false);
         $single    = $sc->getSmartySingleVar('pagenav');
         $div       = $hc->getHtmlDiv($single, 'xo-pagenav floatright', $t . "\t", "\n", false);
@@ -194,7 +193,7 @@ class TemplatesAdminBroken extends Files\CreateFile
         $div       .= $hc->getHtmlBr('2', '', $t . "\t");
         $contElse  = $sc->getSmartyConditions('nodata' . $ucfTableName, '', '', $div, false, '', '', $t);
         $ret       .= $sc->getSmartyConditions($tableName . '_count', '', '', $htmlTable, $contElse);
-        $ret       .= $hc->getHtmlEmpty('', '', "\n");
+        $ret       .= $hc->getHtmlBr('3');
 
         return $ret;
     }

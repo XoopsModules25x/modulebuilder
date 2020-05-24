@@ -339,9 +339,6 @@ class CreateArchitecture extends CreateStructure
                 // Creation of notifications files
                 if (1 === (int)$tables[$t]->getVar('table_notifications')) {
                     $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
-                    // Language Mail Template New File
-                    $languageMailTpl->write($module, $table,  $tableSoleName . '_new_notify.tpl');
-                    $ret[] = $languageMailTpl->render();
                     // Language Mail Template Modify File
                     $languageMailTpl->write($module, $table,  $tableSoleName . '_modify_notify.tpl');
                     $ret[] = $languageMailTpl->render();
@@ -351,13 +348,19 @@ class CreateArchitecture extends CreateStructure
                     // Language Mail Template Approve File
                     $languageMailTpl->write($module, $table,  $tableSoleName . '_approve_notify.tpl');
                     $ret[] = $languageMailTpl->render();
-                }
-                // Creation of notifications files
-                if (1 === (int)$tables[$t]->getVar('table_broken')) {
-                    // Language Mail Template Category File
-                    $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
-                    $languageMailTpl->write($module, $table,  $tableSoleName . '_broken_notify.tpl');
-                    $ret[] = $languageMailTpl->render();
+                    if (1 === (int)$tables[$t]->getVar('table_broken')) {
+                        // Language Mail Template Category File
+                        $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
+                        $languageMailTpl->write($module, $table,  $tableSoleName . '_broken_notify.tpl');
+                        $ret[] = $languageMailTpl->render();
+                    }
+                    // Creation of notifications files
+                    if (1 === (int)$tables[$t]->getVar('table_comments')) {
+                        // Language Mail Template Category File
+                        $languageMailTpl = Modulebuilder\Files\Language\LanguageMailTpl::getInstance();
+                        $languageMailTpl->write($module, $table,  $tableSoleName . '_comment_notify.tpl');
+                        $ret[] = $languageMailTpl->render();
+                    }
                 }
             }
         }
@@ -505,6 +508,11 @@ class CreateArchitecture extends CreateStructure
                 $languageMailTpl->write($module, $table, 'global_broken_notify.tpl');
                 $ret[] = $languageMailTpl->render();
             }
+            if (in_array(1, $tableComments)) {
+                // Language Mail Template Broken File
+                $languageMailTpl->write($module, $table, 'global_comment_notify.tpl');
+                $ret[] = $languageMailTpl->render();
+            }
         }
         // Creation of sql file
         if (null != $table->getVar('table_name')) {
@@ -529,8 +537,6 @@ class CreateArchitecture extends CreateStructure
         }
         // Creation of comments files
         if (in_array(1, $tableComments)) {
-            /*
-             * TODO: are this comment files required?
             // Include Comments File
             $includeComments = Modulebuilder\Files\Includes\IncludeComments::getInstance();
             $includeComments->write($module, $table);
@@ -548,11 +554,9 @@ class CreateArchitecture extends CreateStructure
             $includeComments->write($module, $table);
             $ret[] = $includeComments->renderCommentsIncludes($module, 'comment_reply');
             // Include Comments File
-            $includeComments = Modulebuilder\Files\Includes\IncludeComments::getInstance();
-            $includeComments->write($module, $table);
-            $ret[] = $includeComments->renderCommentsNew($module, 'comment_new');
-            */
-
+            //$includeComments = Modulebuilder\Files\Includes\IncludeComments::getInstance();
+            //$includeComments->write($module, $table);
+            //$ret[] = $includeComments->renderCommentsNew($module, 'comment_new');
             // Include Comment Functions File
             $includeCommentFunctions = Modulebuilder\Files\Includes\IncludeCommentFunctions::getInstance();
             $includeCommentFunctions->write($module, $table, 'comment_functions.php');

@@ -176,7 +176,7 @@ EOT;
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module);
-        $content       = $this->getJavascriptJQueryButtons();
+        $content       .= $this->getJavascriptJQueryButtons();
         $content       .= $this->getJavascriptJQueryPrint();
 
         $this->create($moduleDirname, 'assets/js', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);

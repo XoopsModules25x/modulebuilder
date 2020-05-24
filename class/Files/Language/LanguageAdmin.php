@@ -80,7 +80,7 @@ class LanguageAdmin extends Files\CreateFile
     /**
      * @public function getLanguageAdminIndex
      * @param string $language
-     * @param string $tables
+     * @param array $tables
      * @return string
      */
     public function getLanguageAdminIndex($language, $tables)
@@ -105,7 +105,7 @@ class LanguageAdmin extends Files\CreateFile
     /**
      * @public function getLanguageAdminPages
      * @param string $language
-     * @param string $tables
+     * @param array $tables
      * @return string
      */
     public function getLanguageAdminPages($language, $tables)
@@ -146,7 +146,7 @@ class LanguageAdmin extends Files\CreateFile
     /**
      * @public function getLanguageAdminClass
      * @param string $language
-     * @param string $tables
+     * @param array $tables
      * @return string
      */
     public function getLanguageAdminClass($language, $tables)
@@ -154,6 +154,7 @@ class LanguageAdmin extends Files\CreateFile
         $ret = $this->defines->getAboveHeadDefines('Admin Classes');
         $fieldStatus          = 0;
         $fieldSampleListValue = 0;
+        $tableBroken          = 0;
         foreach (array_keys($tables) as $t) {
             $tableId          = $tables[$t]->getVar('table_id');
             $tableMid         = $tables[$t]->getVar('table_mid');
