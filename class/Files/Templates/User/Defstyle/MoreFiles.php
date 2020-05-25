@@ -61,7 +61,7 @@ class Morefiles extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param string $filename
      * @param        $folder
      * @param        $extension

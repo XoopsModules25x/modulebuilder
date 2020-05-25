@@ -371,16 +371,6 @@ class LanguageMailTpl extends Files\CreateFile
         $table         = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
         $tableSoleName = $table->getVar('table_solename');
-        //$stuTableSoleName = mb_strtoupper($tableSoleName);
-        $fieldMain  = '';
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
-            if (1 == $fields[$f]->getVar('field_main')) {
-                $fieldMain = $fieldName; // fieldMain = fields parameters main field
-            }
-        }
-        //$stuFieldMain = mb_strtoupper($fieldMain);
 
         $line = '------------------------------------------------------------------';
         $content = '';

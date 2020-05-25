@@ -1247,7 +1247,6 @@ class UserXoopsVersion extends Files\CreateFile
         $content       .= $this->getXoopsVersionMySQL($moduleDirname, $table, $tables);
         $tableSearch        = [];
         $tableComments      = [];
-        $tableComment       = null;
         $tableSubmenu       = [];
         $tableBlocks        = [];
         $tableNotifications = [];

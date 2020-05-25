@@ -57,8 +57,8 @@ class PagesList extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
-     * @param string $table
+     * @param        $module
+     * @param        $table
      * @param string $filename
      * @param        $tables
      */

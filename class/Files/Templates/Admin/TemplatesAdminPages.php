@@ -57,9 +57,9 @@ class TemplatesAdminPages extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
-     * @param string $table
-     * @param        $filename
+     * @param        $module
+     * @param        $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -219,7 +219,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @param string $tableName
      * @param        $tableSoleName
      * @param        $tableAutoincrement
-     * @param string $fields
+     * @param        $fields
      * @param string $language
      * @return string
      */
@@ -238,7 +238,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @param string $tableName
      * @param        $tableSoleName
      * @param        $tableAutoincrement
-     * @param string $fields
+     * @param        $fields
      * @param string $language
      * @return string
      */

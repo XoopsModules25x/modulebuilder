@@ -1773,7 +1773,7 @@ class CreateXoopsCode
         $ccFieldId    = $cf->getCamelCase($fieldId, false, true);
         $ccFieldMain  = $cf->getCamelCase($fieldMain, false, true);
 
-        $ret                  = $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', '', $t);
+        $ret                  = $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
         $ret                  .= $xc->getXcGetVar($ccFieldMain, "{$tableName}Obj", $fieldMain, false, $t);
         $reqOk                = "_REQUEST['ok']";
         $isset                = $pc->getPhpCodeIsset($reqOk);
