@@ -1214,7 +1214,7 @@
     field_null: '2'
     field_default: ''
     field_key: '1'
-    field_element: '24'
+    field_element: '1'
     field_parent: '0'
     field_admin: '1'
     field_inlist: '1'
@@ -1326,7 +1326,7 @@
     field_null: '2'
     field_default: '0'
     field_key: '1'
-    field_element: '16'
+    field_element: '6'
     field_parent: '0'
     field_admin: '1'
     field_inlist: '1'
@@ -2070,4 +2070,3 @@
     field_main: '0'
     field_search: '0'
     field_required: '0'
-    

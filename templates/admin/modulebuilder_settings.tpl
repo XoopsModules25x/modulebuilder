@@ -11,7 +11,7 @@
                 <th class='center'><{$smarty.const._AM_MODULEBUILDER_SETTING_IMAGE}></th>
                 <th class='center'><{$smarty.const._AM_MODULEBUILDER_SETTING_RELEASE}></th>
                 <th class='center'><{$smarty.const._AM_MODULEBUILDER_SETTING_STATUS}></th>
-                <th class='center'><{$smarty.const._AM_MODULEBUILDER_SETTING_CHOISE}></th>
+                <th class='center'><{$smarty.const._AM_MODULEBUILDER_SETTING_TYPE}></th>
                 <th class='center width5'><{$smarty.const._AM_MODULEBUILDER_FORM_ACTION}></th>
             </tr>
             <{foreach item=set from=$settings_list key=set_id}>
@@ -22,12 +22,22 @@
                     <td class='center'><img src="<{$tdmc_upload_imgmod_url}>/<{$set.image}>" height="35"/></td>
                     <td class='center'><{$set.release}></td>
                     <td class='center'><{$set.status}></td>
-                    <td class='center'><input class="rSetting" type='radio' id='set_id<{$set.id}>' name='rNumber' value='<{$set.id}>'/>
-                        <img id="loading_img_type<{$set.id}>" src="<{$modPathIcon16}>/spinner.gif" style="display:none;" title="<{$smarty.const._AM_SYSTEM_LOADING}>" alt="<{$smarty.const._AM_SYSTEM_LOADING}>"/><img style="cursor:pointer;" class="tooltip" id="img_type<{$set.id}>"
-                                                                                                                                                                                                                       onclick="modulebuilder_setStatus( { op: 'display', set_id: <{$set.id}>, set_type: <{if $set.type}>0<{else}>1<{/if}> }, 'img_type<{$set.id}>', 'settings.php' )"
-                                                                                                                                                                                                                       src="<{xoModuleIcons16}><{$set.type}>.png"
-                                                                                                                                                                                                                       alt="<{$smarty.const._AM_MODULEBUILDER_CHANGE_DISPLAY}>&nbsp;<{$set.name}>"
-                                                                                                                                                                                                                       title="<{$smarty.const._AM_MODULEBUILDER_CHANGE_DISPLAY}>&nbsp;<{$set.name}>"/></td>
+                    <td class='center'>
+                        <{if $set.type == 1}>
+                            <img style="cursor:pointer;" class="tooltip" id="img_type<{$set.id}>"
+                                src="<{xoModuleIcons16}><{$set.type}>.png"
+                                alt="<{$smarty.const._AM_MODULEBUILDER_CHANGE_DISPLAY}>&nbsp;<{$set.name}>"
+                                title="<{$smarty.const._AM_MODULEBUILDER_CHANGE_DISPLAY}>&nbsp;<{$set.name}>"/>
+                        <{else}>
+                            <a href="settings.php?op=display&amp;set_id=<{$set.id}>&amp;set_type=<{if $set.type}>0<{else}>1<{/if}>" title="<{$smarty.const._AM_MODULEBUILDER_CHANGE_DISPLAY}>">
+                                <img style="cursor:pointer;" class="tooltip" id="img_type<{$set.id}>"
+                                    src="<{xoModuleIcons16}><{$set.type}>.png"
+                                    alt="<{$smarty.const._AM_MODULEBUILDER_CHANGE_DISPLAY}>&nbsp;<{$set.name}>"
+                                    title="<{$smarty.const._AM_MODULEBUILDER_CHANGE_DISPLAY}>&nbsp;<{$set.name}>"/></a>
+                        <{/if}>
+
+
+                    </td>
                     <td class='xo-actions txtcenter width5'>
                         <a href="settings.php?op=edit&amp;set_id=<{$set.id}>" title="<{$smarty.const._EDIT}>">
                             <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._EDIT}>"/>

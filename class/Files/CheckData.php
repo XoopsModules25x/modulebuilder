@@ -88,7 +88,7 @@ class CheckData
                 }
                 // check whether each table with handling "broken" has also a field "status"
                 if ('' == $fieldSatus) {
-                    $info = str_replace('%t', $tableName, _AM_MODULEBUILDER_CHECKPREBUILD_BROKEN1);
+                    $info = str_replace('%t', $tableName, _AM_MODULEBUILDER_BUILDING_CHECK_BROKEN1);
                     $infos[] = ['icon' => 'error', 'info' => $info];
                 }
             }
@@ -108,7 +108,7 @@ class CheckData
                         + (int)$fields[$f]->getVar('field_thead') + (int)$fields[$f]->getVar('field_tbody') + (int)$fields[$f]->getVar('field_tfoot') + (int)$fields[$f]->getVar('field_block')
                         + (int)$fields[$f]->getVar('field_main') + (int)$fields[$f]->getVar('field_search') + (int)$fields[$f]->getVar('field_required');
                     if (0 == $fieldParams) {
-                        $info = str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_CHECKPREBUILD_FIELDS1);
+                        $info = str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS1);
                         $infos[] = ['icon' => 'error', 'info' => $info];
                     }
                 }
@@ -129,7 +129,7 @@ class CheckData
                         $fieldParams = (int)$fields[$f]->getVar('field_ihead') + (int)$fields[$f]->getVar('field_ibody') + (int)$fields[$f]->getVar('field_ifoot')
                             + (int)$fields[$f]->getVar('field_thead') + (int)$fields[$f]->getVar('field_tbody') + (int)$fields[$f]->getVar('field_tfoot');
                         if (0 == $fieldParams) {
-                            $info = str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_CHECKPREBUILD_FIELDS2);
+                            $info = str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS2);
                             $infos[] = ['icon' => 'warning', 'info' => $info];
                         }
                     }
@@ -150,12 +150,12 @@ class CheckData
                     if ($f > 0) {
                         $fieldParams = (int)$fields[$f]->getVar('field_ihead') + (int)$fields[$f]->getVar('field_ibody') + (int)$fields[$f]->getVar('field_ifoot');
                         if ($fieldParams > 1) {
-                            $info = str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_CHECKPREBUILD_FIELDS3);
+                            $info = str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS3);
                             $infos[] = ['icon' => 'warning', 'info' => $info];
                         }
                         $fieldParams = (int)$fields[$f]->getVar('field_thead') + (int)$fields[$f]->getVar('field_tbody') + (int)$fields[$f]->getVar('field_tfoot');
                         if ($fieldParams > 1) {
-                            $info = str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_CHECKPREBUILD_FIELDS3);
+                            $info = str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS3);
                             $infos[] = ['icon' => 'warning', 'info' => $info];
                         }
                     }
@@ -176,7 +176,7 @@ class CheckData
                     }
                 }
                 if (0 == $count) {
-                    $info = str_replace(['%t'], [$tableName], _AM_MODULEBUILDER_CHECKPREBUILD_BLOCK1);
+                    $info = str_replace(['%t'], [$tableName], _AM_MODULEBUILDER_BUILDING_CHECK_BLOCK1);
                     $infos[] = ['icon' => 'warning', 'info' => $info];
                 }
             }
@@ -195,7 +195,7 @@ class CheckData
                     }
                 }
                 if (0 == $count) {
-                    $info = str_replace(['%t'], [$tableName], _AM_MODULEBUILDER_CHECKPREBUILD_BLOCK2);
+                    $info = str_replace(['%t'], [$tableName], _AM_MODULEBUILDER_BUILDING_CHECK_BLOCK2);
                     $infos[] = ['icon' => 'warning', 'info' => $info];
                 }
             }
@@ -211,7 +211,7 @@ class CheckData
         }
         if ($count > 1) {
             $tablesComments = implode(', ', $tableComments);
-            $info = str_replace('%t', $tablesComments, _AM_MODULEBUILDER_CHECKPREBUILD_COMMENTS1);
+            $info = str_replace('%t', $tablesComments, _AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS1);
             $infos[] = ['icon' => 'error', 'info' => $info];
         }
 
@@ -230,7 +230,7 @@ class CheckData
                 }
                 // check whether each table with handling "broken" has also a field "status"
                 if ('' == $fieldComments) {
-                    $info = str_replace(['%f', '%t'], [$tables[$t]->getVar('table_fieldname') . '_comments', $tableName], _AM_MODULEBUILDER_CHECKPREBUILD_COMMENTS2);
+                    $info = str_replace(['%f', '%t'], [$tables[$t]->getVar('table_fieldname') . '_comments', $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS2);
                     $infos[] = ['icon' => 'warning', 'info' => $info];
                 }
             }

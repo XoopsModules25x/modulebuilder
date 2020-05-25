@@ -94,7 +94,7 @@ class Settings extends \XoopsObject
         $this->initVar('set_comments', XOBJ_DTYPE_INT, $helper->getConfig('active_comments'));
         $this->initVar('set_notifications', XOBJ_DTYPE_INT, $helper->getConfig('active_notifications'));
         $this->initVar('set_permissions', XOBJ_DTYPE_INT, $helper->getConfig('active_permissions'));
-        //$this->initVar('set_inroot_copy', XOBJ_DTYPE_INT, $helper->getConfig('inroot_copy'));
+        $this->initVar('set_inroot_copy', XOBJ_DTYPE_INT, $helper->getConfig('inroot_copy'));
         $this->initVar('set_donations', XOBJ_DTYPE_TXTBOX, $helper->getConfig('donations'));
         $this->initVar('set_subversion', XOBJ_DTYPE_TXTBOX, $helper->getConfig('subversion'));
         $this->initVar('set_type', XOBJ_DTYPE_TXTBOX);
@@ -216,11 +216,14 @@ class Settings extends \XoopsObject
         $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_SUPPORT_NAME, 'set_support_name', 50, 255, $this->getVar('set_support_name')));
         $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_WEBSITE_URL, 'set_website_url', 50, 255, $this->getVar('set_website_url')));
         $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_WEBSITE_NAME, 'set_website_name', 50, 255, $this->getVar('set_website_name')));
-        // Form Text Date Select
         $form->addElement(new \XoopsFormTextDateSelect(_AM_MODULEBUILDER_SETTING_RELEASE, 'set_release', '', $this->getVar('set_release')));
         $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_STATUS, 'set_status', 50, 255, $this->getVar('set_status')));
         $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_PAYPAL_BUTTON, 'set_donations', 50, 255, $this->getVar('set_donations')));
         $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_SUBVERSION, 'set_subversion', 50, 255, $this->getVar('set_subversion')));
+        $setTypeRadio = new \XoopsFormRadio(_AM_MODULEBUILDER_SETTING_TYPE, 'set_type', $this->getVar('set_type'));
+        $setTypeRadio->addOption(0, _AM_MODULEBUILDER_SETTING_TYPE_INACTIVE);
+        $setTypeRadio->addOption(1, _AM_MODULEBUILDER_SETTING_TYPE_ACTIVE);
+        $form->addElement($setTypeRadio);
 
         $buttonTray = new \XoopsFormElementTray(_REQUIRED . ' <sup class="red bold">*</sup>', '');
         $buttonTray->addElement(new \XoopsFormHidden('op', 'save'));

@@ -138,7 +138,7 @@ class Modules extends \XoopsObject
             $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
         $set      = [];
-        $settings = $helper->getHandler('Settings')->getAllSettings(0, 0, 'set_type');
+        $settings = $helper->getHandler('Settings')->getActiveSetting();
         foreach ($settings as $setting) {
             $set['name']                = $setting->getVar('set_name');
             $set['dirname']             = $setting->getVar('set_dirname');
@@ -158,7 +158,7 @@ class Modules extends \XoopsObject
             $set['comments']            = $setting->getVar('set_comments');
             $set['notifications']       = $setting->getVar('set_notifications');
             $set['permissions']         = $setting->getVar('set_permissions');
-            //$set['inroot']              = $setting->getVar('set_inroot_copy');
+            $set['inroot']              = $setting->getVar('set_inroot_copy');
             $set['image']               = $setting->getVar('set_image');
             $set['author_mail']         = $setting->getVar('set_author_mail');
             $set['author_website_url']  = $setting->getVar('set_author_website_url');

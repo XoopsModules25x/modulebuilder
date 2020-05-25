@@ -44,19 +44,19 @@
     <br/>
 <{else}>
     <{if $checkResults}>
-        <h3 class="red"><{$smarty.const._AM_MODULEBUILDER_CHECKPREBUILD}></h3>
-        <p><{$smarty.const._AM_MODULEBUILDER_CHECKPREBUILD_FOUND}></p>
+        <h3 class="red"><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_RESULT}></h3>
+        <p><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_FOUND}></p>
         <{foreach item=check from=$checkResults}>
             <p><img src="<{$modPathIcon16}>/<{$check.icon}>.png" alt=""/><{$check.info}></p>
         <{/foreach}>
-        <p><{$smarty.const._AM_MODULEBUILDER_CHECKPREBUILD_SOLVE}></p>
+        <p><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_SOLVE}></p>
         <p class='small'><br><br>------------------------------------------------------------------------------------------------------------------
-            <br><img src="<{$modPathIcon16}>/error.png" alt=""/><{$smarty.const._AM_MODULEBUILDER_CHECKPREBUILD_ERROR_DESC}><br><img src="<{$modPathIcon16}>/warning.png" alt=""/><{$smarty.const._AM_MODULEBUILDER_CHECKPREBUILD_WARNING_DESC}><br>
+            <br><img src="<{$modPathIcon16}>/error.png" alt=""/><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_ERROR_DESC}><br><img src="<{$modPathIcon16}>/warning.png" alt=""/><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_WARNING_DESC}><br>
         </p>
     <{/if}>
     <{if $checkResultsNice}>
-        <h3 class="red"><{$smarty.const._AM_MODULEBUILDER_CHECKPREBUILD}></h3>
-        <p><img src="<{xoModuleIcons16 on.png}>" alt=""/><{$smarty.const._AM_MODULEBUILDER_CHECKPREBUILD_NOERRORS}></p>
+        <h3 class="red"><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_RESULT}></h3>
+        <p><img src="<{xoModuleIcons16 on.png}>" alt=""/><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_NOERRORS}></p>
     <{/if}>
     <{if $form}>
         <{$form}>

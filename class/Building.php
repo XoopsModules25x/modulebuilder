@@ -70,13 +70,13 @@ class Building
         }
         $form->addElement($mod_select, true);
 
-        $form->addElement(new \XoopsFormRadioYN(_AM_MODULEBUILDER_MODULE_INROOT_COPY, 'inroot_copy', $helper->getConfig('inroot_copy')));
-        $form->addElement(new \XoopsFormRadioYN(_AM_MODULEBUILDER_ADMIN_BUILD_TEST . _AM_MODULEBUILDER_ADMIN_BUILD_TEST_DESC, 'testdata_restore', 0));
+        $form->addElement(new \XoopsFormRadioYN(_AM_MODULEBUILDER_BUILDING_INROOT_COPY, 'inroot_copy', $helper->getConfig('inroot_copy')));
+        $form->addElement(new \XoopsFormRadioYN(_AM_MODULEBUILDER_BUILDING_TEST . _AM_MODULEBUILDER_BUILDING_TEST_DESC, 'testdata_restore', 0));
 
         $form->addElement(new \XoopsFormHidden('op', 'build'));
         $btnTray = new \XoopsFormElementTray(_REQUIRED . ' <sup class="red bold">*</sup>', '&nbsp;');
         $btnTray->addElement(new \XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
-        $btnTray->addElement(new \XoopsFormButton('', 'check_data', _AM_MODULEBUILDER_ADMIN_BUILD_CHECK, 'submit'));
+        $btnTray->addElement(new \XoopsFormButton('', 'check_data', _AM_MODULEBUILDER_BUILDING_CHECK, 'submit'));
         $form->addElement($btnTray);
 
         return $form;

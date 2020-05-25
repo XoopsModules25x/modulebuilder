@@ -6,17 +6,17 @@
         <thead>
         <tr>
             <th class='center cell cell-width1'><{$smarty.const._AM_MODULEBUILDER_MODULE_ID}></th>
-            <th class='center cell cell-width2'><{$smarty.const._AM_MODULEBUILDER_MODULE_NAME_LIST}></th>
-            <th class='center cell cell-width3'><{$smarty.const._AM_MODULEBUILDER_MODULE_IMAGE_LIST}></th>
-            <th class='center cell cell-width4'><{$smarty.const._AM_MODULEBUILDER_MODULE_NBFIELDS_LIST}></th>
-            <th class='center cell cell-width5'><{$smarty.const._AM_MODULEBUILDER_MODULE_ADMIN_LIST}></th>
-            <th class='center cell cell-width6'><{$smarty.const._AM_MODULEBUILDER_MODULE_USER_LIST}></th>
-            <th class='center cell cell-width7'><{$smarty.const._AM_MODULEBUILDER_MODULE_BLOCKS_LIST}></th>
-            <th class='center cell cell-width8'><{$smarty.const._AM_MODULEBUILDER_MODULE_SUBMENU_LIST}></th>
-            <th class='center cell cell-width9'><{$smarty.const._AM_MODULEBUILDER_MODULE_SEARCH_LIST}></th>
-            <th class='center cell cell-width10'><{$smarty.const._AM_MODULEBUILDER_MODULE_COMMENTS_LIST}></th>
-            <th class='center cell cell-width11'><{$smarty.const._AM_MODULEBUILDER_MODULE_NOTIFICATIONS_LIST}></th>
-            <th class='center cell cell-width12'><{$smarty.const._AM_MODULEBUILDER_MODULE_PERMISSIONS_LIST}></th>
+            <th class='center cell cell-width2'><{$smarty.const._AM_MODULEBUILDER_NAME}></th>
+            <th class='center cell cell-width3'><{$smarty.const._AM_MODULEBUILDER_IMAGE}></th>
+            <th class='center cell cell-width4'><{$smarty.const._AM_MODULEBUILDER_FIELDS}></th>
+            <th class='center cell cell-width5'><{$smarty.const._AM_MODULEBUILDER_ADMIN}></th>
+            <th class='center cell cell-width6'><{$smarty.const._AM_MODULEBUILDER_USER}></th>
+            <th class='center cell cell-width7'><{$smarty.const._AM_MODULEBUILDER_BLOCKS}></th>
+            <th class='center cell cell-width8'><{$smarty.const._AM_MODULEBUILDER_SUBMENU}></th>
+            <th class='center cell cell-width9'><{$smarty.const._AM_MODULEBUILDER_SEARCH}></th>
+            <th class='center cell cell-width10'><{$smarty.const._AM_MODULEBUILDER_COMMENTS}></th>
+            <th class='center cell cell-width11'><{$smarty.const._AM_MODULEBUILDER_NOTIFICATIONS}></th>
+            <th class='center cell cell-width12'><{$smarty.const._AM_MODULEBUILDER_PERMISSIONS}></th>
             <th class='center xo-actions cell cell-width13'><{$smarty.const._AM_MODULEBUILDER_FORMACTION}></th>
         </tr>
         </thead>

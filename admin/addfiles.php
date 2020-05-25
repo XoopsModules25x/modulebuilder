@@ -116,7 +116,7 @@ switch ($op) {
         //        $templateMain = 'modulebuilder_addfiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('addfiles.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_MODULE, 'addfiles.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_MODULES_ADD, 'addfiles.php?op=new', 'add');
         $adminObject->addItemButton(_AM_MODULEBUILDER_ADDFILES_LIST, 'addfiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 

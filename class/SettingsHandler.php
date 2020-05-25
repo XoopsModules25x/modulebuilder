@@ -111,6 +111,25 @@ class SettingsHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
+     * Get All Settings.
+     *
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     *
+     * @return array
+     */
+    public function getActiveSetting()
+    {
+        $crActiveSetting = new \CriteriaCompo();
+        $crActiveSetting->add(new \Criteria('set_type', '1'));
+
+        return $this->getAll($crActiveSetting);
+    }
+
+
+    /**
      * Get Settings Criteria.
      *
      * @param $crSettings

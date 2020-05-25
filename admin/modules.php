@@ -38,7 +38,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/modulebuilder/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_MODULE, 'modules.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_MODULES_ADD, 'modules.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
@@ -47,7 +47,7 @@ switch ($op) {
         $modulesAll   = $helper->getHandler('Modules')->getAllModules($start, $limit);
         // Redirect if there aren't modules
         if (0 == $modulesCount) {
-            redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_NOTMODULES);
+            redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_MODULES2);
         }
         // Display modules list
         if ($modulesCount > 0) {
@@ -72,6 +72,10 @@ switch ($op) {
         $adminObject->addItemButton(_AM_MODULEBUILDER_MODULES_LIST, 'modules.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
+        $settings = $helper->getHandler('Settings')->getActiveSetting();
+        if (0 == count($settings)) {
+            redirect_header('settings.php', 5, _AM_MODULEBUILDER_MODULE_NOACTSET);
+        }
         $modulesObj = $helper->getHandler('Modules')->create();
         $form       = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
@@ -166,7 +170,7 @@ switch ($op) {
     case 'edit':
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_MODULE, 'modules.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_MODULES_ADD, 'modules.php?op=new', 'add');
         $adminObject->addItemButton(_AM_MODULEBUILDER_MODULES_LIST, 'modules.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
