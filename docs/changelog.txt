@@ -20,6 +20,9 @@
 - added check quality/inconsistences of module data before building (goffy)
 - fixed bugs in comments handling (goffy)
 - added notification comments (goffy)
+- added permission check approve (goffy)
+- fixed bug for active settings (goffy)
+- restructured admin language file/removed duuplicates (goffy)
 
 <h5>3.03 Alpha 3   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>

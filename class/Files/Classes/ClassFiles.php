@@ -286,11 +286,7 @@ class ClassFiles extends Files\CreateFile
             $getForm          .= $xc->getXcXoopsHandler('groupperm', "\t\t");
             $getForm          .= $pc->getPhpCodeTernaryOperator('groups', 'is_object(' . $xUser . ')', $xUser . '->getGroups()', 'XOOPS_GROUP_ANONYMOUS', "\t\t");
             $checkRight       = $xc->getXcCheckRight('$grouppermHandler', $permString, 32, '$groups', $xModule . '->getVar(\'mid\')', true);
-            $ternaryOperator  = $pc->getPhpCodeTernaryOperator('permissionUpload', $checkRight, 'true', 'false', "\t\t\t");
-            $permissionUpload = $xc->getXcEqualsOperator('$permissionUpload', 'true', null, "\t\t\t\t");
-            $ternOperator     = $pc->getPhpCodeRemoveCarriageReturn($ternaryOperator, '', "\r");
-            $if               = $pc->getPhpCodeConditions('$isAdmin', '', '', "\t" . $ternaryOperator, $permissionUpload, "\t\t\t");
-            $getForm          .= $pc->getPhpCodeConditions($xUser, '', '', $if, $ternOperator, "\t\t");
+            $getForm  .= $pc->getPhpCodeTernaryOperator('permissionUpload', $checkRight, 'true', 'false', "\t\t");
         }
         $getForm .= $pc->getPhpCodeCommentLine('Title', '', "\t\t");
         $getForm .= $pc->getPhpCodeTernaryOperator('title', '$this->isNew()', "sprintf({$language}{$stuTableSoleName}_ADD)", "sprintf({$language}{$stuTableSoleName}_EDIT)", "\t\t");

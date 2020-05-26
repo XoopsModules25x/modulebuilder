@@ -62,7 +62,7 @@ class Footer extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param mixed  $table
      * @param string $filename
      */

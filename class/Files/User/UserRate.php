@@ -218,7 +218,7 @@ class UserRate extends Files\CreateFile
     public function render()
     {
         $module             = $this->getModule();
-        $table              = $this->getTable();
+        //$table              = $this->getTable();
         $filename           = $this->getFileName();
         $moduleDirname      = $module->getVar('mod_dirname');
         //$tableId            = $table->getVar('table_id');

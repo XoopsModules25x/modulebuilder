@@ -164,13 +164,12 @@ class TemplatesAdminBroken extends Files\CreateFile
 
     /**
      * @private function getTemplatesAdminBrokenList
-     * @param string $moduleDirname
      * @param $table
      * @param string $language
      * @param string $t
      * @return string
      */
-    private function getTemplatesAdminBrokenList($moduleDirname, $table, $language, $t = '')
+    private function getTemplatesAdminBrokenList($table, $language, $t = '')
     {
         $hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
         $sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
@@ -233,7 +232,7 @@ class TemplatesAdminBroken extends Files\CreateFile
         $content       = $this->getTemplatesAdminBrokenHeader($moduleDirname);
         foreach ($tables as $table) {
             if (1 === (int)$table->getVar('table_broken')) {
-                $content .= $this->getTemplatesAdminBrokenList($moduleDirname, $table, $language, "\t");
+                $content .= $this->getTemplatesAdminBrokenList($table, $language, "\t");
             }
         }
         $content .= $this->getTemplatesAdminBrokenFooter($moduleDirname);

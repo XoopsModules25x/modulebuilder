@@ -17,11 +17,9 @@ this file currently is not rating
 
 
 
-
-
 Permissions:
-check handling for different groups
 implement autoapprove
+
 
 
 
@@ -32,3 +30,7 @@ Open questions:
 search.php:
 what should this file do, additionally to regular search?
 UserSearch has to be adapted
+
+
+Parent:
+what is the idea behind this?

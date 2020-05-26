@@ -265,8 +265,6 @@ class LanguageModinfo extends Files\CreateFile
         // $usePermissions = false;
         foreach (array_keys($tables) as $i) {
             $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
-            $ucfTablename    = ucfirst($tables[$i]->getVar('table_name'));
-            //$stuTablename    = mb_strtoupper($ucfTablename);
             foreach (array_keys($fields) as $f) {
                 $fieldElement = $fields[$f]->getVar('field_element');
                 if (3 == $fieldElement) {
@@ -285,7 +283,6 @@ class LanguageModinfo extends Files\CreateFile
             if (0 != $tables[$i]->getVar('table_tag')) {
                 $useTag = true;
             }
-            // if (0 != $tables[$i]->getVar('table_permissions')) {$usePermissions = true;}
         }
         if ($fieldEditor) {
             $ret .= $df->getDefine($language, 'EDITOR_ADMIN', 'Editor admin');
@@ -297,12 +294,6 @@ class LanguageModinfo extends Files\CreateFile
         }
         $ret .= $df->getDefine($language, 'KEYWORDS', 'Keywords');
         $ret .= $df->getDefine($language, 'KEYWORDS_DESC', 'Insert here the keywords (separate by comma)');
-        /*if (usePermissions) {
-            $ret .= $df->getDefine($language, "GROUPS", "Groups");
-            $ret .= $df->getDefine($language, "GROUPS_DESC", "Groups to have permissions");
-            $ret .= $df->getDefine($language, "ADMIN_GROUPS", "Admin Groups");
-            $ret .= $df->getDefine($language, "ADMIN_GROUPS_DESC", "Admin Groups to have permissions access");
-        }*/
 
         if ($fieldImage || $fieldFile) {
             $ret .= $df->getDefine($language, 'SIZE_MB', 'MB');
@@ -316,7 +307,6 @@ class LanguageModinfo extends Files\CreateFile
             $ret .= $df->getDefine($language, 'MAXWIDTH_IMAGE_DESC', 'Set the max width which is allowed for uploading images (in pixel)<br>0 means that images keep original size<br>If original image is smaller the image will be not enlarged');
             $ret .= $df->getDefine($language, 'MAXHEIGHT_IMAGE', 'Max height image');
             $ret .= $df->getDefine($language, 'MAXHEIGHT_IMAGE_DESC', 'Set the max height which is allowed for uploading images (in pixel)<br>0 means that images keep original size<br>If original image is smaller the image will be not enlarged');
-			//MB define
         }
 		if ($fieldFile) {
             $ret .= $df->getDefine($language, 'MAXSIZE_FILE', 'Max size file');
@@ -505,7 +495,8 @@ class LanguageModinfo extends Files\CreateFile
         $tableNotifications = [];
         $tablePermissions   = [];
         $notifTable         = '';
-        $tableBroken        = 0;
+        //$tableBroken        = 0;
+        $tableBrokens       = [];
         $tableComments      = [];
         foreach (array_keys($tables) as $t) {
             $tableName            = $tables[$t]->getVar('table_name');

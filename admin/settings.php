@@ -39,7 +39,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/modulebuilder/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_SETTING, 'settings.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_SETTINGS_ADD, 'settings.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
@@ -132,10 +132,14 @@ switch ($op) {
         $settingsObj->setVar('set_comments', in_array('comments', $settingOption));
         $settingsObj->setVar('set_notifications', in_array('notifications', $settingOption));
         $settingsObj->setVar('set_permissions', in_array('permissions', $settingOption));
-        //$settingsObj->setVar('set_inroot_copy', in_array('inroot', $settingOption));
-        if (\Xmf\Request::hasVar('set_type')) {
-            $settingsObj->setVar('set_type', \Xmf\Request::getString('set_type', '', 'POST'));
+        $settingsObj->setVar('set_inroot_copy', in_array('inroot', $settingOption));
+        $setType = \Xmf\Request::getString('set_type', '', 'POST');
+        if (1 == $setType) {
+            // reset all
+            $strSQL = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . ' SET ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . '.set_type = 0';
+            $GLOBALS['xoopsDB']->queryF($strSQL);
         }
+        $settingsObj->setVar('set_type', $setType);
 
         if ($helper->getHandler('Settings')->insert($settingsObj)) {
             redirect_header('settings.php', 5, sprintf(_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('set_name', '', 'POST')));
@@ -147,7 +151,7 @@ switch ($op) {
         break;
     case 'edit':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_SETTING, 'settings.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_SETTINGS_ADD, 'settings.php?op=new', 'add');
         $adminObject->addItemButton(_AM_MODULEBUILDER_SETTINGS_LIST, 'settings.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $settingsObj = $helper->getHandler('Settings')->get($setId);
@@ -170,12 +174,17 @@ switch ($op) {
         }
         break;
     case 'display':
-        $id = \Xmf\Request::getInt('set_id', 0, 'POST');
-        if ($id > 0) {
-            $settingsObj = $helper->getHandler('Settings')->get($id);
-            if (isset($_POST['set_type'])) {
-                $setType = $settingsObj->getVar('set_type');
-                $settingsObj->setVar('set_type', !$setType);
+        $setId = \Xmf\Request::getInt('set_id', 0);
+        if ($setId > 0) {
+            $settingsHandler = $helper->getHandler('Settings');
+            $settingsObj = $settingsHandler->get($id);
+            $setType = $settingsObj->getVar('set_type');
+            // reset all
+            $strSQL = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . ' SET ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . '.set_type = 0';
+            $GLOBALS['xoopsDB']->queryF($strSQL);
+            $strSQL = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . ' SET ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . '.set_type = 1 WHERE ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . '.set_id = ' . $setId;
+            if ($GLOBALS['xoopsDB']->queryF($strSQL)) {
+                redirect_header('settings.php', 5, sprintf(_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('set_name', '', 'POST')));
             }
             $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
         }

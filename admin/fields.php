@@ -53,19 +53,19 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/sortable.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_TABLE, 'tables.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_TABLES_ADD, 'tables.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
         // Redirect if there aren't modules
         $modulesCount = $helper->getHandler('Modules')->getCountModules();
         if (0 == $modulesCount) {
-            redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_NOTMODULES);
+            redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_MODULES2);
         }
         unset($modulesCount);
         // Redirect if there aren't tables
         $tablesCount = $helper->getHandler('Tables')->getCountTables();
         if (0 == $tablesCount) {
-            redirect_header('tables.php?op=new', 2, _AM_MODULEBUILDER_NOTTABLES);
+            redirect_header('tables.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_TABLES2);
         }
         // Get the list of tables
         $tablesAll = $helper->getHandler('Tables')->getAllTables($start, $limit, 'table_order');
@@ -190,7 +190,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_ADD_TABLE, 'tables.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_TABLES_ADD, 'tables.php?op=new', 'add');
         $adminObject->addItemButton(_AM_MODULEBUILDER_TABLES_LIST, 'tables.php', 'list');
         $adminObject->addItemButton(_AM_MODULEBUILDER_FIELDS_LIST, 'fields.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));

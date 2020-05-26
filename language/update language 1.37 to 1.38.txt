@@ -2,7 +2,7 @@
 admin.php
 
 define("_AM_MODULEBUILDER_MODULES_LIST", "Modules List");
-define("_AM_MODULEBUILDER_MODULES_NEW", "New Module");
+define("_AM_MODULEBUILDER_MODULE_NEW", "New Module");
 
 define("_AM_MODULEBUILDER_TABLES_SUBMITTER", "Add submitter");
 define("_AM_MODULEBUILDER_TABLES_DATE_CREATED", "Add date created");

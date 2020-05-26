@@ -53,8 +53,8 @@ class Tables extends \XoopsObject
         'print',
         'pdf',
         'rss',
-        'single',
-        'visit',
+        //'single',
+        //'visit',
     ];
 
     /**
@@ -137,7 +137,7 @@ class Tables extends \XoopsObject
         $isNew     = $this->isNew();
         $tableName = $this->getVar('table_name');
         $tableMid  = $this->getVar('table_mid');
-        $title     = $isNew ? sprintf(_AM_MODULEBUILDER_TABLE_NEW) : sprintf(_AM_MODULEBUILDER_TABLE_EDIT);
+        $title     = $isNew ? sprintf(_AM_MODULEBUILDER_TABLES_NEW) : sprintf(_AM_MODULEBUILDER_TABLES_EDIT);
 
         xoops_load('XoopsFormLoader');
         $form = new \XoopsThemeForm($title, 'tableform', $action, 'post', true);

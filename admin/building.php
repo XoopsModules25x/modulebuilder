@@ -174,7 +174,7 @@ switch ($op) {
         // Redirect if there aren't modules
         $nbModules = $helper->getHandler('Modules')->getCount();
         if (0 == $nbModules) {
-            redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_NOTMODULES);
+            redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_MODULES2);
         }
         unset($nbModules);
         // include_once TDMC_CLASS_PATH . '/building.php';

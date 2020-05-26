@@ -28,7 +28,7 @@ define("_AM_MODULEBUILDER_TABLES_COMMENTS","Activer les commentaires pour cette 
 
 // 1.37
 define("_AM_MODULEBUILDER_MODULES_LIST", "Modules List");
-define("_AM_MODULEBUILDER_MODULES_NEW", "New Module");
+define("_AM_MODULEBUILDER_MODULE_NEW", "New Module");
 
 define("_AM_MODULEBUILDER_MODULES_ACTIVE_COMMENTS", "Enable comments");
 

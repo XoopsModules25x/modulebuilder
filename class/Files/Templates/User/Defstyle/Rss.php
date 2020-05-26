@@ -57,7 +57,7 @@ class Rss extends Files\CreateFile
 
     /**
      * @public   function write
-     * @param string $module
+     * @param        $module
      * @param string $filename
      */
     public function write($module, $filename)

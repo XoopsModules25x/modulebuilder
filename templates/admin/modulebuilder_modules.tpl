@@ -10,13 +10,13 @@
             <th class='center'><{$smarty.const._AM_MODULEBUILDER_MODULE_IMAGE}></th>
             <th class='center'><{$smarty.const._AM_MODULEBUILDER_MODULE_RELEASE}></th>
             <th class='center'><{$smarty.const._AM_MODULEBUILDER_MODULE_STATUS}></th>
-            <th class='center'><{$smarty.const._AM_MODULEBUILDER_MODULE_ADMIN_LIST}></th>
-            <th class='center'><{$smarty.const._AM_MODULEBUILDER_MODULE_USER_LIST}></th>
-            <th class='center'><{$smarty.const._AM_MODULEBUILDER_MODULE_BLOCKS_LIST}></th>
-            <th class='center'><{$smarty.const._AM_MODULEBUILDER_MODULE_SEARCH_LIST}></th>
-            <th class='center'><{$smarty.const._AM_MODULEBUILDER_MODULE_COMMENTS_LIST}></th>
-            <th class='center'><{$smarty.const._AM_MODULEBUILDER_MODULE_NOTIFICATIONS_LIST}></th>
-            <th class='center'><{$smarty.const._AM_MODULEBUILDER_MODULE_PERMISSIONS_LIST}></th>
+            <th class='center'><{$smarty.const._AM_MODULEBUILDER_ADMIN}></th>
+            <th class='center'><{$smarty.const._AM_MODULEBUILDER_USER}></th>
+            <th class='center'><{$smarty.const._AM_MODULEBUILDER_BLOCKS}></th>
+            <th class='center'><{$smarty.const._AM_MODULEBUILDER_SEARCH}></th>
+            <th class='center'><{$smarty.const._AM_MODULEBUILDER_COMMENTS}></th>
+            <th class='center'><{$smarty.const._AM_MODULEBUILDER_NOTIFICATIONS}></th>
+            <th class='center'><{$smarty.const._AM_MODULEBUILDER_PERMISSIONS}></th>
             <th class='center width5'><{$smarty.const._AM_MODULEBUILDER_FORMACTION}></th>
         </tr>
         <{foreach item=module from=$modules_list key=mod_id}>

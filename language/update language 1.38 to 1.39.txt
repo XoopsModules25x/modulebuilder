@@ -116,10 +116,10 @@ define("_MI_MODULEBUILDER_IDPAYPAL_DESC", "Insert here your id paypal for donact
 
 //1.39
 admin.php
-define('_AM_MODULEBUILDER_MODULES_MIN_PHP', "Minimum Php");
-define('_AM_MODULEBUILDER_MODULES_MIN_XOOPS', "Minimum Xoops");
-define('_AM_MODULEBUILDER_MODULES_MIN_ADMIN', "Minimum Admin");
-define('_AM_MODULEBUILDER_MODULES_MIN_MYSQL', "Minimum Database");
+define('_AM_MODULEBUILDER_MODULE_MIN_PHP', "Minimum Php");
+define('_AM_MODULEBUILDER_MODULE_MIN_XOOPS', "Minimum Xoops");
+define('_AM_MODULEBUILDER_MODULE_MIN_ADMIN', "Minimum Admin");
+define('_AM_MODULEBUILDER_MODULE_MIN_MYSQL', "Minimum Database");
 
 modinfo.php
 //Config
