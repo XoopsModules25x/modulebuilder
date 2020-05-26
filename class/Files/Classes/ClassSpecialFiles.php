@@ -82,7 +82,41 @@ class ClassSpecialFiles extends Files\CreateFile
     }
 
     /**
-     * @public function renderPermissionsHandler
+     * @public function render
+     * @param null
+     *
+     * @return bool|string
+     */
+    public function renderClass()
+    {
+        $pc             = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc             = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $module         = $this->getModule();
+        $filename       = $this->getFileName();
+        $moduleDirname  = $module->getVar('mod_dirname');
+        $namespace      = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
+        $content        = $this->getHeaderFilesComments($module, null, $namespace);
+        $content        .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
+        $content        .= $pc->getPhpCodeDefined();
+        $content        .= $pc->getPhpCodeCommentMultiLine(['Class Object' => $this->className]);
+        $cCl            = $pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => 'null'], "\t");
+        $constr         = '';
+        $cCl            .= $pc->getPhpCodeFunction('__construct', '', $constr, 'public ', false, "\t");
+        $arrGetInstance = ['@static function' => '&getInstance', '' => '', '@param' => 'null'];
+        $cCl            .= $pc->getPhpCodeCommentMultiLine($arrGetInstance, "\t");
+        $getInstance    = $pc->getPhpCodeVariableClass('static', 'instance', 'false', "\t\t");
+        $instance       = $xc->getXcEqualsOperator('$instance', 'new self()', null, "\t\t\t");
+        $getInstance    .= $pc->getPhpCodeConditions('!$instance', '', '', $instance, false, "\t\t");
+        $cCl            .= $pc->getPhpCodeFunction('getInstance', '', $getInstance, 'public static ', false, "\t");
+        $content        .= $pc->getPhpCodeClass($this->className, $cCl, '\XoopsObject');
+
+        $this->create($moduleDirname, 'class', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+
+        return $this->renderFile();
+    }
+
+    /**
+     * @public function getGlobalPerms
      * @param null
      *
      * @return bool|string
@@ -147,42 +181,6 @@ class ClassSpecialFiles extends Files\CreateFile
     }
 
     /**
-     * @public function render
-     * @param null
-     *
-     * @return bool|string
-     */
-    public function renderClass()
-    {
-        $pc             = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $xc             = Modulebuilder\Files\CreateXoopsCode::getInstance();
-        $module         = $this->getModule();
-        $filename       = $this->getFileName();
-        $moduleDirname  = $module->getVar('mod_dirname');
-        $namespace      = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
-        $content        = $this->getHeaderFilesComments($module, null, $namespace);
-        $content        .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
-        $content        .= $pc->getPhpCodeDefined();
-        $content        .= $pc->getPhpCodeCommentMultiLine(['Class Object' => $this->className]);
-        $cCl            = $pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => 'null'], "\t");
-        $constr         = '';
-        $cCl            .= $pc->getPhpCodeFunction('__construct', '', $constr, 'public ', false, "\t");
-        $arrGetInstance = ['@static function' => '&getInstance', '' => '', '@param' => 'null'];
-        $cCl            .= $pc->getPhpCodeCommentMultiLine($arrGetInstance, "\t");
-        $getInstance    = $pc->getPhpCodeVariableClass('static', 'instance', 'false', "\t\t");
-        $instance       = $xc->getXcEqualsOperator('$instance', 'new self()', null, "\t\t\t");
-        $getInstance    .= $pc->getPhpCodeConditions('!$instance', '', '', $instance, false, "\t\t");
-        $cCl            .= $pc->getPhpCodeFunction('getInstance', '', $getInstance, 'public static ', false, "\t");
-        $content        .= $pc->getPhpCodeClass($this->className, $cCl, '\XoopsObject');
-
-        $this->create($moduleDirname, 'class', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
-
-
-
-        return $this->renderFile();
-    }
-
-    /**
      * @public function renderPermissionsHandler
      * @param null
      *
@@ -213,6 +211,12 @@ class ClassSpecialFiles extends Files\CreateFile
         return $this->renderFile();
     }
 
+    /**
+     * @public function renderConstantsInterface
+     * @param null
+     *
+     * @return bool|string
+     */
     public function renderConstantsInterface()
     {
         $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
