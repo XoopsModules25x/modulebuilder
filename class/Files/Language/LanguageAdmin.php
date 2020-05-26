@@ -34,9 +34,13 @@ class LanguageAdmin extends Files\CreateFile
     /**
      * @var mixed
      */
-    private $defines = null;
+    private $ld = null;
 
-
+    /**
+     * @var mixed
+     */
+    private $pc = null;
+    
     /**
      * @public function constructor
      * @param null
@@ -44,7 +48,8 @@ class LanguageAdmin extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->defines = LanguageDefines::getInstance();
+        $this->ld = LanguageDefines::getInstance();
+        $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -85,18 +90,17 @@ class LanguageAdmin extends Files\CreateFile
      */
     public function getLanguageAdminIndex($language, $tables)
     {
-        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $ret = $this->defines->getBlankLine();
-        $ret .= $pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
-        $ret .= $this->defines->getBlankLine();
-        $ret .= $this->defines->getAboveHeadDefines('Admin Index');
-        $ret .= $this->defines->getDefine($language, 'STATISTICS', 'Statistics');
-        $ret .= $this->defines->getAboveDefines('There are');
+        $ret = $this->ld->getBlankLine();
+        $ret .= $this->pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
+        $ret .= $this->ld->getBlankLine();
+        $ret .= $this->ld->getAboveHeadDefines('Admin Index');
+        $ret .= $this->ld->getDefine($language, 'STATISTICS', 'Statistics');
+        $ret .= $this->ld->getAboveDefines('There are');
         foreach (array_keys($tables) as $t) {
             $tableName    = $tables[$t]->getVar('table_name');
             $stuTableName = mb_strtoupper($tableName);
             $stlTableName = mb_strtolower($tableName);
-            $ret          .= $this->defines->getDefine($language, "THEREARE_{$stuTableName}", "There are <span class='bold'>%s</span> {$stlTableName} in the database", true);
+            $ret          .= $this->ld->getDefine($language, "THEREARE_{$stuTableName}", "There are <span class='bold'>%s</span> {$stlTableName} in the database", true);
         }
 
         return $ret;
@@ -110,34 +114,34 @@ class LanguageAdmin extends Files\CreateFile
      */
     public function getLanguageAdminPages($language, $tables)
     {
-        $ret = $this->defines->getAboveHeadDefines('Admin Files');
-        $ret .= $this->defines->getAboveDefines('There aren\'t');
+        $ret = $this->ld->getAboveHeadDefines('Admin Files');
+        $ret .= $this->ld->getAboveDefines('There aren\'t');
         foreach (array_keys($tables) as $t) {
             $tableName    = $tables[$t]->getVar('table_name');
             $stuTableName = mb_strtoupper($tableName);
             $stlTableName = mb_strtolower($tableName);
-            $ret          .= $this->defines->getDefine($language, "THEREARENT_{$stuTableName}", "There aren't {$stlTableName}", true);
+            $ret          .= $this->ld->getDefine($language, "THEREARENT_{$stuTableName}", "There aren't {$stlTableName}", true);
         }
-        $ret .= $this->defines->getAboveDefines('Save/Delete');
-        $ret .= $this->defines->getDefine($language, 'FORM_OK', 'Successfully saved');
-        $ret .= $this->defines->getDefine($language, 'FORM_DELETE_OK', 'Successfully deleted');
-        $ret .= $this->defines->getDefine($language, 'FORM_SURE_DELETE', "Are you sure to delete: <b><span style='color : Red;'>%s </span></b>", true);
-        $ret .= $this->defines->getDefine($language, 'FORM_SURE_RENEW', "Are you sure to update: <b><span style='color : Red;'>%s </span></b>", true);
-        $ret .= $this->defines->getAboveDefines('Buttons');
+        $ret .= $this->ld->getAboveDefines('Save/Delete');
+        $ret .= $this->ld->getDefine($language, 'FORM_OK', 'Successfully saved');
+        $ret .= $this->ld->getDefine($language, 'FORM_DELETE_OK', 'Successfully deleted');
+        $ret .= $this->ld->getDefine($language, 'FORM_SURE_DELETE', "Are you sure to delete: <b><span style='color : Red;'>%s </span></b>", true);
+        $ret .= $this->ld->getDefine($language, 'FORM_SURE_RENEW', "Are you sure to update: <b><span style='color : Red;'>%s </span></b>", true);
+        $ret .= $this->ld->getAboveDefines('Buttons');
 
         foreach (array_keys($tables) as $t) {
             $tableSoleName    = $tables[$t]->getVar('table_solename');
             $stuTableSoleName = mb_strtoupper($tableSoleName);
             $ucfTableSoleName = ucfirst($tableSoleName);
-            $ret              .= $this->defines->getDefine($language, "ADD_{$stuTableSoleName}", "Add New {$ucfTableSoleName}");
+            $ret              .= $this->ld->getDefine($language, "ADD_{$stuTableSoleName}", "Add New {$ucfTableSoleName}");
         }
-        $ret .= $this->defines->getAboveDefines('Lists');
+        $ret .= $this->ld->getAboveDefines('Lists');
 
         foreach (array_keys($tables) as $t) {
             $tableName    = $tables[$t]->getVar('table_name');
             $stuTableName = mb_strtoupper($tableName);
             $ucfTableName = ucfirst($tableName);
-            $ret          .= $this->defines->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
+            $ret          .= $this->ld->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
         }
 
         return $ret;
@@ -151,7 +155,7 @@ class LanguageAdmin extends Files\CreateFile
      */
     public function getLanguageAdminClass($language, $tables)
     {
-        $ret = $this->defines->getAboveHeadDefines('Admin Classes');
+        $ret = $this->ld->getAboveHeadDefines('Admin Classes');
         $fieldStatus          = 0;
         $fieldSampleListValue = 0;
         $tableBroken          = 0;
@@ -170,11 +174,11 @@ class LanguageAdmin extends Files\CreateFile
                 }
             }
             if (1 == $fieldInForm) {
-                $ret .= $this->defines->getAboveDefines("{$ucfTableSoleName} add/edit");
-                $ret .= $this->defines->getDefine($language, "{$tableSoleName}_ADD", "Add {$ucfTableSoleName}");
-                $ret .= $this->defines->getDefine($language, "{$tableSoleName}_EDIT", "Edit {$ucfTableSoleName}");
+                $ret .= $this->ld->getAboveDefines("{$ucfTableSoleName} add/edit");
+                $ret .= $this->ld->getDefine($language, "{$tableSoleName}_ADD", "Add {$ucfTableSoleName}");
+                $ret .= $this->ld->getDefine($language, "{$tableSoleName}_EDIT", "Edit {$ucfTableSoleName}");
             }
-            $ret .= $this->defines->getAboveDefines("Elements of {$ucfTableSoleName}");
+            $ret .= $this->ld->getAboveDefines("Elements of {$ucfTableSoleName}");
 
             foreach (array_keys($fields) as $f) {
                 $fieldName    = $fields[$f]->getVar('field_name');
@@ -188,19 +192,19 @@ class LanguageAdmin extends Files\CreateFile
                 } else {
                     $fieldNameDesc = false !== mb_strpos($rpFieldName, '_') ? str_replace('_', ' ', ucfirst($rpFieldName)) : ucfirst($rpFieldName);
                 }
-                $ret          .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName, $fieldNameDesc);
+                $ret          .= $this->ld->getDefine($language, $tableSoleName . '_' . $rpFieldName, $fieldNameDesc);
 
                 switch ($fieldElement) {
                     case 10:
-                        $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in frameworks images: %s");
+                        $ret .= $this->ld->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in frameworks images: %s");
                         break;
                     case 12:
-                        $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in uploads");
+                        $ret .= $this->ld->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in uploads");
                         break;
                     case 11:
                     case 13:
                     case 14:
-                        $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in %s :");
+                        $ret .= $this->ld->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in %s :");
                         break;
                     case 16:
                         $fieldStatus++;
@@ -218,39 +222,39 @@ class LanguageAdmin extends Files\CreateFile
                 }
             }
         }
-        $ret .= $this->defines->getAboveDefines('General');
-        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD', 'Upload file');
-        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_NEW', 'Upload new file: ');
-        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_SIZE', 'Max file size: ');
-        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_SIZE_MB', 'MB');
-        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_IMG_WIDTH', 'Max image width: ');
-        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_IMG_HEIGHT', 'Max image height: ');
-        $ret .= $this->defines->getDefine($language, 'FORM_IMAGE_PATH', 'Files in %s :');
-        $ret .= $this->defines->getDefine($language, 'FORM_ACTION', 'Action');
-        $ret .= $this->defines->getDefine($language, 'FORM_EDIT', 'Modification');
-        $ret .= $this->defines->getDefine($language, 'FORM_DELETE', 'Clear');
+        $ret .= $this->ld->getAboveDefines('General');
+        $ret .= $this->ld->getDefine($language, 'FORM_UPLOAD', 'Upload file');
+        $ret .= $this->ld->getDefine($language, 'FORM_UPLOAD_NEW', 'Upload new file: ');
+        $ret .= $this->ld->getDefine($language, 'FORM_UPLOAD_SIZE', 'Max file size: ');
+        $ret .= $this->ld->getDefine($language, 'FORM_UPLOAD_SIZE_MB', 'MB');
+        $ret .= $this->ld->getDefine($language, 'FORM_UPLOAD_IMG_WIDTH', 'Max image width: ');
+        $ret .= $this->ld->getDefine($language, 'FORM_UPLOAD_IMG_HEIGHT', 'Max image height: ');
+        $ret .= $this->ld->getDefine($language, 'FORM_IMAGE_PATH', 'Files in %s :');
+        $ret .= $this->ld->getDefine($language, 'FORM_ACTION', 'Action');
+        $ret .= $this->ld->getDefine($language, 'FORM_EDIT', 'Modification');
+        $ret .= $this->ld->getDefine($language, 'FORM_DELETE', 'Clear');
         if ($fieldStatus > 0) {
-            $ret .= $this->defines->getAboveDefines('Status');
-            $ret .= $this->defines->getDefine($language, 'STATUS_NONE', 'No status');
-            $ret .= $this->defines->getDefine($language, 'STATUS_OFFLINE', 'Offline');
-            $ret .= $this->defines->getDefine($language, 'STATUS_SUBMITTED', 'Submitted');
-            $ret .= $this->defines->getDefine($language, 'STATUS_APPROVED', 'Approved');
-            $ret .= $this->defines->getDefine($language, 'STATUS_BROKEN', 'Broken');
+            $ret .= $this->ld->getAboveDefines('Status');
+            $ret .= $this->ld->getDefine($language, 'STATUS_NONE', 'No status');
+            $ret .= $this->ld->getDefine($language, 'STATUS_OFFLINE', 'Offline');
+            $ret .= $this->ld->getDefine($language, 'STATUS_SUBMITTED', 'Submitted');
+            $ret .= $this->ld->getDefine($language, 'STATUS_APPROVED', 'Approved');
+            $ret .= $this->ld->getDefine($language, 'STATUS_BROKEN', 'Broken');
         }
         if ($tableBroken > 0) {
-            $ret .= $this->defines->getAboveDefines('Broken');
-            $ret .= $this->defines->getDefine($language, 'BROKEN_RESULT', 'Broken items in table %s');
-            $ret .= $this->defines->getDefine($language, 'BROKEN_NODATA', 'No broken items in table %s');
-            $ret .= $this->defines->getDefine($language, 'BROKEN_TABLE', 'Table');
-            $ret .= $this->defines->getDefine($language, 'BROKEN_KEY', 'Key field');
-            $ret .= $this->defines->getDefine($language, 'BROKEN_KEYVAL', 'Key value');
-            $ret .= $this->defines->getDefine($language, 'BROKEN_MAIN', 'Info main');
+            $ret .= $this->ld->getAboveDefines('Broken');
+            $ret .= $this->ld->getDefine($language, 'BROKEN_RESULT', 'Broken items in table %s');
+            $ret .= $this->ld->getDefine($language, 'BROKEN_NODATA', 'No broken items in table %s');
+            $ret .= $this->ld->getDefine($language, 'BROKEN_TABLE', 'Table');
+            $ret .= $this->ld->getDefine($language, 'BROKEN_KEY', 'Key field');
+            $ret .= $this->ld->getDefine($language, 'BROKEN_KEYVAL', 'Key value');
+            $ret .= $this->ld->getDefine($language, 'BROKEN_MAIN', 'Info main');
         }
         if ($fieldSampleListValue > 0) {
-            $ret .= $this->defines->getAboveDefines('Sample List Values');
-            $ret .= $this->defines->getDefine($language, 'LIST_1', 'Sample List Value 1');
-            $ret .= $this->defines->getDefine($language, 'LIST_2', 'Sample List Value 2');
-            $ret .= $this->defines->getDefine($language, 'LIST_3', 'Sample List Value 3');
+            $ret .= $this->ld->getAboveDefines('Sample List Values');
+            $ret .= $this->ld->getDefine($language, 'LIST_1', 'Sample List Value 1');
+            $ret .= $this->ld->getDefine($language, 'LIST_2', 'Sample List Value 2');
+            $ret .= $this->ld->getDefine($language, 'LIST_3', 'Sample List Value 3');
         }
 
         return $ret;
@@ -263,20 +267,20 @@ class LanguageAdmin extends Files\CreateFile
      */
     public function getLanguageAdminPermissions($language)
     {
-        $ret = $this->defines->getAboveHeadDefines('Admin Permissions');
-        $ret .= $this->defines->getAboveDefines('Permissions');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL', 'Permissions global');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_DESC', 'Permissions global to check type of.');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_4', 'Permissions global to approve');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_8', 'Permissions global to submit');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_16', 'Permissions global to view');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_APPROVE', 'Permissions to approve');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_APPROVE_DESC', 'Permissions to approve');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_SUBMIT', 'Permissions to submit');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_SUBMIT_DESC', 'Permissions to submit');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_VIEW', 'Permissions to view');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_VIEW_DESC', 'Permissions to view');
-        $ret .= $this->defines->getDefine($language, 'NO_PERMISSIONS_SET', 'No permission set');
+        $ret = $this->ld->getAboveHeadDefines('Admin Permissions');
+        $ret .= $this->ld->getAboveDefines('Permissions');
+        $ret .= $this->ld->getDefine($language, 'PERMISSIONS_GLOBAL', 'Permissions global');
+        $ret .= $this->ld->getDefine($language, 'PERMISSIONS_GLOBAL_DESC', 'Permissions global to check type of.');
+        $ret .= $this->ld->getDefine($language, 'PERMISSIONS_GLOBAL_4', 'Permissions global to approve');
+        $ret .= $this->ld->getDefine($language, 'PERMISSIONS_GLOBAL_8', 'Permissions global to submit');
+        $ret .= $this->ld->getDefine($language, 'PERMISSIONS_GLOBAL_16', 'Permissions global to view');
+        $ret .= $this->ld->getDefine($language, 'PERMISSIONS_APPROVE', 'Permissions to approve');
+        $ret .= $this->ld->getDefine($language, 'PERMISSIONS_APPROVE_DESC', 'Permissions to approve');
+        $ret .= $this->ld->getDefine($language, 'PERMISSIONS_SUBMIT', 'Permissions to submit');
+        $ret .= $this->ld->getDefine($language, 'PERMISSIONS_SUBMIT_DESC', 'Permissions to submit');
+        $ret .= $this->ld->getDefine($language, 'PERMISSIONS_VIEW', 'Permissions to view');
+        $ret .= $this->ld->getDefine($language, 'PERMISSIONS_VIEW_DESC', 'Permissions to view');
+        $ret .= $this->ld->getDefine($language, 'NO_PERMISSIONS_SET', 'No permission set');
 
         return $ret;
     }
@@ -288,10 +292,10 @@ class LanguageAdmin extends Files\CreateFile
      */
     public function getLanguageAdminFoot($language)
     {
-        $ret = $this->defines->getAboveHeadDefines('Admin Others');
-        $ret .= $this->defines->getDefine($language, 'MAINTAINEDBY', ' is maintained by ');
-        $ret .= $this->defines->getBelowDefines('End');
-        $ret .= $this->defines->getBlankLine();
+        $ret = $this->ld->getAboveHeadDefines('Admin Others');
+        $ret .= $this->ld->getDefine($language, 'MAINTAINEDBY', ' is maintained by ');
+        $ret .= $this->ld->getBelowDefines('End');
+        $ret .= $this->ld->getBlankLine();
 
         return $ret;
     }

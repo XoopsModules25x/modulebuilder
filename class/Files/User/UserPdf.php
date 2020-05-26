@@ -55,7 +55,7 @@ class UserPdf extends Files\CreateFile
         parent::__construct();
         $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $this->uxc = UserXoopsCode::getInstance();
+        $this->uxc = Modulebuilder\Files\User\UserXoopsCode::getInstance();
     }
 
     /**

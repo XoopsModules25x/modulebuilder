@@ -32,12 +32,24 @@ use XoopsModules\Modulebuilder\Files;
 class Index extends Files\CreateFile
 {
     /**
+     * @var string
+     */
+    private $hc = null;
+
+    /**
+     * @var string
+     */
+    private $sc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $this->sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
     }
 
     /**
@@ -77,9 +89,8 @@ class Index extends Files\CreateFile
      */
     public function getTemplateUserIndexHeader($moduleDirname)
     {
-        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
 
-        return $sc->getSmartyIncludeFile($moduleDirname, 'header', false, false, '',  "\n");
+        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', false, false, '',  "\n");
     }
 
     /**
@@ -90,44 +101,41 @@ class Index extends Files\CreateFile
      */
     public function getTemplatesUserIndexIntro($module, $language)
     {
-        $hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
-
         $moduleDirname = $module->getVar('mod_dirname');
-        $ret           = $hc->getHtmlEmpty('','',"\n");
-        $ret           .= $hc->getHtmlComment('Start index list','', "\n");
+        $ret           = $this->hc->getHtmlEmpty('','',"\n");
+        $ret           .= $this->hc->getHtmlComment('Start index list','', "\n");
         //Table head
-        $th        = $hc->getHtmlTableHead("<{\$smarty.const.{$language}TITLE}>  -  <{\$smarty.const.{$language}DESC}>", '', '',"\t\t\t");
-        $tr        = $hc->getHtmlTableRow($th,'center',"\t\t");
-        $thead     = $hc->getHtmlTableThead($tr,'', "\t");
+        $th        = $this->hc->getHtmlTableHead("<{\$smarty.const.{$language}TITLE}>  -  <{\$smarty.const.{$language}DESC}>", '', '',"\t\t\t");
+        $tr        = $this->hc->getHtmlTableRow($th,'center',"\t\t");
+        $thead     = $this->hc->getHtmlTableThead($tr,'', "\t");
         $contTable = $thead;
         //Table body
-        $li     = $hc->getHtmlLi("<a href='<{\${$moduleDirname}_url}>'><{\$smarty.const.{$language}INDEX}></a>",'',"\t\t\t\t\t");
+        $li     = $this->hc->getHtmlLi("<a href='<{\${$moduleDirname}_url}>'><{\$smarty.const.{$language}INDEX}></a>",'',"\t\t\t\t\t");
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         foreach (array_keys($tables) as $i) {
             if (1 == $tables[$i]->getVar('table_index')) {
                 $tableNameLi = $tables[$i]->getVar('table_name');
                 $tableName = $tables[$i]->getVar('table_name');
                 $stuTableNameLi = mb_strtoupper($tableName);
-                $li .= $hc->getHtmlLi("<a href='<{\${$moduleDirname}_url}>/{$tableNameLi}.php'><{\$smarty.const.{$language}{$stuTableNameLi}}></a>", '', "\t\t\t\t\t");
+                $li .= $this->hc->getHtmlLi("<a href='<{\${$moduleDirname}_url}>/{$tableNameLi}.php'><{\$smarty.const.{$language}{$stuTableNameLi}}></a>", '', "\t\t\t\t\t");
             }
         }
-        $ul        = $hc->getHtmlUl($li,'menu text-center',"\t\t\t\t");
-        $td        = $hc->getHtmlTableData($ul, 'bold pad5','',"\t\t\t", "\n", true);
-        $tr        = $hc->getHtmlTablerow($td, 'center',"\t\t");
-        $tbody     = $hc->getHtmlTableTbody($tr,'', "\t");
+        $ul        = $this->hc->getHtmlUl($li,'menu text-center',"\t\t\t\t");
+        $td        = $this->hc->getHtmlTableData($ul, 'bold pad5','',"\t\t\t", "\n", true);
+        $tr        = $this->hc->getHtmlTablerow($td, 'center',"\t\t");
+        $tbody     = $this->hc->getHtmlTableTbody($tr,'', "\t");
         $contTable .= $tbody;
         //Table foot
-        $single    = $sc->getSmartySingleVar('adv');
-        $cond      = $sc->getSmartyConditions('adv','','', $single, false, '','', "\t\t\t\t", "\n", false);
-        $td        = $hc->getHtmlTableData($cond, 'bold pad5','',"\t\t\t", "\n", true);
-        $tr        = $hc->getHtmlTablerow($td, 'center',"\t\t");
-        $tfoot     = $hc->getHtmlTableTfoot($tr,'', "\t");
+        $single    = $this->sc->getSmartySingleVar('adv');
+        $cond      = $this->sc->getSmartyConditions('adv','','', $single, false, '','', "\t\t\t\t", "\n", false);
+        $td        = $this->hc->getHtmlTableData($cond, 'bold pad5','',"\t\t\t", "\n", true);
+        $tr        = $this->hc->getHtmlTablerow($td, 'center',"\t\t");
+        $tfoot     = $this->hc->getHtmlTableTfoot($tr,'', "\t");
         $contTable .= $tfoot;
 
-        $ret .= $hc->getHtmlTable($contTable);
-        $ret .= $hc->getHtmlComment('End index list','', "\n");
-        $ret .= $hc->getHtmlEmpty('','',"\n");
+        $ret .= $this->hc->getHtmlTable($contTable);
+        $ret .= $this->hc->getHtmlComment('End index list','', "\n");
+        $ret .= $this->hc->getHtmlEmpty('','',"\n");
 
         return $ret;
     }
@@ -143,22 +151,19 @@ class Index extends Files\CreateFile
      */
     public function getTemplateUserIndexTable($moduleDirname, $tableName, $tableSoleName, $language, $t = '')
     {
-        $hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
-
-        $double  = $sc->getSmartyConst($language, 'INDEX_LATEST_LIST');
-        $ret     = $hc->getHtmlDiv($double, "{$moduleDirname}-linetitle", $t, "\n", false);
-        $table   = $hc->getHtmlComment("Start show new {$tableName} in index",$t . "\t", "\n");
-        $include = $sc->getSmartyIncludeFileListSection($moduleDirname, $tableName, $tableSoleName, $tableName, $t . "\t\t\t\t\t", "\n");
-        $td      = $hc->getHtmlTableData($include, "col_width<{\$numb_col}> top center", '', $t . "\t\t\t\t", "\n", true);
-        $tr      = $hc->getHtmlEmpty('</tr><tr>', $t . "\t\t\t\t\t", "\n");
-        $td      .= $sc->getSmartyConditions($tableName . '[i].count', ' is div by ', '$divideby', $tr, false, false, false, $t . "\t\t\t\t");
-        $section = $hc->getHtmlComment('Start new link loop',$t . "\t\t\t", "\n");
-        $section .= $sc->getSmartySection('i', $tableName, $td, '', '', $t . "\t\t\t");
-        $section .= $hc->getHtmlComment('End new link loop',$t . "\t\t\t", "\n");
-        $tr      = $hc->getHtmlTableRow($section, '',$t . "\t\t");
-        $table   .= $hc->getHtmlTable($tr, 'table table-<{$table_type}>', $t . "\t");
-        $ret     .= $sc->getSmartyConditions($tableName . 'Count', ' > ','0',$table);
+        $double  = $this->sc->getSmartyConst($language, 'INDEX_LATEST_LIST');
+        $ret     = $this->hc->getHtmlDiv($double, "{$moduleDirname}-linetitle", $t, "\n", false);
+        $table   = $this->hc->getHtmlComment("Start show new {$tableName} in index",$t . "\t", "\n");
+        $include = $this->sc->getSmartyIncludeFileListSection($moduleDirname, $tableName, $tableSoleName, $tableName, $t . "\t\t\t\t\t", "\n");
+        $td      = $this->hc->getHtmlTableData($include, "col_width<{\$numb_col}> top center", '', $t . "\t\t\t\t", "\n", true);
+        $tr      = $this->hc->getHtmlEmpty('</tr><tr>', $t . "\t\t\t\t\t", "\n");
+        $td      .= $this->sc->getSmartyConditions($tableName . '[i].count', ' is div by ', '$divideby', $tr, false, false, false, $t . "\t\t\t\t");
+        $section = $this->hc->getHtmlComment('Start new link loop',$t . "\t\t\t", "\n");
+        $section .= $this->sc->getSmartySection('i', $tableName, $td, '', '', $t . "\t\t\t");
+        $section .= $this->hc->getHtmlComment('End new link loop',$t . "\t\t\t", "\n");
+        $tr      = $this->hc->getHtmlTableRow($section, '',$t . "\t\t");
+        $table   .= $this->hc->getHtmlTable($tr, 'table table-<{$table_type}>', $t . "\t");
+        $ret     .= $this->sc->getSmartyConditions($tableName . 'Count', ' > ','0',$table);
 
         return $ret;
     }
@@ -170,9 +175,7 @@ class Index extends Files\CreateFile
      */
     public function getTemplateUserIndexFooter($moduleDirname)
     {
-        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
-
-        return $sc->getSmartyIncludeFile($moduleDirname, 'footer');
+        return $this->sc->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 
     /**

@@ -32,12 +32,30 @@ use XoopsModules\Modulebuilder\Files;
 class IncludeCommon extends Files\CreateFile
 {
     /**
+     * @var string
+     */
+    private $xc = null;
+
+    /**
+     * @var string
+     */
+    private $pc = null;
+
+    /**
+     * @var string
+     */
+    private $hc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $this->hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
     }
 
     /**
@@ -88,9 +106,6 @@ class IncludeCommon extends Files\CreateFile
      */
     private function getCommonCode($module)
     {
-        $pc                      = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $xc                      = Modulebuilder\Files\CreateXoopsCode::getInstance();
-        $hc                      = Modulebuilder\Files\CreateHtmlCode::getInstance();
         $table                   = $this->getTable();
         $moduleDirname           = $module->getVar('mod_dirname');
         $stuModuleDirname        = mb_strtoupper($moduleDirname);
@@ -99,10 +114,10 @@ class IncludeCommon extends Files\CreateFile
         $moduleAuthorWebsiteUrl  = $module->getVar('mod_author_website_url');
         $moduleAuthorImage       = str_replace(' ', '', mb_strtolower($moduleAuthor));
 
-        $contIf = $pc->getPhpCodeDefine('XOOPS_ICONS32_PATH', "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'", "\t");
-        $ret    = $pc->getPhpCodeConditions("!defined('XOOPS_ICONS32_PATH')", '','', $contIf, false);
-        $contIf = $pc->getPhpCodeDefine('XOOPS_ICONS32_URL', "XOOPS_URL . '/Frameworks/moduleclasses/icons/32'", "\t");
-        $ret    .= $pc->getPhpCodeConditions("!defined('XOOPS_ICONS32_URL')", '','', $contIf, false);
+        $contIf = $this->pc->getPhpCodeDefine('XOOPS_ICONS32_PATH', "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'", "\t");
+        $ret    = $this->pc->getPhpCodeConditions("!defined('XOOPS_ICONS32_PATH')", '','', $contIf, false);
+        $contIf = $this->pc->getPhpCodeDefine('XOOPS_ICONS32_URL', "XOOPS_URL . '/Frameworks/moduleclasses/icons/32'", "\t");
+        $ret    .= $this->pc->getPhpCodeConditions("!defined('XOOPS_ICONS32_URL')", '','', $contIf, false);
         $ret    .= $this->getCommonDefines($moduleDirname, 'DIRNAME', "'{$moduleDirname}'");
         $ret    .= $this->getCommonDefines($moduleDirname, 'PATH', "XOOPS_ROOT_PATH.'/modules/'.{$stuModuleDirname}_DIRNAME");
         $ret    .= $this->getCommonDefines($moduleDirname, 'URL', "XOOPS_URL.'/modules/'.{$stuModuleDirname}_DIRNAME");
@@ -125,16 +140,15 @@ class IncludeCommon extends Files\CreateFile
         $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_SHOTS_PATH', "{$stuModuleDirname}_UPLOAD_PATH.'/images/shots'");
         $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_SHOTS_URL', "{$stuModuleDirname}_UPLOAD_URL.'/images/shots'");
         $ret     .= $this->getCommonDefines($moduleDirname, 'ADMIN', "{$stuModuleDirname}_URL . '/admin/index.php'");
-        $ret     .= $xc->getXcEqualsOperator('$localLogo', "{$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.png'");
-        $ret     .= $pc->getPhpCodeCommentLine('Module Information');
+        $ret     .= $this->xc->getXcEqualsOperator('$localLogo', "{$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.png'");
+        $ret     .= $this->pc->getPhpCodeCommentLine('Module Information');
 
-        $img     = $hc->getHtmlImage('".$localLogo."', $moduleAuthorWebsiteName);
-        $anchor  = $hc->getHtmlAnchor($moduleAuthorWebsiteUrl, $img, $moduleAuthorWebsiteName, '_blank', '', '', '', "\n");
-        $replace = $xc->getXcEqualsOperator('$copyright', '"' . $anchor . '"');
+        $img     = $this->hc->getHtmlImage('".$localLogo."', $moduleAuthorWebsiteName);
+        $anchor  = $this->hc->getHtmlAnchor($moduleAuthorWebsiteUrl, $img, $moduleAuthorWebsiteName, '_blank', '', '', '', "\n");
+        $replace = $this->xc->getXcEqualsOperator('$copyright', '"' . $anchor . '"');
         $ret     .= str_replace("\n", '', $replace) . PHP_EOL;
-        $ret     .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsrequest', true);
-//        $ret     .= $pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'class/helper', true);
-        $ret     .= $pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'include/functions', true);
+        $ret     .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsrequest', true);
+        $ret     .= $this->pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'include/functions', true);
 
         return $ret;
     }

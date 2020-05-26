@@ -32,12 +32,24 @@ use XoopsModules\Modulebuilder\Files;
 class IncludeFunctions extends Files\CreateFile
 {
     /**
+     * @var string
+     */
+    private $xc = null;
+
+    /**
+     * @var string
+     */
+    private $pc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -75,20 +87,17 @@ class IncludeFunctions extends Files\CreateFile
      */
     private function getFunctionBlock($moduleDirname)
     {
-        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $xc               = Modulebuilder\Files\CreateXoopsCode::getInstance();
-
         $t      = "\t";
-        $ret    = $pc->getPhpCodeCommentMultiLine(['function' => 'add selected cats to block', '' => '', '@param  $cats' => '', '@return' => 'string']);
-        $func   = $xc->getXcEqualsOperator('$cat_sql', "'('", '', $t);
-        $contIf = $xc->getXcEqualsOperator('$cat_sql', "current(\$cats)", '.',$t. "\t");
+        $ret    = $this->pc->getPhpCodeCommentMultiLine(['function' => 'add selected cats to block', '' => '', '@param  $cats' => '', '@return' => 'string']);
+        $func   = $this->xc->getXcEqualsOperator('$cat_sql', "'('", '', $t);
+        $contIf = $this->xc->getXcEqualsOperator('$cat_sql', "current(\$cats)", '.',$t. "\t");
         $contIf .= $this->getSimpleString("array_shift(\$cats);", $t. "\t");
         $contFe = $this->getSimpleString("\$cat_sql .= ',' . \$cat;", $t . "\t\t");
-        $contIf .= $pc->getPhpCodeForeach('cats', false,false,'cat', $contFe, $t. "\t");
-        $func .= $pc->getPhpCodeConditions('is_array($cats)','','', $contIf, false, $t);
-        $func   .= $xc->getXcEqualsOperator('$cat_sql', "')'", '.', $t);
+        $contIf .= $this->pc->getPhpCodeForeach('cats', false,false,'cat', $contFe, $t. "\t");
+        $func .= $this->pc->getPhpCodeConditions('is_array($cats)','','', $contIf, false, $t);
+        $func   .= $this->xc->getXcEqualsOperator('$cat_sql', "')'", '.', $t);
         $func .= $this->getSimpleString('return $cat_sql;', $t);
-        $ret  .= $pc->getPhpCodeFunction("{$moduleDirname}_block_addCatSelect", '$cats', $func);
+        $ret  .= $this->pc->getPhpCodeFunction("{$moduleDirname}_block_addCatSelect", '$cats', $func);
 
         return $ret;
     }
@@ -101,22 +110,19 @@ class IncludeFunctions extends Files\CreateFile
      */
     private function getFunctionGetMyItemIds($moduleDirname)
     {
-        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $xc               = Modulebuilder\Files\CreateXoopsCode::getInstance();
-
         $t      = "\t";
-        $ret    = $pc->getPhpCodeCommentMultiLine(['Get the permissions ids' => '', '' => '', '@param  $permtype' => '', '@param  $dirname' => '', '@return' => 'mixed $itemIds']);
-        $func = $xc->getXcGetGlobal(['xoopsUser'], $t);
-        $func .= $xc->getXcEqualsOperator('static $permissions', "[]", '', $t);
+        $ret    = $this->pc->getPhpCodeCommentMultiLine(['Get the permissions ids' => '', '' => '', '@param  $permtype' => '', '@param  $dirname' => '', '@return' => 'mixed $itemIds']);
+        $func = $this->xc->getXcGetGlobal(['xoopsUser'], $t);
+        $func .= $this->xc->getXcEqualsOperator('static $permissions', "[]", '', $t);
         $contIf = $this->getSimpleString('return $permissions[$permtype];', $t . "\t");
-        $func .= $pc->getPhpCodeConditions('is_array($permissions) && array_key_exists($permtype, $permissions)','','', $contIf, false, $t);
-        $func .= $xc->getXcXoopsHandler('module', $t);
-        $func .= $xc->getXcEqualsOperator("\${$moduleDirname}Module", '$moduleHandler->getByDirname($dirname)', '', $t);
-        $func .= $pc->getPhpCodeTernaryOperator('groups', 'is_object($xoopsUser)', '$xoopsUser->getGroups()', 'XOOPS_GROUP_ANONYMOUS', $t);
-        $func .= $xc->getXcXoopsHandler('groupperm', $t);
-        $func .= $xc->getXcEqualsOperator('$itemIds', "\$grouppermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'))", '', $t);
+        $func .= $this->pc->getPhpCodeConditions('is_array($permissions) && array_key_exists($permtype, $permissions)','','', $contIf, false, $t);
+        $func .= $this->xc->getXcXoopsHandler('module', $t);
+        $func .= $this->xc->getXcEqualsOperator("\${$moduleDirname}Module", '$moduleHandler->getByDirname($dirname)', '', $t);
+        $func .= $this->pc->getPhpCodeTernaryOperator('groups', 'is_object($xoopsUser)', '$xoopsUser->getGroups()', 'XOOPS_GROUP_ANONYMOUS', $t);
+        $func .= $this->xc->getXcXoopsHandler('groupperm', $t);
+        $func .= $this->xc->getXcEqualsOperator('$itemIds', "\$grouppermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'))", '', $t);
         $func .= $this->getSimpleString('return $itemIds;', $t);
-        $ret  .= $pc->getPhpCodeFunction("{$moduleDirname}GetMyItemIds", '$permtype, $dirname', $func);
+        $ret  .= $this->pc->getPhpCodeFunction("{$moduleDirname}GetMyItemIds", '$permtype, $dirname', $func);
 
         return $ret;
     }

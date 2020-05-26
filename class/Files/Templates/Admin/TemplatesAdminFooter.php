@@ -32,12 +32,24 @@ use XoopsModules\Modulebuilder\Files;
 class TemplatesAdminFooter extends Files\CreateFile
 {
     /**
+     * @var string
+     */
+    private $hc = null;
+
+    /**
+     * @var string
+     */
+    private $sc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $this->sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
     }
 
     /**
@@ -72,22 +84,20 @@ class TemplatesAdminFooter extends Files\CreateFile
      */
     public function render()
     {
-        $hc            = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc            = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleName    = $module->getVar('mod_name');
         $moduleDirname = $module->getVar('mod_dirname');
         $supportName   = $module->getVar('mod_support_name');
         $language      = $this->getLanguage($moduleDirname, 'AM');
-        $singleNoVar = $sc->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
-        $img         = $hc->getHtmlTag('img', ['src' => $singleNoVar, 'alt' => 'XOOPS'], '', true, '','');
-        $anchor      = $hc->getHtmlTag('a', ['href' => 'https://xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'], $img) ;
-        $content     = $hc->getHtmlTag('div', ['class' => 'center'], "\n\t" . $anchor);
-        $tree        = $hc->getHtmlTag('strong', [], $moduleName, false, '', '');
-        $tree        .= $sc->getSmartyConst($language, 'MAINTAINEDBY');
-        $tree        .= $hc->getHtmlTag('a', ['href' => '<{$maintainedby}>', 'title' => 'Visit ' . $supportName, 'class' => 'tooltip', 'rel' => 'external'], $supportName);
-        $content     .= $hc->getHtmlTag('div', ['class' => 'center smallsmall italic pad5'], "\n\t" . $tree);
+        $singleNoVar = $this->sc->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
+        $img         = $this->hc->getHtmlTag('img', ['src' => $singleNoVar, 'alt' => 'XOOPS'], '', true, '','');
+        $anchor      = $this->hc->getHtmlTag('a', ['href' => 'https://xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'], $img) ;
+        $content     = $this->hc->getHtmlTag('div', ['class' => 'center'], "\n\t" . $anchor);
+        $tree        = $this->hc->getHtmlTag('strong', [], $moduleName, false, '', '');
+        $tree        .= $this->sc->getSmartyConst($language, 'MAINTAINEDBY');
+        $tree        .= $this->hc->getHtmlTag('a', ['href' => '<{$maintainedby}>', 'title' => 'Visit ' . $supportName, 'class' => 'tooltip', 'rel' => 'external'], $supportName);
+        $content     .= $this->hc->getHtmlTag('div', ['class' => 'center smallsmall italic pad5'], "\n\t" . $tree);
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 

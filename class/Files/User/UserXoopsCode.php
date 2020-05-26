@@ -30,6 +30,26 @@ use XoopsModules\Modulebuilder;
  */
 class UserXoopsCode
 {
+    /**
+     * @var string
+     */
+    private $xc = null;
+
+    /**
+     * @var string
+     */
+    private $pc = null;
+
+    /**
+     * @public function constructor
+     * @param null
+     */
+    public function __construct()
+    {
+        $this->xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+    }
+
     /*
     *  @static function getInstance
     *  @param null
@@ -73,9 +93,8 @@ class UserXoopsCode
      */
     public function getUserAddMeta($type, $language, $tableName, $t = '')
     {
-        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
         $stuTableName = mb_strtoupper($tableName);
-        $stripTags    = $pc->getPhpCodeStripTags('', $language . $stuTableName, true);
+        $stripTags    = $this->pc->getPhpCodeStripTags('', $language . $stuTableName, true);
 
         return "{$t}\$GLOBALS['xoTheme']->addMeta( 'meta', '{$type}', {$stripTags});\n";
     }
@@ -89,8 +108,7 @@ class UserXoopsCode
      */
     public function getUserMetaKeywords($moduleDirname)
     {
-        $pc      = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $implode = $pc->getPhpCodeImplode(',', '$keywords');
+        $implode = $this->pc->getPhpCodeImplode(',', '$keywords');
 
         return "{$moduleDirname}MetaKeywords(\$helper->getConfig('keywords').', '. {$implode});\n";
     }
@@ -120,11 +138,10 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbs($language, $tableName = 'index', $t = '')
     {
-        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
         $stuTableName = mb_strtoupper($tableName);
         $title        = ["'title'" => "{$language}{$stuTableName}"];
 
-        return $pc->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
+        return $this->pc->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
     }
 
     /**
@@ -137,12 +154,11 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbsHeaderFile($moduleDirname, $language)
     {
-        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $ret              = $pc->getPhpCodeCommentLine('Breadcrumbs');
-        $ret              .= $pc->getPhpCodeArray('xoBreadcrumbs', null, false, '');
+        $ret              = $this->pc->getPhpCodeCommentLine('Breadcrumbs');
+        $ret              .= $this->pc->getPhpCodeArray('xoBreadcrumbs', null, false, '');
         $titleLink        = ["'title'" => $language . 'TITLE', "'link'" => "{$stuModuleDirname}_URL . '/'"];
-        $ret              .= $pc->getPhpCodeArray('xoBreadcrumbs[]', $titleLink, false, '');
+        $ret              .= $this->pc->getPhpCodeArray('xoBreadcrumbs[]', $titleLink, false, '');
 
         return $ret;
     }
@@ -154,10 +170,8 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbsFooterFile()
     {
-        $pc   = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $xc   = Modulebuilder\Files\CreateXoopsCode::getInstance();
-        $cond = $xc->getXcXoopsTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
-        $ret  = $pc->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
+        $cond = $this->xc->getXcXoopsTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
+        $ret  = $this->pc->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
 
         return $ret;
     }

@@ -33,13 +33,24 @@ use XoopsModules\Modulebuilder;
 class CreateArchitecture extends CreateStructure
 {
     /**
-     * @public function constructor class
-     *
+     * @var string
+     */
+    private $cf = null;
+
+    /**
+     * @var string
+     */
+    private $helper = null;
+
+    /**
+     * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->helper = Modulebuilder\Helper::getInstance();
+        $this->cf     = Modulebuilder\Files\CreateFile::getInstance();
         $this->setUploadPath(TDMC_UPLOAD_REPOSITORY_PATH);
     }
 
@@ -67,18 +78,16 @@ class CreateArchitecture extends CreateStructure
      */
     public function setBaseFoldersFiles($module)
     {
-        $helper = Modulebuilder\Helper::getInstance();
-        $tf     = Modulebuilder\Files\CreateFile::getInstance();
         // Module
         $modId = $module->getVar('mod_id');
         // Id of tables
-        $tables = $tf->getTableTables($modId);
+        $tables = $this->cf->getTableTables($modId);
 
         $table = null;
         foreach (array_keys($tables) as $t) {
             $tableId   = $tables[$t]->getVar('table_id');
             $tableName = $tables[$t]->getVar('table_name');
-            $table     = $helper->getHandler('Tables')->get($tableId);
+            $table     = $this->helper->getHandler('Tables')->get($tableId);
         }
 
         $indexFile       = XOOPS_UPLOAD_PATH . '/index.html';
@@ -193,14 +202,12 @@ class CreateArchitecture extends CreateStructure
      */
     public function setFilesToBuilding($module)
     {
-        $helper = Modulebuilder\Helper::getInstance();
-        $tf     = Modulebuilder\Files\CreateFile::getInstance();
         // Module
         $modId         = $module->getVar('mod_id');
         $moduleDirname = $module->getVar('mod_dirname');
         $icon32        = 'assets/icons/32';
-        $tables        = $tf->getTableTables($modId);
-        $files         = $tf->getTableMorefiles($modId);
+        $tables        = $this->cf->getTableTables($modId);
+        $files         = $this->cf->getTableMorefiles($modId);
         $ret           = [];
         $templateType  = 'defstyle';
 
@@ -249,7 +256,7 @@ class CreateArchitecture extends CreateStructure
             $tableTag[]           = $tables[$t]->getVar('table_tag');
 
             // Get Table Object
-            $table = $helper->getHandler('Tables')->get($tableId);
+            $table = $this->helper->getHandler('Tables')->get($tableId);
             // Copy of tables images file
             if (file_exists($uploadTableImage = TDMC_UPLOAD_IMGTAB_PATH . '/' . $tableImage)) {
                 $this->copyFile($icon32, $uploadTableImage, $tableImage);
@@ -736,8 +743,6 @@ class CreateArchitecture extends CreateStructure
     {
 
         $moduleName = $module->getVar('mod_dirname');
-        //$src_path   = XOOPS_ROOT_PATH . '/modules/modulebuilder/files';
-        //$tmp_path   = XOOPS_UPLOAD_PATH . '/modulebuilder/temp';
         $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleName);
 
         $patterns = [

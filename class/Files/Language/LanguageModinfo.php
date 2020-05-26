@@ -32,12 +32,24 @@ use XoopsModules\Modulebuilder\Files;
 class LanguageModinfo extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $ld = null;
+
+    /**
+     * @var mixed
+     */
+    private $pc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->ld = LanguageDefines::getInstance();
+        $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -83,14 +95,12 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageMain($language, $module)
     {
-        $df  = LanguageDefines::getInstance();
-        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $ret = $df->getBlankLine();
-        $ret .= $pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
-        $ret .= $df->getBlankLine();
-        $ret .= $df->getAboveHeadDefines('Admin Main');
-        $ret .= $df->getDefine($language, 'NAME', (string)$module->getVar('mod_name'));
-        $ret .= $df->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
+        $ret = $this->ld->getBlankLine();
+        $ret .= $this->pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
+        $ret .= $this->ld->getBlankLine();
+        $ret .= $this->ld->getAboveHeadDefines('Admin Main');
+        $ret .= $this->ld->getDefine($language, 'NAME', (string)$module->getVar('mod_name'));
+        $ret .= $this->ld->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
 
         return $ret;
     }
@@ -105,11 +115,10 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageMenu($module, $language)
     {
-        $df               = Modulebuilder\Files\Language\LanguageDefines::getInstance();
         $tables           = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $menu             = 1;
-        $ret              = $df->getAboveHeadDefines('Admin Menu');
-        $ret              .= $df->getDefine($language, "ADMENU{$menu}", 'Dashboard');
+        $ret              = $this->ld->getAboveHeadDefines('Admin Menu');
+        $ret              .= $this->ld->getDefine($language, "ADMENU{$menu}", 'Dashboard');
         $tablePermissions = [];
         $tableBroken      = [];
         foreach (array_keys($tables) as $i) {
@@ -117,19 +126,19 @@ class LanguageModinfo extends Files\CreateFile
             $tablePermissions[] = $tables[$i]->getVar('table_permissions');
             $tableBroken[]      = $tables[$i]->getVar('table_broken');
             $ucfTableName       = ucfirst($tables[$i]->getVar('table_name'));
-            $ret                .= $df->getDefine($language, "ADMENU{$menu}", $ucfTableName);
+            $ret                .= $this->ld->getDefine($language, "ADMENU{$menu}", $ucfTableName);
         }
         if (in_array(1, $tableBroken)) {
             ++$menu;
-            $ret    .= $df->getDefine($language, "ADMENU{$menu}", 'Broken items');
+            $ret    .= $this->ld->getDefine($language, "ADMENU{$menu}", 'Broken items');
         }
         if (in_array(1, $tablePermissions)) {
             ++$menu;
-            $ret .= $df->getDefine($language, "ADMENU{$menu}", 'Permissions');
+            $ret .= $this->ld->getDefine($language, "ADMENU{$menu}", 'Permissions');
         }
         ++$menu;
-        $ret .= $df->getDefine($language, "ADMENU{$menu}", 'Feedback');
-        $ret .= $df->getDefine($language, 'ABOUT', 'About');
+        $ret .= $this->ld->getDefine($language, "ADMENU{$menu}", 'Feedback');
+        $ret .= $this->ld->getDefine($language, 'ABOUT', 'About');
         unset($menu, $tablePermissions);
 
         return $ret;
@@ -143,10 +152,9 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageAdmin($language)
     {
-        $df  = LanguageDefines::getInstance();
-        $ret = $df->getAboveHeadDefines('Admin Nav');
-        $ret .= $df->getDefine($language, 'ADMIN_PAGER', 'Admin pager');
-        $ret .= $df->getDefine($language, 'ADMIN_PAGER_DESC', 'Admin per page list');
+        $ret = $this->ld->getAboveHeadDefines('Admin Nav');
+        $ret .= $this->ld->getDefine($language, 'ADMIN_PAGER', 'Admin pager');
+        $ret .= $this->ld->getDefine($language, 'ADMIN_PAGER_DESC', 'Admin per page list');
 
         return $ret;
     }
@@ -160,9 +168,8 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageSubmenu($language, $tables)
     {
-        $df          = LanguageDefines::getInstance();
-        $ret         = $df->getAboveDefines('Submenu');
-        $ret         .= $df->getDefine($language, 'SMNAME1', 'Index page');
+        $ret         = $this->ld->getAboveDefines('Submenu');
+        $ret         .= $this->ld->getDefine($language, 'SMNAME1', 'Index page');
         $i           = 1;
         $tableSubmit = [];
         $tableSearch = [];
@@ -171,17 +178,17 @@ class LanguageModinfo extends Files\CreateFile
             $tableSearch[] = $tables[$t]->getVar('table_search');
             $ucfTablename  = ucfirst(mb_strtolower($tableName));
             if (1 == $tables[$t]->getVar('table_submenu')) {
-                $ret .= $df->getDefine($language, "SMNAME{$i}", $ucfTablename);
+                $ret .= $this->ld->getDefine($language, "SMNAME{$i}", $ucfTablename);
             }
             ++$i;
             if (1 == $tables[$t]->getVar('table_submit')) {
-                $ret .= $df->getDefine($language, "SMNAME{$i}", 'Submit ' . $ucfTablename);
+                $ret .= $this->ld->getDefine($language, "SMNAME{$i}", 'Submit ' . $ucfTablename);
                 ++$i;
             }
         }
 
         if (in_array(1, $tableSearch)) {
-            $ret .= $df->getDefine($language, "SMNAME{$i}", 'Search');
+            $ret .= $this->ld->getDefine($language, "SMNAME{$i}", 'Search');
         }
         unset($i, $tableSubmit);
 
@@ -197,8 +204,7 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageBlocks($tables, $language)
     {
-        $df  = LanguageDefines::getInstance();
-        $ret = $df->getAboveDefines('Blocks');
+        $ret = $this->ld->getAboveDefines('Blocks');
         foreach (array_keys($tables) as $i) {
             $tableName        = $tables[$i]->getVar('table_name');
             $stuTableName     = mb_strtoupper($tableName);
@@ -207,24 +213,24 @@ class LanguageModinfo extends Files\CreateFile
             $ucfTableName     = ucfirst($tableName);
             $ucfTableSoleName = ucfirst($stuTableSoleName);
 
-            $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
-            $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_DESC", "{$ucfTableName} block description");
+            $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
+            $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_DESC", "{$ucfTableName} block description");
             if (1 == $tables[$i]->getVar('table_category')) {
-                $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block {$ucfTableSoleName}");
-                $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block {$ucfTableSoleName} description");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block {$ucfTableSoleName}");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block {$ucfTableSoleName} description");
             } else {
-                $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block  {$ucfTableSoleName}");
-                $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block  {$ucfTableSoleName} description");
-                $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_LAST", "{$ucfTableName} block last");
-                $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_LAST_DESC", "{$ucfTableName} block last description");
-                $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_NEW", "{$ucfTableName} block new");
-                $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_NEW_DESC", "{$ucfTableName} block new description");
-                $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_HITS", "{$ucfTableName} block hits");
-                $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_HITS_DESC", "{$ucfTableName} block hits description");
-                $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_TOP", "{$ucfTableName} block top");
-                $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_TOP_DESC", "{$ucfTableName} block top description");
-                $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_RANDOM", "{$ucfTableName} block random");
-                $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_RANDOM_DESC", "{$ucfTableName} block random description");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block  {$ucfTableSoleName}");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block  {$ucfTableSoleName} description");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_LAST", "{$ucfTableName} block last");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_LAST_DESC", "{$ucfTableName} block last description");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_NEW", "{$ucfTableName} block new");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_NEW_DESC", "{$ucfTableName} block new description");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_HITS", "{$ucfTableName} block hits");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_HITS_DESC", "{$ucfTableName} block hits description");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_TOP", "{$ucfTableName} block top");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_TOP_DESC", "{$ucfTableName} block top description");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_RANDOM", "{$ucfTableName} block random");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_RANDOM_DESC", "{$ucfTableName} block random description");
             }
         }
 
@@ -239,10 +245,9 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageUser($language)
     {
-        $df  = LanguageDefines::getInstance();
-        $ret = $df->getAboveDefines('User');
-        $ret .= $df->getDefine($language, 'USER_PAGER', 'User pager');
-        $ret .= $df->getDefine($language, 'USER_PAGER_DESC', 'User per page list');
+        $ret = $this->ld->getAboveDefines('User');
+        $ret .= $this->ld->getDefine($language, 'USER_PAGER', 'User pager');
+        $ret .= $this->ld->getDefine($language, 'USER_PAGER_DESC', 'User per page list');
 
         return $ret;
     }
@@ -256,8 +261,7 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageConfig($language, $tables)
     {
-        $df          = LanguageDefines::getInstance();
-        $ret         = $df->getAboveDefines('Config');
+        $ret         = $this->ld->getAboveDefines('Config');
         $fieldImage  = false;
         $fieldFile   = false;
         $useTag      = false;
@@ -285,38 +289,38 @@ class LanguageModinfo extends Files\CreateFile
             }
         }
         if ($fieldEditor) {
-            $ret .= $df->getDefine($language, 'EDITOR_ADMIN', 'Editor admin');
-            $ret .= $df->getDefine($language, 'EDITOR_ADMIN_DESC', 'Select the editor which should be used in admin area for text area fields');
-            $ret .= $df->getDefine($language, 'EDITOR_USER', 'Editor user');
-            $ret .= $df->getDefine($language, 'EDITOR_USER_DESC', 'Select the editor which should be used in user area for text area fields');
-            $ret .= $df->getDefine($language, 'EDITOR_MAXCHAR', 'Text max characters');
-            $ret .= $df->getDefine($language, 'EDITOR_MAXCHAR_DESC', 'Max characters for showing text of a textarea or editor field in admin area');
+            $ret .= $this->ld->getDefine($language, 'EDITOR_ADMIN', 'Editor admin');
+            $ret .= $this->ld->getDefine($language, 'EDITOR_ADMIN_DESC', 'Select the editor which should be used in admin area for text area fields');
+            $ret .= $this->ld->getDefine($language, 'EDITOR_USER', 'Editor user');
+            $ret .= $this->ld->getDefine($language, 'EDITOR_USER_DESC', 'Select the editor which should be used in user area for text area fields');
+            $ret .= $this->ld->getDefine($language, 'EDITOR_MAXCHAR', 'Text max characters');
+            $ret .= $this->ld->getDefine($language, 'EDITOR_MAXCHAR_DESC', 'Max characters for showing text of a textarea or editor field in admin area');
         }
-        $ret .= $df->getDefine($language, 'KEYWORDS', 'Keywords');
-        $ret .= $df->getDefine($language, 'KEYWORDS_DESC', 'Insert here the keywords (separate by comma)');
+        $ret .= $this->ld->getDefine($language, 'KEYWORDS', 'Keywords');
+        $ret .= $this->ld->getDefine($language, 'KEYWORDS_DESC', 'Insert here the keywords (separate by comma)');
 
         if ($fieldImage || $fieldFile) {
-            $ret .= $df->getDefine($language, 'SIZE_MB', 'MB');
+            $ret .= $this->ld->getDefine($language, 'SIZE_MB', 'MB');
         }
         if ($fieldImage) {
-            $ret .= $df->getDefine($language, 'MAXSIZE_IMAGE', 'Max size image');
-            $ret .= $df->getDefine($language, 'MAXSIZE_IMAGE_DESC', 'Define the max size for uploading images');
-            $ret .= $df->getDefine($language, 'MIMETYPES_IMAGE', 'Mime types image');
-            $ret .= $df->getDefine($language, 'MIMETYPES_IMAGE_DESC', 'Define the allowed mime types for uploading images');
-            $ret .= $df->getDefine($language, 'MAXWIDTH_IMAGE', 'Max width image');
-            $ret .= $df->getDefine($language, 'MAXWIDTH_IMAGE_DESC', 'Set the max width which is allowed for uploading images (in pixel)<br>0 means that images keep original size<br>If original image is smaller the image will be not enlarged');
-            $ret .= $df->getDefine($language, 'MAXHEIGHT_IMAGE', 'Max height image');
-            $ret .= $df->getDefine($language, 'MAXHEIGHT_IMAGE_DESC', 'Set the max height which is allowed for uploading images (in pixel)<br>0 means that images keep original size<br>If original image is smaller the image will be not enlarged');
+            $ret .= $this->ld->getDefine($language, 'MAXSIZE_IMAGE', 'Max size image');
+            $ret .= $this->ld->getDefine($language, 'MAXSIZE_IMAGE_DESC', 'Define the max size for uploading images');
+            $ret .= $this->ld->getDefine($language, 'MIMETYPES_IMAGE', 'Mime types image');
+            $ret .= $this->ld->getDefine($language, 'MIMETYPES_IMAGE_DESC', 'Define the allowed mime types for uploading images');
+            $ret .= $this->ld->getDefine($language, 'MAXWIDTH_IMAGE', 'Max width image');
+            $ret .= $this->ld->getDefine($language, 'MAXWIDTH_IMAGE_DESC', 'Set the max width which is allowed for uploading images (in pixel)<br>0 means that images keep original size<br>If original image is smaller the image will be not enlarged');
+            $ret .= $this->ld->getDefine($language, 'MAXHEIGHT_IMAGE', 'Max height image');
+            $ret .= $this->ld->getDefine($language, 'MAXHEIGHT_IMAGE_DESC', 'Set the max height which is allowed for uploading images (in pixel)<br>0 means that images keep original size<br>If original image is smaller the image will be not enlarged');
         }
 		if ($fieldFile) {
-            $ret .= $df->getDefine($language, 'MAXSIZE_FILE', 'Max size file');
-            $ret .= $df->getDefine($language, 'MAXSIZE_FILE_DESC', 'Define the max size for uploading files');
-            $ret .= $df->getDefine($language, 'MIMETYPES_FILE', 'Mime types file');
-            $ret .= $df->getDefine($language, 'MIMETYPES_FILE_DESC', 'Define the allowed mime types for uploading files');
+            $ret .= $this->ld->getDefine($language, 'MAXSIZE_FILE', 'Max size file');
+            $ret .= $this->ld->getDefine($language, 'MAXSIZE_FILE_DESC', 'Define the max size for uploading files');
+            $ret .= $this->ld->getDefine($language, 'MIMETYPES_FILE', 'Mime types file');
+            $ret .= $this->ld->getDefine($language, 'MIMETYPES_FILE_DESC', 'Define the allowed mime types for uploading files');
         }
         if ($useTag) {
-            $ret .= $df->getDefine($language, 'USE_TAG', 'Use TAG');
-            $ret .= $df->getDefine($language, 'USE_TAG_DESC', 'If you use tag module, check this option to yes');
+            $ret .= $this->ld->getDefine($language, 'USE_TAG', 'Use TAG');
+            $ret .= $this->ld->getDefine($language, 'USE_TAG_DESC', 'If you use tag module, check this option to yes');
         }
         $getDefinesConf = [
             'NUMB_COL'               => 'Number Columns',
@@ -341,7 +345,7 @@ class LanguageModinfo extends Files\CreateFile
             'DISQUS_COMMENTS_DESC'   => 'Allow Disqus comments in the single page',
         ];
         foreach ($getDefinesConf as $defc => $descc) {
-            $ret .= $df->getDefine($language, $defc, $descc);
+            $ret .= $this->ld->getDefine($language, $defc, $descc);
         }
 
         return $ret;
@@ -356,8 +360,7 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageNotificationsGlobal($language, $tableBroken, $tableComment)
     {
-        $df               = LanguageDefines::getInstance();
-        $ret              = $df->getAboveDefines('Global notifications');
+        $ret              = $this->ld->getAboveDefines('Global notifications');
         $getDefinesNotif  = [
             'NOTIFY_GLOBAL'                  => 'Global notification',
             'NOTIFY_GLOBAL_NEW'              => 'Any new item',
@@ -392,7 +395,7 @@ class LanguageModinfo extends Files\CreateFile
             $getDefinesNotif['NOTIFY_GLOBAL_COMMENT_SUBJECT'] = 'Notification about any comment';
         }
         foreach ($getDefinesNotif as $defn => $descn) {
-            $ret .= $df->getDefine($language, $defn, $descn);
+            $ret .= $this->ld->getDefine($language, $defn, $descn);
         }
 
         return $ret;
@@ -410,10 +413,9 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageNotificationsTable($language, $tableName, $tableSoleName, $tableBroken, $tableComment)
     {
-        $df               = LanguageDefines::getInstance();
         $stuTableSoleName = mb_strtoupper($tableSoleName);
         $ucfTableSoleName = ucfirst($tableSoleName);
-		$ret              = $df->getAboveDefines($ucfTableSoleName . ' notifications');
+		$ret              = $this->ld->getAboveDefines($ucfTableSoleName . ' notifications');
         $getDefinesNotif  = [
             'NOTIFY_' . $stuTableSoleName                       => $ucfTableSoleName . ' notification',
             'NOTIFY_' . $stuTableSoleName . '_MODIFY'           => "{$ucfTableSoleName} modification",
@@ -437,7 +439,7 @@ class LanguageModinfo extends Files\CreateFile
             $getDefinesNotif['NOTIFY_' . $stuTableSoleName . '_COMMENT_SUBJECT'] = "Notification about comments for {$tableSoleName}";
         }
         foreach ($getDefinesNotif as $defn => $descn) {
-            $ret .= $df->getDefine($language, $defn, $descn);
+            $ret .= $this->ld->getDefine($language, $defn, $descn);
         }
 
         return $ret;
@@ -450,14 +452,13 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguagePermissionsGroups($language)
     {
-        $df  = LanguageDefines::getInstance();
-        $ret = $df->getAboveDefines('Permissions Groups');
-        $ret .= $df->getDefine($language, 'GROUPS', 'Groups access');
-        $ret .= $df->getDefine($language, 'GROUPS_DESC', 'Select general access permission for groups.');
-        $ret .= $df->getDefine($language, 'ADMIN_GROUPS', 'Admin Group Permissions');
-        $ret .= $df->getDefine($language, 'ADMIN_GROUPS_DESC', 'Which groups have access to tools and permissions page');
-        $ret .= $df->getDefine($language, 'UPLOAD_GROUPS', 'Upload Group Permissions');
-        $ret .= $df->getDefine($language, 'UPLOAD_GROUPS_DESC', 'Which groups have permissions to upload files');
+        $ret = $this->ld->getAboveDefines('Permissions Groups');
+        $ret .= $this->ld->getDefine($language, 'GROUPS', 'Groups access');
+        $ret .= $this->ld->getDefine($language, 'GROUPS_DESC', 'Select general access permission for groups.');
+        $ret .= $this->ld->getDefine($language, 'ADMIN_GROUPS', 'Admin Group Permissions');
+        $ret .= $this->ld->getDefine($language, 'ADMIN_GROUPS_DESC', 'Which groups have access to tools and permissions page');
+        $ret .= $this->ld->getDefine($language, 'UPLOAD_GROUPS', 'Upload Group Permissions');
+        $ret .= $this->ld->getDefine($language, 'UPLOAD_GROUPS_DESC', 'Which groups have permissions to upload files');
 
         return $ret;
     }
@@ -470,8 +471,8 @@ class LanguageModinfo extends Files\CreateFile
     private function getLanguageFooter()
     {
         $df  = LanguageDefines::getInstance();
-        $ret = $df->getBelowDefines('End');
-        $ret .= $df->getBlankLine();
+        $ret = $this->ld->getBelowDefines('End');
+        $ret .= $this->ld->getBlankLine();
 
         return $ret;
     }
@@ -495,7 +496,6 @@ class LanguageModinfo extends Files\CreateFile
         $tableNotifications = [];
         $tablePermissions   = [];
         $notifTable         = '';
-        //$tableBroken        = 0;
         $tableBrokens       = [];
         $tableComments      = [];
         foreach (array_keys($tables) as $t) {

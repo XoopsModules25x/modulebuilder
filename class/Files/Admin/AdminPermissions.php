@@ -32,13 +32,36 @@ use XoopsModules\Modulebuilder\Files;
 class AdminPermissions extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $axc = null;
+
+    /**
+     * @var string
+     */
+    private $xc = null;
+
+    /**
+     * @var string
+     */
+    private $pc = null;
+
+    /**
+     * @var string
+     */
+    private $cxc = null;
+
+    /**
      * @public function constructor
-     *
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $this->axc = Modulebuilder\Files\Admin\AdminXoopsCode::getInstance();
+        $this->cxc = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
     }
 
     /**
@@ -85,10 +108,6 @@ class AdminPermissions extends Files\CreateFile
      */
     private function getPermissionsHeader($module, $language)
     {
-        $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $xc            = Modulebuilder\Files\CreateXoopsCode::getInstance();
-        $cc            = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
-        $axc           = Modulebuilder\Files\Admin\AdminXoopsCode::getInstance();
         $moduleDirname = $module->getVar('mod_dirname');
         $tables        = $this->getTableTables($module->getVar('mod_id'));
         $tableNames    = [];
@@ -97,20 +116,20 @@ class AdminPermissions extends Files\CreateFile
                 $tableNames[] = $tables[$t]->getVar('table_name');
             }
         }
-        $ret           = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
-        $ret           .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
-        $ret           .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret           = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret           .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret           .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $ret           .= $this->getInclude('header');
-        $ret           .= $pc->getPhpCodeBlankLine();
-        $ret           .= $pc->getPhpCodeCommentLine('Template Index');
-        $ret           .= $axc->getAdminTemplateMain($moduleDirname, 'permissions');
-        $ret           .= $xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('permissions.php')");
-        $ret           .= $pc->getPhpCodeBlankLine();
-        $ret           .= $xc->getXcXoopsRequest('op', 'op', 'global', 'Cmd');
-        $ret           .= $pc->getPhpCodeBlankLine();
-        $ret           .= $pc->getPhpCodeCommentLine('Get Form');
-        $ret           .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret           .= $xc->getXcXoopsLoad('XoopsFormLoader');
+        $ret           .= $this->pc->getPhpCodeBlankLine();
+        $ret           .= $this->pc->getPhpCodeCommentLine('Template Index');
+        $ret           .= $this->axc->getAdminTemplateMain($moduleDirname, 'permissions');
+        $ret           .= $this->xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('permissions.php')");
+        $ret           .= $this->pc->getPhpCodeBlankLine();
+        $ret           .= $this->xc->getXcXoopsRequest('op', 'op', 'global', 'Cmd');
+        $ret           .= $this->pc->getPhpCodeBlankLine();
+        $ret           .= $this->pc->getPhpCodeCommentLine('Get Form');
+        $ret           .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
+        $ret           .= $this->xc->getXcXoopsLoad('XoopsFormLoader');
         $optionsSelect['global'] = "{$language}PERMISSIONS_GLOBAL";
         foreach ($tableNames as $tableName) {
             $ucfTablename = ucfirst($tableName);
@@ -118,8 +137,8 @@ class AdminPermissions extends Files\CreateFile
             $optionsSelect["submit_{$tableName}"] = "{$language}PERMISSIONS_SUBMIT . ' {$ucfTablename}'";
             $optionsSelect["view_{$tableName}"] = "{$language}PERMISSIONS_VIEW . ' {$ucfTablename}'";
         }
-        $formSelect    = $xc->getXoopsFormSelectExtraOptions('formSelect', '\'\'', 'op', $optionsSelect, 'onchange="document.fselperm.submit()"');
-        $ret           .= $cc->getXoopsSimpleForm('permTableForm', 'formSelect', $formSelect, '\'\'', 'fselperm', 'permissions');
+        $formSelect    = $this->xc->getXoopsFormSelectExtraOptions('formSelect', '\'\'', 'op', $optionsSelect, 'onchange="document.fselperm.submit()"');
+        $ret           .= $this->cxc->getXoopsSimpleForm('permTableForm', 'formSelect', $formSelect, '\'\'', 'fselperm', 'permissions');
 
         return $ret;
     }
@@ -133,8 +152,6 @@ class AdminPermissions extends Files\CreateFile
      */
     private function getPermissionsSwitch($module, $language)
     {
-        $pc    = Modulebuilder\Files\CreatePhpCode::getInstance();
-
         $moduleDirname = $module->getVar('mod_dirname');
         $tables        = $this->getTableTables($module->getVar('mod_id'));
         $t = "\t\t";
@@ -169,9 +186,9 @@ class AdminPermissions extends Files\CreateFile
                 ];
             }
         }
-        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, true, false, "\t");
+        $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, false, "\t");
 
-        return $pc->getPhpCodeSwitch('op', $contentSwitch);
+        return $this->pc->getPhpCodeSwitch('op', $contentSwitch);
     }
 
     /**
@@ -184,18 +201,16 @@ class AdminPermissions extends Files\CreateFile
      */
     private function getPermissionsBody($module, $language)
     {
-        $pc       = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $xc       = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $tables   = $this->getTableTables($module->getVar('mod_id'));
 
-        $ret      = $xc->getXcGetVar('moduleId', 'xoopsModule', 'mid');
-        $ret      .= $xc->getXcXoopsFormGroupPerm('permform', '$formTitle', '$moduleId', '$permName', '$permDesc', "'admin/permissions.php'");
-        $ret      .= $xc->getXcEqualsOperator('$permFound', 'false');
-        $foreach1 = $xc->getXcAddItem('permform', '$gPermId', '$gPermName', "\t\t");
-        $if1      = $pc->getPhpCodeForeach('globalPerms', false, 'gPermId', 'gPermName', $foreach1, "\t");
-        $if1      .= $xc->getXcXoopsTplAssign('form', '$permform->render()', true, "\t");
-        $if1      .= $xc->getXcEqualsOperator('$permFound', 'true', null, "\t");
-        $ret      .= $pc->getPhpCodeConditions('$op', ' === ', "'global'", $if1, false);
+        $ret      = $this->xc->getXcGetVar('moduleId', 'xoopsModule', 'mid');
+        $ret      .= $this->xc->getXcXoopsFormGroupPerm('permform', '$formTitle', '$moduleId', '$permName', '$permDesc', "'admin/permissions.php'");
+        $ret      .= $this->xc->getXcEqualsOperator('$permFound', 'false');
+        $foreach1 = $this->xc->getXcAddItem('permform', '$gPermId', '$gPermName', "\t\t");
+        $if1      = $this->pc->getPhpCodeForeach('globalPerms', false, 'gPermId', 'gPermName', $foreach1, "\t");
+        $if1      .= $this->xc->getXcXoopsTplAssign('form', '$permform->render()', true, "\t");
+        $if1      .= $this->xc->getXcEqualsOperator('$permFound', 'true', null, "\t");
+        $ret      .= $this->pc->getPhpCodeConditions('$op', ' === ', "'global'", $if1, false);
 
         foreach (array_keys($tables) as $t) {
             if (1 == $tables[$t]->getVar('table_permissions')) {
@@ -214,24 +229,24 @@ class AdminPermissions extends Files\CreateFile
                         $fieldMain = $fieldName;
                     }
                 }
-                $if_count   = $xc->getXcHandlerAllObj($tableName, $fieldMain, 0, 0, "\t\t");
-                $getVar1    = $xc->getXcGetVar('', "{$tableName}All[\$i]", $fieldId, true);
-                $getVar2    = $xc->getXcGetVar('', "{$tableName}All[\$i]", $fieldMain, true);
-                $fe_content = $xc->getXcAddItem('permform', $getVar1, $getVar2, "\t\t\t");
-                $if_table   = $xc->getXcHandlerCountObj($tableName, "\t");
-                $if_count   .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $fe_content, "\t\t");
-                $if_count   .= $xc->getXcXoopsTplAssign('form', '$permform->render()', true, "\t\t");
-                $if_table   .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $if_count, false, "\t");
-                $if_table   .= $xc->getXcEqualsOperator('$permFound', 'true', null, "\t");
+                $if_count   = $this->xc->getXcHandlerAllObj($tableName, $fieldMain, 0, 0, "\t\t");
+                $getVar1    = $this->xc->getXcGetVar('', "{$tableName}All[\$i]", $fieldId, true);
+                $getVar2    = $this->xc->getXcGetVar('', "{$tableName}All[\$i]", $fieldMain, true);
+                $fe_content = $this->xc->getXcAddItem('permform', $getVar1, $getVar2, "\t\t\t");
+                $if_table   = $this->xc->getXcHandlerCountObj($tableName, "\t");
+                $if_count   .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $fe_content, "\t\t");
+                $if_count   .= $this->xc->getXcXoopsTplAssign('form', '$permform->render()', true, "\t\t");
+                $if_table   .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $if_count, false, "\t");
+                $if_table   .= $this->xc->getXcEqualsOperator('$permFound', 'true', null, "\t");
                 $cond       = "\$op === 'approve_{$tableName}' || \$op === 'submit_{$tableName}' || \$op === 'view_{$tableName}'";
-                $ret        .= $pc->getPhpCodeConditions($cond, '', '', $if_table, false);
+                $ret        .= $this->pc->getPhpCodeConditions($cond, '', '', $if_table, false);
             }
         }
 
-        $ret       .= $pc->getPhpCodeUnset('permform');
-        $elseInter = $xc->getXcRedirectHeader("'permissions.php'", '', '3', "{$language}NO_PERMISSIONS_SET", false, "\t");
+        $ret       .= $this->pc->getPhpCodeUnset('permform');
+        $elseInter = $this->xc->getXcRedirectHeader("'permissions.php'", '', '3', "{$language}NO_PERMISSIONS_SET", false, "\t");
         $elseInter .= $this->getSimpleString("exit();", "\t");
-        $ret       .= $pc->getPhpCodeConditions('$permFound', ' !== ', 'true', $elseInter, false);
+        $ret       .= $this->pc->getPhpCodeConditions('$permFound', ' !== ', 'true', $elseInter, false);
 
         return $ret;
     }

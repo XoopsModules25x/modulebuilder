@@ -34,7 +34,17 @@ class Header extends Files\CreateFile
     /**
      * @var string
      */
-    private $tdmcfile = null;
+    private $cf = null;
+
+    /**
+     * @var string
+     */
+    private $hc = null;
+
+    /**
+     * @var string
+     */
+    private $sc = null;
 
     /**
      * @public function constructor
@@ -43,8 +53,9 @@ class Header extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = Modulebuilder\Files\CreateFile::getInstance();
-        $this->htmlcode = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $this->cf = Modulebuilder\Files\CreateFile::getInstance();
+        $this->hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $this->sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
     }
 
     /**
@@ -80,12 +91,10 @@ class Header extends Files\CreateFile
      */
     public function getTemplatesUserHeader($moduleDirname)
     {
-        $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
-		$ret = $sc->getSmartyIncludeFile($moduleDirname, 'breadcrumbs', false, true, '', "\n\n");
-        $var = $sc->getSmartySingleVar('ads', '', '');
-        $div = $hc->getHtmlDiv($var, 'center', "\t","\n", false) ;
-        $ret .= $sc->getSmartyConditions('ads', ' != ', '\'\'', $div);
+		$ret = $this->sc->getSmartyIncludeFile($moduleDirname, 'breadcrumbs', false, true, '', "\n\n");
+        $var = $this->sc->getSmartySingleVar('ads', '', '');
+        $div = $this->hc->getHtmlDiv($var, 'center', "\t","\n", false) ;
+        $ret .= $this->sc->getSmartyConditions('ads', ' != ', '\'\'', $div);
 
         return $ret;
     }
@@ -123,11 +132,10 @@ EOT;
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        //$language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getTemplatesUserHeader($moduleDirname);
 
-        $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->cf->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->cf->renderFile();
     }
 }

@@ -77,7 +77,6 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateDummy($tableSoleName, $line)
     {
-
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('A new ' . $tableSoleName . ' "{ITEM_NAME}" has been added at {X_SITENAME}.');
@@ -101,7 +100,6 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateTableModify($tableSoleName, $line)
     {
-
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{ITEM_NAME}" has been modified at {X_SITENAME}.');
@@ -124,7 +122,6 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateTableDelete($tableSoleName, $line)
     {
-
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{ITEM_NAME}" has been deleted from {X_SITENAME}.');
@@ -144,7 +141,6 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateTableApprove($tableSoleName, $line)
     {
-
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('A new ' . $tableSoleName . ' "{ITEM_NAME}" is waiting for approval at {X_SITENAME}.');
@@ -167,7 +163,6 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateTableBroken($tableSoleName, $line)
     {
-
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{ITEM_NAME}" has been notified as broken at {X_SITENAME}.');
@@ -190,7 +185,6 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateTableComment($tableSoleName, $line)
     {
-
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('A comment was published for ' . $tableSoleName . ' "{ITEM_NAME}" at {X_SITENAME}.');
@@ -212,7 +206,6 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateGlobalNew($line)
     {
-
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('A new item "{ITEM_NAME}" has been added at {X_SITENAME}.');
@@ -234,7 +227,6 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateGlobalModify($line)
     {
-
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('The item "{ITEM_NAME}" has been modified at {X_SITENAME}.');
@@ -256,7 +248,6 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateGlobalDelete($line)
     {
-
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('The item "{ITEM_NAME}" has been deleted from {X_SITENAME}.');
@@ -275,7 +266,6 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateGlobalApprove($line)
     {
-
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('The item "{ITEM_NAME}" is waiting for approval at {X_SITENAME}.');
@@ -297,7 +287,6 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateGlobalBroken($line)
     {
-
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('The item "{ITEM_NAME}" has been notified as broken at {X_SITENAME}.');
@@ -319,7 +308,6 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateGlobalComment($line)
     {
-
         $ret = $this->getSimpleString('Hello {X_UNAME},');
         $ret .= $this->getSimpleString('');
         $ret .= $this->getSimpleString('A new comment has been added to "{ITEM_NAME}" at {X_SITENAME}.');
@@ -341,7 +329,6 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function getTemplateTableFooter($line)
     {
-
         $ret = $this->getSimpleString('');
         $ret .= $this->getSimpleString('If this is an error or you wish not to receive further such notifications, please update your subscriptions by visiting the link below:');
         $ret .= $this->getSimpleString('{X_UNSUBSCRIBE_URL}');

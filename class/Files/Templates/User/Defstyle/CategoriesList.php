@@ -33,12 +33,24 @@ use XoopsModules\Modulebuilder\Files\Templates\User;
 class CategoriesList extends Files\CreateFile
 {
     /**
+     * @var string
+     */
+    private $hc = null;
+
+    /**
+     * @var string
+     */
+    private $sc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $this->sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
     }
 
     /**
@@ -228,8 +240,6 @@ EOT;
      */
     private function getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName)
     {
-        $hc      = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc      = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $fields  = $this->getTableFields($tableMid, $tableId);
         $ret     = '';
         $retElem = '';
@@ -242,36 +252,36 @@ EOT;
                         default:
                         case 2:
                             $rpFieldName = $this->getRightString($fieldName);
-                            $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retElem     .= $hc->getHtmlSpan($doubleVar, 'col-sm-2') . PHP_EOL;
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $retElem     .= $this->hc->getHtmlSpan($doubleVar, 'col-sm-2') . PHP_EOL;
                             break;
                         case 3:
                         case 4:
                             $rpFieldName = $this->getRightString($fieldName);
-                            $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retElem     .= $hc->getHtmlSpan($doubleVar, 'col-sm-3 justify') . PHP_EOL;
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $retElem     .= $this->hc->getHtmlSpan($doubleVar, 'col-sm-3 justify') . PHP_EOL;
                             break;
                         case 10:
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar   = $sc->getSmartySingleVar('xoops_icons32_url');
-                            $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img         = $hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
-                            $retElem     .= $hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
+                            $singleVar   = $this->sc->getSmartySingleVar('xoops_icons32_url');
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $img         = $this->hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
+                            $retElem     .= $this->hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
                             unset($img);
                             break;
                         case 13:
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar   = $sc->getSmartySingleVar($moduleDirname . '_upload_url');
-                            $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img         = $hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
-                            $retElem     .= $hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
+                            $singleVar   = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $img         = $this->hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
+                            $retElem     .= $this->hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
                             unset($img);
                             break;
                     }
                 }
             }
         }
-        $ret .= $hc->getHtmlDiv($retElem, 'panel-body') . PHP_EOL;
+        $ret .= $this->hc->getHtmlDiv($retElem, 'panel-body') . PHP_EOL;
 
         return $ret;
     }
@@ -286,7 +296,6 @@ EOT;
         $filename      = $this->getFileName();
         $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $moduleDirname = $module->getVar('mod_dirname');
-        //$language = $this->getLanguage($moduleDirname, 'MA');
         $content  = '';
         foreach (array_keys($tables) as $t) {
             $tableId         = $tables[$t]->getVar('table_id');

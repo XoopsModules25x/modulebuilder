@@ -32,12 +32,24 @@ use XoopsModules\Modulebuilder\Files;
 class TemplatesAdminIndex extends Files\CreateFile
 {
     /**
+     * @var string
+     */
+    private $hc = null;
+
+    /**
+     * @var string
+     */
+    private $sc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $this->sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
     }
 
     /**
@@ -72,19 +84,17 @@ class TemplatesAdminIndex extends Files\CreateFile
      */
     public function render()
     {
-        $hc            = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc            = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
 
-        $content = $hc->getHtmlComment('Header', '', "\n") ;
-        $content .= $sc->getSmartyIncludeFile($moduleDirname, 'header', true, true) . PHP_EOL;
-        $content .= $hc->getHtmlComment('Index Page', '', "\n") ;
-        $single  = $sc->getSmartySingleVar('index');
-        $content .= $hc->getHtmlTag('div', ['class' => 'top'], $single) . PHP_EOL;
-        $content .= $hc->getHtmlComment('Footer', '', "\n");
-        $content .= $sc->getSmartyIncludeFile($moduleDirname, 'footer', true, true);
+        $content = $this->hc->getHtmlComment('Header', '', "\n") ;
+        $content .= $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, true) . PHP_EOL;
+        $content .= $this->hc->getHtmlComment('Index Page', '', "\n") ;
+        $single  = $this->sc->getSmartySingleVar('index');
+        $content .= $this->hc->getHtmlTag('div', ['class' => 'top'], $single) . PHP_EOL;
+        $content .= $this->hc->getHtmlComment('Footer', '', "\n");
+        $content .= $this->sc->getSmartyIncludeFile($moduleDirname, 'footer', true, true);
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 

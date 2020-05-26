@@ -34,7 +34,7 @@ class LanguageHelp extends Files\CreateFile
     /**
      * @var mixed
      */
-    private $defines = null;
+    private $ld = null;
 
     /**
      * @public function constructor
@@ -43,7 +43,7 @@ class LanguageHelp extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->defines = LanguageDefines::getInstance();
+        $this->ld = LanguageDefines::getInstance();
     }
 
     /**

@@ -32,12 +32,24 @@ use XoopsModules\Modulebuilder\Files;
 class TemplatesAdminPermissions extends Files\CreateFile
 {
     /**
+     * @var string
+     */
+    private $hc = null;
+
+    /**
+     * @var string
+     */
+    private $sc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $this->sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
     }
 
     /**
@@ -74,9 +86,8 @@ class TemplatesAdminPermissions extends Files\CreateFile
      */
     private function getTemplatesAdminPermissionsHeader($moduleDirname)
     {
-        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
 
-        return $sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
+        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
     }
 
     /**
@@ -86,10 +97,8 @@ class TemplatesAdminPermissions extends Files\CreateFile
      */
     private function getTemplatesAdminPermissions()
     {
-        $hc   = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc   = Modulebuilder\Files\CreateSmartyCode::getInstance();
-        $form = $sc->getSmartySingleVar('form');
-        $ret  = $hc->getHtmlTag('div', ['class' => 'spacer'], $form, '', '', "\n\n");
+        $form = $this->sc->getSmartySingleVar('form');
+        $ret  = $this->hc->getHtmlTag('div', ['class' => 'spacer'], $form, '', '', "\n\n");
         return $ret;
     }
 
@@ -101,8 +110,7 @@ class TemplatesAdminPermissions extends Files\CreateFile
      */
     private function getTemplatesAdminPermissionsFooter($moduleDirname)
     {
-        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
-        return $sc->getSmartyIncludeFile($moduleDirname, 'footer', true);
+        return $this->sc->getSmartyIncludeFile($moduleDirname, 'footer', true);
     }
 
     /**

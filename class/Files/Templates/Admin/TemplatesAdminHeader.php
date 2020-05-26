@@ -32,12 +32,24 @@ use XoopsModules\Modulebuilder\Files;
 class TemplatesAdminHeader extends Files\CreateFile
 {
     /**
+     * @var string
+     */
+    private $hc = null;
+
+    /**
+     * @var string
+     */
+    private $sc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $this->sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
     }
 
     /**
@@ -72,18 +84,16 @@ class TemplatesAdminHeader extends Files\CreateFile
      */
     public function render()
     {
-        $hc            = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc            = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
 
-        $navigation = $sc->getSmartySingleVar('navigation');
-        $due        = $hc->getHtmlSpan($navigation, 'left', "\t") ;
-        $buttons    = $sc->getSmartySingleVar('buttons');
-        $right      = $hc->getHtmlSpan($buttons, 'left', "\t\t", "\n");
-        $due        .= $sc->getSmartyConditions('buttons', '', '', $right, '', '', '', "\t", "\n");
-        $content    = $hc->getHtmlDiv($due, 'top');
+        $navigation = $this->sc->getSmartySingleVar('navigation');
+        $due        = $this->hc->getHtmlSpan($navigation, 'left', "\t") ;
+        $buttons    = $this->sc->getSmartySingleVar('buttons');
+        $right      = $this->hc->getHtmlSpan($buttons, 'left', "\t\t", "\n");
+        $due        .= $this->sc->getSmartyConditions('buttons', '', '', $right, '', '', '', "\t", "\n");
+        $content    = $this->hc->getHtmlDiv($due, 'top');
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
