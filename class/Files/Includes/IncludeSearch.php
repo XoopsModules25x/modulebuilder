@@ -37,12 +37,12 @@ class IncludeSearch extends Files\CreateFile
     private $cf = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $pc = null;
 

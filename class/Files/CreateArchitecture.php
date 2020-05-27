@@ -33,12 +33,12 @@ use XoopsModules\Modulebuilder;
 class CreateArchitecture extends CreateStructure
 {
     /**
-     * @var string
+     * @var mixed
      */
     private $cf = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $helper = null;
 

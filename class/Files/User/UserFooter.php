@@ -33,12 +33,12 @@ class UserFooter extends Files\CreateFile
 {
 
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $pc = null;
 

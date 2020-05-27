@@ -33,12 +33,12 @@ use XoopsModules\Modulebuilder\Files\Templates\User;
 class Categories extends Files\CreateFile
 {
     /**
-     * @var string
+     * @var mixed
      */
     private $hc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $sc = null;
 

@@ -37,7 +37,7 @@ class AdminAbout extends Files\CreateFile
     private $axc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
 

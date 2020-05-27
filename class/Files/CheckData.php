@@ -33,7 +33,7 @@ use XoopsModules\Modulebuilder;
 class CheckData
 {
     /**
-     * @var string
+     * @var mixed
      */
     private $cf = null;
 

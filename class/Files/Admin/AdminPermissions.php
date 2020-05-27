@@ -37,17 +37,17 @@ class AdminPermissions extends Files\CreateFile
     private $axc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $pc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $cxc = null;
 

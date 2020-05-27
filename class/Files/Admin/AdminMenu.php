@@ -32,7 +32,7 @@ use XoopsModules\Modulebuilder\Files;
 class AdminMenu extends Files\CreateFile
 {
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
 

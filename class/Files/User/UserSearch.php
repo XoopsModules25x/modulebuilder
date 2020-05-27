@@ -34,12 +34,17 @@ class UserSearch extends Files\CreateFile
     /**
      * @var mixed
      */
-    private $usercode = null;
+    private $uxc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
-    private $xoopscode = null;
+    private $xc = null;
+
+    /**
+     * @var mixed
+     */
+    private $pc = null;
 
     /**
      * @public function constructor
@@ -48,9 +53,9 @@ class UserSearch extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xoopscode = Modulebuilder\Files\CreateXoopsCode::getInstance();
-        $this->phpcode   = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $this->usercode  = UserXoopsCode::getInstance();
+        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $this->uxc = UserXoopsCode::getInstance();
     }
 
     /**
@@ -92,7 +97,6 @@ class UserSearch extends Files\CreateFile
      */
     private function getUserSearchHeader($moduleDirname, $table, $fields)
     {
-        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
         $ret      = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret      .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret      .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
@@ -110,14 +114,14 @@ class UserSearch extends Files\CreateFile
         }
         if (1 == $table->getVar('table_category')) {
             $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
-            $ret        .= $this->xoopscode->getXcXoopsRequest($ccFieldPid, (string)$fieldPid, '0', 'Int');
+            $ret        .= $this->xc->getXcXoopsRequest($ccFieldPid, (string)$fieldPid, '0', 'Int');
         }
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret       .= $this->xoopscode->getXcXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
-        $ret       .= $this->usercode->getUserTplMain($moduleDirname);
+        $ret       .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
+        $ret       .= $this->uxc->getUserTplMain($moduleDirname);
         $ret       .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret       .= $this->getDashComment('Define Stylesheet');
-        $ret       .= $this->xoopscode->getXcXoThemeAddStylesheet();
+        $ret       .= $this->xc->getXcXoThemeAddStylesheet();
 
         return $ret;
     }
@@ -153,15 +157,15 @@ EOT;
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $stuTableName     = mb_strtoupper($tableName);
         $ret              = $this->getDashComment('Breadcrumbs');
-        $ret              .= $this->usercode->getUserBreadcrumbs((string)$stuTableName, $language);
+        $ret              .= $this->uxc->getUserBreadcrumbs((string)$stuTableName, $language);
         $ret              .= $this->getDashComment('Keywords');
-        $ret              .= $this->usercode->getUserMetaKeywords($moduleDirname);
+        $ret              .= $this->uxc->getUserMetaKeywords($moduleDirname);
         $ret              .= $this->phpcode->getPhpCodeUnset('keywords');
         $ret              .= $this->getDashComment('Description');
-        $ret              .= $this->usercode->getUserMetaDesc($moduleDirname, 'DESC', $language);
-        $ret              .= $this->xoopscode->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
-        $ret              .= $this->xoopscode->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret              .= $this->xoopscode->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret              .= $this->uxc->getUserMetaDesc($moduleDirname, 'DESC', $language);
+        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
+        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret              .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
         $ret              .= $this->getInclude('footer');
 
         return $ret;

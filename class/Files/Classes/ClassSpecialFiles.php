@@ -40,12 +40,12 @@ class ClassSpecialFiles extends Files\CreateFile
     public $className = null;
     
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $pc = null;
 

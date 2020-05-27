@@ -37,12 +37,12 @@ class UserIndex extends Files\CreateFile
     private $uxc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $pc = null;
 

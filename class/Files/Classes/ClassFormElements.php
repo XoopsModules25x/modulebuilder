@@ -51,17 +51,17 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     private $cxc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $pc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $helper = null;
 

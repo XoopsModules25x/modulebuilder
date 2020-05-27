@@ -32,17 +32,17 @@ use XoopsModules\Modulebuilder\Files;
 class Header extends Files\CreateFile
 {
     /**
-     * @var string
+     * @var mixed
      */
     private $cf = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $hc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $sc = null;
 

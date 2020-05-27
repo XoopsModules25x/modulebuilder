@@ -33,17 +33,17 @@ use XoopsModules\Modulebuilder\Files\Templates\User;
 class Breadcrumbs extends Files\CreateFile
 {
     /**
-     * @var string
+     * @var mixed
      */
     private $hc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $sc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $cf = null;
 

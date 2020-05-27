@@ -32,17 +32,17 @@ use XoopsModules\Modulebuilder\Files;
 class UserRate extends Files\CreateFile
 {
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
 	
 	/**
-     * @var string
+     * @var mixed
      */
     private $pc = null;
 	
 	/**
-     * @var string
+     * @var mixed
      */
     private $uxc = null;
 	

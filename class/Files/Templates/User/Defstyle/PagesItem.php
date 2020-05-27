@@ -32,12 +32,12 @@ use XoopsModules\Modulebuilder\Files;
 class PagesItem extends Files\CreateFile
 {
     /**
-     * @var string
+     * @var mixed
      */
     private $hc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $sc = null;
 

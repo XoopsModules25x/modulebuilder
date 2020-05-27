@@ -32,7 +32,7 @@ use XoopsModules\Modulebuilder\Files;
 class ConfigConfig extends Files\CreateFile
 {
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
 
