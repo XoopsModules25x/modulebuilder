@@ -76,6 +76,26 @@ $(document).ready(function () {
     });
 });
 
+function modulebuilder_setStatus(data, img, file) {
+    // Post request
+    $.post(file, data, function (reponse, textStatus) {
+        if (textStatus == 'success') {
+            $('img#' + img).hide();
+            $('#loading_' + img).show();
+            setTimeout(function () {
+                $('#loading_' + img).hide();
+                $('img#' + img).fadeIn('fast');
+            }, 500);
+            // Change image src
+            if ($('img#' + img).attr("src") == IMG_ON) {
+                $('img#' + img).attr("src", IMG_OFF);
+            } else {
+                $('img#' + img).attr("src", IMG_ON);
+            }
+        }
+    });
+}
+
 function presetField(typeId) {
 
     eleSelected = xoopsGetElementById('field_element[' + typeId + ']');
