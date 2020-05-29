@@ -179,10 +179,10 @@ class SqlFile extends Files\CreateFile
             $ret            = $this->getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb);
             $fieldName      = $fields[$f]->getVar('field_name');
             $fieldType      = $fields[$f]->getVar('field_type');
-            $fieldValue     = $fields[$f]->getVar('field_value');
+            $fieldValue     = str_replace('&#039;','', $fields[$f]->getVar('field_value')); //remove single quotes
             $fieldAttribute = $fields[$f]->getVar('field_attribute');
             $fieldNull      = $fields[$f]->getVar('field_null');
-            $fieldDefault   = $fields[$f]->getVar('field_default');
+            $fieldDefault   = str_replace('&#039;','', $fields[$f]->getVar('field_default')); //remove single quotes
             $fieldKey       = $fields[$f]->getVar('field_key');
             if ($fieldType > 1) {
                 $fType         = $helper->getHandler('Fieldtype')->get($fieldType);

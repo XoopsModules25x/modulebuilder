@@ -32,12 +32,24 @@ use XoopsModules\Modulebuilder\Files;
 class TemplatesBlocks extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $hc = null;
+
+    /**
+     * @var mixed
+     */
+    private $sc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $this->sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
     }
 
     /**
@@ -78,24 +90,22 @@ class TemplatesBlocks extends Files\CreateFile
      */
     private function getTemplatesBlocksTableThead($tableId, $tableMid, $language, $tableAutoincrement)
     {
-        $hc     = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc     = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $th     = '';
 		if (1 == $tableAutoincrement) {
-            $th .= $hc->getHtmlTableHead('&nbsp;', '', '', "\t\t\t");
+            $th .= $this->hc->getHtmlTableHead('&nbsp;', '', '', "\t\t\t");
         }
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
             if (1 === (int)$fields[$f]->getVar('field_block')) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $stuFieldName = mb_strtoupper($fieldName);
-                $lang         = $sc->getSmartyConst($language, $stuFieldName);
-                $th           .= $hc->getHtmlTableHead($lang, 'center', '', "\t\t\t");
+                $lang         = $this->sc->getSmartyConst($language, $stuFieldName);
+                $th           .= $this->hc->getHtmlTableHead($lang, 'center', '', "\t\t\t");
             }
         }
-        $tr = $hc->getHtmlTableRow($th, 'head', "\t\t");
+        $tr = $this->hc->getHtmlTableRow($th, 'head', "\t\t");
 
-        return $hc->getHtmlTableThead($tr, '', "\t");
+        return $this->hc->getHtmlTableThead($tr, '', "\t");
     }
 
     /**
@@ -110,12 +120,10 @@ class TemplatesBlocks extends Files\CreateFile
      */
     private function getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement)
     {
-        $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $td = '';
         if (1 == $tableAutoincrement) {
-            $double = $sc->getSmartyDoubleVar($tableSoleName, 'id');
-            $td     .= $hc->getHtmlTableData($double, 'center',  '', "\t\t\t");
+            $double = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
+            $td     .= $this->hc->getHtmlTableData($double, 'center',  '', "\t\t\t");
         }
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
@@ -126,32 +134,26 @@ class TemplatesBlocks extends Files\CreateFile
                 if (1 == $fields[$f]->getVar('field_inlist')) {
                     switch ($fieldElement) {
                         case 9:
-                            // This is to be reviewed, as it was initially to style = "backgroung-color: #"
-                            // Now with HTML5 is not supported inline style in the parameters of the HTML tag
-                            // Old code was <span style="background-color: #<{\$list.{$rpFieldName}}>;">...
-                            $double = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $span   = $hc->getHtmlTag('span', [], $double);
-                            $td     .= $hc->getHtmlTableData($span, 'center',  '', "\t\t\t");
-                            /*$ret .= <<<EOT
-                        <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>\n
-    EOT;*/
+                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $span   = $this->hc->getHtmlTag('span', [], $double);
+                            $td     .= $this->hc->getHtmlTableData($span, 'center',  '', "\t\t\t");
                             break;
                         case 10:
-                            $src = $sc->getSmartyNoSimbol('xoModuleIcons32');
-                            $src .= $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
-                            $td  .= $hc->getHtmlTableData($img, 'center',  '', "\t\t\t");
+                            $src = $this->sc->getSmartyNoSimbol('xoModuleIcons32');
+                            $src .= $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $img = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
+                            $td  .= $this->hc->getHtmlTableData($img, 'center',  '', "\t\t\t");
                             break;
                         case 13:
-                            $single = $sc->getSmartySingleVar($moduleDirname . '_upload_url');
-                            $double = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img    = $hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName], '', true, '', '');
-                            $td     .= $hc->getHtmlTableData($img, 'center',  '', "\t\t\t");
+                            $single = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
+                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $img    = $this->hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName], '', true, '', '');
+                            $td     .= $this->hc->getHtmlTableData($img, 'center',  '', "\t\t\t");
                             break;
                         default:
                             if (0 != $f) {
-                                $double = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                                $td     .= $hc->getHtmlTableData($double, 'center',  '', "\t\t\t");
+                                $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                                $td     .= $this->hc->getHtmlTableData($double, 'center',  '', "\t\t\t");
                             }
                             break;
                     }
@@ -159,23 +161,23 @@ class TemplatesBlocks extends Files\CreateFile
             }
         }
         // TODO: allow edit only for admins
-		// $lang    = $sc->getSmartyConst('', '_EDIT');
-		// $double  = $sc->getSmartyDoubleVar($tableSoleName, 'id');
-		// $src     = $sc->getSmartyNoSimbol('xoModuleIcons32 edit.png');
-		// $img     = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
-		// $anchor  = $hc->getHtmlTag('a', ['href' => $tableName . ".php?op=edit&amp;{$fieldId}=" . $double, 'title' => $lang], $img, false, "\t\t\t\t");
-		// $lang    = $sc->getSmartyConst('', '_DELETE');
-		// $double  = $sc->getSmartyDoubleVar($tableSoleName, 'id');
-		// $src     = $sc->getSmartyNoSimbol('xoModuleIcons32 delete.png');
-		// $img     = $hc->getHtmlTag('img', ['src' => $src . $double, 'alt' => $tableName], '', true, '', '');
-		// $anchor  .= $hc->getHtmlTag('a', ['href' => $tableName . ".php?op=delete&amp;{$fieldId}=" . $double, 'title' => $lang], $img, false, "\t\t\t\t");
-		// $td      .= $hc->getHtmlTag('td', ['class' => 'center'], "\n" . $anchor . "\t\t\t", false, "\t\t\t");
-		$cycle   = $sc->getSmartyNoSimbol('cycle values="odd, even"');
-		$tr 	 = $hc->getHtmlTableRow($td, $cycle, "\t\t");
-        $foreach = $sc->getSmartyForeach($tableSoleName, 'block', $tr, '','', "\t\t");
-        $tbody   = $hc->getHtmlTableTbody($foreach,'' , "\t");
+		// $lang    = $this->sc->getSmartyConst('', '_EDIT');
+		// $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
+		// $src     = $this->sc->getSmartyNoSimbol('xoModuleIcons32 edit.png');
+		// $img     = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
+		// $anchor  = $this->hc->getHtmlTag('a', ['href' => $tableName . ".php?op=edit&amp;{$fieldId}=" . $double, 'title' => $lang], $img, false, "\t\t\t\t");
+		// $lang    = $this->sc->getSmartyConst('', '_DELETE');
+		// $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
+		// $src     = $this->sc->getSmartyNoSimbol('xoModuleIcons32 delete.png');
+		// $img     = $this->hc->getHtmlTag('img', ['src' => $src . $double, 'alt' => $tableName], '', true, '', '');
+		// $anchor  .= $this->hc->getHtmlTag('a', ['href' => $tableName . ".php?op=delete&amp;{$fieldId}=" . $double, 'title' => $lang], $img, false, "\t\t\t\t");
+		// $td      .= $this->hc->getHtmlTag('td', ['class' => 'center'], "\n" . $anchor . "\t\t\t", false, "\t\t\t");
+		$cycle   = $this->sc->getSmartyNoSimbol('cycle values="odd, even"');
+		$tr 	 = $this->hc->getHtmlTableRow($td, $cycle, "\t\t");
+        $foreach = $this->sc->getSmartyForeach($tableSoleName, 'block', $tr, '','', "\t\t");
+        $tbody   = $this->hc->getHtmlTableTbody($foreach,'' , "\t");
 
-        return $sc->getSmartyConditions("block", '', '', $tbody, false, true, true, "\t");
+        return $this->sc->getSmartyConditions("block", '', '', $tbody, false, true, true, "\t");
     }
 
     /**
@@ -184,11 +186,10 @@ class TemplatesBlocks extends Files\CreateFile
      */
     private function getTemplatesBlocksTableTfoot()
     {
-        $hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $td = $hc->getHtmlTag('td', [], "&nbsp;", false, '', '');
-        $tr = $hc->getHtmlTag('tr', [], $td, false, '', '');
+        $td = $this->hc->getHtmlTag('td', [], "&nbsp;", false, '', '');
+        $tr = $this->hc->getHtmlTag('tr', [], $td, false, '', '');
 
-        return $hc->getHtmlTag('tfoot', [], $tr, false, "\t");
+        return $this->hc->getHtmlTag('tfoot', [], $tr, false, "\t");
     }
 
     /**
@@ -204,14 +205,12 @@ class TemplatesBlocks extends Files\CreateFile
      */
     private function getTemplatesBlocksTable($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
-        $hc     = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc     = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $tbody  = $this->getTemplatesBlocksTableThead($tableId, $tableMid, $language, $tableAutoincrement);
         $tbody  .= $this->getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement);
         $tbody  .= $this->getTemplatesBlocksTableTfoot();
-        $single = $sc->getSmartySingleVar('table_type');
+        $single = $this->sc->getSmartySingleVar('table_type');
 
-        return $hc->getHtmlTable($tbody, 'table table-' . $single);
+        return $this->hc->getHtmlTable($tbody, 'table table-' . $single);
     }
 
     /**

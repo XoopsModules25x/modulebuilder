@@ -33,13 +33,17 @@ use XoopsModules\Modulebuilder;
 class CheckData
 {
     /**
-     * @public function constructor class
-     *
+     * @var mixed
+     */
+    private $cf = null;
+
+    /**
+     * @public function constructor
      * @param null
      */
     public function __construct()
     {
-        //parent::__construct();
+        $this->cf = Modulebuilder\Files\CreateFile::getInstance();
     }
 
     /**
@@ -67,17 +71,15 @@ class CheckData
      */
     public function getCheckPreBuilding($module)
     {
-        $cf     = Modulebuilder\Files\CreateFile::getInstance();
-
         $modId  = $module->getVar('mod_id');
-        $tables = $cf->getTableTables($modId);
+        $tables = $this->cf->getTableTables($modId);
         $infos = [];
 
         foreach (array_keys($tables) as $t) {
             if (1 == $tables[$t]->getVar('table_broken')) {
                 $tableId = $tables[$t]->getVar('table_id');
                 $tableName = $tables[$t]->getVar('table_name');
-                $fields = $cf->getTableFields($modId, $tableId);
+                $fields = $this->cf->getTableFields($modId, $tableId);
                 $fieldSatus = '';
 
                 foreach (array_keys($fields) as $f) {
@@ -97,7 +99,7 @@ class CheckData
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableName = $tables[$t]->getVar('table_name');
-            $fields = $cf->getTableFields($modId, $tableId);
+            $fields = $this->cf->getTableFields($modId, $tableId);
 
             foreach (array_keys($fields) as $f) {
                 $fieldName = $fields[$f]->getVar('field_name');
@@ -119,7 +121,7 @@ class CheckData
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableName = $tables[$t]->getVar('table_name');
-            $fields = $cf->getTableFields($modId, $tableId);
+            $fields = $this->cf->getTableFields($modId, $tableId);
 
             foreach (array_keys($fields) as $f) {
                 $fieldName = $fields[$f]->getVar('field_name');
@@ -141,7 +143,7 @@ class CheckData
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableName = $tables[$t]->getVar('table_name');
-            $fields = $cf->getTableFields($modId, $tableId);
+            $fields = $this->cf->getTableFields($modId, $tableId);
 
             foreach (array_keys($fields) as $f) {
                 $fieldName = $fields[$f]->getVar('field_name');
@@ -167,7 +169,7 @@ class CheckData
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableName = $tables[$t]->getVar('table_name');
-            $fields = $cf->getTableFields($modId, $tableId);
+            $fields = $this->cf->getTableFields($modId, $tableId);
             $count = 0;
             if (1 == $tables[$t]->getVar('table_blocks')) {
                 foreach (array_keys($fields) as $f) {
@@ -188,7 +190,7 @@ class CheckData
 
             $count = 0;
             if (1 == $tables[$t]->getVar('table_blocks')) {
-                $fields = $cf->getTableFields($modId, $tableId);
+                $fields = $this->cf->getTableFields($modId, $tableId);
                 foreach (array_keys($fields) as $f) {
                     if (15 == $fields[$f]->getVar('field_element') || 21 == $fields[$f]->getVar('field_element')) {
                         $count++;
@@ -219,7 +221,7 @@ class CheckData
             if (1 == $tables[$t]->getVar('table_comments')) {
                 $tableId = $tables[$t]->getVar('table_id');
                 $tableName = $tables[$t]->getVar('table_name');
-                $fields = $cf->getTableFields($modId, $tableId);
+                $fields = $this->cf->getTableFields($modId, $tableId);
                 $fieldComments = '';
 
                 foreach (array_keys($fields) as $f) {

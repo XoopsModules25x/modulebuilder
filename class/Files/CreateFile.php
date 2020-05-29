@@ -32,7 +32,7 @@ xoops_load('XoopsFile');
 class CreateFile extends CreateTableFields
 {
     /**
-     * @var string
+     * @var mixed
      */
     private $xf = null;
 
@@ -78,12 +78,12 @@ class CreateFile extends CreateTableFields
     private $mode = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     protected $phpcode = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     protected $htmlcode;
 

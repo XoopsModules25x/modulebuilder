@@ -32,12 +32,30 @@ use XoopsModules\Modulebuilder\Files;
 class AdminIndex extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $axc = null;
+
+    /**
+     * @var mixed
+     */
+    private $xc = null;
+
+    /**
+     * @var mixed
+     */
+    private $pc = null;
+    
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $this->axc = Modulebuilder\Files\Admin\AdminXoopsCode::getInstance();
     }
 
     /**
@@ -76,73 +94,71 @@ class AdminIndex extends Files\CreateFile
      */
     private function getAdminIndex($module)
     {
-        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $xc               = Modulebuilder\Files\CreateXoopsCode::getInstance();
-        $axc              = Modulebuilder\Files\Admin\AdminXoopsCode::getInstance();
+
         $moduleDirname    = $module->getVar('mod_dirname');
         $tables           = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $language         = $this->getLanguage($moduleDirname, 'AM');
         $languageThereAre = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
 
         $ret              = $this->getSimpleString('');
-        $ret              .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Common']);
-        $ret              .= $pc->getPhpCodeIncludeDir('dirname(__DIR__)', 'preloads/autoloader', true);
+        $ret              .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Common']);
+        $ret              .= $this->pc->getPhpCodeIncludeDir('dirname(__DIR__)', 'preloads/autoloader', true);
         $ret              .= $this->getInclude();
-        $ret              .= $pc->getPhpCodeBlankLine();
-        $ret              .= $pc->getPhpCodeCommentLine('Template Index');
-        $ret              .= $axc->getAdminTemplateMain((string)$moduleDirname, 'index');
-        $ret              .= $pc->getPhpCodeBlankLine();
-        $ret              .= $pc->getPhpCodeCommentLine('Count elements');
+        $ret              .= $this->pc->getPhpCodeBlankLine();
+        $ret              .= $this->pc->getPhpCodeCommentLine('Template Index');
+        $ret              .= $this->axc->getAdminTemplateMain((string)$moduleDirname, 'index');
+        $ret              .= $this->pc->getPhpCodeBlankLine();
+        $ret              .= $this->pc->getPhpCodeCommentLine('Count elements');
         $tableName        = null;
         foreach (array_keys($tables) as $i) {
             $tableName    = $tables[$i]->getVar('table_name');
             $ucfTableName = ucfirst($tableName);
-            $ret          .= $xc->getXcEqualsOperator("\$count{$ucfTableName}", "\${$tableName}Handler->getCount()");
+            $ret          .= $this->xc->getXcEqualsOperator("\$count{$ucfTableName}", "\${$tableName}Handler->getCount()");
         }
-        $ret .= $pc->getPhpCodeBlankLine();
-        $ret .= $pc->getPhpCodeCommentLine('InfoBox Statistics');
-        $ret .= $axc->getAxcAddInfoBox($language . 'STATISTICS');
-        $ret .= $pc->getPhpCodeCommentLine('Info elements');
+        $ret .= $this->pc->getPhpCodeBlankLine();
+        $ret .= $this->pc->getPhpCodeCommentLine('InfoBox Statistics');
+        $ret .= $this->axc->getAxcAddInfoBox($language . 'STATISTICS');
+        $ret .= $this->pc->getPhpCodeCommentLine('Info elements');
         $tableInstall = [];
         foreach (array_keys($tables) as $i) {
             $tableName      = $tables[$i]->getVar('table_name');
             $tableInstall[] = $tables[$i]->getVar('table_install');
             $stuTableName   = $languageThereAre . mb_strtoupper($tableName);
             $ucfTableName   = ucfirst($tableName);
-            $ret            .= $axc->getAxcAddInfoBoxLine($stuTableName, "\$count{$ucfTableName}");
+            $ret            .= $this->axc->getAxcAddInfoBoxLine($stuTableName, "\$count{$ucfTableName}");
         }
 
         if (null === $tableName) {
-            $ret .= $axc->getAxcAddInfoBoxLine('No statistics', '0');
+            $ret .= $this->axc->getAxcAddInfoBoxLine('No statistics', '0');
         }
 
         if (is_array($tables) && in_array(1, $tableInstall)) {
-            $ret       .= $pc->getPhpCodeBlankLine();
-            $ret       .= $pc->getPhpCodeCommentLine('Upload Folders');
-            $ret       .= $xc->getXcEqualsOperator('$configurator', 'new Common\Configurator()');
+            $ret       .= $this->pc->getPhpCodeBlankLine();
+            $ret       .= $this->pc->getPhpCodeCommentLine('Upload Folders');
+            $ret       .= $this->xc->getXcEqualsOperator('$configurator', 'new Common\Configurator()');
             $cond      = '$configurator->uploadFolders && is_array($configurator->uploadFolders)';
-            $fe_action = $xc->getXcEqualsOperator('$folder[]', '$configurator->uploadFolders[$i]', '',"\t\t");
-            $condIf    = $pc->getPhpCodeForeach('configurator->uploadFolders', true, false, 'i', $fe_action, "\t");
-            $ret       .= $pc->getPhpCodeConditions($cond, '', '', $condIf, false);
+            $fe_action = $this->xc->getXcEqualsOperator('$folder[]', '$configurator->uploadFolders[$i]', '',"\t\t");
+            $condIf    = $this->pc->getPhpCodeForeach('configurator->uploadFolders', true, false, 'i', $fe_action, "\t");
+            $ret       .= $this->pc->getPhpCodeConditions($cond, '', '', $condIf, false);
 
-            $ret       .= $pc->getPhpCodeCommentLine('Uploads Folders Created');
-            $boxLine   = $axc->getAxcAddConfigBoxLine('$folder[$i]', 'folder', '', "\t");
-            $boxLine   .= $axc->getAxcAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod', '', "\t");
-            $ret       .= $pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '') . PHP_EOL;
+            $ret       .= $this->pc->getPhpCodeCommentLine('Uploads Folders Created');
+            $boxLine   = $this->axc->getAxcAddConfigBoxLine('$folder[$i]', 'folder', '', "\t");
+            $boxLine   .= $this->axc->getAxcAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod', '', "\t");
+            $ret       .= $this->pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '') . PHP_EOL;
         }
-        $ret    .= $pc->getPhpCodeCommentLine('Render Index');
-        $ret    .= $xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('index.php')");
-        $ret    .= $pc->getPhpCodeCommentLine('Test Data');
-        $condIf = $xc->getXcXoopsLoadLanguage('admin/modulesadmin',"\t", 'system');
-        $condIf .= $pc->getPhpCodeIncludeDir('dirname(__DIR__)', 'testdata/index', true, '','',"\t");
-        $condIf .= $axc->getAdminItemButton("constant('CO_' . \$moduleDirNameUpper . '_ADD_SAMPLEDATA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=load', $type = 'samplebutton', $t = "\t");
-        $condIf .= $axc->getAdminItemButton("constant('CO_' . \$moduleDirNameUpper . '_SAVE_SAMPLEDATA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=save', $type = 'samplebutton', $t = "\t");
-        $condIf .= "//" . $axc->getAdminItemButton("constant('CO_' . \$moduleDirNameUpper . '_EXPORT_SCHEMA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=exportschema', $type = 'samplebutton', $t = "\t");
-        $condIf .= $axc->getAdminDisplayButton('left', "\t");
-        $cond   = $xc->getXcGetConfig('displaySampleButton');
-        $ret    .= $pc->getPhpCodeConditions($cond, '', '', $condIf, false);
-        $ret    .= $xc->getXcXoopsTplAssign('index', '$adminObject->displayIndex()');
-        $ret    .= $pc->getPhpCodeCommentLine('End Test Data');
+        $ret    .= $this->pc->getPhpCodeCommentLine('Render Index');
+        $ret    .= $this->xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('index.php')");
+        $ret    .= $this->pc->getPhpCodeCommentLine('Test Data');
+        $condIf = $this->xc->getXcXoopsLoadLanguage('admin/modulesadmin',"\t", 'system');
+        $condIf .= $this->pc->getPhpCodeIncludeDir('dirname(__DIR__)', 'testdata/index', true, '','',"\t");
+        $condIf .= $this->axc->getAdminItemButton("constant('CO_' . \$moduleDirNameUpper . '_ADD_SAMPLEDATA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=load', $type = 'samplebutton', $t = "\t");
+        $condIf .= $this->axc->getAdminItemButton("constant('CO_' . \$moduleDirNameUpper . '_SAVE_SAMPLEDATA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=save', $type = 'samplebutton', $t = "\t");
+        $condIf .= "//" . $this->axc->getAdminItemButton("constant('CO_' . \$moduleDirNameUpper . '_EXPORT_SCHEMA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=exportschema', $type = 'samplebutton', $t = "\t");
+        $condIf .= $this->axc->getAdminDisplayButton('left', "\t");
+        $cond   = $this->xc->getXcGetConfig('displaySampleButton');
+        $ret    .= $this->pc->getPhpCodeConditions($cond, '', '', $condIf, false);
+        $ret    .= $this->xc->getXcXoopsTplAssign('index', '$adminObject->displayIndex()');
+        $ret    .= $this->pc->getPhpCodeCommentLine('End Test Data');
 
         $ret    .= $this->getInclude('footer');
 

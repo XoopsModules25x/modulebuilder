@@ -37,12 +37,12 @@ class UserPdf extends Files\CreateFile
     private $uxc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $pc = null;
 
@@ -55,7 +55,7 @@ class UserPdf extends Files\CreateFile
         parent::__construct();
         $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $this->uxc = UserXoopsCode::getInstance();
+        $this->uxc = Modulebuilder\Files\User\UserXoopsCode::getInstance();
     }
 
     /**

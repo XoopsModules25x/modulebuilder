@@ -37,12 +37,12 @@ class UserPrint extends Files\CreateFile
     private $uxc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
 	
 	/**
-     * @var string
+     * @var mixed
      */
     private $pc = null;
 
@@ -53,9 +53,9 @@ class UserPrint extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xc      = Modulebuilder\Files\CreateXoopsCode::getInstance();
-        $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $this->uxc      = UserXoopsCode::getInstance();
+        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $this->uxc = UserXoopsCode::getInstance();
     }
 
     /**
@@ -95,12 +95,12 @@ class UserPrint extends Files\CreateFile
      */
     public function getUserPrint($moduleDirname, $language)
     {
-        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $table            = $this->getTable();
         $tableName        = $table->getVar('table_name');
         $tableSoleName    = $table->getVar('table_solename');
         $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+
         $fieldId          = '';
         $fieldMain        = '';
         $fieldName        = '';
@@ -118,9 +118,9 @@ class UserPrint extends Files\CreateFile
         }
         $ccFieldId      = $this->getCamelCase($fieldId, false, true);
         $stuLpFieldName = mb_strtoupper($ccFieldId);
-        $ret            = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
-        $ret            .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
-        $ret            .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret            = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret            .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret            .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $ret            .= $this->getInclude();
         $ret            .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '', 'Int');
         $ret            .= $this->pc->getPhpCodeCommentLine('Define Stylesheet');

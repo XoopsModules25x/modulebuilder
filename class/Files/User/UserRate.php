@@ -32,17 +32,17 @@ use XoopsModules\Modulebuilder\Files;
 class UserRate extends Files\CreateFile
 {
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
 	
 	/**
-     * @var string
+     * @var mixed
      */
     private $pc = null;
 	
 	/**
-     * @var string
+     * @var mixed
      */
     private $uxc = null;
 	
@@ -55,9 +55,9 @@ class UserRate extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xc      = Modulebuilder\Files\CreateXoopsCode::getInstance();
-        $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $this->uxc      = UserXoopsCode::getInstance();
+        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $this->uxc = UserXoopsCode::getInstance();
     }
 
     /**
@@ -100,10 +100,9 @@ class UserRate extends Files\CreateFile
      */
     public function getUserRateHeader($moduleDirname, $tableName)
     {
-        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $ret = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
-        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
-        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $ret .= $this->getInclude();
         $ret .= $this->xc->getXcXoopsRequest('op', 'op', 'form', 'Cmd');
         $ret .= $this->xc->getXcXoopsRequest('lid', 'lid', '', 'Int');

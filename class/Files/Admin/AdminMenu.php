@@ -32,12 +32,18 @@ use XoopsModules\Modulebuilder\Files;
 class AdminMenu extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $xc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
     }
 
     /**
@@ -74,7 +80,6 @@ class AdminMenu extends Files\CreateFile
      */
     private function getAdminMenuArray($param = [], $adminObject = false)
     {
-        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $ret = '';
         if ($adminObject) {
             $ret .= $this->getSimpleString("\$adminmenu[] = [");
@@ -84,7 +89,7 @@ class AdminMenu extends Files\CreateFile
             $ret .= $this->getSimpleString("];");
         } else {
             foreach ($param as $key => $value) {
-                $ret .= $xc->getXcEqualsOperator((string)$key, (string)$value);
+                $ret .= $this->xc->getXcEqualsOperator((string)$key, (string)$value);
             }
         }
 
@@ -123,33 +128,6 @@ class AdminMenu extends Files\CreateFile
     {
         $param = ['title' => "{$language}{$menu}", 'link' => "'admin/index.php'", 'icon' => "\$sysPathIcon32.'/dashboard.png'"];
         $ret   = $this->getAdminMenuArray($param, true);
-
-        return $ret;
-    }
-
-    /**
-     * @private function getAdminMenuImagesPath
-     * @param array $tables
-     * @param int   $t
-     *
-     * @return string
-     */
-    private function getAdminMenuImagesPath($tables, $t)
-    {
-        $xc     = Modulebuilder\Files\CreateXoopsCode::getInstance();
-        $ret    = '';
-        $fields = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldElement = $fields[$f]->getVar('field_element');
-            switch ($fieldElement) {
-                case 13:
-                    $ret = $xc->getXcEqualsOperator("\$adminmenu[\$i]['icon']", "'assets/icons/32/{$tables[$t]->getVar('table_image')}'");
-                    break;
-                default:
-                    $ret = $xc->getXcEqualsOperator("\$adminmenu[\$i]['icon']", "\$sysPathIcon32.'/{$tables[$t]->getVar('table_image')}'");
-                    break;
-            }
-        }
 
         return $ret;
     }

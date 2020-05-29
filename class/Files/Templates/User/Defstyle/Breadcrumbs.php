@@ -33,12 +33,30 @@ use XoopsModules\Modulebuilder\Files\Templates\User;
 class Breadcrumbs extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $hc = null;
+
+    /**
+     * @var mixed
+     */
+    private $sc = null;
+
+    /**
+     * @var mixed
+     */
+    private $cf = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $this->sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
+        $this->cf = Modulebuilder\Files\CreateFile::getInstance();
     }
 
     /**
@@ -76,24 +94,22 @@ class Breadcrumbs extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tf            = Modulebuilder\Files\CreateFile::getInstance();
-        $hc            = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc            = Modulebuilder\Files\CreateSmartyCode::getInstance();
-        $title         = $sc->getSmartyDoubleVar('itm', 'title');
-        $titleElse     = $sc->getSmartyDoubleVar('itm', 'title', "\t\t\t", "\n") ;
-        $link          = $sc->getSmartyDoubleVar('itm', 'link');
-        $glyph         = $hc->getHtmlTag('i', ['class' => 'glyphicon glyphicon-home'], '', false, '', '');
-        $anchor        = $hc->getHtmlAnchor('<{xoAppUrl index.php}>', $glyph, 'home');
-        $into          = $hc->getHtmlLi($anchor, 'bc-item', "\t");
-        $anchorIf      = $hc->getHtmlAnchor($link, $title, $title, '', '', '', "\t\t\t", "\n");
-        $breadcrumb    = $sc->getSmartyConditions('itm.link', '', '', $anchorIf, $titleElse, false, false, "\t\t", "\n");
-        $foreach       = $hc->getHtmlLi($breadcrumb, 'bc-item',  "\t", "\n", true);
-        $into          .= $sc->getSmartyForeach('itm', 'xoBreadcrumbs', $foreach, 'bcloop', '', "\t");
 
-        $content = $hc->getHtmlOl($into,  'breadcrumb');
+        $title         = $this->sc->getSmartyDoubleVar('itm', 'title');
+        $titleElse     = $this->sc->getSmartyDoubleVar('itm', 'title', "\t\t\t", "\n") ;
+        $link          = $this->sc->getSmartyDoubleVar('itm', 'link');
+        $glyph         = $this->hc->getHtmlTag('i', ['class' => 'glyphicon glyphicon-home'], '', false, '', '');
+        $anchor        = $this->hc->getHtmlAnchor('<{xoAppUrl index.php}>', $glyph, 'home');
+        $into          = $this->hc->getHtmlLi($anchor, 'bc-item', "\t");
+        $anchorIf      = $this->hc->getHtmlAnchor($link, $title, $title, '', '', '', "\t\t\t", "\n");
+        $breadcrumb    = $this->sc->getSmartyConditions('itm.link', '', '', $anchorIf, $titleElse, false, false, "\t\t", "\n");
+        $foreach       = $this->hc->getHtmlLi($breadcrumb, 'bc-item',  "\t", "\n", true);
+        $into          .= $this->sc->getSmartyForeach('itm', 'xoBreadcrumbs', $foreach, 'bcloop', '', "\t");
 
-        $tf->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $content = $this->hc->getHtmlOl($into,  'breadcrumb');
 
-        return $tf->renderFile();
+        $this->cf->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+
+        return $this->cf->renderFile();
     }
 }

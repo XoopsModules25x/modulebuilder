@@ -32,7 +32,7 @@ use XoopsModules\Modulebuilder\Files;
 class UserNotificationUpdate extends Files\CreateFile
 {
     /**
-     * @var string
+     * @var mixed
      */
     private $pc = null;
 	

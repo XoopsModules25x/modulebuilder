@@ -32,12 +32,30 @@ use XoopsModules\Modulebuilder\Files;
 class UserHeader extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $uxc = null;
+
+    /**
+     * @var mixed
+     */
+    private $xc = null;
+
+    /**
+     * @var mixed
+     */
+    private $pc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $this->uxc = Modulebuilder\Files\User\UserXoopsCode::getInstance();
     }
 
     /**
@@ -79,41 +97,38 @@ class UserHeader extends Files\CreateFile
     private function getUserHeader($moduleDirname)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $xc               = Modulebuilder\Files\CreateXoopsCode::getInstance();
-        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $uxc              = UserXoopsCode::getInstance();
-        $ret              = $pc->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
-        $ret              .= $pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
-        $ret              .= $xc->getXcEqualsOperator('$moduleDirName', 'basename(__DIR__)');
+        $table            = $this->getTable();
+        $tables           = $this->getTables();
         $language         = $this->getLanguage($moduleDirname, 'MA');
-        $ret              .= $uxc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
 
-        $table  = $this->getTable();
-        $tables = $this->getTables();
-        $ret .= $xc->getXcHelperGetInstance($moduleDirname);
+        $ret = $this->pc->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
+        $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
+        $ret .= $this->xc->getXcEqualsOperator('$moduleDirName', 'basename(__DIR__)');
+        $ret .= $this->uxc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
+        $ret .= $this->xc->getXcHelperGetInstance($moduleDirname);
         if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
-                $ret       .= $xc->getXcHandlerLine($tableName);
+                $ret       .= $this->xc->getXcHandlerLine($tableName);
             }
         }
         if (1 == $table->getVar('table_permissions')) {
-            $ret       .= $xc->getXcHandlerLine('permissions');
+            $ret .= $this->xc->getXcHandlerLine('permissions');
         }
-        $ret .= $pc->getPhpCodeCommentLine();
-        $ret .= $xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
-        $ret .= $pc->getPhpCodeCommentLine('Default Css Style');
-        $ret .= $xc->getXcEqualsOperator('$style', "{$stuModuleDirname}_URL . '/assets/css/style.css'");
-        $ret .= $pc->getPhpCodeConditions('!file_exists($style)', '', '', "\treturn false;\n");
-        $ret .= $pc->getPhpCodeCommentLine('Smarty Default');
-        $ret .= $xc->getXcXoopsModuleGetInfo('sysPathIcon16', 'sysicons16');
-        $ret .= $xc->getXcXoopsModuleGetInfo('sysPathIcon32', 'sysicons32');
-        $ret .= $xc->getXcXoopsModuleGetInfo('pathModuleAdmin', 'dirmoduleadmin');
-        $ret .= $xc->getXcXoopsModuleGetInfo('modPathIcon16', 'modicons16');
-        $ret .= $xc->getXcXoopsModuleGetInfo('modPathIcon32', 'modicons16');
-        $ret .= $pc->getPhpCodeCommentLine('Load Languages');
-        $ret .= $xc->getXcXoopsLoadLanguage('main');
-        $ret .= $xc->getXcXoopsLoadLanguage('modinfo');
+        $ret .= $this->pc->getPhpCodeCommentLine();
+        $ret .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
+        $ret .= $this->pc->getPhpCodeCommentLine('Default Css Style');
+        $ret .= $this->xc->getXcEqualsOperator('$style', "{$stuModuleDirname}_URL . '/assets/css/style.css'");
+        $ret .= $this->pc->getPhpCodeConditions('!file_exists($style)', '', '', "\treturn false;\n");
+        $ret .= $this->pc->getPhpCodeCommentLine('Smarty Default');
+        $ret .= $this->xc->getXcXoopsModuleGetInfo('sysPathIcon16', 'sysicons16');
+        $ret .= $this->xc->getXcXoopsModuleGetInfo('sysPathIcon32', 'sysicons32');
+        $ret .= $this->xc->getXcXoopsModuleGetInfo('pathModuleAdmin', 'dirmoduleadmin');
+        $ret .= $this->xc->getXcXoopsModuleGetInfo('modPathIcon16', 'modicons16');
+        $ret .= $this->xc->getXcXoopsModuleGetInfo('modPathIcon32', 'modicons16');
+        $ret .= $this->pc->getPhpCodeCommentLine('Load Languages');
+        $ret .= $this->xc->getXcXoopsLoadLanguage('main');
+        $ret .= $this->xc->getXcXoopsLoadLanguage('modinfo');
 
         return $ret;
     }

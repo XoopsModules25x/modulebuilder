@@ -37,12 +37,12 @@ class UserRss extends Files\CreateFile
     private $uxc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $pc = null;
 
@@ -53,9 +53,9 @@ class UserRss extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
-        $this->pc   = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $this->uxc  = UserXoopsCode::getInstance();
+        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $this->uxc = UserXoopsCode::getInstance();
     }
 
     /**
@@ -93,7 +93,6 @@ class UserRss extends Files\CreateFile
      */
     public function getUserRss($moduleDirname)
     {
-        $pc        = Modulebuilder\Files\CreatePhpCode::getInstance();
         $table     = $this->getTable();
         $tableName = $table->getVar('table_name');
         $fppf      = '';
@@ -118,7 +117,7 @@ class UserRss extends Files\CreateFile
             }
         }
 
-        $ret = $pc->getPhpCodeUseNamespace(['Xmf', 'Request']);
+        $ret = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request']);
         $ret .= $this->getInclude();
 
         $ret .= <<<EOT
@@ -213,7 +212,6 @@ EOT;
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        //$language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserRss($moduleDirname);
         $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);

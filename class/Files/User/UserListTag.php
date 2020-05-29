@@ -32,7 +32,7 @@ use XoopsModules\Modulebuilder\Files;
 class UserListTag extends Files\CreateFile
 {
     /**
-     * @var string
+     * @var mixed
      */
     private $pc = null;
 	

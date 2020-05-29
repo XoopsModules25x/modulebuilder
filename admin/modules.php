@@ -190,9 +190,13 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(['ok' => 1, 'mod_id' => $modId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_MODULEBUILDER_FORMSUREDEL, $modulesObj->getVar('mod_name')));
+            $xoopsconfirm =  new \XoopsModules\Modulebuilder\Common\XoopsConfirm();
+            $xoopsconfirm->hiddens = ['ok' => 1, 'mod_id' => $modId, 'op' => 'delete'];
+            $xoopsconfirm->action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
+            $xoopsconfirm->object = $modulesObj->getVar('mod_name');
+            $form = $xoopsconfirm->getFormXoopsConfirm();
+            $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }
-
         break;
     case 'display':
         $modFieldArray = ['admin', 'user', 'blocks', 'search', 'comments', 'notifications', 'permissions'];

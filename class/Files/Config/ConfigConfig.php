@@ -32,12 +32,18 @@ use XoopsModules\Modulebuilder\Files;
 class ConfigConfig extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $xc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
     }
 
     /**
@@ -73,12 +79,11 @@ class ConfigConfig extends Files\CreateFile
      */
     private function getConfigCode()
     {
-        $xc     = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $tables = $this->getTables();
 
         $ret    = $this->getSimpleString('');
-        $ret    .= $xc->getXcEqualsOperator('$moduleDirName ', 'basename(dirname(__DIR__))');
-        $ret    .= $xc->getXcEqualsOperator('$moduleDirNameUpper ', 'mb_strtoupper($moduleDirName)');
+        $ret    .= $this->xc->getXcEqualsOperator('$moduleDirName ', 'basename(dirname(__DIR__))');
+        $ret    .= $this->xc->getXcEqualsOperator('$moduleDirNameUpper ', 'mb_strtoupper($moduleDirName)');
 
         $ret    .= $this->getSimpleString('return (object)[');
         $ret    .= $this->getSimpleString("'name'           => mb_strtoupper(\$moduleDirName) . ' Module Configurator',", "\t");

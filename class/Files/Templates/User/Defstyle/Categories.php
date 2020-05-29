@@ -33,12 +33,24 @@ use XoopsModules\Modulebuilder\Files\Templates\User;
 class Categories extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $hc = null;
+
+    /**
+     * @var mixed
+     */
+    private $sc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $this->sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
     }
 
     /**
@@ -75,9 +87,8 @@ class Categories extends Files\CreateFile
      */
     private function getTemplatesUserCategoriesHeader($moduleDirname)
     {
-        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
 
-        return $sc->getSmartyIncludeFile($moduleDirname, 'header') . PHP_EOL;
+        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header') . PHP_EOL;
     }
 
     /**
@@ -90,13 +101,11 @@ class Categories extends Files\CreateFile
      */
     private function getTemplatesUserCategoriesTable($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $hc     = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc     = Modulebuilder\Files\CreateSmartyCode::getInstance();
-        $single = $sc->getSmartySingleVar('table_type');
+        $single = $this->sc->getSmartySingleVar('table_type');
         $table  = $this->getTemplatesAdminPagesTableThead($tableName, $language);
         $table  .= $this->getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $language);
 
-        return $hc->getHtmlTable($table, 'table table-' . $single) . PHP_EOL;
+        return $this->hc->getHtmlTable($table, 'table table-' . $single) . PHP_EOL;
     }
 
     /**
@@ -107,15 +116,13 @@ class Categories extends Files\CreateFile
      */
     private function getTemplatesUserCategoriesThead($tableName, $language)
     {
-        $hc           = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc           = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $stuTableName = mb_strtoupper($tableName);
-        $lang         = $sc->getSmartyConst($language, $stuTableName . '_TITLE');
-        $single       = $sc->getSmartySingleVar('numb_col');
-        $th           = $hc->getHtmlTableHead($lang, '', $single) . PHP_EOL;
-        $tr           = $hc->getHtmlTableRow($th, 'head') . PHP_EOL;
+        $lang         = $this->sc->getSmartyConst($language, $stuTableName . '_TITLE');
+        $single       = $this->sc->getSmartySingleVar('numb_col');
+        $th           = $this->hc->getHtmlTableHead($lang, '', $single) . PHP_EOL;
+        $tr           = $this->hc->getHtmlTableRow($th, 'head') . PHP_EOL;
 
-        return $hc->getHtmlTableThead($tr) . PHP_EOL;
+        return $this->hc->getHtmlTableThead($tr) . PHP_EOL;
     }
 
     /**
@@ -127,18 +134,16 @@ class Categories extends Files\CreateFile
      */
     private function getTemplatesUserCategoriesTbody($moduleDirname, $tableName, $tableSoleName)
     {
-        $hc      = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc      = Modulebuilder\Files\CreateSmartyCode::getInstance();
-        $single  = $sc->getSmartySingleVar('panel_type');
-        $include = $sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName);
-        $div     = $hc->getHtmlDiv($include, 'panel panel-' . $single);
-        $cont    = $hc->getHtmlTableData($div) . PHP_EOL;
-        $html    = $hc->getHtmlEmpty('</tr><tr>') . PHP_EOL;
-        $cont    .= $sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html) . PHP_EOL;
-        $foreach = $sc->getSmartyForeach($tableSoleName, $tableName, $cont) . PHP_EOL;
-        $tr      = $hc->getHtmlTableRow($foreach) . PHP_EOL;
+        $single  = $this->sc->getSmartySingleVar('panel_type');
+        $include = $this->sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName);
+        $div     = $this->hc->getHtmlDiv($include, 'panel panel-' . $single);
+        $cont    = $this->hc->getHtmlTableData($div) . PHP_EOL;
+        $html    = $this->hc->getHtmlEmpty('</tr><tr>') . PHP_EOL;
+        $cont    .= $this->sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html) . PHP_EOL;
+        $foreach = $this->sc->getSmartyForeach($tableSoleName, $tableName, $cont) . PHP_EOL;
+        $tr      = $this->hc->getHtmlTableRow($foreach) . PHP_EOL;
 
-        return $hc->getHtmlTableTbody($tr) . PHP_EOL;
+        return $this->hc->getHtmlTableTbody($tr) . PHP_EOL;
     }
 
     /**
@@ -147,11 +152,10 @@ class Categories extends Files\CreateFile
      */
     private function getTemplatesUserCategoriesTfoot()
     {
-        $hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $td = $hc->getHtmlTableData('&nbsp;') . PHP_EOL;
-        $tr = $hc->getHtmlTableRow($td) . PHP_EOL;
+        $td = $this->hc->getHtmlTableData('&nbsp;') . PHP_EOL;
+        $tr = $this->hc->getHtmlTableRow($td) . PHP_EOL;
 
-        return $hc->getHtmlTableTfoot($tr) . PHP_EOL;
+        return $this->hc->getHtmlTableTfoot($tr) . PHP_EOL;
     }
 
     /**
@@ -164,12 +168,10 @@ class Categories extends Files\CreateFile
      */
     private function getTemplatesUserCategories($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $hc  = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
         $tab = $this->getTemplatesUserCategoriesTable($moduleDirname, $tableName, $tableSoleName, $language) . PHP_EOL;
-        $div = $hc->getHtmlDiv($tab, 'table-responsive') . PHP_EOL;
+        $div = $this->hc->getHtmlDiv($tab, 'table-responsive') . PHP_EOL;
 
-        return $sc->getSmartyConditions($tableName, ' gt ', '0', $div, false, true) . PHP_EOL;
+        return $this->sc->getSmartyConditions($tableName, ' gt ', '0', $div, false, true) . PHP_EOL;
     }
 
     /**
@@ -183,31 +185,16 @@ class Categories extends Files\CreateFile
     private function getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $stuTableName = mb_strtoupper($tableName);
-        /*$ret = <<<EOT
-<div class="panel panel-<{\$panel_type}>">
-    <div class="panel-heading"><{\$smarty.const.{$language}{$stuTableName}_TITLE}></div>
-        <{foreach item={$tableSoleName} from=\${$tableName}}>
-            <div class="panel panel-body">
-                <{include file="db:{$moduleDirname}_{$tableName}_list.tpl" {$tableSoleName}=\${$tableSoleName}}>
-                <{if \${$tableSoleName}.count is div by \$numb_col}>
-                    <br>
-                <{/if}>
-            </div>
-        <{/foreach}>
-</div>\n
-EOT;*/
-        $hc        = Modulebuilder\Files\CreateHtmlCode::getInstance();
-        $sc        = Modulebuilder\Files\CreateSmartyCode::getInstance();
-        $incl      = $sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName) . PHP_EOL;
-        $html      = $hc->getHtmlEmpty('<br>') . PHP_EOL;
-        $incl      .= $sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$numb_col', $html) . PHP_EOL;
-        $const     = $sc->getSmartyConst($language, $stuTableName . '_TITLE');
-        $div       = $hc->getHtmlDiv($const, 'panel-heading') . PHP_EOL;
-        $cont      = $hc->getHtmlDiv($incl, 'panel panel-body') . PHP_EOL;
-        $div       .= $sc->getSmartyForeach($tableSoleName, $tableName, $cont) . PHP_EOL;
-        $panelType = $sc->getSmartySingleVar('panel_type');
+        $incl      = $this->sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName) . PHP_EOL;
+        $html      = $this->hc->getHtmlEmpty('<br>') . PHP_EOL;
+        $incl      .= $this->sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$numb_col', $html) . PHP_EOL;
+        $const     = $this->sc->getSmartyConst($language, $stuTableName . '_TITLE');
+        $div       = $this->hc->getHtmlDiv($const, 'panel-heading') . PHP_EOL;
+        $cont      = $this->hc->getHtmlDiv($incl, 'panel panel-body') . PHP_EOL;
+        $div       .= $this->sc->getSmartyForeach($tableSoleName, $tableName, $cont) . PHP_EOL;
+        $panelType = $this->sc->getSmartySingleVar('panel_type');
 
-        return $hc->getHtmlDiv($div, 'panel panel-' . $panelType) . PHP_EOL;
+        return $this->hc->getHtmlDiv($div, 'panel panel-' . $panelType) . PHP_EOL;
     }
 
     /**
@@ -218,9 +205,8 @@ EOT;*/
      */
     private function getTemplatesUserCategoriesFooter($moduleDirname)
     {
-        $sc  = Modulebuilder\Files\CreateSmartyCode::getInstance();
 
-        return $sc->getSmartyIncludeFile($moduleDirname, 'footer');
+        return $this->sc->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 
     /**
