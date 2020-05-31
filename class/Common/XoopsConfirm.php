@@ -30,36 +30,27 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class Object XoopsConfirm
  */
-class XoopsConfirm extends \XoopsObject
+class XoopsConfirm
 {
-    public $hiddens  = [];
-    public $action   = '';
-    public $title    = '';
-    public $label    = '';
-    public $object   = '';
+    private $hiddens  = [];
+    private $action   = '';
+    private $title    = '';
+    private $label    = '';
+    private $object   = '';
 
     /**
      * @public function constructor class
      *
      * @param null
      */
-    public function __construct()
+    public function __construct($hiddens, $action, $object, $title = '', $label = '')
     {
+        $this->hiddens = $hiddens;
+        $this->action  = $action;
+        $this->object  = $object;
+        $this->title   = $title;
+        $this->label   = $label;
     }
-
-    /**
-     * @static function &getInstance
-     *
-     * @param null
-     */
-    public static function getInstance()
-    {
-        static $instance = false;
-        if (!$instance) {
-            $instance = new self();
-        }
-    }
-
 
     /**
      * @public function getXoopsConfirm
@@ -85,7 +76,7 @@ class XoopsConfirm extends \XoopsObject
         }
 
         xoops_load('XoopsFormLoader');
-        $form = new \XoopsThemeForm($this->title, 'form', $this->action, 'post', true);
+        $form = new \XoopsThemeForm($this->title, 'formXoopsConfirm', $this->action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
         $form->addElement(new \XoopsFormLabel($this->label, $this->object));
         //hiddens
