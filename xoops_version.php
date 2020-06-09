@@ -25,7 +25,7 @@ $moduleDirName      = basename(__DIR__);
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 $modversion['version']             = 3.03;
-$modversion['module_status']       = 'Alpha 4';
+$modversion['module_status']       = 'Alpha 5';
 $modversion['release_date']        = '2020/05/11';
 $modversion['name']                = _MI_MODULEBUILDER_NAME;
 $modversion['description']         = _MI_MODULEBUILDER_DESC;
