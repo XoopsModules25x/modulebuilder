@@ -119,6 +119,7 @@ As you can see, you have created a page with a list of links at the top to navig
         $tableSoleName    = '';
         $tableSubmit      = 0;
         $tableBroken      = 0;
+        $tableRate        = 0;
         foreach (array_keys($tables) as $i) {
             $tableName        = $tables[$i]->getVar('table_name');
             $tableSoleName    = $tables[$i]->getVar('table_solename');
@@ -127,6 +128,9 @@ As you can see, you have created a page with a list of links at the top to navig
             }
             if (1 === (int)$tables[$i]->getVar('table_broken')) {
                 $tableBroken = 1;
+            }
+            if (1 === (int)$tables[$i]->getVar('table_rate')) {
+                $tableRate = 1;
             }
             $stuTableName     = mb_strtoupper($tableName);
             $stuTableSoleName = mb_strtoupper($tableSoleName);
@@ -169,6 +173,35 @@ As you can see, you have created a page with a list of links at the top to navig
                 $ret .= $this->ld->getDefine($language, 'FORM_SURE_BROKEN', "Are you sure to notify as broken: <b><span style='color : Red;'>%s </span></b>", true);
             }
             $ret .= $this->ld->getDefine($language, 'INVALID_PARAM', "Invalid parameter", true);
+        }
+        if (1 === $tableRate) {
+            $ret .= $this->ld->getAboveHeadDefines('Ratings');
+            $ret .= $this->ld->getDefine($language, 'RATING_CURRENT_1', 'Rating: %c / %m (%t rating totally)');
+            $ret .= $this->ld->getDefine($language, 'RATING_CURRENT_X', 'Rating: %c / %m (%t ratings totally)');
+            $ret .= $this->ld->getDefine($language, 'RATING_CURRENT_SHORT_1', '%c (%t rating)');
+            $ret .= $this->ld->getDefine($language, 'RATING_CURRENT_SHORT_X', '%c (%t ratings)');
+            $ret .= $this->ld->getDefine($language, 'RATING1', '1 of 5');
+            $ret .= $this->ld->getDefine($language, 'RATING2', '2 of 5');
+            $ret .= $this->ld->getDefine($language, 'RATING3', '3 of 5');
+            $ret .= $this->ld->getDefine($language, 'RATING4', '4 of 5');
+            $ret .= $this->ld->getDefine($language, 'RATING5', '5 of 5');
+            $ret .= $this->ld->getDefine($language, 'RATING_10_1', '1 of 10');
+            $ret .= $this->ld->getDefine($language, 'RATING_10_2', '2 of 10');
+            $ret .= $this->ld->getDefine($language, 'RATING_10_3', '3 of 10');
+            $ret .= $this->ld->getDefine($language, 'RATING_10_4', '4 of 10');
+            $ret .= $this->ld->getDefine($language, 'RATING_10_5', '5 of 10');
+            $ret .= $this->ld->getDefine($language, 'RATING_10_6', '6 of 10');
+            $ret .= $this->ld->getDefine($language, 'RATING_10_7', '7 of 10');
+            $ret .= $this->ld->getDefine($language, 'RATING_10_8', '8 of 10');
+            $ret .= $this->ld->getDefine($language, 'RATING_10_9', '9 of 10');
+            $ret .= $this->ld->getDefine($language, 'RATING_10_10', '10 of 10');
+            $ret .= $this->ld->getDefine($language, 'RATING_VOTE_BAD', 'Invalid vote');
+            $ret .= $this->ld->getDefine($language, 'RATING_VOTE_ALREADY', 'You have already voted');
+            $ret .= $this->ld->getDefine($language, 'RATING_VOTE_THANKS', 'Thank you for rating');
+            $ret .= $this->ld->getDefine($language, 'RATING_NOPERM', "Sorry, you don't have permission to rate items", true);
+            $ret .= $this->ld->getDefine($language, 'RATING_LIKE', 'Like');
+            $ret .= $this->ld->getDefine($language, 'RATING_DISLIKE', 'Dislike');
+            $ret .= $this->ld->getDefine($language, 'RATING_ERROR1', 'Error: update base table failed!');
         }
         return $ret;
     }

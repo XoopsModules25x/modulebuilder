@@ -259,7 +259,13 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $tablesObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(['ok' => 1, 'table_id' => $tableId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_MODULEBUILDER_FORMSUREDEL, $tablesObj->getVar('table_name')));
+            $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\XoopsConfirm(
+                                        ['ok' => 1, 'table_id' => $tableId, 'op' => 'delete'],
+                                        \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'),
+                                        $tablesObj->getVar('table_name')
+                            );
+            $form = $xoopsconfirm->getFormXoopsConfirm();
+            $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }
         break;
     case 'display':

@@ -38,6 +38,23 @@ class CheckData
     private $cf = null;
 
     /**
+     * @var mixed
+     */
+    private $modId = null;
+
+    /**
+     * @var mixed
+     */
+    private $tables = null;
+
+    /**
+     * @var mixed
+     */
+    private $infos = [];
+
+
+
+    /**
      * @public function constructor
      * @param null
      */
@@ -71,15 +88,31 @@ class CheckData
      */
     public function getCheckPreBuilding($module)
     {
-        $modId  = $module->getVar('mod_id');
-        $tables = $this->cf->getTableTables($modId);
-        $infos = [];
+        $this->modId  = $module->getVar('mod_id');
+        $this->tables = $this->cf->getTableTables($this->modId);
+        $this->infos = [];
 
-        foreach (array_keys($tables) as $t) {
-            if (1 == $tables[$t]->getVar('table_broken')) {
-                $tableId = $tables[$t]->getVar('table_id');
-                $tableName = $tables[$t]->getVar('table_name');
-                $fields = $this->cf->getTableFields($modId, $tableId);
+        $this->getCheckBlock();
+        $this->getCheckBroken();
+        $this->getCheckComments();
+        $this->getCheckUserpage();
+        $this->getCheckRating();
+
+        return $this->infos;
+    }
+
+    /**
+     * @public function getCheckBroken
+     *
+     * @return array|bool
+     */
+    private function getCheckBroken()
+    {
+        foreach (array_keys($this->tables) as $t) {
+            if (1 == $this->tables[$t]->getVar('table_broken')) {
+                $tableId = $this->tables[$t]->getVar('table_id');
+                $tableName = $this->tables[$t]->getVar('table_name');
+                $fields = $this->cf->getTableFields($this->modId, $tableId);
                 $fieldSatus = '';
 
                 foreach (array_keys($fields) as $f) {
@@ -91,15 +124,25 @@ class CheckData
                 // check whether each table with handling "broken" has also a field "status"
                 if ('' == $fieldSatus) {
                     $info = str_replace('%t', $tableName, _AM_MODULEBUILDER_BUILDING_CHECK_BROKEN1);
-                    $infos[] = ['icon' => 'error', 'info' => $info];
+                    $this->infos[] = ['icon' => 'error', 'info' => $info];
                 }
             }
         }
 
-        foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
-            $tableName = $tables[$t]->getVar('table_name');
-            $fields = $this->cf->getTableFields($modId, $tableId);
+        return true;
+    }
+
+    /**
+     * @private function getCheckUserpage
+     *
+     * @return array|bool
+     */
+    private function getCheckUserpage()
+    {
+        foreach (array_keys($this->tables) as $t) {
+            $tableId = $this->tables[$t]->getVar('table_id');
+            $tableName = $this->tables[$t]->getVar('table_name');
+            $fields = $this->cf->getTableFields($this->modId, $tableId);
 
             foreach (array_keys($fields) as $f) {
                 $fieldName = $fields[$f]->getVar('field_name');
@@ -111,17 +154,17 @@ class CheckData
                         + (int)$fields[$f]->getVar('field_main') + (int)$fields[$f]->getVar('field_search') + (int)$fields[$f]->getVar('field_required');
                     if (0 == $fieldParams) {
                         $info = str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS1);
-                        $infos[] = ['icon' => 'error', 'info' => $info];
+                        $this->infos[] = ['icon' => 'error', 'info' => $info];
                     }
                 }
             }
         }
 
         //check user file no usage in index or item
-        foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
-            $tableName = $tables[$t]->getVar('table_name');
-            $fields = $this->cf->getTableFields($modId, $tableId);
+        foreach (array_keys($this->tables) as $t) {
+            $tableId = $this->tables[$t]->getVar('table_id');
+            $tableName = $this->tables[$t]->getVar('table_name');
+            $fields = $this->cf->getTableFields($this->modId, $tableId);
 
             foreach (array_keys($fields) as $f) {
                 $fieldName = $fields[$f]->getVar('field_name');
@@ -132,7 +175,7 @@ class CheckData
                             + (int)$fields[$f]->getVar('field_thead') + (int)$fields[$f]->getVar('field_tbody') + (int)$fields[$f]->getVar('field_tfoot');
                         if (0 == $fieldParams) {
                             $info = str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS2);
-                            $infos[] = ['icon' => 'warning', 'info' => $info];
+                            $this->infos[] = ['icon' => 'warning', 'info' => $info];
                         }
                     }
                 }
@@ -140,10 +183,10 @@ class CheckData
         }
         //check user file index multiple usage
         //check user file item multiple usage
-        foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
-            $tableName = $tables[$t]->getVar('table_name');
-            $fields = $this->cf->getTableFields($modId, $tableId);
+        foreach (array_keys($this->tables) as $t) {
+            $tableId = $this->tables[$t]->getVar('table_id');
+            $tableName = $this->tables[$t]->getVar('table_name');
+            $fields = $this->cf->getTableFields($this->modId, $tableId);
 
             foreach (array_keys($fields) as $f) {
                 $fieldName = $fields[$f]->getVar('field_name');
@@ -153,25 +196,35 @@ class CheckData
                         $fieldParams = (int)$fields[$f]->getVar('field_ihead') + (int)$fields[$f]->getVar('field_ibody') + (int)$fields[$f]->getVar('field_ifoot');
                         if ($fieldParams > 1) {
                             $info = str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS3);
-                            $infos[] = ['icon' => 'warning', 'info' => $info];
+                            $this->infos[] = ['icon' => 'warning', 'info' => $info];
                         }
                         $fieldParams = (int)$fields[$f]->getVar('field_thead') + (int)$fields[$f]->getVar('field_tbody') + (int)$fields[$f]->getVar('field_tfoot');
                         if ($fieldParams > 1) {
                             $info = str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS3);
-                            $infos[] = ['icon' => 'warning', 'info' => $info];
+                            $this->infos[] = ['icon' => 'warning', 'info' => $info];
                         }
                     }
                 }
             }
         }
 
+        return true;
+    }
+
+    /**
+     * @private function getCheckBlock
+     *
+     * @return array|bool
+     */
+    private function getCheckBlock()
+    {
         //use in block but not field selected
-        foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
-            $tableName = $tables[$t]->getVar('table_name');
-            $fields = $this->cf->getTableFields($modId, $tableId);
+        foreach (array_keys($this->tables) as $t) {
+            $tableId = $this->tables[$t]->getVar('table_id');
+            $tableName = $this->tables[$t]->getVar('table_name');
+            $fields = $this->cf->getTableFields($this->modId, $tableId);
             $count = 0;
-            if (1 == $tables[$t]->getVar('table_blocks')) {
+            if (1 == $this->tables[$t]->getVar('table_blocks')) {
                 foreach (array_keys($fields) as $f) {
                     if (1 == $fields[$f]->getVar('field_block')) {
                         $count++;
@@ -179,18 +232,18 @@ class CheckData
                 }
                 if (0 == $count) {
                     $info = str_replace(['%t'], [$tableName], _AM_MODULEBUILDER_BUILDING_CHECK_BLOCK1);
-                    $infos[] = ['icon' => 'warning', 'info' => $info];
+                    $this->infos[] = ['icon' => 'warning', 'info' => $info];
                 }
             }
         }
         //use in block but not field date
-        foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
-            $tableName = $tables[$t]->getVar('table_name');
+        foreach (array_keys($this->tables) as $t) {
+            $tableId = $this->tables[$t]->getVar('table_id');
+            $tableName = $this->tables[$t]->getVar('table_name');
 
             $count = 0;
-            if (1 == $tables[$t]->getVar('table_blocks')) {
-                $fields = $this->cf->getTableFields($modId, $tableId);
+            if (1 == $this->tables[$t]->getVar('table_blocks')) {
+                $fields = $this->cf->getTableFields($this->modId, $tableId);
                 foreach (array_keys($fields) as $f) {
                     if (15 == $fields[$f]->getVar('field_element') || 21 == $fields[$f]->getVar('field_element')) {
                         $count++;
@@ -198,46 +251,107 @@ class CheckData
                 }
                 if (0 == $count) {
                     $info = str_replace(['%t'], [$tableName], _AM_MODULEBUILDER_BUILDING_CHECK_BLOCK2);
-                    $infos[] = ['icon' => 'warning', 'info' => $info];
+                    $this->infos[] = ['icon' => 'warning', 'info' => $info];
                 }
             }
         }
+        return true;
+    }
+
+    /**
+     * @private function getCheckComments
+     *
+     * @return array|bool
+     */
+    private function getCheckComments()
+    {
         //use comments in multiple tables
         $count         = 0;
         $tableComments = [];
-        foreach (array_keys($tables) as $t) {
-            if (1 == $tables[$t]->getVar('table_comments')) {
+        foreach (array_keys($this->tables) as $t) {
+            if (1 == $this->tables[$t]->getVar('table_comments')) {
                 $count++;
-                $tableComments[] = $tables[$t]->getVar('table_name');
+                $tableComments[] = $this->tables[$t]->getVar('table_name');
             }
         }
         if ($count > 1) {
             $tablesComments = implode(', ', $tableComments);
             $info = str_replace('%t', $tablesComments, _AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS1);
-            $infos[] = ['icon' => 'error', 'info' => $info];
+            $this->infos[] = ['icon' => 'error', 'info' => $info];
         }
 
-        foreach (array_keys($tables) as $t) {
-            if (1 == $tables[$t]->getVar('table_comments')) {
-                $tableId = $tables[$t]->getVar('table_id');
-                $tableName = $tables[$t]->getVar('table_name');
-                $fields = $this->cf->getTableFields($modId, $tableId);
+        foreach (array_keys($this->tables) as $t) {
+            if (1 == $this->tables[$t]->getVar('table_comments')) {
+                $tableId = $this->tables[$t]->getVar('table_id');
+                $tableName = $this->tables[$t]->getVar('table_name');
+                $fields = $this->cf->getTableFields($this->modId, $tableId);
                 $fieldComments = '';
 
                 foreach (array_keys($fields) as $f) {
                     $fieldName = $fields[$f]->getVar('field_name');
-                    if ($fieldName == $tables[$t]->getVar('table_fieldname') . '_comments') {
+                    if ($fieldName == $this->tables[$t]->getVar('table_fieldname') . '_comments') {
                         $fieldComments = $fieldName;
                     }
                 }
-                // check whether each table with handling "broken" has also a field "status"
+                // check whether each table with handling "comments" has also a field "comments"
                 if ('' == $fieldComments) {
-                    $info = str_replace(['%f', '%t'], [$tables[$t]->getVar('table_fieldname') . '_comments', $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS2);
-                    $infos[] = ['icon' => 'warning', 'info' => $info];
+                    $info = str_replace(['%f', '%t'], [$this->tables[$t]->getVar('table_fieldname') . '_comments', $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS2);
+                    $this->infos[] = ['icon' => 'warning', 'info' => $info];
                 }
             }
         }
 
-        return $infos;
+        return true;
+    }
+
+    /**
+     * @private function getCheckComments
+     *
+     * @return array|bool
+     */
+    private function getCheckRating()
+    {
+        foreach (array_keys($this->tables) as $t) {
+            if (1 == $this->tables[$t]->getVar('table_rate')) {
+                $tableId = $this->tables[$t]->getVar('table_id');
+                $tableName = $this->tables[$t]->getVar('table_name');
+                $fields = $this->cf->getTableFields($this->modId, $tableId);
+                $fieldRatings = '';
+
+                foreach (array_keys($fields) as $f) {
+                    $fieldName = $fields[$f]->getVar('field_name');
+                    if ($fieldName == $this->tables[$t]->getVar('table_fieldname') . '_ratings') {
+                        $fieldRatings = $fieldName;
+                    }
+                }
+                // check whether each table with handling "rating" has also a field "rating"
+                if ('' == $fieldRatings) {
+                    $info = str_replace(['%f', '%t'], [$this->tables[$t]->getVar('table_fieldname') . '_ratings', $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_RATINGS1);
+                    $this->infos[] = ['icon' => 'error', 'info' => $info];
+                }
+            }
+        }
+        foreach (array_keys($this->tables) as $t) {
+            if (1 == $this->tables[$t]->getVar('table_rate')) {
+                $tableId = $this->tables[$t]->getVar('table_id');
+                $tableName = $this->tables[$t]->getVar('table_name');
+                $fields = $this->cf->getTableFields($this->modId, $tableId);
+                $fieldVotes = '';
+
+                foreach (array_keys($fields) as $f) {
+                    $fieldName = $fields[$f]->getVar('field_name');
+                    if ($fieldName == $this->tables[$t]->getVar('table_fieldname') . '_votes') {
+                        $fieldVotes = $fieldName;
+                    }
+                }
+                // check whether each table with handling "rating" has also a field "votes"
+                if ('' == $fieldVotes) {
+                    $info = str_replace(['%f', '%t'], [$this->tables[$t]->getVar('table_fieldname') . '_votes', $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_RATINGS1);
+                    $this->infos[] = ['icon' => 'error', 'info' => $info];
+                }
+            }
+        }
+
+        return true;
     }
 }

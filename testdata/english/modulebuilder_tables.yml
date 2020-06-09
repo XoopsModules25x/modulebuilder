@@ -35,7 +35,7 @@
     table_name: articles
     table_solename: article
     table_fieldname: art
-    table_nbfields: '9'
+    table_nbfields: '11'
     table_order: '1'
     table_image: penguin.png
     table_autoincrement: '1'
@@ -56,8 +56,8 @@
     table_print: '1'
     table_pdf: '1'
     table_rss: '1'
-    table_single: '1'
-    table_visit: '1'
+    table_single: '0'
+    table_visit: '0'
 -
     table_id: '3'
     table_mid: '1'
@@ -65,7 +65,7 @@
     table_name: testfields
     table_solename: testfield
     table_fieldname: tf
-    table_nbfields: '23'
+    table_nbfields: '25'
     table_order: '1'
     table_image: alert.png
     table_autoincrement: '1'
@@ -86,8 +86,8 @@
     table_print: '1'
     table_pdf: '1'
     table_rss: '1'
-    table_single: '1'
-    table_visit: '1'
+    table_single: '0'
+    table_visit: '0'
 -
     table_id: '4'
     table_mid: '2'

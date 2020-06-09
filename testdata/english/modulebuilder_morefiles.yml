@@ -1,1 +1,12 @@
-{  }
+-
+    file_id: '1'
+    file_mid: '1'
+    file_name: test
+    file_extension: txt
+    file_infolder: admin
+-
+    file_id: '2'
+    file_mid: '1'
+    file_name: testphp
+    file_extension: php
+    file_infolder: admin

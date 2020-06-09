@@ -444,9 +444,10 @@ class CreatePhpCode
      *
      * @return string
      */
-    public function getPhpCodeSwitch($op = null, $content = null, $t = '')
+    public function getPhpCodeSwitch($op = null, $content = null, $t = '', $isParam = true)
     {
-        $ret = "{$t}switch(\${$op}) {\n";
+        $value = $isParam ? "\${$op}" : $op;
+        $ret = "{$t}switch({$value}) {\n";
         $ret .= $content;
         $ret .= "{$t}}\n";
 
@@ -463,12 +464,12 @@ class CreatePhpCode
      *
      * @return string
      */
-    public function getPhpCodeCaseSwitch($cases = [], $defaultAfterCase = false, $default = false, $t = '')
+    public function getPhpCodeCaseSwitch($cases = [], $defaultAfterCase = false, $default = false, $t = '', $isConst = false)
     {
         $ret = '';
         $def = "{$t}default:\n";
         foreach ($cases as $case => $value) {
-            $case = is_string($case) ? "'{$case}'" : $case;
+            $case = $isConst || !is_string($case) ? $case : "'{$case}'";
             if (empty($value)) {
                 $ret .= "{$t}case {$case}:\n";
             } else if (!empty($case)) {

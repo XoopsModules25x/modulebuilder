@@ -58,12 +58,12 @@ class CreateXoopsCode
      *
      * @return string
      */
-    public function getXcSwitch($op = '', $cases = [], $defaultAfterCase = false, $default = false, $t = '')
+    public function getXcSwitch($op = '', $cases = [], $defaultAfterCase = false, $default = false, $t = '', $isString = true, $isConst = false)
     {
         $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t . "\t");
+        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t . "\t", $isConst);
 
-        return $pc->getPhpCodeSwitch($op, $contentSwitch, $t);
+        return $pc->getPhpCodeSwitch($op, $contentSwitch, $t, $isString);
     }
 
     /**
@@ -1671,9 +1671,14 @@ class CreateXoopsCode
      * @param string $t
      * @return string
      */
-    public function getXcXoThemeAddStylesheet($style = 'style', $t = '')
+    public function getXcXoThemeAddStylesheet($style = 'style', $t = '', $isString = true)
     {
-        return "{$t}\$GLOBALS['xoTheme']->addStylesheet( \${$style}, null );\n";
+        $ret = "{$t}\$GLOBALS['xoTheme']->addStylesheet( ";
+        if ($isString) {
+            $ret .= '$';
+        }
+        $ret .= "{$style}, null );\n";
+        return $ret;
     }
 
     /**

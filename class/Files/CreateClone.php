@@ -70,9 +70,14 @@ class CreateClone
                 // image
                 copy($src_file, $dst_file);
             } else {
-                // file, read it
+                // file, read it and replace text
                 $content = file_get_contents($src_file);
                 $content = str_replace($patKeys, $patValues, $content);
+                //check file name whether it contains replace code
+                $path_parts = pathinfo($dst_file);
+                $path = $path_parts['dirname'];
+                $file =  $path_parts['basename'];
+                $dst_file = $path . '/' . str_replace($patKeys, $patValues, $file);
                 file_put_contents($dst_file, $content);
             }
         } else {

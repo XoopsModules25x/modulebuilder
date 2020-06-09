@@ -110,8 +110,6 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'edit':
-        // Define main template
-        //        $templateMain = 'modulebuilder_morefiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
         $adminObject->addItemButton(_AM_MODULEBUILDER_MODULES_ADD, 'morefiles.php?op=new', 'add');
@@ -134,7 +132,13 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $morefilesObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_MODULEBUILDER_FORM_SURE_DELETE, $morefilesObj->getVar('file_name')));
+            $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\XoopsConfirm(
+                                        ['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'],
+                                        \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'),
+                                        $morefilesObj->getVar('file_name')
+                            );
+            $form = $xoopsconfirm->getFormXoopsConfirm();
+            $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }
         break;
 }

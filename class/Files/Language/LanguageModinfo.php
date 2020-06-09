@@ -444,6 +444,7 @@ class LanguageModinfo extends Files\CreateFile
 
         return $ret;
     }
+
     /**
      * @private function getLanguagePermissionsGroups
      * @param $language
@@ -459,6 +460,29 @@ class LanguageModinfo extends Files\CreateFile
         $ret .= $this->ld->getDefine($language, 'ADMIN_GROUPS_DESC', 'Which groups have access to tools and permissions page');
         $ret .= $this->ld->getDefine($language, 'UPLOAD_GROUPS', 'Upload Group Permissions');
         $ret .= $this->ld->getDefine($language, 'UPLOAD_GROUPS_DESC', 'Which groups have permissions to upload files');
+
+        return $ret;
+    }
+
+
+    /**
+     * @private function getLanguagePermissionsGroups
+     * @param $language
+     *
+     * @return string
+     */
+    private function getLanguageRatingbars($language)
+    {
+        $ret = $this->ld->getAboveDefines('Rating bars');
+        $ret .= $this->ld->getDefine($language, 'RATINGBAR_GROUPS', 'Groups with rating rights');
+        $ret .= $this->ld->getDefine($language, 'RATINGBAR_GROUPS_DESC', 'Select groups which should have the right to rate');
+        $ret .= $this->ld->getDefine($language, 'RATINGBARS', 'Allow rating');
+        $ret .= $this->ld->getDefine($language, 'RATINGBARS_DESC', 'Define whether rating should be possible and which kind of rating should be used');
+        $ret .= $this->ld->getDefine($language, 'RATING_NONE', 'Do not use rating');
+        $ret .= $this->ld->getDefine($language, 'RATING_5STARS', 'Rating with 5 stars');
+        $ret .= $this->ld->getDefine($language, 'RATING_10STARS', 'Rating with 10 stars');
+        $ret .= $this->ld->getDefine($language, 'RATING_LIKES', 'Rating with likes and dislikes');
+        $ret .= $this->ld->getDefine($language, 'RATING_10NUM', 'Rating with 10 points');
 
         return $ret;
     }
@@ -509,7 +533,8 @@ class LanguageModinfo extends Files\CreateFile
             $tableBroken          = $tables[$t]->getVar('table_broken');
             $tableBrokens[]       = $tables[$t]->getVar('table_broken');
             $tableComment         = $tables[$t]->getVar('table_comments');
-            $tableComments[]       = $tables[$t]->getVar('table_comments');
+            $tableComments[]      = $tables[$t]->getVar('table_comments');
+            $tableRate[]          = $tables[$t]->getVar('table_rate');
             if (1 === (int)$tables[$t]->getVar('table_notifications')) {
                 $notifTable .= $this->getLanguageNotificationsTable($language, $tableName, $tableSoleName, $tableBroken, $tableComment);
             }
@@ -528,6 +553,10 @@ class LanguageModinfo extends Files\CreateFile
         if (in_array(1, $tableSubmenu)) {
             $content .= $this->getLanguageSubmenu($language, $tables);
         }
+        if (in_array(1, $tableRate)) {
+            $content .= $this->getLanguageRatingbars($language, $tables);
+        }
+
         //if (in_array(1, $tableBlocks)) {
         $content .= $this->getLanguageBlocks($tables, $language);
         //}

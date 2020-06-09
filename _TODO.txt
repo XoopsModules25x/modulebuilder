@@ -9,11 +9,7 @@ I moved files, where I do not know whether they are still needed into folder _ar
 
 TODOs:
 
-new xoops_confirm
 
-
-rate.php:
-this file currently is not rating
 
 
 

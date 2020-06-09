@@ -202,6 +202,7 @@ class UserXoopsVersion extends Files\CreateFile
         $n         = 1;
         $ret       = '';
         $items     = [];
+        $tableRate = 0;
         if (!empty($tableName)) {
             $ret         .= $this->getDashComment('Mysql');
             $description = "'sql/mysql.sql'";
@@ -210,6 +211,13 @@ class UserXoopsVersion extends Files\CreateFile
 
             foreach (array_keys($tables) as $t) {
                 $items[] = "'{$moduleDirname}_{$tables[$t]->getVar('table_name')}'";
+                if (1 === (int)$tables[$t]->getVar('table_rate')) {
+                    $tableRate = 1;
+                }
+                ++$n;
+            }
+            if (1 === $tableRate) {
+                $items[] = "'{$moduleDirname}_ratings'";
                 ++$n;
             }
             $ret .= $this->uxc->getUserModVersionArray(11, $items, 'tables', $n);
@@ -327,6 +335,7 @@ class UserXoopsVersion extends Files\CreateFile
                 $tableSearch[] = $tables[$t]->getVar('table_search');
                 $tableSingle[] = $tables[$t]->getVar('table_single');
                 $tableSubmit[] = $tables[$t]->getVar('table_submit');
+                $tableRate[]   = $tables[$t]->getVar('table_rate');
                 $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '');
                 $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
                 $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'item');
@@ -522,6 +531,7 @@ class UserXoopsVersion extends Files\CreateFile
         $table_tag         = 0;
         $table_uploadimage = 0;
         $table_uploadfile  = 0;
+        $table_rate        = 0;
         foreach ($tables as $table) {
             $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
             foreach (array_keys($fields) as $f) {
@@ -558,6 +568,9 @@ class UserXoopsVersion extends Files\CreateFile
             }
             if (1 == $table->getVar('table_tag')) {
                 $table_tag = 1;
+            }
+            if (1 == $table->getVar('table_rate')) {
+                $table_rate = 1;
             }
         }
         if (1 === $table_editors) {
@@ -649,6 +662,39 @@ class UserXoopsVersion extends Files\CreateFile
             $ret         .= $this->uxc->getUserModVersionArray(2, $adminGroups, 'config');
 			$ret         .= $this->pc->getPhpCodeUnset('crGroups');
         }
+
+        if (1 === $table_rate) {
+            $ret    .= $this->pc->getPhpCodeCommentLine('Get groups');
+            $ret    .= $this->xc->getXcXoopsHandler('member');
+            $ret    .= $this->xc->getXcEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
+            $ret    .= $this->xc->getXcEqualsOperator('$ratingbar_groups', '[]');
+            $group  = $this->xc->getXcEqualsOperator('$ratingbar_groups[$group] ', '$key', null, "\t");
+            $ret    .= $this->pc->getPhpCodeForeach('xoopsGroups', false, 'key', 'group', $group);
+            $ret    .= $this->pc->getPhpCodeCommentLine('Rating: Groups with rating permissions');
+            $groups = [
+                'name'        => "'ratingbar_groups'",
+                'title'       => "'{$language}RATINGBAR_GROUPS'",
+                'description' => "'{$language}RATINGBAR_GROUPS_DESC'",
+                'formtype'    => "'select_multi'",
+                'valuetype'   => "'array'",
+                'default'     => '[1]',
+                'options'     => '$ratingbar_groups',
+            ];
+            $ret .= $this->uxc->getUserModVersionArray(2, $groups, 'config');
+
+            $ret .= $this->pc->getPhpCodeCommentLine('Rating : used ratingbar');
+            $mimetypes_image  = [
+                'name'        => "'ratingbars'",
+                'title'       => "'{$language}RATINGBARS'",
+                'description' => "'{$language}RATINGBARS_DESC'",
+                'formtype'    => "'select'",
+                'valuetype'   => "'int'",
+                'default'     => "0",
+                'options'     => "['{$language}RATING_NONE' => 0, '{$language}RATING_5STARS' => 1, '{$language}RATING_10STARS' => 2, '{$language}RATING_LIKES' => 3, '{$language}RATING_10NUM' => 4]",
+            ];
+            $ret .= $this->uxc->getUserModVersionArray(2, $mimetypes_image, 'config');
+        }
+
         $keyword      = implode(', ', $this->getKeywords());
         $ret          .= $this->pc->getPhpCodeCommentLine('Keywords');
         $arrayKeyword = [
