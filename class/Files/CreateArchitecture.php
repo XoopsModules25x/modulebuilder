@@ -640,20 +640,16 @@ class CreateArchitecture extends CreateStructure
                 $userTemplatesPrint->write($module, $table, $moduleDirname . '_print.tpl');
                 $ret[] = $userTemplatesPrint->render();
             }
-            // User Rate File
+
             //TODO: UserSearch has to be adapted
+
+            // User Rate File
             if (in_array(1, $tableRate)) {
                 $userRate = Modulebuilder\Files\User\UserRate::getInstance();
-                $userRate->write($module, $table, 'rate.php');
+                $userRate->write($module, $tables, 'rate.php');
                 $ret[] = $userRate->render();
-                // User Templates Rate File
-                if ($templateType  == 'bootstrap') {
-                    $userTemplatesRate = Modulebuilder\Files\Templates\User\Bootstrap\Rate::getInstance();
-                } else {
-                    $userTemplatesRate = Modulebuilder\Files\Templates\User\Defstyle\Rate::getInstance();
-                }
-                $userTemplatesRate->write($module, $table, $moduleDirname . '_rate.tpl');
-                $ret[] = $userTemplatesRate->render();
+
+                $this->CopyRatingFiles($moduleDirname);
             }
 
             // User Rss File
@@ -755,8 +751,9 @@ class CreateArchitecture extends CreateStructure
         $patValues = array_values($patterns);
 
         /* clone complete missing folders */
+        $cloneFolders = [];
         $cloneFolders[] = [
-            'src'   => TDMC_PATH . '/commonfiles',
+            'src'   => TDMC_PATH . '/files/commonfiles',
             'dst'   => $upl_path,
             'rcode' => true
         ];
@@ -778,7 +775,7 @@ class CreateArchitecture extends CreateStructure
 
         if ('english' !== $GLOBALS['xoopsConfig']['language']) {
             $cloneFolders[] = [
-                'src'   => TDMC_PATH . '/commonfiles/language/english',
+                'src'   => TDMC_PATH . '/files/commonfiles/language/english',
                 'dst'   => $upl_path . '/language/' . $GLOBALS['xoopsConfig']['language'],
                 'rcode' => true
             ];
@@ -817,5 +814,35 @@ class CreateArchitecture extends CreateStructure
             Modulebuilder\Files\CreateClone::cloneFile($file['src'] . $file['file'], $file['dst'] . $file['file'], $file['rcode'], $patKeys, $patValues);
         }
         unset($cloneFiles);
+    }
+
+    /**
+     * @private function CopyRatingFiles
+     *
+     * @param $moduleName
+     */
+    private function CopyRatingFiles($moduleName)
+    {
+        $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleName);
+
+        $patterns = [
+            mb_strtolower('modulebuilder')          => mb_strtolower($moduleName),
+            mb_strtoupper('modulebuilder')          => mb_strtoupper($moduleName),
+            ucfirst(mb_strtolower('modulebuilder')) => ucfirst(mb_strtolower($moduleName)),
+        ];
+
+        $patKeys   = array_keys($patterns);
+        $patValues = array_values($patterns);
+
+        /* clone complete missing folders */
+        $cloneFolders[] = [
+            'src'   => TDMC_PATH . '/files/ratingfiles',
+            'dst'   => $upl_path,
+            'rcode' => true
+        ];
+        foreach ($cloneFolders as $folder) {
+            Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
+        }
+        unset($cloneFolders);
     }
 }

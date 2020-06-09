@@ -138,16 +138,29 @@ class SqlFile extends Files\CreateFile
      */
     private function getDatabaseTables($module)
     {
-        $ret           = null;
-        $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
-        $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_id');
+        $ret                = null;
+        $moduleDirname      = mb_strtolower($module->getVar('mod_dirname'));
+        $tables             = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_id');
+        $tableMid           = 0;
+        $tableId            = 0;
+        $tableName          = 0;
+        $tableAutoincrement = 0;
+        $fieldsNumb         = 0;
+        $tableRate          = 0;
         foreach (array_keys($tables) as $t) {
             $tableId            = $tables[$t]->getVar('table_id');
             $tableMid           = $tables[$t]->getVar('table_mid');
             $tableName          = $tables[$t]->getVar('table_name');
             $tableAutoincrement = $tables[$t]->getVar('table_autoincrement');
             $fieldsNumb         = $tables[$t]->getVar('table_nbfields');
-            $ret                .= $this->getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb);
+            if (1 === (int)$tables[$t]->getVar('table_rate')) {
+                $tableRate = 1;
+            }
+            $ret .= $this->getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb);
+        }
+
+        if (1 === $tableRate) {
+            $ret .= $this->getTableRatings($moduleDirname);
         }
 
         return $ret;
@@ -220,7 +233,7 @@ class SqlFile extends Files\CreateFile
                     case 8:
                         $type = $fieldTypeName . '(' . $fieldValue . ')';
                         if (empty($fieldDefault)) {
-                            $default = "DEFAULT '0.00'"; // From MySQL 5.7 Manual
+                            $default = "DEFAULT '0'"; // From MySQL 5.7 Manual
                         } else {
                             $default = "DEFAULT '{$fieldDefault}'";
                         }
@@ -334,6 +347,32 @@ class SqlFile extends Files\CreateFile
     }
 
     /**
+     * @private function getDatabaseFields
+     *
+     * @param $moduleDirname
+     * @return null|string
+     */
+    private function getTableRatings($moduleDirname)
+    {
+
+        $row   = [];
+        $ret   = $this->getHeadDatabaseTable($moduleDirname, 'ratings', 6);
+        $row[] = $this->getFieldRow('rate_id', 'INT(8)', 'UNSIGNED', 'NOT NULL', null, 'AUTO_INCREMENT');
+        $row[] = $this->getFieldRow('rate_itemid', 'INT(8)', null, 'NOT NULL', "DEFAULT '0'");
+        $row[] = $this->getFieldRow('rate_source', 'INT(8)', null, 'NOT NULL', "DEFAULT '0'");
+        $row[] = $this->getFieldRow('rate_value', 'INT(1)', null, 'NOT NULL', "DEFAULT '0'");
+        $row[] = $this->getFieldRow('rate_uid', 'INT(8)', null, 'NOT NULL', "DEFAULT '0'");
+        $row[] = $this->getFieldRow('rate_ip', 'VARCHAR(60)', null, 'NOT NULL', "DEFAULT ''");
+        $row[] = $this->getFieldRow('rate_date', 'INT(8)', null, 'NOT NULL', "DEFAULT '0'");
+        $row[] = $this->getKey(2, 'rate_id');
+
+        $ret .= implode("\n", $row);
+        $ret .= $this->getFootDatabaseTable();
+
+        return $ret;
+    }
+
+    /**
      * @private function getFootDatabaseTable
      *
      * @param null
@@ -405,19 +444,6 @@ class SqlFile extends Files\CreateFile
         }
 
         return $ret;
-    }
-
-    /**
-     * @private function getComma
-     *
-     * @param $row
-     * @param $comma
-     *
-     * @return string
-     */
-    private function getComma($row, $comma = null)
-    {
-        return " {$row}{$comma}";
     }
 
     /**

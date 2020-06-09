@@ -221,19 +221,7 @@ switch ($op) {
         exit;
         break;
     case 'delete':
-        $tablesObj = $helper->getHandler('Tables')->get($fieldTid);
-        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
-            if (!$GLOBALS['xoopsSecurity']->check()) {
-                redirect_header('fields.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
-            }
-            if ($helper->getHandler('Tables')->delete($tablesObj)) {
-                redirect_header('fields.php', 3, _AM_MODULEBUILDER_FORMDELOK);
-            } else {
-                echo $tablesObj->getHtmlErrors();
-            }
-        } else {
-            xoops_confirm(['ok' => 1, 'field_tid' => $fieldTid, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_MODULEBUILDER_FORMSUREDEL, $tablesObj->getVar('table_name')));
-        }
+        //delete is not needed as deletion is done by deleting whole table
         break;
     case 'display':
         $fieldsArray = ['parent', 'inlist', 'inform', 'admin', 'user', 'block', 'main', 'search', 'required'];

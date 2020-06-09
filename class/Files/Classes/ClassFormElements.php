@@ -344,7 +344,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $formHidden      = $this->cxc->getClassXoopsFormHidden('', $fieldName, $ccFieldName, true, true, $t, true);
         $contElse        = $this->cxc->getClassAddElement('fileTray', $formHidden, $t . "\t");
         $ret             .= $this->pc->getPhpCodeConditions('$permissionUpload', null, null, $contIf, $contElse, "\t\t");
-        $ret             .= $this->cxc->getClassAddElement('form', "\$fileTray, {$required}", $t);
+        $ret             .= $this->cxc->getClassAddElement('form', "\$fileTray{$required}", $t);
 
         return $ret;
     }
@@ -430,7 +430,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $formHidden      = $this->cxc->getClassXoopsFormHidden('', $fieldName, $ccFieldName, true, true, $t, true);
         $contElse        = $this->cxc->getClassAddElement('imageTray', $formHidden, $t . "\t");
         $ret             .= $this->pc->getPhpCodeConditions('$permissionUpload', null, null, $contIf, $contElse, "\t\t");
-        $ret             .= $this->cxc->getClassAddElement('form', "\$imageTray {$required}", $t);
+        $ret             .= $this->cxc->getClassAddElement('form', "\$imageTray{$required}", $t);
 
         return $ret;
     }
@@ -452,7 +452,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $ccFieldName    = $this->cf->getCamelCase($fieldName, false, true);
         $languageShort  = substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
         $t              = "\t\t\t";
-        $ret            = $this->pc->getPhpCodeCommentLine('Form File', 'Upload ' . $ccFieldName, "\t\t");
+        $ret            = $this->pc->getPhpCodeCommentLine('Form File:', 'Upload ' . $ccFieldName, "\t\t");
         $ret            .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', "''", "\$this->getVar('{$fieldName}')", "\t\t");
         $uForm          = $this->cxc->getClassXoopsFormElementTray('fileUploadTray', $language, '<br>', $t);
         $uForm          .= $this->xc->getXcEqualsOperator('$fileDirectory', "'/uploads/{$moduleDirname}/files/{$tableName}'", null, $t);
@@ -467,7 +467,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $configText     = "(\$maxsize / 1048576) . ' '  . " . $languageShort . 'FORM_UPLOAD_SIZE_MB';
         $labelInfo1      = $this->cxc->getClassXoopsFormLabel('',  $languageShort . 'FORM_UPLOAD_SIZE', $configText, true, '');
         $uForm          .= $this->cxc->getClassAddElement('fileUploadTray', $labelInfo1, $t );
-        $uForm          .= $this->cxc->getClassAddElement('form', "\$fileUploadTray, {$required}", $t);
+        $uForm          .= $this->cxc->getClassAddElement('form', "\$fileUploadTray{$required}", $t);
         $formHidden     = $this->cxc->getClassXoopsFormHidden('', $fieldName, $ccFieldName, true, true, "\t\t", true);
         $contElse       = $this->cxc->getClassAddElement('form', $formHidden, $t);
 

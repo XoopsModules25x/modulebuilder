@@ -32,10 +32,6 @@ use XoopsModules\Modulebuilder\Files;
  */
 class BlocksFiles extends Files\CreateFile
 {
-    /**
-     * @var mixed
-     */
-    private $axc = null;
 
     /**
      * @var mixed
@@ -146,6 +142,12 @@ class BlocksFiles extends Files\CreateFile
 			$crit       = $this->xc->getXcCriteria('', "'{$fieldStatus}'", $constant, '', true);
             $critStatus .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t\t");
         }
+
+        $case1 = [];
+        $case2 = [];
+        $case3 = [];
+        $case4 = [];
+        $case5 = [];
 
         $case1[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} last",'',"\t\t\t");
         if ('' !== $fieldStatus) {

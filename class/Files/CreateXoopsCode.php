@@ -50,20 +50,22 @@ class CreateXoopsCode
 
     /**
      * @public function getXcSwitch
-     * @param $op
-     * @param $cases
-     * @param $defaultAfterCase
-     * @param $default
-     * @param $t - Indentation
+     * @param string $op
+     * @param array $cases
+     * @param bool $defaultAfterCase
+     * @param bool $default
+     * @param string $t - Indentation
      *
+     * @param bool $isString
+     * @param bool $isConst
      * @return string
      */
-    public function getXcSwitch($op = '', $cases = [], $defaultAfterCase = false, $default = false, $t = '')
+    public function getXcSwitch($op = '', $cases = [], $defaultAfterCase = false, $default = false, $t = '', $isString = true, $isConst = false)
     {
         $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t . "\t");
+        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t . "\t", $isConst);
 
-        return $pc->getPhpCodeSwitch($op, $contentSwitch, $t);
+        return $pc->getPhpCodeSwitch($op, $contentSwitch, $t, $isString);
     }
 
     /**
@@ -961,7 +963,7 @@ class CreateXoopsCode
         $pc              = Modulebuilder\Files\CreatePhpCode::getInstance();
         $securityError   = $this->getXcXoopsSecurityErrors();
         $implode         = $pc->getPhpCodeImplode(',', $securityError);
-        $content         = "{$t}\t" . $this->getXcRedirectHeader($tableName, '', 3, $implode, $t);
+        $content         = "{$t}\t" . $this->getXcRedirectHeader($tableName, '', 3, $implode, false, $t);
         $securityCheck   = $this->getXcXoopsSecurityCheck();
 
         return $pc->getPhpCodeConditions('!' . $securityCheck, '', '', $content, $t);
@@ -990,7 +992,6 @@ class CreateXoopsCode
      * @param        $numb
      * @param        $var
      * @param bool   $isString
-     *
      * @param string $t
      * @return string
      */
@@ -1669,11 +1670,17 @@ class CreateXoopsCode
      * @param string $style
      *
      * @param string $t
+     * @param bool $isString
      * @return string
      */
-    public function getXcXoThemeAddStylesheet($style = 'style', $t = '')
+    public function getXcXoThemeAddStylesheet($style = 'style', $t = '', $isString = true)
     {
-        return "{$t}\$GLOBALS['xoTheme']->addStylesheet( \${$style}, null );\n";
+        $ret = "{$t}\$GLOBALS['xoTheme']->addStylesheet( ";
+        if ($isString) {
+            $ret .= '$';
+        }
+        $ret .= "{$style}, null );\n";
+        return $ret;
     }
 
     /**

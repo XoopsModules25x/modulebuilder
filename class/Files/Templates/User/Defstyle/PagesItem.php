@@ -89,10 +89,11 @@ class PagesItem extends Files\CreateFile
      * @param        $tableMid
      * @param        $tableName
      * @param        $tableSoleName
+     * @param $tableRate
      * @param        $language
      * @return string
      */
-    private function getTemplatesUserPagesItemPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserPagesItemPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableRate, $language)
     {
         $fields  = $this->getTableFields($tableMid, $tableId);
         $ret     = '';
@@ -188,8 +189,12 @@ class PagesItem extends Files\CreateFile
         $anchors .= $this->sc->getSmartyConditions('permEdit', '', '', $contIf, false, '', '', "\t\t");
         $lang        = $this->sc->getSmartyConst($language, 'BROKEN');
         $anchors .=  $this->hc->getHtmlAnchor($tableName . ".php?op=broken&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-warning right', '', "\t\t", "\n");
-        $retFoot     .= $this->hc->getHtmlDiv($anchors, 'col-sm-12 right',"\t", "\n", );
+        $retFoot     .= $this->hc->getHtmlDiv($anchors, 'col-sm-12 right',"\t", "\n");
         $ret .= $this->hc->getHtmlDiv($retFoot, 'panel-foot');
+        if ($tableRate) {
+            $rate = $this->sc->getSmartyIncludeFile($moduleDirname, 'rate', false, false, "\t", "\n", 'item=$' . $tableSoleName);
+            $ret .= $this->sc->getSmartyConditions('rating', '', '', $rate, false);
+        }
 
         return $ret;
     }
@@ -211,9 +216,10 @@ class PagesItem extends Files\CreateFile
         $tableMid        = $table->getVar('table_mid');
         $tableName       = $table->getVar('table_name');
         $tableSoleName   = $table->getVar('table_solename');
+        $tableRate       = $table->getVar('table_rate');
         $tableCategory[] = $table->getVar('table_category');
         if (in_array(0, $tableCategory)) {
-            $content .= $this->getTemplatesUserPagesItemPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
+            $content .= $this->getTemplatesUserPagesItemPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableRate, $language);
         }
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);

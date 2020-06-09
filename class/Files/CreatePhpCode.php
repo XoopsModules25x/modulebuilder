@@ -440,13 +440,15 @@ class CreatePhpCode
      *
      * @param $op
      * @param $content
-     * @param $t
+     * @param string $t
      *
+     * @param bool $isParam
      * @return string
      */
-    public function getPhpCodeSwitch($op = null, $content = null, $t = '')
+    public function getPhpCodeSwitch($op = null, $content = null, $t = '', $isParam = true)
     {
-        $ret = "{$t}switch(\${$op}) {\n";
+        $value = $isParam ? "\${$op}" : $op;
+        $ret = "{$t}switch({$value}) {\n";
         $ret .= $content;
         $ret .= "{$t}}\n";
 
@@ -456,19 +458,20 @@ class CreatePhpCode
     /**
      * @public function getPhpCodeCaseSwitch
      *
-     * @param $cases
-     * @param $defaultAfterCase
-     * @param $default
-     * @param $t
+     * @param array $cases
+     * @param bool $defaultAfterCase
+     * @param bool $default
+     * @param string $t
      *
+     * @param bool $isConst
      * @return string
      */
-    public function getPhpCodeCaseSwitch($cases = [], $defaultAfterCase = false, $default = false, $t = '')
+    public function getPhpCodeCaseSwitch($cases = [], $defaultAfterCase = false, $default = false, $t = '', $isConst = false)
     {
         $ret = '';
         $def = "{$t}default:\n";
         foreach ($cases as $case => $value) {
-            $case = is_string($case) ? "'{$case}'" : $case;
+            $case = $isConst || !is_string($case) ? $case : "'{$case}'";
             if (empty($value)) {
                 $ret .= "{$t}case {$case}:\n";
             } else if (!empty($case)) {

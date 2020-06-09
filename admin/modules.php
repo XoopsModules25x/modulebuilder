@@ -190,10 +190,11 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
             }
         } else {
-            $xoopsconfirm =  new \XoopsModules\Modulebuilder\Common\XoopsConfirm();
-            $xoopsconfirm->hiddens = ['ok' => 1, 'mod_id' => $modId, 'op' => 'delete'];
-            $xoopsconfirm->action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
-            $xoopsconfirm->object = $modulesObj->getVar('mod_name');
+            $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\XoopsConfirm(
+                                        ['ok' => 1, 'mod_id' => $modId, 'op' => 'delete'],
+                                        \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'),
+                                        $modulesObj->getVar('mod_name')
+                            );
             $form = $xoopsconfirm->getFormXoopsConfirm();
             $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }

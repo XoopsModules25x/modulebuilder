@@ -119,7 +119,7 @@ class UserPages extends Files\CreateFile
         $ret       .= $this->pc->getPhpCodeBlankLine();
         $ret       .= $this->pc->getPhpCodeArray('keywords', null, false, '');
         $ret       .= $this->pc->getPhpCodeBlankLine();
-        $ret       .= $this->xc->getXcEqualsOperator('$permEdit', '$permissionsHandler->getPermGlobalSubmit()', );
+        $ret       .= $this->xc->getXcEqualsOperator('$permEdit', '$permissionsHandler->getPermGlobalSubmit()');
         $ret       .= $this->xc->getXcXoopsTplAssign("permEdit", '$permEdit');
         $ret       .= $this->xc->getXcXoopsTplAssign("showItem", "\${$ccFieldId} > 0");
         $ret       .= $this->pc->getPhpCodeBlankLine();
@@ -129,19 +129,37 @@ class UserPages extends Files\CreateFile
 
     /**
      * @private function getUserPagesList
+     * @param $moduleDirname
      * @param $tableName
      * @param $fieldId
      * @param $fieldMain
+     * @param $tableRate
      * @param string $t
      * @return string
      */
-    private function getUserPagesList($tableName, $fieldId, $fieldMain, $t = '')
+    private function getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $t = '')
     {
         $ucfTableName     = ucfirst($tableName);
+        $stuTableName     = mb_strtoupper($tableName);
         $ccFieldId        = $this->getCamelCase($fieldId, false, true);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
 
+        $ret = '';
+        if ($tableRate) {
+            $varRate = '$ratingbars';
+            $ret .= $this->xc->getXcEqualsOperator($varRate, '(int)' . $this->xc->getXcGetConfig('ratingbars'),'', $t);
+            $contIf = $this->xc->getXcXoThemeAddStylesheet("{$stuModuleDirname}_URL . '/assets/css/rating.css'", $t . "\t", false);
+            $contIf .= $this->xc->getXcXoopsTplAssign('rating', $varRate, true, $t . "\t");
+            $contIf .= $this->xc->getXcXoopsTplAssign('rating_5stars', "(Constants::RATING_5STARS === {$varRate})", true, $t . "\t");
+            $contIf .= $this->xc->getXcXoopsTplAssign('rating_10stars', "(Constants::RATING_10STARS === {$varRate})", true, $t . "\t");
+            $contIf .= $this->xc->getXcXoopsTplAssign('rating_10num', "(Constants::RATING_10NUM === {$varRate})", true, $t . "\t");
+            $contIf .= $this->xc->getXcXoopsTplAssign('rating_likes', "(Constants::RATING_LIKES === {$varRate})", true, $t . "\t");
+            $contIf .= $this->xc->getXcXoopsTplAssign('itemid', "'{$fieldId}'", true, $t . "\t");
+            $contIf .= $this->xc->getXcXoopsTplAssign($moduleDirname . '_icon_url_16', "{$stuModuleDirname}_URL . '/' . \$modPathIcon16", true, $t . "\t");
+            $ret .= $this->pc->getPhpCodeConditions($varRate, ' > ', '0', $contIf, false, $t);
+        }
         $critName  = 'cr' . $ucfTableName;
-        $ret       = $this->xc->getXcCriteriaCompo($critName, $t);
+        $ret       .= $this->xc->getXcCriteriaCompo($critName, $t);
         $crit      = $this->xc->getXcCriteria('', "'{$fieldId}'", "\${$ccFieldId}",'',true);
         $contIf    = $this->xc->getXcCriteriaAdd($critName, $crit, $t . "\t");
         $ret       .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $contIf, false, $t);
@@ -152,8 +170,13 @@ class UserPages extends Files\CreateFile
         $ret       .= $this->xc->getXcHandlerAllClear($tableName . 'All', $tableName, '$' . $critName, $t);
         $condIf    = $this->pc->getPhpCodeArray($tableName, null, false, $t . "\t");
         $condIf    .= $this->pc->getPhpCodeCommentLine('Get All', $ucfTableName, $t . "\t");
-        $foreach   = $this->xc->getXcGetValues($tableName, $tableName . '[]', 'i', false, $t . "\t\t");
-        $foreach   .= $this->xc->getXcGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain, false, $t . "\t\t");
+        $foreach   = $this->xc->getXcGetValues($tableName, $tableName . '[$i]', 'i', false, $t . "\t\t");
+        $foreach   .= $this->xc->getXcGetVar('keywords[$i]', "{$tableName}All[\$i]", $fieldMain, false, $t . "\t\t");
+        if ($tableRate) {
+            $itemId   = $this->xc->getXcGetVar($ccFieldId, "{$tableName}All[\$i]", $fieldId, true);
+            $const  = $this->xc->getXcGetConstants('TABLE_' . $stuTableName);
+            $foreach .= $this->xc->getXcEqualsOperator("\${$tableName}[\$i]['rating']", "\$ratingsHandler->getItemRating({$itemId}, {$const})",'', $t . "\t\t");
+        }
         $condIf    .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, $t . "\t");
         $condIf    .= $this->xc->getXcXoopsTplAssign($tableName, "\${$tableName}", true, $t . "\t");
         $condIf    .= $this->pc->getPhpCodeUnset($tableName, $t . "\t");
@@ -482,15 +505,16 @@ class UserPages extends Files\CreateFile
      * @param $fieldMain
      * @param $fieldStatus
      * @param $tableNotifications
+     * @param $tableRate
      * @param $language
      * @param $t
      * @return string
      */
-    private function getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $language, $t)
+    private function getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $tableRate, $language, $t)
     {
         $fields = $this->getTableFields($tableMid, $tableId);
         $cases['show'] = [];
-        $cases['list'] = [$this->getUserPagesList($tableName, $fieldId, $fieldMain, $t . "\t")];
+        $cases['list'] = [$this->getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $t . "\t")];
         if (1 == $tableSubmit) {
             $cases['save']   = [$this->getUserPagesSave($moduleDirname, $fields, $tableName, $tableSoleName, $tablePermissions, $tableNotifications, $language, $t . "\t")];
             $cases['new']    = [$this->getUserPagesNew($tableName, $t . "\t")];
@@ -522,6 +546,7 @@ class UserPages extends Files\CreateFile
         $tableBroken        = $table->getVar('table_broken');
         $tableNotifications = $table->getVar('table_notifications');
         $tableComments      = $table->getVar('table_comments');
+        $tableRate          = $table->getVar('table_rate');
         $filename           = $this->getFileName();
         $moduleDirname      = $module->getVar('mod_dirname');
         $language           = $this->getLanguage($moduleDirname, 'MA');
@@ -545,7 +570,7 @@ class UserPages extends Files\CreateFile
         }
         $content = $this->getHeaderFilesComments($module);
         $content .= $this->getUserPagesHeader($moduleDirname, $tableName, $fieldId);
-        $content .= $this->getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $language, "\t");
+        $content .= $this->getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $tableRate, $language, "\t");
         $content .= $this->getUserPagesFooter($moduleDirname, $tableName, $tableComments, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);

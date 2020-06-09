@@ -228,8 +228,10 @@ class ClassSpecialFiles extends Files\CreateFile
         $filename         = $this->getFileName();
         $tables           = $this->getTables();
         $tablePermissions = [];
+        $tableRate        = [];
         foreach (array_keys($tables) as $t) {
-            $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
+            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
+            $tableRate[]        = $tables[$t]->getVar('table_rate');
         }
         $moduleDirname  = $module->getVar('mod_dirname');
         $namespace      = $this->pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
@@ -255,10 +257,20 @@ class ClassSpecialFiles extends Files\CreateFile
             $constPerm = $this->pc->getPhpCodeBlankLine();
             $constPerm .= $this->pc->getPhpCodeCommentLine('Constants for permissions', '', "\t");
             $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_NONE   ", 0, "\t",'const');
-            $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_VIEW   ", 1,"\t", 'const');
-            $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_SUBMIT ", 2,"\t", 'const');
-            $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3,"\t", 'const');
+            $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_VIEW   ", 1, "\t", 'const');
+            $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_SUBMIT ", 2, "\t", 'const');
+            $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3, "\t", 'const');
             $contentClass .= $constPerm;
+        }
+        if (in_array(1, $tableRate)) {
+            $constRate = $this->pc->getPhpCodeBlankLine();
+            $constRate .= $this->pc->getPhpCodeCommentLine('Constants for rating', '', "\t");
+            $constRate .= $this->pc->getPhpCodeConstant("RATING_NONE    ", 0, "\t",'const');
+            $constRate .= $this->pc->getPhpCodeConstant("RATING_5STARS  ", 1, "\t", 'const');
+            $constRate .= $this->pc->getPhpCodeConstant("RATING_10STARS ", 2, "\t", 'const');
+            $constRate .= $this->pc->getPhpCodeConstant("RATING_LIKES   ", 3, "\t", 'const');
+            $constRate .= $this->pc->getPhpCodeConstant("RATING_10NUM   ", 4, "\t", 'const');
+            $contentClass .= $constRate;
         }
         $contentClass        .= $this->pc->getPhpCodeBlankLine();
 

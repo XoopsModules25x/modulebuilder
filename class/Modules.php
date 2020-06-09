@@ -189,14 +189,14 @@ class Modules extends \XoopsObject
         $form->setExtra('enctype="multipart/form-data"');
 
         $modName = $isNew ? $set['name'] : $this->getVar('mod_name');
-        $modName = new \XoopsFormText(_AM_MODULEBUILDER_MODULE_NAME, 'mod_name', 50, 255, $modName);
-        $modName->setDescription(_AM_MODULEBUILDER_MODULE_NAME_DESC);
-        $form->addElement($modName, true);
+        $modNameText = new \XoopsFormText(_AM_MODULEBUILDER_MODULE_NAME, 'mod_name', 50, 255, $modName);
+        $modNameText->setDescription(_AM_MODULEBUILDER_MODULE_NAME_DESC);
+        $form->addElement($modNameText, true);
 
         $modDirname = $isNew ? $set['dirname'] : $this->getVar('mod_dirname');
-        $modDirname = new \XoopsFormText(_AM_MODULEBUILDER_MODULE_DIRNAME, 'mod_dirname', 25, 255, $modDirname);
-        $modDirname->setDescription(_AM_MODULEBUILDER_MODULE_DIRNAME_DESC);
-        $form->addElement($modDirname, true);
+        $modDirnameText = new \XoopsFormText(_AM_MODULEBUILDER_MODULE_DIRNAME, 'mod_dirname', 25, 255, $modDirname);
+        $modDirnameText->setDescription(_AM_MODULEBUILDER_MODULE_DIRNAME_DESC);
+        $form->addElement($modDirnameText, true);
 
         $modVersion = $isNew ? $set['version'] : $this->getVar('mod_version');
         $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_VERSION, 'mod_version', 10, 25, $modVersion), true);

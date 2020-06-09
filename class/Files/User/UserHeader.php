@@ -115,12 +115,14 @@ class UserHeader extends Files\CreateFile
         if (1 == $table->getVar('table_permissions')) {
             $ret .= $this->xc->getXcHandlerLine('permissions');
         }
+        if (1 == $table->getVar('table_rate')) {
+            $ret .= $this->xc->getXcHandlerLine('ratings');
+        }
         $ret .= $this->pc->getPhpCodeCommentLine();
         $ret .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
         $ret .= $this->pc->getPhpCodeCommentLine('Default Css Style');
         $ret .= $this->xc->getXcEqualsOperator('$style', "{$stuModuleDirname}_URL . '/assets/css/style.css'");
-        $ret .= $this->pc->getPhpCodeConditions('!file_exists($style)', '', '', "\treturn false;\n");
-        $ret .= $this->pc->getPhpCodeCommentLine('Smarty Default');
+                $ret .= $this->pc->getPhpCodeCommentLine('Smarty Default');
         $ret .= $this->xc->getXcXoopsModuleGetInfo('sysPathIcon16', 'sysicons16');
         $ret .= $this->xc->getXcXoopsModuleGetInfo('sysPathIcon32', 'sysicons32');
         $ret .= $this->xc->getXcXoopsModuleGetInfo('pathModuleAdmin', 'dirmoduleadmin');

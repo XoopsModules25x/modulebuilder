@@ -170,7 +170,13 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(['ok' => 1, 'set_id' => $setId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_MODULEBUILDER_FORMSUREDEL, $settingsObj->getVar('set_name')));
+            $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\XoopsConfirm(
+                                        ['ok' => 1, 'set_id' => $setId, 'op' => 'delete'],
+                                        \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'),
+                                        $settingsObj->getVar('set_name')
+                            );
+            $form = $xoopsconfirm->getFormXoopsConfirm();
+            $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }
         break;
     case 'display':

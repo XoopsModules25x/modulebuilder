@@ -388,7 +388,6 @@ class ClassFiles extends Files\CreateFile
      */
     private function getValuesInObject($moduleDirname, $table, $fields)
     {
-        $tc               = Modulebuilder\Helper::getInstance();
         $ucfTableName     = ucfirst($table->getVar('table_name'));
         $ret              = $this->pc->getPhpCodeCommentMultiLine(['Get' => 'Values', '@param null $keys' => '', '@param null $format' => '', '@param null$maxDepth' => '', '@return' => 'array'], "\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
