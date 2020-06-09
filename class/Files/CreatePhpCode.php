@@ -440,8 +440,9 @@ class CreatePhpCode
      *
      * @param $op
      * @param $content
-     * @param $t
+     * @param string $t
      *
+     * @param bool $isParam
      * @return string
      */
     public function getPhpCodeSwitch($op = null, $content = null, $t = '', $isParam = true)
@@ -457,11 +458,12 @@ class CreatePhpCode
     /**
      * @public function getPhpCodeCaseSwitch
      *
-     * @param $cases
-     * @param $defaultAfterCase
-     * @param $default
-     * @param $t
+     * @param array $cases
+     * @param bool $defaultAfterCase
+     * @param bool $default
+     * @param string $t
      *
+     * @param bool $isConst
      * @return string
      */
     public function getPhpCodeCaseSwitch($cases = [], $defaultAfterCase = false, $default = false, $t = '', $isConst = false)

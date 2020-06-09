@@ -106,11 +106,10 @@ EOT;
      * @private function getTemplatesUserSearchBody
      * @param string $moduleDirname
      * @param string $table
-     * @param string $language
      *
      * @return string
      */
-    private function getTemplatesUserSearchBody($moduleDirname, $table, $language)
+    private function getTemplatesUserSearchBody($moduleDirname, $table)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -162,11 +161,10 @@ EOT;
      * @private function getTemplatesUserSearchBodyFieldnameEmpty
      * @param string $moduleDirname
      * @param string $table
-     * @param string $language
      *
      * @return string
      */
-    private function getTemplatesUserSearchBodyFieldnameEmpty($moduleDirname, $table, $language)
+    private function getTemplatesUserSearchBodyFieldnameEmpty($moduleDirname, $table)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -238,9 +236,9 @@ EOT;
         $content        = $this->getTemplatesUserSearchHeader($moduleDirname, $table, $language);
         // Verify if table_fieldname is not empty
         if (!empty($tableFieldname)) {
-            $content .= $this->getTemplatesUserSearchBody($moduleDirname, $table, $language);
+            $content .= $this->getTemplatesUserSearchBody($moduleDirname, $table);
         } else {
-            $content .= $this->getTemplatesUserSearchBodyFieldnameEmpty($moduleDirname, $table, $language);
+            $content .= $this->getTemplatesUserSearchBodyFieldnameEmpty($moduleDirname, $table);
         }
         $content .= $this->getTemplatesUserSearchFooter($moduleDirname);
 

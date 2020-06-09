@@ -138,10 +138,15 @@ class SqlFile extends Files\CreateFile
      */
     private function getDatabaseTables($module)
     {
-        $ret           = null;
-        $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
-        $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_id');
-        $tableRate     = 0;
+        $ret                = null;
+        $moduleDirname      = mb_strtolower($module->getVar('mod_dirname'));
+        $tables             = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_id');
+        $tableMid           = 0;
+        $tableId            = 0;
+        $tableName          = 0;
+        $tableAutoincrement = 0;
+        $fieldsNumb         = 0;
+        $tableRate          = 0;
         foreach (array_keys($tables) as $t) {
             $tableId            = $tables[$t]->getVar('table_id');
             $tableMid           = $tables[$t]->getVar('table_mid');
@@ -155,7 +160,7 @@ class SqlFile extends Files\CreateFile
         }
 
         if (1 === $tableRate) {
-            $ret .= $this->getTableRatings($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb);
+            $ret .= $this->getTableRatings($moduleDirname);
         }
 
         return $ret;
@@ -345,23 +350,16 @@ class SqlFile extends Files\CreateFile
      * @private function getDatabaseFields
      *
      * @param $moduleDirname
-     * @param $tableMid
-     * @param $tableId
-     * @param $tableName
-     * @param $tableAutoincrement
-     * @param $fieldsNumb
      * @return null|string
      */
-    private function getTableRatings($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb)
+    private function getTableRatings($moduleDirname)
     {
-        $helper        = Modulebuilder\Helper::getInstance();
         $ret           = null;
         $j             = 0;
         $comma         = [];
         $row           = [];
 
         $ret            = $this->getHeadDatabaseTable($moduleDirname, 'ratings', 6);
-        //$row[] = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
         $row[] = $this->getFieldRow('rate_id', 'INT(8)', 'UNSIGNED', 'NOT NULL', null, 'AUTO_INCREMENT');
         $comma[$j] = $this->getKey(2, 'rate_id');
         ++$j;
@@ -461,19 +459,6 @@ class SqlFile extends Files\CreateFile
         }
 
         return $ret;
-    }
-
-    /**
-     * @private function getComma
-     *
-     * @param $row
-     * @param $comma
-     *
-     * @return string
-     */
-    private function getComma($row, $comma = null)
-    {
-        return " {$row}{$comma}";
     }
 
     /**

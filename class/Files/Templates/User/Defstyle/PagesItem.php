@@ -89,6 +89,7 @@ class PagesItem extends Files\CreateFile
      * @param        $tableMid
      * @param        $tableName
      * @param        $tableSoleName
+     * @param $tableRate
      * @param        $language
      * @return string
      */

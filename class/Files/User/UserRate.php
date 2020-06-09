@@ -307,7 +307,7 @@ class UserRate extends Files\CreateFile
         $content            = $this->getHeaderFilesComments($module);
         $content            .= $this->getUserRateHeader($moduleDirname);
         $content            .= $this->getUserRateSwitch($tables, $language);
-        $content            .= $this->getUserRateFooter($language);
+        $content            .= $this->getUserRateFooter();
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 

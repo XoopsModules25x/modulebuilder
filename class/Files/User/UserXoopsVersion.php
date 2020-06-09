@@ -936,56 +936,6 @@ class UserXoopsVersion extends Files\CreateFile
     }
 
     /**
-     * @private function getNotificationsType
-     * @param $language
-     * @param $type
-     * @param $tableName
-     * @param $notifyFile
-     * @param $item
-     * @param $typeOfNotify
-     *
-     * @return string
-     */
-    private function getNotificationsType($language, $type, $tableName, $notifyFile, $item, $typeOfNotify)
-    {
-        $stuTableName    = mb_strtoupper($tableName);
-        $stuTypeOfNotify = mb_strtoupper($typeOfNotify);
-        $notifyFile      = explode(', ', $notifyFile);
-        $notifyFile      = implode(', ', $notifyFile);
-        $ret             = '';
-        switch ($type) {
-            case 'category':
-                $ret      .= $this->pc->getPhpCodeCommentLine('Category Notify');
-                $category = [
-                    'name'             => "'category'",
-                    'title'            => "'{$language}NOTIFY_{$stuTableName}'",
-                    'description'      => "''",
-                    'subscribe_from'   => "['index.php',{$notifyFile}]",
-                    'item_name'        => "'{$item}'",
-                    "'allow_bookmark'" => '1',
-                ];
-                $ret      .= $this->uxc->getUserModVersionArray(2, $category, 'notification', "'{$type}'");
-                break;
-            case 'event':
-                $ret   .= $this->pc->getPhpCodeCommentLine('Event Notify');
-                $event = [
-                    'name'          => "'{$typeOfNotify}'",
-                    'category'      => "'{$tableName}'",
-                    'admin_only'    => '1',
-                    "'title'"       => "'{$language}NOTIFY_{$stuTableName}_{$stuTypeOfNotify}'",
-                    'caption'       => "'{$language}NOTIFY_{$stuTableName}_{$stuTypeOfNotify}_CAPTION'",
-                    'description'   => "''",
-                    'mail_template' => "'notify_{$tableName}_{$typeOfNotify}'",
-                    'mail_subject'  => "'{$language}NOTIFY_{$stuTableName}_{$stuTypeOfNotify}_SUBJECT'",
-                ];
-                $ret   .= $this->uxc->getUserModVersionArray(2, $event, 'notification', "'{$type}'");
-                break;
-        }
-
-        return $ret;
-    }
-
-    /**
      * @private function getXoopsVersionNotifications
      * @param $module
      * @param $language

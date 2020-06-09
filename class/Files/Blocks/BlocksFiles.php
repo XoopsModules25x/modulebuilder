@@ -32,10 +32,6 @@ use XoopsModules\Modulebuilder\Files;
  */
 class BlocksFiles extends Files\CreateFile
 {
-    /**
-     * @var mixed
-     */
-    private $axc = null;
 
     /**
      * @var mixed

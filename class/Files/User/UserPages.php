@@ -129,9 +129,11 @@ class UserPages extends Files\CreateFile
 
     /**
      * @private function getUserPagesList
+     * @param $moduleDirname
      * @param $tableName
      * @param $fieldId
      * @param $fieldMain
+     * @param $tableRate
      * @param string $t
      * @return string
      */
@@ -503,6 +505,7 @@ class UserPages extends Files\CreateFile
      * @param $fieldMain
      * @param $fieldStatus
      * @param $tableNotifications
+     * @param $tableRate
      * @param $language
      * @param $t
      * @return string

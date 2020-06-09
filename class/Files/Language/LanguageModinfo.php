@@ -494,7 +494,6 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageFooter()
     {
-        $df  = LanguageDefines::getInstance();
         $ret = $this->ld->getBelowDefines('End');
         $ret .= $this->ld->getBlankLine();
 
@@ -522,6 +521,7 @@ class LanguageModinfo extends Files\CreateFile
         $notifTable         = '';
         $tableBrokens       = [];
         $tableComments      = [];
+        $tableRate          = [];
         foreach (array_keys($tables) as $t) {
             $tableName            = $tables[$t]->getVar('table_name');
             $tableSoleName        = $tables[$t]->getVar('table_solename');
@@ -554,7 +554,7 @@ class LanguageModinfo extends Files\CreateFile
             $content .= $this->getLanguageSubmenu($language, $tables);
         }
         if (in_array(1, $tableRate)) {
-            $content .= $this->getLanguageRatingbars($language, $tables);
+            $content .= $this->getLanguageRatingbars($language);
         }
 
         //if (in_array(1, $tableBlocks)) {

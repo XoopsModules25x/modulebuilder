@@ -198,23 +198,4 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
 
         return $this->deleteAll($criteria);
     }
-
-    /**
-     * Get Criteria Ratings
-     * @param        $crRatings
-     * @param int    $start
-     * @param int    $limit
-     * @param string $sort
-     * @param string $order
-     * @return int
-     */
-    private function getRatingsCriteria($crRatings, $start, $limit, $sort, $order)
-    {
-        $crRatings->setStart($start);
-        $crRatings->setLimit($limit);
-        $crRatings->setSort($sort);
-        $crRatings->setOrder($order);
-
-        return $crRatings;
-    }
 }

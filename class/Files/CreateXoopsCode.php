@@ -50,12 +50,14 @@ class CreateXoopsCode
 
     /**
      * @public function getXcSwitch
-     * @param $op
-     * @param $cases
-     * @param $defaultAfterCase
-     * @param $default
-     * @param $t - Indentation
+     * @param string $op
+     * @param array $cases
+     * @param bool $defaultAfterCase
+     * @param bool $default
+     * @param string $t - Indentation
      *
+     * @param bool $isString
+     * @param bool $isConst
      * @return string
      */
     public function getXcSwitch($op = '', $cases = [], $defaultAfterCase = false, $default = false, $t = '', $isString = true, $isConst = false)
@@ -1669,6 +1671,7 @@ class CreateXoopsCode
      * @param string $style
      *
      * @param string $t
+     * @param bool $isString
      * @return string
      */
     public function getXcXoThemeAddStylesheet($style = 'style', $t = '', $isString = true)

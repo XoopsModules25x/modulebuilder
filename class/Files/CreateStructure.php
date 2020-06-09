@@ -43,10 +43,6 @@ class CreateStructure
      */
     private $fileName;
     /**
-     * @var string
-     */
-    private $path;
-    /**
      * @var mixed
      */
     private $uploadPath;
