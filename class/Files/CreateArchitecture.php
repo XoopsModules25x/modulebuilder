@@ -751,6 +751,7 @@ class CreateArchitecture extends CreateStructure
         $patValues = array_values($patterns);
 
         /* clone complete missing folders */
+        $cloneFolders = [];
         $cloneFolders[] = [
             'src'   => TDMC_PATH . '/files/commonfiles',
             'dst'   => $upl_path,

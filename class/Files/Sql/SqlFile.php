@@ -354,34 +354,19 @@ class SqlFile extends Files\CreateFile
      */
     private function getTableRatings($moduleDirname)
     {
-        $ret           = null;
-        $j             = 0;
-        $comma         = [];
-        $row           = [];
 
-        $ret            = $this->getHeadDatabaseTable($moduleDirname, 'ratings', 6);
+        $row   = [];
+        $ret   = $this->getHeadDatabaseTable($moduleDirname, 'ratings', 6);
         $row[] = $this->getFieldRow('rate_id', 'INT(8)', 'UNSIGNED', 'NOT NULL', null, 'AUTO_INCREMENT');
-        $comma[$j] = $this->getKey(2, 'rate_id');
-        ++$j;
         $row[] = $this->getFieldRow('rate_itemid', 'INT(8)', null, 'NOT NULL', "DEFAULT '0'");
         $row[] = $this->getFieldRow('rate_source', 'INT(8)', null, 'NOT NULL', "DEFAULT '0'");
         $row[] = $this->getFieldRow('rate_value', 'INT(1)', null, 'NOT NULL', "DEFAULT '0'");
         $row[] = $this->getFieldRow('rate_uid', 'INT(8)', null, 'NOT NULL', "DEFAULT '0'");
         $row[] = $this->getFieldRow('rate_ip', 'VARCHAR(60)', null, 'NOT NULL', "DEFAULT ''");
         $row[] = $this->getFieldRow('rate_date', 'INT(8)', null, 'NOT NULL', "DEFAULT '0'");
+        $row[] = $this->getKey(2, 'rate_id');
 
-
-        // ================= COMMA ================= //
-        for ($i = 0; $i < $j; ++$i) {
-            if ($i != $j - 1) {
-                $row[] = $comma[$i] . ',';
-            } else {
-                $row[] = $comma[$i];
-            }
-        }
-        // ================= COMMA CICLE ================= //
         $ret .= implode("\n", $row);
-        unset($j);
         $ret .= $this->getFootDatabaseTable();
 
         return $ret;

@@ -143,6 +143,12 @@ class BlocksFiles extends Files\CreateFile
             $critStatus .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t\t");
         }
 
+        $case1 = [];
+        $case2 = [];
+        $case3 = [];
+        $case4 = [];
+        $case5 = [];
+
         $case1[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} last",'',"\t\t\t");
         if ('' !== $fieldStatus) {
             $case1[] = $critStatus;

@@ -963,7 +963,7 @@ class CreateXoopsCode
         $pc              = Modulebuilder\Files\CreatePhpCode::getInstance();
         $securityError   = $this->getXcXoopsSecurityErrors();
         $implode         = $pc->getPhpCodeImplode(',', $securityError);
-        $content         = "{$t}\t" . $this->getXcRedirectHeader($tableName, '', 3, $implode, $t);
+        $content         = "{$t}\t" . $this->getXcRedirectHeader($tableName, '', 3, $implode, false, $t);
         $securityCheck   = $this->getXcXoopsSecurityCheck();
 
         return $pc->getPhpCodeConditions('!' . $securityCheck, '', '', $content, $t);
@@ -992,7 +992,6 @@ class CreateXoopsCode
      * @param        $numb
      * @param        $var
      * @param bool   $isString
-     *
      * @param string $t
      * @return string
      */
