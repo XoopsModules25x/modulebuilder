@@ -52,8 +52,10 @@ class Morefiles extends \XoopsObject
     {
         $this->initVar('file_id', XOBJ_DTYPE_INT);
         $this->initVar('file_mid', XOBJ_DTYPE_INT);
+        $this->initVar('file_type', XOBJ_DTYPE_INT);
         $this->initVar('file_name', XOBJ_DTYPE_TXTBOX);
         $this->initVar('file_extension', XOBJ_DTYPE_TXTBOX);
+        $this->initVar('file_upload', XOBJ_DTYPE_TXTBOX);
         $this->initVar('file_infolder', XOBJ_DTYPE_TXTBOX);
     }
 
@@ -117,13 +119,35 @@ class Morefiles extends \XoopsObject
         }
         $form->addElement($modulesSelect, true);
 
-        $modName = new \XoopsFormText(_AM_MODULEBUILDER_MORE_FILES_NAME, 'file_name', 50, 255, $this->getVar('file_name'));
-        $modName->setDescription(_AM_MODULEBUILDER_MORE_FILES_NAME_DESC);
-        $form->addElement($modName, true);
+        $typeSelect = new \XoopsFormSelect(_AM_MODULEBUILDER_MORE_FILES_TYPE, 'file_type', $this->getVar('file_type'));
+        $typeSelect->addOption(0, ' ');
+        $typeSelect->addOption(Constants::MORE_FILES_TYPE_EMPTY, _AM_MODULEBUILDER_MORE_FILES_TYPE_EMPTY);
+        $typeSelect->addOption(Constants::MORE_FILES_TYPE_COPY, _AM_MODULEBUILDER_MORE_FILES_TYPE_COPY);
+        $form->addElement($typeSelect, true);
 
-        $fileEstension = new \XoopsFormText(_AM_MODULEBUILDER_MORE_FILES_EXTENSION, 'file_extension', 50, 255, $this->getVar('file_extension'));
-        $fileEstension->setDescription(_AM_MODULEBUILDER_MORE_FILES_EXTENSION_DESC);
-        $form->addElement($fileEstension, true);
+        $fileName = new \XoopsFormText(_AM_MODULEBUILDER_MORE_FILES_NAME, 'file_name', 50, 255, $this->getVar('file_name'));
+        $fileName->setDescription(_AM_MODULEBUILDER_MORE_FILES_NAME_DESC);
+        $form->addElement($fileName);
+
+        $fileExtension = new \XoopsFormText(_AM_MODULEBUILDER_MORE_FILES_EXTENSION, 'file_extension', 50, 255, $this->getVar('file_extension'));
+        $fileExtension->setDescription(_AM_MODULEBUILDER_MORE_FILES_EXTENSION_DESC);
+        $form->addElement($fileExtension);
+
+
+        $fileUpload = $this->isNew() ? '' : $this->getVar('file_upload');
+        $fileTray = new \XoopsFormElementTray(_AM_MODULEBUILDER_MORE_FILES_UPLOAD, '<br>' );
+        $fileDirectory = '/uploads/modulebuilder/files';
+        $fileSelect = new \XoopsFormSelect( ".{$fileDirectory}/", 'file_upload', $fileUpload, 5);
+        $filesArray = \XoopsLists::getFileListAsArray( WGTRANSIFEX_UPLOAD_FILES_PATH );
+        $fileSelect->addOption('', ' - ');
+        foreach($filesArray as $file1) {
+            if ('index.html' !== $file1) {
+                $fileSelect->addOption("{$file1}", $file1);
+            }
+        }
+        $fileTray->addElement($fileSelect, false);
+        $form->addElement($fileTray);
+
 
         $fileInfolder = new \XoopsFormText(_AM_MODULEBUILDER_MORE_FILES_INFOLDER, 'file_infolder', 50, 255, $this->getVar('file_infolder'));
         $fileInfolder->setDescription(_AM_MODULEBUILDER_MORE_FILES_INFOLDER_DESC);
@@ -151,8 +175,10 @@ class Morefiles extends \XoopsObject
         // Values
         $ret['id']        = $this->getVar('file_id');
         $ret['mid']       = $helper->getHandler('Modules')->get($this->getVar('file_mid'))->getVar('mod_name');
+        $ret['type']      = $this->getVar('file_type') == Constants::MORE_FILES_TYPE_EMPTY ? _AM_MODULEBUILDER_MORE_FILES_TYPE_EMPTY : _AM_MODULEBUILDER_MORE_FILES_TYPE_COPY;
         $ret['name']      = $this->getVar('file_name');
         $ret['extension'] = $this->getVar('file_extension');
+        $ret['upload']      = $this->getVar('file_upload');
         $ret['infolder']  = $this->getVar('file_infolder');
 
         return $ret;

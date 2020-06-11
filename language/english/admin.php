@@ -355,12 +355,18 @@ define('_AM_MODULEBUILDER_MORE_FILES_EXTENSION', 'Extension File');
 define('_AM_MODULEBUILDER_MORE_FILES_EXTENSION_DESC', 'Create extension of this file without dot');
 define('_AM_MODULEBUILDER_MORE_FILES_INFOLDER', 'File in the folder');
 define('_AM_MODULEBUILDER_MORE_FILES_INFOLDER_DESC', 'Insert this file in a folder (Type: admin, user, class, include, templates, ...)');
+define('_AM_MODULEBUILDER_MORE_FILES_TYPE', 'Type');
+define('_AM_MODULEBUILDER_MORE_FILES_TYPE_EMPTY', 'Create empty file');
+define('_AM_MODULEBUILDER_MORE_FILES_TYPE_COPY', 'Upload and copy existing file');
+define('_AM_MODULEBUILDER_MORE_FILES_UPLOAD', 'Upload file to be copied');
 // Template More Files
 define('_AM_MODULEBUILDER_FILE_ID', 'Id');
 define('_AM_MODULEBUILDER_FILE_NAME_LIST', 'File Name');
 define('_AM_MODULEBUILDER_FILE_MID_LIST', 'Module Name');
+define('_AM_MODULEBUILDER_FILE_TYPE_LIST', 'Type');
 define('_AM_MODULEBUILDER_FILE_EXTENSION_LIST', 'Extension Type');
 define('_AM_MODULEBUILDER_FILE_INFOLDER_LIST', 'In Folder');
+define('_AM_MODULEBUILDER_FILE_UPLOAD_LIST', 'Upload file to be copied');
 define('_AM_MODULEBUILDER_FORM_ACTION', 'Action');
 //
 // ------------------- Field elements --------------------------------- //

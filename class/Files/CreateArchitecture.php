@@ -394,13 +394,26 @@ class CreateArchitecture extends CreateStructure
 
         }
         foreach (array_keys($files) as $t) {
-            $fileName      = $files[$t]->getVar('file_name');
-            $fileExtension = $files[$t]->getVar('file_extension');
-            $fileInfolder  = $files[$t]->getVar('file_infolder');
-            // More File
-            $moreFiles = Modulebuilder\Morefiles::getInstance();
-            $moreFiles->write($module, $fileName, $fileInfolder, $fileExtension);
-            $ret[] = $moreFiles->render();
+            $fileInfolder = $files[$t]->getVar('file_infolder');
+            if (Modulebuilder\Constants::MORE_FILES_TYPE_COPY == $files[$t]->getVar('file_type')) {
+                $src_file = TDMC_UPLOAD_FILES_PATH . '/' . $files[$t]->getVar('file_upload');
+                $dst_file = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleDirname) . '/';
+                if ('' !== $fileInfolder) {
+                    if ('/' !== substr($fileInfolder, -1)) {
+                        $fileInfolder .= '/';
+                    }
+                    $dst_file .= $fileInfolder;
+                }
+                $dst_file .= $files[$t]->getVar('file_upload');
+                copy($src_file, $dst_file);
+            } else {
+                $fileName = $files[$t]->getVar('file_name');
+                $fileExtension = $files[$t]->getVar('file_extension');
+                // More File
+                $moreFiles = Modulebuilder\Files\CreateMoreFiles::getInstance();
+                $moreFiles->write($module, $fileName, $fileInfolder, $fileExtension);
+                $ret[] = $moreFiles->render();
+            }
         }
         // Language Modinfo File
         $languageModinfo = Modulebuilder\Files\Language\LanguageModinfo::getInstance();
