@@ -296,8 +296,8 @@ class ClassFiles extends Files\CreateFile
         $xUser            = $this->pc->getPhpCodeGlobals('xoopsUser');
         $xModule          = $this->pc->getPhpCodeGlobals('xoopsModule');
         $getForm          .= $this->xc->getXcEqualsOperator('$isAdmin', $xUser . '->isAdmin(' . $xModule . '->mid())', null, "\t\t");
-        $permString = 'upload_groups';
-        if (1 != $tableCategory/* && (1 == $tablePermissions)*/) {
+        if ((1 != $tableCategory) && (1 == $table->getVar('table_permissions'))) {
+            $permString = 'upload_groups';
             $getForm          .= $this->pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
             $getForm          .= $this->xc->getXcXoopsHandler('groupperm', "\t\t");
             $getForm          .= $this->pc->getPhpCodeTernaryOperator('groups', 'is_object(' . $xUser . ')', $xUser . '->getGroups()', 'XOOPS_GROUP_ANONYMOUS', "\t\t");
