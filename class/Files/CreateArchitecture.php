@@ -43,6 +43,16 @@ class CreateArchitecture extends CreateStructure
     private $helper = null;
 
     /**
+     * @var array
+     */
+    private $patKeys = [];
+
+    /**
+     * @var array
+     */
+    private $patValues = [];
+
+    /**
      * @public function constructor
      * @param null
      */
@@ -210,6 +220,14 @@ class CreateArchitecture extends CreateStructure
         $files         = $this->cf->getTableMorefiles($modId);
         $ret           = [];
         $templateType  = 'defstyle';
+
+        $patterns = [
+            mb_strtolower('modulebuilder')          => mb_strtolower($moduleDirname),
+            mb_strtoupper('modulebuilder')          => mb_strtoupper($moduleDirname),
+            ucfirst(mb_strtolower('modulebuilder')) => ucfirst(mb_strtolower($moduleDirname)),
+        ];
+        $this->patKeys   = array_keys($patterns);
+        $this->patValues = array_values($patterns);
 
         $table              = null;
         $tableCategory      = [];
@@ -405,6 +423,7 @@ class CreateArchitecture extends CreateStructure
                     $dst_file .= $fileInfolder;
                 }
                 $dst_file .= $files[$t]->getVar('file_upload');
+                Modulebuilder\Files\CreateClone::cloneFile($src_file, $dst_file, true, $this->patKeys, $this->patValues);
                 copy($src_file, $dst_file);
             } else {
                 $fileName = $files[$t]->getVar('file_name');
@@ -663,6 +682,7 @@ class CreateArchitecture extends CreateStructure
                 $ret[] = $userRate->render();
 
                 $this->CopyRatingFiles($moduleDirname);
+                $ret[] = _AM_MODULEBUILDER_BUILDING_RATING;
             }
 
             // User Rss File
@@ -754,15 +774,6 @@ class CreateArchitecture extends CreateStructure
         $moduleName = $module->getVar('mod_dirname');
         $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleName);
 
-        $patterns = [
-            mb_strtolower('modulebuilder')          => mb_strtolower($moduleName),
-            mb_strtoupper('modulebuilder')          => mb_strtoupper($moduleName),
-            ucfirst(mb_strtolower('modulebuilder')) => ucfirst(mb_strtolower($moduleName)),
-        ];
-
-        $patKeys   = array_keys($patterns);
-        $patValues = array_values($patterns);
-
         /* clone complete missing folders */
         $cloneFolders = [];
         $cloneFolders[] = [
@@ -771,7 +782,7 @@ class CreateArchitecture extends CreateStructure
             'rcode' => true
         ];
         foreach ($cloneFolders as $folder) {
-            Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
+            Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $this->patKeys, $this->patValues);
         }
         unset($cloneFolders);
 
@@ -838,15 +849,6 @@ class CreateArchitecture extends CreateStructure
     {
         $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleName);
 
-        $patterns = [
-            mb_strtolower('modulebuilder')          => mb_strtolower($moduleName),
-            mb_strtoupper('modulebuilder')          => mb_strtoupper($moduleName),
-            ucfirst(mb_strtolower('modulebuilder')) => ucfirst(mb_strtolower($moduleName)),
-        ];
-
-        $patKeys   = array_keys($patterns);
-        $patValues = array_values($patterns);
-
         /* clone complete missing folders */
         $cloneFolders[] = [
             'src'   => TDMC_PATH . '/files/ratingfiles',
@@ -854,7 +856,7 @@ class CreateArchitecture extends CreateStructure
             'rcode' => true
         ];
         foreach ($cloneFolders as $folder) {
-            Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
+            Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $this->patKeys, $this->patValues);
         }
         unset($cloneFolders);
     }

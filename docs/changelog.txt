@@ -1,8 +1,11 @@
+<h5>3.04 Alpha 1   [2020-06-12]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
+<hr>
+- fixed bugs in creation of more files (goffy)
+- added possibility to add own files via more files (goffy)
+
 <h5>3.03 Alpha 5   [2020-06-09]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>
 - new alpha release (goffy)
-- fixed bugs in creation of more files (goffy)
-- added possibility to add own files via more files (goffy)
 
 <h5>3.03 Alpha 4   [2020-05-11]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>

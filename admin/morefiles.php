@@ -114,7 +114,7 @@ switch ($op) {
     case 'edit':
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_MODULES_ADD, 'morefiles.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_MORE_FILES_ADD, 'morefiles.php?op=new', 'add');
         $adminObject->addItemButton(_AM_MODULEBUILDER_MORE_FILES_LIST, 'morefiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 

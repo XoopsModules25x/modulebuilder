@@ -138,7 +138,7 @@ class Morefiles extends \XoopsObject
         $fileTray = new \XoopsFormElementTray(_AM_MODULEBUILDER_MORE_FILES_UPLOAD, '<br>' );
         $fileDirectory = '/uploads/modulebuilder/files';
         $fileSelect = new \XoopsFormSelect( ".{$fileDirectory}/", 'file_upload', $fileUpload, 5);
-        $filesArray = \XoopsLists::getFileListAsArray( WGTRANSIFEX_UPLOAD_FILES_PATH );
+        $filesArray = \XoopsLists::getFileListAsArray( TDMC_UPLOAD_FILES_PATH);
         $fileSelect->addOption('', ' - ');
         foreach($filesArray as $file1) {
             if ('index.html' !== $file1) {
