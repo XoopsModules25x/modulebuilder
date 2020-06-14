@@ -810,7 +810,7 @@ class CreateArchitecture extends CreateStructure
                 'rcode' => false
             ];
             foreach ($cloneFolders as $folder) {
-                Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
+                Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $this->patKeys, $this->patValues);
             }
             unset($cloneFolders);
         }
@@ -835,7 +835,7 @@ class CreateArchitecture extends CreateStructure
             'rcode' => true
         ];
         foreach ($cloneFiles as $file) {
-            Modulebuilder\Files\CreateClone::cloneFile($file['src'] . $file['file'], $file['dst'] . $file['file'], $file['rcode'], $patKeys, $patValues);
+            Modulebuilder\Files\CreateClone::cloneFile($file['src'] . $file['file'], $file['dst'] . $file['file'], $file['rcode'], $this->patKeys, $this->patValues);
         }
         unset($cloneFiles);
     }
