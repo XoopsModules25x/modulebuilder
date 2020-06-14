@@ -424,7 +424,6 @@ class CreateArchitecture extends CreateStructure
                 }
                 $dst_file .= $files[$t]->getVar('file_upload');
                 Modulebuilder\Files\CreateClone::cloneFile($src_file, $dst_file, true, $this->patKeys, $this->patValues);
-                copy($src_file, $dst_file);
             } else {
                 $fileName = $files[$t]->getVar('file_name');
                 $fileExtension = $files[$t]->getVar('file_extension');
