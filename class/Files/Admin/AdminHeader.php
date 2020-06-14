@@ -134,6 +134,8 @@ class AdminHeader extends Files\CreateFile
         $redirectHeader = $this->xc->getXcRedirectHeader("'../../../admin.php'", '', '5', '_AM_MODULEADMIN_MISSING', false, "\t");
         $ret            .= $this->pc->getPhpCodeConditions($fileExists, '', '', $moduleadmin, $redirectHeader);
         $ret            .= $this->pc->getPhpCodeBlankLine();
+        $ret            .= $this->xc->getXcXoopsCPHeader();
+        $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->pc->getPhpCodeCommentLine('System icons path');
         $ret            .= $this->xc->getXcXoopsTplAssign('sysPathIcon16', '$sysPathIcon16');
         $ret            .= $this->xc->getXcXoopsTplAssign('sysPathIcon32', '$sysPathIcon32');
@@ -142,9 +144,6 @@ class AdminHeader extends Files\CreateFile
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->xc->getXcEqualsOperator('$adminObject', '\Xmf\Module\Admin::getInstance()');
         $ret            .= $this->getSimpleString("\$style = {$stuModuleDirname}_URL . '/assets/css/admin/style.css';");
-
-        $ret            .= $this->pc->getPhpCodeBlankLine();
-        $ret            .= $this->xc->getXcXoopsCPHeader();
 
         return $ret;
     }
