@@ -187,8 +187,9 @@ class TemplatesAdminPages extends Files\CreateFile
                         break;
                     case 16:
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $src = $this->sc->getSmartyNoSimbol('$modPathIcon16') . '/status' . $double . '.png';
-                        $img = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'','');
+                        $src    = $this->sc->getSmartyNoSimbol('$modPathIcon16') . 'status' . $double . '.png';
+                        $imgAlt = $this->sc->getSmartyDoubleVar($tableSoleName, 'status_text');
+                        $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $imgAlt, 'title' => $imgAlt], '', true,'','');
                         $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
                         break;
                     default:
@@ -203,12 +204,12 @@ class TemplatesAdminPages extends Files\CreateFile
         $lang    = $this->sc->getSmartyConst('', '_EDIT');
         $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
         $src     = $this->sc->getSmartyNoSimbol('xoModuleIcons16 edit.png');
-        $img     = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'', '');
+        $img     = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $lang . ' ' . $tableName], '', true,'', '');
         $anchor  = $this->hc->getHtmlTag('a', ['href' => $tableName . ".php?op=edit&amp;{$fieldId}=" . $double, 'title' => $lang], $img, false, "\t\t\t\t\t");
         $lang    = $this->sc->getSmartyConst('', '_DELETE');
         $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
         $src     = $this->sc->getSmartyNoSimbol('xoModuleIcons16 delete.png');
-        $img     = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
+        $img     = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $lang . ' ' . $tableName], '', true, '', '');
         $anchor  .= $this->hc->getHtmlTag('a', ['href' => $tableName . ".php?op=delete&amp;{$fieldId}=" . $double, 'title' => $lang], $img, false, "\t\t\t\t\t");
         $td      .= $this->hc->getHtmlTag('td', ['class' => 'center  width5'], "\n" . $anchor . "\t\t\t\t", false, "\t\t\t\t");
         $cycle   = $this->sc->getSmartyNoSimbol('cycle values=\'odd, even\'');

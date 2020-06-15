@@ -615,22 +615,23 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      *
      * @return string
      */
-    private function getXoopsFormSelectStatus($language, $moduleDirname, $fieldName, $required = 'false')
+    private function getXoopsFormSelectStatus($language, $moduleDirname, $fieldName, $tablePermissions, $required = 'false')
     {
         $ccFieldName  = $this->cf->getCamelCase($fieldName, false, true);
         $languageShort = substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
         $t            = "\t\t";
         $ret          = $this->pc->getPhpCodeCommentLine('Form Select', 'Status ' . $ccFieldName, $t);
-        $ret          .= $this->xc->getXcHandlerLine('permissions', $t);
+        if (1 == $tablePermissions) {
+            $ret .= $this->xc->getXcHandlerLine('permissions', $t);
+        }
         $ret          .= $this->cxc->getClassXoopsFormSelect($ccFieldName . 'Select', $language, $fieldName, "this->getVar('{$fieldName}')", null, '', false, $t);
         $ret          .= $this->cxc->getClassAddOption($ccFieldName . 'Select', $this->xc->getXcGetConstants('STATUS_NONE') . ", {$languageShort}STATUS_NONE", $t);
         $ret          .= $this->cxc->getClassAddOption($ccFieldName . 'Select', $this->xc->getXcGetConstants('STATUS_OFFLINE') . ", {$languageShort}STATUS_OFFLINE", $t);
         $ret          .= $this->cxc->getClassAddOption($ccFieldName . 'Select', $this->xc->getXcGetConstants('STATUS_SUBMITTED') . ", {$languageShort}STATUS_SUBMITTED", $t);
-
-        $contIf    = $this->cxc->getClassAddOption($ccFieldName . 'Select', $this->xc->getXcGetConstants('STATUS_APPROVED') . ", {$languageShort}STATUS_APPROVED", $t . "\t");
-        $ret       .= $this->pc->getPhpCodeConditions('$permissionsHandler->getPermGlobalApprove()', '', '', $contIf, false, $t);
-
-        $ret          .= $this->cxc->getClassAddOption($ccFieldName . 'Select', $this->xc->getXcGetConstants('STATUS_APPROVED') . ", {$languageShort}STATUS_APPROVED", $t);
+        if (1 == $tablePermissions) {
+            $contIf = $this->cxc->getClassAddOption($ccFieldName . 'Select', $this->xc->getXcGetConstants('STATUS_APPROVED') . ", {$languageShort}STATUS_APPROVED", $t . "\t");
+            $ret .= $this->pc->getPhpCodeConditions('$permissionsHandler->getPermGlobalApprove()', '', '', $contIf, false, $t);
+        }
         $ret          .= $this->cxc->getClassAddOption($ccFieldName . 'Select', $this->xc->getXcGetConstants('STATUS_BROKEN') . ", {$languageShort}STATUS_BROKEN", $t);
         $ret          .= $this->cxc->getClassAddElement('form', "\${$ccFieldName}Select{$required}", $t);
 
@@ -849,21 +850,21 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      */
     public function renderElements()
     {
-        $module        = $this->getModule();
-        $table         = $this->getTable();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tableName     = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
-        $languageFunct = $this->cf->getLanguage($moduleDirname, 'AM');
-        //$language_table = $languageFunct . strtoupper($tableName);
-        $ret            = '';
-        $fields         = $this->tf->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order ASC, field_id');
-        $fieldId        = '';
-        $fieldIdTopic   = '';
-        $fieldPidTopic  = '';
-        $fieldMainTopic = '';
-        $fieldElementId = [];
-        $counter        = 0;
+        $module           = $this->getModule();
+        $table            = $this->getTable();
+        $moduleDirname    = $module->getVar('mod_dirname');
+        $tableName        = $table->getVar('table_name');
+        $tableSoleName    = $table->getVar('table_solename');
+        $tablePermissions = $table->getVar('table_permissions');
+        $languageFunct    = $this->cf->getLanguage($moduleDirname, 'AM');
+        $ret               = '';
+        $fields            = $this->tf->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order ASC, field_id');
+        $fieldId           = '';
+        $fieldIdTopic      = '';
+        $fieldPidTopic     = '';
+        $fieldMainTopic    = '';
+        $fieldElementId    = [];
+        $counter           = 0;
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldDefault = $fields[$f]->getVar('field_default');
@@ -929,7 +930,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
                         $ret .= $this->getXoopsFormTextDateSelect($language, $fieldName, $required);
                         break;
                     case 16:
-                        $ret .= $this->getXoopsFormSelectStatus($language, $moduleDirname, $fieldName, $required);
+                        $ret .= $this->getXoopsFormSelectStatus($language, $moduleDirname, $fieldName, $tablePermissions, $required);
                         break;
                     case 17:
                         $ret .= $this->getXoopsFormPassword($language,  $fieldName, $required);

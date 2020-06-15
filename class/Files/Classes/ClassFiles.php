@@ -296,8 +296,8 @@ class ClassFiles extends Files\CreateFile
         $xUser            = $this->pc->getPhpCodeGlobals('xoopsUser');
         $xModule          = $this->pc->getPhpCodeGlobals('xoopsModule');
         $getForm          .= $this->xc->getXcEqualsOperator('$isAdmin', $xUser . '->isAdmin(' . $xModule . '->mid())', null, "\t\t");
-        $permString = 'upload_groups';
-        if (1 != $tableCategory/* && (1 == $tablePermissions)*/) {
+        if ((1 != $tableCategory) && (1 == $table->getVar('table_permissions'))) {
+            $permString = 'upload_groups';
             $getForm          .= $this->pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
             $getForm          .= $this->xc->getXcXoopsHandler('groupperm', "\t\t");
             $getForm          .= $this->pc->getPhpCodeTernaryOperator('groups', 'is_object(' . $xUser . ')', $xUser . '->getGroups()', 'XOOPS_GROUP_ANONYMOUS', "\t\t");
@@ -391,7 +391,10 @@ class ClassFiles extends Files\CreateFile
         $ucfTableName     = ucfirst($table->getVar('table_name'));
         $ret              = $this->pc->getPhpCodeCommentMultiLine(['Get' => 'Values', '@param null $keys' => '', '@param null $format' => '', '@param null$maxDepth' => '', '@return' => 'array'], "\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
+        $language         = $this->getLanguage($moduleDirname, 'AM');
         $getValues        = $this->xc->getXcEqualsOperator('$ret', '$this->getValues($keys, $format, $maxDepth)', null, "\t\t");
+        $tablePermissions = $table->getVar('table_permissions');
+        $tableBroken      = $table->getVar('table_broken');
         $fieldMainTopic   = null;
         $helper           = 0;
         $utility          = 0;
@@ -445,6 +448,30 @@ class ClassFiles extends Files\CreateFile
                     break;
                 case 15:
                     $getValues .= $this->xc->getXcFormatTimeStamp("ret['{$rpFieldName}']{$spacer}", "\$this->getVar('{$fieldName}')", 's', "\t\t");
+                    break;
+                case 16:
+                    $spacer = str_repeat(' ', $lenMaxName - strlen('status') + 7);
+                    $getValues .= $this->xc->getXcGetVar("status{$spacer}", 'this', $fieldName, false, "\t\t");
+                    $spacer = str_repeat(' ', $lenMaxName - strlen('status'));
+                    $getValues .= $this->xc->getXcEqualsOperator("\$ret['status']{$spacer}", '$status', false, "\t\t");
+                    $contCase1  = $this->xc->getXcEqualsOperator('$status_text', $language . 'STATUS_NONE', false, "\t\t\t\t");
+                    $cases[$this->xc->getXcGetConstants('STATUS_NONE')] = [$contCase1];
+                    $contCase2  = $this->xc->getXcEqualsOperator('$status_text', $language . 'STATUS_OFFLINE', false, "\t\t\t\t");
+                    $cases[$this->xc->getXcGetConstants('STATUS_OFFLINE')] = [$contCase2];
+                    $contCase3  = $this->xc->getXcEqualsOperator('$status_text', $language . 'STATUS_SUBMITTED', false, "\t\t\t\t");
+                    $cases[$this->xc->getXcGetConstants('STATUS_SUBMITTED')] = [$contCase3];
+                    if (1 == $tablePermissions) {
+                        $contCase4 = $this->xc->getXcEqualsOperator('$status_text', $language . 'STATUS_APPROVED', false, "\t\t\t\t");
+                        $cases[$this->xc->getXcGetConstants('STATUS_APPROVED')] = [$contCase4];
+                    }
+                    if (1 == $tableBroken) {
+                        $contCase5 = $this->xc->getXcEqualsOperator('$status_test', $language . 'STATUS_BROKEN', false, "\t\t\t\t");
+                        $cases[$this->xc->getXcGetConstants('STATUS_BROKEN')] = [$contCase5];
+                    }
+                    $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, false, "\t\t\t", true);
+                    $getValues     .= $this->pc->getPhpCodeSwitch('status', $contentSwitch, "\t\t");
+                    $spacer        = str_repeat(' ', $lenMaxName - strlen('status_text'));
+                    $getValues     .= $this->xc->getXcEqualsOperator("\$ret['status_text']{$spacer}", '$status_text',  false, "\t\t");
                     break;
                 case 21:
                     $getValues .= $this->xc->getXcFormatTimeStamp("ret['{$rpFieldName}']{$spacer}", "\$this->getVar('{$fieldName}')", 'm', "\t\t");

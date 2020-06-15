@@ -354,8 +354,10 @@ INSERT INTO `modulebuilder_fieldelements` (`fieldelement_id`, `fieldelement_mid`
 CREATE TABLE `modulebuilder_morefiles` (
   `file_id`        INT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
   `file_mid`       INT(5) UNSIGNED NOT NULL DEFAULT '0',
+  `file_type`      INT(1) UNSIGNED NOT NULL DEFAULT '0',
   `file_name`      VARCHAR(100)    NOT NULL DEFAULT '',
   `file_extension` VARCHAR(5)      NOT NULL DEFAULT '.php',
+  `file_upload`      VARCHAR(100)    NOT NULL DEFAULT '',
   `file_infolder`  VARCHAR(50)     NOT NULL DEFAULT '',
   PRIMARY KEY (`file_id`)
 )

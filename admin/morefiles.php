@@ -91,8 +91,10 @@ switch ($op) {
         $morefilesObj->setVars(
             [
                 'file_mid'       => \Xmf\Request::getInt('file_mid', 0, 'POST'),
+                'file_type'      => \Xmf\Request::getString('file_type', '', 'POST'),
                 'file_name'      => \Xmf\Request::getString('file_name', '', 'POST'),
                 'file_extension' => \Xmf\Request::getString('file_extension', '', 'POST'),
+                'file_upload'    => \Xmf\Request::getString('file_upload', '', 'POST'),
                 'file_infolder'  => \Xmf\Request::getString('file_infolder', '', 'POST'),
             ]
         );
@@ -112,7 +114,7 @@ switch ($op) {
     case 'edit':
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_MODULES_ADD, 'morefiles.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_MODULEBUILDER_MORE_FILES_ADD, 'morefiles.php?op=new', 'add');
         $adminObject->addItemButton(_AM_MODULEBUILDER_MORE_FILES_LIST, 'morefiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 

@@ -43,6 +43,16 @@ class CreateArchitecture extends CreateStructure
     private $helper = null;
 
     /**
+     * @var array
+     */
+    private $patKeys = [];
+
+    /**
+     * @var array
+     */
+    private $patValues = [];
+
+    /**
      * @public function constructor
      * @param null
      */
@@ -210,6 +220,14 @@ class CreateArchitecture extends CreateStructure
         $files         = $this->cf->getTableMorefiles($modId);
         $ret           = [];
         $templateType  = 'defstyle';
+
+        $patterns = [
+            mb_strtolower('modulebuilder')          => mb_strtolower($moduleDirname),
+            mb_strtoupper('modulebuilder')          => mb_strtoupper($moduleDirname),
+            ucfirst(mb_strtolower('modulebuilder')) => ucfirst(mb_strtolower($moduleDirname)),
+        ];
+        $this->patKeys   = array_keys($patterns);
+        $this->patValues = array_values($patterns);
 
         $table              = null;
         $tableCategory      = [];
@@ -394,13 +412,26 @@ class CreateArchitecture extends CreateStructure
 
         }
         foreach (array_keys($files) as $t) {
-            $fileName      = $files[$t]->getVar('file_name');
-            $fileExtension = $files[$t]->getVar('file_extension');
-            $fileInfolder  = $files[$t]->getVar('file_infolder');
-            // More File
-            $moreFiles = Modulebuilder\Morefiles::getInstance();
-            $moreFiles->write($module, $fileName, $fileInfolder, $fileExtension);
-            $ret[] = $moreFiles->render();
+            $fileInfolder = $files[$t]->getVar('file_infolder');
+            if (Modulebuilder\Constants::MORE_FILES_TYPE_COPY == $files[$t]->getVar('file_type')) {
+                $src_file = TDMC_UPLOAD_FILES_PATH . '/' . $files[$t]->getVar('file_upload');
+                $dst_file = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleDirname) . '/';
+                if ('' !== $fileInfolder) {
+                    if ('/' !== substr($fileInfolder, -1)) {
+                        $fileInfolder .= '/';
+                    }
+                    $dst_file .= $fileInfolder;
+                }
+                $dst_file .= $files[$t]->getVar('file_upload');
+                Modulebuilder\Files\CreateClone::cloneFile($src_file, $dst_file, true, $this->patKeys, $this->patValues);
+            } else {
+                $fileName = $files[$t]->getVar('file_name');
+                $fileExtension = $files[$t]->getVar('file_extension');
+                // More File
+                $moreFiles = Modulebuilder\Files\CreateMoreFiles::getInstance();
+                $moreFiles->write($module, $fileName, $fileInfolder, $fileExtension);
+                $ret[] = $moreFiles->render();
+            }
         }
         // Language Modinfo File
         $languageModinfo = Modulebuilder\Files\Language\LanguageModinfo::getInstance();
@@ -650,6 +681,7 @@ class CreateArchitecture extends CreateStructure
                 $ret[] = $userRate->render();
 
                 $this->CopyRatingFiles($moduleDirname);
+                $ret[] = _AM_MODULEBUILDER_BUILDING_RATING;
             }
 
             // User Rss File
@@ -741,15 +773,6 @@ class CreateArchitecture extends CreateStructure
         $moduleName = $module->getVar('mod_dirname');
         $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleName);
 
-        $patterns = [
-            mb_strtolower('modulebuilder')          => mb_strtolower($moduleName),
-            mb_strtoupper('modulebuilder')          => mb_strtoupper($moduleName),
-            ucfirst(mb_strtolower('modulebuilder')) => ucfirst(mb_strtolower($moduleName)),
-        ];
-
-        $patKeys   = array_keys($patterns);
-        $patValues = array_values($patterns);
-
         /* clone complete missing folders */
         $cloneFolders = [];
         $cloneFolders[] = [
@@ -758,7 +781,7 @@ class CreateArchitecture extends CreateStructure
             'rcode' => true
         ];
         foreach ($cloneFolders as $folder) {
-            Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
+            Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $this->patKeys, $this->patValues);
         }
         unset($cloneFolders);
 
@@ -786,7 +809,7 @@ class CreateArchitecture extends CreateStructure
                 'rcode' => false
             ];
             foreach ($cloneFolders as $folder) {
-                Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
+                Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $this->patKeys, $this->patValues);
             }
             unset($cloneFolders);
         }
@@ -811,7 +834,7 @@ class CreateArchitecture extends CreateStructure
             'rcode' => true
         ];
         foreach ($cloneFiles as $file) {
-            Modulebuilder\Files\CreateClone::cloneFile($file['src'] . $file['file'], $file['dst'] . $file['file'], $file['rcode'], $patKeys, $patValues);
+            Modulebuilder\Files\CreateClone::cloneFile($file['src'] . $file['file'], $file['dst'] . $file['file'], $file['rcode'], $this->patKeys, $this->patValues);
         }
         unset($cloneFiles);
     }
@@ -825,15 +848,6 @@ class CreateArchitecture extends CreateStructure
     {
         $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleName);
 
-        $patterns = [
-            mb_strtolower('modulebuilder')          => mb_strtolower($moduleName),
-            mb_strtoupper('modulebuilder')          => mb_strtoupper($moduleName),
-            ucfirst(mb_strtolower('modulebuilder')) => ucfirst(mb_strtolower($moduleName)),
-        ];
-
-        $patKeys   = array_keys($patterns);
-        $patValues = array_values($patterns);
-
         /* clone complete missing folders */
         $cloneFolders[] = [
             'src'   => TDMC_PATH . '/files/ratingfiles',
@@ -841,7 +855,7 @@ class CreateArchitecture extends CreateStructure
             'rcode' => true
         ];
         foreach ($cloneFolders as $folder) {
-            Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
+            Modulebuilder\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $this->patKeys, $this->patValues);
         }
         unset($cloneFolders);
     }

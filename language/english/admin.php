@@ -338,6 +338,7 @@ define('_AM_MODULEBUILDER_BUILDING_CHECK_BLOCK2', "The table '%t' should use blo
 define('_AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS1', "The use of comments is activated for tables '%t'. For proper function it is currently only possible to use comments for one table");
 define('_AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS2', "The table '%t' should use comment functionality, but the table do not have a '%f' field, which is obligatory for this function");
 define('_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS1', "The table '%t' should use rating functionality, but the table do not have a '%f' field, which is obligatory for this function");
+define('_AM_MODULEBUILDER_BUILDING_RATING', "Copied rating files");
 //
 // ------------------- More Files --------------------------------- //
 define('_AM_MODULEBUILDER_MORE_FILES_ADD', 'Add More File');
@@ -355,12 +356,18 @@ define('_AM_MODULEBUILDER_MORE_FILES_EXTENSION', 'Extension File');
 define('_AM_MODULEBUILDER_MORE_FILES_EXTENSION_DESC', 'Create extension of this file without dot');
 define('_AM_MODULEBUILDER_MORE_FILES_INFOLDER', 'File in the folder');
 define('_AM_MODULEBUILDER_MORE_FILES_INFOLDER_DESC', 'Insert this file in a folder (Type: admin, user, class, include, templates, ...)');
+define('_AM_MODULEBUILDER_MORE_FILES_TYPE', 'Type');
+define('_AM_MODULEBUILDER_MORE_FILES_TYPE_EMPTY', 'Create empty file');
+define('_AM_MODULEBUILDER_MORE_FILES_TYPE_COPY', 'Copy existing file');
+define('_AM_MODULEBUILDER_MORE_FILES_UPLOAD', 'Existing file');
 // Template More Files
 define('_AM_MODULEBUILDER_FILE_ID', 'Id');
 define('_AM_MODULEBUILDER_FILE_NAME_LIST', 'File Name');
 define('_AM_MODULEBUILDER_FILE_MID_LIST', 'Module Name');
+define('_AM_MODULEBUILDER_FILE_TYPE_LIST', 'Type');
 define('_AM_MODULEBUILDER_FILE_EXTENSION_LIST', 'Extension Type');
 define('_AM_MODULEBUILDER_FILE_INFOLDER_LIST', 'In Folder');
+define('_AM_MODULEBUILDER_FILE_UPLOAD_LIST', 'Uploaded file to be copied');
 define('_AM_MODULEBUILDER_FORM_ACTION', 'Action');
 //
 // ------------------- Field elements --------------------------------- //

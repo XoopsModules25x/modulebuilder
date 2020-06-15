@@ -439,5 +439,33 @@ function modulebuilder_check_db($module)
             $ret = false;
         }
     }
+
+    // update table 'modulebuilder_morefiles'
+    $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_morefiles');
+    $field   = 'file_type';
+    $check   = $GLOBALS['xoopsDB']->queryF('SHOW COLUMNS FROM `' . $table . "` LIKE '" . $field . "'");
+    $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
+    if (!$numRows) {
+        $sql = "ALTER TABLE `$table` ADD `$field` INT(8) NOT NULL DEFAULT '0' AFTER `file_mid`;";
+        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+            xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
+            $module->setErrors("Error when adding '$field' to table '$table'.");
+            $ret = false;
+        }
+    }
+
+    // update table 'modulebuilder_morefiles'
+    $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_morefiles');
+    $field   = 'file_upload';
+    $check   = $GLOBALS['xoopsDB']->queryF('SHOW COLUMNS FROM `' . $table . "` LIKE '" . $field . "'");
+    $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
+    if (!$numRows) {
+        $sql = "ALTER TABLE `$table` ADD `$field` varchar(255) NOT NULL DEFAULT '' AFTER `file_extension`;";
+        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+            xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
+            $module->setErrors("Error when adding '$field' to table '$table'.");
+            $ret = false;
+        }
+    }
     return $ret;
 }
