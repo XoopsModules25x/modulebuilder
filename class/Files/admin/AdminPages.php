@@ -98,7 +98,8 @@ class AdminPages extends Files\CreateFile
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret       = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
-        $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants'], '', '');
+        $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Common']);
         $ret       .= $this->getInclude();
         $ret       .= $this->pc->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
         $ret       .= $this->xc->getXcXoopsRequest('op', 'op', 'list', 'Cmd');
@@ -353,8 +354,9 @@ class AdminPages extends Files\CreateFile
 
     /**
      * @private function getAdminPagesDelete
+     * @param        $moduleDirname
      * @param        $tableName
-     * @param $tableSoleName
+     * @param        $tableSoleName
      * @param        $language
      * @param        $fieldId
      * @param        $fieldMain
@@ -362,9 +364,13 @@ class AdminPages extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    private function getAdminPagesDelete($tableName, $tableSoleName, $language, $fieldId, $fieldMain, $tableNotifications, $t = '')
+    private function getAdminPagesDelete($moduleDirname, $tableName, $tableSoleName, $language, $fieldId, $fieldMain, $tableNotifications, $t = '')
     {
-        return $this->xc->getXcCommonPagesDelete($language, $tableName, $tableSoleName, $fieldId, $fieldMain, $tableNotifications, $t, true);
+        $ret        = $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
+        $navigation = $this->axc->getAdminDisplayNavigation($tableName);
+        $ret        .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
+        $ret        .= $this->xc->getXcCommonPagesDelete($language, $tableName, $tableSoleName, $fieldId, $fieldMain, $tableNotifications, $t, true);
+        return $ret;
     }
 
     /**
@@ -409,7 +415,7 @@ class AdminPages extends Files\CreateFile
             $save = $this->getAdminPagesSave($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldMain, $tablePerms, "\t\t");
             $edit = $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, "\t\t");
         }
-        $delete = $this->getAdminPagesDelete($tableName, $tableSoleName, $language, $fieldId, $fieldMain, $tableNotifications, "\t\t");
+        $delete = $this->getAdminPagesDelete($moduleDirname, $tableName, $tableSoleName, $language, $fieldId, $fieldMain, $tableNotifications, "\t\t");
 
         $cases   = [
             'list'   => [$list],

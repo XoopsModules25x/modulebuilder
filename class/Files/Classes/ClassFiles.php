@@ -389,7 +389,7 @@ class ClassFiles extends Files\CreateFile
     private function getValuesInObject($moduleDirname, $table, $fields)
     {
         $ucfTableName     = ucfirst($table->getVar('table_name'));
-        $ret              = $this->pc->getPhpCodeCommentMultiLine(['Get' => 'Values', '@param null $keys' => '', '@param null $format' => '', '@param null$maxDepth' => '', '@return' => 'array'], "\t");
+        $ret              = $this->pc->getPhpCodeCommentMultiLine(['Get' => 'Values', '@param null $keys' => '', '@param null $format' => '', '@param null $maxDepth' => '', '@return' => 'array'], "\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
         $language         = $this->getLanguage($moduleDirname, 'AM');
         $getValues        = $this->xc->getXcEqualsOperator('$ret', '$this->getValues($keys, $format, $maxDepth)', null, "\t\t");
@@ -465,7 +465,7 @@ class ClassFiles extends Files\CreateFile
                         $cases[$this->xc->getXcGetConstants('STATUS_APPROVED')] = [$contCase4];
                     }
                     if (1 == $tableBroken) {
-                        $contCase5 = $this->xc->getXcEqualsOperator('$status_test', $language . 'STATUS_BROKEN', false, "\t\t\t\t");
+                        $contCase5 = $this->xc->getXcEqualsOperator('$status_text', $language . 'STATUS_BROKEN', false, "\t\t\t\t");
                         $cases[$this->xc->getXcGetConstants('STATUS_BROKEN')] = [$contCase5];
                     }
                     $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, false, "\t\t\t", true);
