@@ -91,16 +91,18 @@ class UserPages extends Files\CreateFile
      * @param $moduleDirname
      * @param $tableName
      * @param $fieldId
+     * @param $tablePermissions
      * @return string
      */
-    private function getUserPagesHeader($moduleDirname, $tableName, $fieldId)
+    private function getUserPagesHeader($moduleDirname, $tableName, $fieldId, $tablePermissions)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ccFieldId        = $this->getCamelCase($fieldId, false, true);
 
         $ret       = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
-        $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants'], '', '');
+        $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Common']);
         $ret       .= $this->getInclude();
         $ret       .= $this->uxc->getUserTplMain($moduleDirname, $tableName);
         $ret       .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
@@ -119,8 +121,10 @@ class UserPages extends Files\CreateFile
         $ret       .= $this->pc->getPhpCodeBlankLine();
         $ret       .= $this->pc->getPhpCodeArray('keywords', null, false, '');
         $ret       .= $this->pc->getPhpCodeBlankLine();
-        $ret       .= $this->xc->getXcEqualsOperator('$permEdit', '$permissionsHandler->getPermGlobalSubmit()');
-        $ret       .= $this->xc->getXcXoopsTplAssign("permEdit", '$permEdit');
+        if (1 == $tablePermissions) {
+            $ret .= $this->xc->getXcEqualsOperator('$permEdit', '$permissionsHandler->getPermGlobalSubmit()');
+            $ret .= $this->xc->getXcXoopsTplAssign("permEdit", '$permEdit');
+        }
         $ret       .= $this->xc->getXcXoopsTplAssign("showItem", "\${$ccFieldId} > 0");
         $ret       .= $this->pc->getPhpCodeBlankLine();
 
@@ -569,7 +573,7 @@ class UserPages extends Files\CreateFile
             }
         }
         $content = $this->getHeaderFilesComments($module);
-        $content .= $this->getUserPagesHeader($moduleDirname, $tableName, $fieldId);
+        $content .= $this->getUserPagesHeader($moduleDirname, $tableName, $fieldId, $tablePermissions);
         $content .= $this->getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $tableRate, $language, "\t");
         $content .= $this->getUserPagesFooter($moduleDirname, $tableName, $tableComments, $language);
 

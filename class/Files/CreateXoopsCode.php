@@ -1022,12 +1022,19 @@ class CreateXoopsCode
         $stuOptions = mb_strtoupper($options);
         $ccFieldId  = Modulebuilder\Files\CreateFile::getInstance()->getCamelCase($fieldId, false, true);
         $pc         = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $array      = "['ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'op' => '{$options}']";
-        $server     = $pc->getPhpCodeGlobalsVariables('REQUEST_URI', 'SERVER');
-        $getVar     = $this->getXcGetVar('', $tableName . 'Obj', $fieldMain, true, '');
-        $sprintf    = $pc->getPhpCodeSprintf($language . 'FORM_SURE_' . $stuOptions, $getVar);
-        $ret        = "{$t}xoops_confirm({$array}, {$server}, {$sprintf});\n";
+        $xc         = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
+        $array   = "['ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'op' => '{$options}']";
+        $server  = $pc->getPhpCodeGlobalsVariables('REQUEST_URI', 'SERVER');
+        $getVar  = $this->getXcGetVar('', $tableName . 'Obj', $fieldMain, true, '');
+        $sprintf = $pc->getPhpCodeSprintf($language . 'FORM_SURE_' . $stuOptions, $getVar);
+        $confirm = 'new Common\XoopsConfirm(' . "\n";
+        $confirm .= $t . "\t" . $array . ",\n";
+        $confirm .= $t . "\t" . $server . ",\n";
+        $confirm .= $t . "\t" . $sprintf . ')';
+        $ret     = $xc->getXcEqualsOperator('$xoopsconfirm', $confirm, '', $t);
+        $ret     .= $xc->getXcEqualsOperator('$form', '$xoopsconfirm->getFormXoopsConfirm()', '', $t);
+        $ret     .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
         return $ret;
     }
 
