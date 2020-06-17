@@ -255,13 +255,13 @@ class UserIndex extends Files\CreateFile
             $tableMid        = $tables[$t]->getVar('table_mid');
             $tableName       = $tables[$t]->getVar('table_name');
             $tableSoleName   = $tables[$t]->getVar('table_solename');
-            $tableCategory[] = $tables[$t]->getVar('table_category');
+            $tableCategory   = $tables[$t]->getVar('table_category');
             $tableFieldname  = $tables[$t]->getVar('table_fieldname');
-            $tableIndex[]    = $tables[$t]->getVar('table_index');
-            if (in_array(1, $tableCategory, true) && in_array(1, $tableIndex)) {
+            $tableIndex      = $tables[$t]->getVar('table_index');
+            if (1 == $tableCategory && 1 == $tableIndex) {
                 $content .= $this->getBodyCategoriesIndex($tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname);
             }
-            if (in_array(0, $tableCategory, true) && in_array(1, $tableIndex)) {
+            if (0 == $tableCategory && 1 == $tableIndex) {
                 $content .= $this->getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $language);
             }
         }
