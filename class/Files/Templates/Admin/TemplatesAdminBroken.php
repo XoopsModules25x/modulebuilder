@@ -139,7 +139,7 @@ class TemplatesAdminBroken extends Files\CreateFile
         $lang    = $this->sc->getSmartyConst('', '_DELETE');
         $src     = $this->sc->getSmartyNoSimbol('xoModuleIcons16 delete.png');
         $img     = $this->hc->getHtmlImage($src, $tableName, '', '', '');
-        $anchor  .= $this->hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$doubleKey}=" . $doubleVal, $img, $lang, '', '', '', $t . "t\t\t", "\n");
+        $anchor  .= $this->hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$doubleKey}=" . $doubleVal, $img, $lang, '', '', '', $t . "\t\t\t", "\n");
         $td      .= $this->hc->getHtmlTableData($anchor, 'center width5', '', $t . "\t\t", "\n", true);
         $cycle   = $this->sc->getSmartyNoSimbol('cycle values=\'odd, even\'');
         $tr      = $this->hc->getHtmlTableRow($td, $cycle, $t . "\t");
