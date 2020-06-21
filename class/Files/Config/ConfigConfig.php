@@ -121,8 +121,8 @@ class ConfigConfig extends Files\CreateFile
         }
         $ret    .= $this->getSimpleString("],", "\t");
         $ret    .= $this->getSimpleString("'copyTestFolders'  => [", "\t");
-        $ret    .= $this->getSimpleString("XOOPS_ROOT_PATH . '/modules/' . \$moduleDirName . '/testdata/uploads',", "\t\t");
-        $ret    .= $this->getSimpleString("XOOPS_UPLOAD_PATH . '/' . \$moduleDirName,", "\t\t");
+        $ret    .= $this->getSimpleString("[XOOPS_ROOT_PATH . '/modules/' . \$moduleDirName . '/testdata/uploads',", "\t\t");
+        $ret    .= $this->getSimpleString("XOOPS_UPLOAD_PATH . '/' . \$moduleDirName],", "\t\t");
         $ret    .= $this->getSimpleString("],", "\t");
         $ret    .= $this->getSimpleString("'templateFolders'  => [", "\t");
         $ret    .= $this->getSimpleString("'/templates/',", "\t\t");

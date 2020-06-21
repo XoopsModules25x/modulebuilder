@@ -3,6 +3,7 @@
 - fixed bugs in creation of more files (goffy)
 - added possibility to add own files via more files (goffy)
 - implementation new xoops_confirm (geekwright/goffy)
+- fixed bug in creation of config files (goffy)
 
 <h5>3.03 Alpha 5   [2020-06-09]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>

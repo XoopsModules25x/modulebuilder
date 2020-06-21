@@ -132,7 +132,7 @@
     fieldelement_value: XoopsFormTextDateSelect
     fieldelement_sort: '17'
     fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
+    fieldelement_defvalue: '11'
 -
     fieldelement_id: '16'
     fieldelement_mid: '0'
@@ -186,7 +186,7 @@
     fieldelement_value: XoopsFormDateTime
     fieldelement_sort: '18'
     fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
+    fieldelement_defvalue: '11'
 -
     fieldelement_id: '22'
     fieldelement_mid: '0'
@@ -199,27 +199,27 @@
 -
     fieldelement_id: '23'
     fieldelement_mid: '1'
-    fieldelement_tid: '3'
-    fieldelement_name: 'Table : Testfields'
-    fieldelement_value: XoopsFormTables-Testfields
+    fieldelement_tid: '1'
+    fieldelement_name: 'Table : Resources'
+    fieldelement_value: XoopsFormTables-Resources
     fieldelement_sort: '0'
-    fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
+    fieldelement_deftype: '0'
+    fieldelement_defvalue: '0'
 -
     fieldelement_id: '24'
     fieldelement_mid: '1'
-    fieldelement_tid: '1'
-    fieldelement_name: 'Table : Categories'
-    fieldelement_value: XoopsFormTables-Categories
+    fieldelement_tid: '2'
+    fieldelement_name: 'Table : Resources'
+    fieldelement_value: XoopsFormTables-Resources
     fieldelement_sort: '0'
-    fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
+    fieldelement_deftype: '0'
+    fieldelement_defvalue: '0'
 -
     fieldelement_id: '25'
     fieldelement_mid: '1'
-    fieldelement_tid: '2'
-    fieldelement_name: 'Table : Articles'
-    fieldelement_value: XoopsFormTables-Articles
+    fieldelement_tid: '3'
+    fieldelement_name: 'Table : Settings'
+    fieldelement_value: XoopsFormTables-Settings
     fieldelement_sort: '0'
-    fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
+    fieldelement_deftype: '0'
+    fieldelement_defvalue: '0'

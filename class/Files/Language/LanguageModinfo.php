@@ -277,6 +277,9 @@ class LanguageModinfo extends Files\CreateFile
                 if (4 == $fieldElement) {
                     $fieldEditor = true;
                 }
+                if (10 == $fieldElement) {
+                    $fieldImage = true;
+                }
                 if (13 == $fieldElement) {
                     $fieldImage = true;
                 }
