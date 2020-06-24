@@ -133,15 +133,19 @@ class BlocksFiles extends Files\CreateFile
         //search for SelectStatus field
         $fieldStatus = '';
         $critStatus  = '';
+        $fieldDate   = '';
         if (1 == $tablePermissions) {
             foreach ($fields as $field) {
                 if ($field->getVar('field_element') == 16) {
                     $fieldStatus = $field->getVar('field_name');
                 }
+                if ($field->getVar('field_element') == 15 || $field->getVar('field_element') == 21) {
+                    $fieldDate = $field->getVar('field_name');
+                }
             }
             if ('' !== $fieldStatus) {
                 $constant = $this->xc->getXcGetConstants('PERM_GLOBAL_VIEW');
-                $crit = $this->xc->getXcCriteria('', "'{$fieldStatus}'", $constant, '', true);
+                $crit = $this->xc->getXcCriteria('', "'{$fieldStatus}'", $constant, "'>'", true);
                 $critStatus .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t\t");
             }
         }
@@ -156,17 +160,17 @@ class BlocksFiles extends Files\CreateFile
         if ('' !== $fieldStatus) {
             $case1[] = $critStatus;
         }
-        $case1[] = $this->xc->getXcCriteriaSetSort($critName, "'{$tableFieldname}_date'","\t\t\t");
+        $case1[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldDate}'","\t\t\t");
         $case1[] = $this->xc->getXcCriteriaSetOrder($critName, "'DESC'","\t\t\t");
         $case2[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} new",'',"\t\t\t");
         if ('' !== $fieldStatus) {
             $case2[] = $critStatus;
         }
-        $crit    = $this->xc->getXcCriteria('', "'{$tableFieldname}_date'", 'strtotime(date(_SHORTDATESTRING))', "'>='", true);
+        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", 'strtotime(date(_SHORTDATESTRING))', "'>='", true);
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
-        $crit    = $this->xc->getXcCriteria('', "'{$tableFieldname}_date'", 'strtotime(date(_SHORTDATESTRING))+86400', "'<='", true);
+        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", 'strtotime(date(_SHORTDATESTRING))+86400', "'<='", true);
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
-        $case2[] = $this->xc->getXcCriteriaSetSort($critName, "'{$tableFieldname}_date'","\t\t\t");
+        $case2[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldDate}'","\t\t\t");
         $case2[] = $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t\t\t");
         $case3[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} hits",'',"\t\t\t");
         if ('' !== $fieldStatus) {
