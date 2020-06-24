@@ -248,28 +248,28 @@ class ClassSpecialFiles extends Files\CreateFile
 
         $contentClass .= $this->pc->getPhpCodeBlankLine();
         $contentClass .= $this->pc->getPhpCodeCommentLine('Constants for status', '', "\t");
-        $contentClass .= $this->pc->getPhpCodeConstant("STATUS_NONE     ", 0, "\t",'const');
-        $contentClass .= $this->pc->getPhpCodeConstant("STATUS_OFFLINE  ", 1, "\t",'const');
-        $contentClass .= $this->pc->getPhpCodeConstant("STATUS_SUBMITTED", 2, "\t",'const');
-        $contentClass .= $this->pc->getPhpCodeConstant("STATUS_APPROVED ", 3, "\t",'const');
-        $contentClass .= $this->pc->getPhpCodeConstant("STATUS_BROKEN   ", 4, "\t",'const');
+        $contentClass .= $this->pc->getPhpCodeConstant("STATUS_NONE     ", 0, "\t",'public const');
+        $contentClass .= $this->pc->getPhpCodeConstant("STATUS_OFFLINE  ", 1, "\t",'public const');
+        $contentClass .= $this->pc->getPhpCodeConstant("STATUS_SUBMITTED", 2, "\t",'public const');
+        $contentClass .= $this->pc->getPhpCodeConstant("STATUS_APPROVED ", 3, "\t",'public const');
+        $contentClass .= $this->pc->getPhpCodeConstant("STATUS_BROKEN   ", 4, "\t",'public const');
         if (in_array(1, $tablePermissions)) {
             $constPerm = $this->pc->getPhpCodeBlankLine();
             $constPerm .= $this->pc->getPhpCodeCommentLine('Constants for permissions', '', "\t");
-            $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_NONE   ", 0, "\t",'const');
-            $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_VIEW   ", 1, "\t", 'const');
-            $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_SUBMIT ", 2, "\t", 'const');
-            $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3, "\t", 'const');
+            $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_NONE   ", 0, "\t",'public const');
+            $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_VIEW   ", 1, "\t", 'public const');
+            $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_SUBMIT ", 2, "\t", 'public const');
+            $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3, "\t", 'public const');
             $contentClass .= $constPerm;
         }
         if (in_array(1, $tableRate)) {
             $constRate = $this->pc->getPhpCodeBlankLine();
             $constRate .= $this->pc->getPhpCodeCommentLine('Constants for rating', '', "\t");
-            $constRate .= $this->pc->getPhpCodeConstant("RATING_NONE    ", 0, "\t",'const');
-            $constRate .= $this->pc->getPhpCodeConstant("RATING_5STARS  ", 1, "\t", 'const');
-            $constRate .= $this->pc->getPhpCodeConstant("RATING_10STARS ", 2, "\t", 'const');
-            $constRate .= $this->pc->getPhpCodeConstant("RATING_LIKES   ", 3, "\t", 'const');
-            $constRate .= $this->pc->getPhpCodeConstant("RATING_10NUM   ", 4, "\t", 'const');
+            $constRate .= $this->pc->getPhpCodeConstant("RATING_NONE    ", 0, "\t",'public const');
+            $constRate .= $this->pc->getPhpCodeConstant("RATING_5STARS  ", 1, "\t", 'public const');
+            $constRate .= $this->pc->getPhpCodeConstant("RATING_10STARS ", 2, "\t", 'public const');
+            $constRate .= $this->pc->getPhpCodeConstant("RATING_LIKES   ", 3, "\t", 'public const');
+            $constRate .= $this->pc->getPhpCodeConstant("RATING_10NUM   ", 4, "\t", 'public const');
             $contentClass .= $constRate;
         }
         $contentClass        .= $this->pc->getPhpCodeBlankLine();

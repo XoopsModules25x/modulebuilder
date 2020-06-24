@@ -32,16 +32,19 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
  */
 class XoopsConfirm
 {
-    private $hiddens  = [];
-    private $action   = '';
-    private $title    = '';
-    private $label    = '';
-    private $object   = '';
+    private $hiddens = [];
+    private $action  = '';
+    private $title   = '';
+    private $label   = '';
+    private $object  = '';
 
     /**
      * @public function constructor class
-     *
-     * @param null
+     * @param        $hiddens
+     * @param        $action
+     * @param        $object
+     * @param string $title
+     * @param string $label
      */
     public function __construct($hiddens, $action, $object, $title = '', $label = '')
     {

@@ -9,8 +9,8 @@ I moved files, where I do not know whether they are still needed into folder _ar
 
 TODOs:
 
-
-
+language main: create defines only for tables with table_user
+blocks xoops_version: only if table_blocks
 
 
 Permissions:

@@ -206,31 +206,32 @@ class LanguageModinfo extends Files\CreateFile
     {
         $ret = $this->ld->getAboveDefines('Blocks');
         foreach (array_keys($tables) as $i) {
-            $tableName        = $tables[$i]->getVar('table_name');
-            $stuTableName     = mb_strtoupper($tableName);
-            $tableSoleName    = $tables[$i]->getVar('table_solename');
-            $stuTableSoleName = mb_strtoupper($tableSoleName);
-            $ucfTableName     = ucfirst($tableName);
-            $ucfTableSoleName = ucfirst($stuTableSoleName);
-
-            $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
-            $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_DESC", "{$ucfTableName} block description");
-            if (1 == $tables[$i]->getVar('table_category')) {
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block {$ucfTableSoleName}");
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block {$ucfTableSoleName} description");
-            } else {
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block  {$ucfTableSoleName}");
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block  {$ucfTableSoleName} description");
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_LAST", "{$ucfTableName} block last");
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_LAST_DESC", "{$ucfTableName} block last description");
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_NEW", "{$ucfTableName} block new");
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_NEW_DESC", "{$ucfTableName} block new description");
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_HITS", "{$ucfTableName} block hits");
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_HITS_DESC", "{$ucfTableName} block hits description");
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_TOP", "{$ucfTableName} block top");
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_TOP_DESC", "{$ucfTableName} block top description");
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_RANDOM", "{$ucfTableName} block random");
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_RANDOM_DESC", "{$ucfTableName} block random description");
+            if (1 == $tables[$i]->getVar('table_blocks')) {
+                $tableName        = $tables[$i]->getVar('table_name');
+                $stuTableName     = mb_strtoupper($tableName);
+                $tableSoleName    = $tables[$i]->getVar('table_solename');
+                $stuTableSoleName = mb_strtoupper($tableSoleName);
+                $ucfTableName     = ucfirst($tableName);
+                $ucfTableSoleName = ucfirst($stuTableSoleName);
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_DESC", "{$ucfTableName} block description");
+                if (1 == $tables[$i]->getVar('table_category')) {
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block {$ucfTableSoleName}");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block {$ucfTableSoleName} description");
+                } else {
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block  {$ucfTableSoleName}");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block  {$ucfTableSoleName} description");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_LAST", "{$ucfTableName} block last");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_LAST_DESC", "{$ucfTableName} block last description");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_NEW", "{$ucfTableName} block new");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_NEW_DESC", "{$ucfTableName} block new description");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_HITS", "{$ucfTableName} block hits");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_HITS_DESC", "{$ucfTableName} block hits description");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_TOP", "{$ucfTableName} block top");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_TOP_DESC", "{$ucfTableName} block top description");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_RANDOM", "{$ucfTableName} block random");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_RANDOM_DESC", "{$ucfTableName} block random description");
+                }
             }
         }
 
@@ -538,10 +539,11 @@ class LanguageModinfo extends Files\CreateFile
             $tableComment         = $tables[$t]->getVar('table_comments');
             $tableComments[]      = $tables[$t]->getVar('table_comments');
             $tableRate[]          = $tables[$t]->getVar('table_rate');
+            $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
             if (1 === (int)$tables[$t]->getVar('table_notifications')) {
                 $notifTable .= $this->getLanguageNotificationsTable($language, $tableName, $tableSoleName, $tableBroken, $tableComment);
             }
-            $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
+
         }
 
         $content       = $this->getHeaderFilesComments($module);
@@ -560,9 +562,9 @@ class LanguageModinfo extends Files\CreateFile
             $content .= $this->getLanguageRatingbars($language);
         }
 
-        //if (in_array(1, $tableBlocks)) {
-        $content .= $this->getLanguageBlocks($tables, $language);
-        //}
+        if (in_array(1, $tableBlocks)) {
+            $content .= $this->getLanguageBlocks($tables, $language);
+        }
         $content .= $this->getLanguageConfig($language, $tables);
         if (in_array(1, $tableNotifications)) {
             $content .= $this->getLanguageNotificationsGlobal($language, in_array(1, $tableBrokens), in_array(1, $tableComments));

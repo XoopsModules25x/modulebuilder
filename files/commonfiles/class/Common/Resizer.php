@@ -139,7 +139,7 @@ class Resizer
             return false;
         }
         // GET ORIGINAL IMAGE DIMENSIONS
-        list($original_w, $original_h) = getimagesize($this->sourceFile);
+        [$original_w, $original_h] = getimagesize($this->sourceFile);
 
         // RESIZE IMAGE AND PRESERVE PROPORTIONS
         $max_width_resize  = $this->maxWidth;

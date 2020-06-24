@@ -158,7 +158,7 @@ class UserXoopsVersion extends Files\CreateFile
             'min_php'             => "'{$module->getVar('mod_min_php')}'",
             'min_xoops'           => "'{$module->getVar('mod_min_xoops')}'",
             'min_admin'           => "'{$module->getVar('mod_min_admin')}'",
-            'min_db'              => "array('mysql' => '{$module->getVar('mod_min_mysql')}', 'mysqli' => '{$module->getVar('mod_min_mysql')}')",
+            'min_db'              => "['mysql' => '{$module->getVar('mod_min_mysql')}', 'mysqli' => '{$module->getVar('mod_min_mysql')}']",
             'image'               => "'assets/images/logoModule.png'",
             'dirname'             => 'basename(__DIR__)',
             'dirmoduleadmin'      => "'Frameworks/moduleclasses/moduleadmin'",
@@ -467,11 +467,9 @@ class UserXoopsVersion extends Files\CreateFile
     private function getXoopsVersionBlocks($moduleDirname, $tables, $language)
     {
         $ret           = $this->getDashComment('Blocks');
-        $tableCategory = [];
         foreach (array_keys($tables) as $i) {
             $tableName        = $tables[$i]->getVar('table_name');
-            $tableCategory[]  = $tables[$i]->getVar('table_category');
-            if (0 == $tables[$i]->getVar('table_category')) {
+            if (0 == $tables[$i]->getVar('table_category') && 1 == $tables[$i]->getVar('table_blocks')) {
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'LAST', $language, 'last');
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'NEW', $language, 'new');
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'HITS', $language, 'hits');
@@ -1145,7 +1143,7 @@ class UserXoopsVersion extends Files\CreateFile
         $ret   .= $this->xc->getXcEqualsOperator('$i', '$increment');
         $while = $this->xc->getXcEqualsOperator("\$optionMaxsize[\$i . ' ' . _MI_{$ucModuleDirname}_SIZE_MB]", '$i * 1048576', null, $t . "\t");
         $while .= $this->xc->getXcEqualsOperator('$i', '$increment', '+',$t . "\t");
-        $ret   .= $this->pc->getPhpCodeWhile('i * 1048576', $while, '$maxSize', ' <= ');
+        $ret   .= $this->pc->getPhpCodeWhile('i * 1048576', $while, '$maxSize', '<=');
 
         return $ret;
     }

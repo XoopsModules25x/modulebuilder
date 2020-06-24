@@ -166,7 +166,7 @@ class ClassHandlerFiles extends Files\CreateFile
      */
     private function getClassGetInsertId()
     {
-        $ret     = $this->pc->getPhpCodeCommentMultiLine(['get inserted' => 'id', '' => '', '@param' => 'null', '@return integer reference to the' => '{@link Get} object'], "\t");
+        $ret     = $this->pc->getPhpCodeCommentMultiLine(['get inserted' => 'id', '' => '', '@param' => 'null', '@return int reference to the' => '{@link Get} object'], "\t");
         $cClhgid = $this->getSimpleString('return $this->db->getInsertId();', "\t\t");
 
         $ret .= $this->pc->getPhpCodeFunction('getInsertId', '', $cClhgid, 'public ', false, "\t");
@@ -191,7 +191,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $critCount  = $this->xc->getXcCriteriaCompo('crCount' . $ucfTableName, "\t\t");
         $paramsCrit = "\$this->get{$ucfTableName}Criteria(\$crCount{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
         $critCount  .= $this->xc->getXcEqualsOperator('$crCount' . $ucfTableName, $paramsCrit, null, "\t\t");
-        $critCount  .= $this->getSimpleString("return parent::getCount(\$crCount{$ucfTableName});", "\t\t");
+        $critCount  .= $this->getSimpleString("return \$this->getCount(\$crCount{$ucfTableName});", "\t\t");
         $params     = "\$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC'";
 
         $ret .= $this->pc->getPhpCodeFunction('getCount' . $ucfTableName, $params, $critCount, 'public ', false, "\t");
@@ -216,7 +216,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $critAll    = $this->xc->getXcCriteriaCompo('crAll' . $ucfTableName, "\t\t");
         $paramsCrit = "\$this->get{$ucfTableName}Criteria(\$crAll{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
         $critAll    .= $this->xc->getXcEqualsOperator('$crAll' . $ucfTableName, $paramsCrit, null, "\t\t");
-        $critAll    .= $this->getSimpleString("return parent::getAll(\$crAll{$ucfTableName});", "\t\t");
+        $critAll    .= $this->getSimpleString("return \$this->getAll(\$crAll{$ucfTableName});", "\t\t");
         $params     = "\$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC'";
 
         $ret .= $this->pc->getPhpCodeFunction('getAll' . $ucfTableName, $params, $critAll, 'public ', false, "\t");
@@ -261,7 +261,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $paramsCritAll = "\$this->get{$ucfTableName}Criteria(\$crAll{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
         $critAll       .= $this->xc->getXcEqualsOperator('$crAll' . $ucfTableName, $paramsCritAll, null, "\t\t");
 
-        $critAll .= $this->getSimpleString("return parent::getAll(\$crAll{$ucfTableName});", "\t\t");
+        $critAll .= $this->getSimpleString("return \$this->getAll(\$crAll{$ucfTableName});", "\t\t");
         $params  = "\${$tableFieldName}Id, \$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC'";
 
         $ret .= $this->pc->getPhpCodeFunction("getAll{$ucfTableName}By{$fieldNameDesc}Id" . $ucfTableName, $params, $critAll, 'public ', false, "\t");
