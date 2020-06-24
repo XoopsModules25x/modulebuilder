@@ -1,0 +1,20 @@
+-
+    fieldattribute_id: '1'
+    fieldattribute_name: ...
+    fieldattribute_value: ''
+-
+    fieldattribute_id: '2'
+    fieldattribute_name: BINARY
+    fieldattribute_value: BINARY
+-
+    fieldattribute_id: '3'
+    fieldattribute_name: UNSIGNED
+    fieldattribute_value: UNSIGNED
+-
+    fieldattribute_id: '4'
+    fieldattribute_name: UNSIGNED_ZEROFILL
+    fieldattribute_value: UNSIGNED_ZEROFILL
+-
+    fieldattribute_id: '5'
+    fieldattribute_name: CURRENT_TIMESTAMP
+    fieldattribute_value: CURRENT_TIMESTAMP

@@ -158,9 +158,9 @@ class AdminXoopsCode
     {
         $aMenu = $t . '$adminObject->addInfoBoxLine(sprintf(';
         if ('' != $var) {
-            $ret = $aMenu . " '<label>'.{$label}.'</label>', {$var}));\n";
+            $ret = $aMenu . " '<label>' . {$label} . '</label>', {$var}));\n";
         } else {
-            $ret = $aMenu . " '<label>'.{$label}.'</label>'));\n";
+            $ret = $aMenu . " '<label>' . {$label} . '</label>'));\n";
         }
 
         return $ret;

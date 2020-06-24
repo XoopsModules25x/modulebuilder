@@ -71,12 +71,17 @@ class CreatePhpCode
     public function getPhpCodeCommentMultiLine($multiLine = [], $t = '')
     {
         $values = !empty($multiLine) ? $multiLine : [];
+
         $ret    = "\n{$t}/**\n";
         foreach ($values as $string => $value) {
             if ('' === $string && '' === $value) {
                 $ret .= "{$t} *\n";
             } else {
-                $ret .= "{$t} * {$string} {$value}\n";
+                if ('' === $value) {
+                    $ret .= "{$t} * {$string}\n";
+                } else {
+                    $ret .= "{$t} * {$string} {$value}\n";
+                }
             }
         }
         $ret .= "{$t} */\n";
@@ -389,7 +394,7 @@ class CreatePhpCode
             $vars = "array_keys(\${$array}) as \${$value}";
         }
 
-        $ret = "{$t}foreach({$vars}) {\n";
+        $ret = "{$t}foreach ({$vars}) {\n";
         $ret .= "{$content}";
         $ret .= "{$t}}\n";
 
@@ -409,7 +414,7 @@ class CreatePhpCode
      */
     public function getPhpCodeFor($var = null, $content = null, $value = null, $initVal = null, $operator = null, $t = '')
     {
-        $ret = "{$t}for(\${$var} = {$initVal}; \${$var} {$operator} \${$value}; \${$var}++) {\n";
+        $ret = "{$t}for (\${$var} = {$initVal}; \${$var} {$operator} \${$value}; \${$var}++) {\n";
         $ret .= "{$content}";
         $ret .= "{$t}}\n";
 
@@ -448,7 +453,7 @@ class CreatePhpCode
     public function getPhpCodeSwitch($op = null, $content = null, $t = '', $isParam = true)
     {
         $value = $isParam ? "\${$op}" : $op;
-        $ret = "{$t}switch({$value}) {\n";
+        $ret = "{$t}switch ({$value}) {\n";
         $ret .= $content;
         $ret .= "{$t}}\n";
 
@@ -484,14 +489,14 @@ class CreatePhpCode
                         $ret .= "{$content}";
                     }
                 }
-                $ret .= "{$t}break;\n";
+                $ret .= "{$t}\tbreak;\n";
                 $defaultAfterCase = false;
             }
         }
         if (false !== $default) {
             $ret .= $def;
             $ret .= "{$t}{$default}\n";
-            $ret .= "{$t}break;\n";
+            $ret .= "{$t}\tbreak;\n";
         }
 
         return $ret;

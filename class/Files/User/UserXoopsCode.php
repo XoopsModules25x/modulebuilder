@@ -96,7 +96,7 @@ class UserXoopsCode
         $stuTableName = mb_strtoupper($tableName);
         $stripTags    = $this->pc->getPhpCodeStripTags('', $language . $stuTableName, true);
 
-        return "{$t}\$GLOBALS['xoTheme']->addMeta( 'meta', '{$type}', {$stripTags});\n";
+        return "{$t}\$GLOBALS['xoTheme']->addMeta('meta', '{$type}', {$stripTags});\n";
     }
 
     /**
@@ -110,7 +110,7 @@ class UserXoopsCode
     {
         $implode = $this->pc->getPhpCodeImplode(',', '$keywords');
 
-        return "{$moduleDirname}MetaKeywords(\$helper->getConfig('keywords').', '. {$implode});\n";
+        return "{$moduleDirname}MetaKeywords(\$helper->getConfig('keywords') . ', ' . {$implode});\n";
     }
 
     /**

@@ -87,12 +87,13 @@ class BlocksFiles extends Files\CreateFile
      * @param     $moduleDirname
      * @param     $tableName
      * @param     $tableFieldname
+     * @param     $tablePermissions
      * @param     $fields
      * @param     $fieldId
      * @param int $fieldParent
      * @return string
      */
-    private function getBlocksShow($moduleDirname, $tableName, $tableFieldname, $fields, $fieldId, $fieldParent = 0)
+    private function getBlocksShow($moduleDirname, $tableName, $tableFieldname, $tablePermissions, $fields, $fieldId, $fieldParent = 0)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfTableName     = ucfirst($tableName);
@@ -132,15 +133,17 @@ class BlocksFiles extends Files\CreateFile
         //search for SelectStatus field
         $fieldStatus = '';
         $critStatus  = '';
-        foreach ($fields as $field) {
-            if ($field->getVar('field_element') == 16) {
-                $fieldStatus = $field->getVar('field_name');
+        if (1 == $tablePermissions) {
+            foreach ($fields as $field) {
+                if ($field->getVar('field_element') == 16) {
+                    $fieldStatus = $field->getVar('field_name');
+                }
             }
-        }
-        if ('' !== $fieldStatus) {
-            $constant   = $this->xc->getXcGetConstants('PERM_GLOBAL_VIEW');
-			$crit       = $this->xc->getXcCriteria('', "'{$fieldStatus}'", $constant, '', true);
-            $critStatus .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t\t");
+            if ('' !== $fieldStatus) {
+                $constant = $this->xc->getXcGetConstants('PERM_GLOBAL_VIEW');
+                $crit = $this->xc->getXcCriteria('', "'{$fieldStatus}'", $constant, '', true);
+                $critStatus .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t\t");
+            }
         }
 
         $case1 = [];
@@ -224,7 +227,7 @@ class BlocksFiles extends Files\CreateFile
                         $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
                         break;
                     case 15:
-                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']","formatTimeStamp(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
+                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']","formatTimestamp(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
                         break;
                     default:
                         $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']","\${$tableName}All[\$i]->getVar('{$fieldName}')", null, "\t\t\t");
@@ -305,17 +308,18 @@ class BlocksFiles extends Files\CreateFile
      */
     public function render()
     {
-        $module         = $this->getModule();
-        $filename       = $this->getFileName();
-        $table          = $this->getTable();
-        $moduleDirname  = $module->getVar('mod_dirname');
-        $tableName      = $table->getVar('table_name');
-        $tableFieldname = $table->getVar('table_fieldname');
-        $language       = $this->getLanguage($moduleDirname, 'MB');
-        $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $fieldId        = null;
-        $fieldParent    = null;
-        $fieldMain      = null;
+        $module           = $this->getModule();
+        $filename         = $this->getFileName();
+        $table            = $this->getTable();
+        $moduleDirname    = $module->getVar('mod_dirname');
+        $tableName        = $table->getVar('table_name');
+        $tableFieldname   = $table->getVar('table_fieldname');
+        $tablePermissions = $table->getVar('table_permissions');
+        $language         = $this->getLanguage($moduleDirname, 'MB');
+        $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fieldId          = null;
+        $fieldParent      = null;
+        $fieldMain        = null;
         foreach (array_keys($fields) as $f) {
             $fieldName   = $fields[$f]->getVar('field_name');
             $fieldParent = $fields[$f]->getVar('field_parent');
@@ -331,7 +335,7 @@ class BlocksFiles extends Files\CreateFile
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Helper'], '', '');
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $content .= $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/include/common.php'",'',true, true);
-        $content .= $this->getBlocksShow($moduleDirname, $tableName, $tableFieldname, $fields, $fieldId, $fieldParent);
+        $content .= $this->getBlocksShow($moduleDirname, $tableName, $tableFieldname, $tablePermissions, $fields, $fieldId, $fieldParent);
         $content .= $this->getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language);
 
         $this->create($moduleDirname, 'blocks', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);

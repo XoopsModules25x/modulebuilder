@@ -29,7 +29,7 @@
  *
  * @return bool|null
  */
-function xoops_module_update_modulebuilder(&$module, $prev_version = null)
+function xoops_module_update_modulebuilder($module, $prev_version = null)
 {
     $ret = null;
     if ($prev_version < 10) {

@@ -326,7 +326,7 @@ class CreateXoopsCode
      */
     public function getXcFormatTimeStamp($left, $value, $format = 's', $t = '')
     {
-        return "{$t}\${$left} = formatTimeStamp({$value}, '{$format}');\n";
+        return "{$t}\${$left} = formatTimestamp({$value}, '{$format}');\n";
     }
 
     /**
@@ -469,7 +469,7 @@ class CreateXoopsCode
      */
     public function getXcGetVarTextDateSelect($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
     {
-        return "{$t}\${$lpFieldName}['{$rpFieldName}'] = formatTimeStamp(\${$tableName}All[\$i]->getVar('{$fieldName}'), 's');\n";
+        return "{$t}\${$lpFieldName}['{$rpFieldName}'] = formatTimestamp(\${$tableName}All[\$i]->getVar('{$fieldName}'), 's');\n";
     }
 
     /**
@@ -1300,9 +1300,9 @@ class CreateXoopsCode
         $params .= ('' != $param3) ? ', ' . $param3 : '';
 
         if (false === $isParam) {
-            $ret = "{$t}\${$var} = new \Criteria( {$param1}{$params} );\n";
+            $ret = "{$t}\${$var} = new \Criteria({$param1}{$params});\n";
         } else {
-            $ret = "new \Criteria( {$param1}{$params} )";
+            $ret = "new \Criteria({$param1}{$params})";
         }
 
         return $ret;
@@ -1323,7 +1323,7 @@ class CreateXoopsCode
         if ('' !== $condition) {
             $condition = ", {$condition}";
         }
-        return "{$t}\${$var}->add( {$param}{$condition} );{$n}";
+        return "{$t}\${$var}->add({$param}{$condition});{$n}";
     }
 
     /**
@@ -1338,7 +1338,7 @@ class CreateXoopsCode
      */
     public function getXcCriteriaSetStart($var, $start, $t = '', $n = "\n")
     {
-        return "{$t}\${$var}->setStart( {$start} );{$n}";
+        return "{$t}\${$var}->setStart({$start});{$n}";
     }
 
     /**
@@ -1353,7 +1353,7 @@ class CreateXoopsCode
      */
     public function getXcCriteriaSetLimit($var, $limit, $t = '', $n = "\n")
     {
-        return "{$t}\${$var}->setLimit( {$limit} );{$n}";
+        return "{$t}\${$var}->setLimit({$limit});{$n}";
     }
 
     /**
@@ -1368,7 +1368,7 @@ class CreateXoopsCode
      */
     public function getXcCriteriaSetSort($var, $sort, $t = '', $n = "\n")
     {
-        return "{$t}\${$var}->setSort( {$sort} );{$n}";
+        return "{$t}\${$var}->setSort({$sort});{$n}";
     }
 
     /**
@@ -1383,7 +1383,7 @@ class CreateXoopsCode
      */
     public function getXcCriteriaSetOrder($var, $order, $t = '', $n = "\n")
     {
-        return "{$t}\${$var}->setOrder( {$order} );{$n}";
+        return "{$t}\${$var}->setOrder({$order});{$n}";
     }
 
     /*************************************************************/
@@ -1682,11 +1682,11 @@ class CreateXoopsCode
      */
     public function getXcXoThemeAddStylesheet($style = 'style', $t = '', $isString = true)
     {
-        $ret = "{$t}\$GLOBALS['xoTheme']->addStylesheet( ";
+        $ret = "{$t}\$GLOBALS['xoTheme']->addStylesheet(";
         if ($isString) {
             $ret .= '$';
         }
-        $ret .= "{$style}, null );\n";
+        $ret .= "{$style}, null);\n";
         return $ret;
     }
 

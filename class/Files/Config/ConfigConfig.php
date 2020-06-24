@@ -37,6 +37,11 @@ class ConfigConfig extends Files\CreateFile
     private $xc = null;
 
     /**
+     * @var mixed
+     */
+    private $pc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
@@ -44,6 +49,7 @@ class ConfigConfig extends Files\CreateFile
     {
         parent::__construct();
         $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -81,7 +87,8 @@ class ConfigConfig extends Files\CreateFile
     {
         $tables = $this->getTables();
 
-        $ret    = $this->getSimpleString('');
+        $ret    = $this->pc->getPhpCodeCommentMultiLine(['return' => 'object']);
+        $ret    .= $this->getSimpleString('');
         $ret    .= $this->xc->getXcEqualsOperator('$moduleDirName ', 'basename(dirname(__DIR__))');
         $ret    .= $this->xc->getXcEqualsOperator('$moduleDirNameUpper ', 'mb_strtoupper($moduleDirName)');
 

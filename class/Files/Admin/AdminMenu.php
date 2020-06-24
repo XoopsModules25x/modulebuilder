@@ -107,8 +107,8 @@ class AdminMenu extends Files\CreateFile
         $mod     = [
             '$dirname      ' => 'basename(dirname(__DIR__))',
             '$moduleHandler' => "xoops_getHandler('module')",
-            '$xoopsModule  '   => 'XoopsModule::getByDirname($dirname)',
-            '$moduleInfo   '    => "\$moduleHandler->get(\$xoopsModule->getVar('mid'))",
+            '$xoopsModule  ' => 'XoopsModule::getByDirname($dirname)',
+            '$moduleInfo   ' => "\$moduleHandler->get(\$xoopsModule->getVar('mid'))",
             '$sysPathIcon32' => "\$moduleInfo->getInfo('sysicons32')",
         ];
         $ret .= $this->getAdminMenuArray($mod);

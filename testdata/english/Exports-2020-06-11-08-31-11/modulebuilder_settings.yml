@@ -1,0 +1,41 @@
+-
+    set_id: '1'
+    set_name: 'My Module'
+    set_dirname: mymoduledirname
+    set_version: '1.0'
+    set_since: '1.0'
+    set_min_php: '7.0'
+    set_min_xoops: 2.5.9
+    set_min_admin: '1.2'
+    set_min_mysql: '5.6'
+    set_description: 'This module is for doing following...'
+    set_author: 'TDM XOOPS'
+    set_author_mail: info@email.com
+    set_author_website_url: 'http://xoops.org'
+    set_author_website_name: 'XOOPS Project'
+    set_credits: 'XOOPS Development Team'
+    set_license: 'GPL 2.0 or later'
+    set_release_info: release_info
+    set_release_file: 'release_info file'
+    set_manual: 'link to manual file'
+    set_manual_file: install.txt
+    set_image: empty.png
+    set_demo_site_url: 'https://xoops.org'
+    set_demo_site_name: 'XOOPS Demo Site'
+    set_support_url: 'https://xoops.org/modules/newbb'
+    set_support_name: 'Support Forum'
+    set_website_url: www.xoops.org
+    set_website_name: 'XOOPS Project'
+    set_release: '2017-12-02'
+    set_status: 'Beta 1'
+    set_admin: '1'
+    set_user: '1'
+    set_blocks: '1'
+    set_search: '0'
+    set_comments: '0'
+    set_notifications: '0'
+    set_permissions: '0'
+    set_inroot_copy: '0'
+    set_donations: 6KJ7RW5DR3VTJ
+    set_subversion: '13070'
+    set_type: '1'

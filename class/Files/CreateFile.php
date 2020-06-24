@@ -504,7 +504,7 @@ class CreateFile extends CreateTableFields
         $copyright = [
             $name           => 'module for xoops',
             ''              => '',
-            '@copyright  '  => '  2020 XOOPS Project (https://xooops.org)',
+            '@copyright  '  => '   2020 XOOPS Project (https://xooops.org)',
             '@license   '   => "    {$license}",
             '@package   '   => "    {$dirname}",
             '@since    '    => "     {$since}",

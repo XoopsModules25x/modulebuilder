@@ -23,7 +23,7 @@ require dirname(__DIR__) . '/preloads/autoloader.php';
 
 $op = \Xmf\Request::getCmd('op', '');
 
-$moduleDirName = basename(dirname(__DIR__));
+$moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 $helper = Modulebuilder\Helper::getInstance();
@@ -54,7 +54,7 @@ function loadSampleData()
 {
     global $xoopsConfig;
 
-    $moduleDirName = basename(dirname(__DIR__));
+    $moduleDirName      = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
     $utility      = new Modulebuilder\Utility();
@@ -98,7 +98,7 @@ function saveSampleData()
     
     $configurator = new Common\Configurator();
 
-    $moduleDirName = basename(dirname(__DIR__));
+    $moduleDirName      = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
     $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
@@ -144,8 +144,7 @@ function exportSchema()
         //        $migrate->saveCurrentSchema();
         //
         //        redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS'));
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
         exit(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR'));
     }
 

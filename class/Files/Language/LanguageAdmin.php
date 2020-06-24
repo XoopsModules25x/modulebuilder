@@ -91,7 +91,8 @@ class LanguageAdmin extends Files\CreateFile
     public function getLanguageAdminIndex($language, $tables)
     {
         $ret = $this->ld->getBlankLine();
-        $ret .= $this->pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
+        $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__','common', true);
+        $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__','main', true);
         $ret .= $this->ld->getBlankLine();
         $ret .= $this->ld->getAboveHeadDefines('Admin Index');
         $ret .= $this->ld->getDefine($language, 'STATISTICS', 'Statistics');
@@ -293,6 +294,9 @@ class LanguageAdmin extends Files\CreateFile
     public function getLanguageAdminFoot($language)
     {
         $ret = $this->ld->getAboveHeadDefines('Admin Others');
+        $ret .= $this->ld->getDefine($language, 'ABOUT_MAKE_DONATION', 'Submit');
+        $ret .= $this->ld->getDefine($language, 'SUPPORT_FORUM', 'Support Forum');
+        $ret .= $this->ld->getDefine($language, 'DONATION_AMOUNT', 'Donation Amount');
         $ret .= $this->ld->getDefine($language, 'MAINTAINEDBY', ' is maintained by ');
         $ret .= $this->ld->getBelowDefines('End');
         $ret .= $this->ld->getBlankLine();

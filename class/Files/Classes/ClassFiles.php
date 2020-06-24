@@ -292,7 +292,7 @@ class ClassFiles extends Files\CreateFile
         $action           = $this->xc->getXcEqualsOperator('$action', "\$_SERVER['REQUEST_URI']", null, "\t\t\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
         $getForm          = $this->xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", "\t\t");
-        $getForm          .= $this->pc->getPhpCodeConditions('$action', ' === ', 'false', $action, false, "\t\t");
+        $getForm          .= $this->pc->getPhpCodeConditions('!', '', '$action', $action, false, "\t\t");
         $xUser            = $this->pc->getPhpCodeGlobals('xoopsUser');
         $xModule          = $this->pc->getPhpCodeGlobals('xoopsModule');
         $getForm          .= $this->xc->getXcEqualsOperator('$isAdmin', $xUser . '->isAdmin(' . $xModule . '->mid())', null, "\t\t");
@@ -470,7 +470,8 @@ class ClassFiles extends Files\CreateFile
                     }
                     $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, false, "\t\t\t", true);
                     $getValues     .= $this->pc->getPhpCodeSwitch('status', $contentSwitch, "\t\t");
-                    $spacer        = str_repeat(' ', $lenMaxName - strlen('status_text'));
+                    $len           = $lenMaxName - strlen('status_text');
+                    $spacer        = $len > 0 ? str_repeat(' ', $len) : '';
                     $getValues     .= $this->xc->getXcEqualsOperator("\$ret['status_text']{$spacer}", '$status_text',  false, "\t\t");
                     break;
                 case 21:
