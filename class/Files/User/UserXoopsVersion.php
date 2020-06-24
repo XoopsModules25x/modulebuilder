@@ -469,7 +469,7 @@ class UserXoopsVersion extends Files\CreateFile
         $ret           = $this->getDashComment('Blocks');
         foreach (array_keys($tables) as $i) {
             $tableName        = $tables[$i]->getVar('table_name');
-            if (0 == $tables[$i]->getVar('table_category') & 1 == $tables[$i]->getVar('table_blocks')) {
+            if (0 == $tables[$i]->getVar('table_category') && 1 == $tables[$i]->getVar('table_blocks')) {
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'LAST', $language, 'last');
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'NEW', $language, 'new');
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'HITS', $language, 'hits');
