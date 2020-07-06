@@ -246,7 +246,13 @@ class CreatePhpCode
      */
     public function getPhpCodeTernaryOperator($return, $condition, $one, $two, $t = '')
     {
-        return "{$t}\${$return} = {$condition} ? {$one} : {$two};\n";
+        $ret = "{$t}\${$return} = {$condition} ?";
+        if ('' != $one) {
+            //not shorthand/elvis
+            $ret .= " {$one} ";
+        }
+        $ret .= ": {$two};\n";
+        return $ret;
     }
 
     /**

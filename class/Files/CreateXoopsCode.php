@@ -190,9 +190,9 @@ class CreateXoopsCode
         $tf            = Modulebuilder\Files\CreateFile::getInstance();
         $rightField    = $tf->getRightString($fieldName);
         $ucfRightField = ucfirst($rightField);
-        $value         = "date_create_from_format(_SHORTDATESTRING, Request::getString('{$fieldName}'))";
-        $ret           = $this->getXcEqualsOperator("\${$tableSoleName}{$ucfRightField}", $value, null, $t);
-        $ret           .= $this->getXcSetVarObj($tableName, $fieldName, "\${$tableSoleName}{$ucfRightField}->getTimestamp()", $t);
+        $value         = "\DateTime::createFromFormat(_SHORTDATESTRING, Request::getString('{$fieldName}'))";
+        $ret           = $this->getXcEqualsOperator("\${$tableSoleName}{$ucfRightField}Obj", $value, null, $t);
+        $ret           .= $this->getXcSetVarObj($tableName, $fieldName, "\${$tableSoleName}{$ucfRightField}Obj->getTimestamp()", $t);
 
         return $ret;
     }
@@ -214,7 +214,11 @@ class CreateXoopsCode
         $var           = "\${$tableSoleName}{$ucfRightField}";
         $varArr        = "\${$tableSoleName}{$ucfRightField}Arr";
         $ret           = $this->getXcEqualsOperator($varArr, $request, null, $t);
-        $value         = "strtotime({$varArr}['date']) + (int){$varArr}['time']";
+        $varObj        = "\${$tableSoleName}{$ucfRightField}Obj";
+        $value         = "\DateTime::createFromFormat(_SHORTDATESTRING, {$varArr}['date'])";
+        $ret           .= $this->getXcEqualsOperator($varObj, $value, null, $t);
+        $ret           .= "{$t}{$varObj}->setTime(0, 0, 0);\n";
+        $value         = "{$varObj}->getTimestamp() + (int){$varArr}['time']";
         $ret           .= $this->getXcEqualsOperator($var, $value, null, $t);
         $ret           .= $this->getXcSetVarObj($tableName, $fieldName, $var, $t);
 
@@ -404,6 +408,7 @@ class CreateXoopsCode
      * @param string $t
      * @return string
      */
+    /*
     public function getXcGetVarUploadImage($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
     {
         $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
@@ -413,6 +418,7 @@ class CreateXoopsCode
 
         return $ret;
     }
+    */
 
     /**
      * @public function getXcGetVarUrlFile
@@ -1106,6 +1112,7 @@ class CreateXoopsCode
      * @param string $t
      * @return string
      */
+    /*
     public function getUploadImageGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
     {
         $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
@@ -1116,6 +1123,7 @@ class CreateXoopsCode
 
         return $ret;
     }
+    */
 
     /**
      * @public function getXcSaveFieldId
