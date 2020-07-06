@@ -339,6 +339,7 @@ define('_AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS1', "The use of comments is act
 define('_AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS2', "The table '%t' should use comment functionality, but the table do not have a '%f' field, which is obligatory for this function");
 define('_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS1', "The table '%t' should use rating functionality, but the table do not have a '%f' field, which is obligatory for this function");
 define('_AM_MODULEBUILDER_BUILDING_RATING', "Copied rating files");
+define('_AM_MODULEBUILDER_BUILDING_CHECK_USERPAGE1', "The table '%t' should use submit or rate or broken functionality, but the table is not selected for user files");
 //
 // ------------------- More Files --------------------------------- //
 define('_AM_MODULEBUILDER_MORE_FILES_ADD', 'Add More File');
