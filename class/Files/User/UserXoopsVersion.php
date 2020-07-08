@@ -326,19 +326,21 @@ class UserXoopsVersion extends Files\CreateFile
             $tableSingle = [];
             $tableSubmit = [];
             foreach (array_keys($tables) as $t) {
-                $tableName     = $tables[$t]->getVar('table_name');
-                $tableBroken[] = $tables[$t]->getVar('table_broken');
-                $tablePdf[]    = $tables[$t]->getVar('table_pdf');
-                $tablePrint[]  = $tables[$t]->getVar('table_print');
-                $tableRate[]   = $tables[$t]->getVar('table_rate');
-                $tableRss[]    = $tables[$t]->getVar('table_rss');
-                $tableSearch[] = $tables[$t]->getVar('table_search');
-                $tableSingle[] = $tables[$t]->getVar('table_single');
-                $tableSubmit[] = $tables[$t]->getVar('table_submit');
-                $tableRate[]   = $tables[$t]->getVar('table_rate');
-                $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '');
-                $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
-                $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'item');
+                if (1 == $tables[$t]->getVar('table_user')) {
+                    $tableName     = $tables[$t]->getVar('table_name');
+                    $tableBroken[] = $tables[$t]->getVar('table_broken');
+                    $tablePdf[]    = $tables[$t]->getVar('table_pdf');
+                    $tablePrint[]  = $tables[$t]->getVar('table_print');
+                    $tableRate[]   = $tables[$t]->getVar('table_rate');
+                    $tableRss[]    = $tables[$t]->getVar('table_rss');
+                    $tableSearch[] = $tables[$t]->getVar('table_search');
+                    $tableSingle[] = $tables[$t]->getVar('table_single');
+                    $tableSubmit[] = $tables[$t]->getVar('table_submit');
+                    $tableRate[]   = $tables[$t]->getVar('table_rate');
+                    $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '');
+                    $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
+                    $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'item');
+                }
             }
             $item[]  = $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs', '');
             if (in_array(1, $tablePdf)) {

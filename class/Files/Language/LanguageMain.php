@@ -121,49 +121,43 @@ As you can see, you have created a page with a list of links at the top to navig
         $tableBroken      = 0;
         $tableRate        = 0;
         foreach (array_keys($tables) as $i) {
-            $tableName        = $tables[$i]->getVar('table_name');
-            $tableSoleName    = $tables[$i]->getVar('table_solename');
-            if (1 === (int)$tables[$i]->getVar('table_submit')) {
-                $tableSubmit = 1;
-            }
-            if (1 === (int)$tables[$i]->getVar('table_broken')) {
-                $tableBroken = 1;
-            }
-            if (1 === (int)$tables[$i]->getVar('table_rate')) {
-                $tableRate = 1;
-            }
-            $stuTableName     = mb_strtoupper($tableName);
-            $stuTableSoleName = mb_strtoupper($tableSoleName);
-            $ucfTableName     = $utility::UcFirstAndToLower($tableName);
-            $ucfTableSoleName = $utility::UcFirstAndToLower($tableSoleName);
-            $ret              .= $this->ld->getAboveDefines($ucfTableSoleName);
-            $ret              .= $this->ld->getDefine($language, $stuTableSoleName, $ucfTableSoleName);
-            $ret              .= $this->ld->getDefine($language, $stuTableName, $ucfTableName);
-            $ret              .= $this->ld->getDefine($language, "{$stuTableName}_TITLE", "{$ucfTableName} title");
-            $ret              .= $this->ld->getDefine($language, "{$stuTableName}_DESC", "{$ucfTableName} description");
-            $ret              .= $this->ld->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
-            $ret              .= $this->ld->getAboveDefines("Caption of {$ucfTableSoleName}");
-            $fields           = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
-            foreach (array_keys($fields) as $f) {
-                $fieldName     = $fields[$f]->getVar('field_name');
-                $rpFieldName   = $this->getRightString($fieldName);
-                $fieldNameDesc = ucfirst($rpFieldName);
-                $ret           .= $this->ld->getDefine($language, $stuTableSoleName . '_' . $rpFieldName, $fieldNameDesc);
+            if (1 == $tables[$i]->getVar('table_user')) {
+                $tableName = $tables[$i]->getVar('table_name');
+                $tableSoleName = $tables[$i]->getVar('table_solename');
+                if (1 === (int)$tables[$i]->getVar('table_submit')) {
+                    $tableSubmit = 1;
+                }
+                if (1 === (int)$tables[$i]->getVar('table_broken')) {
+                    $tableBroken = 1;
+                }
+                if (1 === (int)$tables[$i]->getVar('table_rate')) {
+                    $tableRate = 1;
+                }
+                $stuTableName = mb_strtoupper($tableName);
+                $stuTableSoleName = mb_strtoupper($tableSoleName);
+                $ucfTableName = $utility::UcFirstAndToLower($tableName);
+                $ucfTableSoleName = $utility::UcFirstAndToLower($tableSoleName);
+                $ret .= $this->ld->getAboveDefines($ucfTableSoleName);
+                $ret .= $this->ld->getDefine($language, $stuTableSoleName, $ucfTableSoleName);
+                $ret .= $this->ld->getDefine($language, $stuTableName, $ucfTableName);
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_TITLE", "{$ucfTableName} title");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_DESC", "{$ucfTableName} description");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
+                $ret .= $this->ld->getAboveDefines("Caption of {$ucfTableSoleName}");
+                $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
+                foreach (array_keys($fields) as $f) {
+                    $fieldName = $fields[$f]->getVar('field_name');
+                    $rpFieldName = $this->getRightString($fieldName);
+                    $fieldNameDesc = ucfirst($rpFieldName);
+                    $ret .= $this->ld->getDefine($language, $stuTableSoleName . '_' . $rpFieldName, $fieldNameDesc);
+                }
             }
         }
         $ret .= $this->ld->getDefine($language, 'INDEX_THEREARE', "There are %s {$ucfTableName}");
         $ret .= $this->ld->getDefine($language, 'INDEX_LATEST_LIST', "Last {$module->getVar('mod_name')}");
-        $ret .= $this->ld->getAboveDefines('Submit');
-        $ret .= $this->ld->getDefine($language, 'SUBMIT', 'Submit');
-        $ret .= $this->ld->getDefine($language, "SUBMIT_{$stuTableSoleName}", "Submit {$ucfTableSoleName}");
-        $ret .= $this->ld->getDefine($language, 'SUBMIT_ALLPENDING', "All {$tableSoleName}/script information are posted pending verification.");
-        $ret .= $this->ld->getDefine($language, 'SUBMIT_DONTABUSE', 'Username and IP are recorded, so please do not abuse the system.');
-        $ret .= $this->ld->getDefine($language, 'SUBMIT_ISAPPROVED', "Your {$tableSoleName} has been approved");
-        $ret .= $this->ld->getDefine($language, 'SUBMIT_PROPOSER', "Submit a {$tableSoleName}");
-        $ret .= $this->ld->getDefine($language, 'SUBMIT_RECEIVED', "We have received your {$tableSoleName} info. Thank you !");
-        $ret .= $this->ld->getDefine($language, 'SUBMIT_SUBMITONCE', "Submit your {$tableSoleName}/script only once.");
-        $ret .= $this->ld->getDefine($language, 'SUBMIT_TAKEDAYS', "This will take many days to see your {$tableSoleName}/script added successfully in our database.");
         if (1 === $tableSubmit) {
+            $ret .= $this->ld->getAboveDefines('Submit');
+            $ret .= $this->ld->getDefine($language, 'SUBMIT', 'Submit');
             $ret .= $this->ld->getAboveDefines('Form');
             $ret .= $this->ld->getDefine($language, 'FORM_OK', 'Successfully saved');
             $ret .= $this->ld->getDefine($language, 'FORM_DELETE_OK', 'Successfully deleted');

@@ -208,6 +208,15 @@ class CheckData
             }
         }
 
+        //check user submit or rate or broken, but table not for user side
+        foreach (array_keys($this->tables) as $t) {
+            $tableId = $this->tables[$t]->getVar('table_id');
+            $tableName = $this->tables[$t]->getVar('table_name');
+            if ((0 == $this->tables[$t]->getVar('table_user')) && (1 == $this->tables[$t]->getVar('table_submit') || 1 == $this->tables[$t]->getVar('table_broken') || 1 == $this->tables[$t]->getVar('table_rate'))) {
+                $info = str_replace(['%t'], [$tableName], _AM_MODULEBUILDER_BUILDING_CHECK_USERPAGE1);
+                $this->infos[] = ['icon' => 'error', 'info' => $info];
+            }
+        }
         return true;
     }
 
@@ -218,7 +227,7 @@ class CheckData
      */
     private function getCheckBlock()
     {
-        //use in block but not field selected
+        //use in block but no field selected
         foreach (array_keys($this->tables) as $t) {
             $tableId = $this->tables[$t]->getVar('table_id');
             $tableName = $this->tables[$t]->getVar('table_name');
@@ -236,7 +245,7 @@ class CheckData
                 }
             }
         }
-        //use in block but not field date
+        //use in block but no field date
         foreach (array_keys($this->tables) as $t) {
             $tableId = $this->tables[$t]->getVar('table_id');
             $tableName = $this->tables[$t]->getVar('table_name');
