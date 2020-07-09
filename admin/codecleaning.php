@@ -177,10 +177,11 @@ function function_qualifier($dst_path) {
         '\dirname()'    => 'dirname()',
         'assw\ord'      => 'assword',
         'mb_\strpos'    => 'mb_strpos',
-        'imagecopy('    => 'imagecopy(',
+        'image\copy('    => 'imagecopy(',
         '<{if \count('  => '<{if count(',
     ];
 
+    $patterns = [];
     //reset existing in order to avoid double \\
     foreach ($phpFunctions as $item) {
         $patterns['\\' . $item . '('] = $item . '(';

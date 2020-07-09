@@ -1,61 +1,8 @@
-****************************************************************************************
-
-IMPORTANT:
-I moved files, where I do not know whether they are still needed into folder _archive
-
-****************************************************************************************
-
-
 
 TODOs:
 
 Permissions:
 implement autoapprove
-
-
-return $this->normalizeFunctionNames([
-            // @see https://github.com/php/php-src/blob/PHP-7.4/Zend/zend_compile.c "zend_try_compile_special_func"
-            'array_key_exists',
-            'array_slice',
-            'assert',
-            'boolval',
-            'call_user_func',
-            'call_user_func_array',
-            'chr',
-            'count',
-            'defined',
-            'doubleval',
-            'floatval',
-            'func_get_args',
-            'func_num_args',
-            'get_called_class',
-            'get_class',
-            'gettype',
-            'in_array',
-            'intval',
-            'is_array',
-            'is_bool',
-            'is_double',
-            'is_float',
-            'is_int',
-            'is_integer',
-            'is_long',
-            'is_null',
-            'is_object',
-            'is_real',
-            'is_resource',
-            'is_string',
-            'ord',
-            'strlen',
-            'strval',
-            // @see https://github.com/php/php-src/blob/php-7.2.6/ext/opcache/Optimizer/pass1_5.c
-            'constant',
-            'define',
-            'dirname',
-            'extension_loaded',
-            'function_exists',
-            'is_callable',
-        ]);
 
 
 

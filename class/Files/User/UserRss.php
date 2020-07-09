@@ -124,7 +124,7 @@ class UserRss extends Files\CreateFile
 
 \${$fppf} = Request::getInt('{$fppf}', 0, 'GET');
 include_once XOOPS_ROOT_PATH.'/class/template.php';
-if (\function_exists('mb_http_output')) {
+if (\\function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
 //header ('Content-Type:text/xml; charset=UTF-8');
@@ -155,7 +155,7 @@ if (!\$tpl->is_cached('db:{$moduleDirname}_rss.tpl', \${$fppf})) {
     \$tpl->assign('channel_title', htmlspecialchars(\$title, ENT_QUOTES));
     \$tpl->assign('channel_link', XOOPS_URL.'/');
     \$tpl->assign('channel_desc', htmlspecialchars(\$xoopsConfig['slogan'], ENT_QUOTES));
-    \$tpl->assign('channel_lastbuild', \formatTimestamp(\time(), 'rss'));
+    \$tpl->assign('channel_lastbuild', \\formatTimestamp(\time(), 'rss'));
     \$tpl->assign('channel_webmaster', \$xoopsConfig['adminmail']);
     \$tpl->assign('channel_editor', \$xoopsConfig['adminmail']);
     \$tpl->assign('channel_category', 'Event');
@@ -191,7 +191,7 @@ if (!\$tpl->is_cached('db:{$moduleDirname}_rss.tpl', \${$fppf})) {
         \$tpl->append('items', array('title' => htmlspecialchars(\${$tableName}Arr[\$i]->getVar('{$fpmf}'), ENT_QUOTES),
                                     'link' => XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
                                     'guid' => XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
-                                    'pubdate' => \formatTimestamp(\${$tableName}Arr[\$i]->getVar('date'), 'rss'),
+                                    'pubdate' => \\formatTimestamp(\${$tableName}Arr[\$i]->getVar('date'), 'rss'),
                                     'description' => htmlspecialchars(\$description_short, ENT_QUOTES)));
     }
 }

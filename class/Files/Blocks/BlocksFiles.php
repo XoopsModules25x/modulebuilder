@@ -166,9 +166,9 @@ class BlocksFiles extends Files\CreateFile
         if ('' !== $fieldStatus) {
             $case2[] = $critStatus;
         }
-        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\\strto\time(date(_SHORTDATESTRING))', "'>='", true);
+        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\DateTime::createFromFormat(_SHORTDATESTRING)', "'>='", true);
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
-        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\\strto\time(date(_SHORTDATESTRING))+86400', "'<='", true);
+        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\DateTime::createFromFormat(_SHORTDATESTRING) + 86400', "'<='", true);
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
         $case2[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldDate}'","\t\t\t");
         $case2[] = $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t\t\t");
@@ -182,14 +182,12 @@ class BlocksFiles extends Files\CreateFile
         if ('' !== $fieldStatus) {
             $case4[] = $critStatus;
         }
-        $case4[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
         $case4[] = $this->xc->getXcCriteriaSetSort($critName, "'{$tableFieldname}_top'","\t\t\t");
         $case4[] = $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t\t\t");
         $case5[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} random",'',"\t\t\t");
         if ('' !== $fieldStatus) {
             $case5[] = $critStatus;
         }
-        $case5[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
         $case5[] = $this->xc->getXcCriteriaSetSort($critName, "'RAND()'","\t\t\t");
         $cases  = [
             'last'   => $case1,

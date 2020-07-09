@@ -558,7 +558,7 @@ class CreatePhpCode
      */
     public function getPhpCodeExplode($left, $right)
     {
-        return "\explode('{$left}', {$right})";
+        return "\\explode('{$left}', {$right})";
     }
 
     /**
@@ -647,9 +647,9 @@ class CreatePhpCode
     {
         $vars = (null != $right) ? "\${$left}, {$right}" : "\${$left}";
         if (!$isParam) {
-            $ret = "{$t}\${$var}[] = array_{$type}({$vars});\n";
+            $ret = "{$t}\${$var}[] = \array_{$type}({$vars});\n";
         } else {
-            $ret = "array_{$type}({$vars})";
+            $ret = "\array_{$type}({$vars})";
         }
 
         return $ret;
@@ -721,7 +721,7 @@ class CreatePhpCode
      */
     public function getPhpCodePregFunzions($var, $exp, $str, $val, $type = 'match', $isParam = false, $t = "\t")
     {
-        $pregFunz = "preg_{$type}('";
+        $pregFunz = "\preg_{$type}('";
         if (!$isParam) {
             $ret = "{$t}\${$var} = {$pregFunz}{$exp}', '{$str}', {$val});\n";
         } else {
@@ -745,7 +745,7 @@ class CreatePhpCode
      */
     public function getPhpCodeStrType($left, $var, $str, $value, $type = 'replace', $isParam = false, $t = "\t")
     {
-        $strType = "str_{$type}('";
+        $strType = "\str_{$type}('";
         if (!$isParam) {
             $ret = "{$t}\${$left} = {$strType}{$var}', '{$str}', {$value});\n";
         } else {
@@ -882,7 +882,7 @@ class CreatePhpCode
      */
     public function getPhpCodeTriggerError($msg, $type, $t ='')
     {
-        $ret = "{$t}\trigger_error($msg, {$type});\n";
+        $ret = "{$t}\\trigger_error($msg, {$type});\n";
         return $ret;
     }
 }
