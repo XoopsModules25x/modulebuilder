@@ -85,7 +85,7 @@ class Search extends Files\CreateFile
         <tr class="head">\n
 EOT;
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName        = $fields[$f]->getVar('field_name');
             $langStuFieldName = $language . mb_strtoupper($fieldName);
             if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
@@ -118,7 +118,7 @@ EOT;
             <tr class="<{cycle values='odd, even'}>">\n
 EOT;
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             $rpFieldName  = $this->getRightString($fieldName);
@@ -173,7 +173,7 @@ EOT;
             <tr class="<{cycle values='odd, even'}>">\n
 EOT;
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {

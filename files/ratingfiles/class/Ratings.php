@@ -22,7 +22,7 @@ namespace XoopsModules\Modulebuilder;
  * @min_xoops      2.5.10
  * @author         XOOPS Development Team
  */
-defined('XOOPS_ROOT_PATH') || exit('Restricted access');
+\defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
  * Class Object Ratings
@@ -85,7 +85,7 @@ class Ratings extends \XoopsObject
         $ret['value']  = $this->getVar('rate_value');
         $ret['uid']    = \XoopsUser::getUnameFromId($this->getVar('rate_uid'));
         $ret['ip']     = $this->getVar('rate_ip');
-        $ret['date']   = formatTimestamp($this->getVar('rate_date'), 's');
+        $ret['date']   = \formatTimestamp($this->getVar('rate_date'), 's');
 
         return $ret;
     }
@@ -99,7 +99,7 @@ class Ratings extends \XoopsObject
     {
         $ret  = [];
         $vars = $this->getVars();
-        foreach (array_keys($vars) as $var) {
+        foreach (\array_keys($vars) as $var) {
             $ret[$var] = $this->getVar('"{$var}"');
         }
 

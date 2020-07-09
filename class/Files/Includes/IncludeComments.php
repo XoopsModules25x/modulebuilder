@@ -89,7 +89,7 @@ class IncludeComments extends Files\CreateFile
     {
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module);
-        $content       .= $this->pc->getPhpCodeIncludeDir("dirname(dirname(__DIR__)) . '/mainfile.php'",'',true, true);
+        $content       .= $this->pc->getPhpCodeIncludeDir("\dirname(\dirname(__DIR__)) . '/mainfile.php'",'',true, true);
         $content       .= $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/include/{$filename}.php'",'',true, true);
 
         $this->create($moduleDirname, '', $filename . '.php', $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
@@ -111,7 +111,7 @@ class IncludeComments extends Files\CreateFile
         $tableName     = $table->getVar('table_name');
         $fields        = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldMain     = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fields[$f]->getVar('field_name');
             }

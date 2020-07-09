@@ -110,13 +110,13 @@ class Fields extends \XoopsObject
         }
 
         $isNew = $this->isNew();
-        $title = $isNew ? sprintf(_AM_MODULEBUILDER_FIELDS_NEW) : sprintf(_AM_MODULEBUILDER_FIELDS_EDIT);
+        $title = $isNew ? \sprintf(_AM_MODULEBUILDER_FIELDS_NEW) : \sprintf(_AM_MODULEBUILDER_FIELDS_EDIT);
 
         $form = new Modulebuilder\Form\ThemeForm(null, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
         // New Object HtmlTable
-        $form->addElement(new Modulebuilder\Html\FormLabel(str_replace('%s', $prefix, _AM_MODULEBUILDER_FIELD_RECOMMENDED)));
+        $form->addElement(new Modulebuilder\Html\FormLabel(\str_replace('%s', $prefix, _AM_MODULEBUILDER_FIELD_RECOMMENDED)));
         $form->addElement(new Modulebuilder\Html\FormLabel('<table style="border-spacing:5px;" class="outer width100">'));
         $form->addElement(new Modulebuilder\Html\FormLabel('<thead class="center">'));
         $form->addElement(new Modulebuilder\Html\FormLabel('<tr class="head"><th colspan="10">' . $title . '</th></tr>'));
@@ -541,7 +541,7 @@ class Fields extends \XoopsObject
         $ret['mid']      = $this->getVar('field_mid');
         $ret['tid']      = $this->getVar('field_tid');
         $ret['order']    = $this->getVar('field_order');
-        $ret['name']     = str_replace('_', ' ', ucfirst($this->getVar('field_name')));
+        $ret['name']     = \str_replace('_', ' ', \ucfirst($this->getVar('field_name')));
         $ret['parent']   = $this->getVar('field_parent');
         $ret['inlist']   = $this->getVar('field_inlist');
         $ret['inform']   = $this->getVar('field_inform');

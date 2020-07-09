@@ -36,18 +36,18 @@ $checkData       = Request::hasVar('check_data');
 $moduleObj       = $helper->getHandler('Modules')->get($mid);
 
 $cachePath       = XOOPS_VAR_PATH . '/caches/modulebuilder_cache_';
-if (!is_dir($cachePath)) {
-    if (!mkdir($cachePath, 0777) && !is_dir($cachePath)) {
-        throw new \RuntimeException(sprintf('Directory "%s" was not created', $cachePath));
+if (!\is_dir($cachePath)) {
+    if (!\mkdir($cachePath, 0777) && !\is_dir($cachePath)) {
+        throw new \RuntimeException(\sprintf('Directory "%s" was not created', $cachePath));
     }
     chmod($cachePath, 0777);
 }
 // Clear cache
-if (file_exists($cache = $cachePath . '/classpaths.cache')) {
-    unlink($cache);
+if (\file_exists($cache = $cachePath . '/classpaths.cache')) {
+    \unlink($cache);
 }
-if (!file_exists($indexFile = $cachePath . '/index.html')) {
-    copy('index.html', $indexFile);
+if (!\file_exists($indexFile = $cachePath . '/index.html')) {
+    \copy('index.html', $indexFile);
 }
 
 if ($checkData > 0) {
@@ -64,7 +64,7 @@ switch ($op) {
         $checkResults = [];
         $checkResults = $checkdata->getCheckPreBuilding($moduleObj);
 
-        if (count($checkResults) > 0) {
+        if (\count($checkResults) > 0) {
             //$GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
             $GLOBALS['xoopsTpl']->assign('checkResults', $checkResults);
         } else {
@@ -85,12 +85,12 @@ switch ($op) {
         if (1 === $testdataRestore) {
             // Directories for copy from
             $fromDir   = XOOPS_ROOT_PATH . '/modules/' . mb_strtolower($moduleDirname) . '/testdata';
-            if (is_dir($fromDir)) {
+            if (\is_dir($fromDir)) {
                 // Directories for copy to
                 $toDir = TDMC_UPLOAD_TEMP_PATH . '/' . mb_strtolower($moduleDirname);
                 $structure->isDir($toDir);
                 $toDir .= '/testdata';
-                if (is_dir($toDir)) {
+                if (\is_dir($toDir)) {
                     $building->clearDir($toDir);
                 } else {
                     $structure->isDir($toDir);
@@ -108,7 +108,7 @@ switch ($op) {
         if (isset($moduleDirname)) {
             // Clear this module if it's in repository
             $building = Modulebuilder\Building::getInstance();
-            if (is_dir($fromDir)) {
+            if (\is_dir($fromDir)) {
                 $building->clearDir($fromDir);
             }
         }
@@ -138,7 +138,7 @@ switch ($op) {
         unset($build);
 
         // Directory to saved all files
-		$building_directory = sprintf(_AM_MODULEBUILDER_BUILDING_DIRECTORY, $moduleDirname);
+		$building_directory = \sprintf(_AM_MODULEBUILDER_BUILDING_DIRECTORY, $moduleDirname);
         
         // Copy this module in root modules
         if (1 === $inrootCopy) {
@@ -147,21 +147,21 @@ switch ($op) {
                 // Warning: If you have an older operating module with the same name,
                 // it's good to make a copy in another safe folder,
                 // otherwise it will be deleted irreversibly.
-                if (is_dir($fromDir)) {
+                if (\is_dir($fromDir)) {
                     $building->clearDir($toDir);
                 }
             }
             $building->copyDir($fromDir, $toDir);
-			$building_directory .= sprintf(_AM_MODULEBUILDER_BUILDING_DIRECTORY_INROOT, $toDir);
+			$building_directory .= \sprintf(_AM_MODULEBUILDER_BUILDING_DIRECTORY_INROOT, $toDir);
         }
         if (1 === $testdataRestore) {
             // Directories for copy from to
             $fromDir = TDMC_UPLOAD_TEMP_PATH . '/' . mb_strtolower($moduleDirname) . '/testdata';
             $toDir   = XOOPS_ROOT_PATH . '/modules/' . mb_strtolower($moduleDirname) . '/testdata';
-            if (is_dir($toDir)) {
+            if (\is_dir($toDir)) {
                 $building->clearDir($toDir);
             }
-            if (is_dir($fromDir)) {
+            if (\is_dir($fromDir)) {
                 $building->copyDir($fromDir, $toDir);
             }
         }
@@ -174,7 +174,7 @@ switch ($op) {
         // Redirect if there aren't modules
         $nbModules = $helper->getHandler('Modules')->getCount();
         if (0 == $nbModules) {
-            redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_MODULES2);
+            \redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_MODULES2);
         }
         unset($nbModules);
         // include_once TDMC_CLASS_PATH . '/building.php';

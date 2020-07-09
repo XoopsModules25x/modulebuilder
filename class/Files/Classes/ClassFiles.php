@@ -124,7 +124,7 @@ class ClassFiles extends Files\CreateFile
     {
         $ret = '';
         // Creation of the initVar functions list
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldType = $fields[$f]->getVar('field_type');
             switch ($fieldType) {
@@ -188,7 +188,7 @@ class ClassFiles extends Files\CreateFile
     {
         $moduleDirname    = $module->getVar('mod_dirname');
         $tableName        = $table->getVar('table_name');
-        $ucfTableName     = ucfirst($tableName);
+        $ucfTableName     = \ucfirst($tableName);
         $ret              = $this->pc->getPhpCodeDefined();
         $ret              .= $this->pc->getPhpCodeCommentMultiLine(['Class Object' => $ucfTableName]);
         $cCl              = '';
@@ -197,15 +197,15 @@ class ClassFiles extends Files\CreateFile
         $fieldElementId   = [];
         $optionsFieldName = [];
         $fieldId          = null;
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName        = $fields[$f]->getVar('field_name');
             $fieldElement     = $fields[$f]->getVar('field_element');
             $fieldInForm[]    = $fields[$f]->getVar('field_inform');
             $fieldElements    = $this->helper->getHandler('Fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
             $rpFieldName      = $this->getRightString($fieldName);
-            if (in_array(5, $fieldElementId)) {
-                //if (count($rpFieldName) % 5) {
+            if (\in_array(5, $fieldElementId)) {
+                //if (\count($rpFieldName) % 5) {
                     //$optionsFieldName[] = "'" . $rpFieldName . "'";
                 //} else {
                     $optionsFieldName[] = "'" . $rpFieldName . "'\n";
@@ -215,7 +215,7 @@ class ClassFiles extends Files\CreateFile
                 $fieldId = $fieldName;
             }
         }
-        if (in_array(5, $fieldElementId) > 1) {
+        if (\in_array(5, $fieldElementId) > 1) {
             $cCl             .= $this->pc->getPhpCodeCommentMultiLine(['Options' => '']);
             $options         = $this->pc->getPhpCodeArray('', $optionsFieldName, true);
             $cCl             .= $this->pc->getPhpCodeVariableClass('private', 'options', $options);
@@ -237,7 +237,7 @@ class ClassFiles extends Files\CreateFile
         $cCl .= $this->getValuesInObject($moduleDirname, $table, $fields);
         $cCl .= $this->getToArrayInObject($table);
 
-        if (in_array(5, $fieldElementId) > 1) {
+        if (\in_array(5, $fieldElementId) > 1) {
             $cCl .= $this->getOptionsCheck($table);
         }
         unset($fieldElementId);
@@ -257,7 +257,7 @@ class ClassFiles extends Files\CreateFile
     private function getNewInsertId($table)
     {
         $tableName     = $table->getVar('table_name');
-        $ucfTableName  = ucfirst($tableName);
+        $ucfTableName  = \ucfirst($tableName);
         $ret           = $this->pc->getPhpCodeCommentMultiLine(['The new inserted' => '$Id', '@return' => 'inserted id'], "\t");
         $getInsertedId = $this->xc->getXcEqualsOperator('$newInsertedId', "\$GLOBALS['xoopsDB']->getInsertId()", null, "\t\t");
         $getInsertedId .= $this->getSimpleString('return $newInsertedId;', "\t\t");
@@ -284,13 +284,13 @@ class ClassFiles extends Files\CreateFile
         $tableName        = $table->getVar('table_name');
         $tableSoleName    = $table->getVar('table_solename');
         $tableCategory    = $table->getVar('table_category');
-        $ucfTableName     = ucfirst($tableName);
+        $ucfTableName     = \ucfirst($tableName);
         $stuTableSoleName = mb_strtoupper($tableSoleName);
         $language         = $this->getLanguage($moduleDirname, 'AM');
         $fe->initForm($module, $table);
         $ret              = $this->pc->getPhpCodeCommentMultiLine(['@public function' => 'getForm', '@param bool' => '$action', '@return' => '\XoopsThemeForm'], "\t");
         $action           = $this->xc->getXcEqualsOperator('$action', "\$_SERVER['REQUEST_URI']", null, "\t\t\t");
-        $ucfModuleDirname = ucfirst($moduleDirname);
+        $ucfModuleDirname = \ucfirst($moduleDirname);
         $getForm          = $this->xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", "\t\t");
         $getForm          .= $this->pc->getPhpCodeConditions('!', '', '$action', $action, false, "\t\t");
         $xUser            = $this->pc->getPhpCodeGlobals('xoopsUser');
@@ -300,19 +300,19 @@ class ClassFiles extends Files\CreateFile
             $permString = 'upload_groups';
             $getForm          .= $this->pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
             $getForm          .= $this->xc->getXcXoopsHandler('groupperm', "\t\t");
-            $getForm          .= $this->pc->getPhpCodeTernaryOperator('groups', 'is_object(' . $xUser . ')', $xUser . '->getGroups()', 'XOOPS_GROUP_ANONYMOUS', "\t\t");
+            $getForm          .= $this->pc->getPhpCodeTernaryOperator('groups', '\is_object(' . $xUser . ')', $xUser . '->getGroups()', 'XOOPS_GROUP_ANONYMOUS', "\t\t");
             $checkRight       = $this->xc->getXcCheckRight('$grouppermHandler', $permString, 32, '$groups', $xModule . '->getVar(\'mid\')', true);
             $getForm  .= $this->pc->getPhpCodeTernaryOperator('permissionUpload', $checkRight, 'true', 'false', "\t\t");
         }
         $getForm .= $this->pc->getPhpCodeCommentLine('Title', '', "\t\t");
-        $getForm .= $this->pc->getPhpCodeTernaryOperator('title', '$this->isNew()', "sprintf({$language}{$stuTableSoleName}_ADD)", "sprintf({$language}{$stuTableSoleName}_EDIT)", "\t\t");
+        $getForm .= $this->pc->getPhpCodeTernaryOperator('title', '$this->isNew()', "\sprintf({$language}{$stuTableSoleName}_ADD)", "\sprintf({$language}{$stuTableSoleName}_EDIT)", "\t\t");
         $getForm .= $this->pc->getPhpCodeCommentLine('Get Theme', 'Form', "\t\t");
         $getForm .= $this->xc->getXcXoopsLoad('XoopsFormLoader', "\t\t");
         $getForm .= $this->cxc->getClassXoopsThemeForm('form', 'title', 'form', 'action', 'post');
         $getForm .= $this->cxc->getClassSetExtra('form', "'enctype=\"multipart/form-data\"'");
         $getForm .= $fe->renderElements();
 
-        if (in_array(1, $fieldInForm)) {
+        if (\in_array(1, $fieldInForm)) {
             if (1 == $table->getVar('table_permissions')) {
                 $getForm .= $this->getPermissionsInForm($moduleDirname, $fieldId, $tableName);
             }
@@ -388,9 +388,9 @@ class ClassFiles extends Files\CreateFile
      */
     private function getValuesInObject($moduleDirname, $table, $fields)
     {
-        $ucfTableName     = ucfirst($table->getVar('table_name'));
+        $ucfTableName     = \ucfirst($table->getVar('table_name'));
         $ret              = $this->pc->getPhpCodeCommentMultiLine(['Get' => 'Values', '@param null $keys' => '', '@param null $format' => '', '@param null $maxDepth' => '', '@return' => 'array'], "\t");
-        $ucfModuleDirname = ucfirst($moduleDirname);
+        $ucfModuleDirname = \ucfirst($moduleDirname);
         $language         = $this->getLanguage($moduleDirname, 'AM');
         $getValues        = $this->xc->getXcEqualsOperator('$ret', '$this->getValues($keys, $format, $maxDepth)', null, "\t\t");
         $tablePermissions = $table->getVar('table_permissions');
@@ -401,20 +401,20 @@ class ClassFiles extends Files\CreateFile
         $header           = '';
         $configMaxchar    = 0;
         $lenMaxName       = 0;
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $rpFieldName  = $this->getRightString($fieldName);
-            $len = strlen($rpFieldName);
+            $len = \strlen($rpFieldName);
             if (3 == $fields[$f]->getVar('field_element') || 4 == $fields[$f]->getVar('field_element')) {
-                $len = $len + strlen('_short');
+                $len = $len + \strlen('_short');
             }
             $lenMaxName = max($len, $lenMaxName);
         }
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             $rpFieldName  = $this->getRightString($fieldName);
-            $spacer = str_repeat(' ', $lenMaxName - strlen($rpFieldName));
+            $spacer = str_repeat(' ', $lenMaxName - \strlen($rpFieldName));
             switch ($fieldElement) {
                 case 3:
                     $getValues .= $this->pc->getPhpCodeStripTags("ret['{$rpFieldName}']{$spacer}", "\$this->getVar('{$fieldName}', 'e')", false, "\t\t");
@@ -423,7 +423,7 @@ class ClassFiles extends Files\CreateFile
                         $configMaxchar = 1;
                     }
                     $truncate  =  "\$utility::truncateHtml(\$ret['{$rpFieldName}'], \$editorMaxchar)";
-                    $spacer = str_repeat(' ', $lenMaxName - strlen($rpFieldName) - strlen('_short'));
+                    $spacer = str_repeat(' ', $lenMaxName - \strlen($rpFieldName) - \strlen('_short'));
                     $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']{$spacer}", $truncate, false, "\t\t");
                     $helper = 1;
                     $utility = 1;
@@ -435,7 +435,7 @@ class ClassFiles extends Files\CreateFile
                         $configMaxchar = 1;
                     }
                     $truncate  =  "\$utility::truncateHtml(\$ret['{$rpFieldName}'], \$editorMaxchar)";
-                    $spacer = str_repeat(' ', $lenMaxName - strlen($rpFieldName) - strlen('_short'));
+                    $spacer = str_repeat(' ', $lenMaxName - \strlen($rpFieldName) - \strlen('_short'));
                     $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']{$spacer}", $truncate, false, "\t\t");
                     $helper = 1;
                     $utility = 1;
@@ -450,9 +450,9 @@ class ClassFiles extends Files\CreateFile
                     $getValues .= $this->xc->getXcFormatTimeStamp("ret['{$rpFieldName}']{$spacer}", "\$this->getVar('{$fieldName}')", 's', "\t\t");
                     break;
                 case 16:
-                    $spacer = str_repeat(' ', $lenMaxName - strlen('status') + 7);
+                    $spacer = str_repeat(' ', $lenMaxName - \strlen('status') + 7);
                     $getValues .= $this->xc->getXcGetVar("status{$spacer}", 'this', $fieldName, false, "\t\t");
-                    $spacer = str_repeat(' ', $lenMaxName - strlen('status'));
+                    $spacer = str_repeat(' ', $lenMaxName - \strlen('status'));
                     $getValues .= $this->xc->getXcEqualsOperator("\$ret['status']{$spacer}", '$status', false, "\t\t");
                     $contCase1  = $this->xc->getXcEqualsOperator('$status_text', $language . 'STATUS_NONE', false, "\t\t\t\t");
                     $cases[$this->xc->getXcGetConstants('STATUS_NONE')] = [$contCase1];
@@ -470,7 +470,7 @@ class ClassFiles extends Files\CreateFile
                     }
                     $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, false, "\t\t\t", true);
                     $getValues     .= $this->pc->getPhpCodeSwitch('status', $contentSwitch, "\t\t");
-                    $len           = $lenMaxName - strlen('status_text');
+                    $len           = $lenMaxName - \strlen('status_text');
                     $spacer        = $len > 0 ? str_repeat(' ', $len) : '';
                     $getValues     .= $this->xc->getXcEqualsOperator("\$ret['status_text']{$spacer}", '$status_text',  false, "\t\t");
                     break;
@@ -484,9 +484,9 @@ class ClassFiles extends Files\CreateFile
                         $fieldElementMid = $fieldElements->getVar('fieldelement_mid');
                         $fieldElementName = (string)$fieldElements->getVar('fieldelement_name');
                         $fieldNameDesc = mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
-                        $topicTableName = str_replace(': ', '', mb_strtolower($fieldNameDesc));
+                        $topicTableName = \str_replace(': ', '', mb_strtolower($fieldNameDesc));
                         $fieldsTopics = $this->getTableFields($fieldElementMid, $fieldElementTid);
-                        foreach (array_keys($fieldsTopics) as $g) {
+                        foreach (\array_keys($fieldsTopics) as $g) {
                             $fieldNameTopic = $fieldsTopics[$g]->getVar('field_name');
                             if (1 == $fieldsTopics[$g]->getVar('field_main')) {
                                 $fieldMainTopic = $fieldNameTopic;
@@ -527,7 +527,7 @@ class ClassFiles extends Files\CreateFile
     private function getToArrayInObject($table)
     {
         $tableName    = $table->getVar('table_name');
-        $ucfTableName = ucfirst($tableName);
+        $ucfTableName = \ucfirst($tableName);
         $multiLineCom = ['Returns an array representation' => 'of the object', '' => '', '@return' => 'array'];
         $ret          = $this->pc->getPhpCodeCommentMultiLine($multiLineCom, "\t");
 
@@ -552,12 +552,12 @@ class ClassFiles extends Files\CreateFile
     private function getOptionsCheck($table)
     {
         $tableName    = $table->getVar('table_name');
-        $ucfTableName = ucfirst($tableName);
+        $ucfTableName = \ucfirst($tableName);
         $ret          = $this->pc->getPhpCodeCommentMultiLine(['Get' => 'Options'], "\t");
         $getOptions   = $this->pc->getPhpCodeArray('ret', [], false, "\t");
 
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
 

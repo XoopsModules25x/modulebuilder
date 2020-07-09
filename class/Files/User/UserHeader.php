@@ -101,13 +101,13 @@ class UserHeader extends Files\CreateFile
         $tables           = $this->getTables();
         $language         = $this->getLanguage($moduleDirname, 'MA');
 
-        $ret = $this->pc->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
+        $ret = $this->pc->getPhpCodeIncludeDir('\dirname(\dirname(__DIR__))', 'mainfile');
         $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
-        $ret .= $this->xc->getXcEqualsOperator('$moduleDirName', 'basename(__DIR__)');
+        $ret .= $this->xc->getXcEqualsOperator('$moduleDirName', '\basename(__DIR__)');
         $ret .= $this->uxc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
         $ret .= $this->xc->getXcHelperGetInstance($moduleDirname);
-        if (is_array($tables)) {
-            foreach (array_keys($tables) as $i) {
+        if (\is_array($tables)) {
+            foreach (\array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
                 $ret       .= $this->xc->getXcHandlerLine($tableName);
             }

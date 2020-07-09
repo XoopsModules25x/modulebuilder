@@ -163,7 +163,7 @@ class UserRate extends Files\CreateFile
             if (1 == $table->getVar('table_rate')) {
                 $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
                 $fieldId = '';
-                foreach (array_keys($fields) as $f) {
+                foreach (\array_keys($fields) as $f) {
                     if (0 == $f) {
                         $fieldId = $fields[$f]->getVar('field_name');
                     }
@@ -179,10 +179,10 @@ class UserRate extends Files\CreateFile
         $ret    .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
         $ret    .= $this->xc->getXcEqualsOperator('$rate_allowed', 'false','', $t);
         $xUser  = $this->pc->getPhpCodeGlobals('xoopsUser');
-        $ret    .= $this->pc->getPhpCodeTernaryOperator('groups', '(isset(' . $xUser . ') && is_object(' . $xUser . '))', $xUser . '->getGroups()', 'XOOPS_GROUP_ANONYMOUS', "\t\t");
+        $ret    .= $this->pc->getPhpCodeTernaryOperator('groups', '(isset(' . $xUser . ') && \is_object(' . $xUser . '))', $xUser . '->getGroups()', 'XOOPS_GROUP_ANONYMOUS', "\t\t");
         $contIf = $this->xc->getXcEqualsOperator('$rate_allowed', 'true','', $t . "\t\t");
         $contIf .= $this->getSimpleString('break;', $t . "\t\t");
-        $cond   = 'XOOPS_GROUP_ADMIN == $group || in_array($group, $helper->getConfig(\'ratingbar_groups\'))';
+        $cond   = 'XOOPS_GROUP_ADMIN == $group || \in_array($group, $helper->getConfig(\'ratingbar_groups\'))';
         $contFe = $this->pc->getPhpCodeConditions($cond, '', '', $contIf, false, $t . "\t");
         $ret    .= $this->pc->getPhpCodeForeach('groups', false, false, 'group', $contFe, $t);
         $contIf = $this->xc->getXcRedirectHeader('index', '', '3', $language . 'RATING_NOPERM', true, $t . "\t");
@@ -224,7 +224,7 @@ class UserRate extends Files\CreateFile
         $ret      .= $this->xc->getXcSetVarObj('ratings', 'rate_value', '$rating', $t);
         $ret      .= $this->xc->getXcSetVarObj('ratings', 'rate_uid', "\$itemrating['uid']", $t);
         $ret      .= $this->xc->getXcSetVarObj('ratings', 'rate_ip', "\$itemrating['ip']", $t);
-        $ret      .= $this->xc->getXcSetVarObj('ratings', 'rate_date', 'time()', $t);
+        $ret      .= $this->xc->getXcSetVarObj('ratings', 'rate_date', '\time()', $t);
         $ret      .= $this->pc->getPhpCodeCommentLine('Insert Data', null, $t);
         $insert   = $this->xc->getXcHandlerInsert('ratings', 'ratings', 'Obj');
         $contIf   = $this->pc->getPhpCodeUnset('ratingsObj', $t . "\t");
@@ -234,7 +234,7 @@ class UserRate extends Files\CreateFile
         $contIf       .= $this->xc->getXcEqualsOperator('$avg_rate_value', '0','', $t . "\t");
         $contIf       .= $this->xc->getXcEqualsOperator('$current_rating', '0','', $t . "\t");
         $tableName    = 'ratings';
-        $ucfTableName = ucfirst($tableName);
+        $ucfTableName = \ucfirst($tableName);
         $critName     = 'cr' . $ucfTableName;
         $contIf       .= $this->xc->getXcCriteriaCompo($critName, $t . "\t");
         $crit         = $this->xc->getXcCriteria('', "'rate_source'", '$source','',true);

@@ -144,7 +144,7 @@ class Settings extends \XoopsObject
         }
 
         $isNew = $this->isNew();
-        $title = $isNew ? sprintf(_AM_MODULEBUILDER_SETTING_NEW) : sprintf(_AM_MODULEBUILDER_SETTING_EDIT);
+        $title = $isNew ? \sprintf(_AM_MODULEBUILDER_SETTING_NEW) : \sprintf(_AM_MODULEBUILDER_SETTING_EDIT);
 
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
@@ -186,7 +186,7 @@ class Settings extends \XoopsObject
 
         $uploadDirectory = 'uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/modules';
         $imgtray         = new \XoopsFormElementTray(_AM_MODULEBUILDER_SETTING_IMAGE, '<br>');
-        $imgpath         = sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './' . mb_strtolower($uploadDirectory) . '/');
+        $imgpath         = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './' . mb_strtolower($uploadDirectory) . '/');
         $imageSelect     = new \XoopsFormSelect($imgpath, 'set_image', $modImage);
         $modImage_array  = \XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
         foreach ($modImage_array as $image) {
@@ -282,8 +282,8 @@ class Settings extends \XoopsObject
      */
     private static function getDefinedLanguage($lang)
     {
-        if (defined($lang)) {
-            return constant($lang);
+        if (\defined($lang)) {
+            return \constant($lang);
         }
 
         return $lang;

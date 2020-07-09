@@ -65,7 +65,7 @@ abstract class CreateAbstractClass
      */
     public function setModule($module)
     {
-        if (is_object($module) && ($module instanceof ModuleBuilder\Modules)) {
+        if (\is_object($module) && ($module instanceof ModuleBuilder\Modules)) {
             $this->module = $module;
         }
     }
@@ -87,7 +87,7 @@ abstract class CreateAbstractClass
      */
     public function setTable($table)
     {
-        if (is_object($table) && ($table instanceof Modulebuilder\Tables)) {
+        if (\is_object($table) && ($table instanceof Modulebuilder\Tables)) {
             $this->table = $table;
         }
     }
@@ -109,7 +109,7 @@ abstract class CreateAbstractClass
      */
     public function setTables($tables)
     {
-        if (is_array($tables)) {
+        if (\is_array($tables)) {
             $this->tables = $tables;
         }
     }
@@ -131,7 +131,7 @@ abstract class CreateAbstractClass
      */
     public function setFields($fields)
     {
-        if (is_object($fields) && ($fields instanceof Modulebuilder\Fields)) {
+        if (\is_object($fields) && ($fields instanceof Modulebuilder\Fields)) {
             $this->fields = $fields;
         }
     }

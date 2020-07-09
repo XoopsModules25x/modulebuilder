@@ -97,7 +97,7 @@ class IncludeCommentFunctions extends Files\CreateFile
         $ccFieldMain      = '';
         $fieldMain        = '';
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
                 $fieldId   = $fieldName;

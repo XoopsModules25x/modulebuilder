@@ -105,8 +105,8 @@ class AdminMenu extends Files\CreateFile
     {
         $ret = $this->getSimpleString('');
         $mod     = [
-            '$dirname      ' => 'basename(dirname(__DIR__))',
-            '$moduleHandler' => "xoops_getHandler('module')",
+            '$dirname      ' => '\basename(\dirname(__DIR__))',
+            '$moduleHandler' => "\xoops_getHandler('module')",
             '$xoopsModule  ' => 'XoopsModule::getByDirname($dirname)',
             '$moduleInfo   ' => "\$moduleHandler->get(\$xoopsModule->getVar('mid'))",
             '$sysPathIcon32' => "\$moduleInfo->getInfo('sysicons32')",
@@ -147,7 +147,7 @@ class AdminMenu extends Files\CreateFile
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $tablePermissions = [];
         $tableBroken      = [];
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');
             $tableBroken[]      = $tables[$t]->getVar('table_broken');
             if (1 == $tables[$t]->getVar('table_admin')) {
@@ -156,12 +156,12 @@ class AdminMenu extends Files\CreateFile
                 $ret    .= $this->getAdminMenuArray($param1, true);
             }
         }
-        if (in_array(1, $tableBroken)) {
+        if (\in_array(1, $tableBroken)) {
             ++$menu;
             $param2 = ['title' => "{$language}{$menu}", 'link' => "'admin/broken.php'", 'icon' => "\$sysPathIcon32.'/brokenlink.png'"];
             $ret    .= $this->getAdminMenuArray($param2, true);
         }
-        if (in_array(1, $tablePermissions)) {
+        if (\in_array(1, $tablePermissions)) {
             ++$menu;
             $param2 = ['title' => "{$language}{$menu}", 'link' => "'admin/permissions.php'", 'icon' => "\$sysPathIcon32.'/permissions.png'"];
             $ret    .= $this->getAdminMenuArray($param2, true);

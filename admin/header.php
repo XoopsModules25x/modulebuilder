@@ -20,10 +20,10 @@
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
-include dirname(__DIR__) . '/preloads/autoloader.php';
+include \dirname(__DIR__) . '/preloads/autoloader.php';
 
-include_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-include_once dirname(__DIR__) . '/include/common.php';
+include_once \dirname(\dirname(\dirname(__DIR__))) . '/include/cp_header.php';
+include_once \dirname(__DIR__) . '/include/common.php';
 
 $thisDirname = $GLOBALS['xoopsModule']->getVar('dirname');
 // Link System Icons
@@ -40,7 +40,7 @@ $utility = new \XoopsModules\Modulebuilder\Utility();
 
 // MyTextSanitizer
 $myts = MyTextSanitizer::getInstance();
-if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
+if (!isset($xoopsTpl) || !\is_object($xoopsTpl)) {
     include_once XOOPS_ROOT_PATH . '/class/template.php';
     $xoopsTpl = new \XoopsTpl();
 }

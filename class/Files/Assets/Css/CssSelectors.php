@@ -67,13 +67,13 @@ class CssSelectors
     public function geCssSelector($selector, $content, $t)
     {
         $ret = '';
-        if (is_array($selector)) {
-            $ret .= $t . implode("\n", $selector) . ' {';
+        if (\is_array($selector)) {
+            $ret .= $t . \implode("\n", $selector) . ' {';
         } else {
             $ret .= $selector . ' {';
         }
-        if (is_array($content)) {
-            $ret .= $t . implode("\n", $content) . ';';
+        if (\is_array($content)) {
+            $ret .= $t . \implode("\n", $content) . ';';
         } else {
             $ret .= $content . ';';
         }

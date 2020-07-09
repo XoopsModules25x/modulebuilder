@@ -95,7 +95,7 @@ class TemplatesBlocks extends Files\CreateFile
             $th .= $this->hc->getHtmlTableHead('&nbsp;', '', '', "\t\t\t");
         }
         $fields = $this->getTableFields($tableMid, $tableId);
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             if (1 === (int)$fields[$f]->getVar('field_block')) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $stuFieldName = mb_strtoupper($fieldName);
@@ -126,7 +126,7 @@ class TemplatesBlocks extends Files\CreateFile
             $td     .= $this->hc->getHtmlTableData($double, 'center',  '', "\t\t\t");
         }
         $fields = $this->getTableFields($tableMid, $tableId);
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             if (1 === (int)$fields[$f]->getVar('field_block')) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');

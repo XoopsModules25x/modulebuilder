@@ -59,19 +59,19 @@ switch ($op) {
         // Redirect if there aren't modules
         $modulesCount = $helper->getHandler('Modules')->getCountModules();
         if (0 == $modulesCount) {
-            redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_MODULES2);
+            \redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_MODULES2);
         }
         unset($modulesCount);
         // Redirect if there aren't tables
         $tablesCount = $helper->getHandler('Tables')->getCountTables();
         if (0 == $tablesCount) {
-            redirect_header('tables.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_TABLES2);
+            \redirect_header('tables.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_TABLES2);
         }
         // Get the list of tables
         $tablesAll = $helper->getHandler('Tables')->getAllTables($start, $limit, 'table_order');
         if ($tablesCount > 0) {
             $tlid = 1;
-            foreach (array_keys($tablesAll) as $tid) {
+            foreach (\array_keys($tablesAll) as $tid) {
                 // Display tables list
                 $table = $tablesAll[$tid]->getValuesTables();
                 $talid = ['lid' => $tlid];
@@ -83,7 +83,7 @@ switch ($op) {
                 $fields = [];
                 $lid    = 1;
                 if ($fieldsCount > 0) {
-                    foreach (array_keys($fieldsAll) as $fid) {
+                    foreach (\array_keys($fieldsAll) as $fid) {
                         $field    = $fieldsAll[$fid]->getValuesFields();
                         $falid    = ['lid' => $lid];
                         $fields[] = array_merge($field, $falid);
@@ -123,7 +123,7 @@ switch ($op) {
         break;
     case 'save':
         if (!$GLOBALS['xoopsSecurity']->check()) {
-            redirect_header('fields.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+            \redirect_header('fields.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         $fieldId = \Xmf\Request::getInt('field_id');
         // Fields Handler
@@ -175,10 +175,10 @@ switch ($op) {
         // Set field elements
         if ($fieldsObj->isNew()) {
             // Redirect to field.php if saved
-            redirect_header('fields.php', 2, sprintf(_AM_MODULEBUILDER_FIELDS_FORM_SAVED_OK, $tableName));
+            \redirect_header('fields.php', 2, \sprintf(_AM_MODULEBUILDER_FIELDS_FORM_SAVED_OK, $tableName));
         } else {
             // Redirect to field.php if updated - (Needed code from table name by field_tid)
-            redirect_header('fields.php', 2, sprintf(_AM_MODULEBUILDER_FIELDS_FORM_UPDATED_OK, $tableName));
+            \redirect_header('fields.php', 2, \sprintf(_AM_MODULEBUILDER_FIELDS_FORM_UPDATED_OK, $tableName));
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $fieldsObj->getHtmlErrors());
@@ -215,7 +215,7 @@ switch ($op) {
                     ++$i;
                 }
             }
-            redirect_header('fields.php', 5, _AM_MODULEBUILDER_FIELD_ORDER_ERROR);
+            \redirect_header('fields.php', 5, _AM_MODULEBUILDER_FIELD_ORDER_ERROR);
             unset($i);
         }
         exit;
@@ -235,7 +235,7 @@ switch ($op) {
                 }
             }
             if ($helper->getHandler('Fields')->insert($fieldsObj)) {
-                redirect_header('fields.php', 3, _AM_MODULEBUILDER_TOGGLE_SUCCESS);
+                \redirect_header('fields.php', 3, _AM_MODULEBUILDER_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $fieldsObj->getHtmlErrors());
         }

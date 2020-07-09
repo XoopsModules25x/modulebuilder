@@ -181,7 +181,7 @@ class Modules extends \XoopsObject
         }
 
         $isNew = $this->isNew();
-        $title = $isNew ? sprintf(_AM_MODULEBUILDER_MODULE_NEW) : sprintf(_AM_MODULEBUILDER_MODULE_EDIT);
+        $title = $isNew ? \sprintf(_AM_MODULEBUILDER_MODULE_NEW) : \sprintf(_AM_MODULEBUILDER_MODULE_EDIT);
 
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
@@ -253,7 +253,7 @@ class Modules extends \XoopsObject
 
         $uploadDirectory = 'uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/modules';
         $imgtray         = new \XoopsFormElementTray(_AM_MODULEBUILDER_MODULE_IMAGE, '<br>');
-        $imgpath         = sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './' . mb_strtolower($uploadDirectory) . '/');
+        $imgpath         = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './' . mb_strtolower($uploadDirectory) . '/');
         $imageselect     = new \XoopsFormSelect($imgpath, 'mod_image', $modImage);
         $modImageArray   = \XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
         foreach ($modImageArray as $image) {
@@ -271,12 +271,12 @@ class Modules extends \XoopsObject
         //---------- START LOGO GENERATOR -----------------
         $tables_img = $this->getVar('table_image') ?: 'about.png';
         $iconsdir   = '/Frameworks/moduleclasses/icons/32';
-        if (is_dir(XOOPS_ROOT_PATH . $iconsdir)) {
+        if (\is_dir(XOOPS_ROOT_PATH . $iconsdir)) {
             $uploadDirectory = $iconsdir;
-            $imgpath         = sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, ".{$iconsdir}/");
+            $imgpath         = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, ".{$iconsdir}/");
         } else {
             $uploadDirectory = '/uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/tables';
-            $imgpath         = sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/tables');
+            $imgpath         = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/tables');
         }
         $createLogoTray    = new \XoopsFormElementTray(_AM_MODULEBUILDER_MODULE_CREATENEWLOGO, '<br>');
         $iconSelect        = new \XoopsFormSelect($imgpath, 'tables_img', $tables_img, 8);
@@ -366,32 +366,32 @@ class Modules extends \XoopsObject
      */
     private static function createLogo($logoIcon, $moduleDirname)
     {
-        if (!extension_loaded('gd')) {
+        if (!\extension_loaded('gd')) {
             return false;
         }
         $requiredFunctions = ['imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate'];
         foreach ($requiredFunctions as $func) {
-            if (!function_exists($func)) {
+            if (!\function_exists($func)) {
                 return false;
             }
         }
 
-        if (!file_exists($imageBase = TDMC_IMAGES_LOGOS_PATH . '/empty.png')
-            || !file_exists($font = TDMC_FONTS_PATH . '/VeraBd.ttf')
-            || !file_exists($iconFile = XOOPS_ICONS32_PATH . '/' . basename($logoIcon))) {
+        if (!\file_exists($imageBase = TDMC_IMAGES_LOGOS_PATH . '/empty.png')
+            || !\file_exists($font = TDMC_FONTS_PATH . '/VeraBd.ttf')
+            || !\file_exists($iconFile = XOOPS_ICONS32_PATH . '/' . \basename($logoIcon))) {
             return false;
         }
-        $imageModule = imagecreatefrompng($imageBase);
-        $imageIcon   = imagecreatefrompng($iconFile);
+        $imageModule = \imagecreatefrompng($imageBase);
+        $imageIcon   = \imagecreatefrompng($iconFile);
         // Write text
         $textColor   = imagecolorallocate($imageModule, 0, 0, 0);
         $spaceBorder = (92 - mb_strlen($moduleDirname) * 7.5) / 2;
-        imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, ucfirst($moduleDirname), []);
-        imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
+        imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, \ucfirst($moduleDirname), []);
+        image\copy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
         $logoImg = '/' . 'logoModule.png';
-        imagepng($imageModule, TDMC_UPLOAD_IMGMOD_PATH . $logoImg);
-        imagedestroy($imageModule);
-        imagedestroy($imageIcon);
+        \imagepng($imageModule, TDMC_UPLOAD_IMGMOD_PATH . $logoImg);
+        \imagedestroy($imageModule);
+        \imagedestroy($imageIcon);
 
         return TDMC_UPLOAD_IMGMOD_URL . $logoImg;
     }
@@ -452,8 +452,8 @@ class Modules extends \XoopsObject
      */
     private static function getDefinedLanguage($lang)
     {
-        if (defined($lang)) {
-            return constant($lang);
+        if (\defined($lang)) {
+            return \constant($lang);
         }
 
         return $lang;

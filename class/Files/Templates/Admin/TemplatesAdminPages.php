@@ -109,7 +109,7 @@ class TemplatesAdminPages extends Files\CreateFile
             $lang = $this->sc->getSmartyConst($language, $langHeadId);
             $th   .= $this->hc->getHtmlTag('th', ['class' => 'center'], $lang, false, "\t\t\t\t");
         }
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName     = $fields[$f]->getVar('field_name');
             $rpFieldName   = $this->getRightString($fieldName);
             $langFieldName = mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
@@ -145,7 +145,7 @@ class TemplatesAdminPages extends Files\CreateFile
             $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
         }
         $fieldId = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             $rpFieldName  = $this->getRightString($fieldName);

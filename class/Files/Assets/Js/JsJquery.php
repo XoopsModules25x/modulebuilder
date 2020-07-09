@@ -25,7 +25,7 @@ use XoopsModules\Modulebuilder\Files;
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
-defined('XOOPS_ROOT_PATH') || exit('Restricted access');
+\defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
  * Class JsJquery.
@@ -83,7 +83,7 @@ class JsJquery extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, 0);
+        $content       = $this->getHeaderFilesComments($module, true);
         $content       .= <<<'EOT'
 $(document).ready(function(){
     $( "button, input:button, input:submit, input:file, input:reset" ).css("color","inherit").button();

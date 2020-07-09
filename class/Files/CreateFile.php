@@ -24,7 +24,7 @@ use XoopsModules\Modulebuilder;
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
-xoops_load('XoopsFile');
+\xoops_load('XoopsFile');
 
 /**
  * Class CreateFile.
@@ -130,10 +130,10 @@ class CreateFile extends CreateTableFields
         $this->notCreated = $notCreated;
         $this->setMode($mode);
         $this->setRepositoryPath($moduleDirname);
-        if (!empty($content) && is_string($content)) {
+        if (!empty($content) && \is_string($content)) {
             $this->setContent($content);
         }
-        if (isset($subdir) && is_string($subdir)) {
+        if (isset($subdir) && \is_string($subdir)) {
             $this->setSubDir($subdir);
         }
     }
@@ -382,7 +382,7 @@ class CreateFile extends CreateTableFields
      */
     public function getUcfirst($string)
     {
-        return ucfirst($string);
+        return \ucfirst($string);
     }
 
     /**
@@ -487,7 +487,7 @@ class CreateFile extends CreateTableFields
         //$date             = date('D Y-m-d H:i:s');
         if (null === $noPhpFile) {
             $ret = "<?php";
-        } elseif (is_string($noPhpFile)) {
+        } elseif (\is_string($noPhpFile)) {
             $ret = $noPhpFile;
         } else {
             $ret = '';
@@ -537,20 +537,20 @@ class CreateFile extends CreateTableFields
                 if ($this->xf->writable()) {
                     // Integration of the content in the file
                     if (!$this->xf->write($this->getContent(), $mode, true)) {
-                        $ret .= sprintf($notCreated, $fileName, $folderName);
+                        $ret .= \sprintf($notCreated, $fileName, $folderName);
                         $GLOBALS['xoopsTpl']->assign('created', false);
                         return $ret;
                     }
                     // Created
-                    $ret .= sprintf($created, $fileName, $folderName);
+                    $ret .= \sprintf($created, $fileName, $folderName);
                     $GLOBALS['xoopsTpl']->assign('created', true);
                     $this->xf->close();
                 } else {
-                    $ret .= sprintf($notCreated, $fileName, $folderName);
+                    $ret .= \sprintf($notCreated, $fileName, $folderName);
                     $GLOBALS['xoopsTpl']->assign('created', false);
                 }
             } else {
-                $ret .= sprintf($notCreated, $fileName, $folderName);
+                $ret .= \sprintf($notCreated, $fileName, $folderName);
                 $GLOBALS['xoopsTpl']->assign('created', false);
             }
         }

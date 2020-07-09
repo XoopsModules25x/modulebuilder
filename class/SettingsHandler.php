@@ -113,11 +113,6 @@ class SettingsHandler extends \XoopsPersistableObjectHandler
     /**
      * Get All Settings.
      *
-     * @param int    $start
-     * @param int    $limit
-     * @param string $sort
-     * @param string $order
-     *
      * @return array
      */
     public function getActiveSetting()

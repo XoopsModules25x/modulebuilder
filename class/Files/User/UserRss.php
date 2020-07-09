@@ -99,7 +99,7 @@ class UserRss extends Files\CreateFile
         $fpmf      = '';
         $fieldId   = '';
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName     = $fields[$f]->getVar('field_name');
             $fieldMain[]   = $fields[$f]->getVar('field_main');
             $fieldParent[] = $fields[$f]->getVar('field_parent');
@@ -107,10 +107,10 @@ class UserRss extends Files\CreateFile
             if (0 == $f) {
                 $fieldId = $fieldName;
             }
-            if (in_array(1, $fieldMain)) {
+            if (\in_array(1, $fieldMain)) {
                 $fpmf = $fieldName;
             }
-            if (in_array(1, $fieldParent)) {
+            if (\in_array(1, $fieldParent)) {
                 $fppf = $fieldName;
             } else {
                 $fppf = 'cid';
@@ -124,7 +124,7 @@ class UserRss extends Files\CreateFile
 
 \${$fppf} = Request::getInt('{$fppf}', 0, 'GET');
 include_once XOOPS_ROOT_PATH.'/class/template.php';
-if (function_exists('mb_http_output')) {
+if (\function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
 //header ('Content-Type:text/xml; charset=UTF-8');
@@ -137,7 +137,7 @@ if (function_exists('mb_http_output')) {
 \$criteria = new \CriteriaCompo();
 
 \$criteria->add(new \Criteria('cat_status', 0, '!='));
-\$criteria->add(new \Criteria('{$fppf}', '(' . implode(',', \$categories) . ')','IN'));
+\$criteria->add(new \Criteria('{$fppf}', '(' . \implode(',', \$categories) . ')','IN'));
 if (\${$fppf} != 0){
     \$criteria->add(new \Criteria('{$fppf}', \${$fppf}));
     \${$tableName} = \${$tableName}Handler->get(\${$fppf});
@@ -155,7 +155,7 @@ if (!\$tpl->is_cached('db:{$moduleDirname}_rss.tpl', \${$fppf})) {
     \$tpl->assign('channel_title', htmlspecialchars(\$title, ENT_QUOTES));
     \$tpl->assign('channel_link', XOOPS_URL.'/');
     \$tpl->assign('channel_desc', htmlspecialchars(\$xoopsConfig['slogan'], ENT_QUOTES));
-    \$tpl->assign('channel_lastbuild', formatTimestamp(time(), 'rss'));
+    \$tpl->assign('channel_lastbuild', \formatTimestamp(\time(), 'rss'));
     \$tpl->assign('channel_webmaster', \$xoopsConfig['adminmail']);
     \$tpl->assign('channel_editor', \$xoopsConfig['adminmail']);
     \$tpl->assign('channel_category', 'Event');
@@ -167,7 +167,7 @@ if (!\$tpl->is_cached('db:{$moduleDirname}_rss.tpl', \${$fppf})) {
         \$tpl->assign('docs', 'http://cyber.law.harvard.edu/rss/rss.html');
     }
     \$tpl->assign('image_url', XOOPS_URL . \$xoopsModuleConfig['logorss']);
-    \$dimention = getimagesize(XOOPS_ROOT_PATH . \$xoopsModuleConfig['logorss']);
+    \$dimention = \getimagesize(XOOPS_ROOT_PATH . \$xoopsModuleConfig['logorss']);
     if (empty(\$dimention[0])) {
         \$width = 88;
     } else {
@@ -180,18 +180,18 @@ if (!\$tpl->is_cached('db:{$moduleDirname}_rss.tpl', \${$fppf})) {
     }
     \$tpl->assign('image_width', \$width);
     \$tpl->assign('image_height', \$height);
-    foreach (array_keys(\${$tableName}Arr) as \$i) {
+    foreach (\array_keys(\${$tableName}Arr) as \$i) {
         \$description = \${$tableName}Arr[\$i]->getVar('description');
         //permet d'afficher uniquement la description courte
-        if (strpos(\$description,'[pagebreak]')==false){
+        if (\strpos(\$description,'[pagebreak]')==false){
             \$description_short = \$description;
         } else {
-            \$description_short = substr(\$description,0,strpos(\$description,'[pagebreak]'));
+            \$description_short = \substr(\$description,0,\strpos(\$description,'[pagebreak]'));
         }
         \$tpl->append('items', array('title' => htmlspecialchars(\${$tableName}Arr[\$i]->getVar('{$fpmf}'), ENT_QUOTES),
                                     'link' => XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
                                     'guid' => XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
-                                    'pubdate' => formatTimestamp(\${$tableName}Arr[\$i]->getVar('date'), 'rss'),
+                                    'pubdate' => \formatTimestamp(\${$tableName}Arr[\$i]->getVar('date'), 'rss'),
                                     'description' => htmlspecialchars(\$description_short, ENT_QUOTES)));
     }
 }

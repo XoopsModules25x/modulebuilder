@@ -189,7 +189,7 @@ class CreateXoopsCode
     {
         $tf            = Modulebuilder\Files\CreateFile::getInstance();
         $rightField    = $tf->getRightString($fieldName);
-        $ucfRightField = ucfirst($rightField);
+        $ucfRightField = \ucfirst($rightField);
         $value         = "\DateTime::createFromFormat(_SHORTDATESTRING, Request::getString('{$fieldName}'))";
         $ret           = $this->getXcEqualsOperator("\${$tableSoleName}{$ucfRightField}Obj", $value, null, $t);
         $ret           .= $this->getXcSetVarObj($tableName, $fieldName, "\${$tableSoleName}{$ucfRightField}Obj->getTimestamp()", $t);
@@ -209,7 +209,7 @@ class CreateXoopsCode
     {
         $tf            = Modulebuilder\Files\CreateFile::getInstance();
         $rightField    = $tf->getRightString($fieldName);
-        $ucfRightField = ucfirst($rightField);
+        $ucfRightField = \ucfirst($rightField);
         $request       = "Request::getArray('{$fieldName}')";
         $var           = "\${$tableSoleName}{$ucfRightField}";
         $varArr        = "\${$tableSoleName}{$ucfRightField}Arr";
@@ -313,7 +313,7 @@ class CreateXoopsCode
      */
     public function getXcHelperGetInstance($moduleDirname, $t = '')
     {
-        $ucfModuleDirname = ucfirst($moduleDirname);
+        $ucfModuleDirname = \ucfirst($moduleDirname);
         $ret              = "{$t}// Get instance of module\n";
         $ret              .= "{$t}\$helper = \XoopsModules\\{$ucfModuleDirname}\Helper::getInstance();\n";
 
@@ -330,7 +330,7 @@ class CreateXoopsCode
      */
     public function getXcFormatTimeStamp($left, $value, $format = 's', $t = '')
     {
-        return "{$t}\${$left} = formatTimestamp({$value}, '{$format}');\n";
+        return "{$t}\${$left} = \\formatTimestamp({$value}, '{$format}');\n";
     }
 
     /**
@@ -475,7 +475,7 @@ class CreateXoopsCode
      */
     public function getXcGetVarTextDateSelect($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
     {
-        return "{$t}\${$lpFieldName}['{$rpFieldName}'] = formatTimestamp(\${$tableName}All[\$i]->getVar('{$fieldName}'), 's');\n";
+        return "{$t}\${$lpFieldName}['{$rpFieldName}'] = \\formatTimestamp(\${$tableName}All[\$i]->getVar('{$fieldName}'), 's');\n";
     }
 
     /**
@@ -519,7 +519,7 @@ class CreateXoopsCode
         $ret        .= $this->getXcXoopsHandler('groupperm');
         $groups     = $this->getXcEqualsOperator('$groups', '$xoopsUser->getGroups()');
         $elseGroups = $this->getXcEqualsOperator('$groups', 'XOOPS_GROUP_ANONYMOUS');
-        $ret        .= $pc->getPhpCodeConditions('is_object($xoopsUser)', '', $type = '', $groups, $elseGroups);
+        $ret        .= $pc->getPhpCodeConditions('\is_object($xoopsUser)', '', $type = '', $groups, $elseGroups);
 
         return $ret;
     }
@@ -534,7 +534,7 @@ class CreateXoopsCode
     public function getXcGetFieldId($fields)
     {
         $fieldId = 'id';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
                 $fieldId = $fieldName;
@@ -554,7 +554,7 @@ class CreateXoopsCode
     public function getXcGetFieldName($fields)
     {
         $fieldName = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
         }
 
@@ -571,7 +571,7 @@ class CreateXoopsCode
     public function getXcGetFieldParentId($fields)
     {
         $fieldPid = 'pid';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (1 == $fields[$f]->getVar('field_parent')) {
                 $fieldPid = $fieldName;
@@ -596,7 +596,7 @@ class CreateXoopsCode
         $ret            = '';
         $fieldMain      = '';
         $countUploader  = 0;
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_main')) {
@@ -725,7 +725,7 @@ class CreateXoopsCode
      */
     public function getXcHandlerLine($tableName, $t = '')
     {
-        $ucfTableName = ucfirst($tableName);
+        $ucfTableName = \ucfirst($tableName);
         return "{$t}\${$tableName}Handler = \$helper->getHandler('{$ucfTableName}');\n";
     }
 
@@ -765,7 +765,7 @@ class CreateXoopsCode
      */
     public function getXcHandlerCountObj($tableName, $t = '')
     {
-        $ucfTableName = ucfirst($tableName);
+        $ucfTableName = \ucfirst($tableName);
         $ret          = "{$t}\${$tableName}Count = \${$tableName}Handler->getCount{$ucfTableName}();\n";
 
         return $ret;
@@ -800,7 +800,7 @@ class CreateXoopsCode
      */
     public function getXcHandlerAllObj($tableName, $fieldMain = '', $start = '0', $limit = '0', $t = '')
     {
-        $ucfTableName = ucfirst($tableName);
+        $ucfTableName = \ucfirst($tableName);
         $startLimit   = ('0' != $limit) ? "{$start}, {$limit}" : '0';
         $params       = ('' != $fieldMain) ? "{$startLimit}, '{$fieldMain}'" : $startLimit;
         $ret          = "{$t}\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}({$params});\n";
@@ -890,7 +890,7 @@ class CreateXoopsCode
     public function getXcGetValues($tableName, $tableSoleName, $index = 'i', $noArray = false, $t = '')
     {
         $index        = '' !== $index ? $index : 'i';
-        $ucfTableName = ucfirst($tableName);
+        $ucfTableName = \ucfirst($tableName);
         if (!$noArray) {
             $ret = "{$t}\${$tableSoleName} = \${$tableName}All[\${$index}]->getValues{$ucfTableName}();\n";
         } else {
@@ -915,7 +915,7 @@ class CreateXoopsCode
         $ret           = '';
         $fieldMain     = '';
         $countUploader = 0;
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_main')) {
@@ -1004,9 +1004,9 @@ class CreateXoopsCode
     public function getXcRedirectHeader($directory, $options, $numb, $var, $isString = true, $t = '')
     {
         if (!$isString) {
-            $ret = "{$t}redirect_header({$directory}, {$numb}, {$var});\n";
+            $ret = "{$t}\\redirect_header({$directory}, {$numb}, {$var});\n";
         } else {
-            $ret = "{$t}redirect_header('{$directory}.php{$options}', {$numb}, {$var});\n";
+            $ret = "{$t}\\redirect_header('{$directory}.php{$options}', {$numb}, {$var});\n";
         }
 
         return $ret;
@@ -1077,7 +1077,7 @@ class CreateXoopsCode
      */
     public function getXcGetForm($left, $tableName, $obj = '', $t = '')
     {
-        $ucfTableName = ucfirst($tableName);
+        $ucfTableName = \ucfirst($tableName);
 
         return "{$t}\${$left} = \${$tableName}{$obj}->getForm{$ucfTableName}();\n";
     }
@@ -1135,7 +1135,7 @@ class CreateXoopsCode
     public function getXcSaveFieldId($fields)
     {
         $fieldId = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             if (0 == $f) {
                 $fieldId = $fields[$f]->getVar('field_name');
             }
@@ -1154,7 +1154,7 @@ class CreateXoopsCode
     public function getXcSaveFieldMain($fields)
     {
         $fieldMain = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fields[$f]->getVar('field_name');
             }
@@ -1180,7 +1180,7 @@ class CreateXoopsCode
         $ret           = '';
         $fieldMain     = '';
         $countUploader = 0;
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
 
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldType    = $fields[$f]->getVar('field_type');
@@ -1489,7 +1489,7 @@ class CreateXoopsCode
      */
     public function getXcXoopsLoad($var = '', $t = '')
     {
-        return "{$t}xoops_load('{$var}');\n";
+        return "{$t}\xoops_load('{$var}');\n";
     }
 
     /**
@@ -1504,10 +1504,10 @@ class CreateXoopsCode
     public function getXcXoopsLoadLanguage($lang, $t = '', $domain = '')
     {
         if ('' === $domain) {
-            return "{$t}xoops_loadLanguage('{$lang}');\n";
+            return "{$t}\xoops_loadLanguage('{$lang}');\n";
         }
 
-        return "{$t}xoops_loadLanguage('{$lang}', '{$domain}');\n";
+        return "{$t}\xoops_loadLanguage('{$lang}', '{$domain}');\n";
     }
 
     /**
@@ -1727,7 +1727,7 @@ class CreateXoopsCode
      */
     public function getXcXoopsHandler($left, $t = '', $n = "\n")
     {
-        return "{$t}\${$left}Handler = xoops_getHandler('{$left}');{$n}";
+        return "{$t}\${$left}Handler = \xoops_getHandler('{$left}');{$n}";
     }
 
 

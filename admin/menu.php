@@ -21,9 +21,9 @@
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
-include dirname(__DIR__) . '/preloads/autoloader.php';
+include \dirname(__DIR__) . '/preloads/autoloader.php';
 
-$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 /** @var \XoopsModules\Modulebuilder\Helper $helper */
@@ -32,11 +32,11 @@ $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');
 
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
-if (is_object($helper->getModule())) {
+if (\is_object($helper->getModule())) {
     //    $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
 }
 
-$moduleHandler = xoops_getHandler('module');
+$moduleHandler = \xoops_getHandler('module');
 $xoopsModule   = \XoopsModule::getByDirname($moduleDirName);
 $moduleInfo    = $moduleHandler->get($xoopsModule->getVar('mid'));
 $sysPathIcon32 = $moduleInfo->getInfo('sysicons32');
@@ -86,14 +86,14 @@ $adminmenu[] = [
 
 //Feedback
 $adminmenu[] = [
-    'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_FEEDBACK'),
+    'title' => \constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_FEEDBACK'),
     'link'  => 'admin/feedback.php',
     'icon'  => $pathIcon32 . 'mail_foward.png',
 ];
 
-if (is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTools')) {
+if (\is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTools')) {
     $adminmenu[] = [
-        'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
+        'title' => \constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
         'link'  => 'admin/migrate.php',
         'icon'  => $pathIcon32 . 'database_go.png',
     ];

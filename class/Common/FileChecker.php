@@ -23,12 +23,12 @@ namespace XoopsModules\Modulebuilder\Common;
 use Xmf\Request;
 use XoopsModules\Modulebuilder;
 
-//defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+//\defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/mainfile.php';
-$moduleDirName      = basename(dirname(dirname(__DIR__)));
+require_once \dirname(\dirname(\dirname(\dirname(__DIR__)))) . '/mainfile.php';
+$moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-xoops_loadLanguage('filechecker', $moduleDirName);
+\xoops_loadLanguage('filechecker', $moduleDirName);
 
 /**
  * Class FileChecker
@@ -52,29 +52,29 @@ class FileChecker
         if (null === $redirectFile) {
             $redirectFile = $_SERVER['SCRIPT_NAME'];
         }
-        $moduleDirName      = basename(dirname(dirname(__DIR__)));
+        $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (null === $original_file_path) {
             if (self::fileExists($file_path)) {
                 $path_status = "<img src='$pathIcon16/1.png' >";
-                $path_status .= "$file_path (" . constant('CO_' . $moduleDirNameUpper . '_' . 'FC_AVAILABLE') . ') ';
+                $path_status .= "$file_path (" . \constant('CO_' . $moduleDirNameUpper . '_' . 'FC_AVAILABLE') . ') ';
             } else {
                 $path_status = "<img src='$pathIcon16/0.png' >";
-                $path_status .= "$file_path (" . constant('CO_' . $moduleDirNameUpper . '_' . 'FC_NOTAVAILABLE') . ') ';
+                $path_status .= "$file_path (" . \constant('CO_' . $moduleDirNameUpper . '_' . 'FC_NOTAVAILABLE') . ') ';
             }
         } else {
             if (self::compareFiles($file_path, $original_file_path)) {
                 $path_status = "<img src='$pathIcon16/1.png' >";
-                $path_status .= "$file_path (" . constant('CO_' . $moduleDirNameUpper . '_' . 'FC_AVAILABLE') . ') ';
+                $path_status .= "$file_path (" . \constant('CO_' . $moduleDirNameUpper . '_' . 'FC_AVAILABLE') . ') ';
             } else {
                 $path_status = "<img src='$pathIcon16/0.png' >";
-                $path_status .= "$file_path (" . constant('CO_' . $moduleDirNameUpper . '_' . 'FC_NOTAVAILABLE') . ') ';
+                $path_status .= "$file_path (" . \constant('CO_' . $moduleDirNameUpper . '_' . 'FC_NOTAVAILABLE') . ') ';
                 $path_status .= "<form action='" . $_SERVER['SCRIPT_NAME'] . "' method='post'>";
                 $path_status .= "<input type='hidden' name='op' value='copyfile'>";
                 $path_status .= "<input type='hidden' name='file_path' value='$file_path'>";
                 $path_status .= "<input type='hidden' name='original_file_path' value='$original_file_path'>";
                 $path_status .= "<input type='hidden' name='redirect' value='$redirectFile'>";
-                $path_status .= "<button class='submit' onClick='this.form.submit();'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'FC_CREATETHEFILE') . '</button>';
+                $path_status .= "<button class='submit' onClick='this.form.submit();'>" . \constant('CO_' . $moduleDirNameUpper . '_' . 'FC_CREATETHEFILE') . '</button>';
                 $path_status .= '</form>';
             }
         }
@@ -90,10 +90,10 @@ class FileChecker
      */
     public static function copyFile($source_path, $destination_path)
     {
-        $source_path      = str_replace('..', '', $source_path);
-        $destination_path = str_replace('..', '', $destination_path);
+        $source_path      = \str_replace('..', '', $source_path);
+        $destination_path = \str_replace('..', '', $destination_path);
 
-        return @copy($source_path, $destination_path);
+        return @\copy($source_path, $destination_path);
     }
 
     /**
@@ -137,7 +137,7 @@ class FileChecker
      */
     public static function setFilePermissions($target, $mode = 0777)
     {
-        $target = str_replace('..', '', $target);
+        $target = \str_replace('..', '', $target);
 
         return @chmod($target, (int)$mode);
     }
@@ -155,7 +155,7 @@ switch ($op) {
         if (\Xmf\Request::hasVar('redirect', 'POST')) {
             $redirect = $_POST['redirect'];
         }
-        $msg = FileChecker::copyFile($original_file_path, $file_path) ? constant('CO_' . $moduleDirNameUpper . '_' . 'FC_FILECOPIED') : constant('CO_' . $moduleDirNameUpper . '_' . 'FC_FILENOTCOPIED');
-        redirect_header($redirect, 2, $msg . ': ' . $file_path);
+        $msg = FileChecker::copyFile($original_file_path, $file_path) ? \constant('CO_' . $moduleDirNameUpper . '_' . 'FC_FILECOPIED') : \constant('CO_' . $moduleDirNameUpper . '_' . 'FC_FILENOTCOPIED');
+        \redirect_header($redirect, 2, $msg . ': ' . $file_path);
         break;
 }

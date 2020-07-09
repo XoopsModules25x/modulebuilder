@@ -101,7 +101,7 @@ class PagesItem extends Files\CreateFile
         $fieldId   = '';
         $ccFieldId = '';
         $keyDouble = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             if (0 == $f) {
                 $fieldId = $fields[$f]->getVar('field_name');
                 $ccFieldId = $this->getCamelCase($fieldId, false, true);
@@ -125,7 +125,7 @@ class PagesItem extends Files\CreateFile
         $ret     .= $this->hc->getHtmlI('', '', $ccFieldId . '_' . $keyDouble);
         $ret     .= $this->hc->getHtmlDiv($retNumb, 'panel-heading');
         $retElem = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_tbody')) {
@@ -163,7 +163,7 @@ class PagesItem extends Files\CreateFile
         $ret .= $this->hc->getHtmlDiv($retElem, 'panel-body');
 
         $retFoot   = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_tfoot')) {
                     $fieldName   = $fields[$f]->getVar('field_name');
@@ -218,7 +218,7 @@ class PagesItem extends Files\CreateFile
         $tableSoleName   = $table->getVar('table_solename');
         $tableRate       = $table->getVar('table_rate');
         $tableCategory[] = $table->getVar('table_category');
-        if (in_array(0, $tableCategory)) {
+        if (\in_array(0, $tableCategory)) {
             $content .= $this->getTemplatesUserPagesItemPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableRate, $language);
         }
 

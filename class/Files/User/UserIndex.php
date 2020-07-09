@@ -118,11 +118,11 @@ class UserIndex extends Files\CreateFile
         // Fields
         $fields        = $this->getTableFields($tableMid, $tableId);
         $fieldParentId = [];
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldParentId[] = $fields[$f]->getVar('field_parent');
         }
         $ret = '';
-        if (in_array(1, $fieldParentId)) {
+        if (\in_array(1, $fieldParentId)) {
             $ret .= $this->xc->getXcHandlerCountObj($tableName);
             $ret .= $this->pc->getPhpCodeCommentLine('If there are ', $tableName);
             $ret .= $this->getSimpleString('$count = 1;');
@@ -159,7 +159,7 @@ class UserIndex extends Files\CreateFile
     private function getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $ucfTableName     = ucfirst($tableName);
+        $ucfTableName     = \ucfirst($tableName);
         $table            = $this->getTable();
         $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
 
@@ -181,7 +181,7 @@ class UserIndex extends Files\CreateFile
         $foreach   .= $this->pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName, '$acount');
         // Fields
         $fieldMain = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fieldName; // fieldMain = fields parameters main field
@@ -250,7 +250,7 @@ class UserIndex extends Files\CreateFile
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $content .= $this->getTemplateHeaderFile($moduleDirname);
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableId         = $tables[$t]->getVar('table_id');
             $tableMid        = $tables[$t]->getVar('table_mid');
             $tableName       = $tables[$t]->getVar('table_name');

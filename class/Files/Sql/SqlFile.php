@@ -147,7 +147,7 @@ class SqlFile extends Files\CreateFile
         $tableAutoincrement = 0;
         $fieldsNumb         = 0;
         $tableRate          = 0;
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableId            = $tables[$t]->getVar('table_id');
             $tableMid           = $tables[$t]->getVar('table_mid');
             $tableName          = $tables[$t]->getVar('table_name');
@@ -187,15 +187,15 @@ class SqlFile extends Files\CreateFile
         //$type          = '';
         $fieldTypeName = '';
         $fields = $this->getTableFields($tableMid, $tableId, 'field_id ASC, field_name');
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             // Creation of database table
             $ret            = $this->getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb);
             $fieldName      = $fields[$f]->getVar('field_name');
             $fieldType      = $fields[$f]->getVar('field_type');
-            $fieldValue     = str_replace('&#039;','', $fields[$f]->getVar('field_value')); //remove single quotes
+            $fieldValue     = \str_replace('&#039;','', $fields[$f]->getVar('field_value')); //remove single quotes
             $fieldAttribute = $fields[$f]->getVar('field_attribute');
             $fieldNull      = $fields[$f]->getVar('field_null');
-            $fieldDefault   = str_replace('&#039;','', $fields[$f]->getVar('field_default')); //remove single quotes
+            $fieldDefault   = \str_replace('&#039;','', $fields[$f]->getVar('field_default')); //remove single quotes
             $fieldKey       = $fields[$f]->getVar('field_key');
             if ($fieldType > 1) {
                 $fType         = $helper->getHandler('Fieldtype')->get($fieldType);
@@ -240,7 +240,7 @@ class SqlFile extends Files\CreateFile
                         break;
                     case 9:
                     case 10:
-                        $fValues = str_replace(',', "', '", str_replace(' ', '', $fieldValue));
+                        $fValues = \str_replace(',', "', '", \str_replace(' ', '', $fieldValue));
                         $type    = $fieldTypeName . '(\'' . $fValues . '\')'; // Used with comma separator
                         $default = "DEFAULT '{$fieldDefault}'";
                         break;
@@ -339,7 +339,7 @@ class SqlFile extends Files\CreateFile
             }
         }
         // ================= COMMA CICLE ================= //
-        $ret .= implode("\n", $row);
+        $ret .= \implode("\n", $row);
         unset($j);
         $ret .= $this->getFootDatabaseTable();
 
@@ -366,7 +366,7 @@ class SqlFile extends Files\CreateFile
         $row[] = $this->getFieldRow('rate_date', 'INT(8)', null, 'NOT NULL', "DEFAULT '0'");
         $row[] = $this->getKey(2, 'rate_id');
 
-        $ret .= implode("\n", $row);
+        $ret .= \implode("\n", $row);
         $ret .= $this->getFootDatabaseTable();
 
         return $ret;

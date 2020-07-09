@@ -103,9 +103,9 @@ class Morefiles extends \XoopsObject
         }
 
         $isNew = $this->isNew();
-        $title = $isNew ? sprintf(_AM_MODULEBUILDER_MORE_FILES_NEW) : sprintf(_AM_MODULEBUILDER_MORE_FILES_EDIT);
+        $title = $isNew ? \sprintf(_AM_MODULEBUILDER_MORE_FILES_NEW) : \sprintf(_AM_MODULEBUILDER_MORE_FILES_EDIT);
 
-        xoops_load('XoopsFormLoader');
+        \xoops_load('XoopsFormLoader');
 
         $form = new \XoopsThemeForm($title, 'morefilesform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');

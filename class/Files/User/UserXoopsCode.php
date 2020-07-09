@@ -171,7 +171,7 @@ class UserXoopsCode
     public function getUserBreadcrumbsFooterFile()
     {
         $cond = $this->xc->getXcXoopsTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
-        $ret  = $this->pc->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
+        $ret  = $this->pc->getPhpCodeConditions('\count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
 
         return $ret;
     }
@@ -193,7 +193,7 @@ class UserXoopsCode
         $ret = $t . '$modversion';
         $isArray = false;
         $n = '';
-        if (!is_array($descriptions)) {
+        if (!\is_array($descriptions)) {
             $descs = [$descriptions];
         } else {
             $descs = $descriptions;
@@ -216,15 +216,15 @@ class UserXoopsCode
         //search for longest key
         $len = 0;
         foreach ($descs as $key => $desc) {
-            $len = strlen($key) > $len ? strlen($key) : $len;
+            $len = \strlen($key) > $len ? \strlen($key) : $len;
         }
 
         foreach ($descs as $key => $desc) {
-            $space = str_repeat (  ' ' , $len - strlen($key));
+            $space = str_repeat (  ' ' , $len - \strlen($key));
             if ($eleArray < 4) {
                 $ret .= $t . "\t'{$key}'{$space} => {$desc},{$n}";
             } elseif (11 === $eleArray) {
-                if ('/' === substr($desc, 1, 1)) {
+                if ('/' === \substr($desc, 1, 1)) {
                     $ret .= $t . "\t{$desc}";
                 } else {
                     $ret .= $t . "\t{$desc},{$n}";

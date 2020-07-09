@@ -96,7 +96,7 @@ class BlocksFiles extends Files\CreateFile
     private function getBlocksShow($moduleDirname, $tableName, $tableFieldname, $tablePermissions, $fields, $fieldId, $fieldParent = 0)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $ucfTableName     = ucfirst($tableName);
+        $ucfTableName     = \ucfirst($tableName);
         $critName         = 'cr' . $ucfTableName;
 
         $ret  = $this->pc->getPhpCodeCommentMultiLine(['Function' => 'show block', '@param  $options' => '', '@return' => 'array']);
@@ -118,11 +118,11 @@ class BlocksFiles extends Files\CreateFile
 
         //content if: parent
         $contIf  = $this->xc->getXcEqualsOperator("\${$tableName}", "{$moduleDirname}_getMyItemIds('{$moduleDirname}_view', '{$moduleDirname}')", null, "\t");
-        $crit    = $this->xc->getXcCriteria('', "'cid'", "'(' . implode(',', \${$tableName}) . ')'", "'IN'", true);
+        $crit    = $this->xc->getXcCriteria('', "'cid'", "'(' . \implode(',', \${$tableName}) . ')'", "'IN'", true);
         $contIf  .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t");
         $crit    = $this->xc->getXcCriteria('', "'{$fieldId}'", "{$moduleDirname}_block_addCatSelect(\$options)", "'IN'", true);
         $contIf2 = $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t");
-        $contIf  .= $this->pc->getPhpCodeConditions('1 != (count(\$options) && 0 == \$options[0])', null, null, $contIf2, false, "\t");
+        $contIf  .= $this->pc->getPhpCodeConditions('1 != (\count(\$options) && 0 == \$options[0])', null, null, $contIf2, false, "\t");
         $crit    = $this->xc->getXcCriteria('', "'{$fieldId}'", '0', "'!='", true);
         $contIf2 = $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t");
         $contIf2 .= $this->xc->getXcCriteriaSetSort($critName, "'{$fieldId}'", "\t\t");
@@ -166,9 +166,9 @@ class BlocksFiles extends Files\CreateFile
         if ('' !== $fieldStatus) {
             $case2[] = $critStatus;
         }
-        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", 'strtotime(date(_SHORTDATESTRING))', "'>='", true);
+        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\strtotime(date(_SHORTDATESTRING))', "'>='", true);
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
-        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", 'strtotime(date(_SHORTDATESTRING))+86400', "'<='", true);
+        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\strtotime(date(_SHORTDATESTRING))+86400', "'<='", true);
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
         $case2[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldDate}'","\t\t\t");
         $case2[] = $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t\t\t");
@@ -212,10 +212,10 @@ class BlocksFiles extends Files\CreateFile
         $func .= $this->xc->getXcHandlerAllClear("{$tableName}All", $tableName, "\${$critName}", "\t");
         $func .= $this->pc->getPhpCodeUnset($critName, "\t");
         $contentForeach = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             // Verify if table_fieldname is not empty
-            //$lpFieldName = !empty($tableFieldname) ? substr($fieldName, 0, strpos($fieldName, '_')) : $tableName;
+            //$lpFieldName = !empty($tableFieldname) ? \substr($fieldName, 0, \strpos($fieldName, '_')) : $tableName;
             $rpFieldName  = $this->getRightString($fieldName);
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_block')) {
@@ -225,13 +225,13 @@ class BlocksFiles extends Files\CreateFile
                         break;
                     case 3:
                     case 4:
-                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
+                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
                         break;
                     case 8:
                         $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
                         break;
                     case 15:
-                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']","formatTimestamp(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
+                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']","\\formatTimestamp(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
                         break;
                     default:
                         $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']","\${$tableName}All[\$i]->getVar('{$fieldName}')", null, "\t\t\t");
@@ -241,7 +241,7 @@ class BlocksFiles extends Files\CreateFile
         }
         $foreach = $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, "\t\t");
 
-        $func .= $this->pc->getPhpCodeConditions("count(\${$tableName}All)", ' > ', '0', $foreach, false, "\t");
+        $func .= $this->pc->getPhpCodeConditions("\count(\${$tableName}All)", ' > ', '0', $foreach, false, "\t");
         $func .= $this->pc->getPhpCodeBlankLine();
         $func .= $this->getSimpleString('return $block;',"\t");
         $func .= $this->pc->getPhpCodeBlankLine();
@@ -265,7 +265,7 @@ class BlocksFiles extends Files\CreateFile
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $stuTableName     = mb_strtoupper($tableName);
-        $ucfTableName     = ucfirst($tableName);
+        $ucfTableName     = \ucfirst($tableName);
         $critName         = 'cr' . $ucfTableName;
 
         $ret  = $this->pc->getPhpCodeCommentMultiLine(['Function' => 'edit block', '@param  $options' => '', '@return' => 'string']);
@@ -289,9 +289,9 @@ class BlocksFiles extends Files\CreateFile
         $func .= $this->xc->getXcHandlerAllClear("{$tableName}All", $tableName, "\${$critName}", "\t");
         $func .= $this->pc->getPhpCodeUnset($critName, "\t");
         $func .= $this->xc->getXcEqualsOperator('$form', "{$language}{$stuTableName}_TO_DISPLAY . \"<br><select name='options[]' multiple='multiple' size='5'>\"", '.',"\t");
-        $func .= $this->xc->getXcEqualsOperator('$form', "\"<option value='0' \" . (in_array(0, \$options) == false ? '' : \"selected='selected'\") . '>' . {$language}ALL_{$stuTableName} . '</option>'", '.',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$form', "\"<option value='0' \" . (\in_array(0, \$options) == false ? '' : \"selected='selected'\") . '>' . {$language}ALL_{$stuTableName} . '</option>'", '.',"\t");
         $contentForeach = $this->xc->getXcEqualsOperator("\${$fieldId}", "\${$tableName}All[\$i]->getVar('{$fieldId}')", '',"\t\t");
-        $contentForeach .= $this->xc->getXcEqualsOperator('$form', "\"<option value='\" . \${$fieldId} . \"' \" . (in_array(\${$fieldId}, \$options) == false ? '' : \"selected='selected'\") . '>' . \${$tableName}All[\$i]->getVar('{$fieldMain}') . '</option>'", '.',"\t\t");
+        $contentForeach .= $this->xc->getXcEqualsOperator('$form', "\"<option value='\" . \${$fieldId} . \"' \" . (\in_array(\${$fieldId}, \$options) == false ? '' : \"selected='selected'\") . '>' . \${$tableName}All[\$i]->getVar('{$fieldMain}') . '</option>'", '.',"\t\t");
         $func .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, "\t");
         $func .= $this->xc->getXcEqualsOperator('$form', "'</select>'", '.',"\t");
         $func .= $this->pc->getPhpCodeBlankLine();
@@ -324,7 +324,7 @@ class BlocksFiles extends Files\CreateFile
         $fieldId          = null;
         $fieldParent      = null;
         $fieldMain        = null;
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName   = $fields[$f]->getVar('field_name');
             $fieldParent = $fields[$f]->getVar('field_parent');
             if (0 == $f) {
