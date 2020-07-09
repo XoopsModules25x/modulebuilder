@@ -169,7 +169,7 @@ class Resizer
             $max_height_offset = (int)\round(($max_height_resize - $this->maxHeight) / 2);
         }
 
-        if (!image\copy($final, $thumb, 0, 0, $max_width_offset, $max_height_offset, $max_width_resize, $max_height_resize)) {
+        if (!imagecopy($final, $thumb, 0, 0, $max_width_offset, $max_height_offset, $max_width_resize, $max_height_resize)) {
             return false;
         }
         // STORE THE FINAL IMAGE - WILL OVERWRITE $this->endFile
@@ -192,16 +192,16 @@ class Resizer
             $posRow2   = (int)\round($this->maxHeight / 2 + 1);
             switch ($this->mergePos) {
                 case 1:
-                    image\copy($dest, $src, 0, 0, 0, 0, $imgWidth, $imgHeight); //top left
+                    imagecopy($dest, $src, 0, 0, 0, 0, $imgWidth, $imgHeight); //top left
                     break;
                 case 2:
-                    image\copy($dest, $src, $posCol2, 0, 0, 0, $imgWidth, $imgHeight); //top right
+                    imagecopy($dest, $src, $posCol2, 0, 0, 0, $imgWidth, $imgHeight); //top right
                     break;
                 case 3:
-                    image\copy($dest, $src, 0, $posRow2, 0, 0, $imgWidth, $imgHeight); //bottom left
+                    imagecopy($dest, $src, 0, $posRow2, 0, 0, $imgWidth, $imgHeight); //bottom left
                     break;
                 case 4:
-                    image\copy($dest, $src, $posCol2, $posRow2, 0, 0, $imgWidth, $imgHeight); //bottom right
+                    imagecopy($dest, $src, $posCol2, $posRow2, 0, 0, $imgWidth, $imgHeight); //bottom right
                     break;
             }
         }
@@ -214,22 +214,22 @@ class Resizer
 
             switch ($this->mergePos) {
                 case 1:
-                    image\copy($dest, $src, 0, 0, 0, 0, $imgWidth, $imgHeight); //top left
+                    imagecopy($dest, $src, 0, 0, 0, 0, $imgWidth, $imgHeight); //top left
                     break;
                 case 2:
-                    image\copy($dest, $src, $posCol2, 0, 0, 0, $imgWidth, $imgHeight); //top center
+                    imagecopy($dest, $src, $posCol2, 0, 0, 0, $imgWidth, $imgHeight); //top center
                     break;
                 case 3:
-                    image\copy($dest, $src, $posCol3, 0, 0, 0, $imgWidth, $imgHeight); //top right
+                    imagecopy($dest, $src, $posCol3, 0, 0, 0, $imgWidth, $imgHeight); //top right
                     break;
                 case 4:
-                    image\copy($dest, $src, 0, $posRow2, 0, 0, $imgWidth, $imgHeight); //bottom left
+                    imagecopy($dest, $src, 0, $posRow2, 0, 0, $imgWidth, $imgHeight); //bottom left
                     break;
                 case 5:
-                    image\copy($dest, $src, $posCol2, $posRow2, 0, 0, $imgWidth, $imgHeight); //bottom center
+                    imagecopy($dest, $src, $posCol2, $posRow2, 0, 0, $imgWidth, $imgHeight); //bottom center
                     break;
                 case 6:
-                    image\copy($dest, $src, $posCol3, $posRow2, 0, 0, $imgWidth, $imgHeight); //bottom right
+                    imagecopy($dest, $src, $posCol3, $posRow2, 0, 0, $imgWidth, $imgHeight); //bottom right
                     break;
             }
         }

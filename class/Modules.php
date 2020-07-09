@@ -387,7 +387,7 @@ class Modules extends \XoopsObject
         $textColor   = imagecolorallocate($imageModule, 0, 0, 0);
         $spaceBorder = (92 - mb_strlen($moduleDirname) * 7.5) / 2;
         imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, \ucfirst($moduleDirname), []);
-        image\copy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
+        imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
         $logoImg = '/' . 'logoModule.png';
         \imagepng($imageModule, TDMC_UPLOAD_IMGMOD_PATH . $logoImg);
         \imagedestroy($imageModule);
