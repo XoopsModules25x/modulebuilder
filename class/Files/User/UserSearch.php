@@ -154,8 +154,8 @@ EOT;
      */
     private function getUserSearchFooter($moduleDirname, $tableName, $language)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $stuTableName     = mb_strtoupper($tableName);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
+        $stuTableName     = \mb_strtoupper($tableName);
         $ret              = $this->getDashComment('Breadcrumbs');
         $ret              .= $this->uxc->getUserBreadcrumbs((string)$stuTableName, $language);
         $ret              .= $this->getDashComment('Keywords');

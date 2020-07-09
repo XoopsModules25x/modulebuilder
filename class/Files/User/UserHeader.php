@@ -96,7 +96,7 @@ class UserHeader extends Files\CreateFile
      */
     private function getUserHeader($moduleDirname)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $table            = $this->getTable();
         $tables           = $this->getTables();
         $language         = $this->getLanguage($moduleDirname, 'MA');

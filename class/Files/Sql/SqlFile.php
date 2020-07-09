@@ -139,7 +139,7 @@ class SqlFile extends Files\CreateFile
     private function getDatabaseTables($module)
     {
         $ret                = null;
-        $moduleDirname      = mb_strtolower($module->getVar('mod_dirname'));
+        $moduleDirname      = \mb_strtolower($module->getVar('mod_dirname'));
         $tables             = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_id');
         $tableMid           = 0;
         $tableId            = 0;
@@ -457,8 +457,8 @@ class SqlFile extends Files\CreateFile
     {
         $module        = $this->getModule();
         $filename      = $this->getFileName();
-        $moduleName    = mb_strtolower($module->getVar('mod_name'));
-        $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
+        $moduleName    = \mb_strtolower($module->getVar('mod_name'));
+        $moduleDirname = \mb_strtolower($module->getVar('mod_dirname'));
         $content       = $this->getHeaderSqlComments($moduleName);
         $content       .= $this->getDatabaseTables($module);
 

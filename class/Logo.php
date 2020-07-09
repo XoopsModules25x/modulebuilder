@@ -83,7 +83,7 @@ class Logo
         $textColor = imagecolorallocate($imageModule, 0, 0, 0);
         $spaceBorder = (92 - \strlen($moduleDirname) * 7.5) / 2;
         imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, \ucfirst($moduleDirname), array());
-        imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
+        image\copy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
         $logoImg = '/'.$moduleDirname.'_logo.png';
         \imagepng($imageModule, TDMC_UPLOAD_IMGMOD_PATH.$logoImg);
         \imagedestroy($imageModule);
@@ -132,7 +132,7 @@ class Logo
         $spaceToBorder = (92 - mb_strlen($moduleDirname) * 7.5) / 2;
         imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, \ucfirst($moduleDirname), []);
 
-        imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
+        image\copy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
 
         //$targetImage = TDMC_UPLOAD_IMGMOD_URL . "/" . $moduleDirname . "_logo.png";
         $targetImage = '/uploads/' . $dirname . '/images/modules/' . $moduleDirname . '_logo.png';

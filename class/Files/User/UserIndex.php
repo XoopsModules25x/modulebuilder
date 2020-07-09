@@ -158,7 +158,7 @@ class UserIndex extends Files\CreateFile
      */
     private function getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $ucfTableName     = \ucfirst($tableName);
         $table            = $this->getTable();
         $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
@@ -216,7 +216,7 @@ class UserIndex extends Files\CreateFile
      */
     private function getUserIndexFooter($moduleDirname, $language)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $ret              = $this->pc->getPhpCodeCommentLine('Breadcrumbs');
         $ret              .= $this->uxc->getUserBreadcrumbs($language);
         $ret              .= $this->pc->getPhpCodeCommentLine('Keywords');

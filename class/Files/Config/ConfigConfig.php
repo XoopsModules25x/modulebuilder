@@ -90,10 +90,10 @@ class ConfigConfig extends Files\CreateFile
         $ret    = $this->pc->getPhpCodeCommentMultiLine(['return' => 'object']);
         $ret    .= $this->getSimpleString('');
         $ret    .= $this->xc->getXcEqualsOperator('$moduleDirName ', '\basename(\dirname(__DIR__))');
-        $ret    .= $this->xc->getXcEqualsOperator('$moduleDirNameUpper ', 'mb_strtoupper($moduleDirName)');
+        $ret    .= $this->xc->getXcEqualsOperator('$moduleDirNameUpper ', '\mb_strtoupper($moduleDirName)');
 
         $ret    .= $this->getSimpleString('return (object)[');
-        $ret    .= $this->getSimpleString("'name'           => mb_strtoupper(\$moduleDirName) . ' Module Configurator',", "\t");
+        $ret    .= $this->getSimpleString("'name'           => \mb_strtoupper(\$moduleDirName) . ' Module Configurator',", "\t");
         $ret    .= $this->getSimpleString("'paths'          => [", "\t");
         $ret    .= $this->getSimpleString("'dirname'    => \$moduleDirName,", "\t\t");
         $ret    .= $this->getSimpleString("'admin'      => XOOPS_ROOT_PATH . '/modules/' . \$moduleDirName . '/admin',", "\t\t");

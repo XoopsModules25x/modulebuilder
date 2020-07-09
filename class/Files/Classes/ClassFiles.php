@@ -285,7 +285,7 @@ class ClassFiles extends Files\CreateFile
         $tableSoleName    = $table->getVar('table_solename');
         $tableCategory    = $table->getVar('table_category');
         $ucfTableName     = \ucfirst($tableName);
-        $stuTableSoleName = mb_strtoupper($tableSoleName);
+        $stuTableSoleName = \mb_strtoupper($tableSoleName);
         $language         = $this->getLanguage($moduleDirname, 'AM');
         $fe->initForm($module, $table);
         $ret              = $this->pc->getPhpCodeCommentMultiLine(['@public function' => 'getForm', '@param bool' => '$action', '@return' => '\XoopsThemeForm'], "\t");
@@ -483,8 +483,8 @@ class ClassFiles extends Files\CreateFile
                     if ((int)$fieldElementTid > 0 ) {
                         $fieldElementMid = $fieldElements->getVar('fieldelement_mid');
                         $fieldElementName = (string)$fieldElements->getVar('fieldelement_name');
-                        $fieldNameDesc = mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
-                        $topicTableName = \str_replace(': ', '', mb_strtolower($fieldNameDesc));
+                        $fieldNameDesc = mb_substr($fieldElementName, \mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
+                        $topicTableName = \str_replace(': ', '', \mb_strtolower($fieldNameDesc));
                         $fieldsTopics = $this->getTableFields($fieldElementMid, $fieldElementTid);
                         foreach (\array_keys($fieldsTopics) as $g) {
                             $fieldNameTopic = $fieldsTopics[$g]->getVar('field_name');

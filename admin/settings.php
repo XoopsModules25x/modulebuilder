@@ -82,7 +82,7 @@ switch ($op) {
         } else {
             $settingsObj = $helper->getHandler('Settings')->create();
         }
-        $setModuleDirname = \preg_replace('/[^a-zA-Z0-9]\s+/', '', mb_strtolower($_POST['set_dirname']));
+        $setModuleDirname = \preg_replace('/[^a-zA-Z0-9]\s+/', '', \mb_strtolower($_POST['set_dirname']));
         //Form module save
         $settingsObj->setVars(
             [

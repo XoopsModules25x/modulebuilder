@@ -68,7 +68,7 @@ class ModuleFeedback extends \XoopsObject
             $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
         $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
-        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         // Get Theme Form
         \xoops_load('XoopsFormLoader');
         $form = new \XoopsThemeForm(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_FORM_TITLE'), 'formfeedback', $action, 'post', true);

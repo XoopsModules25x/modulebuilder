@@ -116,7 +116,7 @@ class Categories extends Files\CreateFile
      */
     private function getTemplatesUserCategoriesThead($tableName, $language)
     {
-        $stuTableName = mb_strtoupper($tableName);
+        $stuTableName = \mb_strtoupper($tableName);
         $lang         = $this->sc->getSmartyConst($language, $stuTableName . '_TITLE');
         $single       = $this->sc->getSmartySingleVar('numb_col');
         $th           = $this->hc->getHtmlTableHead($lang, '', $single) . PHP_EOL;
@@ -184,7 +184,7 @@ class Categories extends Files\CreateFile
      */
     private function getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $stuTableName = mb_strtoupper($tableName);
+        $stuTableName = \mb_strtoupper($tableName);
         $incl      = $this->sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName) . PHP_EOL;
         $html      = $this->hc->getHtmlEmpty('<br>') . PHP_EOL;
         $incl      .= $this->sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$numb_col', $html) . PHP_EOL;

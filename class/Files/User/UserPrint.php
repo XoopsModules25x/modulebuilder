@@ -95,7 +95,7 @@ class UserPrint extends Files\CreateFile
      */
     public function getUserPrint($moduleDirname, $language)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $table            = $this->getTable();
         $tableName        = $table->getVar('table_name');
         $tableSoleName    = $table->getVar('table_solename');
@@ -117,7 +117,7 @@ class UserPrint extends Files\CreateFile
             $ucfFieldName = \ucfirst($fieldName);
         }
         $ccFieldId      = $this->getCamelCase($fieldId, false, true);
-        $stuLpFieldName = mb_strtoupper($ccFieldId);
+        $stuLpFieldName = \mb_strtoupper($ccFieldId);
         $ret            = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret            .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret            .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);

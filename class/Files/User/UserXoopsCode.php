@@ -93,7 +93,7 @@ class UserXoopsCode
      */
     public function getUserAddMeta($type, $language, $tableName, $t = '')
     {
-        $stuTableName = mb_strtoupper($tableName);
+        $stuTableName = \mb_strtoupper($tableName);
         $stripTags    = $this->pc->getPhpCodeStripTags('', $language . $stuTableName, true);
 
         return "{$t}\$GLOBALS['xoTheme']->addMeta('meta', '{$type}', {$stripTags});\n";
@@ -138,7 +138,7 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbs($language, $tableName = 'index', $t = '')
     {
-        $stuTableName = mb_strtoupper($tableName);
+        $stuTableName = \mb_strtoupper($tableName);
         $title        = ["'title'" => "{$language}{$stuTableName}"];
 
         return $this->pc->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
@@ -154,7 +154,7 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbsHeaderFile($moduleDirname, $language)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $ret              = $this->pc->getPhpCodeCommentLine('Breadcrumbs');
         $ret              .= $this->pc->getPhpCodeArray('xoBreadcrumbs', null, false, '');
         $titleLink        = ["'title'" => $language . 'TITLE', "'link'" => "{$stuModuleDirname}_URL . '/'"];

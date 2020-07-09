@@ -22,12 +22,14 @@
  *
  */
 
+use Xmf\Request;
+
 // Define main template
 $templateMain = 'modulebuilder_index.tpl';
 
 include __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
-$op    = \Xmf\Request::getString('op', 'list');
+$op    = Request::getString('op', 'list');
 
 $src_path = TDMC_PATH ;
 $dst_path = TDMC_UPLOAD_REPOSITORY_PATH . '/codecleaned';
@@ -36,265 +38,171 @@ $patKeys   = [];
 $patValues = [];
 cloneFileFolder($src_path, $dst_path, $patKeys, $patValues);
 
+function_qualifier($dst_path);
 
 include __DIR__ . '/footer.php';
 
 
 
-function function_qualifier($src_path, $dst_path) {
+function function_qualifier($dst_path) {
 
-    $patterns = [
-        //remove backslash if alreadyin order to avoid \\
-        '\array_diff('             => 'array_diff(',
-        '\array_filter('           => 'array_filter(',
-        '\array_key_exists('       => 'array_key_exists(',
-        '\array_keys('             => 'array_keys(',
-        '\array_search('           => 'array_search(',
-        '\array_slice('            => 'array_slice(',
-        '\array_unshift('          => 'array_unshift(',
-        '\array_values('           => 'array_values(',
-        '\assert('                 => 'assert(',
-        '\basename('               => 'basename(',
-        '\boolval('                => 'boolval(',
-        '\call_user_func('         => 'call_user_func(',
-        '\call_user_func_array('   => 'call_user_func_array(',
-        '\chr('                    => 'chr(',
-        '\class_exists('           => 'class_exists(',
-        '\closedir('               => 'closedir(',
-        '\constant('               => 'constant(',
-        '\copy('                   => 'copy(',
-        '\count('                  => 'count(',
-        '\curl_close('             => 'curl_close(',
-        '\curl_error('             => 'curl_error(',
-        '\curl_exec('              => 'curl_exec(',
-        '\curl_file_create('       => 'curl_file_create(',
-        '\curl_getinfo('           => 'curl_getinfo(',
-        '\curl_init('              => 'curl_init(',
-        '\curl_setopt('            => 'curl_setopt(',
-        '\define('                 => 'define(',
-        '\defined('                => 'defined(',
-        '\dirname('                => 'dirname(',
-        '\doubleval('              => 'doubleval(',
-        '\explode('                => 'explode(',
-        '\extension_loaded('       => 'extension_loaded(',
-        '\file_exists('            => 'file_exists(',
-        '\finfo_open('             => 'finfo_open(',
-        '\floatval('               => 'floatval(',
-        '\floor('                  => 'floor(',
-        '\formatTimestamp('        => 'formatTimestamp(',
-        '\func_get_args('          => 'func_get_args(',
-        '\func_num_args('          => 'func_num_args(',
-        '\function_exists('        => 'function_exists(',
-        '\get_called_class('       => 'get_called_class(',
-        '\get_class('              => 'get_class(',
-        '\getimagesize('           => 'getimagesize(',
-        '\gettype('                => 'gettype(',
-        '\imagecopyresampled('     => 'imagecopyresampled(',
-        '\imagecreatefromgif('     => 'imagecreatefromgif(',
-        '\imagecreatefromjpeg('    => 'imagecreatefromjpeg(',
-        '\imagecreatefrompng('     => 'imagecreatefrompng(',
-        '\imagecreatefromstring('  => 'imagecreatefromstring(',
-        '\imagecreatetruecolor('   => 'imagecreatetruecolor(',
-        '\imagedestroy('           => 'imagedestroy(',
-        '\imagegif('               => 'imagegif(',
-        '\imagejpeg('              => 'imagejpeg(',
-        '\imagepng('               => 'imagepng(',
-        '\imagerotate('            => 'imagerotate(',
-        '\imagesx('                => 'imagesx(',
-        '\imagesy('                => 'imagesy(',
-        '\implode('                => 'implode(',
-        '\in_array('               => 'in_array(',
-        '\ini_get('                => 'ini_get(',
-        '\intval('                 => 'intval(',
-        '\is_array('               => 'is_array(',
-        '\is_bool('                => 'is_bool(',
-        '\is_callable('            => 'is_callable(',
-        '\is_dir('                 => 'is_dir(',
-        '\is_double('              => 'is_double(',
-        '\is_float('               => 'is_float(',
-        '\is_int('                 => 'is_int(',
-        '\is_integer('             => 'is_integer(',
-        '\is_link('                => 'is_link(',
-        '\is_long('                => 'is_long(',
-        '\is_null('                => 'is_null(',
-        '\is_object('              => 'is_object(',
-        '\is_real('                => 'is_real(',
-        '\is_resource('            => 'is_resource(',
-        '\is_string('              => 'is_string(',
-        '\json_decode('            => 'json_decode(',
-        '\json_encode('            => 'json_encode(',
-        '\mime_content_type('      => 'mime_content_type(',
-        '\mkdir('                  => 'mkdir(',
-        '\opendir('                => 'opendir(',
-        '\ord('                    => 'ord(',
-        '\pathinfo('               => 'pathinfo(',
-        '\preg_match('             => 'preg_match(',
-        '\preg_match_all('         => 'preg_match_all(',
-        '\preg_replace('           => 'preg_replace(',
-        '\readdir('                => 'readdir(',
-        '\readlink('               => 'readlink(',
-        '\redirect_header('        => 'redirect_header(',
-        '\rename('                 => 'rename(',
-        '\rmdir('                  => 'rmdir(',
-        '\round('                  => 'round(',
-        '\scandir('                => 'scandir(',
-        '\sprintf('                => 'sprintf(',
-        '\str_replace('            => 'str_replace(',
-        '\strip_tags('             => 'strip_tags(',
-        '\strlen('                 => 'strlen(',
-        '\strpos('                 => 'strpos(',
-        '\strtotime('              => 'strtotime(',
-        '\strval('                 => 'strval(',
-        '\substr('                 => 'substr(',
-        '\symlink('                => 'symlink(',
-        '\time()'                  => 'time()',
-        '\trigger_error('          => 'trigger_error(',
-        '\trim('                   => 'trim(',
-        '\ucfirst('                => 'ucfirst(',
-        '\unlink('                 => 'unlink(',
-        '\version_compare('        => 'version_compare(',
-        '\xoops_getHandler('       => 'xoops_getHandler(',
-        '\xoops_load('             => 'xoops_load(',
-        '\xoops_loadLanguage('     => 'xoops_loadLanguage(',
-        '\mb_strtoupper('          => 'mb_strtoupper(',
-        '\mb_strtolower('          => 'mb_strtolower(',
-        '\mb_strpos('              => 'mb_strpos(',
-        '\mb_strlen('              => 'mb_strlen(',
-        '\mb_strrpos('             => 'mb_strrpos(',
-
-        //add backslash to all functions
-        'array_diff('              => '\array_diff(',
-        'array_filter('            => '\array_filter(',
-        'array_key_exists('        => '\array_key_exists(',
-        'array_keys('              => '\array_keys(',
-        'array_search('            => '\array_search(',
-        'array_slice('             => '\array_slice(',
-        'array_unshift('           => '\array_unshift(',
-        'array_values('            => '\array_values(',
-        'assert('                  => '\assert(',
-        'basename('                => '\basename(',
-        'boolval('                 => '\boolval(',
-        'call_user_func('          => '\call_user_func(',
-        'call_user_func_array('    => '\call_user_func_array(',
-        'chr('                     => '\chr(',
-        'class_exists('            => '\class_exists(',
-        'closedir('                => '\closedir(',
-        'constant('                => '\constant(',
-        'copy('                    => '\copy(',
-        'count('                   => '\count(',
-        'curl_close('              => '\curl_close(',
-        'curl_error('              => '\curl_error(',
-        'curl_exec('               => '\curl_exec(',
-        'curl_file_create('        => '\curl_file_create(',
-        'curl_getinfo('            => '\curl_getinfo(',
-        'curl_init('               => '\curl_init(',
-        'curl_setopt('             => '\curl_setopt(',
-        'define('                  => '\define(',
-        'defined('                 => '\defined(',
-        'dirname('                 => '\dirname(',
-        'doubleval('               => '\doubleval(',
-        'explode('                 => '\explode(',
-        'extension_loaded('        => '\extension_loaded(',
-        'file_exists('             => '\file_exists(',
-        'finfo_open('              => '\finfo_open(',
-        'floatval('                => '\floatval(',
-        'floor('                   => '\floor(',
-        'formatTimestamp('         => '\formatTimestamp(',
-        'func_get_args('           => '\func_get_args(',
-        'func_num_args('           => '\func_num_args(',
-        'function_exists('         => '\function_exists(',
-        'get_called_class('        => '\get_called_class(',
-        'get_class('               => '\get_class(',
-        'getimagesize('            => '\getimagesize(',
-        'gettype('                 => '\gettype(',
-        'imagecopyresampled('      => '\imagecopyresampled(',
-        'imagecreatefromgif('      => '\imagecreatefromgif(',
-        'imagecreatefromjpeg('     => '\imagecreatefromjpeg(',
-        'imagecreatefrompng('      => '\imagecreatefrompng(',
-        'imagecreatefromstring('   => '\imagecreatefromstring(',
-        'imagecreatetruecolor('    => '\imagecreatetruecolor(',
-        'imagedestroy('            => '\imagedestroy(',
-        'imagegif('                => '\imagegif(',
-        'imagejpeg('               => '\imagejpeg(',
-        'imagepng('                => '\imagepng(',
-        'imagerotate('             => '\imagerotate(',
-        'imagesx('                 => '\imagesx(',
-        'imagesy('                 => '\imagesy(',
-        'implode('                 => '\implode(',
-        'in_array('                => '\in_array(',
-        'ini_get('                 => '\ini_get(',
-        'intval('                  => '\intval(',
-        'is_array('                => '\is_array(',
-        'is_bool('                 => '\is_bool(',
-        'is_callable('             => '\is_callable(',
-        'is_dir('                  => '\is_dir(',
-        'is_double('               => '\is_double(',
-        'is_float('                => '\is_float(',
-        'is_int('                  => '\is_int(',
-        'is_integer('              => '\is_integer(',
-        'is_link('                 => '\is_link(',
-        'is_long('                 => '\is_long(',
-        'is_null('                 => '\is_null(',
-        'is_object('               => '\is_object(',
-        'is_real('                 => '\is_real(',
-        'is_resource('             => '\is_resource(',
-        'is_string('               => '\is_string(',
-        'json_decode('             => '\json_decode(',
-        'json_encode('             => '\json_encode(',
-        'mb_strtoupper('           => '\mb_strtoupper(',
-        'mb_strtolower('           => '\mb_strtolower(',
-        'mb_strpos('               => '\mb_strpos(',
-        'mb_strlen('               => '\mb_strlen(',
-        'mb_strrpos('              => '\mb_strrpos(',
-        'mime_content_type('       => '\mime_content_type(',
-        'mkdir('                   => '\mkdir(',
-        'opendir('                 => '\opendir(',
-        'ord('                     => '\ord(',
-        'pathinfo('                => '\pathinfo(',
-        'preg_match('              => '\preg_match(',
-        'preg_match_all('          => '\preg_match_all(',
-        'preg_replace('            => '\preg_replace(',
-        'readdir('                 => '\readdir(',
-        'readlink('                => '\readlink(',
-        'redirect_header('         => '\redirect_header(',
-        'rename('                  => '\rename(',
-        'rmdir('                   => '\rmdir(',
-        'round('                   => '\round(',
-        'scandir('                 => '\scandir(',
-        'sprintf('                 => '\sprintf(',
-        'str_replace('             => '\str_replace(',
-        'strip_tags('              => '\strip_tags(',
-        'strlen('                  => '\strlen(',
-        'strpos('                  => '\strpos(',
-        'strtotime('               => '\strtotime(',
-        'strval('                  => '\strval(',
-        'substr('                  => '\substr(',
-        'symlink('                 => '\symlink(',
-        'time()'                   => '\time()',
-        'trigger_error('           => '\trigger_error(',
-        'trim('                    => '\trim(',
-        'ucfirst('                 => '\ucfirst(',
-        'unlink('                  => '\unlink(',
-        'version_compare('         => '\version_compare(',
-        'xoops_getHandler('        => '\xoops_getHandler(',
-        'xoops_load('              => '\xoops_load(',
-        'xoops_loadLanguage('      => '\xoops_loadLanguage(',
-
-        //correct errors
-        'mb_\strlen('              => 'mb_strlen(',
-        'mb_\substr('              => 'mb_substr(',
-        'x\copy'                   => 'xcopy',
-        'r\rmdir'                  => 'rrmdir',
-        'r\copy'                   => 'rcopy',
-        '\dirname()'               => 'dirname()',
-        'assw\ord'                 => 'assword',
-        'mb_\strpos'               => 'mb_strpos',
-        'imagecopy('              => 'imagecopy(',
+    $phpFunctions = [
+        'array_diff',
+        'array_filter',
+        'array_key_exists',
+        'array_keys',
+        'array_search',
+        'array_slice',
+        'array_unshift',
+        'array_values',
+        'assert',
+        'basename',
+        'boolval',
+        'call_user_func',
+        'call_user_func_array',
+        'chr',
+        'class_exists',
+        'closedir',
+        'constant',
+        'copy',
+        'count',
+        'curl_close',
+        'curl_error',
+        'curl_exec',
+        'curl_file_create',
+        'curl_getinfo',
+        'curl_init',
+        'curl_setopt',
+        'define',
+        'defined',
+        'dirname',
+        'doubleval',
+        'explode',
+        'extension_loaded',
+        'file_exists',
+        'finfo_open',
+        'floatval',
+        'floor',
+        'formatTimestamp',
+        'func_get_args',
+        'func_num_args',
+        'function_exists',
+        'get_called_class',
+        'get_class',
+        'getimagesize',
+        'gettype',
+        'imagecopyresampled',
+        'imagecreatefromgif',
+        'imagecreatefromjpeg',
+        'imagecreatefrompng',
+        'imagecreatefromstring',
+        'imagecreatetruecolor',
+        'imagedestroy',
+        'imagegif',
+        'imagejpeg',
+        'imagepng',
+        'imagerotate',
+        'imagesx',
+        'imagesy',
+        'implode',
+        'in_array',
+        'ini_get',
+        'intval',
+        'is_array',
+        'is_bool',
+        'is_callable',
+        'is_dir',
+        'is_double',
+        'is_float',
+        'is_int',
+        'is_integer',
+        'is_link',
+        'is_long',
+        'is_null',
+        'is_object',
+        'is_real',
+        'is_resource',
+        'is_string',
+        'json_decode',
+        'json_encode',
+        'mime_content_type',
+        'mkdir',
+        'opendir',
+        'ord',
+        'pathinfo',
+        'preg_match',
+        'preg_match_all',
+        'preg_replace',
+        'readdir',
+        'readlink',
+        'redirect_header',
+        'rename',
+        'rmdir',
+        'round',
+        'scandir',
+        'sprintf',
+        'str_replace',
+        'strip_tags',
+        'strlen',
+        'strpos',
+        'strtotime',
+        'strval',
+        'substr',
+        'symlink',
+        'time',
+        'trigger_error',
+        'trim',
+        'ucfirst',
+        'unlink',
+        'version_compare',
+        'mb_strtoupper',
+        'mb_strtolower',
+        'mb_strpos',
+        'mb_strlen',
+        'mb_strrpos',
     ];
+
+    $xoopsFunctions = [
+        'xoops_getHandler',
+        'xoops_load',
+        'xoops_loadLanguage',
+    ];
+
+    $errors = [
+        'mb_\strlen('   => 'mb_strlen(',
+        'mb_\substr('   => 'mb_substr(',
+        'x\copy'        => 'xcopy',
+        'r\rmdir'       => 'rrmdir',
+        'r\copy'        => 'rcopy',
+        '\dirname()'    => 'dirname()',
+        'assw\ord'      => 'assword',
+        'mb_\strpos'    => 'mb_strpos',
+        'imagecopy('    => 'imagecopy(',
+        '<{if \count('  => '<{if count(',
+    ];
+
+    //reset existing in order to avoid double \\
+    foreach ($phpFunctions as $item) {
+        $patterns['\\' . $item . '('] = $item . '(';
+    }
+    foreach ($xoopsFunctions as $item) {
+        $patterns['\\' . $item . '('] = $item . '(';
+    }
+    //apply now for all
+    foreach ($phpFunctions as $item) {
+        $patterns[$item . '('] = '\\' . $item . '(';
+    }
+    foreach ($xoopsFunctions as $item) {
+        $patterns[$item . '('] = '\\' . $item . '(';
+    }
+    //add errors
+    foreach ($errors as $key => $value) {
+        $patterns[$key] = $value;
+    }
 
     $patKeys   = \array_keys($patterns);
     $patValues = \array_values($patterns);
-    cloneFileFolder($src_path, $dst_path, $patKeys, $patValues);
+    cloneFileFolder($dst_path, $dst_path, $patKeys, $patValues);
 
 }
 
@@ -335,7 +243,7 @@ function cloneFile($src_file, $dst_file, $patKeys = [], $patValues =[])
 {
     $replace_code = false;
     $changeExtensions = ['php'];
-    if (in_array(mb_strtolower(\pathinfo($src_file, PATHINFO_EXTENSION)), $changeExtensions)) {
+    if (\in_array(\mb_strtolower(\pathinfo($src_file, PATHINFO_EXTENSION)), $changeExtensions)) {
         $replace_code = true;
     }
     if (\strpos( $dst_file, basename(__FILE__)) > 0) {
@@ -344,14 +252,14 @@ function cloneFile($src_file, $dst_file, $patKeys = [], $patValues =[])
     }
     if ($replace_code) {
         // file, read it and replace text
-        $content = file_get_contents($src_file);
+        $content = \file_get_contents($src_file);
         $content = \str_replace($patKeys, $patValues, $content);
         //check file name whether it contains replace code
         $path_parts = \pathinfo($dst_file);
         $path = $path_parts['dirname'];
         $file =  $path_parts['basename'];
         $dst_file = $path . '/' . \str_replace($patKeys, $patValues, $file);
-        file_put_contents($dst_file, $content);
+        \file_put_contents($dst_file, $content);
     } else {
         \copy($src_file, $dst_file);
     }

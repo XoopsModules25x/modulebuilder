@@ -90,7 +90,7 @@ class AdminHeader extends Files\CreateFile
     private function getAdminHeader($moduleDirname)
     {
         $ucfModuleDirname = \ucfirst($moduleDirname);
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $table            = $this->getTable();
         $tables           = $this->getTables();
         $ret              = $this->pc->getPhpCodeIncludeDir('\dirname(\dirname(\dirname(__DIR__)))', 'include/cp_header');

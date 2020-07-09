@@ -1025,7 +1025,7 @@ class CreateXoopsCode
      */
     public function getXcXoopsConfirm($tableName, $language, $fieldId, $fieldMain, $options = 'delete', $t = '')
     {
-        $stuOptions = mb_strtoupper($options);
+        $stuOptions = \mb_strtoupper($options);
         $ccFieldId  = Modulebuilder\Files\CreateFile::getInstance()->getCamelCase($fieldId, false, true);
         $pc         = Modulebuilder\Files\CreatePhpCode::getInstance();
         $xc         = Modulebuilder\Files\CreateXoopsCode::getInstance();

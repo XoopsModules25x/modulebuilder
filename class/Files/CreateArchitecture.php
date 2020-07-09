@@ -101,7 +101,7 @@ class CreateArchitecture extends CreateStructure
         }
 
         $indexFile       = XOOPS_UPLOAD_PATH . '/index.html';
-        $stlModuleAuthor = \str_replace(' ', '', mb_strtolower($module->getVar('mod_author')));
+        $stlModuleAuthor = \str_replace(' ', '', \mb_strtolower($module->getVar('mod_author')));
         $this->setModuleName($module->getVar('mod_dirname'));
         $uploadPath = $this->getUploadPath();
         // Creation of "module" folder in the Directory repository
@@ -222,12 +222,12 @@ class CreateArchitecture extends CreateStructure
         $templateType  = 'defstyle';
 
         $patterns = [
-            mb_strtolower('modulebuilder')          => mb_strtolower($moduleDirname),
-            mb_strtoupper('modulebuilder')          => mb_strtoupper($moduleDirname),
-            \ucfirst(mb_strtolower('modulebuilder')) => \ucfirst(mb_strtolower($moduleDirname)),
+            \mb_strtolower('modulebuilder')          => \mb_strtolower($moduleDirname),
+            \mb_strtoupper('modulebuilder')          => \mb_strtoupper($moduleDirname),
+            \ucfirst(\mb_strtolower('modulebuilder')) => \ucfirst(\mb_strtolower($moduleDirname)),
         ];
         $this->patKeys   = \array_keys($patterns);
-        $this->patValues = array_values($patterns);
+        $this->patValues = \array_values($patterns);
 
         $table              = null;
         $tableCategory      = [];
@@ -415,7 +415,7 @@ class CreateArchitecture extends CreateStructure
             $fileInfolder = $files[$t]->getVar('file_infolder');
             if (Modulebuilder\Constants::MORE_FILES_TYPE_COPY == $files[$t]->getVar('file_type')) {
                 $src_file = TDMC_UPLOAD_FILES_PATH . '/' . $files[$t]->getVar('file_upload');
-                $dst_file = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleDirname) . '/';
+                $dst_file = TDMC_UPLOAD_REPOSITORY_PATH . '/' . \mb_strtolower($moduleDirname) . '/';
                 if ('' !== $fileInfolder) {
                     if ('/' !== \substr($fileInfolder, -1)) {
                         $fileInfolder .= '/';
@@ -771,7 +771,7 @@ class CreateArchitecture extends CreateStructure
     {
 
         $moduleName = $module->getVar('mod_dirname');
-        $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleName);
+        $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . \mb_strtolower($moduleName);
 
         /* clone complete missing folders */
         $cloneFolders = [];
@@ -846,7 +846,7 @@ class CreateArchitecture extends CreateStructure
      */
     private function CopyRatingFiles($moduleName)
     {
-        $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleName);
+        $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . \mb_strtolower($moduleName);
 
         /* clone complete missing folders */
         $cloneFolders[] = [

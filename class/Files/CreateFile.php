@@ -233,8 +233,8 @@ class CreateFile extends CreateTableFields
     private function getFolderName()
     {
         $path = $this->getUploadPath();
-        if (mb_strrpos($path, '\\')) {
-            $str = mb_strrpos($path, '\\');
+        if (\mb_strrpos($path, '\\')) {
+            $str = \mb_strrpos($path, '\\');
             if (false !== $str) {
                 return mb_substr($path, $str + 1, mb_strlen($path));
             }
@@ -310,7 +310,7 @@ class CreateFile extends CreateTableFields
      */
     public function getLanguage($moduleDirname, $prefix = '', $suffix = '')
     {
-        $lang = '_' . $prefix . '_' . mb_strtoupper($moduleDirname);
+        $lang = '_' . $prefix . '_' . \mb_strtoupper($moduleDirname);
         $ret  = $lang;
         if (!empty($suffix) || '_' !== $suffix) {
             $ret = $lang . '_' . $suffix;
@@ -404,7 +404,7 @@ class CreateFile extends CreateTableFields
      */
     public function getStrToUpper($string)
     {
-        return mb_strtoupper($string);
+        return \mb_strtoupper($string);
     }
 
     /**
@@ -415,7 +415,7 @@ class CreateFile extends CreateTableFields
      */
     public function getStrToLower($string)
     {
-        return mb_strtolower($string);
+        return \mb_strtolower($string);
     }
 
     /**

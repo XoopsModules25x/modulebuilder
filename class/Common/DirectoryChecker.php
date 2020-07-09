@@ -27,7 +27,7 @@ use XoopsModules\Modulebuilder;
 
 require_once \dirname(\dirname(\dirname(\dirname(__DIR__)))) . '/mainfile.php';
 $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 \xoops_loadLanguage('directorychecker', $moduleDirName);
 
 /**
@@ -54,7 +54,7 @@ class DirectoryChecker
             $redirectFile = $_SERVER['SCRIPT_NAME'];
         }
         $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
-        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         if (!@\is_dir($path)) {
             $path_status = "<img src='$pathIcon16/0.png' >";
             $path_status .= "$path (" . \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_NOTAVAILABLE') . ') ';

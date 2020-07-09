@@ -10,7 +10,7 @@
  */
 
 $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 \define('CO_' . $moduleDirNameUpper . '_' . 'FC_AVAILABLE', "<span style='color: green;'>Available</span>");
 \define('CO_' . $moduleDirNameUpper . '_' . 'FC_NOTAVAILABLE', "<span style='color: red;'>Not available</span>");

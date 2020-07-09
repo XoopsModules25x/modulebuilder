@@ -149,7 +149,7 @@ class CreatePhpCode
      */
     public function getPhpCodeGlobalsVariables($var = null, $type = 'REQUEST')
     {
-        $type = mb_strtoupper($type);
+        $type = \mb_strtoupper($type);
         switch ($type) {
             case 'GET':
                 $ret = "\$_GET['{$var}']";

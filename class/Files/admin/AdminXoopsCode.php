@@ -91,7 +91,7 @@ class AdminXoopsCode
      */
     public function getAdminItemButton($language, $tableName, $stuTableSoleName, $op = '?op=new', $type = 'add', $t = '')
     {
-        $stuType = mb_strtoupper($type);
+        $stuType = \mb_strtoupper($type);
         $aM      = $t . '$adminObject->addItemButton(';
         switch ($type) {
             case 'add';
@@ -228,7 +228,7 @@ class AdminXoopsCode
      */
     public function getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, $t = '', $countUploader = 0)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $ucfModuleDirname = \ucfirst($moduleDirname);
         $ret          = $this->pc->getPhpCodeCommentLine('Set Var', $fieldName, $t);
         $ret          .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
@@ -286,7 +286,7 @@ class AdminXoopsCode
      */
     public function getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, $formatUrl = false, $t = '', $countUploader = 0, $fieldMain = '')
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $ret              = $this->getAxcSetVarImageFile($stuModuleDirname . '_UPLOAD_FILES_PATH', $tableName, $fieldName, $formatUrl, $t, $countUploader, $fieldMain, 'mimetypes_file', 'maxsize_file');
 
         return $ret;

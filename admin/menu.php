@@ -24,7 +24,7 @@
 include \dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName      = \basename(\dirname(__DIR__));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 /** @var \XoopsModules\Modulebuilder\Helper $helper */
 $helper = \XoopsModules\Modulebuilder\Helper::getInstance();

@@ -217,7 +217,7 @@ class Tables extends \XoopsObject
         $checkbox = new \XoopsFormCheckbox(' ', 'table_option', $this->getOptionsTables(), '<br>');
         $checkbox->setDescription(_AM_MODULEBUILDER_OPTIONS_DESC);
         foreach ($this->options as $option) {
-            $checkbox->addOption($option, self::getDefinedLanguage('_AM_MODULEBUILDER_TABLE_' . mb_strtoupper($option)));
+            $checkbox->addOption($option, self::getDefinedLanguage('_AM_MODULEBUILDER_TABLE_' . \mb_strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
 

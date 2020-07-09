@@ -165,7 +165,7 @@ class PagesList extends Files\CreateFile
                 if (1 == $fields[$f]->getVar('field_ifoot')) {
                     $fieldName   = $fields[$f]->getVar('field_name');
                     $rpFieldName = $this->getRightString($fieldName);
-                    $langConst   = mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
+                    $langConst   = \mb_strtoupper($tableSoleName) . '_' . \mb_strtoupper($rpFieldName);
                     $lang        = $this->sc->getSmartyConst($language, $langConst);
                     $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                     $retFoot     .= $this->hc->getHtmlSpan($lang . ': ' . $doubleVar, 'block-pie justify',"\t");

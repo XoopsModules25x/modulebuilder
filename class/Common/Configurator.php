@@ -46,7 +46,7 @@ class Configurator
     public function __construct()
     {
         //        $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
-        //        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+        //        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
         //        require \dirname(\dirname(__DIR__)) . '/config/config.php';
         //        $config = getConfig();

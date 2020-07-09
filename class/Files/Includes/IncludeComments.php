@@ -107,7 +107,7 @@ class IncludeComments extends Files\CreateFile
     public function renderCommentsNew($module, $filename)
     {
         $table         = $this->getTable();
-        $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
+        $moduleDirname = \mb_strtolower($module->getVar('mod_dirname'));
         $tableName     = $table->getVar('table_name');
         $fields        = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldMain     = '';

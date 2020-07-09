@@ -94,7 +94,7 @@ class IncludeCommon extends Files\CreateFile
      */
     private function getCommonDefines($modDirname, $const, $desc)
     {
-        $stuModDirname = mb_strtoupper($modDirname);
+        $stuModDirname = \mb_strtoupper($modDirname);
 
         return "\define('{$stuModDirname}_{$const}', {$desc});\n";
     }
@@ -108,11 +108,11 @@ class IncludeCommon extends Files\CreateFile
     {
         $table                   = $this->getTable();
         $moduleDirname           = $module->getVar('mod_dirname');
-        $stuModuleDirname        = mb_strtoupper($moduleDirname);
+        $stuModuleDirname        = \mb_strtoupper($moduleDirname);
         $moduleAuthor            = $module->getVar('mod_author');
         $moduleAuthorWebsiteName = $module->getVar('mod_author_website_name');
         $moduleAuthorWebsiteUrl  = $module->getVar('mod_author_website_url');
-        $moduleAuthorImage       = \str_replace(' ', '', mb_strtolower($moduleAuthor));
+        $moduleAuthorImage       = \str_replace(' ', '', \mb_strtolower($moduleAuthor));
 
         $contIf = $this->pc->getPhpCodeDefine('XOOPS_ICONS32_PATH', "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'", "\t");
         $ret    = $this->pc->getPhpCodeConditions("!\defined('XOOPS_ICONS32_PATH')", '','', $contIf, false);

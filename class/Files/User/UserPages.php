@@ -96,7 +96,7 @@ class UserPages extends Files\CreateFile
      */
     private function getUserPagesHeader($moduleDirname, $tableName, $fieldId, $tablePermissions)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $ccFieldId        = $this->getCamelCase($fieldId, false, true);
 
         $ret       = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
@@ -144,9 +144,9 @@ class UserPages extends Files\CreateFile
     private function getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $t = '')
     {
         $ucfTableName     = \ucfirst($tableName);
-        $stuTableName     = mb_strtoupper($tableName);
+        $stuTableName     = \mb_strtoupper($tableName);
         $ccFieldId        = $this->getCamelCase($fieldId, false, true);
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
 
         $ret = '';
         if ($tableRate) {
@@ -469,8 +469,8 @@ class UserPages extends Files\CreateFile
      */
     private function getUserPagesFooter($moduleDirname, $tableName, $tableComments, $language)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $stuTableName     = mb_strtoupper($tableName);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
+        $stuTableName     = \mb_strtoupper($tableName);
 
         $ret = $this->pc->getPhpCodeBlankLine();
         $ret .= $this->pc->getPhpCodeCommentLine('Breadcrumbs');

@@ -242,7 +242,7 @@ class ClassSpecialFiles extends Files\CreateFile
         $contentClass .= $this->pc->getPhpCodeCommentLine('Constants for tables', '', "\t");
         foreach (\array_keys($tables) as $t) {
             $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
-            $stuTableName = mb_strtoupper($tables[$t]->getVar('table_name'));
+            $stuTableName = \mb_strtoupper($tables[$t]->getVar('table_name'));
             $contentClass .= $this->pc->getPhpCodeConstant("TABLE_" . $stuTableName, $t, "\t",'const');
         }
 

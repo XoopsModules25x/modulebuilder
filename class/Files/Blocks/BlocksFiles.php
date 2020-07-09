@@ -95,7 +95,7 @@ class BlocksFiles extends Files\CreateFile
      */
     private function getBlocksShow($moduleDirname, $tableName, $tableFieldname, $tablePermissions, $fields, $fieldId, $fieldParent = 0)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $ucfTableName     = \ucfirst($tableName);
         $critName         = 'cr' . $ucfTableName;
 
@@ -166,9 +166,9 @@ class BlocksFiles extends Files\CreateFile
         if ('' !== $fieldStatus) {
             $case2[] = $critStatus;
         }
-        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\strtotime(date(_SHORTDATESTRING))', "'>='", true);
+        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\\strto\time(date(_SHORTDATESTRING))', "'>='", true);
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
-        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\strtotime(date(_SHORTDATESTRING))+86400', "'<='", true);
+        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\\strto\time(date(_SHORTDATESTRING))+86400', "'<='", true);
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
         $case2[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldDate}'","\t\t\t");
         $case2[] = $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t\t\t");
@@ -263,8 +263,8 @@ class BlocksFiles extends Files\CreateFile
      */
     private function getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $stuTableName     = mb_strtoupper($tableName);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
+        $stuTableName     = \mb_strtoupper($tableName);
         $ucfTableName     = \ucfirst($tableName);
         $critName         = 'cr' . $ucfTableName;
 

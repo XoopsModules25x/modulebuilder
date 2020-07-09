@@ -133,8 +133,8 @@ As you can see, you have created a page with a list of links at the top to navig
                 if (1 === (int)$tables[$i]->getVar('table_rate')) {
                     $tableRate = 1;
                 }
-                $stuTableName = mb_strtoupper($tableName);
-                $stuTableSoleName = mb_strtoupper($tableSoleName);
+                $stuTableName = \mb_strtoupper($tableName);
+                $stuTableSoleName = \mb_strtoupper($tableSoleName);
                 $ucfTableName = $utility::UcFirstAndToLower($tableName);
                 $ucfTableSoleName = $utility::UcFirstAndToLower($tableSoleName);
                 $ret .= $this->ld->getAboveDefines($ucfTableSoleName);

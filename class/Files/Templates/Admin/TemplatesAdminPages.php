@@ -104,7 +104,7 @@ class TemplatesAdminPages extends Files\CreateFile
     private function getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language)
     {
         $th         = '';
-        $langHeadId = mb_strtoupper($tableSoleName) . '_ID';
+        $langHeadId = \mb_strtoupper($tableSoleName) . '_ID';
         if (1 == $tableAutoincrement) {
             $lang = $this->sc->getSmartyConst($language, $langHeadId);
             $th   .= $this->hc->getHtmlTag('th', ['class' => 'center'], $lang, false, "\t\t\t\t");
@@ -112,7 +112,7 @@ class TemplatesAdminPages extends Files\CreateFile
         foreach (\array_keys($fields) as $f) {
             $fieldName     = $fields[$f]->getVar('field_name');
             $rpFieldName   = $this->getRightString($fieldName);
-            $langFieldName = mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
+            $langFieldName = \mb_strtoupper($tableSoleName) . '_' . \mb_strtoupper($rpFieldName);
             if (1 == $fields[$f]->getVar('field_inlist')) {
                 $lang = $this->sc->getSmartyConst($language, $langFieldName);
                 $th   .= $this->hc->getHtmlTag('th', ['class' => 'center'], $lang, false, "\t\t\t\t");

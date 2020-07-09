@@ -242,7 +242,7 @@ class Modules extends \XoopsObject
         // Options
         $checkbox = new \XoopsFormCheckbox(' ', 'module_option', $this->getOptionsModules(), '<br>');
         foreach ($this->options as $option) {
-            $checkbox->addOption($option, self::getDefinedLanguage('_AM_MODULEBUILDER_MODULE_' . mb_strtoupper($option)));
+            $checkbox->addOption($option, self::getDefinedLanguage('_AM_MODULEBUILDER_MODULE_' . \mb_strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
 
@@ -253,7 +253,7 @@ class Modules extends \XoopsObject
 
         $uploadDirectory = 'uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/modules';
         $imgtray         = new \XoopsFormElementTray(_AM_MODULEBUILDER_MODULE_IMAGE, '<br>');
-        $imgpath         = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './' . mb_strtolower($uploadDirectory) . '/');
+        $imgpath         = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './' . \mb_strtolower($uploadDirectory) . '/');
         $imageselect     = new \XoopsFormSelect($imgpath, 'mod_image', $modImage);
         $modImageArray   = \XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
         foreach ($modImageArray as $image) {
@@ -387,7 +387,7 @@ class Modules extends \XoopsObject
         $textColor   = imagecolorallocate($imageModule, 0, 0, 0);
         $spaceBorder = (92 - mb_strlen($moduleDirname) * 7.5) / 2;
         imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, \ucfirst($moduleDirname), []);
-        imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
+        image\copy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
         $logoImg = '/' . 'logoModule.png';
         \imagepng($imageModule, TDMC_UPLOAD_IMGMOD_PATH . $logoImg);
         \imagedestroy($imageModule);

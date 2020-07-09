@@ -175,7 +175,7 @@ class CreateStructure
      */
     protected function makeDir($dir)
     {
-        $this->isDir(mb_strtolower(\trim($dir)));
+        $this->isDir(\mb_strtolower(\trim($dir)));
     }
 
     /**

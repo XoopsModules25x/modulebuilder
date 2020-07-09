@@ -116,7 +116,7 @@ class Index extends Files\CreateFile
             if (1 == $tables[$i]->getVar('table_index')) {
                 $tableNameLi = $tables[$i]->getVar('table_name');
                 $tableName = $tables[$i]->getVar('table_name');
-                $stuTableNameLi = mb_strtoupper($tableName);
+                $stuTableNameLi = \mb_strtoupper($tableName);
                 $li .= $this->hc->getHtmlLi("<a href='<{\${$moduleDirname}_url}>/{$tableNameLi}.php'><{\$smarty.const.{$language}{$stuTableNameLi}}></a>", '', "\t\t\t\t\t");
             }
         }

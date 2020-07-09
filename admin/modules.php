@@ -89,7 +89,7 @@ switch ($op) {
         } else {
             $modulesObj = $helper->getHandler('Modules')->create();
         }
-        $moduleDirname = \preg_replace('/[^a-zA-Z0-9]\s+/', '', mb_strtolower(\Xmf\Request::getString('mod_dirname', '', 'POST')));
+        $moduleDirname = \preg_replace('/[^a-zA-Z0-9]\s+/', '', \mb_strtolower(\Xmf\Request::getString('mod_dirname', '', 'POST')));
         //Form module save
         $modulesObj->setVars(
             [

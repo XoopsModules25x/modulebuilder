@@ -69,8 +69,8 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                     $GLOBALS['xoopsConfig']['sitename'] . ' - ' . ('' != $GLOBALS['xoopsUser']->getVar('name') ? $GLOBALS['xoopsUser']->getVar('name') . ' [' . $GLOBALS['xoopsUser']->getVar('uname') . ']' : $GLOBALS['xoopsUser']->getVar('uname')),
                     $GLOBALS['xoopsUser']->getVar('email'),
                     XOOPS_LICENSE_KEY,
-                    mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')),
-                    mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')) . ' ' . $GLOBALS['xoopsModule']->getVar('name')
+                    \mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')),
+                    \mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')) . ' ' . $GLOBALS['xoopsModule']->getVar('name')
                 );
                 break;
         }
@@ -92,5 +92,5 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
  */
 function UcFirstAndToLower($str)
 {
-    return \ucfirst(mb_strtolower(\trim($str)));
+    return \ucfirst(\mb_strtolower(\trim($str)));
 }

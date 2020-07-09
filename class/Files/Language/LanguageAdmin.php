@@ -99,8 +99,8 @@ class LanguageAdmin extends Files\CreateFile
         $ret .= $this->ld->getAboveDefines('There are');
         foreach (\array_keys($tables) as $t) {
             $tableName    = $tables[$t]->getVar('table_name');
-            $stuTableName = mb_strtoupper($tableName);
-            $stlTableName = mb_strtolower($tableName);
+            $stuTableName = \mb_strtoupper($tableName);
+            $stlTableName = \mb_strtolower($tableName);
             $ret          .= $this->ld->getDefine($language, "THEREARE_{$stuTableName}", "There are <span class='bold'>%s</span> {$stlTableName} in the database", true);
         }
 
@@ -119,8 +119,8 @@ class LanguageAdmin extends Files\CreateFile
         $ret .= $this->ld->getAboveDefines('There aren\'t');
         foreach (\array_keys($tables) as $t) {
             $tableName    = $tables[$t]->getVar('table_name');
-            $stuTableName = mb_strtoupper($tableName);
-            $stlTableName = mb_strtolower($tableName);
+            $stuTableName = \mb_strtoupper($tableName);
+            $stlTableName = \mb_strtolower($tableName);
             $ret          .= $this->ld->getDefine($language, "THEREARENT_{$stuTableName}", "There aren't {$stlTableName}", true);
         }
         $ret .= $this->ld->getAboveDefines('Save/Delete');
@@ -132,7 +132,7 @@ class LanguageAdmin extends Files\CreateFile
 
         foreach (\array_keys($tables) as $t) {
             $tableSoleName    = $tables[$t]->getVar('table_solename');
-            $stuTableSoleName = mb_strtoupper($tableSoleName);
+            $stuTableSoleName = \mb_strtoupper($tableSoleName);
             $ucfTableSoleName = \ucfirst($tableSoleName);
             $ret              .= $this->ld->getDefine($language, "ADD_{$stuTableSoleName}", "Add New {$ucfTableSoleName}");
         }
@@ -140,7 +140,7 @@ class LanguageAdmin extends Files\CreateFile
 
         foreach (\array_keys($tables) as $t) {
             $tableName    = $tables[$t]->getVar('table_name');
-            $stuTableName = mb_strtoupper($tableName);
+            $stuTableName = \mb_strtoupper($tableName);
             $ucfTableName = \ucfirst($tableName);
             $ret          .= $this->ld->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
         }
@@ -188,7 +188,7 @@ class LanguageAdmin extends Files\CreateFile
                 if ($fieldElement > 16) {
                     $fieldElements    = Modulebuilder\Helper::getInstance()->getHandler('Fieldelements')->get($fieldElement);
                     $fieldElementName = $fieldElements->getVar('fieldelement_name');
-                    $fieldNameDesc    = mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
+                    $fieldNameDesc    = mb_substr($fieldElementName, \mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
                     $fieldNameDesc    = \str_replace(': ', '', $fieldNameDesc);
                 } else {
                     $fieldNameDesc = false !== mb_strpos($rpFieldName, '_') ? \str_replace('_', ' ', \ucfirst($rpFieldName)) : \ucfirst($rpFieldName);

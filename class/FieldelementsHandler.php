@@ -141,7 +141,7 @@ class FieldelementsHandler extends \XoopsPersistableObjectHandler
         $fieldeleArr  = $this->getAll($crFieldElems);
         $fieldele     = [];
         foreach (\array_keys($fieldeleArr) as $i) {
-            $stuFeName = mb_strtoupper($fieldeleArr[$i]->getVar('fieldelement_name'));
+            $stuFeName = \mb_strtoupper($fieldeleArr[$i]->getVar('fieldelement_name'));
             if (1 == $i) {
                 $fieldele[$i] = '...';
             } else {

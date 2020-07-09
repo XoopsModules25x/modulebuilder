@@ -98,7 +98,7 @@ class TemplatesBlocks extends Files\CreateFile
         foreach (\array_keys($fields) as $f) {
             if (1 === (int)$fields[$f]->getVar('field_block')) {
                 $fieldName    = $fields[$f]->getVar('field_name');
-                $stuFieldName = mb_strtoupper($fieldName);
+                $stuFieldName = \mb_strtoupper($fieldName);
                 $lang         = $this->sc->getSmartyConst($language, $stuFieldName);
                 $th           .= $this->hc->getHtmlTableHead($lang, 'center', '', "\t\t\t");
             }

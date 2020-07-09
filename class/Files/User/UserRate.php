@@ -159,7 +159,7 @@ class UserRate extends Files\CreateFile
         $ret .= $this->xc->getXcEqualsOperator('$redir ', "\$_SERVER['HTTP_REFERER']",'', $t);
         foreach ($tables as $table) {
             $tableName = $table->getVar('table_name');
-            $stuTableName = mb_strtoupper($tableName);
+            $stuTableName = \mb_strtoupper($tableName);
             if (1 == $table->getVar('table_rate')) {
                 $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
                 $fieldId = '';
@@ -253,7 +253,7 @@ class UserRate extends Files\CreateFile
         foreach ($tables as $table) {
             $tableName      = $table->getVar('table_name');
             $tableFieldName = $table->getVar('table_fieldname');
-            $stuTableName   = mb_strtoupper($tableName);
+            $stuTableName   = \mb_strtoupper($tableName);
             if (1 == $table->getVar('table_rate')) {
                 $contIfInt = $this->xc->getXcEqualsOperator('$tableName', "'{$tableName}'",'', $t . "\t\t");
                 $contIfInt .= $this->xc->getXcEqualsOperator('$fieldRatings', "'{$tableFieldName}_ratings'",'', $t . "\t\t");

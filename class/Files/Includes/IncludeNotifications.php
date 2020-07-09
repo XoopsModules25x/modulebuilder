@@ -88,7 +88,7 @@ class IncludeNotifications extends Files\CreateFile
      */
     public function getNotificationsFunction($moduleDirname)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $tables           = $this->getTables();
         $t      = "\t";
         $ret    = $this->pc->getPhpCodeCommentMultiLine(['comment' => 'callback functions','' => '', '@param  $category' => '', '@param  $item_id' => '', '@return' => 'array item|null']);

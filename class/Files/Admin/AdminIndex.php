@@ -123,7 +123,7 @@ class AdminIndex extends Files\CreateFile
         foreach (\array_keys($tables) as $i) {
             $tableName      = $tables[$i]->getVar('table_name');
             $tableInstall[] = $tables[$i]->getVar('table_install');
-            $stuTableName   = $languageThereAre . mb_strtoupper($tableName);
+            $stuTableName   = $languageThereAre . \mb_strtoupper($tableName);
             $ucfTableName   = \ucfirst($tableName);
             $ret            .= $this->axc->getAxcAddInfoBoxLine($stuTableName, "\$count{$ucfTableName}");
         }

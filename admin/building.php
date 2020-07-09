@@ -84,10 +84,10 @@ switch ($op) {
         //save test data of selected module before building new version
         if (1 === $testdataRestore) {
             // Directories for copy from
-            $fromDir   = XOOPS_ROOT_PATH . '/modules/' . mb_strtolower($moduleDirname) . '/testdata';
+            $fromDir   = XOOPS_ROOT_PATH . '/modules/' . \mb_strtolower($moduleDirname) . '/testdata';
             if (\is_dir($fromDir)) {
                 // Directories for copy to
-                $toDir = TDMC_UPLOAD_TEMP_PATH . '/' . mb_strtolower($moduleDirname);
+                $toDir = TDMC_UPLOAD_TEMP_PATH . '/' . \mb_strtolower($moduleDirname);
                 $structure->isDir($toDir);
                 $toDir .= '/testdata';
                 if (\is_dir($toDir)) {
@@ -102,8 +102,8 @@ switch ($op) {
         }
 
         // Directories for copy from to
-        $fromDir = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleDirname);
-        $toDir   = XOOPS_ROOT_PATH . '/modules/' . mb_strtolower($moduleDirname);
+        $fromDir = TDMC_UPLOAD_REPOSITORY_PATH . '/' . \mb_strtolower($moduleDirname);
+        $toDir   = XOOPS_ROOT_PATH . '/modules/' . \mb_strtolower($moduleDirname);
         // include_once TDMC_CLASS_PATH . '/building.php';
         if (isset($moduleDirname)) {
             // Clear this module if it's in repository
@@ -156,8 +156,8 @@ switch ($op) {
         }
         if (1 === $testdataRestore) {
             // Directories for copy from to
-            $fromDir = TDMC_UPLOAD_TEMP_PATH . '/' . mb_strtolower($moduleDirname) . '/testdata';
-            $toDir   = XOOPS_ROOT_PATH . '/modules/' . mb_strtolower($moduleDirname) . '/testdata';
+            $fromDir = TDMC_UPLOAD_TEMP_PATH . '/' . \mb_strtolower($moduleDirname) . '/testdata';
+            $toDir   = XOOPS_ROOT_PATH . '/modules/' . \mb_strtolower($moduleDirname) . '/testdata';
             if (\is_dir($toDir)) {
                 $building->clearDir($toDir);
             }

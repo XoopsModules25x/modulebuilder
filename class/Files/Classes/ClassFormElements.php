@@ -205,7 +205,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      */
     private function getXoopsFormCheckBox($language, $tableSoleName, $fieldName, $fieldElementId, $required = 'false')
     {
-        $stuTableSoleName = mb_strtoupper($tableSoleName);
+        $stuTableSoleName = \mb_strtoupper($tableSoleName);
         $ucfFieldName     = $this->cf->getCamelCase($fieldName, true);
         $ccFieldName      = $this->cf->getCamelCase($fieldName, false, true);
         $t                = "\t\t";
@@ -263,7 +263,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     {
         $ucfFieldName    = $this->cf->getCamelCase($fieldName, true);
         $ccFieldName     = $this->cf->getCamelCase($fieldName, false, true);
-        $languageShort   = \substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
+        $languageShort   = \substr($language, 0, 4) . \mb_strtoupper($moduleDirname) . '_';
         $t               = "\t\t";
         $ret             = $this->pc->getPhpCodeCommentLine('Form Frameworks Images', 'Files ' . $ccFieldName, $t);
         $ret             .= $this->pc->getPhpCodeCommentLine('Form Frameworks Images', $ccFieldName .': Select Uploaded Image', $t);
@@ -311,7 +311,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     {
         $ucfFieldName    = $this->cf->getCamelCase($fieldName, true);
         $ccFieldName     = $this->cf->getCamelCase($fieldName, false, true);
-        $languageShort   = \substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
+        $languageShort   = \substr($language, 0, 4) . \mb_strtoupper($moduleDirname) . '_';
         $t               = "\t\t";
         $ret             = $this->pc->getPhpCodeCommentLine('Form File', $ccFieldName, $t);
         $ret             .= $this->pc->getPhpCodeCommentLine("Form File {$ccFieldName}:", 'Select Uploaded File ', $t);
@@ -362,7 +362,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     private function getXoopsFormUrlFile($language, $moduleDirname, $fieldName, $fieldDefault, $required = 'false')
     {
         $ccFieldName    = $this->cf->getCamelCase($fieldName, false, true);
-        $languageShort = \substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
+        $languageShort = \substr($language, 0, 4) . \mb_strtoupper($moduleDirname) . '_';
         $t             = "\t\t";
         $ret           = $this->pc->getPhpCodeCommentLine('Form Url', 'Text File ' . $ccFieldName, $t);
         $ret           .= $this->cxc->getClassXoopsFormElementTray('formUrlFile', $language, '<br><br>', $t);
@@ -392,7 +392,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     {
         $ucfFieldName    = $this->cf->getCamelCase($fieldName, true);
         $ccFieldName     = $this->cf->getCamelCase($fieldName, false, true);
-        $languageShort   = \substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
+        $languageShort   = \substr($language, 0, 4) . \mb_strtoupper($moduleDirname) . '_';
         $t               = "\t\t";
         $ret             = $this->pc->getPhpCodeCommentLine('Form Image', $ccFieldName, $t);
         $ret             .= $this->pc->getPhpCodeCommentLine("Form Image {$ccFieldName}:", 'Select Uploaded Image ', $t);
@@ -448,7 +448,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     private function getXoopsFormUploadFile($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
     {
         $ccFieldName    = $this->cf->getCamelCase($fieldName, false, true);
-        $languageShort  = \substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
+        $languageShort  = \substr($language, 0, 4) . \mb_strtoupper($moduleDirname) . '_';
         $t              = "\t\t\t";
         $ret            = $this->pc->getPhpCodeCommentLine('Form File:', 'Upload ' . $ccFieldName, "\t\t");
         $ret            .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', "''", "\$this->getVar('{$fieldName}')", "\t\t");
@@ -617,7 +617,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     private function getXoopsFormSelectStatus($language, $moduleDirname, $fieldName, $tablePermissions, $required = 'false')
     {
         $ccFieldName  = $this->cf->getCamelCase($fieldName, false, true);
-        $languageShort = \substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
+        $languageShort = \substr($language, 0, 4) . \mb_strtoupper($moduleDirname) . '_';
         $t            = "\t\t";
         $ret          = $this->pc->getPhpCodeCommentLine('Form Select', 'Status ' . $ccFieldName, $t);
         if (1 == $tablePermissions) {
@@ -716,7 +716,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     private function getXoopsFormRadio($language, $moduleDirname, $fieldName, $required = 'false')
     {
         $ccFieldName   = $this->cf->getCamelCase($fieldName, false, true);
-        $languageShort = \substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
+        $languageShort = \substr($language, 0, 4) . \mb_strtoupper($moduleDirname) . '_';
         $t             = "\t\t";
         $ret           = $this->pc->getPhpCodeCommentLine('Form Radio', $ccFieldName, $t);
         $ret           .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', '0', "\$this->getVar('{$fieldName}')", $t);
@@ -745,7 +745,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     {
         $ucfTableName  = \ucfirst($tableName);
         $ccFieldName   = $this->cf->getCamelCase($fieldName, false, true);
-        $languageShort = \substr($language, 0, 4) . mb_strtoupper($moduleDirname) . '_';
+        $languageShort = \substr($language, 0, 4) . \mb_strtoupper($moduleDirname) . '_';
         $t             = "\t\t";
         $ret           = $this->pc->getPhpCodeCommentLine($ucfTableName, 'Handler', $t);
         $ret           .= $this->xc->getXcHandlerLine($tableName, $t);
@@ -775,7 +775,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $t   = "\t\t";
         $ret = '';
         $fElement           = $this->helper->getHandler('Fieldelements')->get($fieldElement);
-        $rpFieldelementName = mb_strtolower(\str_replace('Table : ', '', $fElement->getVar('fieldelement_name')));
+        $rpFieldelementName = \mb_strtolower(\str_replace('Table : ', '', $fElement->getVar('fieldelement_name')));
         $ret                .= $this->pc->getPhpCodeCommentLine('Form Table', $rpFieldelementName, $t);
         $ccFieldName        = $this->cf->getCamelCase($fieldName, false, true);
         $ret                .= $this->xc->getXcHandlerLine($rpFieldelementName, $t);
@@ -799,7 +799,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     private function getXoopsFormTopic($language, $topicTableName, $fieldId, $fieldPid, $fieldMain)
     {
         $ucfTopicTableName = \ucfirst($topicTableName);
-        $stlTopicTableName = mb_strtolower($topicTableName);
+        $stlTopicTableName = \mb_strtolower($topicTableName);
         $ccFieldPid        = $this->cf->getCamelCase($fieldPid, false, true);
         $t                 = "\t\t";
         $ret               = $this->pc->getPhpCodeCommentLine('Form Table', $ucfTopicTableName, $t);
@@ -874,7 +874,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
                 $fieldId = $fieldName;
             }
             $rpFieldName = $this->cf->getRightString($fieldName);
-            $language    = $languageFunct . mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
+            $language    = $languageFunct . \mb_strtoupper($tableSoleName) . '_' . \mb_strtoupper($rpFieldName);
             $required    = (1 == $fields[$f]->getVar('field_required')) ? ', true' : ' ';
 
             $fieldElements    = $this->helper->getHandler('Fieldelements')->get($fieldElement);
@@ -967,7 +967,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
                     if ((1 == $fieldParent) || 1 == $table->getVar('table_category')) {
                         $fieldElementMid  = $fieldElements->getVar('fieldelement_mid');
                         $fieldElementName = $fieldElements->getVar('fieldelement_name');
-                        $fieldNameDesc    = mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
+                        $fieldNameDesc    = mb_substr($fieldElementName, \mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
                         $topicTableName   = \str_replace(': ', '', $fieldNameDesc);
                         $fieldsTopics     = $this->tf->getTableFields($fieldElementMid, $fieldElementTid);
                         foreach (\array_keys($fieldsTopics) as $g) {

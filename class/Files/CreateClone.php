@@ -66,7 +66,7 @@ class CreateClone
     {
         if ($replace_code) {
             $noChangeExtensions = ['jpeg', 'jpg', 'gif', 'png', 'zip', 'ttf'];
-            if (\in_array(mb_strtolower(\pathinfo($src_file, PATHINFO_EXTENSION)), $noChangeExtensions)) {
+            if (\in_array(\mb_strtolower(\pathinfo($src_file, PATHINFO_EXTENSION)), $noChangeExtensions)) {
                 // image
                 \copy($src_file, $dst_file);
             } else {

@@ -25,7 +25,7 @@ use XoopsModules\Modulebuilder;
 include \dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName = \basename(\dirname(__DIR__));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName); //$capsDirName
 
 \defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 $dirname = $GLOBALS['xoopsModule']->getVar('dirname');

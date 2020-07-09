@@ -176,7 +176,7 @@ class LanguageModinfo extends Files\CreateFile
         foreach (\array_keys($tables) as $t) {
             $tableName     = $tables[$t]->getVar('table_name');
             $tableSearch[] = $tables[$t]->getVar('table_search');
-            $ucfTablename  = \ucfirst(mb_strtolower($tableName));
+            $ucfTablename  = \ucfirst(\mb_strtolower($tableName));
             if (1 == $tables[$t]->getVar('table_submenu')) {
                 $ret .= $this->ld->getDefine($language, "SMNAME{$i}", $ucfTablename);
             }
@@ -208,9 +208,9 @@ class LanguageModinfo extends Files\CreateFile
         foreach (\array_keys($tables) as $i) {
             if (1 == $tables[$i]->getVar('table_blocks')) {
                 $tableName        = $tables[$i]->getVar('table_name');
-                $stuTableName     = mb_strtoupper($tableName);
+                $stuTableName     = \mb_strtoupper($tableName);
                 $tableSoleName    = $tables[$i]->getVar('table_solename');
-                $stuTableSoleName = mb_strtoupper($tableSoleName);
+                $stuTableSoleName = \mb_strtoupper($tableSoleName);
                 $ucfTableName     = \ucfirst($tableName);
                 $ucfTableSoleName = \ucfirst($stuTableSoleName);
                 $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
@@ -417,7 +417,7 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageNotificationsTable($language, $tableName, $tableSoleName, $tableBroken, $tableComment)
     {
-        $stuTableSoleName = mb_strtoupper($tableSoleName);
+        $stuTableSoleName = \mb_strtoupper($tableSoleName);
         $ucfTableSoleName = \ucfirst($tableSoleName);
 		$ret              = $this->ld->getAboveDefines($ucfTableSoleName . ' notifications');
         $getDefinesNotif  = [

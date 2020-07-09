@@ -241,7 +241,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $ucfTableName      = \ucfirst($tableName);
         $fieldElements     = $this->helper->getHandler('Fieldelements')->get($fieldElement);
         $fieldElementName  = $fieldElements->getVar('fieldelement_name');
-        $fieldNameDesc     = \ucfirst(mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName)));
+        $fieldNameDesc     = \ucfirst(mb_substr($fieldElementName, \mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName)));
         $topicTableName    = \str_replace(': ', '', $fieldNameDesc);
         $lcfTopicTableName = lcfirst($topicTableName);
 

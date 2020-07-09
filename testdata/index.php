@@ -24,7 +24,7 @@ require \dirname(__DIR__) . '/preloads/autoloader.php';
 $op = \Xmf\Request::getCmd('op', '');
 
 $moduleDirName = \basename(\dirname(__DIR__));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 $helper = Modulebuilder\Helper::getInstance();
 // Load language files
@@ -55,7 +55,7 @@ function loadSampleData()
     global $xoopsConfig;
 
     $moduleDirName = \basename(\dirname(__DIR__));
-    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
     $utility      = new Modulebuilder\Utility();
     $configurator = new Common\Configurator();
@@ -92,7 +92,7 @@ function saveSampleData()
     $configurator = new Common\Configurator();
 
     $moduleDirName = \basename(\dirname(__DIR__));
-    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
     $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
 
@@ -121,7 +121,7 @@ function saveSampleData()
 function exportSchema()
 {
     $moduleDirName      = \basename(\dirname(__DIR__));
-    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
     try {
         // TODO set exportSchema

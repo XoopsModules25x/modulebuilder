@@ -133,11 +133,11 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesList($moduleDirname, $table, $language, $fieldInForm, $t = '')
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $tableName        = $table->getVar('table_name');
         $tableSoleName    = $table->getVar('table_solename');
-        $stuTableName     = mb_strtoupper($tableName);
-        $stuTableSoleName = mb_strtoupper($tableSoleName);
+        $stuTableName     = \mb_strtoupper($tableName);
+        $stuTableSoleName = \mb_strtoupper($tableSoleName);
 
         $ret        = $this->pc->getPhpCodeCommentLine('Define Stylesheet', '', $t);
         $ret        .= $this->xc->getXcXoThemeAddStylesheet('style', $t);
@@ -182,7 +182,7 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, $t = '')
     {
-        $stuTableName = mb_strtoupper($tableName);
+        $stuTableName = \mb_strtoupper($tableName);
         $ret          = $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
         $navigation   = $this->axc->getAdminDisplayNavigation($tableName);
         $ret          .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
@@ -334,8 +334,8 @@ class AdminPages extends Files\CreateFile
     {
         $tableName         = $table->getVar('table_name');
         $tableSoleName     = $table->getVar('table_solename');
-        $stuTableName      = mb_strtoupper($tableName);
-        $stuTableSoleName  = mb_strtoupper($tableSoleName);
+        $stuTableName      = \mb_strtoupper($tableName);
+        $stuTableSoleName  = \mb_strtoupper($tableSoleName);
         $ccFieldId         = $this->getCamelCase($fieldId, false, true);
 
         $ret        = $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);

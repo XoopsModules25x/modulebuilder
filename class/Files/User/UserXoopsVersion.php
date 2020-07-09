@@ -133,7 +133,7 @@ class UserXoopsVersion extends Files\CreateFile
         $ret  = $this->getSimpleString('');
         $ret  .= Modulebuilder\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine();
         $ret  .= $this->xc->getXcEqualsOperator('$moduleDirName     ', '\basename(__DIR__)');
-        $ret  .= $this->xc->getXcEqualsOperator('$moduleDirNameUpper', 'mb_strtoupper($moduleDirName)');
+        $ret  .= $this->xc->getXcEqualsOperator('$moduleDirNameUpper', '\mb_strtoupper($moduleDirName)');
         $ret  .= $this->getDashComment('Informations');
         $ha   = (1 == $module->getVar('mod_admin')) ? 1 : 0;
         $hm   = (1 == $module->getVar('mod_user')) ? 1 : 0;
@@ -494,7 +494,7 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionTypeBlocks($moduleDirname, $tableName, $stuTableSoleName, $language, $type)
     {
-        $stuTableName    = mb_strtoupper($tableName);
+        $stuTableName    = \mb_strtoupper($tableName);
         $ucfTableName    = \ucfirst($tableName);
         $ret             = $this->pc->getPhpCodeCommentLine($ucfTableName . ' ' . $type);
         $blocks          = [
@@ -1031,7 +1031,7 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionNotificationGlobal($language, $type, $name, $title, $from)
     {
-        $title       = mb_strtoupper($title);
+        $title       = \mb_strtoupper($title);
         $implodeFrom = \implode(".php', '", $from);
         $ret         = $this->pc->getPhpCodeCommentLine('Global Notify');
         $global      = [
@@ -1060,7 +1060,7 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionNotificationTableName($language, $type, $name, $title, $file, $item, $allow)
     {
-        $stuTitle = mb_strtoupper($title);
+        $stuTitle = \mb_strtoupper($title);
         $ucfTitle = \ucfirst($title);
         $ret      = $this->pc->getPhpCodeCommentLine($ucfTitle . ' Notify');
         $table    = [
@@ -1090,7 +1090,7 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionNotificationCodeComplete($language, $type, $name, $category, $admin, $title, $mail)
     {
-        $title    = mb_strtoupper($title);
+        $title    = \mb_strtoupper($title);
         $ucfTitle = \ucfirst($title);
         $ret      = $this->pc->getPhpCodeCommentLine($ucfTitle . ' Notify');
         $event    = [
@@ -1116,7 +1116,7 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionSelectSizeMB($moduleDirname, $t = '')
     {
-        $ucModuleDirname       = mb_strtoupper($moduleDirname);
+        $ucModuleDirname       = \mb_strtoupper($moduleDirname);
 
         $ret  = $this->pc->getPhpCodeCommentLine('create increment steps for file size');
         $ret  .= $this->pc->getPhpCodeIncludeDir("__DIR__ . '/include/xoops_version.inc.php'", '',true,true);

@@ -84,10 +84,10 @@ class LogoGenerator
 
         // Write text
         $textColor     = imagecolorallocate($imageModule, 0, 0, 0);
-        $spaceToBorder = (92 - \mb_strlen($moduleName) * 7.5) / 2;
+        $spaceToBorder = (92 - mb_strlen($moduleName) * 7.5) / 2;
         imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, $moduleName, []);
 
-        imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
+        image\copy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
 
         //$targetImage = TDMC_UPLOAD_IMGMOD_URL . "/" . $moduleName . "_logo.png";
         $targetImage = '/uploads/' . $dirname . '/images/modules/' . $moduleName . '_logo.png';
