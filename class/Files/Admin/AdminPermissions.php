@@ -111,7 +111,7 @@ class AdminPermissions extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $tables        = $this->getTableTables($module->getVar('mod_id'));
         $tableNames    = [];
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             if (1 == $tables[$t]->getVar('table_permissions')) {
                 $tableNames[] = $tables[$t]->getVar('table_name');
             }
@@ -132,7 +132,7 @@ class AdminPermissions extends Files\CreateFile
         $ret           .= $this->xc->getXcXoopsLoad('XoopsFormLoader');
         $optionsSelect['global'] = "{$language}PERMISSIONS_GLOBAL";
         foreach ($tableNames as $tableName) {
-            $ucfTablename = ucfirst($tableName);
+            $ucfTablename = \ucfirst($tableName);
             $optionsSelect["approve_{$tableName}"] = "{$language}PERMISSIONS_APPROVE . ' {$ucfTablename}'";
             $optionsSelect["submit_{$tableName}"] = "{$language}PERMISSIONS_SUBMIT . ' {$ucfTablename}'";
             $optionsSelect["view_{$tableName}"] = "{$language}PERMISSIONS_VIEW . ' {$ucfTablename}'";
@@ -162,10 +162,10 @@ class AdminPermissions extends Files\CreateFile
                 "{$t}\$permDesc = {$language}PERMISSIONS_GLOBAL_DESC;{$n}",
                 "{$t}\$globalPerms = array( '4' => {$language}PERMISSIONS_GLOBAL_4, '8' => {$language}PERMISSIONS_GLOBAL_8, '16' => {$language}PERMISSIONS_GLOBAL_16 );{$n}",
                 ];
-        foreach (array_keys($tables) as $i) {
+        foreach (\array_keys($tables) as $i) {
             if (1 == $tables[$i]->getVar('table_permissions')) {
                 $tableName = $tables[$i]->getVar('table_name');
-                $ucfTablename = ucfirst($tableName);
+                $ucfTablename = \ucfirst($tableName);
                 $cases["approve_{$tableName}"] = [
                     "{$t}\$formTitle = {$language}PERMISSIONS_APPROVE;{$n}",
                     "{$t}\$permName = '{$moduleDirname}_approve_{$tableName}';{$n}",
@@ -212,7 +212,7 @@ class AdminPermissions extends Files\CreateFile
         $if1      .= $this->xc->getXcEqualsOperator('$permFound', 'true', null, "\t");
         $ret      .= $this->pc->getPhpCodeConditions('$op', ' === ', "'global'", $if1, false);
 
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             if (1 == $tables[$t]->getVar('table_permissions')) {
                 $tableId   = $tables[$t]->getVar('table_id');
                 $tableMid  = $tables[$t]->getVar('table_mid');
@@ -220,7 +220,7 @@ class AdminPermissions extends Files\CreateFile
                 $fields    = $this->getTableFields($tableMid, $tableId);
                 $fieldId   = 'id';
                 $fieldMain = 'title';
-                foreach (array_keys($fields) as $f) {
+                foreach (\array_keys($fields) as $f) {
                     $fieldName = $fields[$f]->getVar('field_name');
                     if (0 == $f) {
                         $fieldId = $fieldName;

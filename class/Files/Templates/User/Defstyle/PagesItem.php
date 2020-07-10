@@ -101,7 +101,7 @@ class PagesItem extends Files\CreateFile
         $fieldId   = '';
         $ccFieldId = '';
         $keyDouble = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             if (0 == $f) {
                 $fieldId = $fields[$f]->getVar('field_name');
                 $ccFieldId = $this->getCamelCase($fieldId, false, true);
@@ -125,7 +125,7 @@ class PagesItem extends Files\CreateFile
         $ret     .= $this->hc->getHtmlI('', '', $ccFieldId . '_' . $keyDouble);
         $ret     .= $this->hc->getHtmlDiv($retNumb, 'panel-heading');
         $retElem = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_tbody')) {
@@ -163,12 +163,12 @@ class PagesItem extends Files\CreateFile
         $ret .= $this->hc->getHtmlDiv($retElem, 'panel-body');
 
         $retFoot   = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_tfoot')) {
                     $fieldName   = $fields[$f]->getVar('field_name');
                     $rpFieldName = $this->getRightString($fieldName);
-                    $langConst   = mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
+                    $langConst   = \mb_strtoupper($tableSoleName) . '_' . \mb_strtoupper($rpFieldName);
                     $lang        = $this->sc->getSmartyConst($language, $langConst);
                     $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                     $retFoot     .= $this->hc->getHtmlSpan($lang . ': ' . $doubleVar, 'block-pie justify',"\t");
@@ -177,7 +177,7 @@ class PagesItem extends Files\CreateFile
         }
 
         $anchors = '';
-        $lang        = $this->sc->getSmartyConst($language, mb_strtoupper($tableName) . '_LIST');
+        $lang        = $this->sc->getSmartyConst($language, \mb_strtoupper($tableName) . '_LIST');
         $contIf =  $this->hc->getHtmlAnchor($tableName . ".php?op=list&amp;#{$ccFieldId}_" . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
         $lang        = $this->sc->getSmartyConst($language, 'DETAILS');
         $contElse =  $this->hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
@@ -218,7 +218,7 @@ class PagesItem extends Files\CreateFile
         $tableSoleName   = $table->getVar('table_solename');
         $tableRate       = $table->getVar('table_rate');
         $tableCategory[] = $table->getVar('table_category');
-        if (in_array(0, $tableCategory)) {
+        if (\in_array(0, $tableCategory)) {
             $content .= $this->getTemplatesUserPagesItemPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableRate, $language);
         }
 

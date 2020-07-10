@@ -47,11 +47,11 @@ switch ($op) {
         $modulesAll   = $helper->getHandler('Modules')->getAllModules($start, $limit);
         // Redirect if there aren't modules
         if (0 == $modulesCount) {
-            redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_MODULES2);
+            \redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_MODULES2);
         }
         // Display modules list
         if ($modulesCount > 0) {
-            foreach (array_keys($modulesAll) as $i) {
+            foreach (\array_keys($modulesAll) as $i) {
                 $module = $modulesAll[$i]->getValuesModules();
                 $GLOBALS['xoopsTpl']->append('modules_list', $module);
                 unset($module);
@@ -73,8 +73,8 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $settings = $helper->getHandler('Settings')->getActiveSetting();
-        if (0 == count($settings)) {
-            redirect_header('settings.php', 5, _AM_MODULEBUILDER_MODULE_NOACTSET);
+        if (0 == \count($settings)) {
+            \redirect_header('settings.php', 5, _AM_MODULEBUILDER_MODULE_NOACTSET);
         }
         $modulesObj = $helper->getHandler('Modules')->create();
         $form       = $modulesObj->getFormModules();
@@ -82,14 +82,14 @@ switch ($op) {
         break;
     case 'save':
         if (!$GLOBALS['xoopsSecurity']->check()) {
-            redirect_header('modules.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+            \redirect_header('modules.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($modId)) {
             $modulesObj = $helper->getHandler('Modules')->get($modId);
         } else {
             $modulesObj = $helper->getHandler('Modules')->create();
         }
-        $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', mb_strtolower(\Xmf\Request::getString('mod_dirname', '', 'POST')));
+        $moduleDirname = \preg_replace('/[^a-zA-Z0-9]\s+/', '', \mb_strtolower(\Xmf\Request::getString('mod_dirname', '', 'POST')));
         //Form module save
         $modulesObj->setVars(
             [
@@ -123,7 +123,7 @@ switch ($op) {
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
             if (!$uploader->upload()) {
                 $errors = &$uploader->getErrors();
-                redirect_header('javascript:history.go(-1)', 3, $errors);
+                \redirect_header('javascript:history.go(-1)', 3, $errors);
             } else {
                 $modulesObj->setVar('mod_image', $uploader->getSavedFileName());
             }
@@ -146,20 +146,20 @@ switch ($op) {
             ]
         );
         $moduleOption = \Xmf\Request::getArray('module_option', []);
-        $modulesObj->setVar('mod_admin', in_array('admin', $moduleOption));
-        $modulesObj->setVar('mod_user', in_array('user', $moduleOption));
-        $modulesObj->setVar('mod_blocks', in_array('blocks', $moduleOption));
-        $modulesObj->setVar('mod_search', in_array('search', $moduleOption));
-        $modulesObj->setVar('mod_comments', in_array('comments', $moduleOption));
-        $modulesObj->setVar('mod_notifications', in_array('notifications', $moduleOption));
-        $modulesObj->setVar('mod_permissions', in_array('permissions', $moduleOption));
-        //$modulesObj->setVar('mod_inroot_copy', in_array('inroot_copy', $moduleOption));
+        $modulesObj->setVar('mod_admin', \in_array('admin', $moduleOption));
+        $modulesObj->setVar('mod_user', \in_array('user', $moduleOption));
+        $modulesObj->setVar('mod_blocks', \in_array('blocks', $moduleOption));
+        $modulesObj->setVar('mod_search', \in_array('search', $moduleOption));
+        $modulesObj->setVar('mod_comments', \in_array('comments', $moduleOption));
+        $modulesObj->setVar('mod_notifications', \in_array('notifications', $moduleOption));
+        $modulesObj->setVar('mod_permissions', \in_array('permissions', $moduleOption));
+        //$modulesObj->setVar('mod_inroot_copy', \in_array('inroot_copy', $moduleOption));
 
         if ($helper->getHandler('Modules')->insert($modulesObj)) {
             if ($modulesObj->isNew()) {
-                redirect_header('tables.php', 5, sprintf(_AM_MODULEBUILDER_MODULE_FORM_CREATED_OK, \Xmf\Request::getString('mod_name', '', 'POST')));
+                \redirect_header('tables.php', 5, \sprintf(_AM_MODULEBUILDER_MODULE_FORM_CREATED_OK, \Xmf\Request::getString('mod_name', '', 'POST')));
             } else {
-                redirect_header('modules.php', 5, sprintf(_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('mod_name', '', 'POST')));
+                \redirect_header('modules.php', 5, \sprintf(_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('mod_name', '', 'POST')));
             }
         }
 
@@ -182,10 +182,10 @@ switch ($op) {
         $modulesObj = $helper->getHandler('Modules')->get($modId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
-                redirect_header('modules.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+                \redirect_header('modules.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($helper->getHandler('Modules')->delete($modulesObj)) {
-                redirect_header('modules.php', 3, _AM_MODULEBUILDER_FORMDELOK);
+                \redirect_header('modules.php', 3, _AM_MODULEBUILDER_FORMDELOK);
             } else {
                 $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
             }
@@ -211,7 +211,7 @@ switch ($op) {
                 }
             }
             if ($helper->getHandler('Modules')->insert($modulesObj)) {
-                redirect_header('modules.php', 3, _AM_MODULEBUILDER_TOGGLE_SUCCESS);
+                \redirect_header('modules.php', 3, _AM_MODULEBUILDER_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
         }

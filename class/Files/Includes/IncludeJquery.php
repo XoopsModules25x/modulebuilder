@@ -25,7 +25,7 @@ use XoopsModules\Modulebuilder\Files;
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+\defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class IncludeJquery.

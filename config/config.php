@@ -16,12 +16,12 @@
  * @since
  * @author       XOOPS Development Team
  */
-$moduleDirName      = basename(dirname(__DIR__));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
-xoops_loadLanguage('common', $moduleDirName);
+$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
+\xoops_loadLanguage('common', $moduleDirName);
 
 return (object)[
-    'name'           => mb_strtoupper($moduleDirName) . ' ModuleConfigurator',
+    'name'           => \mb_strtoupper($moduleDirName) . ' ModuleConfigurator',
     'paths'          => [
         'dirname'    => $moduleDirName,
         'admin'      => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',

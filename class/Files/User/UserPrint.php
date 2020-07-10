@@ -95,7 +95,7 @@ class UserPrint extends Files\CreateFile
      */
     public function getUserPrint($moduleDirname, $language)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $table            = $this->getTable();
         $tableName        = $table->getVar('table_name');
         $tableSoleName    = $table->getVar('table_solename');
@@ -105,7 +105,7 @@ class UserPrint extends Files\CreateFile
         $fieldMain        = '';
         $fieldName        = '';
         $ucfFieldName     = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName   = $fields[$f]->getVar('field_name');
             if ((0 == $f) && (1 == $this->table->getVar('table_autoincrement'))) {
                 $fieldId = $fieldName;
@@ -114,10 +114,10 @@ class UserPrint extends Files\CreateFile
                     $fieldMain = $fieldName; // fieldMain = fields parameters main field
                 }
             }
-            $ucfFieldName = ucfirst($fieldName);
+            $ucfFieldName = \ucfirst($fieldName);
         }
         $ccFieldId      = $this->getCamelCase($fieldId, false, true);
-        $stuLpFieldName = mb_strtoupper($ccFieldId);
+        $stuLpFieldName = \mb_strtoupper($ccFieldId);
         $ret            = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret            .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret            .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
@@ -130,27 +130,28 @@ class UserPrint extends Files\CreateFile
 
         $ret            .= $this->pc->getPhpCodeCommentLine('Get Instance of Handler');
         $ret            .= $this->xc->getXcHandlerLine($tableName);
+        $ret            .= $this->xc->getXcXoopsHandler('groupperm');
 
         $ret            .= $this->pc->getPhpCodeCommentLine('Verify that the article is published');
         if (false !== mb_strpos($fieldName, 'published')) {
             $ret            .= $this->pc->getPhpCodeCommentLine('Not yet', $fieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
-            $ret            .= $this->pc->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') == 0 || \${$tableName}Handler->getVar('{$fieldName}') > time()", '', '', $redirectHeader);
+            $ret            .= $this->pc->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') == 0 || \${$tableName}Handler->getVar('{$fieldName}') > \time()", '', '', $redirectHeader);
         }
         if (false !== mb_strpos($fieldName, 'expired')) {
             $ret            .= $this->pc->getPhpCodeCommentLine('Expired', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
-            $ret            .= $this->pc->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
+            $ret            .= $this->pc->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < \time()", '', '', $redirectHeader);
         }
         if (false !== mb_strpos($fieldName, 'date')) {
             $ret            .= $this->pc->getPhpCodeCommentLine('Date', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
-            $ret            .= $this->pc->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
+            $ret            .= $this->pc->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < \time()", '', '', $redirectHeader);
         }
         if (false !== mb_strpos($fieldName, 'time')) {
             $ret            .= $this->pc->getPhpCodeCommentLine('Time', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
-            $ret            .= $this->pc->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
+            $ret            .= $this->pc->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < \time()", '', '', $redirectHeader);
         }
         $ret            .= $this->xc->getXcHandlerGet($tableName, $ccFieldId, '', $tableName . 'Handler',false);
         $gperm          = $this->xc->getXcCheckRight('!$grouppermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVar('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);

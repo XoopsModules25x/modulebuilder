@@ -86,7 +86,7 @@ class LanguageDefines
     {
         $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
 
-        $defined = mb_strtoupper($defined);
+        $defined = \mb_strtoupper($defined);
 
         if ($usedoubleqoute) {
             $ret = $pc->getPhpCodeDefine("{$language}{$defined}", "\"{$description}\"");

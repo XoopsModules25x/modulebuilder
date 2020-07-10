@@ -97,10 +97,10 @@ class LanguageAdmin extends Files\CreateFile
         $ret .= $this->ld->getAboveHeadDefines('Admin Index');
         $ret .= $this->ld->getDefine($language, 'STATISTICS', 'Statistics');
         $ret .= $this->ld->getAboveDefines('There are');
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableName    = $tables[$t]->getVar('table_name');
-            $stuTableName = mb_strtoupper($tableName);
-            $stlTableName = mb_strtolower($tableName);
+            $stuTableName = \mb_strtoupper($tableName);
+            $stlTableName = \mb_strtolower($tableName);
             $ret          .= $this->ld->getDefine($language, "THEREARE_{$stuTableName}", "There are <span class='bold'>%s</span> {$stlTableName} in the database", true);
         }
 
@@ -117,10 +117,10 @@ class LanguageAdmin extends Files\CreateFile
     {
         $ret = $this->ld->getAboveHeadDefines('Admin Files');
         $ret .= $this->ld->getAboveDefines('There aren\'t');
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableName    = $tables[$t]->getVar('table_name');
-            $stuTableName = mb_strtoupper($tableName);
-            $stlTableName = mb_strtolower($tableName);
+            $stuTableName = \mb_strtoupper($tableName);
+            $stlTableName = \mb_strtolower($tableName);
             $ret          .= $this->ld->getDefine($language, "THEREARENT_{$stuTableName}", "There aren't {$stlTableName}", true);
         }
         $ret .= $this->ld->getAboveDefines('Save/Delete');
@@ -130,18 +130,18 @@ class LanguageAdmin extends Files\CreateFile
         $ret .= $this->ld->getDefine($language, 'FORM_SURE_RENEW', "Are you sure to update: <b><span style='color : Red;'>%s </span></b>", true);
         $ret .= $this->ld->getAboveDefines('Buttons');
 
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableSoleName    = $tables[$t]->getVar('table_solename');
-            $stuTableSoleName = mb_strtoupper($tableSoleName);
-            $ucfTableSoleName = ucfirst($tableSoleName);
+            $stuTableSoleName = \mb_strtoupper($tableSoleName);
+            $ucfTableSoleName = \ucfirst($tableSoleName);
             $ret              .= $this->ld->getDefine($language, "ADD_{$stuTableSoleName}", "Add New {$ucfTableSoleName}");
         }
         $ret .= $this->ld->getAboveDefines('Lists');
 
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableName    = $tables[$t]->getVar('table_name');
-            $stuTableName = mb_strtoupper($tableName);
-            $ucfTableName = ucfirst($tableName);
+            $stuTableName = \mb_strtoupper($tableName);
+            $ucfTableName = \ucfirst($tableName);
             $ret          .= $this->ld->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
         }
 
@@ -160,16 +160,16 @@ class LanguageAdmin extends Files\CreateFile
         $fieldStatus          = 0;
         $fieldSampleListValue = 0;
         $tableBroken          = 0;
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableId          = $tables[$t]->getVar('table_id');
             $tableMid         = $tables[$t]->getVar('table_mid');
             $tableSoleName    = $tables[$t]->getVar('table_solename');
             $tableBroken      = $tables[$t]->getVar('table_broken');
-            $ucfTableSoleName = ucfirst($tableSoleName);
+            $ucfTableSoleName = \ucfirst($tableSoleName);
 
             $fields      = $this->getTableFields($tableMid, $tableId);
             $fieldInForm = 0;
-            foreach (array_keys($fields) as $f) {
+            foreach (\array_keys($fields) as $f) {
                 if ($fieldInForm < $fields[$f]->getVar('field_inform')) {
                     $fieldInForm = $fields[$f]->getVar('field_inform');
                 }
@@ -181,17 +181,17 @@ class LanguageAdmin extends Files\CreateFile
             }
             $ret .= $this->ld->getAboveDefines("Elements of {$ucfTableSoleName}");
 
-            foreach (array_keys($fields) as $f) {
+            foreach (\array_keys($fields) as $f) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');
                 $rpFieldName = $this->getRightString($fieldName);
                 if ($fieldElement > 16) {
                     $fieldElements    = Modulebuilder\Helper::getInstance()->getHandler('Fieldelements')->get($fieldElement);
                     $fieldElementName = $fieldElements->getVar('fieldelement_name');
-                    $fieldNameDesc    = mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
-                    $fieldNameDesc    = str_replace(': ', '', $fieldNameDesc);
+                    $fieldNameDesc    = mb_substr($fieldElementName, \mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
+                    $fieldNameDesc    = \str_replace(': ', '', $fieldNameDesc);
                 } else {
-                    $fieldNameDesc = false !== mb_strpos($rpFieldName, '_') ? str_replace('_', ' ', ucfirst($rpFieldName)) : ucfirst($rpFieldName);
+                    $fieldNameDesc = false !== mb_strpos($rpFieldName, '_') ? \str_replace('_', ' ', \ucfirst($rpFieldName)) : \ucfirst($rpFieldName);
                 }
                 $ret          .= $this->ld->getDefine($language, $tableSoleName . '_' . $rpFieldName, $fieldNameDesc);
 
@@ -314,7 +314,7 @@ class LanguageAdmin extends Files\CreateFile
         $module = $this->getModule();
         $tables = $this->getTableTables($module->getVar('mod_id'));
         $tablePermissions = [];
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');
         }
         $tables        = $this->getTables();
@@ -322,12 +322,12 @@ class LanguageAdmin extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'AM');
         $content       = $this->getHeaderFilesComments($module);
-        if (is_array($tables)) {
+        if (\is_array($tables)) {
             $content .= $this->getLanguageAdminIndex($language, $tables);
             $content .= $this->getLanguageAdminPages($language, $tables);
             $content .= $this->getLanguageAdminClass($language, $tables);
         }
-        if (in_array(1, $tablePermissions)) {
+        if (\in_array(1, $tablePermissions)) {
             $content .= $this->getLanguageAdminPermissions($language);
         }
         $content .= $this->getLanguageAdminFoot($language);

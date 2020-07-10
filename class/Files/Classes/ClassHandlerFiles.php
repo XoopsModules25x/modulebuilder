@@ -105,7 +105,7 @@ class ClassHandlerFiles extends Files\CreateFile
     {
         $tableName        = $table->getVar('table_name');
         $tableFieldName   = $table->getVar('table_fieldname');
-        $ucfTableName     = ucfirst($tableName);
+        $ucfTableName     = \ucfirst($tableName);
         $multiLineCom     = ['Class Object Handler' => $ucfTableName];
         $ret              = $this->pc->getPhpCodeCommentMultiLine($multiLineCom);
 
@@ -119,7 +119,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $cClh .= $this->getClassCounter($tableName, $fieldId, $fieldMain);
         $cClh .= $this->getClassAll($tableName, $fieldId, $fieldMain);
         $cClh .= $this->getClassCriteria($tableName);
-        if ($fieldElement > 16 && in_array(1, $fieldParentId)) {
+        if ($fieldElement > 16 && \in_array(1, $fieldParentId)) {
             $cClh .= $this->getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldElement);
             $cClh .= $this->getClassGetTableSolenameById($table, $fieldMain);
         }
@@ -185,7 +185,7 @@ class ClassHandlerFiles extends Files\CreateFile
      */
     private function getClassCounter($tableName, $fieldId, $fieldMain)
     {
-        $ucfTableName = ucfirst($tableName);
+        $ucfTableName = \ucfirst($tableName);
         $ret          = $this->pc->getPhpCodeCommentMultiLine(['Get Count ' . $ucfTableName => 'in the database', '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'int'], "\t");
 
         $critCount  = $this->xc->getXcCriteriaCompo('crCount' . $ucfTableName, "\t\t");
@@ -210,7 +210,7 @@ class ClassHandlerFiles extends Files\CreateFile
      */
     private function getClassAll($tableName, $fieldId, $fieldMain)
     {
-        $ucfTableName = ucfirst($tableName);
+        $ucfTableName = \ucfirst($tableName);
         $ret          = $this->pc->getPhpCodeCommentMultiLine(['Get All ' . $ucfTableName => 'in the database', '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'array'], "\t");
 
         $critAll    = $this->xc->getXcCriteriaCompo('crAll' . $ucfTableName, "\t\t");
@@ -238,11 +238,11 @@ class ClassHandlerFiles extends Files\CreateFile
      */
     private function getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldElement)
     {
-        $ucfTableName      = ucfirst($tableName);
+        $ucfTableName      = \ucfirst($tableName);
         $fieldElements     = $this->helper->getHandler('Fieldelements')->get($fieldElement);
         $fieldElementName  = $fieldElements->getVar('fieldelement_name');
-        $fieldNameDesc     = ucfirst(mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName)));
-        $topicTableName    = str_replace(': ', '', $fieldNameDesc);
+        $fieldNameDesc     = \ucfirst(mb_substr($fieldElementName, \mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName)));
+        $topicTableName    = \str_replace(': ', '', $fieldNameDesc);
         $lcfTopicTableName = lcfirst($topicTableName);
 
         $ret = $this->pc->getPhpCodeCommentMultiLine(["Get All {$ucfTableName} By" => "{$fieldNameDesc} Id", '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'array'], "\t");
@@ -277,7 +277,7 @@ class ClassHandlerFiles extends Files\CreateFile
      */
     private function getClassCriteria($tableName)
     {
-        $ucfTableName = ucfirst($tableName);
+        $ucfTableName = \ucfirst($tableName);
         $ret          = $this->pc->getPhpCodeCommentMultiLine(['Get' => 'Criteria ' . $ucfTableName, '@param       ' => "\$cr{$ucfTableName}", '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'int'], "\t");
 
         $paramsAllCriteria = "\$cr{$ucfTableName}, \$start, \$limit, \$sort, \$order";
@@ -304,7 +304,7 @@ class ClassHandlerFiles extends Files\CreateFile
     {
         $tableName        = $table->getVar('table_name');
         $tableSoleName    = $table->getVar('table_solename');
-        $ucfTableSoleName = ucfirst($tableSoleName);
+        $ucfTableSoleName = \ucfirst($tableSoleName);
         $ccTableSoleName  = $this->getCamelCase($tableSoleName, true);
 
         $ret              = $this->pc->getPhpCodeCommentMultiLine(['Returns the' => $ucfTableSoleName . ' from id', '' => '', '@return' => 'string'], "\t");
@@ -313,7 +313,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $contentIf        = $this->xc->getXcHandlerLine($tableName, "\t\t\t");
         $contentIf        .= $this->xc->getXcHandlerGet($tableName, "\${$tableSoleName}Id", 'Obj', true, false, "\t\t\t");
         $getVar           = $this->xc->getXcGetVar($ccTableSoleName, "{$tableSoleName}Obj", $fieldMain, false, "\t\t\t\t");
-        $contentIf        .= $this->pc->getPhpCodeConditions("is_object( \${$tableSoleName}Obj )", '', '', $getVar, false, "\t\t\t");
+        $contentIf        .= $this->pc->getPhpCodeConditions("\is_object( \${$tableSoleName}Obj )", '', '', $getVar, false, "\t\t\t");
         $soleName         .= $this->pc->getPhpCodeConditions("\${$tableSoleName}Id", ' > ', '0', $contentIf, false, "\t\t");
         $soleName         .= $this->getSimpleString("return \${$tableSoleName};", "\t\t");
 
@@ -342,7 +342,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $fieldName      = null;
         $fieldMain      = null;
         $fieldElement   = null;
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName       = $fields[$f]->getVar('field_name');
             $fieldInForm[]   = $fields[$f]->getVar('field_inform');
             $fieldParentId[] = $fields[$f]->getVar('field_parent');

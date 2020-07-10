@@ -94,15 +94,15 @@ class IncludeSearch extends Files\CreateFile
      */
     public function getSearchFunction($moduleDirname)
     {
-        $ucfModuleDirname = ucfirst($moduleDirname);
+        $ucfModuleDirname = \ucfirst($moduleDirname);
         $tables           = $this->getTables();
         $t     = "\t";
         $ret   = $this->pc->getPhpCodeCommentMultiLine(['search callback functions' => '', '' => '', '@param $queryarray' => '', '@param $andor' => '', '@param $limit' => '', '@param $offset' => '', '@param $userid' => '', '@return' => 'mixed $itemIds']);
         $func  = $this->xc->getXcEqualsOperator('$ret', "[]", '', $t);
         $func .= $this->xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", $t);
 
-        if (is_array($tables)) {
-            foreach (array_keys($tables) as $i) {
+        if (\is_array($tables)) {
+            foreach (\array_keys($tables) as $i) {
                 if(1 === (int) $tables[$i]->getVar('table_search')) {
                     $tableId        = $tables[$i]->getVar('table_id');
                     $tableMid       = $tables[$i]->getVar('table_mid');
@@ -112,8 +112,8 @@ class IncludeSearch extends Files\CreateFile
                     $func   .= $this->pc->getPhpCodeCommentLine('search keywords', '', $t);
                     $func   .= $this->xc->getXcEqualsOperator('$elementCount', '0', '', $t);
                     $func   .= $this->xc->getXcHandlerLine($tableName, $t);
-                    $contIf = $this->xc->getXcEqualsOperator('$elementCount', 'count($queryarray)', '', $t . "\t");
-                    $func   .= $this->pc->getPhpCodeConditions('is_array($queryarray)', '', '', $contIf, false, $t);
+                    $contIf = $this->xc->getXcEqualsOperator('$elementCount', '\count($queryarray)', '', $t . "\t");
+                    $func   .= $this->pc->getPhpCodeConditions('\is_array($queryarray)', '', '', $contIf, false, $t);
                     $contIf = $this->xc->getXcCriteriaCompo('crKeywords', $t . "\t");
                     $for    = $this->xc->getXcCriteriaCompo('crKeyword', $t . "\t\t");
 
@@ -122,7 +122,7 @@ class IncludeSearch extends Files\CreateFile
                     $fieldMain = '';
                     $fieldDate = '';
                     $countField = 0;
-                    foreach (array_keys($fields) as $f) {
+                    foreach (\array_keys($fields) as $f) {
                         $fieldName = $fields[$f]->getVar('field_name');
                         if (0 == $f) {
                             $fieldId = $fieldName;
@@ -148,12 +148,12 @@ class IncludeSearch extends Files\CreateFile
                     $func     .= $this->pc->getPhpCodeCommentLine('search user(s)', '', $t);
                     $contIf   = $this->xc->getXcEqualsOperator('$userid', "array_map('intval', \$userid)", '', $t . "\t");
                     $contIf   .= $this->xc->getXcCriteriaCompo('crUser', $t . "\t");
-                    $crit     = $this->xc->getXcCriteria('', "'{$tableFieldname}_submitter'", "'(' . implode(',', \$userid) . ')'", "'IN'", true, $t . "\t");
+                    $crit     = $this->xc->getXcCriteria('', "'{$tableFieldname}_submitter'", "'(' . \implode(',', \$userid) . ')'", "'IN'", true, $t . "\t");
                     $contIf   .= $this->xc->getXcCriteriaAdd('crUser', $crit, $t . "\t", "\n", "'OR'");
                     $contElse = $this->xc->getXcCriteriaCompo('crUser', $t . "\t");
                     $crit     = $this->xc->getXcCriteria('', "'{$tableFieldname}_submitter'", '$userid', '', true, $t . "\t");
                     $contElse .= $this->xc->getXcCriteriaAdd('crUser', $crit, $t . "\t", "\n", "'OR'");
-                    $func     .= $this->pc->getPhpCodeConditions('$userid && is_array($userid)', '', '', $contIf, $contElse, $t, 'is_numeric($userid) && $userid > 0');
+                    $func     .= $this->pc->getPhpCodeConditions('$userid && \is_array($userid)', '', '', $contIf, $contElse, $t, 'is_numeric($userid) && $userid > 0');
                     $func     .= $this->xc->getXcCriteriaCompo('crSearch', $t);
                     $contIf   = $this->xc->getXcCriteriaAdd('crSearch', '$crKeywords', $t . "\t", "\n", "'AND'");
                     $cond     = $this->pc->getPhpCodeIsset('crKeywords');

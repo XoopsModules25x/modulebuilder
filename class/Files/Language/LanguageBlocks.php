@@ -88,21 +88,21 @@ class LanguageBlocks extends Files\CreateFile
         $ret    .= $this->ld->getDefine($language, 'TITLE_LENGTH', 'Title Length');
         $ret    .= $this->ld->getDefine($language, 'CATTODISPLAY', 'Categories to Display');
         $ret    .= $this->ld->getDefine($language, 'ALLCAT', 'All Categories');
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             if (1 === (int)$tables[$t]->getVar('table_blocks')) {
                 $tableName = $tables[$t]->getVar('table_name');
-                $ucfTableName = ucfirst($tableName);
+                $ucfTableName = \ucfirst($tableName);
                 $ret .= $this->ld->getAboveDefines($ucfTableName);
                 $fields = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
-                $stuTableName = mb_strtoupper($tableName);
+                $stuTableName = \mb_strtoupper($tableName);
                 $ret .= $this->ld->getDefine($language, $stuTableName . '_TO_DISPLAY', $ucfTableName . ' to Display');
                 $ret .= $this->ld->getDefine($language, 'ALL_' . $stuTableName, 'All ' . $ucfTableName);
-                foreach (array_keys($fields) as $f) {
+                foreach (\array_keys($fields) as $f) {
                     if (1 === (int)$fields[$f]->getVar('field_block')) {
                         $fieldName = $fields[$f]->getVar('field_name');
-                        $stuFieldName = mb_strtoupper($fieldName);
+                        $stuFieldName = \mb_strtoupper($fieldName);
                         $rpFieldName = $this->getRightString($fieldName);
-                        $fieldNameDesc = ucfirst($rpFieldName);
+                        $fieldNameDesc = \ucfirst($rpFieldName);
                         $ret .= $this->ld->getDefine($language, $stuFieldName, $fieldNameDesc);
                     }
                 }

@@ -97,7 +97,7 @@ class PagesList extends Files\CreateFile
         $fields  = $this->getTableFields($tableMid, $tableId);
         $ret     = '';
         $retNumb = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_ihead')) {
@@ -117,7 +117,7 @@ class PagesList extends Files\CreateFile
         $retElem   = '';
         $fieldId   = '';
         $keyDouble = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             if (0 == $f) {
                 $fieldId = $fields[$f]->getVar('field_name');
                 $keyDouble = $this->sc->getSmartyDoubleVar($tableSoleName, $fieldId);
@@ -160,12 +160,12 @@ class PagesList extends Files\CreateFile
 
         $ret     .= $this->hc->getHtmlDiv($retElem, 'panel-body');
         $retFoot = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_ifoot')) {
                     $fieldName   = $fields[$f]->getVar('field_name');
                     $rpFieldName = $this->getRightString($fieldName);
-                    $langConst   = mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
+                    $langConst   = \mb_strtoupper($tableSoleName) . '_' . \mb_strtoupper($rpFieldName);
                     $lang        = $this->sc->getSmartyConst($language, $langConst);
                     $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                     $retFoot     .= $this->hc->getHtmlSpan($lang . ': ' . $doubleVar, 'block-pie justify',"\t");
@@ -198,7 +198,7 @@ class PagesList extends Files\CreateFile
         $tableName       = $table->getVar('table_name');
         $tableSoleName   = $table->getVar('table_solename');
         $tableCategory[] = $table->getVar('table_category');
-        if (in_array(0, $tableCategory)) {
+        if (\in_array(0, $tableCategory)) {
             $content .= $this->getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
         }
 

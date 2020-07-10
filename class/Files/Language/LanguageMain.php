@@ -120,7 +120,7 @@ As you can see, you have created a page with a list of links at the top to navig
         $tableSubmit      = 0;
         $tableBroken      = 0;
         $tableRate        = 0;
-        foreach (array_keys($tables) as $i) {
+        foreach (\array_keys($tables) as $i) {
             if (1 == $tables[$i]->getVar('table_user')) {
                 $tableName = $tables[$i]->getVar('table_name');
                 $tableSoleName = $tables[$i]->getVar('table_solename');
@@ -133,8 +133,8 @@ As you can see, you have created a page with a list of links at the top to navig
                 if (1 === (int)$tables[$i]->getVar('table_rate')) {
                     $tableRate = 1;
                 }
-                $stuTableName = mb_strtoupper($tableName);
-                $stuTableSoleName = mb_strtoupper($tableSoleName);
+                $stuTableName = \mb_strtoupper($tableName);
+                $stuTableSoleName = \mb_strtoupper($tableSoleName);
                 $ucfTableName = $utility::UcFirstAndToLower($tableName);
                 $ucfTableSoleName = $utility::UcFirstAndToLower($tableSoleName);
                 $ret .= $this->ld->getAboveDefines($ucfTableSoleName);
@@ -145,10 +145,10 @@ As you can see, you have created a page with a list of links at the top to navig
                 $ret .= $this->ld->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
                 $ret .= $this->ld->getAboveDefines("Caption of {$ucfTableSoleName}");
                 $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
-                foreach (array_keys($fields) as $f) {
+                foreach (\array_keys($fields) as $f) {
                     $fieldName = $fields[$f]->getVar('field_name');
                     $rpFieldName = $this->getRightString($fieldName);
-                    $fieldNameDesc = ucfirst($rpFieldName);
+                    $fieldNameDesc = \ucfirst($rpFieldName);
                     $ret .= $this->ld->getDefine($language, $stuTableSoleName . '_' . $rpFieldName, $fieldNameDesc);
                 }
             }

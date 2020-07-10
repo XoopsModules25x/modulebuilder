@@ -89,11 +89,11 @@ class ConfigConfig extends Files\CreateFile
 
         $ret    = $this->pc->getPhpCodeCommentMultiLine(['return' => 'object']);
         $ret    .= $this->getSimpleString('');
-        $ret    .= $this->xc->getXcEqualsOperator('$moduleDirName ', 'basename(dirname(__DIR__))');
-        $ret    .= $this->xc->getXcEqualsOperator('$moduleDirNameUpper ', 'mb_strtoupper($moduleDirName)');
+        $ret    .= $this->xc->getXcEqualsOperator('$moduleDirName ', '\basename(\dirname(__DIR__))');
+        $ret    .= $this->xc->getXcEqualsOperator('$moduleDirNameUpper ', '\mb_strtoupper($moduleDirName)');
 
         $ret    .= $this->getSimpleString('return (object)[');
-        $ret    .= $this->getSimpleString("'name'           => mb_strtoupper(\$moduleDirName) . ' Module Configurator',", "\t");
+        $ret    .= $this->getSimpleString("'name'           => \mb_strtoupper(\$moduleDirName) . ' Module Configurator',", "\t");
         $ret    .= $this->getSimpleString("'paths'          => [", "\t");
         $ret    .= $this->getSimpleString("'dirname'    => \$moduleDirName,", "\t\t");
         $ret    .= $this->getSimpleString("'admin'      => XOOPS_ROOT_PATH . '/modules/' . \$moduleDirName . '/admin',", "\t\t");
@@ -104,17 +104,17 @@ class ConfigConfig extends Files\CreateFile
         $ret    .= $this->getSimpleString("],", "\t");
         $ret    .= $this->getSimpleString("'uploadFolders'  => [", "\t");
         $ret    .= $this->getSimpleString("XOOPS_UPLOAD_PATH . '/' . \$moduleDirName,", "\t\t");
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $ret       .= $this->getSimpleString("XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/{$tableName}',", "\t\t");
         }
         $ret    .= $this->getSimpleString("XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/images',", "\t\t");
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $ret       .= $this->getSimpleString("XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/images/{$tableName}',", "\t\t");
         }
         $ret    .= $this->getSimpleString("XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/files',", "\t\t");
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $ret       .= $this->getSimpleString("XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/files/{$tableName}',", "\t\t");
         }
@@ -122,7 +122,7 @@ class ConfigConfig extends Files\CreateFile
         $ret    .= $this->getSimpleString("],", "\t");
         $ret    .= $this->getSimpleString("'copyBlankFiles'  => [", "\t");
         $ret    .= $this->getSimpleString("XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/images',", "\t\t");
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $ret       .= $this->getSimpleString("XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/images/{$tableName}',", "\t\t");
         }

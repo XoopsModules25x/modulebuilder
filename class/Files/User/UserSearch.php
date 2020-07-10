@@ -103,7 +103,7 @@ class UserSearch extends Files\CreateFile
         $ret      .= $this->getInclude();
         $fieldId  = 0;
         $fieldPid = 0;
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
                 $fieldId = $fieldName;
@@ -154,8 +154,8 @@ EOT;
      */
     private function getUserSearchFooter($moduleDirname, $tableName, $language)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $stuTableName     = mb_strtoupper($tableName);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
+        $stuTableName     = \mb_strtoupper($tableName);
         $ret              = $this->getDashComment('Breadcrumbs');
         $ret              .= $this->uxc->getUserBreadcrumbs((string)$stuTableName, $language);
         $ret              .= $this->getDashComment('Keywords');

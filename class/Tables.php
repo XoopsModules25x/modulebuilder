@@ -137,9 +137,9 @@ class Tables extends \XoopsObject
         $isNew     = $this->isNew();
         $tableName = $this->getVar('table_name');
         $tableMid  = $this->getVar('table_mid');
-        $title     = $isNew ? sprintf(_AM_MODULEBUILDER_TABLES_NEW) : sprintf(_AM_MODULEBUILDER_TABLES_EDIT);
+        $title     = $isNew ? \sprintf(_AM_MODULEBUILDER_TABLES_NEW) : \sprintf(_AM_MODULEBUILDER_TABLES_EDIT);
 
-        xoops_load('XoopsFormLoader');
+        \xoops_load('XoopsFormLoader');
         $form = new \XoopsThemeForm($title, 'tableform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
@@ -182,10 +182,10 @@ class Tables extends \XoopsObject
         $tableImage       = $getTableImage ?: 'blank.gif';
         $icons32Directory = '/Frameworks/moduleclasses/icons/32';
         $uploadsDirectory = '/uploads/modulebuilder/images/tables';
-        $iconsDirectory   = is_dir(XOOPS_ROOT_PATH . $icons32Directory) ? $icons32Directory : $uploadsDirectory;
+        $iconsDirectory   = \is_dir(XOOPS_ROOT_PATH . $icons32Directory) ? $icons32Directory : $uploadsDirectory;
 
         $imgtray1     = new \XoopsFormElementTray(_AM_MODULEBUILDER_TABLE_IMAGE, '<br>');
-        $imgpath1     = sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, ".{$iconsDirectory}/");
+        $imgpath1     = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, ".{$iconsDirectory}/");
         $imageSelect1 = new \XoopsFormSelect($imgpath1, 'table_image', $tableImage, 10);
         $imageArray1  = \XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $iconsDirectory);
         foreach ($imageArray1 as $image1) {
@@ -217,7 +217,7 @@ class Tables extends \XoopsObject
         $checkbox = new \XoopsFormCheckbox(' ', 'table_option', $this->getOptionsTables(), '<br>');
         $checkbox->setDescription(_AM_MODULEBUILDER_OPTIONS_DESC);
         foreach ($this->options as $option) {
-            $checkbox->addOption($option, self::getDefinedLanguage('_AM_MODULEBUILDER_TABLE_' . mb_strtoupper($option)));
+            $checkbox->addOption($option, self::getDefinedLanguage('_AM_MODULEBUILDER_TABLE_' . \mb_strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
 
@@ -249,7 +249,7 @@ class Tables extends \XoopsObject
         // Values
         $ret['id']            = $this->getVar('table_id');
         $ret['mid']           = $this->getVar('table_mid');
-        $ret['name']          = ucfirst($this->getVar('table_name'));
+        $ret['name']          = \ucfirst($this->getVar('table_name'));
         $ret['image']         = $this->getVar('table_image');
         $ret['nbfields']      = $this->getVar('table_nbfields');
         $ret['order']         = $this->getVar('table_order');
@@ -291,8 +291,8 @@ class Tables extends \XoopsObject
      */
     private static function getDefinedLanguage($lang)
     {
-        if (defined($lang)) {
-            return constant($lang);
+        if (\defined($lang)) {
+            return \constant($lang);
         }
 
         return $lang;

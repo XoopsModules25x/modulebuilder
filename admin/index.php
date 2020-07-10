@@ -36,11 +36,11 @@ unset($criteria);
 
 //$templateMain = 'modulebuilder_index.tpl';
 $adminObject->addInfoBox(_AM_MODULEBUILDER_ADMIN_NUMMODULES);
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMSETTINGS . '</label>', $countSettings), 'Blue');
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMMODULES . '</label>', $countModules), 'Green');
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMTABLES . '</label>', $countTables), 'Orange');
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMFIELDS . '</label>', $countFields), 'Gray');
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMFILES . '</label>', $countFiles), 'Red');
+$adminObject->addInfoBoxLine(\sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMSETTINGS . '</label>', $countSettings), 'Blue');
+$adminObject->addInfoBoxLine(\sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMMODULES . '</label>', $countModules), 'Green');
+$adminObject->addInfoBoxLine(\sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMTABLES . '</label>', $countTables), 'Orange');
+$adminObject->addInfoBoxLine(\sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMFIELDS . '</label>', $countFields), 'Gray');
+$adminObject->addInfoBoxLine(\sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMFILES . '</label>', $countFiles), 'Red');
 // Upload Folders
 $folder = [
     TDMC_UPLOAD_PATH,
@@ -50,7 +50,7 @@ $folder = [
 ];
 
 // Uploads Folders Created
-//foreach (array_keys($folder) as $i) {
+//foreach (\array_keys($folder) as $i) {
 //    $utility::createFolder($folder[$i]);
 //    $adminObject->addConfigBoxLine($folder[$i], 'folder');
 //    $adminObject->addConfigBoxLine([$folder[$i], '777'], 'chmod');
@@ -61,7 +61,7 @@ $folder = [
 $adminObject->addConfigBoxLine('');
 $redirectFile = $_SERVER['SCRIPT_NAME'];
 
-foreach (array_keys($folder) as $i) {
+foreach (\array_keys($folder) as $i) {
     $adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($folder[$i], 0777, $redirectFile));
 }
 
@@ -70,25 +70,25 @@ foreach (array_keys($folder) as $i) {
 //}
 
 
-$adminObject->displayNavigation(basename(__FILE__));
+$adminObject->displayNavigation(\basename(__FILE__));
 
 //------------- Test Data ----------------------------
 
 if ($helper->getConfig('displaySampleButton')) {
-    $yamlFile            = dirname(__DIR__) . '/config/admin.yml';
+    $yamlFile            = \dirname(__DIR__) . '/config/admin.yml';
     $config              = loadAdminConfig($yamlFile);
     $displaySampleButton = $config['displaySampleButton'];
 
     if (1 == $displaySampleButton) {
-        xoops_loadLanguage('admin/modulesadmin', 'system');
+        \xoops_loadLanguage('admin/modulesadmin', 'system');
         require __DIR__ . '/../testdata/index.php';
 
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=load', 'add');
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=save', 'add');
-        //    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA'), '__DIR__ . /../../testdata/index.php?op=exportschema', 'add');
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'HIDE_SAMPLEDATA_BUTTONS'), '?op=hide_buttons', 'delete');
+        $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=load', 'add');
+        $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=save', 'add');
+        //    $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA'), '__DIR__ . /../../testdata/index.php?op=exportschema', 'add');
+        $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'HIDE_SAMPLEDATA_BUTTONS'), '?op=hide_buttons', 'delete');
     } else {
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLEDATA_BUTTONS'), '?op=show_buttons', 'add');
+        $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLEDATA_BUTTONS'), '?op=show_buttons', 'add');
         $displaySampleButton = $config['displaySampleButton'];
     }
     $adminObject->displayButton('left', '');
@@ -115,7 +115,7 @@ function hideButtons($yamlFile)
 {
     $app['displaySampleButton'] = 0;
     \Xmf\Yaml::save($app, $yamlFile);
-    redirect_header('index.php', 0, '');
+    \redirect_header('index.php', 0, '');
 }
 
 /**
@@ -125,7 +125,7 @@ function showButtons($yamlFile)
 {
     $app['displaySampleButton'] = 1;
     \Xmf\Yaml::save($app, $yamlFile);
-    redirect_header('index.php', 0, '');
+    \redirect_header('index.php', 0, '');
 }
 
 $op = \Xmf\Request::getString('op', 0, 'GET');

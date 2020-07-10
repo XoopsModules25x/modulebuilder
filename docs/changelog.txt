@@ -1,3 +1,9 @@
+<h5>3.04 RC 1   [2020-07-09]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
+<hr>
+- unqualified function references (mamba/goffy)
+- cosmetics (goffy)
+- deleted folder archive (goffy)
+
 <h5>3.04 Alpha 1   [2020-06-12]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>
 - fixed bugs in creation of more files (goffy)

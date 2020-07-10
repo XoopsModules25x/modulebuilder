@@ -20,7 +20,7 @@
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
-defined('XOOPS_ROOT_PATH') || exit('Restricted access');
+\defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 // Pleace! don't remove
 /**
@@ -64,13 +64,13 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
     for ($key = 0; $key <= 4; ++$key) {
         switch ($key) {
             case 2:
-                $donationform[$key] = sprintf(
+                $donationform[$key] = \sprintf(
                     $donationform[$key],
                     $GLOBALS['xoopsConfig']['sitename'] . ' - ' . ('' != $GLOBALS['xoopsUser']->getVar('name') ? $GLOBALS['xoopsUser']->getVar('name') . ' [' . $GLOBALS['xoopsUser']->getVar('uname') . ']' : $GLOBALS['xoopsUser']->getVar('uname')),
                     $GLOBALS['xoopsUser']->getVar('email'),
                     XOOPS_LICENSE_KEY,
-                    mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')),
-                    mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')) . ' ' . $GLOBALS['xoopsModule']->getVar('name')
+                    \mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')),
+                    \mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')) . ' ' . $GLOBALS['xoopsModule']->getVar('name')
                 );
                 break;
         }
@@ -79,7 +79,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
     $istart   = mb_strpos($about, $paypalform[0], 1);
     $iend     = mb_strpos($about, $paypalform[5], $istart + 1) + mb_strlen($paypalform[5]) - 1;
     $aboutRes .= mb_substr($about, 0, $istart - 1);
-    $aboutRes .= implode("\n", $donationform);
+    $aboutRes .= \implode("\n", $donationform);
     $aboutRes .= mb_substr($about, $iend + 1, mb_strlen($about) - $iend - 1);
 
     return $aboutRes;
@@ -92,5 +92,5 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
  */
 function UcFirstAndToLower($str)
 {
-    return ucfirst(mb_strtolower(trim($str)));
+    return \ucfirst(\mb_strtolower(\trim($str)));
 }

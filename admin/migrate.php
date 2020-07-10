@@ -35,7 +35,7 @@ use XoopsModules\Modulebuilder;
 require_once __DIR__ . '/header.php';
 //xoops_cp_header();
 
-$adminObject->displayNavigation(basename(__FILE__));
+$adminObject->displayNavigation(\basename(__FILE__));
 
 echo <<<EOF
 <form method="post" class="form-inline">

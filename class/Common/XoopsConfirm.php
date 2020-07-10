@@ -25,7 +25,7 @@ namespace XoopsModules\Modulebuilder\Common;
 
 use XoopsModules\Modulebuilder;
 
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+\defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class Object XoopsConfirm
@@ -41,7 +41,11 @@ class XoopsConfirm
     /**
      * @public function constructor class
      *
-     * @param null
+     * @param $hiddens
+     * @param $action
+     * @param $object
+     * @param string $title
+     * @param string $label
      */
     public function __construct($hiddens, $action, $object, $title = '', $label = '')
     {
@@ -54,14 +58,13 @@ class XoopsConfirm
 
     /**
      * @public function getXoopsConfirm
-     * @param bool $action
      * @return \XoopsThemeForm
      */
     public function getFormXoopsConfirm()
     {
         //in order to be accessable from user and admin area this should be place in language common.php
-        define('CO__MODULEBUILDER_DELETE_CONFIRM', 'Confirm delete');
-        define('CO__MODULEBUILDER_DELETE_LABEL', 'Do you really want to delete:');
+        \define('CO__MODULEBUILDER_DELETE_CONFIRM', 'Confirm delete');
+        \define('CO__MODULEBUILDER_DELETE_LABEL', 'Do you really want to delete:');
 
         // Get Theme Form
         if ('' === $this->action) {
@@ -75,7 +78,7 @@ class XoopsConfirm
             $this->label = CO__MODULEBUILDER_DELETE_LABEL;
         }
 
-        xoops_load('XoopsFormLoader');
+        \xoops_load('XoopsFormLoader');
         $form = new \XoopsThemeForm($this->title, 'formXoopsConfirm', $this->action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
         $form->addElement(new \XoopsFormLabel($this->label, $this->object));

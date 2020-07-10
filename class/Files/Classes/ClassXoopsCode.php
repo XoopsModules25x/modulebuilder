@@ -60,7 +60,7 @@ class ClassXoopsCode
      */
     public function getClassInitVar($paramLeft = '', $paramRight = '', $var = 'this', $t = "\t\t")
     {
-        $stuParamRight = mb_strtoupper($paramRight);
+        $stuParamRight = \mb_strtoupper($paramRight);
 
         return "{$t}\${$var}->initVar('{$paramLeft}', XOBJ_DTYPE_{$stuParamRight});\n";
     }

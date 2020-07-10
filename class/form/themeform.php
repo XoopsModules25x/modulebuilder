@@ -22,7 +22,7 @@ namespace XoopsModules\Modulebuilder\Form;
  * @author          Txmod Xoops <support@txmodxoops.org>
  *
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+\defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 \XoopsLoad::load('XoopsFormLoader');
 
@@ -54,7 +54,7 @@ class ThemeForm extends \XoopsForm
         $hidden = '';
         $class  = 'even';
         foreach ($this->getElements() as $ele) {
-            if (!is_object($ele)) {
+            if (!\is_object($ele)) {
                 $ret .= $ele;
             } else {
                 if (!$ele->isHidden()) {

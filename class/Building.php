@@ -59,7 +59,7 @@ class Building
         if (false === $action) {
             $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
-        xoops_load('XoopsFormLoader');
+        \xoops_load('XoopsFormLoader');
         $form = new \XoopsThemeForm(_AM_MODULEBUILDER_ADMIN_CONST, 'buildform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
         $moduleObj  = $helper->getHandler('Modules')->getObjects(null);
@@ -93,16 +93,16 @@ class Building
         // Interate thorugh the files and folders
         foreach ($files as $file) {
             // if it's a directory then re-call clearDir function to delete files inside this directory
-            if (is_dir($file) && !in_array($file, ['..', '.'])) {
+            if (\is_dir($file) && !\in_array($file, ['..', '.'])) {
                 // Remove the directory itself
                 $this->clearDir($file, $pattern);
             } elseif ((__FILE__ != $file) && is_file($file)) {
                 // Make sure you don't delete the current script
-                unlink($file);
+                \unlink($file);
             }
         }
-        if (is_dir($dir)) {
-            rmdir($dir);
+        if (\is_dir($dir)) {
+            \rmdir($dir);
         }
     }
 
@@ -112,21 +112,21 @@ class Building
      */
     public function copyDir($src, $dst)
     {
-        $dir = opendir($src);
-        if (!mkdir($dst) && !is_dir($dst)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dst));
+        $dir = \opendir($src);
+        if (!\mkdir($dst) && !\is_dir($dst)) {
+            throw new \RuntimeException(\sprintf('Directory "%s" was not created', $dst));
         }
-        while (false !== ($file = readdir($dir))) {
+        while (false !== ($file = \readdir($dir))) {
             if (('.' !== $file) && ('..' !== $file)) {
-                if (is_dir($src . '/' . $file)) {
+                if (\is_dir($src . '/' . $file)) {
                     // Copy the directory itself
                     $this->copyDir($src . '/' . $file, $dst . '/' . $file);
                 } else {
                     // Make sure you copy the current script
-                    copy($src . '/' . $file, $dst . '/' . $file);
+                    \copy($src . '/' . $file, $dst . '/' . $file);
                 }
             }
         }
-        closedir($dir);
+        \closedir($dir);
     }
 }

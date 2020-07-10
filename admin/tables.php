@@ -55,18 +55,18 @@ switch ($op) {
         $modulesCount = $helper->getHandler('Modules')->getCountModules();
         // Redirect if there aren't modules
         if (0 == $modulesCount) {
-            redirect_header('modules.php?op=new', 10, _AM_MODULEBUILDER_THEREARENT_MODULES2);
+            \redirect_header('modules.php?op=new', 10, _AM_MODULEBUILDER_THEREARENT_MODULES2);
         }
         $modulesAll  = $helper->getHandler('Modules')->getAllModules($start, $limit);
         $tablesCount = $helper->getHandler('Tables')->getObjects(null);
         // Redirect if there aren't tables
         if (0 == $tablesCount) {
-            redirect_header('tables.php?op=new', 10, _AM_MODULEBUILDER_THEREARENT_TABLES2);
+            \redirect_header('tables.php?op=new', 10, _AM_MODULEBUILDER_THEREARENT_TABLES2);
         }
         unset($tablesCount);
         // Display modules list
         if ($modulesCount > 0) {
-            foreach (array_keys($modulesAll) as $i) {
+            foreach (\array_keys($modulesAll) as $i) {
                 $module = $modulesAll[$i]->getValuesModules();
                 // Get the list of tables
                 $tablesCount = $helper->getHandler('Tables')->getCountTables();
@@ -75,7 +75,7 @@ switch ($op) {
                 $tables = [];
                 $lid    = 1;
                 if ($tablesCount > 0) {
-                    foreach (array_keys($tablesAll) as $t) {
+                    foreach (\array_keys($tablesAll) as $t) {
                         $table    = $tablesAll[$t]->getValuesTables();
                         $alid     = ['lid' => $lid];
                         $tables[] = array_merge($table, $alid);
@@ -111,7 +111,7 @@ switch ($op) {
         break;
     case 'save':
         if (!$GLOBALS['xoopsSecurity']->check()) {
-            redirect_header('tables.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+            \redirect_header('tables.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         $tables = $helper->getHandler('Tables');
         if (isset($tableId)) {
@@ -123,9 +123,9 @@ switch ($op) {
             $tableNameSearch = $tables->getObjects($criteria);
             unset($criteria);
             //unset($criteria);
-            foreach (array_keys($tableNameSearch) as $t) {
+            foreach (\array_keys($tableNameSearch) as $t) {
                 if ($tableNameSearch[$t]->getVar('table_name') === \Xmf\Request::getString('table_name', '', 'POST')) {
-                    redirect_header('tables.php?op=new', 3, sprintf(_AM_MODULEBUILDER_TABLE_ERROR_NAME_EXIST, \Xmf\Request::getString('table_name', '', 'POST')));
+                    \redirect_header('tables.php?op=new', 3, \sprintf(_AM_MODULEBUILDER_TABLE_ERROR_NAME_EXIST, \Xmf\Request::getString('table_name', '', 'POST')));
                 }
             }
             $tablesObj = $tables->create();
@@ -146,7 +146,7 @@ switch ($op) {
         );
         //Form table_image
         include_once XOOPS_ROOT_PATH . '/class/uploader.php';
-        $uploaddir = is_dir(XOOPS_ICONS32_PATH) ? XOOPS_ICONS32_PATH : TDMC_UPLOAD_IMGTAB_PATH;
+        $uploaddir = \is_dir(XOOPS_ICONS32_PATH) ? XOOPS_ICONS32_PATH : TDMC_UPLOAD_IMGTAB_PATH;
         $uploader  = new \XoopsMediaUploader(
             $uploaddir, $helper->getConfig('mimetypes_image'), $helper->getConfig('maxsize_image'), null, null
         );
@@ -154,7 +154,7 @@ switch ($op) {
             $uploader->fetchMedia(\Xmf\Request::getString('xoops_upload_file', '', 'POST')[0]);
             if (!$uploader->upload()) {
                 $errors = $uploader->getErrors();
-                redirect_header('javascript:history.go(-1)', 3, $errors);
+                \redirect_header('javascript:history.go(-1)', 3, $errors);
             } else {
                 $tablesObj->setVar('table_image', $uploader->getSavedFileName());
             }
@@ -164,25 +164,25 @@ switch ($op) {
         $tablesObj->setVar('table_autoincrement', (1 == $_REQUEST['table_autoincrement']) ? 1 : 0);
         // Options
         $tableOption = \Xmf\Request::getArray('table_option', []);
-        $tablesObj->setVar('table_install', in_array('install', $tableOption));
-        $tablesObj->setVar('table_index', in_array('index', $tableOption));
-        $tablesObj->setVar('table_blocks', in_array('blocks', $tableOption));
-        $tablesObj->setVar('table_admin', in_array('admin', $tableOption));
-        $tablesObj->setVar('table_user', in_array('user', $tableOption));
-        $tablesObj->setVar('table_submenu', in_array('submenu', $tableOption));
-        $tablesObj->setVar('table_submit', in_array('submit', $tableOption));
-        $tablesObj->setVar('table_tag', in_array('tag', $tableOption));
-        $tablesObj->setVar('table_broken', in_array('broken', $tableOption));
-        $tablesObj->setVar('table_search', in_array('search', $tableOption));
-        $tablesObj->setVar('table_comments', in_array('comments', $tableOption));
-        $tablesObj->setVar('table_notifications', in_array('notifications', $tableOption));
-        $tablesObj->setVar('table_permissions', in_array('permissions', $tableOption));
-        $tablesObj->setVar('table_rate', in_array('rate', $tableOption));
-        $tablesObj->setVar('table_print', in_array('print', $tableOption));
-        $tablesObj->setVar('table_pdf', in_array('pdf', $tableOption));
-        $tablesObj->setVar('table_rss', in_array('rss', $tableOption));
-        $tablesObj->setVar('table_single', in_array('single', $tableOption));
-        $tablesObj->setVar('table_visit', in_array('visit', $tableOption));
+        $tablesObj->setVar('table_install', \in_array('install', $tableOption));
+        $tablesObj->setVar('table_index', \in_array('index', $tableOption));
+        $tablesObj->setVar('table_blocks', \in_array('blocks', $tableOption));
+        $tablesObj->setVar('table_admin', \in_array('admin', $tableOption));
+        $tablesObj->setVar('table_user', \in_array('user', $tableOption));
+        $tablesObj->setVar('table_submenu', \in_array('submenu', $tableOption));
+        $tablesObj->setVar('table_submit', \in_array('submit', $tableOption));
+        $tablesObj->setVar('table_tag', \in_array('tag', $tableOption));
+        $tablesObj->setVar('table_broken', \in_array('broken', $tableOption));
+        $tablesObj->setVar('table_search', \in_array('search', $tableOption));
+        $tablesObj->setVar('table_comments', \in_array('comments', $tableOption));
+        $tablesObj->setVar('table_notifications', \in_array('notifications', $tableOption));
+        $tablesObj->setVar('table_permissions', \in_array('permissions', $tableOption));
+        $tablesObj->setVar('table_rate', \in_array('rate', $tableOption));
+        $tablesObj->setVar('table_print', \in_array('print', $tableOption));
+        $tablesObj->setVar('table_pdf', \in_array('pdf', $tableOption));
+        $tablesObj->setVar('table_rss', \in_array('rss', $tableOption));
+        $tablesObj->setVar('table_single', \in_array('single', $tableOption));
+        $tablesObj->setVar('table_visit', \in_array('visit', $tableOption));
 
         if ($tables->insert($tablesObj)) {
             if ($tablesObj->isNew()) {
@@ -192,15 +192,15 @@ switch ($op) {
                 $fieldelementObj = $helper->getHandler('Fieldelements')->create();
                 $fieldelementObj->setVar('fieldelement_mid', $tableMid);
                 $fieldelementObj->setVar('fieldelement_tid', $tableTid);
-                $fieldelementObj->setVar('fieldelement_name', 'Table : ' . ucfirst(\Xmf\Request::getString('table_name', '', 'POST')));
-                $fieldelementObj->setVar('fieldelement_value', 'XoopsFormTables-' . ucfirst(\Xmf\Request::getString('table_name', '', 'POST')));
+                $fieldelementObj->setVar('fieldelement_name', 'Table : ' . \ucfirst(\Xmf\Request::getString('table_name', '', 'POST')));
+                $fieldelementObj->setVar('fieldelement_value', 'XoopsFormTables-' . \ucfirst(\Xmf\Request::getString('table_name', '', 'POST')));
                 // Insert new field element id for table name
                 if (!$helper->getHandler('Fieldelements')->insert($fieldelementObj)) {
                     $GLOBALS['xoopsTpl']->assign('error', $fieldelementObj->getHtmlErrors() . ' Field element');
                 }
-                redirect_header('fields.php?op=new' . $tableAction, 5, sprintf(_AM_MODULEBUILDER_TABLE_FORM_CREATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
+                \redirect_header('fields.php?op=new' . $tableAction, 5, \sprintf(_AM_MODULEBUILDER_TABLE_FORM_CREATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
             } else {
-                redirect_header('tables.php', 5, sprintf(_AM_MODULEBUILDER_TABLE_FORM_UPDATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
+                \redirect_header('tables.php', 5, \sprintf(_AM_MODULEBUILDER_TABLE_FORM_UPDATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
             }
         }
 
@@ -233,7 +233,7 @@ switch ($op) {
                     ++$i;
                 }
             }
-            redirect_header('tables.php', 5, _AM_MODULEBUILDER_TABLE_ORDER_ERROR);
+            \redirect_header('tables.php', 5, _AM_MODULEBUILDER_TABLE_ORDER_ERROR);
             unset($i);
         }
         exit;
@@ -242,19 +242,19 @@ switch ($op) {
         $tablesObj = $helper->getHandler('Tables')->get($tableId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
-                redirect_header('tables.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+                \redirect_header('tables.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($helper->getHandler('Tables')->delete($tablesObj)) {
                 // Delete items in table fieldelements - idea by goffy
                 $fieldelements = $helper->getHandler('Fieldelements')->getAllFieldelementsByModuleAndTableId($tableMid, $tableId);
-                foreach (array_keys($fieldelements) as $fe) {
+                foreach (\array_keys($fieldelements) as $fe) {
                     $fieldElementsObj = $helper->getHandler('Fieldelements')->get($fieldelements[$fe]->getVar('fieldelement_id'));
                     if (!$helper->getHandler('Fieldelements')->delete($fieldElementsObj)) {
                         $GLOBALS['xoopsTpl']->assign('error', $fieldElementsObj->getHtmlErrors());
                     }
                     unset($fieldElementsObj);
                 }
-                redirect_header('tables.php', 3, _AM_MODULEBUILDER_FORMDELOK);
+                \redirect_header('tables.php', 3, _AM_MODULEBUILDER_FORMDELOK);
             } else {
                 $GLOBALS['xoopsTpl']->assign('error', $tablesObj->getHtmlErrors());
             }
@@ -280,7 +280,7 @@ switch ($op) {
                 }
             }
             if ($helper->getHandler('Modules')->insert($modulesObj)) {
-                redirect_header('modules.php', 3, _AM_MODULEBUILDER_TOGGLE_SUCCESS);
+                \redirect_header('modules.php', 3, _AM_MODULEBUILDER_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
         }
@@ -295,7 +295,7 @@ switch ($op) {
                 }
             }
             if ($helper->getHandler('Tables')->insert($tablesObj)) {
-                redirect_header('tables.php', 3, _AM_MODULEBUILDER_TOGGLE_SUCCESS);
+                \redirect_header('tables.php', 3, _AM_MODULEBUILDER_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $tablesObj->getHtmlErrors());
         }

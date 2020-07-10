@@ -89,12 +89,12 @@ class AdminHeader extends Files\CreateFile
      */
     private function getAdminHeader($moduleDirname)
     {
-        $ucfModuleDirname = ucfirst($moduleDirname);
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $ucfModuleDirname = \ucfirst($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $table            = $this->getTable();
         $tables           = $this->getTables();
-        $ret              = $this->pc->getPhpCodeIncludeDir('dirname(dirname(dirname(__DIR__)))', 'include/cp_header');
-        $ret              .= $this->pc->getPhpCodeIncludeDir('dirname(__DIR__)', 'include/common', true);
+        $ret              = $this->pc->getPhpCodeIncludeDir('\dirname(\dirname(\dirname(__DIR__)))', 'include/cp_header');
+        $ret              .= $this->pc->getPhpCodeIncludeDir('\dirname(__DIR__)', 'include/common', true);
         $ret              .= $this->pc->getPhpCodeBlankLine();
         $sysicons16       = $this->xc->getXcXoopsModuleGetInfo('', 'sysicons16', true);
         $sysicons32       = $this->xc->getXcXoopsModuleGetInfo('', 'sysicons32', true);
@@ -106,13 +106,13 @@ class AdminHeader extends Files\CreateFile
         $ret              .= $this->xc->getXcEqualsOperator('$pathModuleAdmin', $dirmoduleadmin);
         $ret              .= $this->xc->getXcEqualsOperator('$modPathIcon16  ', "{$stuModuleDirname}_URL . '/' . {$modicons16} . '/'");
         $ret              .= $this->xc->getXcEqualsOperator('$modPathIcon32  ', "{$stuModuleDirname}_URL . '/' . {$modicons32} . '/'");
-        if (is_object($table) && '' != $table->getVar('table_name')) {
+        if (\is_object($table) && '' != $table->getVar('table_name')) {
             $ret .= $this->pc->getPhpCodeBlankLine();
             $ret .= $this->pc->getPhpCodeCommentLine('Get instance of module');
             $ret .= $this->xc->getXcEqualsOperator("\$helper", "\XoopsModules\\{$ucfModuleDirname}\Helper::getInstance()");
         }
-        if (is_array($tables)) {
-            foreach (array_keys($tables) as $i) {
+        if (\is_array($tables)) {
+            foreach (\array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
                 $ret       .= $this->xc->getXcHandlerLine($tableName);
             }
@@ -121,7 +121,7 @@ class AdminHeader extends Files\CreateFile
         $ret            .= $this->pc->getPhpCodeCommentLine();
         $template       = $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/template', true, false, 'include', "\t");
         $template       .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new \XoopsTpl()', null,"\t");
-        $ret            .= $this->pc->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!is_object($xoopsTpl)', $template, false);
+        $ret            .= $this->pc->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!\is_object($xoopsTpl)', $template, false);
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->pc->getPhpCodeCommentLine('Load languages');
         $ret            .= $this->xc->getXcXoopsLoadLanguage('admin');

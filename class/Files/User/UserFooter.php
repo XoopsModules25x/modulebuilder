@@ -87,9 +87,9 @@ class UserFooter extends Files\CreateFile
      */
     private function getUserFooter($moduleDirname)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $xoBreadcrumbs    = $this->xc->getXcXoopsTplAssign('xoBreadcrumbs', '$xoBreadcrumbs', true, "\t");
-        $ret              = $this->pc->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $xoBreadcrumbs);
+        $ret              = $this->pc->getPhpCodeConditions('\count($xoBreadcrumbs)', ' > ', '1', $xoBreadcrumbs);
         $ret              .= $this->xc->getXcXoopsTplAssign('adv', "\$helper->getConfig('advertise')");
         $ret              .= $this->pc->getPhpCodeCommentLine();
         $ret              .= $this->xc->getXcXoopsTplAssign('bookmarks', "\$helper->getConfig('bookmarks')");

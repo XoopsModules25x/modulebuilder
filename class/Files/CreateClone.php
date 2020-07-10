@@ -16,14 +16,14 @@ class CreateClone
     public static function deleteFileFolder($path) {
 
         if (is_file($path)) {
-            return @unlink($path);
+            return @\unlink($path);
         }
-        elseif (is_dir($path)) {
-            $scan = glob(rtrim($path,'/').'/*');
+        elseif (\is_dir($path)) {
+            $scan = glob(r\trim($path,'/').'/*');
             foreach($scan as $index=>$path) {
                 self::deleteFileFolder($path);
             }
-            return @rmdir($path);
+            return @\rmdir($path);
         }
     }*/
 
@@ -38,13 +38,13 @@ class CreateClone
     public static function cloneFileFolder($src_path, $dst_path, $replace_code = false, $patKeys = [], $patValues =[])
     {
         // open the source directory
-        $dir = opendir($src_path);
+        $dir = \opendir($src_path);
         // Make the destination directory if not exist
-        @mkdir($dst_path);
+        @\mkdir($dst_path);
         // Loop through the files in source directory
-        while( $file = readdir($dir) ) {
+        while( $file = \readdir($dir) ) {
             if (( $file != '.' ) && ( $file != '..' )) {
-                if ( is_dir($src_path . '/' . $file) ) {
+                if ( \is_dir($src_path . '/' . $file) ) {
                     // Recursively calling custom copy function for sub directory
                     self::cloneFileFolder($src_path . '/' . $file, $dst_path . '/' . $file, $replace_code, $patKeys, $patValues);
                 } else {
@@ -52,7 +52,7 @@ class CreateClone
                 }
             }
         }
-        closedir($dir);
+        \closedir($dir);
     }
 
     /**
@@ -66,22 +66,22 @@ class CreateClone
     {
         if ($replace_code) {
             $noChangeExtensions = ['jpeg', 'jpg', 'gif', 'png', 'zip', 'ttf'];
-            if (in_array(mb_strtolower(pathinfo($src_file, PATHINFO_EXTENSION)), $noChangeExtensions)) {
+            if (\in_array(\mb_strtolower(\pathinfo($src_file, PATHINFO_EXTENSION)), $noChangeExtensions)) {
                 // image
-                copy($src_file, $dst_file);
+                \copy($src_file, $dst_file);
             } else {
                 // file, read it and replace text
                 $content = file_get_contents($src_file);
-                $content = str_replace($patKeys, $patValues, $content);
+                $content = \str_replace($patKeys, $patValues, $content);
                 //check file name whether it contains replace code
-                $path_parts = pathinfo($dst_file);
+                $path_parts = \pathinfo($dst_file);
                 $path = $path_parts['dirname'];
                 $file =  $path_parts['basename'];
-                $dst_file = $path . '/' . str_replace($patKeys, $patValues, $file);
+                $dst_file = $path . '/' . \str_replace($patKeys, $patValues, $file);
                 file_put_contents($dst_file, $content);
             }
         } else {
-            copy($src_file, $dst_file);
+            \copy($src_file, $dst_file);
         }
     }
 }

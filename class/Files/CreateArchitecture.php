@@ -25,7 +25,7 @@ use XoopsModules\Modulebuilder;
  *
  */
 
-//include dirname(__DIR__) . '/autoload.php';
+//include \dirname(__DIR__) . '/autoload.php';
 
 /**
  * Class Architecture.
@@ -94,14 +94,14 @@ class CreateArchitecture extends CreateStructure
         $tables = $this->cf->getTableTables($modId);
 
         $table = null;
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableId   = $tables[$t]->getVar('table_id');
             $tableName = $tables[$t]->getVar('table_name');
             $table     = $this->helper->getHandler('Tables')->get($tableId);
         }
 
         $indexFile       = XOOPS_UPLOAD_PATH . '/index.html';
-        $stlModuleAuthor = str_replace(' ', '', mb_strtolower($module->getVar('mod_author')));
+        $stlModuleAuthor = \str_replace(' ', '', \mb_strtolower($module->getVar('mod_author')));
         $this->setModuleName($module->getVar('mod_dirname'));
         $uploadPath = $this->getUploadPath();
         // Creation of "module" folder in the Directory repository
@@ -142,7 +142,7 @@ class CreateArchitecture extends CreateStructure
             $this->makeDirAndCopyFile($k, $v, 'index.html');
         }
         //Copy the logo of the module
-        $modImage = str_replace(' ', '', $module->getVar('mod_image'));
+        $modImage = \str_replace(' ', '', $module->getVar('mod_image'));
         $targetImage = 'logoModule.png';
         $this->copyFile('assets/images', TDMC_UPLOAD_IMGMOD_PATH . '/' . $modImage, $targetImage);
 
@@ -156,16 +156,16 @@ class CreateArchitecture extends CreateStructure
         $logoPng     = $stlModuleAuthor . '_logo.png';
         $logoGifFrom = TDMC_UPLOAD_IMGMOD_PATH . '/' . $logoPng;
         // If file exists
-        if (!file_exists($logoGifFrom)) {
+        if (!\file_exists($logoGifFrom)) {
             // Rename file
             $copyFile    = TDMC_IMAGES_LOGOS_URL . '/xoopsdevelopmentteam_logo.gif';
             $copyNewFile = $logoGifFrom;
-            copy($copyFile, $copyNewFile);
+            \copy($copyFile, $copyNewFile);
         } else {
             // Copy file
             $copyFile    = TDMC_IMAGES_LOGOS_URL . '/' . $logoPng;
             $copyNewFile = $logoGifFrom;
-            copy($copyFile, $copyNewFile);
+            \copy($copyFile, $copyNewFile);
         }
 
         // Creation of 'module_author_logo.gif' file
@@ -222,12 +222,12 @@ class CreateArchitecture extends CreateStructure
         $templateType  = 'defstyle';
 
         $patterns = [
-            mb_strtolower('modulebuilder')          => mb_strtolower($moduleDirname),
-            mb_strtoupper('modulebuilder')          => mb_strtoupper($moduleDirname),
-            ucfirst(mb_strtolower('modulebuilder')) => ucfirst(mb_strtolower($moduleDirname)),
+            \mb_strtolower('modulebuilder')          => \mb_strtolower($moduleDirname),
+            \mb_strtoupper('modulebuilder')          => \mb_strtoupper($moduleDirname),
+            \ucfirst(\mb_strtolower('modulebuilder')) => \ucfirst(\mb_strtolower($moduleDirname)),
         ];
-        $this->patKeys   = array_keys($patterns);
-        $this->patValues = array_values($patterns);
+        $this->patKeys   = \array_keys($patterns);
+        $this->patValues = \array_values($patterns);
 
         $table              = null;
         $tableCategory      = [];
@@ -249,7 +249,7 @@ class CreateArchitecture extends CreateStructure
         $tableSubmit        = [];
         $tableVisit         = [];
         $tableTag           = [];
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableId              = $tables[$t]->getVar('table_id');
             $tableName            = $tables[$t]->getVar('table_name');
             $tableSoleName        = $tables[$t]->getVar('table_solename');
@@ -276,9 +276,9 @@ class CreateArchitecture extends CreateStructure
             // Get Table Object
             $table = $this->helper->getHandler('Tables')->get($tableId);
             // Copy of tables images file
-            if (file_exists($uploadTableImage = TDMC_UPLOAD_IMGTAB_PATH . '/' . $tableImage)) {
+            if (\file_exists($uploadTableImage = TDMC_UPLOAD_IMGTAB_PATH . '/' . $tableImage)) {
                 $this->copyFile($icon32, $uploadTableImage, $tableImage);
-            } elseif (file_exists($uploadTableImage = XOOPS_ICONS32_PATH . '/' . $tableImage)) {
+            } elseif (\file_exists($uploadTableImage = XOOPS_ICONS32_PATH . '/' . $tableImage)) {
                 $this->copyFile($icon32, $uploadTableImage, $tableImage);
             }
             // Creation of admin files
@@ -311,14 +311,14 @@ class CreateArchitecture extends CreateStructure
             if (1 === (int)$tables[$t]->getVar('table_admin') || 1 === (int)$tables[$t]->getVar('table_user')) {
                 // Class Files
                 $classFiles = Modulebuilder\Files\Classes\ClassFiles::getInstance();
-                $classFiles->write($module, $table, $tables, ucfirst($tableName) . '.php');
+                $classFiles->write($module, $table, $tables, \ucfirst($tableName) . '.php');
                 $ret[] = $classFiles->render();
             }
             // Creation of classhandlers
             if (1 === (int)$tables[$t]->getVar('table_admin') || 1 === (int)$tables[$t]->getVar('table_user')) {
                 // Class Files
                 $classFiles = Modulebuilder\Files\Classes\ClassHandlerFiles::getInstance();
-                $classFiles->write($module, $table, $tables, ucfirst($tableName) . 'Handler.php');
+                $classFiles->write($module, $table, $tables, \ucfirst($tableName) . 'Handler.php');
                 $ret[] = $classFiles->render();
             }
             // Creation of user files
@@ -392,32 +392,32 @@ class CreateArchitecture extends CreateStructure
 
         // Creation of constants
         $classSpecialFiles = Modulebuilder\Files\Classes\ClassSpecialFiles::getInstance();
-        $classSpecialFiles->write($module, '', $tables, ucfirst('constants') . '.php');
+        $classSpecialFiles->write($module, '', $tables, \ucfirst('constants') . '.php');
         $classSpecialFiles->className = 'Constants';
         $ret[] = $classSpecialFiles->renderConstantsInterface();
 
         // Creation of permissions
-        if (in_array(1, $tablePermissions)) {
+        if (\in_array(1, $tablePermissions)) {
             // Creation of classes
             $classSpecialFiles = Modulebuilder\Files\Classes\ClassSpecialFiles::getInstance();
-            $classSpecialFiles->write($module, '', null, ucfirst('permissions') . '.php');
+            $classSpecialFiles->write($module, '', null, \ucfirst('permissions') . '.php');
             $classSpecialFiles->className = 'Permissions';
             $ret[] = $classSpecialFiles->renderClass();
 
             // Creation of classhandlers
             $classSpecialFiles = Modulebuilder\Files\Classes\ClassSpecialFiles::getInstance();
-            $classSpecialFiles->write($module, '', $permTables, ucfirst('PermissionsHandler') . '.php');
+            $classSpecialFiles->write($module, '', $permTables, \ucfirst('PermissionsHandler') . '.php');
             $classSpecialFiles->className = 'PermissionsHandler';
             $ret[] = $classSpecialFiles->renderPermissionsHandler();
 
         }
-        foreach (array_keys($files) as $t) {
+        foreach (\array_keys($files) as $t) {
             $fileInfolder = $files[$t]->getVar('file_infolder');
             if (Modulebuilder\Constants::MORE_FILES_TYPE_COPY == $files[$t]->getVar('file_type')) {
                 $src_file = TDMC_UPLOAD_FILES_PATH . '/' . $files[$t]->getVar('file_upload');
-                $dst_file = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleDirname) . '/';
+                $dst_file = TDMC_UPLOAD_REPOSITORY_PATH . '/' . \mb_strtolower($moduleDirname) . '/';
                 if ('' !== $fileInfolder) {
-                    if ('/' !== substr($fileInfolder, -1)) {
+                    if ('/' !== \substr($fileInfolder, -1)) {
                         $fileInfolder .= '/';
                     }
                     $dst_file .= $fileInfolder;
@@ -491,14 +491,14 @@ class CreateArchitecture extends CreateStructure
         // Include Uninstall File  ==>  setCommonFiles
         // Include Update File  ==>  setCommonFiles
 
-        if (in_array(1, $tableBlocks)) {
+        if (\in_array(1, $tableBlocks)) {
             // Language Blocks File
             $languageBlocks = Modulebuilder\Files\Language\LanguageBlocks::getInstance();
             $languageBlocks->write($module, $tables, 'blocks.php');
             $ret[] = $languageBlocks->render();
         }
         // Creation of admin broken files
-        if (in_array(1, $tableBroken)) {
+        if (\in_array(1, $tableBroken)) {
             // Admin broken File
             $adminPermissions = Modulebuilder\Files\Admin\AdminBroken::getInstance();
             $adminPermissions->write($module, $tables, 'broken.php');
@@ -509,7 +509,7 @@ class CreateArchitecture extends CreateStructure
             $ret[] = $adminTemplatesPermissions->render();
         }
         // Creation of admin permission files
-        if (in_array(1, $tablePermissions)) {
+        if (\in_array(1, $tablePermissions)) {
             // Admin Permissions File
             $adminPermissions = Modulebuilder\Files\Admin\AdminPermissions::getInstance();
             $adminPermissions->write($module, $tables, 'permissions.php');
@@ -520,7 +520,7 @@ class CreateArchitecture extends CreateStructure
             $ret[] = $adminTemplatesPermissions->render();
         }
         // Creation of notifications files
-        if (in_array(1, $tableNotifications)) {
+        if (\in_array(1, $tableNotifications)) {
             // Include Notifications File
             $includeNotifications = Modulebuilder\Files\Includes\IncludeNotifications::getInstance();
             $includeNotifications->write($module, $tables, 'notification.inc.php');
@@ -541,12 +541,12 @@ class CreateArchitecture extends CreateStructure
             // Language Mail Template Approve File
             $languageMailTpl->write($module, $table, 'global_approve_notify.tpl');
             $ret[] = $languageMailTpl->render();
-            if (in_array(1, $tableBroken)) {
+            if (\in_array(1, $tableBroken)) {
                 // Language Mail Template Broken File
                 $languageMailTpl->write($module, $table, 'global_broken_notify.tpl');
                 $ret[] = $languageMailTpl->render();
             }
-            if (in_array(1, $tableComments)) {
+            if (\in_array(1, $tableComments)) {
                 // Language Mail Template Broken File
                 $languageMailTpl->write($module, $table, 'global_comment_notify.tpl');
                 $ret[] = $languageMailTpl->render();
@@ -560,7 +560,7 @@ class CreateArchitecture extends CreateStructure
             $ret[] = $sqlFile->render();
         }
         // Creation of search file
-        if (in_array(1, $tableSearch)) {
+        if (\in_array(1, $tableSearch)) {
             // Search File
             //TODO: UserSearch has to be adapted
             /*
@@ -574,7 +574,7 @@ class CreateArchitecture extends CreateStructure
             $ret[] = $includeSearch->render();
         }
         // Creation of comments files
-        if (in_array(1, $tableComments)) {
+        if (\in_array(1, $tableComments)) {
             // Include Comments File
             $includeComments = Modulebuilder\Files\Includes\IncludeComments::getInstance();
             $includeComments->write($module, $table);
@@ -601,7 +601,7 @@ class CreateArchitecture extends CreateStructure
             $ret[] = $includeCommentFunctions->render();
         }
 
-        if ((1 == $module->getVar('mod_user')) && in_array(1, $tableUser)) {
+        if ((1 == $module->getVar('mod_user')) && \in_array(1, $tableUser)) {
             // Creation of user template files
             // Templates Index File
             if ($templateType  == 'bootstrap') {
@@ -638,13 +638,13 @@ class CreateArchitecture extends CreateStructure
             $userHeader->write($module, $table, $tables, 'header.php');
             $ret[] = $userHeader->render();
             // User Notification Update File
-            if ((1 == $module->getVar('mod_notifications')) && in_array(1, $tableNotifications)) {
+            if ((1 == $module->getVar('mod_notifications')) && \in_array(1, $tableNotifications)) {
                 $userNotificationUpdate = Modulebuilder\Files\User\UserNotificationUpdate::getInstance();
                 $userNotificationUpdate->write($module, 'notification_update.php');
                 $ret[] = $userNotificationUpdate->render();
             }
             // User Pdf File
-            if (in_array(1, $tablePdf)) {
+            if (\in_array(1, $tablePdf)) {
                 $userPdf = Modulebuilder\Files\User\UserPdf::getInstance();
                 $userPdf->write($module, $table, 'pdf.php');
                 $ret[] = $userPdf->render();
@@ -658,7 +658,7 @@ class CreateArchitecture extends CreateStructure
                 $ret[] = $userTemplatesPdf->render();
             }
             // User Print File
-            if (in_array(1, $tablePrint)) {
+            if (\in_array(1, $tablePrint)) {
                 $userPrint = Modulebuilder\Files\User\UserPrint::getInstance();
                 $userPrint->write($module, $table, 'print.php');
                 $ret[] = $userPrint->render();
@@ -675,7 +675,7 @@ class CreateArchitecture extends CreateStructure
             //TODO: UserSearch has to be adapted
 
             // User Rate File
-            if (in_array(1, $tableRate)) {
+            if (\in_array(1, $tableRate)) {
                 $userRate = Modulebuilder\Files\User\UserRate::getInstance();
                 $userRate->write($module, $tables, 'rate.php');
                 $ret[] = $userRate->render();
@@ -685,7 +685,7 @@ class CreateArchitecture extends CreateStructure
             }
 
             // User Rss File
-            if (in_array(1, $tableRss)) {
+            if (\in_array(1, $tableRss)) {
                 $userRss = Modulebuilder\Files\User\UserRss::getInstance();
                 $userRss->write($module, $table, 'rss.php');
                 $ret[] = $userRss->render();
@@ -700,7 +700,7 @@ class CreateArchitecture extends CreateStructure
             }
 
             // User Tag Files
-            if (in_array(1, $tableTag)) {
+            if (\in_array(1, $tableTag)) {
                 $userListTag = Modulebuilder\Files\User\UserListTag::getInstance();
                 $userListTag->write($module, 'list.tag.php');
                 $ret[]       = $userListTag->render();
@@ -771,7 +771,7 @@ class CreateArchitecture extends CreateStructure
     {
 
         $moduleName = $module->getVar('mod_dirname');
-        $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleName);
+        $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . \mb_strtolower($moduleName);
 
         /* clone complete missing folders */
         $cloneFolders = [];
@@ -792,7 +792,7 @@ class CreateArchitecture extends CreateStructure
             $createFolders[] = $upl_path . '/language/english';
         }
         foreach ($createFolders as $folder) {
-            @mkdir($folder);
+            @\mkdir($folder);
         }
         unset($createFolders);
 
@@ -846,7 +846,7 @@ class CreateArchitecture extends CreateStructure
      */
     private function CopyRatingFiles($moduleName)
     {
-        $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleName);
+        $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . \mb_strtolower($moduleName);
 
         /* clone complete missing folders */
         $cloneFolders[] = [

@@ -96,7 +96,7 @@ class UserPages extends Files\CreateFile
      */
     private function getUserPagesHeader($moduleDirname, $tableName, $fieldId, $tablePermissions)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $ccFieldId        = $this->getCamelCase($fieldId, false, true);
 
         $ret       = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
@@ -143,10 +143,10 @@ class UserPages extends Files\CreateFile
      */
     private function getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $t = '')
     {
-        $ucfTableName     = ucfirst($tableName);
-        $stuTableName     = mb_strtoupper($tableName);
+        $ucfTableName     = \ucfirst($tableName);
+        $stuTableName     = \mb_strtoupper($tableName);
         $ccFieldId        = $this->getCamelCase($fieldId, false, true);
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
 
         $ret = '';
         if ($tableRate) {
@@ -211,7 +211,7 @@ class UserPages extends Files\CreateFile
      */
     public function getUserPagesSave($moduleDirname, $fields, $tableName, $tableSoleName, $tablePermissions, $tableNotifications, $language, $t = '')
     {
-        $ucfTableName  = ucfirst($tableName);
+        $ucfTableName  = \ucfirst($tableName);
         $countUploader = 0;
         $fieldId       = '';
         $ccFieldId     = '';
@@ -220,12 +220,12 @@ class UserPages extends Files\CreateFile
         $ucfFieldId    = '';
         $ccFieldMain   = '';
         $ccFieldStatus = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
                 $fieldId   = $fieldName;
                 $ccFieldId = $this->getCamelCase($fieldId, false, true);
-                $ucfFieldId = ucfirst($ccFieldId);
+                $ucfFieldId = \ucfirst($ccFieldId);
             }
             if ($fields[$f]->getVar('field_type') >= 10 && $fields[$f]->getVar('field_type') <= 14) {
                 $countUploader++;
@@ -469,8 +469,8 @@ class UserPages extends Files\CreateFile
      */
     private function getUserPagesFooter($moduleDirname, $tableName, $tableComments, $language)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $stuTableName     = mb_strtoupper($tableName);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
+        $stuTableName     = \mb_strtoupper($tableName);
 
         $ret = $this->pc->getPhpCodeBlankLine();
         $ret .= $this->pc->getPhpCodeCommentLine('Breadcrumbs');
@@ -560,7 +560,7 @@ class UserPages extends Files\CreateFile
         $fieldMain  = '';
         $fieldStatus = '';
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
                 $fieldId = $fieldName;

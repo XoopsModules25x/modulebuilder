@@ -22,7 +22,7 @@
  */
 include __DIR__ . '/header.php';
 
-$adminObject->displayNavigation(basename(__FILE__));
+$adminObject->displayNavigation(\basename(__FILE__));
 $adminObject::setPaypal('xoopsfoundation@gmail.com');
 $adminObject->displayAbout(false);
 

@@ -171,7 +171,7 @@ class ClassSpecialFiles extends Files\CreateFile
 
         $contIf         = $this->pc->getPhpCodeConditions("\$xoopsUser->isAdmin(\$xoopsModule->mid())", '', '', "\t" . $returnTrue, false, "\t\t\t");
         $contIf         .= $this->xc->getXcEqualsOperator('$currentuid', '$xoopsUser->uid()', null, "\t\t\t");
-        $globalContent  .= $this->pc->getPhpCodeConditions('isset($xoopsUser)', ' && ', 'is_object($xoopsUser)', $contIf, false, "\t\t");
+        $globalContent  .= $this->pc->getPhpCodeConditions('isset($xoopsUser)', ' && ', '\is_object($xoopsUser)', $contIf, false, "\t\t");
         $globalContent  .= $this->xc->getXcXoopsHandler('groupperm', "\t\t");
         $globalContent  .= $this->xc->getXcEqualsOperator('$mid', '$xoopsModule->mid()', null, "\t\t");
         $globalContent  .= $this->xc->getXcXoopsHandler('member', "\t\t");
@@ -229,7 +229,7 @@ class ClassSpecialFiles extends Files\CreateFile
         $tables           = $this->getTables();
         $tablePermissions = [];
         $tableRate        = [];
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');
             $tableRate[]        = $tables[$t]->getVar('table_rate');
         }
@@ -240,9 +240,9 @@ class ClassSpecialFiles extends Files\CreateFile
 
         $contentClass   = $this->pc->getPhpCodeBlankLine();
         $contentClass .= $this->pc->getPhpCodeCommentLine('Constants for tables', '', "\t");
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
-            $stuTableName = mb_strtoupper($tables[$t]->getVar('table_name'));
+            $stuTableName = \mb_strtoupper($tables[$t]->getVar('table_name'));
             $contentClass .= $this->pc->getPhpCodeConstant("TABLE_" . $stuTableName, $t, "\t",'const');
         }
 
@@ -253,7 +253,7 @@ class ClassSpecialFiles extends Files\CreateFile
         $contentClass .= $this->pc->getPhpCodeConstant("STATUS_SUBMITTED", 2, "\t",'public const');
         $contentClass .= $this->pc->getPhpCodeConstant("STATUS_APPROVED ", 3, "\t",'public const');
         $contentClass .= $this->pc->getPhpCodeConstant("STATUS_BROKEN   ", 4, "\t",'public const');
-        if (in_array(1, $tablePermissions)) {
+        if (\in_array(1, $tablePermissions)) {
             $constPerm = $this->pc->getPhpCodeBlankLine();
             $constPerm .= $this->pc->getPhpCodeCommentLine('Constants for permissions', '', "\t");
             $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_NONE   ", 0, "\t",'public const');
@@ -262,7 +262,7 @@ class ClassSpecialFiles extends Files\CreateFile
             $constPerm .= $this->pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3, "\t", 'public const');
             $contentClass .= $constPerm;
         }
-        if (in_array(1, $tableRate)) {
+        if (\in_array(1, $tableRate)) {
             $constRate = $this->pc->getPhpCodeBlankLine();
             $constRate .= $this->pc->getPhpCodeCommentLine('Constants for rating', '', "\t");
             $constRate .= $this->pc->getPhpCodeConstant("RATING_NONE    ", 0, "\t",'public const');

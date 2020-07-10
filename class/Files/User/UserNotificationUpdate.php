@@ -83,7 +83,7 @@ class UserNotificationUpdate extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module);
-        $content       .= $this->pc->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
+        $content       .= $this->pc->getPhpCodeIncludeDir('\dirname(\dirname(__DIR__))', 'mainfile');
         $content       .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'include/notification_update');
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);

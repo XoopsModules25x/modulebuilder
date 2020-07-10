@@ -158,9 +158,9 @@ class CreateStructure
      */
     public function isDir($dname)
     {
-        if (!is_dir($dname)) {
-            if (!mkdir($dname, 0755) && !is_dir($dname)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $dname));
+        if (!\is_dir($dname)) {
+            if (!\mkdir($dname, 0755) && !\is_dir($dname)) {
+                throw new \RuntimeException(\sprintf('Directory "%s" was not created', $dname));
             }
             chmod($dname, 0755);
         } else {
@@ -175,7 +175,7 @@ class CreateStructure
      */
     protected function makeDir($dir)
     {
-        $this->isDir(mb_strtolower(trim($dir)));
+        $this->isDir(\mb_strtolower(\trim($dir)));
     }
 
     /**
@@ -188,14 +188,14 @@ class CreateStructure
     public function isDirEmpty($dir)
     {
         $content = [];
-        $handle  = opendir($dir);
-        while (false !== ($entry = readdir($handle))) {
+        $handle  = \opendir($dir);
+        while (false !== ($entry = \readdir($handle))) {
             if ('.' !== $entry && '..' !== $entry) {
                 $content[] = $entry;
             }
         }
-        closedir($handle);
-        if (count($content) > 0) {
+        \closedir($handle);
+        if (\count($content) > 0) {
             return true;
         }
 
@@ -270,12 +270,12 @@ class CreateStructure
      */
     public function setCopy($dname, $fromFile, $fname)
     {
-        if (is_dir($dname)) {
+        if (\is_dir($dname)) {
             chmod($dname, 0777);
-            copy($fromFile, $fname);
+            \copy($fromFile, $fname);
         } else {
             $this->makeDir($dname);
-            copy($fromFile, $fname);
+            \copy($fromFile, $fname);
         }
     }
 }

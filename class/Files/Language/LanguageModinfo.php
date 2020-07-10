@@ -121,18 +121,18 @@ class LanguageModinfo extends Files\CreateFile
         $ret              .= $this->ld->getDefine($language, "ADMENU{$menu}", 'Dashboard');
         $tablePermissions = [];
         $tableBroken      = [];
-        foreach (array_keys($tables) as $i) {
+        foreach (\array_keys($tables) as $i) {
             ++$menu;
             $tablePermissions[] = $tables[$i]->getVar('table_permissions');
             $tableBroken[]      = $tables[$i]->getVar('table_broken');
-            $ucfTableName       = ucfirst($tables[$i]->getVar('table_name'));
+            $ucfTableName       = \ucfirst($tables[$i]->getVar('table_name'));
             $ret                .= $this->ld->getDefine($language, "ADMENU{$menu}", $ucfTableName);
         }
-        if (in_array(1, $tableBroken)) {
+        if (\in_array(1, $tableBroken)) {
             ++$menu;
             $ret    .= $this->ld->getDefine($language, "ADMENU{$menu}", 'Broken items');
         }
-        if (in_array(1, $tablePermissions)) {
+        if (\in_array(1, $tablePermissions)) {
             ++$menu;
             $ret .= $this->ld->getDefine($language, "ADMENU{$menu}", 'Permissions');
         }
@@ -173,10 +173,10 @@ class LanguageModinfo extends Files\CreateFile
         $i           = 1;
         $tableSubmit = [];
         $tableSearch = [];
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableName     = $tables[$t]->getVar('table_name');
             $tableSearch[] = $tables[$t]->getVar('table_search');
-            $ucfTablename  = ucfirst(mb_strtolower($tableName));
+            $ucfTablename  = \ucfirst(\mb_strtolower($tableName));
             if (1 == $tables[$t]->getVar('table_submenu')) {
                 $ret .= $this->ld->getDefine($language, "SMNAME{$i}", $ucfTablename);
             }
@@ -187,7 +187,7 @@ class LanguageModinfo extends Files\CreateFile
             }
         }
 
-        if (in_array(1, $tableSearch)) {
+        if (\in_array(1, $tableSearch)) {
             $ret .= $this->ld->getDefine($language, "SMNAME{$i}", 'Search');
         }
         unset($i, $tableSubmit);
@@ -205,14 +205,14 @@ class LanguageModinfo extends Files\CreateFile
     private function getLanguageBlocks($tables, $language)
     {
         $ret = $this->ld->getAboveDefines('Blocks');
-        foreach (array_keys($tables) as $i) {
+        foreach (\array_keys($tables) as $i) {
             if (1 == $tables[$i]->getVar('table_blocks')) {
                 $tableName        = $tables[$i]->getVar('table_name');
-                $stuTableName     = mb_strtoupper($tableName);
+                $stuTableName     = \mb_strtoupper($tableName);
                 $tableSoleName    = $tables[$i]->getVar('table_solename');
-                $stuTableSoleName = mb_strtoupper($tableSoleName);
-                $ucfTableName     = ucfirst($tableName);
-                $ucfTableSoleName = ucfirst($stuTableSoleName);
+                $stuTableSoleName = \mb_strtoupper($tableSoleName);
+                $ucfTableName     = \ucfirst($tableName);
+                $ucfTableSoleName = \ucfirst($stuTableSoleName);
                 $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
                 $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_DESC", "{$ucfTableName} block description");
                 if (1 == $tables[$i]->getVar('table_category')) {
@@ -268,9 +268,9 @@ class LanguageModinfo extends Files\CreateFile
         $useTag      = false;
         $fieldEditor = false;
         // $usePermissions = false;
-        foreach (array_keys($tables) as $i) {
+        foreach (\array_keys($tables) as $i) {
             $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
-            foreach (array_keys($fields) as $f) {
+            foreach (\array_keys($fields) as $f) {
                 $fieldElement = $fields[$f]->getVar('field_element');
                 if (3 == $fieldElement) {
                     $fieldEditor = true;
@@ -417,8 +417,8 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageNotificationsTable($language, $tableName, $tableSoleName, $tableBroken, $tableComment)
     {
-        $stuTableSoleName = mb_strtoupper($tableSoleName);
-        $ucfTableSoleName = ucfirst($tableSoleName);
+        $stuTableSoleName = \mb_strtoupper($tableSoleName);
+        $ucfTableSoleName = \ucfirst($tableSoleName);
 		$ret              = $this->ld->getAboveDefines($ucfTableSoleName . ' notifications');
         $getDefinesNotif  = [
             'NOTIFY_' . $stuTableSoleName                       => $ucfTableSoleName . ' notification',
@@ -526,7 +526,7 @@ class LanguageModinfo extends Files\CreateFile
         $tableBrokens       = [];
         $tableComments      = [];
         $tableRate          = [];
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableName            = $tables[$t]->getVar('table_name');
             $tableSoleName        = $tables[$t]->getVar('table_solename');
             $tableAdmin[]         = $tables[$t]->getVar('table_admin');
@@ -549,28 +549,28 @@ class LanguageModinfo extends Files\CreateFile
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getLanguageMain($language, $module);
         $content       .= $this->getLanguageMenu($module, $language);
-        if (in_array(1, $tableAdmin)) {
+        if (\in_array(1, $tableAdmin)) {
             $content .= $this->getLanguageAdmin($language);
         }
-        if (in_array(1, $tableUser)) {
+        if (\in_array(1, $tableUser)) {
             $content .= $this->getLanguageUser($language);
         }
-        if (in_array(1, $tableSubmenu)) {
+        if (\in_array(1, $tableSubmenu)) {
             $content .= $this->getLanguageSubmenu($language, $tables);
         }
-        if (in_array(1, $tableRate)) {
+        if (\in_array(1, $tableRate)) {
             $content .= $this->getLanguageRatingbars($language);
         }
 
-        if (in_array(1, $tableBlocks)) {
+        if (\in_array(1, $tableBlocks)) {
             $content .= $this->getLanguageBlocks($tables, $language);
         }
         $content .= $this->getLanguageConfig($language, $tables);
-        if (in_array(1, $tableNotifications)) {
-            $content .= $this->getLanguageNotificationsGlobal($language, in_array(1, $tableBrokens), in_array(1, $tableComments));
+        if (\in_array(1, $tableNotifications)) {
+            $content .= $this->getLanguageNotificationsGlobal($language, \in_array(1, $tableBrokens), \in_array(1, $tableComments));
             $content .= $notifTable;
         }
-        if (in_array(1, $tablePermissions)) {
+        if (\in_array(1, $tablePermissions)) {
             $content .= $this->getLanguagePermissionsGroups($language);
         }
         $content .= $this->getLanguageFooter();

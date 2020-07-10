@@ -49,7 +49,7 @@ switch ($op) {
         $settingsAll   = $helper->getHandler('Settings')->getAllSettings($start, $limit);
         // Display settings list
         if ($settingsCount > 0) {
-            foreach (array_keys($settingsAll) as $i) {
+            foreach (\array_keys($settingsAll) as $i) {
                 $setting = $settingsAll[$i]->getValuesSettings();
                 $GLOBALS['xoopsTpl']->append('settings_list', $setting);
                 unset($setting);
@@ -75,14 +75,14 @@ switch ($op) {
         break;
     case 'save':
         if (!$GLOBALS['xoopsSecurity']->check()) {
-            redirect_header('settings.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+            \redirect_header('settings.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($setId)) {
             $settingsObj = $helper->getHandler('Settings')->get($setId);
         } else {
             $settingsObj = $helper->getHandler('Settings')->create();
         }
-        $setModuleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', mb_strtolower($_POST['set_dirname']));
+        $setModuleDirname = \preg_replace('/[^a-zA-Z0-9]\s+/', '', \mb_strtolower($_POST['set_dirname']));
         //Form module save
         $settingsObj->setVars(
             [
@@ -125,14 +125,14 @@ switch ($op) {
             ]
         );
         $settingOption = \Xmf\Request::getArray('setting_option', []);
-        $settingsObj->setVar('set_admin', in_array('admin', $settingOption));
-        $settingsObj->setVar('set_user', in_array('user', $settingOption));
-        $settingsObj->setVar('set_blocks', in_array('blocks', $settingOption));
-        $settingsObj->setVar('set_search', in_array('search', $settingOption));
-        $settingsObj->setVar('set_comments', in_array('comments', $settingOption));
-        $settingsObj->setVar('set_notifications', in_array('notifications', $settingOption));
-        $settingsObj->setVar('set_permissions', in_array('permissions', $settingOption));
-        $settingsObj->setVar('set_inroot_copy', in_array('inroot', $settingOption));
+        $settingsObj->setVar('set_admin', \in_array('admin', $settingOption));
+        $settingsObj->setVar('set_user', \in_array('user', $settingOption));
+        $settingsObj->setVar('set_blocks', \in_array('blocks', $settingOption));
+        $settingsObj->setVar('set_search', \in_array('search', $settingOption));
+        $settingsObj->setVar('set_comments', \in_array('comments', $settingOption));
+        $settingsObj->setVar('set_notifications', \in_array('notifications', $settingOption));
+        $settingsObj->setVar('set_permissions', \in_array('permissions', $settingOption));
+        $settingsObj->setVar('set_inroot_copy', \in_array('inroot', $settingOption));
         $setType = \Xmf\Request::getString('set_type', '', 'POST');
         if (1 == $setType) {
             // reset all
@@ -142,7 +142,7 @@ switch ($op) {
         $settingsObj->setVar('set_type', $setType);
 
         if ($helper->getHandler('Settings')->insert($settingsObj)) {
-            redirect_header('settings.php', 5, sprintf(_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('set_name', '', 'POST')));
+            \redirect_header('settings.php', 5, \sprintf(_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('set_name', '', 'POST')));
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
@@ -162,10 +162,10 @@ switch ($op) {
         $settingsObj = $helper->getHandler('Settings')->get($setId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
-                redirect_header('settings.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+                \redirect_header('settings.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($helper->getHandler('Settings')->delete($settingsObj)) {
-                redirect_header('settings.php', 3, _AM_MODULEBUILDER_FORMDELOK);
+                \redirect_header('settings.php', 3, _AM_MODULEBUILDER_FORMDELOK);
             } else {
                 $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
             }
@@ -183,14 +183,14 @@ switch ($op) {
         $setId = \Xmf\Request::getInt('set_id', 0);
         if ($setId > 0) {
             $settingsHandler = $helper->getHandler('Settings');
-            $settingsObj = $settingsHandler->get($id);
+            $settingsObj = $settingsHandler->get($setId);
             $setType = $settingsObj->getVar('set_type');
             // reset all
             $strSQL = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . ' SET ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . '.set_type = 0';
             $GLOBALS['xoopsDB']->queryF($strSQL);
             $strSQL = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . ' SET ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . '.set_type = 1 WHERE ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . '.set_id = ' . $setId;
             if ($GLOBALS['xoopsDB']->queryF($strSQL)) {
-                redirect_header('settings.php', 5, sprintf(_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('set_name', '', 'POST')));
+                \redirect_header('settings.php', 5, \sprintf(_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('set_name', '', 'POST')));
             }
             $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
         }

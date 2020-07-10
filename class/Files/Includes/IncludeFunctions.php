@@ -94,7 +94,7 @@ class IncludeFunctions extends Files\CreateFile
         $contIf .= $this->getSimpleString("array_shift(\$cats);", $t. "\t");
         $contFe = $this->getSimpleString("\$cat_sql .= ',' . \$cat;", $t . "\t\t");
         $contIf .= $this->pc->getPhpCodeForeach('cats', false,false,'cat', $contFe, $t. "\t");
-        $func .= $this->pc->getPhpCodeConditions('is_array($cats)','','', $contIf, false, $t);
+        $func .= $this->pc->getPhpCodeConditions('\is_array($cats)','','', $contIf, false, $t);
         $func   .= $this->xc->getXcEqualsOperator('$cat_sql', "')'", '.', $t);
         $func .= $this->getSimpleString('return $cat_sql;', $t);
         $ret  .= $this->pc->getPhpCodeFunction("{$moduleDirname}_block_addCatSelect", '$cats', $func);
@@ -115,10 +115,10 @@ class IncludeFunctions extends Files\CreateFile
         $func = $this->xc->getXcGetGlobal(['xoopsUser'], $t);
         $func .= $this->xc->getXcEqualsOperator('static $permissions', "[]", '', $t);
         $contIf = $this->getSimpleString('return $permissions[$permtype];', $t . "\t");
-        $func .= $this->pc->getPhpCodeConditions('is_array($permissions) && array_key_exists($permtype, $permissions)','','', $contIf, false, $t);
+        $func .= $this->pc->getPhpCodeConditions('\is_array($permissions) && \array_key_exists($permtype, $permissions)','','', $contIf, false, $t);
         $func .= $this->xc->getXcXoopsHandler('module', $t);
         $func .= $this->xc->getXcEqualsOperator("\${$moduleDirname}Module", '$moduleHandler->getByDirname($dirname)', '', $t);
-        $func .= $this->pc->getPhpCodeTernaryOperator('groups', 'is_object($xoopsUser)', '$xoopsUser->getGroups()', 'XOOPS_GROUP_ANONYMOUS', $t);
+        $func .= $this->pc->getPhpCodeTernaryOperator('groups', '\is_object($xoopsUser)', '$xoopsUser->getGroups()', 'XOOPS_GROUP_ANONYMOUS', $t);
         $func .= $this->xc->getXcXoopsHandler('groupperm', $t);
         $func .= $this->xc->getXcEqualsOperator('$itemIds', "\$grouppermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'))", '', $t);
         $func .= $this->getSimpleString('return $itemIds;', $t);
@@ -141,7 +141,7 @@ class IncludeFunctions extends Files\CreateFile
     {
         $fields = $this->getTableFields($tableMid, $tableId);
         $fieldId = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
                 $fieldId = $fieldName; // fieldMain = fields parameters main field
@@ -159,13 +159,13 @@ class IncludeFunctions extends Files\CreateFile
 function {$moduleDirname}NumbersOfEntries(\$mytree, \${$tableName}, \$entries, \$cid)
 {
     \$count = 0;
-    if(in_array(\$cid, \${$tableName})) {
+    if(\in_array(\$cid, \${$tableName})) {
         \$child = \$mytree->getAllChild(\$cid);
-        foreach (array_keys(\$entries) as \$i) {
+        foreach (\array_keys(\$entries) as \$i) {
             if (\$entries[\$i]->getVar('{$fieldId}') == \$cid){
                 \$count++;
             }
-            foreach (array_keys(\$child) as \$j) {
+            foreach (\array_keys(\$child) as \$j) {
                 if (\$entries[\$i]->getVar('{$fieldId}') == \$j){
                     \$count++;
                 }
@@ -199,10 +199,10 @@ EOT;
     global \$xoopsTpl, \$xoTheme;
     \$myts = MyTextSanitizer::getInstance();
     \$content= \$myts->undoHtmlSpecialChars(\$myts->displayTarea(\$content));
-    if(isset(\$xoTheme) && is_object(\$xoTheme)) {
-        \$xoTheme->addMeta( 'meta', 'keywords', strip_tags(\$content));
+    if(isset(\$xoTheme) && \is_object(\$xoTheme)) {
+        \$xoTheme->addMeta( 'meta', 'keywords', \strip_tags(\$content));
     } else {    // Compatibility for old Xoops versions
-        \$xoopsTpl->assign('xoops_meta_keywords', strip_tags(\$content));
+        \$xoopsTpl->assign('xoops_meta_keywords', \strip_tags(\$content));
     }
 }\n
 EOT;
@@ -230,10 +230,10 @@ EOT;
     global \$xoopsTpl, \$xoTheme;
     \$myts = MyTextSanitizer::getInstance();
     \$content = \$myts->undoHtmlSpecialChars(\$myts->displayTarea(\$content));
-    if(isset(\$xoTheme) && is_object(\$xoTheme)) {
-        \$xoTheme->addMeta( 'meta', 'description', strip_tags(\$content));
+    if(isset(\$xoTheme) && \is_object(\$xoTheme)) {
+        \$xoTheme->addMeta( 'meta', 'description', \strip_tags(\$content));
     } else {    // Compatibility for old Xoops versions
-        \$xoopsTpl->assign('xoops_meta_description', strip_tags(\$content));
+        \$xoopsTpl->assign('xoops_meta_description', \strip_tags(\$content));
     }
 }\n
 EOT;
@@ -251,7 +251,7 @@ EOT;
      */
     private function getRewriteUrl($moduleDirname, $tableName)
     {
-        $ucfModuleDirname = ucfirst($moduleDirname);
+        $ucfModuleDirname = \ucfirst($moduleDirname);
         $ret              = <<<EOT
 \n/**
  * Rewrite all url
@@ -271,7 +271,7 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
 
     if (0 != \$lenght_id) {
         \$id = \$array['content_id'];
-        while (strlen(\$id) < \$lenght_id) {
+        while (\strlen(\$id) < \$lenght_id) {
             \$id = '0' . \$id;
         }
     } else {
@@ -357,7 +357,7 @@ EOT;
      */
     private function getRewriteFilter($moduleDirname, $tableName)
     {
-        $ucfModuleDirname = ucfirst($moduleDirname);
+        $ucfModuleDirname = \ucfirst($moduleDirname);
         $ret              = <<<EOT
 \n/**
  * Replace all escape, character, ... for display a correct url
@@ -373,13 +373,13 @@ function {$moduleDirname}_Filter(\$url, \$type = '') {
     \${$tableName}Handler = \$helper->getHandler('{$tableName}');
     \$regular_expression = \$helper->getConfig('regular_expression');
 
-    \$url = strip_tags(\$url);
-    \$url .= preg_replace("`\[.*\]`U", '', \$url);
-    \$url .= preg_replace('`&(amp;)?#?[a-z0-9]+;`i', '-', \$url);
+    \$url = \strip_tags(\$url);
+    \$url .= \preg_replace("`\[.*\]`U", '', \$url);
+    \$url .= \preg_replace('`&(amp;)?#?[a-z0-9]+;`i', '-', \$url);
     \$url .= htmlentities(\$url, ENT_COMPAT, 'utf-8');
-    \$url .= preg_replace('`&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig);`i', "\\1", \$url);
-    \$url .= preg_replace(array(\$regular_expression, '`[-]+`'), '-', \$url);
-    \$url = (\$url == '') ? \$type : strtolower(trim(\$url, '-'));
+    \$url .= \preg_replace('`&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig);`i', "\\1", \$url);
+    \$url .= \preg_replace(array(\$regular_expression, '`[-]+`'), '-', \$url);
+    \$url = (\$url == '') ? \$type : strtolower(\trim(\$url, '-'));
     return \$url;
 }
 EOT;
@@ -404,7 +404,7 @@ EOT;
         $tableBlocks      = null;
         $tablePermissions = null;
         $tableCategory    = null;
-        foreach (array_keys($tables) as $i) {
+        foreach (\array_keys($tables) as $i) {
             $tableId            = $tables[$i]->getVar('table_id');
             $tableMid           = $tables[$i]->getVar('table_mid');
             $tableName          = $tables[$i]->getVar('table_name');
@@ -415,13 +415,13 @@ EOT;
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module);
-        if (in_array(1, $tableBlocks)) {
+        if (\in_array(1, $tableBlocks)) {
             $content .= $this->getFunctionBlock($moduleDirname);
         }
-        if (in_array(1, $tablePermissions)) {
+        if (\in_array(1, $tablePermissions)) {
             $content .= $this->getFunctionGetMyItemIds($moduleDirname);
         }
-        if (in_array(1, $tableCategory)) {
+        if (\in_array(1, $tableCategory)) {
             $content .= $this->getFunctionNumbersOfEntries($moduleDirname, $tableMid, $tableId, $tableName);
         }
         $content .= $this->getFunctionMetaKeywords($moduleDirname);

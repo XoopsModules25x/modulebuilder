@@ -112,11 +112,11 @@ class Index extends Files\CreateFile
         //Table body
         $li     = $this->hc->getHtmlLi("<a href='<{\${$moduleDirname}_url}>'><{\$smarty.const.{$language}INDEX}></a>",'',"\t\t\t\t\t");
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
-        foreach (array_keys($tables) as $i) {
+        foreach (\array_keys($tables) as $i) {
             if (1 == $tables[$i]->getVar('table_index')) {
                 $tableNameLi = $tables[$i]->getVar('table_name');
                 $tableName = $tables[$i]->getVar('table_name');
-                $stuTableNameLi = mb_strtoupper($tableName);
+                $stuTableNameLi = \mb_strtoupper($tableName);
                 $li .= $this->hc->getHtmlLi("<a href='<{\${$moduleDirname}_url}>/{$tableNameLi}.php'><{\$smarty.const.{$language}{$stuTableNameLi}}></a>", '', "\t\t\t\t\t");
             }
         }
@@ -192,7 +192,7 @@ class Index extends Files\CreateFile
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getTemplateUserIndexHeader($moduleDirname);
         $content       .= $this->getTemplatesUserIndexIntro($module, $language);
-        foreach (array_keys($tables) as $t) {
+        foreach (\array_keys($tables) as $t) {
             $tableName      = $tables[$t]->getVar('table_name');
             $tableSoleName  = $tables[$t]->getVar('table_solename');
             $tableIndex     = $tables[$t]->getVar('table_index');

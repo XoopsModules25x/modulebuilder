@@ -142,12 +142,12 @@ class SplClassLoader
         if (null === $this->_namespace || $this->_namespace . $this->_namespaceSeparator === mb_substr($className, 0, mb_strlen($this->_namespace . $this->_namespaceSeparator))) {
             $fileName  = '';
             $namespace = '';
-            if (false !== ($lastNsPos = mb_strrpos($className, $this->_namespaceSeparator))) {
+            if (false !== ($lastNsPos = \mb_strrpos($className, $this->_namespaceSeparator))) {
                 $namespace .= mb_substr($className, 0, $lastNsPos);
                 $className = mb_substr($className, $lastNsPos + 1);
-                $fileName  = str_replace($this->_namespaceSeparator, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+                $fileName  = \str_replace($this->_namespaceSeparator, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
             }
-            $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . $this->_fileExtension;
+            $fileName .= \str_replace('_', DIRECTORY_SEPARATOR, $className) . $this->_fileExtension;
 
             require (null !== $this->_includePath ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName;
         }

@@ -9,15 +9,15 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-$moduleDirName      = basename(dirname(dirname(__DIR__)));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-define('CO_' . $moduleDirNameUpper . '_' . 'DC_AVAILABLE', "<span style='color: green;'>Available</span>");
-define('CO_' . $moduleDirNameUpper . '_' . 'DC_NOTAVAILABLE', "<span style='color: red;'>Not available</span>");
-define('CO_' . $moduleDirNameUpper . '_' . 'DC_NOTWRITABLE', "<span style='color: red;'> should have permission ( %d ), but it has ( %d )</span>");
-define('CO_' . $moduleDirNameUpper . '_' . 'DC_CREATETHEDIR', 'Create it');
-define('CO_' . $moduleDirNameUpper . '_' . 'DC_SETMPERM', 'Set the permission');
-define('CO_' . $moduleDirNameUpper . '_' . 'DC_DIRCREATED', 'The directory has been created');
-define('CO_' . $moduleDirNameUpper . '_' . 'DC_DIRNOTCREATED', 'The directory cannot be created');
-define('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMSET', 'The permission has been set');
-define('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMNOTSET', 'The permission cannot be set');
+\define('CO_' . $moduleDirNameUpper . '_' . 'DC_AVAILABLE', "<span style='color: green;'>Available</span>");
+\define('CO_' . $moduleDirNameUpper . '_' . 'DC_NOTAVAILABLE', "<span style='color: red;'>Not available</span>");
+\define('CO_' . $moduleDirNameUpper . '_' . 'DC_NOTWRITABLE', "<span style='color: red;'> should have permission ( %d ), but it has ( %d )</span>");
+\define('CO_' . $moduleDirNameUpper . '_' . 'DC_CREATETHEDIR', 'Create it');
+\define('CO_' . $moduleDirNameUpper . '_' . 'DC_SETMPERM', 'Set the permission');
+\define('CO_' . $moduleDirNameUpper . '_' . 'DC_DIRCREATED', 'The directory has been created');
+\define('CO_' . $moduleDirNameUpper . '_' . 'DC_DIRNOTCREATED', 'The directory cannot be created');
+\define('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMSET', 'The permission has been set');
+\define('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMNOTSET', 'The permission cannot be set');

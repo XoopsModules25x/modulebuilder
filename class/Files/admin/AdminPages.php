@@ -133,11 +133,11 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesList($moduleDirname, $table, $language, $fieldInForm, $t = '')
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $tableName        = $table->getVar('table_name');
         $tableSoleName    = $table->getVar('table_solename');
-        $stuTableName     = mb_strtoupper($tableName);
-        $stuTableSoleName = mb_strtoupper($tableSoleName);
+        $stuTableName     = \mb_strtoupper($tableName);
+        $stuTableSoleName = \mb_strtoupper($tableSoleName);
 
         $ret        = $this->pc->getPhpCodeCommentLine('Define Stylesheet', '', $t);
         $ret        .= $this->xc->getXcXoThemeAddStylesheet('style', $t);
@@ -148,7 +148,7 @@ class AdminPages extends Files\CreateFile
         $navigation = $this->axc->getAdminDisplayNavigation($tableName);
         $ret        .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
 
-        if (in_array(1, $fieldInForm)) {
+        if (\in_array(1, $fieldInForm)) {
             $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', $t);
             $ret .= $this->xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
         }
@@ -182,12 +182,12 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, $t = '')
     {
-        $stuTableName = mb_strtoupper($tableName);
+        $stuTableName = \mb_strtoupper($tableName);
         $ret          = $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
         $navigation   = $this->axc->getAdminDisplayNavigation($tableName);
         $ret          .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
 
-        if (in_array(1, $fieldInForm)) {
+        if (\in_array(1, $fieldInForm)) {
             $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
             $ret .= $this->xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
         }
@@ -242,7 +242,7 @@ class AdminPages extends Files\CreateFile
         $ret         .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $contentIf, $contentElse, $t);
         $ret         .= $this->pc->getPhpCodeCommentLine('Set Vars', null, $t);
         $countUploader = 0;
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldType    = $fields[$f]->getVar('field_type');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -294,7 +294,7 @@ class AdminPages extends Files\CreateFile
         $insert        = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
         $contentInsert = '';
         if (1 == $tablePerms) {
-            $ucfTableName  = ucfirst($tableName);
+            $ucfTableName  = \ucfirst($tableName);
             $ucfFieldId    = $this->getCamelCase($fieldId, true);
             $contentInsert = $this->xc->getXcEqualsOperator("\$new{$ucfFieldId}", "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", null, $t . "\t");
             $contentInsert .= $this->pc->getPhpCodeTernaryOperator('permId', "isset(\$_REQUEST['{$fieldId}'])", "\${$ccFieldId}", "\$new{$ucfFieldId}", $t . "\t");
@@ -334,15 +334,15 @@ class AdminPages extends Files\CreateFile
     {
         $tableName         = $table->getVar('table_name');
         $tableSoleName     = $table->getVar('table_solename');
-        $stuTableName      = mb_strtoupper($tableName);
-        $stuTableSoleName  = mb_strtoupper($tableSoleName);
+        $stuTableName      = \mb_strtoupper($tableName);
+        $stuTableSoleName  = \mb_strtoupper($tableSoleName);
         $ccFieldId         = $this->getCamelCase($fieldId, false, true);
 
         $ret        = $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
         $navigation = $this->axc->getAdminDisplayNavigation($tableName);
         $ret        .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
 
-        if (in_array(1, $fieldInForm)) {
+        if (\in_array(1, $fieldInForm)) {
             $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', $t);
             $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
             $ret .= $this->xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
@@ -397,7 +397,7 @@ class AdminPages extends Files\CreateFile
         $fieldInForm        = null;
         $fieldId            = null;
         $fieldMain          = null;
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             $fieldName     = $fields[$f]->getVar('field_name');
             $fieldInForm[] = $fields[$f]->getVar('field_inform');
             if (0 == $f) {
@@ -410,7 +410,7 @@ class AdminPages extends Files\CreateFile
         $content = $this->getHeaderFilesComments($module);
         $content .= $this->getAdminPagesHeader($moduleDirname, $fieldId);
         $list    = $this->getAdminPagesList($moduleDirname, $table, $language, $fieldInForm, "\t\t");
-        if (in_array(1, $fieldInForm)) {
+        if (\in_array(1, $fieldInForm)) {
             $new  = $this->getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, "\t\t");
             $save = $this->getAdminPagesSave($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldMain, $tablePerms, "\t\t");
             $edit = $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, "\t\t");

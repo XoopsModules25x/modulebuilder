@@ -22,7 +22,7 @@ namespace XoopsModules\Modulebuilder;
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+\defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /*
  * @since 1.91
  */
@@ -30,7 +30,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 ini_set('display_errors', 1);
 error_reporting(E_ALL | E_STRICT);
 
-if (!function_exists('application_autoloader')) {
+if (!\function_exists('application_autoloader')) {
     /**
      * @param $class
      */
@@ -38,20 +38,20 @@ if (!function_exists('application_autoloader')) {
     {
         $classFilename = $class . '.php';
         $cachePath     = XOOPS_VAR_PATH . '/caches/modulebuilder_cache';
-        if (!is_dir($cachePath)) {
-            if (!mkdir($cachePath, 0777) && !is_dir($cachePath)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $cachePath));
+        if (!\is_dir($cachePath)) {
+            if (!\mkdir($cachePath, 0777) && !\is_dir($cachePath)) {
+                throw new \RuntimeException(\sprintf('Directory "%s" was not created', $cachePath));
             }
             chmod($cachePath, 0777);
         }
-        $pathCache = file_exists($cacheFile = $cachePath . '/classpaths.cache') ? unserialize(file_get_contents($cacheFile)) : [];
-        if (!is_array($pathCache)) {
+        $pathCache = \file_exists($cacheFile = $cachePath . '/classpaths.cache') ? unserialize(file_get_contents($cacheFile)) : [];
+        if (!\is_array($pathCache)) {
             $pathCache = [];
         }
 
-        if (array_key_exists($class, $pathCache)) {
+        if (\array_key_exists($class, $pathCache)) {
             /* Load class using path from cache file (if the file still exists) */
-            if (file_exists($pathCache[$class])) {
+            if (\file_exists($pathCache[$class])) {
                 require_once $pathCache[$class];
             }
         } else {

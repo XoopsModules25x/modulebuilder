@@ -48,13 +48,13 @@ switch ($op) {
         $modulesCount = $helper->getHandler('Modules')->getCountModules();
         // Redirect if there aren't modules
         if (0 == $modulesCount) {
-            redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_MODULES2);
+            \redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_MODULES2);
         }
         $morefilesCount = $helper->getHandler('Morefiles')->getCountMorefiles();
         $morefilesAll   = $helper->getHandler('Morefiles')->getAllMorefiles($start, $limit);
         // Display morefiles list
         if ($morefilesCount > 0) {
-            foreach (array_keys($morefilesAll) as $i) {
+            foreach (\array_keys($morefilesAll) as $i) {
                 $files = $morefilesAll[$i]->getValuesMorefiles();
                 $GLOBALS['xoopsTpl']->append('files_list', $files);
                 unset($files);
@@ -80,7 +80,7 @@ switch ($op) {
         break;
     case 'save':
         if (!$GLOBALS['xoopsSecurity']->check()) {
-            redirect_header('morefiles.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+            \redirect_header('morefiles.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($fileId)) {
             $morefilesObj = $helper->getHandler('Morefiles')->get($fileId);
@@ -101,9 +101,9 @@ switch ($op) {
 
         if ($helper->getHandler('Morefiles')->insert($morefilesObj)) {
             if ($morefilesObj->isNew()) {
-                redirect_header('morefiles.php', 5, sprintf(_AM_MODULEBUILDER_FILE_FORM_CREATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
+                \redirect_header('morefiles.php', 5, \sprintf(_AM_MODULEBUILDER_FILE_FORM_CREATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
             } else {
-                redirect_header('morefiles.php', 5, sprintf(_AM_MODULEBUILDER_FILE_FORM_UPDATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
+                \redirect_header('morefiles.php', 5, \sprintf(_AM_MODULEBUILDER_FILE_FORM_UPDATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
             }
         }
 
@@ -126,10 +126,10 @@ switch ($op) {
         $morefilesObj = $helper->getHandler('Morefiles')->get($fileId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
-                redirect_header('morefiles.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+                \redirect_header('morefiles.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($helper->getHandler('Morefiles')->delete($morefilesObj)) {
-                redirect_header('morefiles.php', 3, _AM_MODULEBUILDER_FORM_DELETED_OK);
+                \redirect_header('morefiles.php', 3, _AM_MODULEBUILDER_FORM_DELETED_OK);
             } else {
                 $GLOBALS['xoopsTpl']->assign('error', $morefilesObj->getHtmlErrors());
             }

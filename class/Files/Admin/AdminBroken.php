@@ -120,11 +120,11 @@ class AdminBroken extends Files\CreateFile
     private function getAdminBrokenList($tables, $language, $t = '')
     {
         $ret = '';
-        foreach (array_keys($tables) as $i) {
+        foreach (\array_keys($tables) as $i) {
             if (1 === (int)$tables[$i]->getVar('table_broken')) {
                 $tableName     = $tables[$i]->getVar('table_name');
                 $tableSoleName = $tables[$i]->getVar('table_solename');
-                $ucfTableName  = ucfirst($tableName);
+                $ucfTableName  = \ucfirst($tableName);
                 $ret        .= $this->pc->getPhpCodeBlankLine();
                 $ret        .= $this->pc->getPhpCodeCommentLine('Check table', $tableName, $t);
                 $ret        .= $this->xc->getXcXoopsRequest('start', 'start' . $ucfTableName, '0', 'Int', false, $t);
@@ -136,7 +136,7 @@ class AdminBroken extends Files\CreateFile
                 $fieldId = '';
                 $fieldMain = '';
                 $fieldSatus = '';
-                foreach (array_keys($fields) as $f) {
+                foreach (\array_keys($fields) as $f) {
                     $fieldName = $fields[$f]->getVar('field_name');
                     if (0 == $f) {
                         $fieldId = $fieldName;

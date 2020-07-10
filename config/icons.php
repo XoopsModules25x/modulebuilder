@@ -3,10 +3,10 @@
 function getIcons()
 {
     $pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
-    $moduleDirName = basename(dirname(__DIR__));
+    $moduleDirName = \basename(\dirname(__DIR__));
 
     return (object)[
-        'name'  => mb_strtoupper($moduleDirName) . ' IconConfigurator',
+        'name'  => \mb_strtoupper($moduleDirName) . ' IconConfigurator',
         'icons' => [
             'edit'    => "<img src='" . $pathIcon16 . "/edit.png'  alt=" . _EDIT . "' align='middle'>",
             'delete'  => "<img src='" . $pathIcon16 . "/delete.png' alt='" . _DELETE . "' align='middle'>",

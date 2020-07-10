@@ -88,14 +88,14 @@ class IncludeNotifications extends Files\CreateFile
      */
     public function getNotificationsFunction($moduleDirname)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $tables           = $this->getTables();
         $t      = "\t";
         $ret    = $this->pc->getPhpCodeCommentMultiLine(['comment' => 'callback functions','' => '', '@param  $category' => '', '@param  $item_id' => '', '@return' => 'array item|null']);
         $func   = $this->xc->getXcGetGlobal(['xoopsDB'], $t);
         $func   .= $this->pc->getPhpCodeBlankLine();
         $contIf = $this->pc->getPhpCodeDefine($stuModuleDirname . '_URL',"XOOPS_URL . '/modules/{$moduleDirname}'", $t . "\t");
-        $func   .= $this->pc->getPhpCodeConditions("!defined('{$stuModuleDirname}_URL')", '','',$contIf, false, $t);
+        $func   .= $this->pc->getPhpCodeConditions("!\defined('{$stuModuleDirname}_URL')", '','',$contIf, false, $t);
         $func   .= $this->pc->getPhpCodeBlankLine();
 
         $case[] = $this->xc->getXcEqualsOperator("\$item['name']", "''",'',$t . "\t\t");
@@ -107,14 +107,14 @@ class IncludeNotifications extends Files\CreateFile
         $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, false, false, $t . "\t");
         unset($case);
 
-        foreach (array_keys($tables) as $i) {
+        foreach (\array_keys($tables) as $i) {
             if (1 === (int)$tables[$i]->getVar('table_notifications')) {
                 $tableName   = $tables[$i]->getVar('table_name');
                 $fieldParent = false;
                 $fields      = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
                 $fieldId     = '';
                 $fieldMain   = '';
-                foreach (array_keys($fields) as $f) {
+                foreach (\array_keys($fields) as $f) {
                     $fieldName = $fields[$f]->getVar('field_name');
                     if ((0 == $f) && (1 == $tables[$i]->getVar('table_autoincrement'))) {
                         $fieldId = $fieldName;

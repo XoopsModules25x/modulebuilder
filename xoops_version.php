@@ -19,10 +19,10 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+\defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-$moduleDirName      = basename(__DIR__);
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirName      = \basename(__DIR__);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 $modversion['version']             = 3.03;
 $modversion['module_status']       = 'Alpha 5';
@@ -115,7 +115,7 @@ $modversion['config'][] = [
     'default'     => 'head',
 ];
 
-xoops_load('xoopseditorhandler');
+\xoops_load('xoopseditorhandler');
 $editorHandler = \XoopsEditorHandler::getInstance();
 
 $modversion['config'][] = [

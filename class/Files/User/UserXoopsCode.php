@@ -93,7 +93,7 @@ class UserXoopsCode
      */
     public function getUserAddMeta($type, $language, $tableName, $t = '')
     {
-        $stuTableName = mb_strtoupper($tableName);
+        $stuTableName = \mb_strtoupper($tableName);
         $stripTags    = $this->pc->getPhpCodeStripTags('', $language . $stuTableName, true);
 
         return "{$t}\$GLOBALS['xoTheme']->addMeta('meta', '{$type}', {$stripTags});\n";
@@ -138,7 +138,7 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbs($language, $tableName = 'index', $t = '')
     {
-        $stuTableName = mb_strtoupper($tableName);
+        $stuTableName = \mb_strtoupper($tableName);
         $title        = ["'title'" => "{$language}{$stuTableName}"];
 
         return $this->pc->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
@@ -154,7 +154,7 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbsHeaderFile($moduleDirname, $language)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $ret              = $this->pc->getPhpCodeCommentLine('Breadcrumbs');
         $ret              .= $this->pc->getPhpCodeArray('xoBreadcrumbs', null, false, '');
         $titleLink        = ["'title'" => $language . 'TITLE', "'link'" => "{$stuModuleDirname}_URL . '/'"];
@@ -171,7 +171,7 @@ class UserXoopsCode
     public function getUserBreadcrumbsFooterFile()
     {
         $cond = $this->xc->getXcXoopsTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
-        $ret  = $this->pc->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
+        $ret  = $this->pc->getPhpCodeConditions('\count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
 
         return $ret;
     }
@@ -193,7 +193,7 @@ class UserXoopsCode
         $ret = $t . '$modversion';
         $isArray = false;
         $n = '';
-        if (!is_array($descriptions)) {
+        if (!\is_array($descriptions)) {
             $descs = [$descriptions];
         } else {
             $descs = $descriptions;
@@ -216,15 +216,15 @@ class UserXoopsCode
         //search for longest key
         $len = 0;
         foreach ($descs as $key => $desc) {
-            $len = strlen($key) > $len ? strlen($key) : $len;
+            $len = \strlen($key) > $len ? \strlen($key) : $len;
         }
 
         foreach ($descs as $key => $desc) {
-            $space = str_repeat (  ' ' , $len - strlen($key));
+            $space = str_repeat (  ' ' , $len - \strlen($key));
             if ($eleArray < 4) {
                 $ret .= $t . "\t'{$key}'{$space} => {$desc},{$n}";
             } elseif (11 === $eleArray) {
-                if ('/' === substr($desc, 1, 1)) {
+                if ('/' === \substr($desc, 1, 1)) {
                     $ret .= $t . "\t{$desc}";
                 } else {
                     $ret .= $t . "\t{$desc},{$n}";

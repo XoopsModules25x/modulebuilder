@@ -176,7 +176,7 @@ class TemplatesAdminBroken extends Files\CreateFile
     {
         $tableName     = $table->getVar('table_name');
         $tableSoleName = $table->getVar('table_solename');
-        $ucfTableName  = ucfirst($tableName);
+        $ucfTableName  = \ucfirst($tableName);
         $double    = $this->sc->getSmartySingleVar($tableName . '_result');
         $ret       = $this->hc->getHtmlHNumb($double, 3, '');
         $htmlTable = $this->getTemplatesAdminBrokenTable($tableName, $tableSoleName, $language);

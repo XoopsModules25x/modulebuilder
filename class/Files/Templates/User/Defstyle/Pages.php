@@ -116,7 +116,7 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesTableThead($tableName, $language)
     {
-        $stuTableName = mb_strtoupper($tableName);
+        $stuTableName = \mb_strtoupper($tableName);
         $single       = $this->sc->getSmartySingleVar('divideby');
         $lang         = $this->sc->getSmartyConst($language, $stuTableName . '_TITLE');
         $th           = $this->hc->getHtmlTableHead($lang, '', $single, "\t\t\t\t");
