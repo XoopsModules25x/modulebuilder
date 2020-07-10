@@ -965,13 +965,13 @@ class UserXoopsVersion extends Files\CreateFile
         $notifyEventGlobal .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_new', 'global', 0, 'global_new', 'global_new_notify');
         $notifyEventGlobal .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_modify', 'global', 0, 'global_modify', 'global_modify_notify');
         $notifyEventGlobal .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_delete', 'global', 0, 'global_delete', 'global_delete_notify');
-        $notifyEventGlobal .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_approve', 'global', 0, 'global_approve', 'global_approve_notify');
+        $notifyEventGlobal .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_approve', 'global', 1, 'global_approve', 'global_approve_notify');
         foreach (\array_keys($tables) as $t) {
             $tableBroken[]   = $tables[$t]->getVar('table_broken');
             $tableComments[] = $tables[$t]->getVar('table_comments');
         }
         if (\in_array(1, $tableBroken)) {
-            $notifyEventGlobal .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_broken', 'global', 0, 'global_broken', 'global_broken_notify');
+            $notifyEventGlobal .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_broken', 'global', 1, 'global_broken', 'global_broken_notify');
         }
         if (\in_array(1, $tableComments)) {
             $notifyEventGlobal .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'global_comment', 'global', 0, 'global_comment', 'global_comment_notify');
