@@ -4,7 +4,7 @@ TODOs:
 Permissions:
 implement autoapprove
 
-
+check error handling for upload image list (// Set Var tf_imagelist)
 
 
 *****************************
