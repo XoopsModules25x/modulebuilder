@@ -24,15 +24,18 @@
 
 use Xmf\Request;
 
+$moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
+
 // Define main template
-$templateMain = 'modulebuilder_index.tpl';
+$templateMain = $moduleDirName . '_index.tpl';
 
 include __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
 $op    = Request::getString('op', 'list');
 
-$src_path = TDMC_PATH ;
-$dst_path = TDMC_UPLOAD_REPOSITORY_PATH . '/codecleaned';
+$src_path = \constant($moduleDirNameUpper . '_PATH');
+$dst_path = \constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/codecleaned';
 
 $patKeys   = [];
 $patValues = [];
@@ -46,7 +49,10 @@ include __DIR__ . '/footer.php';
 
 function function_qualifier($dst_path) {
 
-    $phpFunctions = [
+    $sources = [];
+
+    //php functions
+    $sources[0] = [
         'array_diff',
         'array_filter',
         'array_key_exists',
@@ -162,12 +168,14 @@ function function_qualifier($dst_path) {
         'mb_strrpos',
     ];
 
-    $xoopsFunctions = [
+    // xoops functions
+    $sources[1] = [
         'xoops_getHandler',
         'xoops_load',
         'xoops_loadLanguage',
     ];
 
+    // repair known errors
     $errors = [
         'mb_\strlen('   => 'mb_strlen(',
         'mb_\substr('   => 'mb_substr(',
@@ -182,20 +190,17 @@ function function_qualifier($dst_path) {
     ];
 
     $patterns = [];
-    //reset existing in order to avoid double \\
-    foreach ($phpFunctions as $item) {
-        $patterns['\\' . $item . '('] = $item . '(';
+    foreach ($sources as $source) {
+        //reset existing in order to avoid double \\
+        foreach ($source as $item) {
+            $patterns['\\' . $item . '('] = $item . '(';
+        }
+        //apply now for all
+        foreach ($source as $item) {
+            $patterns[$item . '('] = '\\' . $item . '(';
+        }
     }
-    foreach ($xoopsFunctions as $item) {
-        $patterns['\\' . $item . '('] = $item . '(';
-    }
-    //apply now for all
-    foreach ($phpFunctions as $item) {
-        $patterns[$item . '('] = '\\' . $item . '(';
-    }
-    foreach ($xoopsFunctions as $item) {
-        $patterns[$item . '('] = '\\' . $item . '(';
-    }
+
     //add errors
     foreach ($errors as $key => $value) {
         $patterns[$key] = $value;
@@ -265,4 +270,3 @@ function cloneFile($src_file, $dst_file, $patKeys = [], $patValues =[])
         \copy($src_file, $dst_file);
     }
 }
-

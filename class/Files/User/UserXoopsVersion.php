@@ -740,7 +740,7 @@ class UserXoopsVersion extends Files\CreateFile
                 'description' => "'{$language}MAXWIDTH_IMAGE_DESC'",
                 'formtype'    => "'textbox'",
                 'valuetype'   => "'int'",
-                'default'     => '8000',
+                'default'     => '800',
             ];
             $ret .= $this->uxc->getUserModVersionArray(2, $maxwidth_image, 'config');
             $maxheight_image   = [
@@ -749,7 +749,7 @@ class UserXoopsVersion extends Files\CreateFile
                 'description' => "'{$language}MAXHEIGHT_IMAGE_DESC'",
                 'formtype'    => "'textbox'",
                 'valuetype'   => "'int'",
-                'default'     => '8000',
+                'default'     => '800',
             ];
             $ret .= $this->uxc->getUserModVersionArray(2, $maxheight_image, 'config');
         }

@@ -312,9 +312,9 @@ class LanguageModinfo extends Files\CreateFile
             $ret .= $this->ld->getDefine($language, 'MIMETYPES_IMAGE', 'Mime types image');
             $ret .= $this->ld->getDefine($language, 'MIMETYPES_IMAGE_DESC', 'Define the allowed mime types for uploading images');
             $ret .= $this->ld->getDefine($language, 'MAXWIDTH_IMAGE', 'Max width image');
-            $ret .= $this->ld->getDefine($language, 'MAXWIDTH_IMAGE_DESC', 'Set the max width which is allowed for uploading images (in pixel)<br>0 means that images keep original size<br>If original image is smaller the image will be not enlarged');
+            $ret .= $this->ld->getDefine($language, 'MAXWIDTH_IMAGE_DESC', 'Set the max width to which uploaded images should be scaled (in pixel)<br>0 means, that images keeps the original size. <br>If an image is smaller than maximum value then the image will be not enlarge, it will be save in original width.');
             $ret .= $this->ld->getDefine($language, 'MAXHEIGHT_IMAGE', 'Max height image');
-            $ret .= $this->ld->getDefine($language, 'MAXHEIGHT_IMAGE_DESC', 'Set the max height which is allowed for uploading images (in pixel)<br>0 means that images keep original size<br>If original image is smaller the image will be not enlarged');
+            $ret .= $this->ld->getDefine($language, 'MAXHEIGHT_IMAGE_DESC', 'Set the max height to which uploaded images should be scaled (in pixel)<br>0 means, that images keeps the original size. <br>If an image is smaller than maximum value then the image will be not enlarge, it will be save in original height');
         }
 		if ($fieldFile) {
             $ret .= $this->ld->getDefine($language, 'MAXSIZE_FILE', 'Max size file');
