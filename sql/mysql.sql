@@ -328,7 +328,7 @@ INSERT INTO `modulebuilder_fieldelements` (`fieldelement_id`, `fieldelement_mid`
 (2, 0, 0, 'Text', 'XoopsFormText', 1, 14, 255),
 (3, 0, 0, 'TextArea', 'XoopsFormTextArea', 2, 15, 0),
 (4, 0, 0, 'DhtmlTextArea', 'XoopsFormDhtmlTextArea', 3, 15, 0),
-(5, 0, 0, 'CheckBox', 'XoopsFormCheckBox', 4, 2, 10),
+(5, 0, 0, 'CheckBox', 'XoopsFormCheckBox', 4, 2, 1),
 (6, 0, 0, 'RadioYN', 'XoopsFormRadioYN', 6, 2, 1),
 (7, 0, 0, 'SelectBox', 'XoopsFormSelect', 7, 2, 10),
 (8, 0, 0, 'SelectUser', 'XoopsFormSelectUser', 9, 2, 10),
