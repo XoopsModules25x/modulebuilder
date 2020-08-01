@@ -730,7 +730,7 @@ class UserXoopsVersion extends Files\CreateFile
                 'description' => "'{$language}MIMETYPES_IMAGE_DESC'",
                 'formtype'    => "'select_multi'",
                 'valuetype'   => "'array'",
-                'default'     => "['image/gif', 'image/jpeg', 'image/png']",
+                'default'     => "['image/gif', 'image/jpg', 'image/jpeg', 'image/png']",
                 'options'     => "['bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg', 'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe', 'png' => 'image/png']",
             ];
             $ret .= $this->uxc->getUserModVersionArray(2, $mimetypes_image, 'config');
@@ -772,7 +772,7 @@ class UserXoopsVersion extends Files\CreateFile
                 'description' => "'{$language}MIMETYPES_FILE_DESC'",
                 'formtype'    => "'select_multi'",
                 'valuetype'   => "'array'",
-                'default'     => "['application/pdf', 'application/zip', 'text/comma-separated-values', 'text/plain', 'image/gif', 'image/jpeg', 'image/png']",
+                'default'     => "['application/pdf', 'application/zip', 'text/comma-separated-values', 'text/plain', 'image/gif', ''image/jpg', image/jpeg', 'image/png']",
                 'options'     => "['gif' => 'image/gif','pjpeg' => 'image/pjpeg', 'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe', 'png' => 'image/png', 'pdf' => 'application/pdf','zip' => 'application/zip','csv' => 'text/comma-separated-values', 'txt' => 'text/plain', 'xml' => 'application/xml', 'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']",
             ];
             $ret .= $this->uxc->getUserModVersionArray(2, $mimetypes_file, 'config');

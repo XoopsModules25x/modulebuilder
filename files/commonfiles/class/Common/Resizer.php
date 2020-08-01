@@ -48,6 +48,7 @@ class Resizer
                 $img = \imagecreatefrompng($this->sourceFile);
                 break;
             case 'image/jpeg':
+            case 'image/jpg':
                 $img = \imagecreatefromjpeg($this->sourceFile);
                 if (!$img) {
                     $img = \imagecreatefromstring(file_get_contents($this->sourceFile));
@@ -98,6 +99,7 @@ class Resizer
                     \imagepng($tmpimg, $this->endFile, 0);
                     break;
                 case 'image/jpeg':
+                case 'image/jpg':
                     \imagejpeg($tmpimg, $this->endFile, 100);
                     break;
                 case 'image/gif':
@@ -126,6 +128,7 @@ class Resizer
                 $original = \imagecreatefrompng($this->sourceFile);
                 break;
             case 'image/jpeg':
+            case 'image/jpg':
                 $original = \imagecreatefromjpeg($this->sourceFile);
                 break;
             case 'image/gif':
@@ -253,6 +256,7 @@ class Resizer
                 $original = \imagecreatefrompng($this->sourceFile);
                 break;
             case 'image/jpeg':
+            case 'image/jpg':
                 $original = \imagecreatefromjpeg($this->sourceFile);
                 break;
             case 'image/gif':
@@ -277,6 +281,7 @@ class Resizer
                 }
                 break;
             case 'image/jpeg':
+            case 'image/jpg':
                 if (!\imagejpeg($tmpimg, $this->endFile, $this->jpgQuality)) {
                     return false;
                 }

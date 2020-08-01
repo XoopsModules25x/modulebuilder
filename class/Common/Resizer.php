@@ -45,6 +45,7 @@ class Resizer
                 $img = \imagecreatefrompng($this->sourceFile);
                 break;
             case 'image/jpeg':
+            case 'image/jpg':
                 $img = \imagecreatefromjpeg($this->sourceFile);
                 break;
             case 'image/gif':
@@ -92,6 +93,7 @@ class Resizer
                     \imagepng($tmpimg, $this->endFile, 0);
                     break;
                 case 'image/jpeg':
+                case 'image/jpg':
                     \imagejpeg($tmpimg, $this->endFile, 100);
                     break;
                 case 'image/gif':
@@ -122,6 +124,7 @@ class Resizer
                 $original = \imagecreatefrompng($this->sourceFile);
                 break;
             case 'image/jpeg':
+            case 'image/jpg':
                 $original = \imagecreatefromjpeg($this->sourceFile);
                 break;
             case 'image/gif':
