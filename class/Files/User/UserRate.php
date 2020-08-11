@@ -255,10 +255,10 @@ class UserRate extends Files\CreateFile
             $tableFieldName = $table->getVar('table_fieldname');
             $stuTableName   = \mb_strtoupper($tableName);
             if (1 == $table->getVar('table_rate')) {
-                $contIfInt = $this->xc->getXcEqualsOperator('$tableName', "'{$tableName}'",'', $t . "\t\t");
-                $contIfInt .= $this->xc->getXcEqualsOperator('$fieldRatings', "'{$tableFieldName}_ratings'",'', $t . "\t\t");
-                $contIfInt .= $this->xc->getXcEqualsOperator('$fieldVotes  ', "'{$tableFieldName}_votes'",'', $t . "\t\t");
-                $contIfInt .= $this->xc->getXcHandlerGetObj($tableName, 'itemid', $t . "\t\t");
+                //$contIfInt = $this->xc->getXcEqualsOperator('$tableName', "'{$tableName}'",'', $t . "\t\t");
+                //$contIfInt .= $this->xc->getXcEqualsOperator('$fieldRatings', "'{$tableFieldName}_ratings'",'', $t . "\t\t");
+                //$contIfInt .= $this->xc->getXcEqualsOperator('$fieldVotes  ', "'{$tableFieldName}_votes'",'', $t . "\t\t");
+                $contIfInt = $this->xc->getXcHandlerGetObj($tableName, 'itemid', $t . "\t\t");
                 $contIfInt .= $this->xc->getXcSetVarObj($tableName, "{$tableFieldName}_ratings", '$avg_rate_value', $t . "\t\t");
                 $contIfInt .= $this->xc->getXcSetVarObj($tableName, "{$tableFieldName}_votes", '$ratingsCount', $t . "\t\t");
                 $insertInt = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj');

@@ -75,12 +75,11 @@ class DocsChangelog extends Files\CreateFile
     {
         $module        = $this->getModule();
         $filename      = $this->getFileName();
-        $moduleName    = $module->getVar('mod_name');
         $moduleDirname = $module->getVar('mod_dirname');
         $date          = date('Y/m/d G:i:s');
         $content       = <<<EOT
 ==============================================================
-Change Log for {$moduleName} - {$date} Version {$module->getVar('mod_version')}
+{$module->getVar('mod_version')} [{$date}]
 ==============================================================
  - Original release {$moduleDirname} ({$module->getVar('mod_author')})
 EOT;
