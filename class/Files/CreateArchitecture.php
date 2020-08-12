@@ -553,7 +553,7 @@ class CreateArchitecture extends CreateStructure
             }
         }
         // Creation of sql file
-        if (null != $table->getVar('table_name')) {
+        if (\count($tables) > 0) {
             // Sql File
             $sqlFile = Modulebuilder\Files\Sql\SqlFile::getInstance();
             $sqlFile->write($module, 'mysql.sql');
