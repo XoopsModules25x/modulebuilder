@@ -128,10 +128,12 @@ class IncludeCommon extends Files\CreateFile
         $ret    .= $this->getCommonDefines($moduleDirname, 'UPLOAD_PATH', "XOOPS_UPLOAD_PATH . '/' . {$stuModuleDirname}_DIRNAME");
         $ret    .= $this->getCommonDefines($moduleDirname, 'UPLOAD_URL', "XOOPS_UPLOAD_URL . '/' . {$stuModuleDirname}_DIRNAME");
 
-        $fields       = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $fieldElement = [];
-        foreach (\array_keys($fields) as $f) {
-            $fieldElement[] = $fields[$f]->getVar('field_element');
+        if (\is_object($table)) {
+            $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+            $fieldElement = [];
+            foreach (\array_keys($fields) as $f) {
+                $fieldElement[] = $fields[$f]->getVar('field_element');
+            }
         }
         $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_FILES_PATH', "{$stuModuleDirname}_UPLOAD_PATH . '/files'");
         $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_FILES_URL', "{$stuModuleDirname}_UPLOAD_URL . '/files'");

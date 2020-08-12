@@ -401,9 +401,9 @@ EOT;
         $tableId          = null;
         $tableMid         = null;
         $tableName        = null;
-        $tableBlocks      = null;
-        $tablePermissions = null;
-        $tableCategory    = null;
+        $tableBlocks      = [];
+        $tablePermissions = [];
+        $tableCategory    = [];
         foreach (\array_keys($tables) as $i) {
             $tableId            = $tables[$i]->getVar('table_id');
             $tableMid           = $tables[$i]->getVar('table_mid');

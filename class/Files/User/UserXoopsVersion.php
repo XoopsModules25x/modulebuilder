@@ -1166,7 +1166,9 @@ class UserXoopsVersion extends Files\CreateFile
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getXoopsVersionHeader($module, $language);
         $content       .= $this->getXoopsVersionTemplatesAdminUser($moduleDirname, $tables, $module->getVar('mod_admin'), $module->getVar('mod_user'));
-        $content       .= $this->getXoopsVersionMySQL($moduleDirname, $table, $tables);
+        if (\count($tables) > 0) {
+            $content .= $this->getXoopsVersionMySQL($moduleDirname, $table, $tables);
+        }
         $tableSearch        = [];
         $tableComments      = [];
         $tableSubmenu       = [];
