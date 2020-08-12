@@ -345,7 +345,9 @@ INSERT INTO `modulebuilder_fieldelements` (`fieldelement_id`, `fieldelement_mid`
 (19, 0, 0, 'SelectLang', 'XoopsFormSelectLang', 12, 14, 100),
 (20, 0, 0, 'Radio', 'XoopsFormRadio', 5, 2, 10),
 (21, 0, 0, 'DateTime', 'XoopsFormDateTime', 18, 2, 11),
-(22, 0, 0, 'SelectCombo', 'XoopsFormSelectCombo', 8, 2, 10);
+(22, 0, 0, 'SelectCombo', 'XoopsFormSelectCombo', 8, 2, 10),
+(23, 0, 0, 'TextUuid', 'XoopsFormTextUuid', 22, 14, 45),
+(24, 0, 0, 'TextIp', 'XoopsFormTextIp', 23, 14, 16);
 
 #
 # Table structure for table `modulebuilder_morefiles` 5

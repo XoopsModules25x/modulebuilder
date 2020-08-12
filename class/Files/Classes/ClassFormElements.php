@@ -843,6 +843,46 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     }
 
     /**
+     * @private function getXoopsFormTextUuid
+     *
+     * @param        $language
+     * @param        $fieldName
+     * @param string $required
+     * @return string
+     */
+    private function getXoopsFormTextUuid($language, $fieldName, $required = 'false')
+    {
+        $ccFieldName  = $this->cf->getCamelCase($fieldName, false, true);
+        $ret      = $this->pc->getPhpCodeCommentLine('Form Text Uuid', $ccFieldName, "\t\t");
+        $ret      .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', '\Xmf\Uuid::generate()', "\$this->getVar('{$fieldName}')", "\t\t");
+        $formText = $this->cxc->getClassXoopsFormText('', $language, $fieldName, 50, 150, $ccFieldName, true);
+        $ret      .= $this->cxc->getClassAddElement('form', $formText . $required);
+
+
+        return $ret;
+    }
+    
+    /**
+     * @private function getXoopsFormTextIp
+     *
+     * @param        $language
+     * @param        $fieldName
+     * @param string $required
+     * @return string
+     */
+    private function getXoopsFormTextIp($language, $fieldName, $required = 'false')
+    {
+        $ccFieldName  = $this->cf->getCamelCase($fieldName, false, true);
+
+        $ret      = $this->pc->getPhpCodeCommentLine('Form Text IP', $ccFieldName, "\t\t");
+        $ret      .= $this->xc->getXcEqualsOperator('$' . $ccFieldName, "\$_SERVER['REMOTE_ADDR']", null, "\t\t");
+        $formText = $this->cxc->getClassXoopsFormText('', $language, $fieldName, 20, 150, $ccFieldName, true);
+        $ret      .= $this->cxc->getClassAddElement('form', $formText . $required);
+
+        return $ret;
+    }
+
+    /**
      * @public function renderElements
      * @param null
      * @return string
@@ -875,7 +915,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
             }
             $rpFieldName = $this->cf->getRightString($fieldName);
             $language    = $languageFunct . \mb_strtoupper($tableSoleName) . '_' . \mb_strtoupper($rpFieldName);
-            $required    = (1 == $fields[$f]->getVar('field_required')) ? ', true' : ' ';
+            $required    = (1 == $fields[$f]->getVar('field_required')) ? ', true' : '';
 
             $fieldElements    = $this->helper->getHandler('Fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
@@ -948,6 +988,12 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
                         break;
                     case 22:
                         $ret .= $this->getXoopsFormSelectCombo($language, $moduleDirname, $tableName, $fieldName, $required);
+                        break;
+                    case 23:
+                        $ret .= $this->getXoopsFormTextUuid($language, $fieldName, $required);
+                        break;
+                    case 24:
+                        $ret .= $this->getXoopsFormTextIp($language, $fieldName, $required);
                         break;
                     default:
                         // If we use tag module

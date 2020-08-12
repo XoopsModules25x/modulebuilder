@@ -395,6 +395,8 @@
 \define('_AM_MODULEBUILDER_FIELD_ELE_RADIO', "Radio");
 \define('_AM_MODULEBUILDER_FIELD_ELE_RADIO_1', "Radio Value 1");
 \define('_AM_MODULEBUILDER_FIELD_ELE_RADIO_2', "Radio Value 2");
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTUUID', "UUID Textbox");
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTIP', "IP Textbox");
 //
 // ------------------- Misc --------------------------------- //
 \define('_AM_MODULEBUILDER_THEREARE_DATABASE1', "There are <span style='color: #ff0000; font-weight: bold;'>%s</span>");
