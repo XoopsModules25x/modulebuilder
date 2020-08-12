@@ -38,13 +38,14 @@ return (object)[
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/repository',
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/files',
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/temp',
-        //XOOPS_UPLOAD_PATH . '/flags'
     ],
     'copyBlankFiles' => [
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/modules',
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/tables',
-        //XOOPS_UPLOAD_PATH . '/flags'
+    ],
+    'copyEmptyFiles' => [
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/modules',
     ],
 
     'copyTestFolders' => [

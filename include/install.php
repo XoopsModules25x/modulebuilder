@@ -90,6 +90,14 @@ function xoops_module_install_modulebuilder(\XoopsModule $module)
             $utility::copyFile($file, $dest);
         }
     }
+    //  ---  COPY empty.png FILES ---------------
+    if ($configurator->copyBlankFiles && \is_array($configurator->copyBlankFiles)) {
+        $file = \dirname(__DIR__) . '/assets/images/modules/empty.png';
+        foreach (\array_keys($configurator->copyBlankFiles) as $i) {
+            $dest = $configurator->copyBlankFiles[$i] . '/empty.png';
+            $utility::copyFile($file, $dest);
+        }
+    }
 
     return true;
 }
