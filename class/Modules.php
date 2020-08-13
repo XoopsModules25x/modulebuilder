@@ -253,7 +253,7 @@ class Modules extends \XoopsObject
 
         $uploadDirectory = 'uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/modules';
         $imgtray         = new \XoopsFormElementTray(_AM_MODULEBUILDER_MODULE_IMAGE, '<br>');
-        $imgpath         = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './' . \mb_strtolower($uploadDirectory) . '/');
+        $imgpath         = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './' . $uploadDirectory . '/');
         $imageselect     = new \XoopsFormSelect($imgpath, 'mod_image', $modImage);
         $modImageArray   = \XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
         foreach ($modImageArray as $image) {
