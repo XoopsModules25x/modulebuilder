@@ -186,7 +186,7 @@ class Settings extends \XoopsObject
 
         $uploadDirectory = 'uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/modules';
         $imgtray         = new \XoopsFormElementTray(_AM_MODULEBUILDER_SETTING_IMAGE, '<br>');
-        $imgpath         = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './' . \mb_strtolower($uploadDirectory) . '/');
+        $imgpath         = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './' . $uploadDirectory . '/');
         $imageSelect     = new \XoopsFormSelect($imgpath, 'set_image', $modImage);
         $modImage_array  = \XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
         foreach ($modImage_array as $image) {
