@@ -81,6 +81,7 @@ $modversion['templates'][] = ['file' => 'modulebuilder_tables.tpl', 'description
 $modversion['templates'][] = ['file' => 'modulebuilder_tables_item.tpl', 'description' => '', 'type' => 'admin'];
 $modversion['templates'][] = ['file' => 'modulebuilder_settings.tpl', 'description' => '', 'type' => 'admin'];
 $modversion['templates'][] = ['file' => 'modulebuilder_morefiles.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'modulebuilder_devtools.tpl', 'description' => '', 'type' => 'admin'];
 
 // ------------------- Mysql ------------------- //
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';

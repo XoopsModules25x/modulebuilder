@@ -7,6 +7,8 @@
 - fixed problem with missing empy.png (cesagonchu/goffy)
 - fixed bug with mb_strtolower for dir creation (cesagonchu/goffy)
 - fixed problems with missing tables and fields (cesagonchu/goffy)
+- added developer tool function qualifier (goffy)
+- added developer tool check language files (goffy)
 
 <h5>3.04 Alpha 1   [2020-06-12]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>
