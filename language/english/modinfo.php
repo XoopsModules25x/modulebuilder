@@ -32,6 +32,7 @@
 \define('_MI_MODULEBUILDER_ADMENU5', 'Fields');
 \define('_MI_MODULEBUILDER_ADMENU6', 'More Files');
 \define('_MI_MODULEBUILDER_ADMENU7', 'Building');
+\define('_MI_MODULEBUILDER_ADMENU8', 'Developers Tools');
 \define('_MI_MODULEBUILDER_ABOUT', 'About');
 // 1.37
 \define('_MI_MODULEBUILDER_CONFIG_EDITOR', 'Editor');

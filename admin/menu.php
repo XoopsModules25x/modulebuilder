@@ -84,6 +84,12 @@ $adminmenu[] = [
     'icon'  => $modPathIcon32 . '/builder.png',
 ];
 
+$adminmenu[] = [
+    'title' => _MI_MODULEBUILDER_ADMENU8,
+    'link'  => 'admin/devtools.php',
+    'icon'  => $modPathIcon32 . '/devtools.png',
+];
+
 //Feedback
 $adminmenu[] = [
     'title' => \constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_FEEDBACK'),

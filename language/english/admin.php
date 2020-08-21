@@ -417,3 +417,14 @@
 
 \define('_AM_MODULEBUILDER_OPTIONS_CHECK', 'Options Settings');
 \define('_AM_MODULEBUILDER_CREATE_IMAGE', 'Create Image Logo');
+//
+// ------------------- Devtools --------------------------------- //
+\define('_AM_MODULEBUILDER_DEVTOOLS', 'Developer Tools');
+\define('_AM_MODULEBUILDER_DEVTOOLS_FQ', 'Add function qualifiers to modules');
+\define('_AM_MODULEBUILDER_DEVTOOLS_FQ_MODULE', 'Select module to add function qualifiers');
+\define('_AM_MODULEBUILDER_DEVTOOLS_FQ_DESC', 'This tool creates a copy of selected module in %s and add function qualifiers to the php functions');
+\define('_AM_MODULEBUILDER_DEVTOOLS_FQ_SUCCESS', 'Function qualifiers successfully added to copy of module');
+\define('_AM_MODULEBUILDER_DEVTOOLS_CL', 'Check language defines of your modules');
+\define('_AM_MODULEBUILDER_DEVTOOLS_CL_MODULE', 'Select module to check');
+\define('_AM_MODULEBUILDER_DEVTOOLS_CL_DESC', 'This tool takes all language defines in folder /language/englisch of your module and check, whether it is used somewhere or not');
+\define('_AM_MODULEBUILDER_DEVTOOLS_CL_RESULTS', 'Result of checking usage of language defines of your modules');
