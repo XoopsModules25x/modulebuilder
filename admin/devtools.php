@@ -106,7 +106,7 @@ switch ($op) {
                 }
                 if (0 == $found) {
                     //search for concatenated string
-                    $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_' . '", $constKey);
+                    $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_", $constKey);
                     foreach($modfiles as $modfile) {
                         if( strpos(file_get_contents($modfile),$needle) !== false) {
                             $found = 1;
