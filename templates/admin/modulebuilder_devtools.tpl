@@ -26,10 +26,10 @@
     <div class="row">
         <div class="col-xs-12">
             <h3 class='center'><{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_CL_RESULTS}></h3>
-            <{foreach item=clresultfile from=$clresults}>
-                <p><{$clresultfile.file}></p>
+            <{foreach item=clresultfile from=$clresults key=key}>
+                <p><{$key}></p>
                 <ul>
-                    <{foreach item=clresult from=$clresultfile.result}>
+                    <{foreach item=clresult from=$clresultfile}>
                         <li><img src="<{$modPathIcon16}>/<{$clresult.found}>.png" alt=""/> <{$clresult.define}> <{if $clresult.first}>(<{$clresult.first}>)<{/if}></li>
                     <{/foreach}>
                 </ul>

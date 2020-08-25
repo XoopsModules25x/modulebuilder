@@ -56,23 +56,22 @@ switch ($op) {
         $src_path = XOOPS_ROOT_PATH . '/modules/' . $clModuleName . '/language/english/';
         $langfiles = [];
         foreach (scandir($src_path) as $scan) {
-            if (is_file($src_path . $scan) && 'index.html' !== $scan && 'common.php' !== $scan) {
+            if (is_file($src_path . $scan) && 'index.html' !== $scan) {
                 $langfiles[] = $src_path . $scan;
             }
         }
         $moduleConstants = [];
-        if (file_exists($src_path . 'common.php')) {
-            // include common.php first
-            $constantsBeforeInclude = getUserDefinedConstants();
-            include_once($src_path . 'common.php');
-            $constantsAfterInclude = getUserDefinedConstants();
-            $moduleConstants[$src_path . 'common.php'] = array_diff_assoc($constantsAfterInclude, $constantsBeforeInclude);
-        }
         foreach ($langfiles as $langfile) {
-            $constantsBeforeInclude = getUserDefinedConstants();
-            include_once($langfile);
-            $constantsAfterInclude = getUserDefinedConstants();
-            $moduleConstants[$langfile] = array_diff_assoc($constantsAfterInclude, $constantsBeforeInclude);
+            //$constantsBeforeInclude = getUserDefinedConstants();
+            require_once($langfile);
+            //$constantsAfterInclude = getUserDefinedConstants();
+            //$moduleConstants[$langfile] = array_diff_assoc($constantsAfterInclude, $constantsBeforeInclude);
+        }
+        $constantsAfterInclude = getUserDefinedConstants();
+        foreach ($constantsAfterInclude as $constKey => $constValue) {
+            if (strpos($constKey, '_' . $clModuleNameUpper . '_') > 0) {
+                $moduleConstants[$constKey] = $constKey;
+            }
         }
 
         //get all php and tpl files from module
@@ -90,37 +89,70 @@ switch ($op) {
         }
 
         //check all constants in all files
-        $resultsList = [];
-        foreach ($moduleConstants as $keyFile => $constFile) { 
-            $resultCheck = [];
-            foreach ($constFile as $constKey => $constValue) {
-                $found = 0;
-                $first = '';
-                //search for complete string
+        $resultCheck = [];
+        foreach ($moduleConstants as $constKey) {
+            $foundMod = 0;
+            $first = '';
+            $foundLang = '';
+            //search for complete string
+            foreach($modfiles as $modfile) {
+                if( strpos(file_get_contents($modfile),$constKey) !== false) {
+                    $foundMod = 1;
+                    $first = $modfile;
+                    break;
+                }
+            }
+            if (0 == $foundMod) {
+                //search for concatenated string
+                $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_", $constKey);
                 foreach($modfiles as $modfile) {
-                    if( strpos(file_get_contents($modfile),$constKey) !== false) {
-                        $found = 1;
+                    if( strpos(file_get_contents($modfile),$needle) !== false) {
+                        $foundMod = 1;
                         $first = $modfile;
                         break;
                     }
                 }
-                if (0 == $found) {
-                    //search for concatenated string
-                    $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_", $constKey);
-                    foreach($modfiles as $modfile) {
-                        if( strpos(file_get_contents($modfile),$needle) !== false) {
-                            $found = 1;
-                            $first = $modfile;
-                            break;
-                        }
+            }
+            if (0 == $foundMod) {
+                //search for concatenated string
+                $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_' . '", $constKey);
+                foreach($modfiles as $modfile) {
+                    if( strpos(file_get_contents($modfile),$needle) !== false) {
+                        $foundMod = 1;
+                        $first = $modfile;
+                        break;
                     }
                 }
-                $resultCheck[] = ['define' => $constKey, 'found' => $found, 'first' => $first];
             }
-            $resultsList[] = ['file' => $keyFile, 'result' => $resultCheck];
+            foreach($langfiles as $langfile) {
+                if( strpos(file_get_contents($langfile),$constKey) !== false) {
+                    $foundLang = $langfile;
+                    break;
+                }
+            }
+            if ('' == $foundLang) {
+                //search for concatenated string
+                $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_", $constKey);
+                foreach($langfiles as $langfile) {
+                    if( strpos(file_get_contents($langfile),$needle) !== false) {
+                        $foundLang = $langfile;
+                        break;
+                    }
+                }
+            }
+            if ('' == $foundLang) {
+                //search for concatenated string
+                $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_' . '", $constKey);
+                foreach($langfiles as $langfile) {
+                    if( strpos(file_get_contents($langfile),$needle) !== false) {
+                        $foundLang = $langfile;
+                        break;
+                    }
+                }
+            }
+            $resultCheck[\basename($foundLang)][] = ['define' => $constKey, 'found' => $foundMod, 'first' => $first];
         }
-
-        $GLOBALS['xoopsTpl']->assign('clresults', $resultsList);
+        $GLOBALS['xoopsTpl']->assign('clresults', $resultCheck);
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
 
         break;
