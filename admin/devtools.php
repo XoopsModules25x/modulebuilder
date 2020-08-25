@@ -93,7 +93,7 @@ switch ($op) {
         foreach ($moduleConstants as $constKey) {
             $foundMod = 0;
             $first = '';
-            $foundLang = '';
+            $foundLang = 'not defined';
             //search for complete string
             foreach($modfiles as $modfile) {
                 if( strpos(file_get_contents($modfile),$constKey) !== false) {
