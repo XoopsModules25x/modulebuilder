@@ -26,11 +26,22 @@
     <div class="row">
         <div class="col-xs-12">
             <h3 class='center'><{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_CL_RESULTS}></h3>
-            <{foreach item=clresultfile from=$clresults}>
-                <p><{$clresultfile.file}></p>
+            <div class="col-xs-12" style="margin-bottom:50px;font-size:80%">
+                <p><{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_LEGEND}></p>
+                <p>
+                    <img src="<{$modPathIcon16}>/1.png" alt="<{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_SUCCESS}>"/>                
+                    <{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_SUCCESS}> <{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_SUCCESS_DESCR}>
+                </p>
+                <p>
+                    <img src="<{$modPathIcon16}>/0.png" alt="<{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_FAILED}>"/>                
+                    <{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_FAILED}>
+                </p>
+            </div>
+            <{foreach item=clresultfile from=$clresults key=key}>
+                <p><{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_CL_FILE}> <{$key}></p>
                 <ul>
-                    <{foreach item=clresult from=$clresultfile.result}>
-                        <li><img src="<{$modPathIcon16}>/<{$clresult.found}>.png" alt=""/> <{$clresult.define}> <{if $clresult.first}>(<{$clresult.first}>)<{/if}></li>
+                    <{foreach item=clresult from=$clresultfile}>
+                        <li><img src="<{$modPathIcon16}>/<{$clresult.found}>.png" alt="<{if $clresult.first}><{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_SUCCESS}><{else}><{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_FAILED}><{/if}>"/> <{$clresult.define}> <{if $clresult.first}>(<{$clresult.first}>)<{/if}></li>
                     <{/foreach}>
                 </ul>
             <{/foreach}>

@@ -428,3 +428,8 @@
 \define('_AM_MODULEBUILDER_DEVTOOLS_CL_MODULE', 'Select module to check');
 \define('_AM_MODULEBUILDER_DEVTOOLS_CL_DESC', 'This tool takes all language defines in folder /language/englisch of your module and check, whether it is used somewhere or not');
 \define('_AM_MODULEBUILDER_DEVTOOLS_CL_RESULTS', 'Result of checking usage of language defines of your modules');
+\define('_AM_MODULEBUILDER_DEVTOOLS_CL_FILE', 'File with language defines:');
+\define('_AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_LEGEND', 'Legend of results:');
+\define('_AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_SUCCESS', 'Language define found');
+\define('_AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_SUCCESS_DESCR', '(first match in brackets)');
+\define('_AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_FAILED', 'Language define not found');
