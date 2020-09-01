@@ -194,6 +194,8 @@ switch ($op) {
                 $fieldelementObj->setVar('fieldelement_tid', $tableTid);
                 $fieldelementObj->setVar('fieldelement_name', 'Table : ' . \ucfirst(\Xmf\Request::getString('table_name', '', 'POST')));
                 $fieldelementObj->setVar('fieldelement_value', 'XoopsFormTables-' . \ucfirst(\Xmf\Request::getString('table_name', '', 'POST')));
+                $fieldelementObj->setVar('fieldelement_deftype', 2);
+                $fieldelementObj->setVar('fieldelement_defvalue', 10);               
                 // Insert new field element id for table name
                 if (!$helper->getHandler('Fieldelements')->insert($fieldelementObj)) {
                     $GLOBALS['xoopsTpl']->assign('error', $fieldelementObj->getHtmlErrors() . ' Field element');
