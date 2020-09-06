@@ -244,7 +244,7 @@
 -
     fieldelement_id: '28'
     fieldelement_mid: '2'
-    fieldelement_tid: '1'
+    fieldelement_tid: '4'
     fieldelement_name: 'Table : Categories'
     fieldelement_value: XoopsFormTables-Categories
     fieldelement_sort: '0'
@@ -253,7 +253,7 @@
 -
     fieldelement_id: '29'
     fieldelement_mid: '2'
-    fieldelement_tid: '7'
+    fieldelement_tid: '5'
     fieldelement_name: 'Table : Articles'
     fieldelement_value: XoopsFormTables-Articles
     fieldelement_sort: '0'
@@ -262,18 +262,9 @@
 -
     fieldelement_id: '30'
     fieldelement_mid: '2'
-    fieldelement_tid: '3'
+    fieldelement_tid: '6'
     fieldelement_name: 'Table : Testfields'
     fieldelement_value: XoopsFormTables-Testfields
-    fieldelement_sort: '0'
-    fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
--
-    fieldelement_id: '31'
-    fieldelement_mid: '2'
-    fieldelement_tid: '7'
-    fieldelement_name: 'Table : Testdates'
-    fieldelement_value: XoopsFormTables-Testdates
     fieldelement_sort: '0'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '10'

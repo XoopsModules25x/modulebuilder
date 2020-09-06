@@ -89,7 +89,6 @@ class FieldelementsHandler extends \XoopsPersistableObjectHandler
 
     /**
      * Get All Fields By Module & Table Id.
-     * @param        $modId
      * @param        $tabId
      * @param int    $start
      * @param int    $limit
@@ -97,10 +96,9 @@ class FieldelementsHandler extends \XoopsPersistableObjectHandler
      * @param string $order
      * @return array
      */
-    public function getAllFieldelementsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
+    public function getAllFieldelementsByTableId($tabId, $start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
         $crAllFieldElemsByModule = new \CriteriaCompo();
-        $crAllFieldElemsByModule->add(new \Criteria('fieldelement_mid', $modId));
         $crAllFieldElemsByModule->add(new \Criteria('fieldelement_tid', $tabId));
         $crAllFieldElemsByModule = $this->getFieldelementsCriteria($crAllFieldElemsByModule, $start, $limit, $sort, $order);
 

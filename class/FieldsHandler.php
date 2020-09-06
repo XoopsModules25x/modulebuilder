@@ -110,7 +110,6 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
 
     /**
      * Get All Fields By Module & Table Id.
-     * @param        $modId
      * @param        $tabId
      * @param int    $start
      * @param int    $limit
@@ -118,10 +117,9 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
      * @param string $order
      * @return array
      */
-    public function getAllFieldsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'field_order ASC, field_id, field_name', $order = 'ASC')
+    public function getAllFieldsByTableId($tabId, $start = 0, $limit = 0, $sort = 'field_order ASC, field_id, field_name', $order = 'ASC')
     {
         $crAllFieldsByModule = new \CriteriaCompo();
-        $crAllFieldsByModule->add(new \Criteria('field_mid', $modId));
         $crAllFieldsByModule->add(new \Criteria('field_tid', $tabId));
         $crAllFieldsByModule = $this->getFieldsCriteria($crAllFieldsByModule, $start, $limit, $sort, $order);
 

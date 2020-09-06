@@ -10,6 +10,10 @@
 - added developer tool function qualifier (goffy)
 - added developer tool check language files (goffy)
 - fixed problems with breadcrumb template (cesagonchu/goffy)
+- added default type and value for table fieldelements (goffy)
+- fixed bug in deleting table from fieldelements (goffy)
+- added check for sql creation (goffy)
+- delete fields if table is deleted (goffy)
 
 <h5>3.04 Alpha 1   [2020-06-12]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>

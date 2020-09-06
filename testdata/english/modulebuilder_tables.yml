@@ -178,33 +178,3 @@
     table_rss: '1'
     table_single: '1'
     table_visit: '1'
--
-    table_id: '7'
-    table_mid: '2'
-    table_category: '0'
-    table_name: testdates
-    table_solename: testdate
-    table_fieldname: td
-    table_nbfields: '3'
-    table_order: '1'
-    table_image: blank.gif
-    table_autoincrement: '1'
-    table_install: '0'
-    table_index: '1'
-    table_blocks: '0'
-    table_admin: '1'
-    table_user: '0'
-    table_submenu: '0'
-    table_submit: '0'
-    table_tag: '0'
-    table_broken: '1'
-    table_search: '0'
-    table_comments: '0'
-    table_notifications: '0'
-    table_permissions: '0'
-    table_rate: '1'
-    table_print: '0'
-    table_pdf: '0'
-    table_rss: '0'
-    table_single: '0'
-    table_visit: '0'

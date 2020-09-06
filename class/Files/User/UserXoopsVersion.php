@@ -415,6 +415,7 @@ class UserXoopsVersion extends Files\CreateFile
             'url'  => "'index.php'",
         ];
         $contentIf  = $this->uxc->getUserModVersionArray(2, $descriptions, 'sub', '','', "\t");
+        ++$i;
 
         $tableSearch = [];
         foreach (\array_keys($tables) as $t) {

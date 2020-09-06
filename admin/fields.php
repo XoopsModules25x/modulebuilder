@@ -68,7 +68,7 @@ switch ($op) {
             \redirect_header('tables.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_TABLES2);
         }
         // Get the list of tables
-        $tablesAll = $helper->getHandler('Tables')->getAllTables($start, $limit, 'table_order');
+        $tablesAll = $helper->getHandler('Tables')->getAllTables($start, $limit);
         if ($tablesCount > 0) {
             $tlid = 1;
             foreach (\array_keys($tablesAll) as $tid) {
@@ -78,7 +78,7 @@ switch ($op) {
                 $table = array_merge($table, $talid);
                 // Get the list of fields
                 $fieldsCount = $helper->getHandler('Fields')->getCountFields();
-                $fieldsAll   = $helper->getHandler('Fields')->getAllFieldsByModuleAndTableId($table['mid'], $tid);
+                $fieldsAll   = $helper->getHandler('Fields')->getAllFieldsByTableId($tid);
                 // Display fields list
                 $fields = [];
                 $lid    = 1;
