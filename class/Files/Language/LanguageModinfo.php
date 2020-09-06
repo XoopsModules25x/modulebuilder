@@ -170,7 +170,7 @@ class LanguageModinfo extends Files\CreateFile
     {
         $ret         = $this->ld->getAboveDefines('Submenu');
         $ret         .= $this->ld->getDefine($language, 'SMNAME1', 'Index page');
-        $i           = 1;
+        $i           = 2;
         $tableSubmit = [];
         $tableSearch = [];
         foreach (\array_keys($tables) as $t) {

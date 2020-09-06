@@ -29,8 +29,7 @@
                         <a href="#" title="Toggle"><img class="imageToggle" src="<{$modPathIcon16}>/toggle.png" alt="Toggle"/></a>
                     </td>
                     <td class='center cell cell-width2-2' style="text-decoration: underline;">
-                        <class
-                        ='bold'><{$table.name}></td>
+                        <span class='bold'><{$table.name}></span> <span style="font-size:80%">(<{$table.module}>)</span></td>
                     <td class='center cell cell-width3-2'><img src="<{xoModuleIcons32}><{$table.image}>" title="<{$table.name}>" alt="<{$table.name}>"/></td>
                     <td class='center cell cell-width4-2 bold'><{$table.nbfields}></td>
                     <td class='center cell cell-width5-2'><img src="<{$modPathIcon16}>/fields.png"/></td>

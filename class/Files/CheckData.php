@@ -97,6 +97,7 @@ class CheckData
         $this->getCheckComments();
         $this->getCheckUserpage();
         $this->getCheckRating();
+        $this->getCheckSQL();
 
         return $this->infos;
     }
@@ -356,6 +357,38 @@ class CheckData
                 if ('' == $fieldVotes) {
                     $info = \str_replace(['%f', '%t'], [$this->tables[$t]->getVar('table_fieldname') . '_votes', $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_RATINGS1);
                     $this->infos[] = ['icon' => 'error', 'info' => $info];
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @private function getCheckSql
+     *
+     * @return array|bool
+     */
+    private function getCheckSql()
+    {
+        foreach (\array_keys($this->tables) as $t) {
+            $tableId   = $this->tables[$t]->getVar('table_id');
+            $tableName = $this->tables[$t]->getVar('table_name');
+            $fields    = $this->cf->getTableFields($this->modId, $tableId);
+            foreach (\array_keys($fields) as $f) {
+                $fieldName = $fields[$f]->getVar('field_name');
+                $fieldType = $fields[$f]->getVar('field_type');
+                if (6 == $fieldType || 7 == $fieldType || 8 == $fieldType) {
+                    $fieldValue = $fields[$f]->getVar('field_value');
+                    if (0 == \strpos($fieldValue,',')) {
+                        $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_SQL1);
+                        $this->infos[] = ['icon' => 'error', 'info' => $info];
+                    }
+                    $fieldDefault = $fields[$f]->getVar('field_default');
+                    if (0 == \strpos($fieldDefault,'.')) {
+                        $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_SQL2);
+                        $this->infos[] = ['icon' => 'warning', 'info' => $info];
+                    }
                 }
             }
         }

@@ -20,7 +20,7 @@
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
- 
+//
 //Menu
 \define('_AM_MODULEBUILDER_ADMIN_INDEX', 'Index');
 \define('_AM_MODULEBUILDER_ADMIN_MODULES', 'Add Module');
@@ -42,7 +42,7 @@
 \define('_AM_MODULEBUILDER_THEREARENT_SETTINGS', 'There are NO Settings! Please create Settings');
 \define('_AM_MODULEBUILDER_THEREARENT_MODULES2', "There aren't modules, pleace create one first");
 \define('_AM_MODULEBUILDER_THEREARENT_TABLES2', "There aren't tables, pleace create one first");
-
+//
 // General
 \define('_AM_MODULEBUILDER_FORMOK', 'Successfully saved');
 \define('_AM_MODULEBUILDER_FORMDELOK', 'Successfully deleted');
@@ -86,7 +86,7 @@
 \define('_AM_MODULEBUILDER_COMMENTS', 'Comments');
 \define('_AM_MODULEBUILDER_NOTIFICATIONS', 'Notifications');
 \define('_AM_MODULEBUILDER_PERMISSIONS', 'Permissions');
-
+//
 // ------------------- Settings --------------------------------- //
 // buttons
 \define('_AM_MODULEBUILDER_SETTINGS_ADD', 'Add Settings');
@@ -137,7 +137,7 @@
 \define('_AM_MODULEBUILDER_SETTING_TYPE', 'Set Type Active');
 \define('_AM_MODULEBUILDER_SETTING_TYPE_INACTIVE', 'Inactive');
 \define('_AM_MODULEBUILDER_SETTING_TYPE_ACTIVE', 'Active');
-
+//
 // ------------------- Modules --------------------------------- //
 //Buttons
 \define('_AM_MODULEBUILDER_MODULES_ADD', 'Add new module');
@@ -252,7 +252,7 @@
 \define('_AM_MODULEBUILDER_TABLES_WAITING', 'Show Table Waiting');
 \define('_AM_MODULEBUILDER_TABLE_MODSELOPT', 'Select a Module');
 \define('_AM_MODULEBUILDER_TABLE_ERROR_NAME_EXIST', "<b class='red big'>WARNING</b>: The table <b class='big red'>%s</b> exists for this module, create a new one with a different name");
-
+//
 // ------------------- Fields --------------------------------- //
 // buttons
 \define('_AM_MODULEBUILDER_FIELDS_LIST', 'Fields List');
@@ -292,10 +292,9 @@
 \define('_AM_MODULEBUILDER_FIELD_PARENT', 'Field: Is parent');
 \define('_AM_MODULEBUILDER_FIELD_INLIST', 'Admin: Visible in list');
 \define('_AM_MODULEBUILDER_FIELD_INFORM', 'Admin: Visible in form');
-
 \define('_AM_MODULEBUILDER_FIELDS_FORM_SAVED_OK', "Fields of table <b class='green'>%s</b> successfully saved");
 \define('_AM_MODULEBUILDER_FIELDS_FORM_UPDATED_OK', "Fields of table <b class='green'>%s</b> successfully updated");
-
+//
 // ------------------- Building --------------------------------- //
 \define('_AM_MODULEBUILDER_CONST_MODULES', 'Select the module you want to build');
 \define('_AM_MODULEBUILDER_CONST_TABLES', 'Select the table you want to build');
@@ -305,14 +304,13 @@
 \define('_AM_MODULEBUILDER_CONST_OK_ARCHITECTURE_ROOT', 'The structure of the module was created in root/modules (index.html, folders, ...)');
 \define('_AM_MODULEBUILDER_CONST_NOTOK_ARCHITECTURE_ROOT', 'Problems: Creating the structure of the module in root/modules (index.html, icons ,...)');
 \define('_AM_MODULEBUILDER_BUILD_MODSELOPT', 'Select and build a Module');
-
-//OK
+// OK
 \define('_AM_MODULEBUILDER_OK_ARCHITECTURE', "<span class='green'>The structure of the module was created (index.html, folders, icons, docs files)</span>");
 \define('_AM_MODULEBUILDER_FILE_CREATED', "The file <b>%s</b> is created in the <span class='green bold'>%s</span> folder");
-//NOTOK
+// NOTOK
 \define('_AM_MODULEBUILDER_NOTOK_ARCHITECTURE', "<span class='red'>Problems: Creating the structure of the module (index.html, folders, icons, docs files)</span>");
 \define('_AM_MODULEBUILDER_FILE_NOTCREATED', "Problems: Creating file <b class='red'>%s</b> in the <span class='red bold'>%s</span> folder");
-
+// others
 \define('_AM_MODULEBUILDER_BUILDING_DIRECTORY', "Files created in the directory <span class='bold'>uploads/modulebuilder/repository/</span> of the module <span class='bold green'>%s</span>");
 \define('_AM_MODULEBUILDER_BUILDING_DIRECTORY_INROOT', "<br><span class='bold red'>Created module was also copied to %s</span>");
 \define('_AM_MODULEBUILDER_BUILDING_COMMON', "Copied common files and created folder for test data");
@@ -340,6 +338,8 @@
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS1', "The table '%t' should use rating functionality, but the table do not have a '%f' field, which is obligatory for this function");
 \define('_AM_MODULEBUILDER_BUILDING_RATING', "Copied rating files");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_USERPAGE1', "The table '%t' should use submit or rate or broken functionality, but the table is not selected for user files");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_SQL1', "The field '%f' in table '%t' is type DECIMAL, FLOAT or DOUBLE. The value should be '{digits in total},{digits after the decimal point}', e.g. '16,2'");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_SQL2', "The field '%f' in table '%t' is type DECIMAL, FLOAT or DOUBLE. The default value should be related to precision, e.g. '0.00' if value is '16,2'");
 //
 // ------------------- More Files --------------------------------- //
 \define('_AM_MODULEBUILDER_MORE_FILES_ADD', 'Add More File');
@@ -414,7 +414,6 @@
 \define('_AM_MODULEBUILDER_MAINTAINED', '<strong>%s</strong> is maintained by the ');
 \define('_AM_MODULEBUILDER_SUPPORT_FORUM', 'Support Forum');
 \define('_AM_MODULEBUILDER_DONATION_AMOUNT', 'Donation Amount');
-
 \define('_AM_MODULEBUILDER_OPTIONS_CHECK', 'Options Settings');
 \define('_AM_MODULEBUILDER_CREATE_IMAGE', 'Create Image Logo');
 //

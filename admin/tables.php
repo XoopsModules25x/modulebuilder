@@ -246,13 +246,23 @@ switch ($op) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 \redirect_header('tables.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
+            $fieldelements = $helper->getHandler('Fieldelements')->getAllFieldelementsByTableId($tableId);
             if ($helper->getHandler('Tables')->delete($tablesObj)) {
-                // Delete items in table fieldelements - idea by goffy
-                $fieldelements = $helper->getHandler('Fieldelements')->getAllFieldelementsByModuleAndTableId($tableMid, $tableId);
+                // Delete items in table fieldelements
+                $fieldelements = $helper->getHandler('Fieldelements')->getAllFieldelementsByTableId($tableId);
                 foreach (\array_keys($fieldelements) as $fe) {
                     $fieldElementsObj = $helper->getHandler('Fieldelements')->get($fieldelements[$fe]->getVar('fieldelement_id'));
                     if (!$helper->getHandler('Fieldelements')->delete($fieldElementsObj)) {
                         $GLOBALS['xoopsTpl']->assign('error', $fieldElementsObj->getHtmlErrors());
+                    }
+                    unset($fieldElementsObj);
+                }
+                // Delete items in table fields
+                $fields = $helper->getHandler('Fields')->getAllFieldsByTableId($tableId);
+                foreach (\array_keys($fields) as $fd) {
+                    $fieldsObj = $helper->getHandler('Fields')->get($fields[$fd]->getVar('field_id'));
+                    if (!$helper->getHandler('Fields')->delete($fieldsObj)) {
+                        $GLOBALS['xoopsTpl']->assign('error', $fieldsObj->getHtmlErrors());
                     }
                     unset($fieldElementsObj);
                 }
@@ -262,7 +272,7 @@ switch ($op) {
             }
         } else {
             $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\XoopsConfirm(
-                                        ['ok' => 1, 'table_id' => $tableId, 'op' => 'delete'],
+                                        ['ok' => 1, 'table_id' => $tableId, 'table_mid' => $tableMid, 'op' => 'delete'],
                                         \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'),
                                         $tablesObj->getVar('table_name')
                             );
