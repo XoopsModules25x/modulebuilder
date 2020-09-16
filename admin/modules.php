@@ -184,6 +184,22 @@ switch ($op) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 \redirect_header('modules.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
+            //delete all morefiles
+            $critDelete = new \CriteriaCompo();
+            $critDelete->add(new \Criteria('file_mid', $modId));
+            $helper->getHandler('Morefiles')->deleteAll($critDelete);
+            unset($critDelete);
+            //delete all fields
+            $critDelete = new \CriteriaCompo();
+            $critDelete->add(new \Criteria('field_mid', $modId));
+            $helper->getHandler('Fields')->deleteAll($critDelete);
+            unset($critDelete);
+            //delete all tables
+            $critDelete = new \CriteriaCompo();
+            $critDelete->add(new \Criteria('table_mid', $modId));
+            $helper->getHandler('Tables')->deleteAll($critDelete);
+            unset($critDelete);
+            //delete module
             if ($helper->getHandler('Modules')->delete($modulesObj)) {
                 \redirect_header('modules.php', 3, _AM_MODULEBUILDER_FORMDELOK);
             } else {
