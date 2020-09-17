@@ -32,4 +32,6 @@ interface Constants
 	const MORE_FILES_TYPE_EMPTY = 1;
 	const MORE_FILES_TYPE_COPY = 2;
 
+	const FIRST_FIELDELEMENT_TABLE = 30;
+
 }

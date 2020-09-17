@@ -108,7 +108,7 @@ class TablesHandler extends \XoopsPersistableObjectHandler
      *
      * @return array
      */
-    public function getAllTables($start = 0, $limit = 0, $sort = 'table_id ASC, table_name', $order = 'ASC')
+    public function getAllTables($start = 0, $limit = 0, $sort = 'table_mid DESC, table_order ASC, table_id', $order = 'DESC')
     {
         $crAllTables = new \CriteriaCompo();
         $crAllTables = $this->getTablesCriteria($crAllTables, $start, $limit, $sort, $order);
