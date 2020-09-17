@@ -87,7 +87,7 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
      *
      * @return int
      */
-    public function getCountModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
+    public function getCountModules($start = 0, $limit = 0, $sort = 'mod_id', $order = 'DESC')
     {
         $crCountModules = new \CriteriaCompo();
         $crCountModules = $this->getModulesCriteria($crCountModules, $start, $limit, $sort, $order);
@@ -105,7 +105,7 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
      *
      * @return array
      */
-    public function getAllModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
+    public function getAllModules($start = 0, $limit = 0, $sort = 'mod_id', $order = 'DESC')
     {
         $crAllModules = new \CriteriaCompo();
         $crAllModules = $this->getModulesCriteria($crAllModules, $start, $limit, $sort, $order);

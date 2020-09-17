@@ -3,7 +3,10 @@
 namespace XoopsModules\Modulebuilder\Files\Language;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\{
+    Files,
+    Constants
+};
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -185,7 +188,7 @@ class LanguageAdmin extends Files\CreateFile
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');
                 $rpFieldName = $this->getRightString($fieldName);
-                if ($fieldElement > 16) {
+                if ($fieldElement >= Constants::FIRST_FIELDELEMENT_TABLE) {
                     $fieldElements    = Modulebuilder\Helper::getInstance()->getHandler('Fieldelements')->get($fieldElement);
                     $fieldElementName = $fieldElements->getVar('fieldelement_name');
                     $fieldNameDesc    = mb_substr($fieldElementName, \mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
