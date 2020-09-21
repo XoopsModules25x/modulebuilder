@@ -227,7 +227,7 @@ class UserPages extends Files\CreateFile
                 $ccFieldId = $this->getCamelCase($fieldId, false, true);
                 $ucfFieldId = \ucfirst($ccFieldId);
             }
-            if ($fields[$f]->getVar('field_type') >= 10 && $fields[$f]->getVar('field_type') <= 14) {
+            if ($fields[$f]->getVar('field_element') >= 10 && $fields[$f]->getVar('field_element') <= 14) {
                 $countUploader++;
             }
             if (1 == $fields[$f]->getVar('field_main')) {
@@ -257,7 +257,9 @@ class UserPages extends Files\CreateFile
         $insert             = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj', 'Handler');
 
         $contentInsert = '';
-        $contentInsert .= $this->pc->getPhpCodeTernaryOperator("new{$ucfFieldId}", "\${$ccFieldId} > 0", "\${$ccFieldId}", "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", $t . "\t");
+        if (1 == $tableNotifications || $countUploader > 0) {
+            $contentInsert .= $this->pc->getPhpCodeTernaryOperator("new{$ucfFieldId}", "\${$ccFieldId} > 0", "\${$ccFieldId}", "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", $t . "\t");
+        }
 
         if (1 == $tablePermissions) {
             $contentInsert .= $this->xc->getXcXoopsHandler('groupperm', $t . "\t");
