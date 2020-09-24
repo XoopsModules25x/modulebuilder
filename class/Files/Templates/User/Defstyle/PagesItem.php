@@ -89,11 +89,12 @@ class PagesItem extends Files\CreateFile
      * @param        $tableMid
      * @param        $tableName
      * @param        $tableSoleName
-     * @param $tableRate
+     * @param        $tableRate
+     * @param        $tableBroken
      * @param        $language
      * @return string
      */
-    private function getTemplatesUserPagesItemPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableRate, $language)
+    private function getTemplatesUserPagesItemPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableRate, $tableBroken, $language)
     {
         $fields  = $this->getTableFields($tableMid, $tableId);
         $ret     = '';
@@ -187,8 +188,10 @@ class PagesItem extends Files\CreateFile
         $lang        = $this->sc->getSmartyConst('', '_DELETE');
         $contIf .=  $this->hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-danger right', '', "\t\t\t", "\n");
         $anchors .= $this->sc->getSmartyConditions('permEdit', '', '', $contIf, false, '', '', "\t\t");
-        $lang        = $this->sc->getSmartyConst($language, 'BROKEN');
-        $anchors .=  $this->hc->getHtmlAnchor($tableName . ".php?op=broken&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-warning right', '', "\t\t", "\n");
+        if (1 == $tableBroken) {
+            $lang        = $this->sc->getSmartyConst($language, 'BROKEN');
+            $anchors .=  $this->hc->getHtmlAnchor($tableName . ".php?op=broken&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-warning right', '', "\t\t", "\n");
+        }
         $retFoot     .= $this->hc->getHtmlDiv($anchors, 'col-sm-12 right',"\t", "\n");
         $ret .= $this->hc->getHtmlDiv($retFoot, 'panel-foot');
         if ($tableRate) {
@@ -217,9 +220,10 @@ class PagesItem extends Files\CreateFile
         $tableName       = $table->getVar('table_name');
         $tableSoleName   = $table->getVar('table_solename');
         $tableRate       = $table->getVar('table_rate');
+        $tableBroken     = $table->getVar('table_broken');
         $tableCategory[] = $table->getVar('table_category');
         if (\in_array(0, $tableCategory)) {
-            $content .= $this->getTemplatesUserPagesItemPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableRate, $language);
+            $content .= $this->getTemplatesUserPagesItemPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableRate, $tableBroken, $language);
         }
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);

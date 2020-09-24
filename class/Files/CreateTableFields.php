@@ -84,7 +84,7 @@ class CreateTableFields extends Files\CreateAbstractClass
      * @param string $order
      * @return mixed
      */
-    public function getTableFields($mId, $tId, $sort = 'field_id ASC, field_name', $order = 'ASC')
+    public function getTableFields($mId, $tId, $sort = 'field_order ASC, field_id', $order = 'ASC')
     {
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('field_mid', $mId)); // $mId = module Id
