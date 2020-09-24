@@ -186,7 +186,7 @@ class SqlFile extends Files\CreateFile
         $row           = [];
         //$type          = '';
         $fieldTypeName = '';
-        $fields = $this->getTableFields($tableMid, $tableId, 'field_id ASC, field_name');
+        $fields = $this->getTableFields($tableMid, $tableId, 'field_order ASC, field_id');
         foreach (\array_keys($fields) as $f) {
             // Creation of database table
             $ret            = $this->getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb);

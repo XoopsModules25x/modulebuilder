@@ -97,7 +97,6 @@ class UserHeader extends Files\CreateFile
     private function getUserHeader($moduleDirname)
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
-        $table            = $this->getTable();
         $tables           = $this->getTables();
         $language         = $this->getLanguage($moduleDirname, 'MA');
 
@@ -106,16 +105,24 @@ class UserHeader extends Files\CreateFile
         $ret .= $this->xc->getXcEqualsOperator('$moduleDirName', '\basename(__DIR__)');
         $ret .= $this->uxc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
         $ret .= $this->xc->getXcHelperGetInstance($moduleDirname);
+        $permissions = 0;
+        $ratings     = 0;
         if (\is_array($tables)) {
             foreach (\array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
                 $ret       .= $this->xc->getXcHandlerLine($tableName);
+                if (1 == $tables[$i]->getVar('table_permissions')) {
+                    $permissions = 1;
+                }
+                if (1 == $tables[$i]->getVar('table_rate')) {
+                    $ratings = 1;
+                }
             }
         }
-        if (1 == $table->getVar('table_permissions')) {
+        if (1 == $permissions) {
             $ret .= $this->xc->getXcHandlerLine('permissions');
         }
-        if (1 == $table->getVar('table_rate')) {
+        if (1 == $ratings) {
             $ret .= $this->xc->getXcHandlerLine('ratings');
         }
         $ret .= $this->pc->getPhpCodeCommentLine();
