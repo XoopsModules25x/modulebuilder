@@ -117,15 +117,15 @@ class UserPrint extends Files\CreateFile
             $ucfFieldName = \ucfirst($fieldName);
         }
         $ccFieldId      = $this->getCamelCase($fieldId, false, true);
-        $stuLpFieldName = \mb_strtoupper($ccFieldId);
         $ret            = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret            .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret            .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $ret            .= $this->getInclude();
+        $ret            .= $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/header.php'", '', true, true, 'require', '');
         $ret            .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '', 'Int');
         $ret            .= $this->pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret            .= $this->xc->getXcXoThemeAddStylesheet();
-        $redirectHeader = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}NO{$stuLpFieldName}", false, "\t");
+        $redirectHeader = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}INVALID_PARAM", false, "\t");
         $ret            .= $this->pc->getPhpCodeConditions("empty(\${$ccFieldId})", '', '', $redirectHeader);
 
         $ret            .= $this->pc->getPhpCodeCommentLine('Get Instance of Handler');
@@ -160,11 +160,11 @@ class UserPrint extends Files\CreateFile
         $noPerm         .= $this->getSimpleString('exit();', "\t");
         $ret            .= $this->pc->getPhpCodeConditions($gperm, '', '', $noPerm);
         $ret            .= $this->xc->getXcGetValues($tableName, $tableSoleName, '', true);
-        $contentForeach = $this->xc->getXcXoopsTplAppend('"{$k}"', '$v', "\t");
-        $ret            .= $this->pc->getPhpCodeForeach($tableSoleName, false, 'k', 'v', $contentForeach);
+        $ret            .= $this->xc->getXcXoopsTplAppend($tableName . '_list', '$' . $tableSoleName, '');
+        $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->xc->getXcXoopsTplAssign('xoops_sitename', "\$GLOBALS['xoopsConfig']['sitename']");
-        $getVar         = $this->xc->getXcGetVar('', $tableSoleName, $fieldMain, true);
-        $stripTags      = $this->pc->getPhpCodeStripTags('', $getVar . ' - ' . "{$language}PRINT" . ' - ' . "\$GLOBALS['xoopsModule']->name()", true);
+        $getVar         = $this->xc->getXcGetVar('', $tableName, $fieldMain, true);
+        $stripTags      = $this->pc->getPhpCodeStripTags('', $getVar . " . ' - ' . " . "{$language}PRINT" . " . ' - ' . " . "\$GLOBALS['xoopsModule']->getVar('name')", true);
         $ret            .= $this->xc->getXcXoopsTplAssign('xoops_pagetitle', $stripTags);
         $ret            .= $this->xc->getXcXoopsTplDisplay($tableName . '_print.tpl', '', false);
 
