@@ -119,8 +119,6 @@ class UserPrint extends Files\CreateFile
             }
         }
 
-        $lang = $this->sc->getSmartyConst($language, 'FORM_ACTION');
-        $th   .= $this->hc->getHtmlTag('th', ['class' => 'center width5'], $lang, false, "\t\t\t");
         $tr   = $this->hc->getHtmlTableRow($th, 'head', "\t\t");
         $ret  = $this->hc->getHtmlTableThead($tr, '', "\t");
 
