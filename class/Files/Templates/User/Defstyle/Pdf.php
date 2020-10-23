@@ -87,12 +87,10 @@ class Pdf extends Files\CreateFile
      * @param        $tableMid
      * @param        $tableName
      * @param        $tableSoleName
-     * @param        $tableRate
-     * @param        $tableBroken
      * @param        $language
      * @return string
      */
-    private function getTemplatesUserPdfBody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableRate, $tableBroken, $language)
+    private function getTemplatesUserPdfBody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
         $fields  = $this->getTableFields($tableMid, $tableId);
         $ret     = '';
@@ -154,7 +152,7 @@ class Pdf extends Files\CreateFile
         $tableMid        = $table->getVar('table_mid');
         $tableName       = $table->getVar('table_name');
         $tableSoleName   = $table->getVar('table_solename');
-        $content       = $this->getTemplatesUserPdfBody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableRate, $tableBroken, $language);
+        $content       = $this->getTemplatesUserPdfBody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName,  $language);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
