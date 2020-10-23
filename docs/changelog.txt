@@ -18,6 +18,9 @@
 - fixed bug in creation of user header.php (goffy)
 - fixed bug in creation of user pages files (goffy)
 - cosmetics for sorting (goffy)
+- fixed bugs in pdf creation (goffy)
+- allow pdf creation for multiple tables (goffy)
+- changed pdf output template based (goffy)
 
 <h5>3.04 Alpha 1   [2020-06-12]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>

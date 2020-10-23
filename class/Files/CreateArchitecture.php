@@ -645,31 +645,41 @@ class CreateArchitecture extends CreateStructure
             }
             // User Pdf File
             if (\in_array(1, $tablePdf)) {
-                $userPdf = Modulebuilder\Files\User\UserPdf::getInstance();
-                $userPdf->write($module, $table, 'pdf.php');
-                $ret[] = $userPdf->render();
-                // User Templates Pdf File
-                if ($templateType  == 'bootstrap') {
-                    $userTemplatesPdf = Modulebuilder\Files\Templates\User\Bootstrap\Pdf::getInstance();
-                } else {
-                    $userTemplatesPdf = Modulebuilder\Files\Templates\User\Defstyle\Pdf::getInstance();
+                foreach ($tables as $table) {
+                    if ($table->getVar('table_pdf')) {
+                        $tableName = $table->getVar('table_name');
+                        $userPdf = Modulebuilder\Files\User\UserPdf::getInstance();
+                        $userPdf->write($module, $table, $tableName . '_pdf.php');
+                        $ret[] = $userPdf->render();
+                        // User Templates Pdf File
+                        if ($templateType == 'bootstrap') {
+                            $userTemplatesPdf = Modulebuilder\Files\Templates\User\Bootstrap\Pdf::getInstance();
+                        } else {
+                            $userTemplatesPdf = Modulebuilder\Files\Templates\User\Defstyle\Pdf::getInstance();
+                        }
+                        $userTemplatesPdf->write($module, $table, $moduleDirname . '_' . $tableName . '_pdf.tpl');
+                        $ret[] = $userTemplatesPdf->render();
+                    }
                 }
-                $userTemplatesPdf->write($module, $moduleDirname . '_pdf.tpl');
-                $ret[] = $userTemplatesPdf->render();
             }
             // User Print File
             if (\in_array(1, $tablePrint)) {
-                $userPrint = Modulebuilder\Files\User\UserPrint::getInstance();
-                $userPrint->write($module, $table, 'print.php');
-                $ret[] = $userPrint->render();
-                // User Templates Print File
-                if ($templateType  == 'bootstrap') {
-                    $userTemplatesPrint = Modulebuilder\Files\Templates\User\Bootstrap\UserPrint::getInstance();
-                } else {
-                    $userTemplatesPrint = Modulebuilder\Files\Templates\User\Defstyle\UserPrint::getInstance();
+                foreach ($tables as $table) {
+                    if ($table->getVar('table_print')) {
+                        $tableName = $table->getVar('table_name');
+                        $userPrint = Modulebuilder\Files\User\UserPrint::getInstance();
+                        $userPrint->write($module, $table, $tableName . '_print.php');
+                        $ret[] = $userPrint->render();
+                        // User Templates Print File
+                        if ($templateType == 'bootstrap') {
+                            $userTemplatesPrint = Modulebuilder\Files\Templates\User\Bootstrap\UserPrint::getInstance();
+                        } else {
+                            $userTemplatesPrint = Modulebuilder\Files\Templates\User\Defstyle\UserPrint::getInstance();
+                        }
+                        $userTemplatesPrint->write($module, $table, $moduleDirname  . '_' . $tableName .  '_print.tpl');
+                        $ret[] = $userTemplatesPrint->render();
+                    }
                 }
-                $userTemplatesPrint->write($module, $table, $moduleDirname . '_print.tpl');
-                $ret[] = $userTemplatesPrint->render();
             }
 
             //TODO: UserSearch has to be adapted

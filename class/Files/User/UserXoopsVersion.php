@@ -344,10 +344,20 @@ class UserXoopsVersion extends Files\CreateFile
             }
             $item[]  = $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs', '');
             if (\in_array(1, $tablePdf)) {
-                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'pdf', '');
+                foreach (\array_keys($tables) as $t) {
+                    if ($tables[$t]->getVar('table_pdf')) {
+                        $tableName = $tables[$t]->getVar('table_name');
+                        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName . '_pdf', '');
+                    }
+                }
             }
             if (\in_array(1, $tablePrint)) {
-                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'print', '');
+                foreach (\array_keys($tables) as $t) {
+                    if ($tables[$t]->getVar('table_print')) {
+                        $tableName = $tables[$t]->getVar('table_name');
+                        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName . '_print', '');
+                    }
+                }
             }
             if (\in_array(1, $tableRate)) {
                 $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'rate', '');
