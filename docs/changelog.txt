@@ -22,6 +22,7 @@
 - allow pdf creation for multiple tables (goffy)
 - changed pdf output template based (goffy)
 - fixed bugs in print output (goffy)
+- fixed problem for modules without user pages (goffy)
 
 <h5>3.04 Alpha 1   [2020-06-12]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>
