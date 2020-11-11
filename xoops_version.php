@@ -24,8 +24,8 @@
 $moduleDirName      = \basename(__DIR__);
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-$modversion['version']             = 3.04;
-$modversion['module_status']       = 'Final';
+$modversion['version']             = 3.05;
+$modversion['module_status']       = 'RC1';
 $modversion['release_date']        = '2020/11/11';
 $modversion['name']                = _MI_MODULEBUILDER_NAME;
 $modversion['description']         = _MI_MODULEBUILDER_DESC;
