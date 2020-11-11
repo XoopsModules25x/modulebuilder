@@ -93,19 +93,27 @@ class LanguageAdmin extends Files\CreateFile
      */
     public function getLanguageAdminIndex($language, $tables)
     {
+        $thereare  = '';
+        $tableUser = 0;
+        foreach (\array_keys($tables) as $t) {
+            if (1 == (int)$tables[$t]->getVar('table_user')) {
+                $tableUser = 1;
+            }
+            $tableName    = $tables[$t]->getVar('table_name');
+            $stuTableName = \mb_strtoupper($tableName);
+            $stlTableName = \mb_strtolower($tableName);
+            $thereare .= $this->ld->getDefine($language, "THEREARE_{$stuTableName}", "There are <span class='bold'>%s</span> {$stlTableName} in the database", true);
+        }
         $ret = $this->ld->getBlankLine();
         $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__','common', true);
-        $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__','main', true);
+        if ($tableUser) {
+            $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'main', true);
+        }
         $ret .= $this->ld->getBlankLine();
         $ret .= $this->ld->getAboveHeadDefines('Admin Index');
         $ret .= $this->ld->getDefine($language, 'STATISTICS', 'Statistics');
         $ret .= $this->ld->getAboveDefines('There are');
-        foreach (\array_keys($tables) as $t) {
-            $tableName    = $tables[$t]->getVar('table_name');
-            $stuTableName = \mb_strtoupper($tableName);
-            $stlTableName = \mb_strtolower($tableName);
-            $ret          .= $this->ld->getDefine($language, "THEREARE_{$stuTableName}", "There are <span class='bold'>%s</span> {$stlTableName} in the database", true);
-        }
+        $ret .= $thereare;
 
         return $ret;
     }

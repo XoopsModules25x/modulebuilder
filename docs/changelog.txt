@@ -1,3 +1,7 @@
+<h5>3.04 Final   [2020-11-11]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
+<hr>
+- moved to final (goffy)
+
 <h5>3.04 RC 1   [2020-07-09]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>
 - unqualified function references (mamba/goffy)
@@ -18,6 +22,11 @@
 - fixed bug in creation of user header.php (goffy)
 - fixed bug in creation of user pages files (goffy)
 - cosmetics for sorting (goffy)
+- fixed bugs in pdf creation (goffy)
+- allow pdf creation for multiple tables (goffy)
+- changed pdf output template based (goffy)
+- fixed bugs in print output (goffy)
+- fixed problem for modules without user pages (goffy)
 
 <h5>3.04 Alpha 1   [2020-06-12]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>

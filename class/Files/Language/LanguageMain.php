@@ -120,6 +120,7 @@ As you can see, you have created a page with a list of links at the top to navig
         $tableSubmit      = 0;
         $tableBroken      = 0;
         $tableRate        = 0;
+        $tablePrint       = 0;
         foreach (\array_keys($tables) as $i) {
             if (1 == $tables[$i]->getVar('table_user')) {
                 $tableName = $tables[$i]->getVar('table_name');
@@ -132,6 +133,9 @@ As you can see, you have created a page with a list of links at the top to navig
                 }
                 if (1 === (int)$tables[$i]->getVar('table_rate')) {
                     $tableRate = 1;
+                }
+                if (1 === (int)$tables[$i]->getVar('table_print')) {
+                    $tablePrint = 1;
                 }
                 $stuTableName = \mb_strtoupper($tableName);
                 $stuTableSoleName = \mb_strtoupper($tableSoleName);
@@ -196,6 +200,10 @@ As you can see, you have created a page with a list of links at the top to navig
             $ret .= $this->ld->getDefine($language, 'RATING_LIKE', 'Like');
             $ret .= $this->ld->getDefine($language, 'RATING_DISLIKE', 'Dislike');
             $ret .= $this->ld->getDefine($language, 'RATING_ERROR1', 'Error: update base table failed!');
+        }
+        if (1 === $tablePrint) {
+            $ret .= $this->ld->getAboveHeadDefines('Print');
+            $ret .= $this->ld->getDefine($language, 'PRINT', 'Print');
         }
         return $ret;
     }

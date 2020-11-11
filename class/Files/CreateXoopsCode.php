@@ -885,16 +885,17 @@ class CreateXoopsCode
      * @param string $index
      * @param bool   $noArray
      * @param string $t
+     * @param string $obj
      * @return string
      */
-    public function getXcGetValues($tableName, $tableSoleName, $index = 'i', $noArray = false, $t = '')
+    public function getXcGetValues($tableName, $tableSoleName, $index = 'i', $noArray = false, $t = '', $obj = '')
     {
         $index        = '' !== $index ? $index : 'i';
         $ucfTableName = \ucfirst($tableName);
         if (!$noArray) {
             $ret = "{$t}\${$tableSoleName} = \${$tableName}All[\${$index}]->getValues{$ucfTableName}();\n";
         } else {
-            $ret = "{$t}\${$tableSoleName} = \${$tableName}->getValues{$ucfTableName}();\n";
+            $ret = "{$t}\${$tableSoleName} = \${$tableName}{$obj}->getValues{$ucfTableName}();\n";
         }
 
         return $ret;
@@ -1576,13 +1577,17 @@ class CreateXoopsCode
      * @param        $tplString
      * @param        $phpRender
      * @param bool   $leftIsString
-     *
      * @param string $t
+     * @param string $tpl
      * @return string
      */
-    public function getXcXoopsTplAssign($tplString, $phpRender, $leftIsString = true, $t = '')
+    public function getXcXoopsTplAssign($tplString, $phpRender, $leftIsString = true, $t = '', $tpl = '')
     {
         $assign = "{$t}\$GLOBALS['xoopsTpl']->assign(";
+        if ('' !== $tpl) {
+            $assign = "{$t}\${$tpl}->assign(";
+        }
+
         if (false === $leftIsString) {
             $ret = $assign . "{$tplString}, {$phpRender});\n";
         } else {

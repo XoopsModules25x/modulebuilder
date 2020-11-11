@@ -32,12 +32,24 @@ use XoopsModules\Modulebuilder\Files;
 class UserPrint extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $hc = null;
+
+    /**
+     * @var mixed
+     */
+    private $sc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $this->sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
     }
 
     /**
@@ -71,150 +83,170 @@ class UserPrint extends Files\CreateFile
     /**
      * @private function getTemplatesUserPrintHeader
      * @param string $moduleDirname
-     * @param string $table
-     * @param string $language
-     *
      * @return string
      */
-    private function getTemplatesUserPrintHeader($moduleDirname, $table, $language)
+    private function getTemplatesUserPrintHeader($moduleDirname)
     {
-        $ret    = <<<EOT
-<{include file="db:{$moduleDirname}_header.tpl"}>
-<table class="{$moduleDirname}">
-    <thead class="outer">
-        <tr class="head">\n
-EOT;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (\array_keys($fields) as $f) {
-            $fieldName        = $fields[$f]->getVar('field_name');
-            $langStuFieldName = $language . \mb_strtoupper($fieldName);
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
-                $ret .= <<<EOT
-            <th class="center"><{\$smarty.const.{$langStuFieldName}}></th>\n
-EOT;
-            }
-        }
-        $ret .= <<<EOT
-        </tr>
-    </thead>\n
-EOT;
+        $ret = $this->hc->getHtmlComment('Header', '',"\n");
+        $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'header', false, '', '', "\n\n");
 
         return $ret;
     }
 
     /**
-     * @private function getTemplatesUserPrintBody
-     * @param string $moduleDirname
-     * @param string $table
+     * @private  function getTemplatesUserPrintTableThead
+     * @param        $tableSoleName
+     * @param        $tableAutoincrement
+     * @param array $fields
+     * @param string $language
      * @return string
      */
-    private function getTemplatesUserPrintBody($moduleDirname, $table)
+    private function getTemplatesUserPrintTableThead($tableSoleName, $tableAutoincrement, $fields, $language)
     {
-        $tableName = $table->getVar('table_name');
-        $ret       = <<<EOT
-    <tbody>
-        <{foreach item=list from=\${$tableName}}>
-            <tr class="<{cycle values='odd, even'}>">\n
-EOT;
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $th         = '';
+        $langHeadId = \mb_strtoupper($tableSoleName) . '_ID';
+        if (1 == $tableAutoincrement) {
+            $lang = $this->sc->getSmartyConst($language, $langHeadId);
+            $th   .= $this->hc->getHtmlTag('th', ['class' => 'center'], $lang, false, "\t\t\t");
+        }
+        foreach (\array_keys($fields) as $f) {
+            $fieldName     = $fields[$f]->getVar('field_name');
+            $rpFieldName   = $this->getRightString($fieldName);
+            $langFieldName = \mb_strtoupper($tableSoleName) . '_' . \mb_strtoupper($rpFieldName);
+            if (1 == $fields[$f]->getVar('field_user')) {
+                $lang = $this->sc->getSmartyConst($language, $langFieldName);
+                $th   .= $this->hc->getHtmlTag('th', ['class' => 'center'], $lang, false, "\t\t\t");
+            }
+        }
+
+        $tr   = $this->hc->getHtmlTableRow($th, 'head', "\t\t");
+        $ret  = $this->hc->getHtmlTableThead($tr, '', "\t");
+
+        return $ret;
+    }
+
+    /**
+     * @private  function getTemplatesUserPrintTableTBody
+     * @param string $moduleDirname
+     * @param string $tableName
+     * @param        $tableSoleName
+     * @param        $tableAutoincrement
+     * @param array $fields
+     * @return string
+     * @internal param string $language
+     */
+    private function getTemplatesUserPrintTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields)
+    {
+        $td = '';
+        if (1 == $tableAutoincrement) {
+            $double = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
+            $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t");
+        }
         foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             $rpFieldName  = $this->getRightString($fieldName);
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
+            if (1 == $fields[$f]->getVar('field_user')) {
                 switch ($fieldElement) {
+                    case 3:
+                    case 4:
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short');
+                        $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t");
+                        break;
+                    case 5:
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                        $src    = $this->sc->getSmartyNoSimbol('xoModuleIcons16') . $double . '.png';
+                        $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'','');
+                        $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t");
+                        break;
                     case 9:
-                        $ret .= <<<EOT
-                <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">\t\t</span></td>\n
-EOT;
+                        // This is to be reviewed, as it was initially to style = "backgroung-color: #"
+                        // Now with HTML5 is not supported inline style in the parameters of the HTML tag
+                        // Old code was <span style="background-color: #<{\$list.{$rpFieldName}}>;">...
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                        $color  = "<span style='background-color:{$double};'>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
+                        $td     .= $this->hc->getHtmlTableData($color, 'center', '',"\t\t\t");
                         break;
                     case 10:
-                        $ret .= <<<EOT
-                <td class="center"><img src="<{xoModuleIcons32}><{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
-EOT;
+                        $src = $this->sc->getSmartyNoSimbol('xoModuleIcons32');
+                        $src .= $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                        $img = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'','');
+                        $td  .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t");
                         break;
                     case 13:
-                        $ret .= <<<EOT
-                <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
-EOT;
+                        $single = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                        $img    = $this->hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName, 'style' => 'max-width:100px'], '', true, '', '');
+                        $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t");
+                        break;
+                    case 16:
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                        $src    = $this->sc->getSmartyNoSimbol('$modPathIcon16') . 'status' . $double . '.png';
+                        $imgAlt = $this->sc->getSmartyDoubleVar($tableSoleName, 'status_text');
+                        $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $imgAlt, 'title' => $imgAlt], '', true,'','');
+                        $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t");
                         break;
                     default:
-                        $ret .= <<<EOT
-                <td class="center"><{\$list.{$rpFieldName}}></td>\n
-EOT;
+                        if (0 != $f) {
+                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t");
+                        }
                         break;
                 }
             }
         }
-        $ret .= <<<EOT
-            </tr>
-        <{/foreach}>
-    </tbody>
-</table>\n
-EOT;
+        $cycle   = $this->sc->getSmartyNoSimbol('cycle values=\'odd, even\'');
+        $tr      = $this->hc->getHtmlTableRow($td, $cycle, "\t\t");
+        $foreach = $this->sc->getSmartyForeach($tableSoleName, $tableName . '_list', $tr, '','', "\t\t");
+        $tbody   = $this->hc->getHtmlTableTbody($foreach,'' , "\t");
 
-        return $ret;
+        return $tbody;
     }
 
     /**
-     * @private function getTemplatesUserPrintBodyFieldnameEmpty
+     * @private function getTemplatesUserPrintTable
      * @param string $moduleDirname
-     * @param $table
+     * @param string $tableName
+     * @param        $tableSoleName
+     * @param        $tableAutoincrement
+     * @param        $fields
+     * @param string $language
      * @return string
      */
-    private function getTemplatesUserPrintBodyFieldnameEmpty($moduleDirname, $table)
+    private function getTemplatesUserPrintTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
     {
-        $tableName = $table->getVar('table_name');
-        $ret       = <<<EOT
-    <tbody>
-        <{foreach item=list from=\${$tableName}}>
-            <tr class="<{cycle values='odd, even'}>">\n
-EOT;
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (\array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
-            $fieldElement = $fields[$f]->getVar('field_element');
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
-                switch ($fieldElement) {
-                    case 9:
-                        $ret .= <<<EOT
-            <td class="center"><span style="background-color: #<{\$list.{$fieldName}}>;"></span></td>\n
-EOT;
-                        break;
-                    case 13:
-                        $ret .= <<<EOT
-            <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$fieldName}}>" alt="{$tableName}"></td>\n
-EOT;
-                        break;
-                    default:
-                        $ret .= <<<EOT
-            <td class="center"><{\$list.{$fieldName}}></td>\n
-EOT;
-                        break;
-                }
-            }
-        }
-        $ret .= <<<EOT
-            </tr>
-        <{/foreach}>
-    </tbody>
-</table>\n
-EOT;
+        $tbody = $this->getTemplatesUserPrintTableThead($tableSoleName, $tableAutoincrement, $fields, $language);
+        $tbody .= $this->getTemplatesUserPrintTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields);
 
-        return $ret;
+        return $this->hc->getHtmlTable($tbody, 'table table-bordered', '');
+    }
+
+    /**
+     * @private function getTemplatesUserPrint
+     * @param string $moduleDirname
+     * @param string $tableName
+     * @param        $tableSoleName
+     * @param        $tableAutoincrement
+     * @param        $fields
+     * @param string $language
+     * @return string
+     */
+    private function getTemplatesUserPrint($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
+    {
+        $htmlTable = $this->getTemplatesUserPrintTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language);
+
+        return $htmlTable;
     }
 
     /**
      * @private function getTemplatesUserPrintFooter
      * @param string $moduleDirname
-     *
      * @return string
      */
     private function getTemplatesUserPrintFooter($moduleDirname)
     {
-        $ret = <<<EOT
-<{include file="db:{$moduleDirname}_footer.tpl"}>
-EOT;
+        $ret = $this->hc->getHtmlComment('Footer', '', "\n");
+        $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'footer', false);
 
         return $ret;
     }
@@ -226,20 +258,15 @@ EOT;
      */
     public function render()
     {
-        $module         = $this->getModule();
-        $table          = $this->getTable();
-        $filename       = $this->getFileName();
-        $moduleDirname  = $module->getVar('mod_dirname');
-        $tableFieldname = $table->getVar('table_fieldname');
-        $language       = $this->getLanguage($moduleDirname, 'MA');
-        $content        = $this->getTemplatesUserPrintHeader($moduleDirname, $table, $language);
-        // Verify if table_fieldname is not empty
-        if (!empty($tableFieldname)) {
-            $content .= $this->getTemplatesUserPrintBody($moduleDirname, $table);
-        } else {
-            $content .= $this->getTemplatesUserPrintBodyFieldnameEmpty($moduleDirname, $table);
-        }
-        $content .= $this->getTemplatesUserPrintFooter($moduleDirname);
+        $module        = $this->getModule();
+        $table         = $this->getTable();
+        $filename      = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $fields        = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order');
+        $content       = $this->getTemplatesUserPrintHeader($moduleDirname);
+        $content       .= $this->getTemplatesUserPrint($moduleDirname, $table->getVar('table_name'), $table->getVar('table_solename'), $table->getVar('table_autoincrement'), $fields, $language);
+        $content       .= $this->getTemplatesUserPrintFooter($moduleDirname);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 
