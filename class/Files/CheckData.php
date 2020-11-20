@@ -140,6 +140,7 @@ class CheckData
      */
     private function getCheckUserpage()
     {
+        //check field params: minimum one param is selected
         foreach (\array_keys($this->tables) as $t) {
             $tableId = $this->tables[$t]->getVar('table_id');
             $tableName = $this->tables[$t]->getVar('table_name');
@@ -161,7 +162,7 @@ class CheckData
             }
         }
 
-        //check user file no usage in index or item
+        //check field params: user file no usage in index or item
         foreach (\array_keys($this->tables) as $t) {
             $tableId = $this->tables[$t]->getVar('table_id');
             $tableName = $this->tables[$t]->getVar('table_name');
@@ -182,8 +183,8 @@ class CheckData
                 }
             }
         }
-        //check user file index multiple usage
-        //check user file item multiple usage
+        //check field params:  user file index multiple usage
+        //check field params:  user file item multiple usage
         foreach (\array_keys($this->tables) as $t) {
             $tableId = $this->tables[$t]->getVar('table_id');
             $tableName = $this->tables[$t]->getVar('table_name');
@@ -209,7 +210,7 @@ class CheckData
             }
         }
 
-        //check user submit or rate or broken, but table not for user side
+        //check table params: user submit or rate or broken, but table not for user side
         foreach (\array_keys($this->tables) as $t) {
             $tableName = $this->tables[$t]->getVar('table_name');
             if ((0 == $this->tables[$t]->getVar('table_user')) && (1 == $this->tables[$t]->getVar('table_submit') || 1 == $this->tables[$t]->getVar('table_broken') || 1 == $this->tables[$t]->getVar('table_rate'))) {
@@ -217,6 +218,45 @@ class CheckData
                 $this->infos[] = ['icon' => 'error', 'info' => $info];
             }
         }
+
+        //check field/table params:  params for index file, but table param table_index = 0
+        //check field/table params:  params for user file, but table param table_user = 0
+        foreach (\array_keys($this->tables) as $t) {
+            $tableId = $this->tables[$t]->getVar('table_id');
+            $tableName = $this->tables[$t]->getVar('table_name');
+            $tableIndex = (int)$this->tables[$t]->getVar('table_index');
+            $tableUser = (int)$this->tables[$t]->getVar('table_user');
+            $fields = $this->cf->getTableFields($this->modId, $tableId);
+
+            foreach (\array_keys($fields) as $f) {
+                $fieldName = $fields[$f]->getVar('field_name');
+                if (1 == $fields[$f]->getVar('field_user')) {
+                    // check fields for parameters
+                    if ($f > 0) {
+                        $fieldParams = (int)$fields[$f]->getVar('field_ihead') + (int)$fields[$f]->getVar('field_ibody') + (int)$fields[$f]->getVar('field_ifoot');
+                        if (0 == $fieldParams && 1 == $tableIndex) {
+                            $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS4);
+                            $this->infos[] = ['icon' => 'warning', 'info' => $info];
+                        }
+                        if ($fieldParams >= 1 && 0 == $tableIndex) {
+                            $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS5);
+                            $this->infos[] = ['icon' => 'warning', 'info' => $info];
+                        }
+                        $fieldParams = (int)$fields[$f]->getVar('field_thead') + (int)$fields[$f]->getVar('field_tbody') + (int)$fields[$f]->getVar('field_tfoot');
+                        if (0 == $fieldParams && 1 == $tableUser) {
+                            $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS6);
+                            $this->infos[] = ['icon' => 'warning', 'info' => $info];
+                        }
+                        if ($fieldParams >= 1 && 0 == $tableUser) {
+                            $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS7);
+                            $this->infos[] = ['icon' => 'warning', 'info' => $info];
+                        }
+                    }
+                }
+            }
+        }
+
+
         return true;
     }
 

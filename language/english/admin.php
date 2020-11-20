@@ -331,6 +331,10 @@
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS1', "The field '%f' in table '%t' have no params selected, but each field must have minimum one parameter");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS2', "The field '%f' in table '%t' should be used on user side: Param '" . _AM_MODULEBUILDER_FIELD_USER . "' is selected, but no selection is made, where it should be shown ('User index:...' or 'User file:...')");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS3', "The field '%f' in table '%t' should be used on user side, but you made multiple decision where ('header' and/or 'body' and/or 'footer'). It is recommended to select only one section per index or item file");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS4', "The field '%f' in table '%t' should be used in index file on user side, but no selection is made, which fields (field params 'User index:...')");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS5', "The field '%f' in table '%t' should be used in index file on user side, but option 'Add in User Index Files' in table setting is deactivated)");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS6', "The field '%f' in table '%t' should be used in user file on user side, but no selection is made, which fields (field params 'User file:...')");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS7', "The field '%f' in table '%t' should be used in user file on user side, but option 'Add in User Files' in table setting is deactivated)");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_BLOCK1', "The table '%t' should use block, but no selection is made which fields should be shown in the block");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_BLOCK2', "The table '%t' should use block, but blocks use e.g. function 'new' or 'latest'. For these functions a date field is necessary, but the table doesn't contain any date field");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS1', "The use of comments is activated for tables '%t'. For proper function it is currently only possible to use comments for one table");

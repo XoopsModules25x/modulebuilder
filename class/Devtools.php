@@ -190,6 +190,8 @@ class Devtools
             'x\copy'        => 'xcopy',
             'r\rmdir'       => 'rrmdir',
             'r\copy'        => 'rcopy',
+            'r\trim'        => 'rtrim',
+            'l\trim'        => 'ltrim',
             '\dirname()'    => 'dirname()',
             'assw\ord'      => 'assword',
             'mb_\strpos'    => 'mb_strpos',
