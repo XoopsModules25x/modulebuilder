@@ -59,19 +59,15 @@ class ModuleFeedback extends \XoopsObject
     /**
      * @public function getFormFeedback:
      * provide form for sending a feedback to module author
-     * @param bool $action
      * @return \XoopsThemeForm
      */
-    public function getFormFeedback($action = false)
+    public function getFormFeedback()
     {
-        if (false === $action) {
-            $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
-        }
-        $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
+        $moduleDirName      = \basename(dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         // Get Theme Form
         \xoops_load('XoopsFormLoader');
-        $form = new \XoopsThemeForm(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_FORM_TITLE'), 'formfeedback', $action, 'post', true);
+        $form = new \XoopsThemeForm(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_FORM_TITLE'), 'formfeedback', 'feedback.php', 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
         $recipient = new \XoopsFormText(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_RECIPIENT'), 'recipient', 50, 255, $GLOBALS['xoopsModule']->getInfo('author_mail'));

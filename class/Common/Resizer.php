@@ -13,14 +13,15 @@ namespace XoopsModules\Modulebuilder\Common;
 */
 
 /**
- * wgGallery module for xoops
+ * Image resizer class for xoops
  *
  * @copyright      module for xoops
  * @license        GPL 2.0 or later
- * @package        wggallery
+ * @package        XOOPS common
  * @since          1.0
  * @min_xoops      2.5.9
- * @author         Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com>
+ * @author         Goffy - Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com>
+ * @version        $Id: 1.0 Resizer.php 1 Mon 2019-02-09 10:04:49Z XOOPS Project (www.xoops.org) $
  */
 class Resizer
 {
@@ -32,6 +33,8 @@ class Resizer
     public $jpgQuality    = 90;
     public $mergeType     = 0;
     public $mergePos      = 0;
+    public $degrees       = 0;
+    public $error         = '';
 
     /**
      * resize image if size exceed given width/height
@@ -46,6 +49,9 @@ class Resizer
                 break;
             case 'image/jpeg':
                 $img = \imagecreatefromjpeg($this->sourceFile);
+                if (!$img) {
+                    $img = \imagecreatefromstring(file_get_contents($this->sourceFile));
+                }
                 break;
             case 'image/gif':
                 $img = \imagecreatefromgif($this->sourceFile);
@@ -54,13 +60,13 @@ class Resizer
                 return 'Unsupported format';
         }
 
-        $width      = \imagesx($img);
-        $height     = \imagesy($img);
-        $new_width  = 0;
-        $new_height = 0;
+        $width  = \imagesx($img);
+        $height = \imagesy($img);
 
         if ($width > $this->maxWidth || $height > $this->maxHeight) {
             // recalc image size based on this->maxWidth/this->maxHeight
+			$new_width  = 0;
+			$new_height = 0;
             if ($width > $height) {
                 if ($width < $this->maxWidth) {
                     $new_width = $width;
@@ -109,8 +115,6 @@ class Resizer
         return true;
     }
 
-    // public function resizeAndCrop($this->sourceFile, $this->imageMimetype, $this->endFile, $this->maxWidth, $this->maxHeight, $this->jpgQuality=90)
-
     /**
      * @return bool|string
      */
@@ -135,7 +139,7 @@ class Resizer
             return false;
         }
         // GET ORIGINAL IMAGE DIMENSIONS
-        list($original_w, $original_h) = \getimagesize($this->sourceFile);
+        [$original_w, $original_h] = \getimagesize($this->sourceFile);
 
         // RESIZE IMAGE AND PRESERVE PROPORTIONS
         $max_width_resize  = $this->maxWidth;
@@ -180,7 +184,6 @@ class Resizer
         return true;
     }
 
-    // public function mergeImage($this->sourceFile, $this->endFile, $this->mergePos, $this->mergeType)
     public function mergeImage()
     {
         $dest = \imagecreatefromjpeg($this->endFile);
@@ -237,5 +240,57 @@ class Resizer
 
         \imagedestroy($src);
         \imagedestroy($dest);
+    }
+
+    /**
+     * @return bool|string
+     */
+    public function rotateImage()
+    {
+        // check file extension
+        switch ($this->imageMimetype) {
+            case 'image/png':
+                $original = \imagecreatefrompng($this->sourceFile);
+                break;
+            case 'image/jpeg':
+                $original = \imagecreatefromjpeg($this->sourceFile);
+                break;
+            case 'image/gif':
+                $original = \imagecreatefromgif($this->sourceFile);
+                break;
+            default:
+                return 'Unsupported format';
+        }
+
+        if (!$original) {
+            return false;
+        }
+        // Rotate
+        $tmpimg = \imagerotate($original, $this->degrees, 0);
+
+        \unlink($this->endFile);
+        //compressing the file
+        switch ($this->imageMimetype) {
+            case 'image/png':
+                if (!\imagepng($tmpimg, $this->endFile, 0)) {
+                    return false;
+                }
+                break;
+            case 'image/jpeg':
+                if (!\imagejpeg($tmpimg, $this->endFile, $this->jpgQuality)) {
+                    return false;
+                }
+                break;
+            case 'image/gif':
+                if (!\imagegif($tmpimg, $this->endFile)) {
+                    return false;
+                }
+                break;
+        }
+
+        // release the memory
+        \imagedestroy($tmpimg);
+
+        return true;
     }
 }
