@@ -13,7 +13,7 @@ If you liked the modulebuilder module and thanks to the long process for giving 
 [![Latest Version](https://img.shields.io/github/release/XoopsModules25x/modulebuilder.svg?style=flat)](https://github.com/XoopsModules25x/modulebuilder/releases/latest)
 
 > **Note:** This repository contains the code of the modulebuilder module
-It's under development currently. If you want to build with developers this version of module or create a base modules, you can use the last version of this module at [Txmod XOOPS Web Site](http://www.txmodxoops.org), and visit the main discussion forum at [XOOPS Web Site](https://xoops.org/modules/newbb/viewtopic.php?topic_id=76746) for more information.
+It's under development currently. If you want to build with developers this version of module or create a base modules, you can use the last version of this module at [Github](https://github.com/XoopsModules25x/modulebuilder), and visit the main discussion forum at [XOOPS Web Site](https://xoops.org/modules/newbb/viewtopic.php?topic_id=76746) for more information.
 
 Screenshot:
 <p align="center">
