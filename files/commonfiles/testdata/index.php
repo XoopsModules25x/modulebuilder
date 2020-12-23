@@ -121,6 +121,7 @@ function saveSampleData()
     }
 
     // save permissions
+    $skipColumns = [];
     $criteria = new \CriteriaCompo();
     $criteria->add(new \Criteria('gperm_modid', Helper::getHelper($moduleDirName)->getModule()->getVar('mid')));
     $skipColumns[] = 'gperm_id';
