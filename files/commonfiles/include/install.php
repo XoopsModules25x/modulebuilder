@@ -71,9 +71,9 @@ function xoops_module_install_modulebuilder(\XoopsModule $module)
 
     //  ---  CREATE FOLDERS ---------------
     if ($configurator->uploadFolders && \is_array($configurator->uploadFolders)) {
-        //    foreach (\array_keys($GLOBALS['uploadFolders']) as $i) {
         foreach (\array_keys($configurator->uploadFolders) as $i) {
             $utility::createFolder($configurator->uploadFolders[$i]);
+            chmod($configurator->uploadFolders[$i], 0777);
         }
     }
 

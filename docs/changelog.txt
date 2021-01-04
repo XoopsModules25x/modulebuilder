@@ -5,6 +5,7 @@
  - cosmetics (mamba/goffy)
  - added "declare(strict_types=1);" to php file creation (goffy)
  - changed default size date/datetime field to 11 (mamba/goffy)
+ - changed default chmod of upload folders to 0777 (mamba/goffy)
 
 <h5>3.04 Final   [2020-11-11]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>
