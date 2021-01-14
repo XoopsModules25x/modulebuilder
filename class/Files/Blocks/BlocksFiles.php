@@ -211,11 +211,13 @@ class BlocksFiles extends Files\CreateFile
         $func .= $this->pc->getPhpCodeUnset($critName, "\t");
         $contentForeach = '';
         foreach (\array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
-            // Verify if table_fieldname is not empty
-            //$lpFieldName = !empty($tableFieldname) ? \substr($fieldName, 0, \strpos($fieldName, '_')) : $tableName;
+            $fieldName    = $fields[$f]->getVar('field_name');
             $rpFieldName  = $this->getRightString($fieldName);
             $fieldElement = $fields[$f]->getVar('field_element');
+
+            if (0 == $f) {
+                $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['id']", "\${$tableName}All[\$i]->getVar('{$fieldId}')", null, "\t\t\t");
+            }
             if (1 == $fields[$f]->getVar('field_block')) {
                 switch ($fieldElement) {
                     case 2:
