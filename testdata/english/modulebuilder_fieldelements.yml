@@ -132,7 +132,7 @@
     fieldelement_value: XoopsFormTextDateSelect
     fieldelement_sort: '17'
     fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
+    fieldelement_defvalue: '11'
 -
     fieldelement_id: '16'
     fieldelement_mid: '0'
@@ -186,7 +186,7 @@
     fieldelement_value: XoopsFormDateTime
     fieldelement_sort: '18'
     fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
+    fieldelement_defvalue: '11'
 -
     fieldelement_id: '22'
     fieldelement_mid: '0'

@@ -191,6 +191,13 @@ class SqlFile extends Files\CreateFile
             // Creation of database table
             $ret            = $this->getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb);
             $fieldName      = $fields[$f]->getVar('field_name');
+
+
+
+            if ($fieldName == 'cat_created') {
+                echo "found";
+            }
+
             $fieldType      = $fields[$f]->getVar('field_type');
             $fieldValue     = \str_replace('&#039;','', $fields[$f]->getVar('field_value')); //remove single quotes
             $fieldAttribute = $fields[$f]->getVar('field_attribute');
