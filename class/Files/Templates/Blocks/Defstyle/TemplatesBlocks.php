@@ -116,17 +116,22 @@ class TemplatesBlocks extends Files\CreateFile
      * @param        $tableName
      * @param        $tableSoleName
      * @param        $tableAutoincrement
+     * @param        $language
      * @return string
      */
-    private function getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement)
+    private function getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
         $td = '';
+        $stuTableSoleName = \mb_strtoupper($tableSoleName);
         if (1 == $tableAutoincrement) {
             $double = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
             $td     .= $this->hc->getHtmlTableData($double, 'center',  '', "\t\t\t");
         }
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (\array_keys($fields) as $f) {
+            if (0 == $f) {
+                $fieldId = $fields[$f]->getVar('field_name');
+            }
             if (1 === (int)$fields[$f]->getVar('field_block')) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');
@@ -172,6 +177,10 @@ class TemplatesBlocks extends Files\CreateFile
 		// $img     = $this->hc->getHtmlTag('img', ['src' => $src . $double, 'alt' => $tableName], '', true, '', '');
 		// $anchor  .= $this->hc->getHtmlTag('a', ['href' => $tableName . ".php?op=delete&amp;{$fieldId}=" . $double, 'title' => $lang], $img, false, "\t\t\t\t");
 		// $td      .= $this->hc->getHtmlTag('td', ['class' => 'center'], "\n" . $anchor . "\t\t\t", false, "\t\t\t");
+        $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
+        $lang    = $this->sc->getSmartyConst($language, $stuTableSoleName . '_GOTO');
+        $anchor  = $this->hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $double, $lang, $lang);
+        $td     .= $this->hc->getHtmlTableData($anchor, 'center',  '', "\t\t\t");
 		$cycle   = $this->sc->getSmartyNoSimbol('cycle values="odd, even"');
 		$tr 	 = $this->hc->getHtmlTableRow($td, $cycle, "\t\t");
         $foreach = $this->sc->getSmartyForeach($tableSoleName, 'block', $tr, '','', "\t\t");
@@ -206,7 +215,7 @@ class TemplatesBlocks extends Files\CreateFile
     private function getTemplatesBlocksTable($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
         $tbody  = $this->getTemplatesBlocksTableThead($tableId, $tableMid, $language, $tableAutoincrement);
-        $tbody  .= $this->getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement);
+        $tbody  .= $this->getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language);
         $tbody  .= $this->getTemplatesBlocksTableTfoot();
         $single = $this->sc->getSmartySingleVar('table_type');
 

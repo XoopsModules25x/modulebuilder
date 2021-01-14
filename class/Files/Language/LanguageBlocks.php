@@ -90,11 +90,14 @@ class LanguageBlocks extends Files\CreateFile
         $ret    .= $this->ld->getDefine($language, 'ALLCAT', 'All Categories');
         foreach (\array_keys($tables) as $t) {
             if (1 === (int)$tables[$t]->getVar('table_blocks')) {
-                $tableName = $tables[$t]->getVar('table_name');
-                $ucfTableName = \ucfirst($tableName);
+                $tableName        = $tables[$t]->getVar('table_name');
+                $tableSoleName    = $tables[$t]->getVar('table_solename');
+                $ucfTableName     = \ucfirst($tableName);
+                $ucfTableSoleName = \ucfirst($tableSoleName);
+                $stuTableName     = \mb_strtoupper($tableName);
+                $stuTableSoleName = \mb_strtoupper($tableSoleName);
                 $ret .= $this->ld->getAboveDefines($ucfTableName);
                 $fields = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
-                $stuTableName = \mb_strtoupper($tableName);
                 $ret .= $this->ld->getDefine($language, $stuTableName . '_TO_DISPLAY', $ucfTableName . ' to Display');
                 $ret .= $this->ld->getDefine($language, 'ALL_' . $stuTableName, 'All ' . $ucfTableName);
                 foreach (\array_keys($fields) as $f) {
@@ -106,6 +109,7 @@ class LanguageBlocks extends Files\CreateFile
                         $ret .= $this->ld->getDefine($language, $stuFieldName, $fieldNameDesc);
                     }
                 }
+                $ret .= $this->ld->getDefine($language, $stuTableSoleName . '_GOTO', 'Goto ' . $ucfTableSoleName);
             }
         }
 
