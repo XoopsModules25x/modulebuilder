@@ -213,7 +213,7 @@
     fieldelement_value: XoopsFormTextIp
     fieldelement_sort: '23'
     fieldelement_deftype: '14'
-    fieldelement_defvalue: '16'
+    fieldelement_defvalue: '45'
 -
     fieldelement_id: '25'
     fieldelement_mid: '1'
