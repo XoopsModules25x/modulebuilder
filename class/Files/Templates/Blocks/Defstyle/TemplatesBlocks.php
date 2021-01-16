@@ -122,6 +122,7 @@ class TemplatesBlocks extends Files\CreateFile
     private function getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
         $td = '';
+        $fieldId = '';
         $stuTableSoleName = \mb_strtoupper($tableSoleName);
         if (1 == $tableAutoincrement) {
             $double = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
