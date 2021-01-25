@@ -1,7 +1,7 @@
 <!-- Header -->
 <{includeq file="db:modulebuilder_header.tpl"}>
 <!-- Display files list -->
-<{if $files_list}>
+<{if $files_list|default:''}>
     <table class='outer width100'>
         <tr>
             <th class='center'><{$smarty.const._AM_MODULEBUILDER_FILE_ID}></th>
@@ -37,17 +37,17 @@
     <br/>
     <!-- Display files navigation -->
     <div class="clear">&nbsp;</div>
-    <{if $pagenav}>
+    <{if $pagenav|default:''}>
         <div class="xo-pagenav floatright"><{$pagenav}></div>
         <div class="clear spacer"></div>
     <{/if}>
 <{else}>  <!-- Display file images on edit page -->
     <!-- Display file form (add,edit) -->
-    <{if $form}>
+    <{if $form|default:''}>
         <div class="spacer"><{$form}></div>
     <{/if}>
 <{/if}>
-<{if $error}>
+<{if $error|default:''}>
     <div class="errorMsg">
         <strong><{$error}></strong>
     </div>

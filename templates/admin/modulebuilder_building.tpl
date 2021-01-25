@@ -2,7 +2,7 @@
 <{includeq file="db:modulebuilder_header.tpl"}>
 <!-- Display building form  -->
 <br/>
-<{if $building_directory}>
+<{if $building_directory|default:''}>
     <table class="outer">
         <thead>
         <tr class="head">
@@ -43,7 +43,7 @@
     </table>
     <br/>
 <{else}>
-    <{if $checkResults}>
+    <{if $checkResults|default:''}>
         <h3 class="red"><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_RESULT}></h3>
         <p><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_FOUND}></p>
         <{foreach item=check from=$checkResults}>
@@ -54,11 +54,11 @@
             <br><img src="<{$modPathIcon16}>/error.png" alt=""/><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_ERROR_DESC}><br><img src="<{$modPathIcon16}>/warning.png" alt=""/><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_WARNING_DESC}><br>
         </p>
     <{/if}>
-    <{if $checkResultsNice}>
+    <{if $checkResultsNice|default:''}>
         <h3 class="red"><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_RESULT}></h3>
         <p><img src="<{xoModuleIcons16 on.png}>" alt=""/><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_NOERRORS}></p>
     <{/if}>
-    <{if $form}>
+    <{if $form|default:''}>
         <{$form}>
     <{/if}>
 <{/if}>

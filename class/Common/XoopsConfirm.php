@@ -62,9 +62,9 @@ class XoopsConfirm
     public function getFormXoopsConfirm()
     {
         //in order to be accessable from user and admin area this should be place in language common.php
-        if (!defined('CO_WGTRANSIFEX_DELETE_CONFIRM')) {
-            \define('CO_WGTRANSIFEX_DELETE_CONFIRM', 'Confirm delete');
-            \define('CO_WGTRANSIFEX_DELETE_LABEL', 'Do you really want to delete:');
+        if (!defined('CO_MODULEBUILDER_DELETE_CONFIRM')) {
+            \define('CO_MODULEBUILDER_DELETE_CONFIRM', 'Confirm delete');
+            \define('CO_MODULEBUILDER_DELETE_LABEL', 'Do you really want to delete:');
         }
 
         // Get Theme Form

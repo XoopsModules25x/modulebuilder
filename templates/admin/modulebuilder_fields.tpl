@@ -1,7 +1,7 @@
 <!-- Header -->
 <{includeq file="db:modulebuilder_header.tpl"}>
 <!-- Display tables list -->
-<{if $tables_list}>
+<{if $tables_list|default:''}>
     <table class='outer width100'>
         <thead>
         <tr>
@@ -64,18 +64,18 @@
     <br/>
     <!-- Display modules navigation -->
     <div class="clear">&nbsp;</div>
-    <{if $pagenav}>
+    <{if $pagenav|default:''}>
         <div class="xo-pagenav floatright"><{$pagenav}></div>
         <div class="clear spacer"></div>
     <{/if}>
 <{/if}>
-<{if $error}>
+<{if $error|default:''}>
     <div class="errorMsg">
         <strong><{$error}></strong>
     </div>
 <{/if}>
 <!-- Display module form (add,edit) -->
-<{if $form}>
+<{if $form|default:''}>
     <div class="spacer"><{$form}></div>
 <{/if}>
 <!-- Footer -->

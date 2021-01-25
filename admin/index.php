@@ -49,13 +49,6 @@ $folder = [
     TDMC_UPLOAD_IMGTAB_PATH,
 ];
 
-// Uploads Folders Created
-//foreach (\array_keys($folder) as $i) {
-//    $utility::createFolder($folder[$i]);
-//    $adminObject->addConfigBoxLine($folder[$i], 'folder');
-//    $adminObject->addConfigBoxLine([$folder[$i], '777'], 'chmod');
-//}
-
 //------ check Upload Folders ---------------
 
 $adminObject->addConfigBoxLine('');
@@ -64,11 +57,6 @@ $redirectFile = $_SERVER['SCRIPT_NAME'];
 foreach (\array_keys($folder) as $i) {
     $adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($folder[$i], 0777, $redirectFile));
 }
-
-//foreach ($pathArray as $path) {
-//    $adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path['dir'], $path['perm'], $languageConstants, $path['action']));
-//}
-
 
 $adminObject->displayNavigation(\basename(__FILE__));
 

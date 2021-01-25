@@ -154,16 +154,17 @@ class Index extends Files\CreateFile
         $double  = $this->sc->getSmartyConst($language, 'INDEX_LATEST_LIST');
         $ret     = $this->hc->getHtmlDiv($double, "{$moduleDirname}-linetitle", $t, "\n", false);
         $table   = $this->hc->getHtmlComment("Start show new {$tableName} in index",$t . "\t", "\n");
-        $include = $this->sc->getSmartyIncludeFileListSection($moduleDirname, $tableName, $tableSoleName, $tableName, $t . "\t\t\t\t\t", "\n");
+        $include = $this->sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName, $t . "\t\t\t\t\t", "\n");
         $td      = $this->hc->getHtmlTableData($include, "col_width<{\$numb_col}> top center", '', $t . "\t\t\t\t", "\n", true);
         $tr      = $this->hc->getHtmlEmpty('</tr><tr>', $t . "\t\t\t\t\t", "\n");
-        $td      .= $this->sc->getSmartyConditions($tableName . '[i].count', ' is div by ', '$divideby', $tr, false, false, false, $t . "\t\t\t\t");
-        $section = $this->hc->getHtmlComment('Start new link loop',$t . "\t\t\t", "\n");
-        $section .= $this->sc->getSmartySection('i', $tableName, $td, '', '', $t . "\t\t\t");
-        $section .= $this->hc->getHtmlComment('End new link loop',$t . "\t\t\t", "\n");
-        $tr      = $this->hc->getHtmlTableRow($section, '',$t . "\t\t");
+        $td      .= $this->sc->getSmartyConditions('smarty.foreach.' . $tableSoleName . '.iteration', ' is div by ', '$divideby', $tr, false, false, false, $t . "\t\t\t\t", "\n", true, false);
+        $foreach = $this->hc->getHtmlComment('Start new link loop',$t . "\t\t\t", "\n");
+        $foreach .= $this->sc->getSmartyForeach($tableSoleName, $tableName, $td, $tableSoleName,'',"\t\t\t");
+        $foreach .= $this->hc->getHtmlComment('End new link loop',$t . "\t\t\t", "\n");
+        $tr      .= $this->hc->getHtmlTableRow($foreach, '',$t . "\t\t");
+
         $table   .= $this->hc->getHtmlTable($tr, 'table table-<{$table_type}>', $t . "\t");
-        $ret     .= $this->sc->getSmartyConditions($tableName . 'Count', ' > ','0',$table);
+        $ret     .= $this->sc->getSmartyConditions($tableName . 'Count', ' > ','0', $table, false, false, false, '', "\n", true, 'int');
 
         return $ret;
     }

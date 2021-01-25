@@ -139,8 +139,8 @@ class Pages extends Files\CreateFile
         $div     = $this->hc->getHtmlDiv($include, 'panel panel-' . $single, "\t\t\t\t\t", "\n");
         $cont    = $this->hc->getHtmlTableData($div, '', '', "\t\t\t\t", "\n", true);
         $html    = $this->hc->getHtmlEmpty('</tr><tr>', "\t\t\t\t\t", "\n");
-        $cont    .= $this->sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html, '', '', '',"\t\t\t\t");
-        $foreach = $this->sc->getSmartyForeach($tableSoleName, $tableName, $cont,'','',"\t\t\t\t");
+        $cont    .= $this->sc->getSmartyConditions('smarty.foreach.' . $tableSoleName . '.iteration', ' is div by ', '$divideby', $html, '', '', '',"\t\t\t\t", "\n", true, false);
+        $foreach = $this->sc->getSmartyForeach($tableSoleName, $tableName, $cont, $tableSoleName,'',"\t\t\t\t");
         $tr      = $this->hc->getHtmlTableRow($foreach,'',"\t\t\t");
 
         return $this->hc->getHtmlTableTbody($tr,'',"\t\t");
@@ -172,7 +172,7 @@ class Pages extends Files\CreateFile
         $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language);
         $div   = $this->hc->getHtmlDiv($table, 'table-responsive');
 
-        return $this->sc->getSmartyConditions($tableName . 'Count', ' > ', '0', $div, false, false, true);
+        return $this->sc->getSmartyConditions($tableName . 'Count', ' > ', '0', $div, false, false, true, '', "\n", true, 'int');
     }
 
     /**

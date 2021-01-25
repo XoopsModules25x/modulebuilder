@@ -186,7 +186,7 @@ class TemplatesAdminPages extends Files\CreateFile
                         $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
                         break;
                     case 16:
-                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, 'status');
                         $src    = $this->sc->getSmartyNoSimbol('$modPathIcon16') . 'status' . $double . '.png';
                         $imgAlt = $this->sc->getSmartyDoubleVar($tableSoleName, 'status_text');
                         $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $imgAlt, 'title' => $imgAlt], '', true,'','');
