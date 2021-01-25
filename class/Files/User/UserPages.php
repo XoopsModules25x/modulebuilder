@@ -146,6 +146,7 @@ class UserPages extends Files\CreateFile
         $ucfTableName     = \ucfirst($tableName);
         $stuTableName     = \mb_strtoupper($tableName);
         $ccFieldId        = $this->getCamelCase($fieldId, false, true);
+        $ccFieldMain      = $this->getCamelCase($fieldMain, false, true);
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
 
         $ret = '';
@@ -173,9 +174,11 @@ class UserPages extends Files\CreateFile
         $ret       .= $this->xc->getXcCriteriaSetLimit($critName, '$limit', $t);
         $ret       .= $this->xc->getXcHandlerAllClear($tableName . 'All', $tableName, '$' . $critName, $t);
         $condIf    = $this->pc->getPhpCodeArray($tableName, null, false, $t . "\t");
+        $condIf    .= $this->xc->getXcEqualsOperator("\${$ccFieldMain}", "''",'', $t . "\t");
         $condIf    .= $this->pc->getPhpCodeCommentLine('Get All', $ucfTableName, $t . "\t");
         $foreach   = $this->xc->getXcGetValues($tableName, $tableName . '[$i]', 'i', false, $t . "\t\t");
-        $foreach   .= $this->xc->getXcGetVar('keywords[$i]', "{$tableName}All[\$i]", $fieldMain, false, $t . "\t\t");
+        $foreach   .= $this->xc->getXcGetVar($ccFieldMain, "{$tableName}All[\$i]", $fieldMain, false, $t . "\t\t");
+        $foreach   .= $this->xc->getXcEqualsOperator('$keywords[$i]', "\${$ccFieldMain}",'', $t . "\t\t");
         if ($tableRate) {
             $itemId   = $this->xc->getXcGetVar($ccFieldId, "{$tableName}All[\$i]", $fieldId, true);
             $const  = $this->xc->getXcGetConstants('TABLE_' . $stuTableName);
@@ -193,7 +196,9 @@ class UserPages extends Files\CreateFile
         $condIf    .= $this->xc->getXcXoopsTplAssign('divideby', $divideby, true, $t . "\t");
         $numbCol   = $this->xc->getXcGetConfig('numb_col');
         $condIf    .= $this->xc->getXcXoopsTplAssign('numb_col', $numbCol, true, $t . "\t");
-
+        $stripTags      = $this->pc->getPhpCodeStripTags('', "\${$ccFieldMain} . ' - ' . " . "\$GLOBALS['xoopsModule']->getVar('name')", true);
+        $condIf2         = $this->xc->getXcXoopsTplAssign('xoops_pagetitle', $stripTags, true, $t . "\t\t");
+        $condIf       .= $this->pc->getPhpCodeConditions("'show' == \$op && '' != \${$ccFieldMain}", '', "", $condIf2, false, $t . "\t");
         $ret       .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf, false, $t);
 
         return $ret;
