@@ -139,7 +139,7 @@ class Categories extends Files\CreateFile
         $div     = $this->hc->getHtmlDiv($include, 'panel panel-' . $single);
         $cont    = $this->hc->getHtmlTableData($div) . PHP_EOL;
         $html    = $this->hc->getHtmlEmpty('</tr><tr>') . PHP_EOL;
-        $cont    .= $this->sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html) . PHP_EOL;
+        $cont    .= $this->sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html, false, false, false, '', "\n", true, false) . PHP_EOL;
         $foreach = $this->sc->getSmartyForeach($tableSoleName, $tableName, $cont) . PHP_EOL;
         $tr      = $this->hc->getHtmlTableRow($foreach) . PHP_EOL;
 
@@ -171,7 +171,7 @@ class Categories extends Files\CreateFile
         $tab = $this->getTemplatesUserCategoriesTable($moduleDirname, $tableName, $tableSoleName, $language) . PHP_EOL;
         $div = $this->hc->getHtmlDiv($tab, 'table-responsive') . PHP_EOL;
 
-        return $this->sc->getSmartyConditions($tableName, ' gt ', '0', $div, false, true) . PHP_EOL;
+        return $this->sc->getSmartyConditions($tableName, ' gt ', '0', $div, false, true, false, '', "\n", true, 'int') . PHP_EOL;
     }
 
     /**
@@ -187,7 +187,7 @@ class Categories extends Files\CreateFile
         $stuTableName = \mb_strtoupper($tableName);
         $incl      = $this->sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName) . PHP_EOL;
         $html      = $this->hc->getHtmlEmpty('<br>') . PHP_EOL;
-        $incl      .= $this->sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$numb_col', $html) . PHP_EOL;
+        $incl      .= $this->sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$numb_col', $html, false, false, false, '',"\n", true, false) . PHP_EOL;
         $const     = $this->sc->getSmartyConst($language, $stuTableName . '_TITLE');
         $div       = $this->hc->getHtmlDiv($const, 'panel-heading') . PHP_EOL;
         $cont      = $this->hc->getHtmlDiv($incl, 'panel panel-body') . PHP_EOL;

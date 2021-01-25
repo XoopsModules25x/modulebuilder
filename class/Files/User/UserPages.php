@@ -185,8 +185,10 @@ class UserPages extends Files\CreateFile
         $condIf    .= $this->xc->getXcXoopsTplAssign($tableName, "\${$tableName}", true, $t . "\t");
         $condIf    .= $this->pc->getPhpCodeUnset($tableName, $t . "\t");
         $condIf    .= $this->xc->getXcPageNav($tableName, $t . "\t");
-        $tableType = $this->xc->getXcGetConfig('table_type');
-        $condIf    .= $this->xc->getXcXoopsTplAssign('type', $tableType, true, $t . "\t");
+        $config    = $this->xc->getXcGetConfig('table_type');
+        $condIf    .= $this->xc->getXcXoopsTplAssign('table_type', $config, true, $t . "\t");
+        $config    = $this->xc->getXcGetConfig('panel_type');
+        $condIf    .= $this->xc->getXcXoopsTplAssign('panel_type', $config, true, $t . "\t");
         $divideby  = $this->xc->getXcGetConfig('divideby');
         $condIf    .= $this->xc->getXcXoopsTplAssign('divideby', $divideby, true, $t . "\t");
         $numbCol   = $this->xc->getXcGetConfig('numb_col');

@@ -234,9 +234,10 @@ class CreateSmartyCode
      * @param string $t
      * @param string $n
      * @param bool $split
+     * @param mixed $default
      * @return string
      */
-    public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false, $t = '', $n = "\n", $split = true)
+    public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false, $t = '', $n = "\n", $split = true, $default = 'string')
     {
         $ns = '';
         $ts = '';
@@ -245,9 +246,21 @@ class CreateSmartyCode
             $ts = $t;
         }
         if (!$count) {
-            $ret = "{$t}<{if \${$condition}{$operator}{$type}}>{$ns}";
+            $ret = "{$t}<{if \${$condition}";
+            if ('string' === $default) {
+                $ret .= "|default:''";
+            } elseif ('int' === $default) {
+                $ret .= "|default:0";
+            }
+            $ret .= "{$operator}{$type}}>{$ns}";
         } elseif (!$noSimbol) {
-            $ret = "{$t}<{if {$condition}{$operator}{$type}}>{$ns}";
+            $ret = "{$t}<{if {$condition}";
+            if ('string' === $default) {
+                $ret .= "|default:''";
+            } elseif ('int' === $default) {
+                $ret .= "|default:0";
+            }
+            $ret .= "{$operator}{$type}}>{$ns}";
         } else {
             $ret = "{$t}<{if count(\${$condition}){$operator}{$type}}>{$ns}";
         }

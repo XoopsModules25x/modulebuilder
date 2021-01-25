@@ -1,6 +1,6 @@
 <div class="top">
-    <span class="left"><{$navigation}></span>
-    <{if $buttons}><span class="right"><{$buttons}>&nbsp;</span><{/if}>
+    <span class="left"><{$navigation|default:''}></span>
+    <{if $buttons|default:''}><span class="right"><{$buttons}>&nbsp;</span><{/if}>
 </div>
 <script type="text/javascript">
     IMG_ON = '<{xoModuleIcons16 1.png}>';

@@ -94,7 +94,7 @@ class Header extends Files\CreateFile
 		$ret = $this->sc->getSmartyIncludeFile($moduleDirname, 'breadcrumbs', false, true, '', "\n\n");
         $var = $this->sc->getSmartySingleVar('ads', '', '');
         $div = $this->hc->getHtmlDiv($var, 'center', "\t","\n", false) ;
-        $ret .= $this->sc->getSmartyConditions('ads', ' != ', '\'\'', $div);
+        $ret .= $this->sc->getSmartyConditions('ads', '', '', $div);
 
         return $ret;
     }
