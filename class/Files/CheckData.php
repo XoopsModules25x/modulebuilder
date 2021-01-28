@@ -224,14 +224,15 @@ class CheckData
         //check field/table params:  params for index file, but table param table_index = 0
         //check field/table params:  params for user file, but table param table_user = 0
         foreach (\array_keys($this->tables) as $t) {
-            $tableId = $this->tables[$t]->getVar('table_id');
-            $tableName = $this->tables[$t]->getVar('table_name');
+            $tableId    = $this->tables[$t]->getVar('table_id');
+            $tableName  = $this->tables[$t]->getVar('table_name');
             $tableIndex = (int)$this->tables[$t]->getVar('table_index');
-            $tableUser = (int)$this->tables[$t]->getVar('table_user');
-            $fields = $this->cf->getTableFields($this->modId, $tableId);
+            $tableUser  = (int)$this->tables[$t]->getVar('table_user');
+            $fields     = $this->cf->getTableFields($this->modId, $tableId);
 
             $fieldParamsIndex = 0;
-            $fieldParamsUser = 0;
+            $fieldParamsUser  = 0;
+            $fieldName        = '';
             foreach (\array_keys($fields) as $f) {
                 $fieldName = $fields[$f]->getVar('field_name');
                 if (1 == $fields[$f]->getVar('field_user')) {
@@ -261,7 +262,7 @@ class CheckData
                 $this->infos[] = ['icon' => 'warning', 'info' => $info];
             }
         }
-        
+
         return true;
     }
 

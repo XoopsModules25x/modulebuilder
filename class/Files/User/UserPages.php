@@ -149,7 +149,6 @@ class UserPages extends Files\CreateFile
         $ucfTableName     = \ucfirst($tableName);
         $stuTableName     = \mb_strtoupper($tableName);
         $ccFieldId        = $this->getCamelCase($fieldId, false, true);
-        $ucfFieldId       = \ucfirst($ccFieldId);
         $ccFieldMain      = $this->getCamelCase($fieldMain, false, true);
         $ccFieldReads     = $this->getCamelCase($fieldReads, false, true);
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
@@ -584,7 +583,6 @@ class UserPages extends Files\CreateFile
         $tableNotifications = $table->getVar('table_notifications');
         $tableComments      = $table->getVar('table_comments');
         $tableRate          = $table->getVar('table_rate');
-        $tableReads         = $table->getVar('table_reads');
         $filename           = $this->getFileName();
         $moduleDirname      = $module->getVar('mod_dirname');
         $language           = $this->getLanguage($moduleDirname, 'MA');
