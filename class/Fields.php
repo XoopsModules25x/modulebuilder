@@ -186,7 +186,7 @@ class Fields extends \XoopsObject
         $fieldElements = $helper->getHandler('Fieldelements')->getAll();
         foreach ($fieldElements as $fe) {
             $form->addElement(new \XoopsFormHidden('fe_defaulttype[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_deftype')));
-            $form->addElement(new \XoopsFormHidden('fe_defaultvalue[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_defvalue')));
+            $form->addElement(new \XoopsFormHidden('fe_defaultvalue[' . $fe->getVar('fieldelement_id') . ']', "'" . $fe->getVar('fieldelement_defvalue') . "'"));
         }
         $form->addElement(new \XoopsFormHidden('field_id[' . $i . ']', 0));
         $form->addElement(new \XoopsFormHidden('field_mid', $fieldMid));

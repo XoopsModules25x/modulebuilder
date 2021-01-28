@@ -216,38 +216,38 @@
     fieldelement_defvalue: '45'
 -
     fieldelement_id: '25'
-    fieldelement_mid: '1'
-    fieldelement_tid: '1'
-    fieldelement_name: 'Table : Categories'
-    fieldelement_value: XoopsFormTables-Categories
-    fieldelement_sort: '0'
+    fieldelement_mid: '0'
+    fieldelement_tid: '0'
+    fieldelement_name: TextComments
+    fieldelement_value: XoopsFormTextComments
+    fieldelement_sort: '24'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '10'
 -
     fieldelement_id: '26'
-    fieldelement_mid: '1'
-    fieldelement_tid: '2'
-    fieldelement_name: 'Table : Articles'
-    fieldelement_value: XoopsFormTables-Articles
-    fieldelement_sort: '0'
-    fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
+    fieldelement_mid: '0'
+    fieldelement_tid: '0'
+    fieldelement_name: TextRatings
+    fieldelement_value: XoopsFormTextRatings
+    fieldelement_sort: '25'
+    fieldelement_deftype: '7'
+    fieldelement_defvalue: '10, 2'
 -
     fieldelement_id: '27'
-    fieldelement_mid: '1'
-    fieldelement_tid: '3'
-    fieldelement_name: 'Table : Testfields'
-    fieldelement_value: XoopsFormTables-Testfields
-    fieldelement_sort: '0'
+    fieldelement_mid: '0'
+    fieldelement_tid: '0'
+    fieldelement_name: TextVotes
+    fieldelement_value: XoopsFormTextVotes
+    fieldelement_sort: '26'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '10'
 -
     fieldelement_id: '28'
-    fieldelement_mid: '2'
-    fieldelement_tid: '4'
-    fieldelement_name: 'Table : Categories'
-    fieldelement_value: XoopsFormTables-Categories
-    fieldelement_sort: '0'
+    fieldelement_mid: '0'
+    fieldelement_tid: '0'
+    fieldelement_name: TextReads
+    fieldelement_value: XoopsFormTextReads
+    fieldelement_sort: '27'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '10'
 -
@@ -265,6 +265,42 @@
     fieldelement_tid: '6'
     fieldelement_name: 'Table : Testfields'
     fieldelement_value: XoopsFormTables-Testfields
+    fieldelement_sort: '0'
+    fieldelement_deftype: '2'
+    fieldelement_defvalue: '10'
+-
+    fieldelement_id: '31'
+    fieldelement_mid: '1'
+    fieldelement_tid: '1'
+    fieldelement_name: 'Table : Categories'
+    fieldelement_value: XoopsFormTables-Categories
+    fieldelement_sort: '0'
+    fieldelement_deftype: '2'
+    fieldelement_defvalue: '10'
+-
+    fieldelement_id: '32'
+    fieldelement_mid: '1'
+    fieldelement_tid: '2'
+    fieldelement_name: 'Table : Articles'
+    fieldelement_value: XoopsFormTables-Articles
+    fieldelement_sort: '0'
+    fieldelement_deftype: '2'
+    fieldelement_defvalue: '10'
+-
+    fieldelement_id: '33'
+    fieldelement_mid: '1'
+    fieldelement_tid: '3'
+    fieldelement_name: 'Table : Testfields'
+    fieldelement_value: XoopsFormTables-Testfields
+    fieldelement_sort: '0'
+    fieldelement_deftype: '2'
+    fieldelement_defvalue: '10'
+-
+    fieldelement_id: '34'
+    fieldelement_mid: '2'
+    fieldelement_tid: '4'
+    fieldelement_name: 'Table : Categories'
+    fieldelement_value: XoopsFormTables-Categories
     fieldelement_sort: '0'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '10'

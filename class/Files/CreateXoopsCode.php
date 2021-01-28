@@ -859,7 +859,6 @@ class CreateXoopsCode
     public function getXcHandlerInsert($left, $var, $obj = '', $handler = 'Handler')
     {
         return "\${$left}{$handler}->insert(\${$var}{$obj})";
-
     }
 
     /**

@@ -3,7 +3,10 @@
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\{
+    Files,
+    Constants
+};
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -139,7 +142,7 @@ class PagesItem extends Files\CreateFile
                             $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $retElem     .= $this->hc->getHtmlSpan($doubleVar, 'col-sm-9 justify', "\t");
                             break;
-                        case 10:
+                        case Constants::FIELD_ELE_IMAGELIST:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
                             $singleVar   = $this->sc->getSmartySingleVar('xoops_icons32_url');
@@ -148,7 +151,7 @@ class PagesItem extends Files\CreateFile
                             $retElem     .= $this->hc->getHtmlSpan($img, 'col-sm-3', "\t");
                             unset($img);
                             break;
-                        case 13:
+                        case Constants::FIELD_ELE_UPLOADIMAGE:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
                             $singleVar   = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');

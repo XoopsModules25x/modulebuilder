@@ -3,7 +3,10 @@
 namespace XoopsModules\Modulebuilder\Files\User;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\{
+    Files,
+    Constants
+};
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -141,12 +144,14 @@ class UserPages extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    private function getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $t = '')
+    private function getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $fieldReads, $t = '')
     {
         $ucfTableName     = \ucfirst($tableName);
         $stuTableName     = \mb_strtoupper($tableName);
         $ccFieldId        = $this->getCamelCase($fieldId, false, true);
+        $ucfFieldId       = \ucfirst($ccFieldId);
         $ccFieldMain      = $this->getCamelCase($fieldMain, false, true);
+        $ccFieldReads     = $this->getCamelCase($fieldReads, false, true);
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
 
         $ret = '';
@@ -199,6 +204,24 @@ class UserPages extends Files\CreateFile
         $stripTags      = $this->pc->getPhpCodeStripTags('', "\${$ccFieldMain} . ' - ' . " . "\$GLOBALS['xoopsModule']->getVar('name')", true);
         $condIf2         = $this->xc->getXcXoopsTplAssign('xoops_pagetitle', $stripTags, true, $t . "\t\t");
         $condIf       .= $this->pc->getPhpCodeConditions("'show' == \$op && '' != \${$ccFieldMain}", '', "", $condIf2, false, $t . "\t");
+
+        if ('' !== $fieldReads) {
+            $condIf3 = $this->xc->getXcHandlerGetObj($tableName, $ccFieldId, $t . "\t\t");
+
+
+            $getVar = $this->xc->getXcGetVar('', "{$tableName}Obj", $fieldReads, true);
+            $condIf3 .= $this->xc->getXcEqualsOperator("\${$ccFieldReads}", "(int)" . $getVar . ' + 1', false, $t . "\t\t");
+            $condIf3 .= $this->xc->getXcSetVarObj($tableName, $fieldReads, "\${$ccFieldReads}", $t . "\t\t");
+            $condIf3 .= $this->pc->getPhpCodeCommentLine('Insert Data', null, $t . "\t\t");
+            $insert = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj', 'Handler');
+            $condIf3 .= $this->getSimpleString($insert .';',$t . "\t\t");
+            //$contentInsert = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&{$fieldId}=' . \${$ccFieldId}", '', '5', "\${$tableName}Obj->getHtmlErrors()", false, $t . "\t\t\t");
+            //$condIf3 .= $this->pc->getPhpCodeConditions('!' . $insert, '', '', $contentInsert, false, $t . "\t\t");
+            $condIf .= $this->pc->getPhpCodeConditions("'show' == \$op", '', "", $condIf3, false, $t . "\t");
+
+        }
+
+
         $ret       .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf, false, $t);
 
         return $ret;
@@ -234,14 +257,14 @@ class UserPages extends Files\CreateFile
                 $ccFieldId = $this->getCamelCase($fieldId, false, true);
                 $ucfFieldId = \ucfirst($ccFieldId);
             }
-            if ($fields[$f]->getVar('field_element') >= 10 && $fields[$f]->getVar('field_element') <= 14) {
+            if ($fields[$f]->getVar('field_element') >= Constants::FIELD_ELE_IMAGELIST && $fields[$f]->getVar('field_element') <= Constants::FIELD_ELE_UPLOADFILE) {
                 $countUploader++;
             }
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain    = $fieldName; // fieldMain = fields parameters main field
                 $ccFieldMain  = $this->getCamelCase($fieldMain, false, true);
             }
-            if ($fields[$f]->getVar('field_element') == 16) {
+            if ($fields[$f]->getVar('field_element') == Constants::FIELD_ELE_SELECTSTATUS) {
                 $fieldStatus   = $fieldName;
                 $ccFieldStatus = $this->getCamelCase($fieldStatus, false, true);
             }
@@ -519,15 +542,16 @@ class UserPages extends Files\CreateFile
      * @param $fieldStatus
      * @param $tableNotifications
      * @param $tableRate
+     * @param $fieldReads
      * @param $language
      * @param $t
      * @return string
      */
-    private function getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $tableRate, $language, $t)
+    private function getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $tableRate, $fieldReads, $language, $t)
     {
         $fields = $this->getTableFields($tableMid, $tableId);
         $cases['show'] = [];
-        $cases['list'] = [$this->getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $t . "\t")];
+        $cases['list'] = [$this->getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $fieldReads,$t . "\t")];
         if (1 == $tableSubmit) {
             $cases['save']   = [$this->getUserPagesSave($moduleDirname, $fields, $tableName, $tableSoleName, $tablePermissions, $tableNotifications, $language, $t . "\t")];
             $cases['new']    = [$this->getUserPagesNew($tableName, $t . "\t")];
@@ -560,6 +584,7 @@ class UserPages extends Files\CreateFile
         $tableNotifications = $table->getVar('table_notifications');
         $tableComments      = $table->getVar('table_comments');
         $tableRate          = $table->getVar('table_rate');
+        $tableReads         = $table->getVar('table_reads');
         $filename           = $this->getFileName();
         $moduleDirname      = $module->getVar('mod_dirname');
         $language           = $this->getLanguage($moduleDirname, 'MA');
@@ -568,6 +593,7 @@ class UserPages extends Files\CreateFile
         $fieldId    = '';
         $fieldMain  = '';
         $fieldStatus = '';
+        $fieldReads = '';
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -575,15 +601,18 @@ class UserPages extends Files\CreateFile
                 $fieldId = $fieldName;
             }
             if (1 == $fields[$f]->getVar('field_main')) {
-                $fieldMain = $fieldName; // fieldMain = fields parameters main field
+                $fieldMain = $fieldName; // fields parameters main field
             }
-            if (16 == $fields[$f]->getVar('field_element')) {
-                $fieldStatus = $fieldName; // fieldMain = fields parameters main field
+            if (Constants::FIELD_ELE_SELECTSTATUS == $fields[$f]->getVar('field_element')) {
+                $fieldStatus = $fieldName; // fields for status
+            }
+            if (Constants::FIELD_ELE_TEXTREADS == $fields[$f]->getVar('field_element')) {
+                $fieldReads = $fieldName; // fields for count reads
             }
         }
         $content = $this->getHeaderFilesComments($module);
         $content .= $this->getUserPagesHeader($moduleDirname, $tableName, $fieldId, $tablePermissions);
-        $content .= $this->getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $tableRate, $language, "\t");
+        $content .= $this->getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $tableRate, $fieldReads, $language, "\t");
         $content .= $this->getUserPagesFooter($moduleDirname, $tableName, $tableComments, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);

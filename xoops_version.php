@@ -136,7 +136,7 @@ $modversion['config'][] = [
     'description' => '_MI_MODULEBUILDER_CONFIG_MIMETYPES_IMAGE_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => 'gif|jpeg|jpg|pjpeg|png',
+    'default'     => 'gif|jpeg|pjpeg|png',
 ];
 
 $modversion['config'][] = [
