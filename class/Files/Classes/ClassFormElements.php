@@ -3,6 +3,7 @@
 namespace XoopsModules\Modulebuilder\Files\Classes;
 
 use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Constants;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -904,6 +905,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $fieldMainTopic    = '';
         $fieldElementId    = [];
         $counter           = 0;
+        $tagDone           = false;
         foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldDefault = $fields[$f]->getVar('field_default');
@@ -926,79 +928,84 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
                 switch ($fieldElement) {
                     case 1:
                         break;
-                    case 2:
+                    case Constants::FIELD_ELE_TEXT:  // textbox
+                    case Constants::FIELD_ELE_TEXTCOMMENTS: // textbox comments
+                    case Constants::FIELD_ELE_TEXTRATINGS: // textbox ratings
+                    case Constants::FIELD_ELE_TEXTVOTES: // textbox votes
+                    case Constants::FIELD_ELE_TEXTREADS: // textbox reads
                         $ret .= $this->getXoopsFormText($language, $fieldName, $fieldDefault, $required);
                         break;
-                    case 3:
+                    case Constants::FIELD_ELE_TEXTAREA:
                         $ret .= $this->getXoopsFormTextArea($language, $fieldName, $required);
                         break;
-                    case 4:
+                    case Constants::FIELD_ELE_DHTMLTEXTAREA:
                         $ret .= $this->getXoopsFormDhtmlTextArea($language, $fieldName, $required);
                         break;
-                    case 5:
+                    case Constants::FIELD_ELE_CHECKBOX:
                         $ret .= $this->getXoopsFormCheckBox($language, $tableSoleName, $fieldName, $fieldElementId, $required);
                         break;
-                    case 6:
+                    case Constants::FIELD_ELE_RADIOYN:
                         $ret .= $this->getXoopsFormRadioYN($language, $fieldName, $required);
                         break;
-                    case 7:
+                    case Constants::FIELD_ELE_SELECTBOX:
                         $ret .= $this->getXoopsFormSelectBox($language, $tableName, $fieldName, $required);
                         break;
-                    case 8:
+                    case Constants::FIELD_ELE_SELECTUSER:
                         $ret .= $this->getXoopsFormSelectUser($language, $fieldName, $required);
                         break;
-                    case 9:
+                    case Constants::FIELD_ELE_COLORPICKER:
                         $ret .= $this->getXoopsFormColorPicker($language, $fieldName, $required);
                         break;
-                    case 10:
+                    case Constants::FIELD_ELE_IMAGELIST:
                         $ret .= $this->getXoopsFormImageList($language, $moduleDirname, $fieldName, $required);
                         break;
-                    case 11:
+                    case Constants::FIELD_ELE_SELECTFILE:
                         $ret .= $this->getXoopsFormSelectFile($language, $moduleDirname, $tableName, $fieldName, $required);
                         break;
-                    case 12:
+                    case Constants::FIELD_ELE_URLFILE:
                         $ret .= $this->getXoopsFormUrlFile($language, $moduleDirname, $fieldName, $fieldDefault, $required);
                         break;
-                    case 13:
+                    case Constants::FIELD_ELE_UPLOADIMAGE:
                         $ret .= $this->getXoopsFormUploadImage($language, $moduleDirname, $tableName, $fieldName, $required);
                         break;
-                    case 14:
+                    case Constants::FIELD_ELE_UPLOADFILE:
                         $ret .= $this->getXoopsFormUploadFile($language, $moduleDirname, $tableName, $fieldName, $required);
                         break;
-                    case 15:
+                    case Constants::FIELD_ELE_TEXTDATESELECT:
                         $ret .= $this->getXoopsFormTextDateSelect($language, $fieldName, $required);
                         break;
-                    case 16:
+                    case Constants::FIELD_ELE_SELECTSTATUS:
                         $ret .= $this->getXoopsFormSelectStatus($language, $moduleDirname, $fieldName, $tablePermissions, $required);
                         break;
-                    case 17:
+                    case Constants::FIELD_ELE_PASSWORD:
                         $ret .= $this->getXoopsFormPassword($language,  $fieldName, $required);
                         break;
-                    case 18:
+                    case Constants::FIELD_ELE_SELECTCOUNTRY:
                         $ret .= $this->getXoopsFormSelectCountry($language, $fieldName, $required);
                         break;
-                    case 19:
+                    case Constants::FIELD_ELE_SELECTLANG:
                         $ret .= $this->getXoopsFormSelectLang($language, $fieldName, $required);
                         break;
-                    case 20:
+                    case Constants::FIELD_ELE_RADIO:
                         $ret .= $this->getXoopsFormRadio($language, $moduleDirname, $fieldName, $required);
                         break;
-                    case 21:
+                    case Constants::FIELD_ELE_DATETIME:
                         $ret .= $this->getXoopsFormDateTime($language, $fieldName, $required);
                         break;
-                    case 22:
+                    case Constants::FIELD_ELE_SELECTCOMBO:
                         $ret .= $this->getXoopsFormSelectCombo($language, $moduleDirname, $tableName, $fieldName, $required);
                         break;
-                    case 23:
+                    case Constants::FIELD_ELE_TEXTUUID:
                         $ret .= $this->getXoopsFormTextUuid($language, $fieldName, $required);
                         break;
-                    case 24:
+                    case Constants::FIELD_ELE_TEXTIP:
                         $ret .= $this->getXoopsFormTextIp($language, $fieldName, $required);
                         break;
                     default:
                         // If we use tag module
-                        if (1 == $table->getVar('table_tag')) {
+                        if (!$tagDone && 1 == $table->getVar('table_tag')) {
                             $ret .= $this->getXoopsFormTag($fieldId, $required);
+                            $tagDone = true;
                         }
                         // If we want to hide XoopsFormHidden() or field id
                         if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {

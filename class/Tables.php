@@ -53,6 +53,7 @@ class Tables extends \XoopsObject
         'print',
         'pdf',
         'rss',
+        'reads',
         //'single',
         //'visit',
     ];
@@ -90,6 +91,7 @@ class Tables extends \XoopsObject
         $this->initVar('table_print', XOBJ_DTYPE_INT);
         $this->initVar('table_pdf', XOBJ_DTYPE_INT);
         $this->initVar('table_rss', XOBJ_DTYPE_INT);
+        $this->initVar('table_reads', XOBJ_DTYPE_INT);
         $this->initVar('table_single', XOBJ_DTYPE_INT);
         $this->initVar('table_visit', XOBJ_DTYPE_INT);
     }

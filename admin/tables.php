@@ -181,6 +181,7 @@ switch ($op) {
         $tablesObj->setVar('table_print', \in_array('print', $tableOption));
         $tablesObj->setVar('table_pdf', \in_array('pdf', $tableOption));
         $tablesObj->setVar('table_rss', \in_array('rss', $tableOption));
+        $tablesObj->setVar('table_reads', \in_array('reads', $tableOption));
         $tablesObj->setVar('table_single', \in_array('single', $tableOption));
         $tablesObj->setVar('table_visit', \in_array('visit', $tableOption));
 

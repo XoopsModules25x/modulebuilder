@@ -3,7 +3,10 @@
 namespace XoopsModules\Modulebuilder\Files\Admin;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\{
+    Files,
+    Constants
+};
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -251,37 +254,37 @@ class AdminPages extends Files\CreateFile
             }
             if ($f > 0) { // If we want to hide field id
                 switch ($fieldElement) {
-                    case 5:
-                    case 6:
+                    case Constants::FIELD_ELE_CHECKBOX:
+                    case Constants::FIELD_ELE_RADIOYN:
                         $ret .= $this->xc->getXcSetVarCheckBoxOrRadioYN($tableName, $fieldName, $t);
                         break;
-                    case 10:
+                    case Constants::FIELD_ELE_IMAGELIST:
                         $ret .= $this->axc->getAxcSetVarImageList($tableName, $fieldName, $t, $countUploader);
                         $countUploader++;
                         break;
-                    case 11:
+                    case Constants::FIELD_ELE_SELECTFILE:
                         $ret .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
-                    case 12:
+                    case Constants::FIELD_ELE_URLFILE:
                         $ret .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, true, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
-                    case 13:
+                    case Constants::FIELD_ELE_UPLOADIMAGE:
                         $ret .= $this->axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
                         $countUploader++;
                         break;
-                    case 14:
+                    case Constants::FIELD_ELE_UPLOADFILE:
                         $ret .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
-                    case 15:
+                    case Constants::FIELD_ELE_TEXTDATESELECT:
                         $ret .= $this->xc->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t);
                         break;
-                    case 17:
+                    case Constants::FIELD_ELE_PASSWORD:
                         $ret .= $this->axc->getAxcSetVarPassword($tableName, $fieldName, $t);
                         break;
-                    case 21:
+                    case Constants::FIELD_ELE_DATETIME:
                         $ret .= $this->xc->getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     default:

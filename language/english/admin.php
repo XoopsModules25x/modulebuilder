@@ -242,6 +242,7 @@
 \define('_AM_MODULEBUILDER_TABLE_PRINT', 'Add in Print file');
 \define('_AM_MODULEBUILDER_TABLE_PDF', 'Add in Pdf file');
 \define('_AM_MODULEBUILDER_TABLE_RSS', 'Add in Rss file');
+\define('_AM_MODULEBUILDER_TABLE_READS', 'Add Counter Reads Function');
 \define('_AM_MODULEBUILDER_TABLE_SINGLE', 'Add in Single file');
 \define('_AM_MODULEBUILDER_TABLE_VISIT', 'Add in Visit file');
 \define('_AM_MODULEBUILDER_TABLE_IMAGE_DESC', "<span class='red bold'>WARNING</span>: If you want to choose a new image, is best to name it with the module name before and follow with the name of the image so as not to overwrite any images with the same name, in the <span class='bold'>Frameworks/moduleclasses/moduleadmin/icons/32/</span>. Otherwise an other solution, would be to insert the images in the module, a new folder is created, with the creation of the same module - <span class='bold'>assets/icons/32</span>.");
@@ -331,15 +332,17 @@
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS1', "The field '%f' in table '%t' have no params selected, but each field must have minimum one parameter");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS2', "The field '%f' in table '%t' should be used on user side: Param '" . _AM_MODULEBUILDER_FIELD_USER . "' is selected, but no selection is made, where it should be shown ('User index:...' or 'User file:...')");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS3', "The field '%f' in table '%t' should be used on user side, but you made multiple decision where ('header' and/or 'body' and/or 'footer'). It is recommended to select only one section per index or item file");
-\define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS4', "The field '%f' in table '%t' should be used in index file on user side, but no selection is made, which fields (field params 'User index:...')");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS4', "The table '%t' should contains field in index file on user side, but no selection is made, which fields (field params 'User index:...')");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS5', "The field '%f' in table '%t' should be used in index file on user side, but option 'Add in User Index Files' in table setting is deactivated)");
-\define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS6', "The field '%f' in table '%t' should be used in user file on user side, but no selection is made, which fields (field params 'User file:...')");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS6', "The table '%t' should contains field in user file on user side, but no selection is made, which fields (field params 'User file:...')");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS7', "The field '%f' in table '%t' should be used in user file on user side, but option 'Add in User Files' in table setting is deactivated)");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_BLOCK1', "The table '%t' should use block, but no selection is made which fields should be shown in the block");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_BLOCK2', "The table '%t' should use block, but blocks use e.g. function 'new' or 'latest'. For these functions a date field is necessary, but the table doesn't contain any date field");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS1', "The use of comments is activated for tables '%t'. For proper function it is currently only possible to use comments for one table");
-\define('_AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS2', "The table '%t' should use comment functionality, but the table do not have a '%f' field, which is obligatory for this function");
-\define('_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS1', "The table '%t' should use rating functionality, but the table do not have a '%f' field, which is obligatory for this function");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS2', "The table '%t' should use comment functionality, but the table do not have a field of type 'Comments Textbox', which is obligatory for this function");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS1', "The table '%t' should use rating functionality, but the table do not have a field of type 'Ratings Textbox', which is obligatory for this function");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS2', "The table '%t' should use rating functionality, but the table do not have a field of type 'Votes Textbox', which is obligatory for this function");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_READS1', "The table '%t' should use count reads functionality, but the table do not have a field of type 'Reads Textbox', which is obligatory for this function");
 \define('_AM_MODULEBUILDER_BUILDING_RATING', "Copied rating files");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_USERPAGE1', "The table '%t' should use submit or rate or broken functionality, but the table is not selected for user files");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_SQL1', "The field '%f' in table '%t' is type DECIMAL, FLOAT or DOUBLE. The value should be '{digits in total},{digits after the decimal point}', e.g. '16,2'");
@@ -401,6 +404,10 @@
 \define('_AM_MODULEBUILDER_FIELD_ELE_RADIO_2', "Radio Value 2");
 \define('_AM_MODULEBUILDER_FIELD_ELE_TEXTUUID', "UUID Textbox");
 \define('_AM_MODULEBUILDER_FIELD_ELE_TEXTIP', "IP Textbox");
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTCOMMENTS', "Comments Textbox");
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTRATINGS', "Ratings Textbox");
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTVOTES', "Votes Textbox");
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTREADS', "Reads Textbox");
 //
 // ------------------- Misc --------------------------------- //
 \define('_AM_MODULEBUILDER_THEREARE_DATABASE1', "There are <span style='color: #ff0000; font-weight: bold;'>%s</span>");
