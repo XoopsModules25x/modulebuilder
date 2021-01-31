@@ -16,6 +16,7 @@
  - added item title to page title (heyula/goffy)
  - added counter for reads (heyula/goffy)
  - added constants for field elements types (goffy)
+ - fixed bug in creation of block (heyula/goffy)
 
 <h5>3.04 Final   [2020-11-11]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>
