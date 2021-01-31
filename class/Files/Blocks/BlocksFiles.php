@@ -166,9 +166,10 @@ class BlocksFiles extends Files\CreateFile
         if ('' !== $fieldStatus) {
             $case2[] = $critStatus;
         }
-        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\DateTime::createFromFormat(_SHORTDATESTRING)', "'>='", true);
+        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", 'time() - 604800', "'>='", true);
+        $case2[] = $this->pc->getPhpCodeCommentLine("new since last week: 7 * 24 * 60 * 60 = 604800",'',"\t\t\t");
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
-        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\DateTime::createFromFormat(_SHORTDATESTRING) + 86400', "'<='", true);
+        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", 'time()', "'<='", true);
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
         $case2[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldDate}'","\t\t\t");
         $case2[] = $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t\t\t");
