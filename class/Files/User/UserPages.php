@@ -338,7 +338,7 @@ class UserPages extends Files\CreateFile
             $errElse   = $this->xc->getXcRedirectHeader($tableName, '?op=list', '2', "{$language}FORM_OK", true, $t . "\t\t");
             $confirmOk = $this->pc->getPhpCodeConditions('$uploaderErrors', ' !== ', "''", $errIf, $errElse, $t . "\t");
         } else {
-            $confirmOk = $this->xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK", true, $t . "\t");
+            $confirmOk = $this->xc->getXcRedirectHeader($tableName, '', '2', "{$language}FORM_OK", true, $t . "\t");
         }
         $contentInsert .= $confirmOk;
         $ret           .= $this->pc->getPhpCodeConditions($insert, '', '', $contentInsert, false, $t);
