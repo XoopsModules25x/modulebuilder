@@ -184,6 +184,7 @@ class Devtools
 
         // repair known errors
         $errors = [
+            'substr_\count('   => 'substr_count(',
             'micro\time('   => 'microtime(',
             'strto\time('   => 'strtotime(',
             'mb_\strlen('   => 'mb_strlen(',
