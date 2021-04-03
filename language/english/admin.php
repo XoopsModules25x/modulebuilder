@@ -302,14 +302,14 @@
 \define('_AM_MODULEBUILDER_BUILDING_FILES', 'Files that have been compiled');
 \define('_AM_MODULEBUILDER_BUILDING_SUCCESS', 'Success build');
 \define('_AM_MODULEBUILDER_BUILDING_FAILED', 'Failed build');
-\define('_AM_MODULEBUILDER_CONST_OK_ARCHITECTURE_ROOT', 'The structure of the module was created in root/modules (index.html, folders, ...)');
-\define('_AM_MODULEBUILDER_CONST_NOTOK_ARCHITECTURE_ROOT', 'Problems: Creating the structure of the module in root/modules (index.html, icons ,...)');
+\define('_AM_MODULEBUILDER_CONST_OK_ARCHITECTURE_ROOT', 'The structure of the module was created in root/modules (index.php, folders, ...)');
+\define('_AM_MODULEBUILDER_CONST_NOTOK_ARCHITECTURE_ROOT', 'Problems: Creating the structure of the module in root/modules (index.php, icons ,...)');
 \define('_AM_MODULEBUILDER_BUILD_MODSELOPT', 'Select and build a Module');
 // OK
-\define('_AM_MODULEBUILDER_OK_ARCHITECTURE', "<span class='green'>The structure of the module was created (index.html, folders, icons, docs files)</span>");
+\define('_AM_MODULEBUILDER_OK_ARCHITECTURE', "<span class='green'>The structure of the module was created (index.php, folders, icons, docs files)</span>");
 \define('_AM_MODULEBUILDER_FILE_CREATED', "The file <b>%s</b> is created in the <span class='green bold'>%s</span> folder");
 // NOTOK
-\define('_AM_MODULEBUILDER_NOTOK_ARCHITECTURE', "<span class='red'>Problems: Creating the structure of the module (index.html, folders, icons, docs files)</span>");
+\define('_AM_MODULEBUILDER_NOTOK_ARCHITECTURE', "<span class='red'>Problems: Creating the structure of the module (index.php, folders, icons, docs files)</span>");
 \define('_AM_MODULEBUILDER_FILE_NOTCREATED', "Problems: Creating file <b class='red'>%s</b> in the <span class='red bold'>%s</span> folder");
 // others
 \define('_AM_MODULEBUILDER_BUILDING_DIRECTORY', "Files created in the directory <span class='bold'>uploads/modulebuilder/repository/</span> of the module <span class='bold green'>%s</span>");

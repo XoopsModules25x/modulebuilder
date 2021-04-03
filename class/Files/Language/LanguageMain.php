@@ -98,7 +98,7 @@ class LanguageMain extends Files\CreateFile
         $ret        .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'admin', true);
         $ret        .= $this->ld->getBlankLine();
         $ret        .= $this->ld->getAboveHeadDefines('Main');
-        $ret        .= $this->ld->getDefine($language, 'INDEX', 'Home');
+        $ret        .= $this->ld->getDefine($language, 'INDEX', 'Overview ' . (string)$module->getVar('mod_name'));
         $ret        .= $this->ld->getDefine($language, 'TITLE', (string)$module->getVar('mod_name'));
         $ret        .= $this->ld->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
         $ret        .= $this->ld->getDefine(
@@ -143,10 +143,17 @@ As you can see, you have created a page with a list of links at the top to navig
                 $ucfTableSoleName = $utility::UcFirstAndToLower($tableSoleName);
                 $ret .= $this->ld->getAboveDefines($ucfTableSoleName);
                 $ret .= $this->ld->getDefine($language, $stuTableSoleName, $ucfTableSoleName);
+                if (1 === $tableSubmit) {
+                    $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_ADD", "Add {$ucfTableName}");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_EDIT", "Edit {$ucfTableName}");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_DELETE", "Delete {$ucfTableName}");
+                }
                 $ret .= $this->ld->getDefine($language, $stuTableName, $ucfTableName);
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
                 $ret .= $this->ld->getDefine($language, "{$stuTableName}_TITLE", "{$ucfTableName} title");
                 $ret .= $this->ld->getDefine($language, "{$stuTableName}_DESC", "{$ucfTableName} description");
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
+
+
                 $ret .= $this->ld->getAboveDefines("Caption of {$ucfTableSoleName}");
                 $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
                 foreach (\array_keys($fields) as $f) {

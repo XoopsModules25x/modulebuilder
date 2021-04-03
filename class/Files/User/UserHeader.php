@@ -98,12 +98,12 @@ class UserHeader extends Files\CreateFile
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $tables           = $this->getTables();
-        $language         = $this->getLanguage($moduleDirname, 'MA');
 
         $ret = $this->pc->getPhpCodeIncludeDir('\dirname(\dirname(__DIR__))', 'mainfile');
         $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
         $ret .= $this->xc->getXcEqualsOperator('$moduleDirName', '\basename(__DIR__)');
-        $ret .= $this->uxc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
+        $ret .= $this->pc->getPhpCodeCommentLine('Breadcrumbs');
+        $ret .= $this->pc->getPhpCodeArray('xoBreadcrumbs', null, false, '');
         $ret .= $this->xc->getXcHelperGetInstance($moduleDirname);
         $permissions = 0;
         $ratings     = 0;

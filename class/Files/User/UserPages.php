@@ -95,9 +95,10 @@ class UserPages extends Files\CreateFile
      * @param $tableName
      * @param $fieldId
      * @param $tablePermissions
+     * @param $language
      * @return string
      */
-    private function getUserPagesHeader($moduleDirname, $tableName, $fieldId, $tablePermissions)
+    private function getUserPagesHeader($moduleDirname, $tableName, $fieldId, $tablePermissions, $language)
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $ccFieldId        = $this->getCamelCase($fieldId, false, true);
@@ -118,12 +119,13 @@ class UserPages extends Files\CreateFile
         $ret       .= $this->pc->getPhpCodeBlankLine();
         $ret       .= $this->pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret       .= $this->xc->getXcXoThemeAddStylesheet();
-        $ret       .= $this->pc->getPhpCodeBlankLine();
+        $ret       .= $this->pc->getPhpCodeCommentLine('Paths');
         $ret       .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
         $ret       .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
-        $ret       .= $this->pc->getPhpCodeBlankLine();
+        $ret       .= $this->pc->getPhpCodeCommentLine('Keywords');
         $ret       .= $this->pc->getPhpCodeArray('keywords', null, false, '');
-        $ret       .= $this->pc->getPhpCodeBlankLine();
+        $ret       .= $this->uxc->getUserBreadcrumbs($language, 'index', '', 'index.php');
+        $ret       .= $this->pc->getPhpCodeCommentLine('Permissions');
         if (1 == $tablePermissions) {
             $ret .= $this->xc->getXcEqualsOperator('$permEdit', '$permissionsHandler->getPermGlobalSubmit()');
             $ret .= $this->xc->getXcXoopsTplAssign("permEdit", '$permEdit');
@@ -141,10 +143,12 @@ class UserPages extends Files\CreateFile
      * @param $fieldId
      * @param $fieldMain
      * @param $tableRate
+     * @param $fieldReads
+     * @param $language
      * @param string $t
      * @return string
      */
-    private function getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $fieldReads, $t = '')
+    private function getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $fieldReads, $language, $t = '')
     {
         $ucfTableName     = \ucfirst($tableName);
         $stuTableName     = \mb_strtoupper($tableName);
@@ -154,6 +158,7 @@ class UserPages extends Files\CreateFile
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
 
         $ret = '';
+        $ret .= $this->uxc->getUserBreadcrumbs($language, $tableName, 'list', '', "\t\t");
         if ($tableRate) {
             $varRate = '$ratingbars';
             $ret .= $this->xc->getXcEqualsOperator($varRate, '(int)' . $this->xc->getXcGetConfig('ratingbars'),'', $t);
@@ -373,12 +378,15 @@ class UserPages extends Files\CreateFile
     /**
      * @public function getUserPagesNew
      * @param        $tableName
+     * @param        $tableSoleName
+     * @param        $language
      * @param string $t
      * @return string
      */
-    public function getUserPagesNew($tableName, $t = '')
+    public function getUserPagesNew($tableName, $tableSoleName, $language, $t = '')
     {
-        $ret    = $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
+        $ret    = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'add', '', "\t\t");
+        $ret    .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
         $contIf = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '_NOPERM', true, $t . "\t");
         $ret    .= $this->pc->getPhpCodeConditions('!$permissionsHandler->getPermGlobalSubmit()', '', '', $contIf, false, $t);
         $ret    .= $this->xc->getXcCommonPagesNew($tableName, $t);
@@ -389,15 +397,17 @@ class UserPages extends Files\CreateFile
     /**
      * @public function getUserPagesEdit
      * @param        $tableName
-     * @param $fieldId
+     * @param        $tableSoleName
+     * @param        $fieldId
      * @param        $language
      * @param string $t
      * @return string
      */
-    public function getUserPagesEdit($tableName, $fieldId, $language, $t = '')
+    public function getUserPagesEdit($tableName, $tableSoleName, $fieldId, $language, $t = '')
     {
+        $ret       = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'edit', '', "\t\t");
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret       = $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
+        $ret       .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
         $contIf    = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '_NOPERM', true, $t . "\t");
         $ret       .= $this->pc->getPhpCodeConditions('!$permissionsHandler->getPermGlobalSubmit()', '', '', $contIf, false, $t);
         $ret       .= $this->pc->getPhpCodeCommentLine('Check params', '', $t);
@@ -411,18 +421,19 @@ class UserPages extends Files\CreateFile
     /**
      * @private function getUserPagesDelete
      * @param        $tableName
-     * @param $tableSoleName
+     * @param        $tableSoleName
      * @param        $language
      * @param        $fieldId
      * @param        $fieldMain
-     * @param $tableNotifications
+     * @param        $tableNotifications
      * @param string $t
      * @return string
      */
     private function getUserPagesDelete($tableName, $tableSoleName, $language, $fieldId, $fieldMain, $tableNotifications, $t = '')
     {
+        $ret       = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'delete', '', "\t\t");
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret       = $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
+        $ret       .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
         $contIf    = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '_NOPERM', true, $t . "\t");
         $ret       .= $this->pc->getPhpCodeConditions('!$permissionsHandler->getPermGlobalSubmit()', '', '', $contIf, false, $t);
         $ret       .= $this->pc->getPhpCodeCommentLine('Check params', '', $t);
@@ -450,8 +461,8 @@ class UserPages extends Files\CreateFile
     {
         $ccFieldId   = $this->getCamelCase($fieldId, false, true);
         $ccFieldMain = $this->getCamelCase($fieldMain, false, true);
-
-        $ret    = $this->pc->getPhpCodeCommentLine('Check params', '', $t);
+        $ret    = $this->uxc->getUserBreadcrumbs($language, '', 'broken', '', "\t\t");
+        $ret    .= $this->pc->getPhpCodeCommentLine('Check params', '', $t);
         $contIf = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, "{$language}INVALID_PARAM", true, $t . "\t");
         $ret    .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' == ', '0', $contIf, false, $t);
 
@@ -502,11 +513,7 @@ class UserPages extends Files\CreateFile
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $stuTableName     = \mb_strtoupper($tableName);
-
         $ret = $this->pc->getPhpCodeBlankLine();
-        $ret .= $this->pc->getPhpCodeCommentLine('Breadcrumbs');
-        $ret .= $this->uxc->getUserBreadcrumbs($language, $stuTableName);
-        $ret .= $this->pc->getPhpCodeBlankLine();
         $ret .= $this->pc->getPhpCodeCommentLine('Keywords');
         $ret .= $this->uxc->getUserMetaKeywords($moduleDirname);
         $ret .= $this->pc->getPhpCodeUnset('keywords');
@@ -550,11 +557,11 @@ class UserPages extends Files\CreateFile
     {
         $fields = $this->getTableFields($tableMid, $tableId);
         $cases['show'] = [];
-        $cases['list'] = [$this->getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $fieldReads,$t . "\t")];
+        $cases['list'] = [$this->getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $fieldReads, $language,$t . "\t")];
         if (1 == $tableSubmit) {
             $cases['save']   = [$this->getUserPagesSave($moduleDirname, $fields, $tableName, $tableSoleName, $tablePermissions, $tableNotifications, $language, $t . "\t")];
-            $cases['new']    = [$this->getUserPagesNew($tableName, $t . "\t")];
-            $cases['edit']   = [$this->getUserPagesEdit($tableName, $fieldId, $language, $t . "\t")];
+            $cases['new']    = [$this->getUserPagesNew($tableName, $tableSoleName, $language, $t . "\t")];
+            $cases['edit']   = [$this->getUserPagesEdit($tableName, $tableSoleName, $fieldId, $language, $t . "\t")];
             $cases['delete'] = [$this->getUserPagesDelete($tableName, $tableSoleName, $language, $fieldId, $fieldMain, $tableNotifications,$t . "\t")];
         }
         if (1 == $tableBroken) {
@@ -609,7 +616,7 @@ class UserPages extends Files\CreateFile
             }
         }
         $content = $this->getHeaderFilesComments($module);
-        $content .= $this->getUserPagesHeader($moduleDirname, $tableName, $fieldId, $tablePermissions);
+        $content .= $this->getUserPagesHeader($moduleDirname, $tableName, $fieldId, $tablePermissions, $language);
         $content .= $this->getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $tableRate, $fieldReads, $language, "\t");
         $content .= $this->getUserPagesFooter($moduleDirname, $tableName, $tableComments, $language);
 

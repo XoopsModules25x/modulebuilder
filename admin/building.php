@@ -46,8 +46,8 @@ if (!\is_dir($cachePath)) {
 if (\file_exists($cache = $cachePath . '/classpaths.cache')) {
     \unlink($cache);
 }
-if (!\file_exists($indexFile = $cachePath . '/index.html')) {
-    \copy('index.html', $indexFile);
+if (!\file_exists($indexFile = $cachePath . '/index.php')) {
+    \copy('index.php', $indexFile);
 }
 
 if ($checkData > 0) {

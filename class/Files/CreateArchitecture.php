@@ -100,23 +100,23 @@ class CreateArchitecture extends CreateStructure
             $table     = $this->helper->getHandler('Tables')->get($tableId);
         }
 
-        $indexFile       = XOOPS_UPLOAD_PATH . '/index.html';
+        $indexFile       = TDMC_PATH . '/index.php';
         $stlModuleAuthor = \str_replace(' ', '', \mb_strtolower($module->getVar('mod_author')));
         $this->setModuleName($module->getVar('mod_dirname'));
         $uploadPath = $this->getUploadPath();
         // Creation of "module" folder in the Directory repository
         $this->makeDir($uploadPath . '/' . $this->getModuleName());
         if (1 != $module->getVar('mod_user')) {
-            // Copied of index.html file in "root module" folder
-            $this->copyFile('', $indexFile, 'index.html');
+            // Copied of index.php file in "root module" folder
+            $this->copyFile('', $indexFile, 'index.php');
         }
         if (1 == $module->getVar('mod_admin')) {
-            // Creation of "admin" folder and index.html file
-            $this->makeDirAndCopyFile('admin', $indexFile, 'index.html');
+            // Creation of "admin" folder and index.php file
+            $this->makeDirAndCopyFile('admin', $indexFile, 'index.php');
         }
         if (1 == $module->getVar('mod_blocks')) {
-            // Creation of "blocks" folder and index.html file
-            $this->makeDirAndCopyFile('blocks', $indexFile, 'index.html');
+            // Creation of "blocks" folder and index.php file
+            $this->makeDirAndCopyFile('blocks', $indexFile, 'index.php');
         }
         $language  = ('english' !== $GLOBALS['xoopsConfig']['language']) ? $GLOBALS['xoopsConfig']['language'] : 'english';
         $copyFiles = [
@@ -138,8 +138,8 @@ class CreateArchitecture extends CreateStructure
             'preloads'                        => $indexFile,
         ];
         foreach ($copyFiles as $k => $v) {
-            // Creation of folders and index.html file
-            $this->makeDirAndCopyFile($k, $v, 'index.html');
+            // Creation of folders and index.php file
+            $this->makeDirAndCopyFile($k, $v, 'index.php');
         }
         //Copy the logo of the module
         $modImage = \str_replace(' ', '', $module->getVar('mod_image'));
@@ -183,22 +183,22 @@ class CreateArchitecture extends CreateStructure
         }
         if (!empty($tableName)) {
             if (1 == $module->getVar('mod_admin') || 1 == $module->getVar('mod_user')) {
-                // Creation of "templates" folder and index.html file
-                $this->makeDirAndCopyFile('templates', $indexFile, 'index.html');
+                // Creation of "templates" folder and index.php file
+                $this->makeDirAndCopyFile('templates', $indexFile, 'index.php');
             }
             if (1 == $module->getVar('mod_admin')) {
-                // Creation of "templates/admin" folder and index.html file
-                $this->makeDirAndCopyFile('templates/admin', $indexFile, 'index.html');
+                // Creation of "templates/admin" folder and index.php file
+                $this->makeDirAndCopyFile('templates/admin', $indexFile, 'index.php');
             }
             if ((1 == $module->getVar('mod_blocks')) && (1 == $table->getVar('table_blocks'))) {
-                // Creation of "templates/blocks" folder and index.html file
-                $this->makeDirAndCopyFile('templates/blocks', $indexFile, 'index.html');
+                // Creation of "templates/blocks" folder and index.php file
+                $this->makeDirAndCopyFile('templates/blocks', $indexFile, 'index.php');
             }
-            // Creation of "sql" folder and index.html file
-            $this->makeDirAndCopyFile('sql', $indexFile, 'index.html');
+            // Creation of "sql" folder and index.php file
+            $this->makeDirAndCopyFile('sql', $indexFile, 'index.php');
             if ((1 == $module->getVar('mod_notifications')) && (1 == $table->getVar('table_notifications'))) {
-                // Creation of "language/local_language/mail_template" folder and index.html file
-                $this->makeDirAndCopyFile('language/' . $language . '/mail_template', $indexFile, 'index.html');
+                // Creation of "language/local_language/mail_template" folder and index.php file
+                $this->makeDirAndCopyFile('language/' . $language . '/mail_template', $indexFile, 'index.php');
             }
         }
     }
