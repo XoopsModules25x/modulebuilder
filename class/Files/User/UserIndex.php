@@ -87,19 +87,27 @@ class UserIndex extends Files\CreateFile
     }
 
     /**
-     * @private function getTemplateHeaderFile
+     * @private function getUserIndexHeader
+     * @param $language
      * @param $moduleDirname
      *
      * @return string
      */
-    private function getTemplateHeaderFile($moduleDirname)
+    private function getUserIndexHeader($language, $moduleDirname)
     {
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
+
         $ret = $this->getInclude();
         $ret .= $this->uxc->getUserTplMain($moduleDirname);
         $ret .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret .= $this->pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret .= $this->xc->getXcXoThemeAddStylesheet();
+        $ret .= $this->pc->getPhpCodeCommentLine('Keywords');
         $ret .= $this->pc->getPhpCodeArray('keywords', null, false, '');
+        $ret .= $this->uxc->getUserBreadcrumbs($language);
+        $ret .= $this->pc->getPhpCodeCommentLine('Paths');
+        $ret .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
 
         return $ret;
     }
@@ -158,15 +166,11 @@ class UserIndex extends Files\CreateFile
      */
     private function getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $ucfTableName     = \ucfirst($tableName);
         $table            = $this->getTable();
         $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
 
-        $ret       = $this->pc->getPhpCodeCommentLine();
-        $ret       .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret       .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
-        $ret       .= $this->pc->getPhpCodeCommentLine();
+        $ret       = $this->pc->getPhpCodeCommentLine('Tables');
         $ret       .= $this->xc->getXcHandlerCountObj($tableName);
         $ret       .= $this->xc->getXcXoopsTplAssign($tableName . 'Count', "\${$tableName}Count");
         $ret       .= $this->getSimpleString('$count = 1;');
@@ -199,7 +203,6 @@ class UserIndex extends Files\CreateFile
         $condIf   .= $this->xc->getXcXoopsTplAssign('divideby', $divideby, true, "\t");
         $numb_col  = $this->xc->getXcGetConfig('numb_col');
         $condIf   .= $this->xc->getXcXoopsTplAssign('numb_col', $numb_col, true, "\t");
-
         $ret       .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
         $ret       .= $this->pc->getPhpCodeUnset('count');
         $tableType = $this->xc->getXcGetConfig('table_type');
@@ -217,17 +220,15 @@ class UserIndex extends Files\CreateFile
     private function getUserIndexFooter($moduleDirname, $language)
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
-        $ret              = $this->pc->getPhpCodeCommentLine('Breadcrumbs');
-        $ret              .= $this->uxc->getUserBreadcrumbs($language);
-        $ret              .= $this->pc->getPhpCodeCommentLine('Keywords');
-        $ret              .= $this->uxc->getUserMetaKeywords($moduleDirname);
-        $ret              .= $this->pc->getPhpCodeUnset('keywords');
-        $ret              .= $this->pc->getPhpCodeCommentLine('Description');
-        $ret              .= $this->uxc->getUserMetaDesc($moduleDirname, $language);
-        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
-        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret              .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
-        $ret              .= $this->getInclude('footer');
+        $ret = $this->pc->getPhpCodeCommentLine('Keywords');
+        $ret .= $this->uxc->getUserMetaKeywords($moduleDirname);
+        $ret .= $this->pc->getPhpCodeUnset('keywords');
+        $ret .= $this->pc->getPhpCodeCommentLine('Description');
+        $ret .= $this->uxc->getUserMetaDesc($moduleDirname, $language);
+        $ret .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
+        $ret .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret .= $this->getInclude('footer');
 
         return $ret;
     }
@@ -239,17 +240,18 @@ class UserIndex extends Files\CreateFile
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
-        $filename      = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $module           = $this->getModule();
+        $tables           = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        $filename         = $this->getFileName();
+        $moduleDirname    = $module->getVar('mod_dirname');
+        $language         = $this->getLanguage($moduleDirname, 'MA');
 
         $content = $this->getHeaderFilesComments($module, null);
         $content .= $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $content .= $this->getTemplateHeaderFile($moduleDirname);
+        $content .= $this->getUserIndexHeader($language, $moduleDirname);
+
         foreach (\array_keys($tables) as $t) {
             $tableId         = $tables[$t]->getVar('table_id');
             $tableMid        = $tables[$t]->getVar('table_mid');

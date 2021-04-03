@@ -871,7 +871,26 @@ class UserXoopsVersion extends Files\CreateFile
             'options'     => "['default' => 'default', 'primary' => 'primary', 'success' => 'success', 'info' => 'info', 'warning' => 'warning', 'danger' => 'danger']",
         ];
         $ret              .= $this->uxc->getUserModVersionArray(2, $panelType, 'config');
-
+        $ret              .= $this->pc->getPhpCodeCommentLine('Paypal ID');
+        $paypal           = [
+            'name'        => "'donations'",
+            'title'       => "'{$language}IDPAYPAL'",
+            'description' => "'{$language}IDPAYPAL_DESC'",
+            'formtype'    => "'textbox'",
+            'valuetype'   => "'textbox'",
+            'default'     => "'XYZ123'",
+        ];
+        $ret              .= $this->uxc->getUserModVersionArray(2, $paypal, 'config');
+        $ret              .= $this->pc->getPhpCodeCommentLine('Show Breadcrumbs');
+        $breadcrumbs      = [
+            'name'        => "'show_breadcrumbs'",
+            'title'       => "'{$language}SHOW_BREADCRUMBS'",
+            'description' => "'{$language}SHOW_BREADCRUMBS_DESC'",
+            'formtype'    => "'yesno'",
+            'valuetype'   => "'int'",
+            'default'     => '1',
+        ];
+        $ret              .= $this->uxc->getUserModVersionArray(2, $breadcrumbs, 'config');
         $ret              .= $this->pc->getPhpCodeCommentLine('Advertise');
         $advertise        = [
             'name'        => "'advertise'",
@@ -882,7 +901,6 @@ class UserXoopsVersion extends Files\CreateFile
             'default'     => "''",
         ];
         $ret              .= $this->uxc->getUserModVersionArray(2, $advertise, 'config');
-
         $ret              .= $this->pc->getPhpCodeCommentLine('Bookmarks');
         $bookmarks        = [
             'name'        => "'bookmarks'",

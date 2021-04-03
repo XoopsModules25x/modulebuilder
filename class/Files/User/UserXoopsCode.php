@@ -132,33 +132,30 @@ class UserXoopsCode
      *
      * @param        $language
      * @param string $tableName
+     * @param string $op
+     * @param string $link
      * @param string $t
      *
      * @return string
      */
-    public function getUserBreadcrumbs($language, $tableName = 'index', $t = '')
+    public function getUserBreadcrumbs($language, $tableName = 'index', $op = '', $link = '', $t = '')
     {
-        $stuTableName = \mb_strtoupper($tableName);
-        $title        = ["'title'" => "{$language}{$stuTableName}"];
-
-        return $this->pc->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
-    }
-
-    /**
-     * @public function getUserBreadcrumbs
-     *
-     * @param $moduleDirname
-     *
-     * @param $language
-     * @return string
-     */
-    public function getUserBreadcrumbsHeaderFile($moduleDirname, $language)
-    {
-        $stuModuleDirname = \mb_strtoupper($moduleDirname);
-        $ret              = $this->pc->getPhpCodeCommentLine('Breadcrumbs');
-        $ret              .= $this->pc->getPhpCodeArray('xoBreadcrumbs', null, false, '');
-        $titleLink        = ["'title'" => $language . 'TITLE', "'link'" => "{$stuModuleDirname}_URL . '/'"];
-        $ret              .= $this->pc->getPhpCodeArray('xoBreadcrumbs[]', $titleLink, false, '');
+        $stuTableName     = \mb_strtoupper($tableName);
+        $stuOp            = '';
+        $ret              = $this->pc->getPhpCodeCommentLine('Breadcrumbs', '', $t);
+        if ('' !== $op) {
+            $stuOp = '';
+            if ('' !== $tableName) {
+                $stuOp .= '_';
+            }
+            $stuOp .= \mb_strtoupper($op);
+        }
+        if ('' === $link) {
+            $arrBCrumb        = ["'title'" => "{$language}{$stuTableName}{$stuOp}"];
+        } else {
+            $arrBCrumb        = ["'title'" => "{$language}{$stuTableName}{$stuOp}", "'link'" => "'{$link}'"];
+        }
+        $ret .= $this->pc->getPhpCodeArray('xoBreadcrumbs[]', $arrBCrumb, false, $t);
 
         return $ret;
     }
