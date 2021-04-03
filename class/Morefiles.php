@@ -141,7 +141,7 @@ class Morefiles extends \XoopsObject
         $filesArray = \XoopsLists::getFileListAsArray( TDMC_UPLOAD_FILES_PATH);
         $fileSelect->addOption('', ' - ');
         foreach($filesArray as $file1) {
-            if ('index.html' !== $file1) {
+            if ('index.html' !== $file1 && 'index.php' !== $file1) {
                 $fileSelect->addOption("{$file1}", $file1);
             }
         }
