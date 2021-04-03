@@ -98,7 +98,6 @@ class UserHeader extends Files\CreateFile
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $tables           = $this->getTables();
-        $language         = $this->getLanguage($moduleDirname, 'MA');
 
         $ret = $this->pc->getPhpCodeIncludeDir('\dirname(\dirname(__DIR__))', 'mainfile');
         $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'include/common');

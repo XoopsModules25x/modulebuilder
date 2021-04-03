@@ -158,13 +158,12 @@ class UserIndex extends Files\CreateFile
 
     /**
      * @private function getBodyPagesIndex
-     * @param $moduleDirname
      * @param $tableName
      * @param $tableSoleName
      * @param $language
      * @return string
      */
-    private function getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $language)
+    private function getBodyPagesIndex($tableName, $tableSoleName, $language)
     {
         $ucfTableName     = \ucfirst($tableName);
         $table            = $this->getTable();
@@ -264,7 +263,7 @@ class UserIndex extends Files\CreateFile
                 $content .= $this->getBodyCategoriesIndex($tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname);
             }
             if (0 == $tableCategory && 1 == $tableIndex) {
-                $content .= $this->getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $language);
+                $content .= $this->getBodyPagesIndex($tableName, $tableSoleName, $language);
             }
         }
         $content .= $this->getUserIndexFooter($moduleDirname, $language);
