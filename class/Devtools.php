@@ -250,7 +250,7 @@ class Devtools
      * @param $dst_path
      * @param $moduleName
      */
-    public static function function_tabreplacer($src_path, $dst_path, $moduleName) {
+    public static function function_tabreplacer($src_path, $dst_path) {
         $patKeys   = [];
         $patValues = [];
         Devtools::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues, true);
@@ -325,7 +325,7 @@ class Devtools
     /**
      * get form with all existing modules
      * @param bool $action
-     * @return \XoopsThemeForm
+     * @return \XoopsSimpleForm
      */
     public static function getFormModulesFq($action = false)
     {
@@ -354,7 +354,7 @@ class Devtools
     /**
      * get form with all existing modules
      * @param bool $action
-     * @return \XoopsThemeForm
+     * @return \XoopsSimpleForm
      */
     public static function getFormModulesCl($action = false)
     {
@@ -383,7 +383,7 @@ class Devtools
     /**
      * get form with all existing modules
      * @param bool $action
-     * @return \XoopsThemeForm
+     * @return \XoopsSimpleForm
      */
     public static function getFormModulesTab($action = false)
     {

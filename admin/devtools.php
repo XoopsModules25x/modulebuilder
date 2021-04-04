@@ -164,7 +164,7 @@ switch ($op) {
         $dst_path = TDMC_UPLOAD_PATH . '/devtools/tab/' . $tabModule;
         @\mkdir($dst_path);
 
-        Devtools::function_tabreplacer($src_path, $dst_path, $tabModule);
+        Devtools::function_tabreplacer($src_path, $dst_path);
         \redirect_header('devtools.php', 3, _AM_MODULEBUILDER_DEVTOOLS_FQ_SUCCESS);
         break;
     case 'list':
