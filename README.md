@@ -27,7 +27,7 @@ Screenshot:
 Clear version
 
 # Require:
-- XOOPS 2.5.10;
+- XOOPS 2.5.11;
 - XOOPS Admin 1.2;
 - PHP 7.3 or higher;
 - MySQL 5.5; -> Minimum Recommended Using InnoDB Version 5.1 or Later
@@ -43,6 +43,8 @@ Clear version
 # Info
 ModuleBuilder is a module that create other basic modules for XOOPS CMS.
 
+**ModuleBuilder is tested with PHP 8. Created modules are ready for PHP 8.0**
+
 Tested with XOOPS 2.5.11, you can not use it with earlier versions, unless because you don't fit some core files in the background and after some tests.
 
 That is ahead XOOPS versions, and goes to 2.6.0, you should download XOOPS 2.5 and use with this latest version.
@@ -50,7 +52,7 @@ That is ahead XOOPS versions, and goes to 2.6.0, you should download XOOPS 2.5 a
 Therefore recommended not to use modulebuilder 3.x, with previous versions of XOOPS 2.5.10
 
 # System - Tests 
-PHP = 7.3, 7.4
+PHP = 7.3, 7.4, 8.0
 
 MySQL = 5.6.20, 5.7.11
 

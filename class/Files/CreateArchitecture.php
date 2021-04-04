@@ -112,7 +112,7 @@ class CreateArchitecture extends CreateStructure
         }
         if (1 == $module->getVar('mod_admin')) {
             // Creation of "admin" folder and index.php file
-            $this->makeDirAndCopyFile('admin', $indexFile, 'index.php');
+            $this->makeDirInModule('admin');
         }
         if (1 == $module->getVar('mod_blocks')) {
             // Creation of "blocks" folder and index.php file

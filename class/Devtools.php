@@ -33,7 +33,12 @@ use XoopsModules\Modulebuilder;
  */
 class Devtools
 {
-
+    /* function to add function qualifier to module */
+    /**
+     * @param $src_path
+     * @param $dst_path
+     * @param $moduleName
+     */
     public static function function_qualifier($src_path, $dst_path, $moduleName) {
 
         $functions = [];
@@ -239,14 +244,27 @@ class Devtools
 
     }
 
+    /* function to add function qualifier to module */
+    /**
+     * @param $src_path
+     * @param $dst_path
+     * @param $moduleName
+     */
+    public static function function_tabreplacer($src_path, $dst_path) {
+        $patKeys   = [];
+        $patValues = [];
+        Devtools::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues, true);
+    }
+
     // recursive cloning script
     /**
      * @param $src_path
      * @param $dst_path
      * @param array $patKeys
      * @param array $patValues
+     * @param bool  $replaceTabs
      */
-    public static function cloneFileFolder($src_path, $dst_path, $patKeys = [], $patValues =[])
+    public static function cloneFileFolder($src_path, $dst_path, $patKeys = [], $patValues =[], $replaceTabs = false)
     {
         // open the source directory
         $dir = \opendir($src_path);
@@ -257,9 +275,9 @@ class Devtools
             if (( $file != '.' ) && ( $file != '..' )) {
                 if ( \is_dir($src_path . '/' . $file) ) {
                     // Recursively calling custom copy function for sub directory
-                    Devtools::cloneFileFolder($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues);
+                    Devtools::cloneFileFolder($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs);
                 } else {
-                    Devtools::cloneFile($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues);
+                    Devtools::cloneFile($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs);
                 }
             }
         }
@@ -271,8 +289,10 @@ class Devtools
      * @param $dst_file
      * @param array $patKeys
      * @param array $patValues
+     * @param array $patValues
+     * @param bool  $replaceTabs
      */
-    private static function cloneFile($src_file, $dst_file, $patKeys = [], $patValues =[])
+    private static function cloneFile($src_file, $dst_file, $patKeys = [], $patValues =[], $replaceTabs = false)
     {
         $replace_code = false;
         $changeExtensions = ['php'];
@@ -286,7 +306,11 @@ class Devtools
         if ($replace_code) {
             // file, read it and replace text
             $content = \file_get_contents($src_file);
-            $content = \str_replace($patKeys, $patValues, $content);
+            if ($replaceTabs) {
+                $content = \preg_replace("/[\t]+/", "    ", $content);
+            } else {
+                $content = \str_replace($patKeys, $patValues, $content);
+            }
             //check file name whether it contains replace code
             $path_parts = \pathinfo($dst_file);
             $path = $path_parts['dirname'];
@@ -301,7 +325,7 @@ class Devtools
     /**
      * get form with all existing modules
      * @param bool $action
-     * @return \XoopsThemeForm
+     * @return \XoopsSimpleForm
      */
     public static function getFormModulesFq($action = false)
     {
@@ -312,24 +336,25 @@ class Devtools
         \xoops_load('XoopsFormLoader');
         $form = new \XoopsSimpleForm('', 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        // Form Table projects
-        $resPro_idSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_DEVTOOLS_FQ_MODULE, 'fq_module', '');
+        // Form Select Module
+        $modulesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_DEVTOOLS_FQ_MODULE, 'fq_module', '');
         $modulesArr   = \XoopsLists::getModulesList();
-        $resPro_idSelect->addOption('', ' ');
+        $modulesSelect->addOption('', ' ');
         foreach ($modulesArr as $mod) {
-            $resPro_idSelect->addOption($mod, $mod);
+            $modulesSelect->addOption($mod, $mod);
         }
-        $form->addElement($resPro_idSelect, true);
+        $form->addElement($modulesSelect, true);
         // To Save
         $form->addElement(new \XoopsFormHidden('op', 'fq'));
         $form->addElement(new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false));
 
         return $form;
     }
+
     /**
      * get form with all existing modules
      * @param bool $action
-     * @return \XoopsThemeForm
+     * @return \XoopsSimpleForm
      */
     public static function getFormModulesCl($action = false)
     {
@@ -340,16 +365,45 @@ class Devtools
         \xoops_load('XoopsFormLoader');
         $form = new \XoopsSimpleForm('', 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        // Form Table projects
-        $resPro_idSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_DEVTOOLS_CL_MODULE, 'cl_module', '');
+        // Form Select Module
+        $modulesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_DEVTOOLS_CL_MODULE, 'cl_module', '');
         $modulesArr   = \XoopsLists::getModulesList();
-        $resPro_idSelect->addOption('', ' ');
+        $modulesSelect->addOption('', ' ');
         foreach ($modulesArr as $mod) {
-            $resPro_idSelect->addOption($mod, $mod);
+            $modulesSelect->addOption($mod, $mod);
         }
-        $form->addElement($resPro_idSelect, true);
+        $form->addElement($modulesSelect, true);
         // To Save
         $form->addElement(new \XoopsFormHidden('op', 'check_lang'));
+        $form->addElement(new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false));
+
+        return $form;
+    }
+
+    /**
+     * get form with all existing modules
+     * @param bool $action
+     * @return \XoopsSimpleForm
+     */
+    public static function getFormModulesTab($action = false)
+    {
+        if (!$action) {
+            $action = $_SERVER['REQUEST_URI'];
+        }
+        // Get Theme Form
+        \xoops_load('XoopsFormLoader');
+        $form = new \XoopsSimpleForm('', 'form', $action, 'post', true);
+        $form->setExtra('enctype="multipart/form-data"');
+        // Form Select Module
+        $modulesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_DEVTOOLS_TAB_MODULE, 'tab_module', '');
+        $modulesArr   = \XoopsLists::getModulesList();
+        $modulesSelect->addOption('', ' ');
+        foreach ($modulesArr as $mod) {
+            $modulesSelect->addOption($mod, $mod);
+        }
+        $form->addElement($modulesSelect, true);
+        // To Save
+        $form->addElement(new \XoopsFormHidden('op', 'tab_replacer'));
         $form->addElement(new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false));
 
         return $form;
