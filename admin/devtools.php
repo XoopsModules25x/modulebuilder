@@ -156,6 +156,17 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
 
         break;
+    case 'tab_replacer':
+        $tabModule = Request::getString('tab_module');
+        $src_path = XOOPS_ROOT_PATH . '/modules/' . $tabModule;
+        $dst_path = TDMC_UPLOAD_PATH . '/devtools/tab/';
+        @\mkdir($dst_path);
+        $dst_path = TDMC_UPLOAD_PATH . '/devtools/tab/' . $tabModule;
+        @\mkdir($dst_path);
+
+        Devtools::function_tabreplacer($src_path, $dst_path, $tabModule);
+        \redirect_header('devtools.php', 3, _AM_MODULEBUILDER_DEVTOOLS_FQ_SUCCESS);
+        break;
     case 'list':
     default:
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('devtools.php'));
@@ -165,6 +176,10 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('fq_form', $fq_form->render());
         $cl_form = Devtools::getFormModulesCl();
         $GLOBALS['xoopsTpl']->assign('cl_form', $cl_form->render());
+        $tab_form = Devtools::getFormModulesTab();
+        $GLOBALS['xoopsTpl']->assign('tab_form', $tab_form->render());
+        $dst_path = TDMC_UPLOAD_PATH . '/devtools/tab/';
+        $GLOBALS['xoopsTpl']->assign('tab_desc',\str_replace('%s', $dst_path, _AM_MODULEBUILDER_DEVTOOLS_TAB_DESC));
         $GLOBALS['xoopsTpl']->assign('devtools_list',true);
 
         break;

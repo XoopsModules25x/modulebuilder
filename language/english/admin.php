@@ -443,3 +443,6 @@
 \define('_AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_SUCCESS', 'Language define found');
 \define('_AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_SUCCESS_DESCR', '(first match in brackets)');
 \define('_AM_MODULEBUILDER_DEVTOOLS_CL_RESULT_FAILED', 'Language define not found');
+\define('_AM_MODULEBUILDER_DEVTOOLS_TAB', 'Replace tab by 4 spaces');
+\define('_AM_MODULEBUILDER_DEVTOOLS_TAB_MODULE', 'Select module to replace tabs');
+\define('_AM_MODULEBUILDER_DEVTOOLS_TAB_DESC', 'This tool creates a copy of selected module in %s and replace tab by 4 spaces');
