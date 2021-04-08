@@ -14,7 +14,7 @@
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.5
  *
@@ -171,11 +171,9 @@ switch ($op) {
             }
         } else {
             $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\XoopsConfirm(
-                                        ['ok' => 1, 'set_id' => $setId, 'op' => 'delete'],
-                                        \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'),
-                                        $settingsObj->getVar('set_name')
-                            );
-            $form = $xoopsconfirm->getFormXoopsConfirm();
+                ['ok' => 1, 'set_id' => $setId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), $settingsObj->getVar('set_name')
+            );
+            $form         = $xoopsconfirm->getFormXoopsConfirm();
             $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }
         break;
@@ -183,8 +181,8 @@ switch ($op) {
         $setId = \Xmf\Request::getInt('set_id', 0);
         if ($setId > 0) {
             $settingsHandler = $helper->getHandler('Settings');
-            $settingsObj = $settingsHandler->get($setId);
-            $setType = $settingsObj->getVar('set_type');
+            $settingsObj     = $settingsHandler->get($setId);
+            $setType         = $settingsObj->getVar('set_type');
             // reset all
             $strSQL = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . ' SET ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . '.set_type = 0';
             $GLOBALS['xoopsDB']->queryF($strSQL);

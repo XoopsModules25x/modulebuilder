@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder;
  * modules class.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
  *
@@ -188,12 +188,12 @@ class Modules extends \XoopsObject
         $form = new \XoopsThemeForm($title, 'moduleform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $modName = $isNew ? $set['name'] : $this->getVar('mod_name');
+        $modName     = $isNew ? $set['name'] : $this->getVar('mod_name');
         $modNameText = new \XoopsFormText(_AM_MODULEBUILDER_MODULE_NAME, 'mod_name', 50, 255, $modName);
         $modNameText->setDescription(_AM_MODULEBUILDER_MODULE_NAME_DESC);
         $form->addElement($modNameText, true);
 
-        $modDirname = $isNew ? $set['dirname'] : $this->getVar('mod_dirname');
+        $modDirname     = $isNew ? $set['dirname'] : $this->getVar('mod_dirname');
         $modDirnameText = new \XoopsFormText(_AM_MODULEBUILDER_MODULE_DIRNAME, 'mod_dirname', 25, 255, $modDirname);
         $modDirnameText->setDescription(_AM_MODULEBUILDER_MODULE_DIRNAME_DESC);
         $form->addElement($modDirnameText, true);

@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -35,7 +35,6 @@ class LanguageModinfo extends Files\CreateFile
      * @var mixed
      */
     private $ld = null;
-
     /**
      * @var mixed
      */
@@ -96,7 +95,7 @@ class LanguageModinfo extends Files\CreateFile
     private function getLanguageMain($language, $module)
     {
         $ret = $this->ld->getBlankLine();
-        $ret .= $this->pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
+        $ret .= $this->pc->getPhpCodeIncludeDir("'common.php'", '', true, true, 'include');
         $ret .= $this->ld->getBlankLine();
         $ret .= $this->ld->getAboveHeadDefines('Admin Main');
         $ret .= $this->ld->getDefine($language, 'NAME', (string)$module->getVar('mod_name'));
@@ -130,7 +129,7 @@ class LanguageModinfo extends Files\CreateFile
         }
         if (\in_array(1, $tableBroken)) {
             ++$menu;
-            $ret    .= $this->ld->getDefine($language, "ADMENU{$menu}", 'Broken items');
+            $ret .= $this->ld->getDefine($language, "ADMENU{$menu}", 'Broken items');
         }
         if (\in_array(1, $tablePermissions)) {
             ++$menu;
@@ -213,8 +212,8 @@ class LanguageModinfo extends Files\CreateFile
                 $stuTableSoleName = \mb_strtoupper($tableSoleName);
                 $ucfTableName     = \ucfirst($tableName);
                 $ucfTableSoleName = \ucfirst($stuTableSoleName);
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
-                $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_DESC", "{$ucfTableName} block description");
+                $ret              .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
+                $ret              .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_DESC", "{$ucfTableName} block description");
                 if (1 == $tables[$i]->getVar('table_category')) {
                     $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block {$ucfTableSoleName}");
                     $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block {$ucfTableSoleName} description");
@@ -284,7 +283,7 @@ class LanguageModinfo extends Files\CreateFile
                 if (13 == $fieldElement) {
                     $fieldImage = true;
                 }
-				if (14 == $fieldElement) {
+                if (14 == $fieldElement) {
                     $fieldFile = true;
                 }
             }
@@ -312,11 +311,19 @@ class LanguageModinfo extends Files\CreateFile
             $ret .= $this->ld->getDefine($language, 'MIMETYPES_IMAGE', 'Mime types image');
             $ret .= $this->ld->getDefine($language, 'MIMETYPES_IMAGE_DESC', 'Define the allowed mime types for uploading images');
             $ret .= $this->ld->getDefine($language, 'MAXWIDTH_IMAGE', 'Max width image');
-            $ret .= $this->ld->getDefine($language, 'MAXWIDTH_IMAGE_DESC', 'Set the max width to which uploaded images should be scaled (in pixel)<br>0 means, that images keeps the original size. <br>If an image is smaller than maximum value then the image will be not enlarge, it will be save in original width.');
+            $ret .= $this->ld->getDefine(
+                $language,
+                'MAXWIDTH_IMAGE_DESC',
+                'Set the max width to which uploaded images should be scaled (in pixel)<br>0 means, that images keeps the original size. <br>If an image is smaller than maximum value then the image will be not enlarge, it will be save in original width.'
+            );
             $ret .= $this->ld->getDefine($language, 'MAXHEIGHT_IMAGE', 'Max height image');
-            $ret .= $this->ld->getDefine($language, 'MAXHEIGHT_IMAGE_DESC', 'Set the max height to which uploaded images should be scaled (in pixel)<br>0 means, that images keeps the original size. <br>If an image is smaller than maximum value then the image will be not enlarge, it will be save in original height');
+            $ret .= $this->ld->getDefine(
+                $language,
+                'MAXHEIGHT_IMAGE_DESC',
+                'Set the max height to which uploaded images should be scaled (in pixel)<br>0 means, that images keeps the original size. <br>If an image is smaller than maximum value then the image will be not enlarge, it will be save in original height'
+            );
         }
-		if ($fieldFile) {
+        if ($fieldFile) {
             $ret .= $this->ld->getDefine($language, 'MAXSIZE_FILE', 'Max size file');
             $ret .= $this->ld->getDefine($language, 'MAXSIZE_FILE_DESC', 'Define the max size for uploading files');
             $ret .= $this->ld->getDefine($language, 'MIMETYPES_FILE', 'Mime types file');
@@ -358,27 +365,27 @@ class LanguageModinfo extends Files\CreateFile
     /**
      * @private function getLanguageNotificationsGlobal
      * @param       $language
-     * @param $tableBroken
-     * @param $tableComment
+     * @param       $tableBroken
+     * @param       $tableComment
      * @return string
      */
     private function getLanguageNotificationsGlobal($language, $tableBroken, $tableComment)
     {
-        $ret              = $this->ld->getAboveDefines('Global notifications');
-        $getDefinesNotif  = [
-            'NOTIFY_GLOBAL'                  => 'Global notification',
-            'NOTIFY_GLOBAL_NEW'              => 'Any new item',
-            'NOTIFY_GLOBAL_NEW_CAPTION'      => 'Notify me about any new item',
-            'NOTIFY_GLOBAL_NEW_SUBJECT'      => 'Notification about new item',
-            'NOTIFY_GLOBAL_MODIFY'           => 'Any modified item',
-            'NOTIFY_GLOBAL_MODIFY_CAPTION'   => 'Notify me about any item modification',
-            'NOTIFY_GLOBAL_MODIFY_SUBJECT'   => 'Notification about modification',
-            'NOTIFY_GLOBAL_DELETE'           => 'Any deleted item',
-            'NOTIFY_GLOBAL_DELETE_CAPTION'   => 'Notify me about any deleted item',
-            'NOTIFY_GLOBAL_DELETE_SUBJECT'   => 'Notification about deleted item',
-            'NOTIFY_GLOBAL_APPROVE'          => 'Any item to approve',
-            'NOTIFY_GLOBAL_APPROVE_CAPTION'  => 'Notify me about any item waiting for approvement',
-            'NOTIFY_GLOBAL_APPROVE_SUBJECT'  => 'Notification about item waiting for approvement',
+        $ret             = $this->ld->getAboveDefines('Global notifications');
+        $getDefinesNotif = [
+            'NOTIFY_GLOBAL'                 => 'Global notification',
+            'NOTIFY_GLOBAL_NEW'             => 'Any new item',
+            'NOTIFY_GLOBAL_NEW_CAPTION'     => 'Notify me about any new item',
+            'NOTIFY_GLOBAL_NEW_SUBJECT'     => 'Notification about new item',
+            'NOTIFY_GLOBAL_MODIFY'          => 'Any modified item',
+            'NOTIFY_GLOBAL_MODIFY_CAPTION'  => 'Notify me about any item modification',
+            'NOTIFY_GLOBAL_MODIFY_SUBJECT'  => 'Notification about modification',
+            'NOTIFY_GLOBAL_DELETE'          => 'Any deleted item',
+            'NOTIFY_GLOBAL_DELETE_CAPTION'  => 'Notify me about any deleted item',
+            'NOTIFY_GLOBAL_DELETE_SUBJECT'  => 'Notification about deleted item',
+            'NOTIFY_GLOBAL_APPROVE'         => 'Any item to approve',
+            'NOTIFY_GLOBAL_APPROVE_CAPTION' => 'Notify me about any item waiting for approvement',
+            'NOTIFY_GLOBAL_APPROVE_SUBJECT' => 'Notification about item waiting for approvement',
             //'CATEGORY_NOTIFY'                => 'Category notification',
             //'CATEGORY_NOTIFY_DESC'           => 'Category notification desc',
             //'CATEGORY_NOTIFY_CAPTION'        => 'Category notification caption',
@@ -408,29 +415,29 @@ class LanguageModinfo extends Files\CreateFile
     /**
      * @private function getLanguageNotificationsTable
      * @param       $language
-     * @param $tableName
+     * @param       $tableName
      * @param mixed $tableSoleName
      *
-     * @param $tableBroken
-     * @param $tableComment
+     * @param       $tableBroken
+     * @param       $tableComment
      * @return string
      */
     private function getLanguageNotificationsTable($language, $tableName, $tableSoleName, $tableBroken, $tableComment)
     {
         $stuTableSoleName = \mb_strtoupper($tableSoleName);
         $ucfTableSoleName = \ucfirst($tableSoleName);
-		$ret              = $this->ld->getAboveDefines($ucfTableSoleName . ' notifications');
+        $ret              = $this->ld->getAboveDefines($ucfTableSoleName . ' notifications');
         $getDefinesNotif  = [
-            'NOTIFY_' . $stuTableSoleName                       => $ucfTableSoleName . ' notification',
-            'NOTIFY_' . $stuTableSoleName . '_MODIFY'           => "{$ucfTableSoleName} modification",
-            'NOTIFY_' . $stuTableSoleName . '_MODIFY_CAPTION'   => "Notify me about {$tableSoleName} modification",
-            'NOTIFY_' . $stuTableSoleName . '_MODIFY_SUBJECT'   => "Notification about modification",
-            'NOTIFY_' . $stuTableSoleName . '_DELETE'           => "{$ucfTableSoleName} deleted",
-            'NOTIFY_' . $stuTableSoleName . '_DELETE_CAPTION'   => "Notify me about deleted {$tableName}",
-            'NOTIFY_' . $stuTableSoleName . '_DELETE_SUBJECT'   => "Notification delete {$tableSoleName}",
-            'NOTIFY_' . $stuTableSoleName . '_APPROVE'          => "{$ucfTableSoleName} approve",
-            'NOTIFY_' . $stuTableSoleName . '_APPROVE_CAPTION'  => "Notify me about {$tableName} waiting for approvement",
-            'NOTIFY_' . $stuTableSoleName . '_APPROVE_SUBJECT'  => "Notification {$tableSoleName} waiting for approvement",
+            'NOTIFY_' . $stuTableSoleName                      => $ucfTableSoleName . ' notification',
+            'NOTIFY_' . $stuTableSoleName . '_MODIFY'          => "{$ucfTableSoleName} modification",
+            'NOTIFY_' . $stuTableSoleName . '_MODIFY_CAPTION'  => "Notify me about {$tableSoleName} modification",
+            'NOTIFY_' . $stuTableSoleName . '_MODIFY_SUBJECT'  => "Notification about modification",
+            'NOTIFY_' . $stuTableSoleName . '_DELETE'          => "{$ucfTableSoleName} deleted",
+            'NOTIFY_' . $stuTableSoleName . '_DELETE_CAPTION'  => "Notify me about deleted {$tableName}",
+            'NOTIFY_' . $stuTableSoleName . '_DELETE_SUBJECT'  => "Notification delete {$tableSoleName}",
+            'NOTIFY_' . $stuTableSoleName . '_APPROVE'         => "{$ucfTableSoleName} approve",
+            'NOTIFY_' . $stuTableSoleName . '_APPROVE_CAPTION' => "Notify me about {$tableName} waiting for approvement",
+            'NOTIFY_' . $stuTableSoleName . '_APPROVE_SUBJECT' => "Notification {$tableSoleName} waiting for approvement",
         ];
         if (1 == $tableBroken) {
             $getDefinesNotif['NOTIFY_' . $stuTableSoleName . '_BROKEN']         = "{$ucfTableSoleName} broken";
@@ -467,7 +474,6 @@ class LanguageModinfo extends Files\CreateFile
 
         return $ret;
     }
-
 
     /**
      * @private function getLanguagePermissionsGroups
@@ -543,12 +549,11 @@ class LanguageModinfo extends Files\CreateFile
             if (1 === (int)$tables[$t]->getVar('table_notifications')) {
                 $notifTable .= $this->getLanguageNotificationsTable($language, $tableName, $tableSoleName, $tableBroken, $tableComment);
             }
-
         }
 
-        $content       = $this->getHeaderFilesComments($module);
-        $content       .= $this->getLanguageMain($language, $module);
-        $content       .= $this->getLanguageMenu($module, $language);
+        $content = $this->getHeaderFilesComments($module);
+        $content .= $this->getLanguageMain($language, $module);
+        $content .= $this->getLanguageMenu($module, $language);
         if (\in_array(1, $tableAdmin)) {
             $content .= $this->getLanguageAdmin($language);
         }

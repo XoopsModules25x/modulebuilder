@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -35,12 +35,10 @@ class Header extends Files\CreateFile
      * @var mixed
      */
     private $cf = null;
-
     /**
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -91,10 +89,10 @@ class Header extends Files\CreateFile
      */
     public function getTemplatesUserHeader($moduleDirname)
     {
-		$ret = $this->sc->getSmartyIncludeFile($moduleDirname, 'breadcrumbs', false, true, '', "\n\n");
+        $ret = $this->sc->getSmartyIncludeFile($moduleDirname, 'breadcrumbs', false, true, '', "\n\n");
         $var = $this->sc->getSmartySingleVar('ads', '', '');
-        $div = $this->hc->getHtmlDiv($var, 'center', "\t","\n", false) ;
-        $ret .= $this->sc->getSmartyConditions('ads', ' != ', '\'\'', $div);
+        $div = $this->hc->getHtmlDiv($var, 'center', "\t", "\n", false);
+        $ret .= $this->sc->getSmartyConditions('ads', '', '', $div);
 
         return $ret;
     }
@@ -132,7 +130,7 @@ EOT;
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->getTemplatesUserHeader($moduleDirname);
+        $content       = $this->getTemplatesUserHeader($moduleDirname);
 
         $this->cf->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 

@@ -3,7 +3,9 @@
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\{Files,
+    Constants
+};
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -18,7 +20,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -124,17 +126,17 @@ EOT;
             $rpFieldName  = $this->getRightString($fieldName);
             if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
                 switch ($fieldElement) {
-                    case 9:
+                    case Constants::FIELD_ELE_COLORPICKER:
                         $ret .= <<<EOT
                 <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">\t\t</span></td>\n
 EOT;
                         break;
-                    case 10:
+                    case Constants::FIELD_ELE_IMAGELIST:
                         $ret .= <<<EOT
                 <td class="center"><img src="<{xoModuleIcons32}><{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
 EOT;
                         break;
-                    case 13:
+                    case Constants::FIELD_ELE_UPLOADIMAGE:
                         $ret .= <<<EOT
                 <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
 EOT;
@@ -178,12 +180,12 @@ EOT;
             $fieldElement = $fields[$f]->getVar('field_element');
             if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
                 switch ($fieldElement) {
-                    case 9:
+                    case Constants::FIELD_ELE_COLORPICKER:
                         $ret .= <<<EOT
             <td class="center"><span style="background-color: #<{\$list.{$fieldName}}>;"></span></td>\n
 EOT;
                         break;
-                    case 13:
+                    case Constants::FIELD_ELE_UPLOADIMAGE:
                         $ret .= <<<EOT
             <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$fieldName}}>" alt="{$tableName}"></td>\n
 EOT;

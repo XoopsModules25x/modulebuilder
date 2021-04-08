@@ -14,7 +14,7 @@
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.5
  *
@@ -135,11 +135,9 @@ switch ($op) {
             }
         } else {
             $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\XoopsConfirm(
-                                        ['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'],
-                                        \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'),
-                                        $morefilesObj->getVar('file_name')
-                            );
-            $form = $xoopsconfirm->getFormXoopsConfirm();
+                ['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), $morefilesObj->getVar('file_name')
+            );
+            $form         = $xoopsconfirm->getFormXoopsConfirm();
             $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }
         break;

@@ -18,7 +18,7 @@ use  XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -169,9 +169,9 @@ class CreateSmartyCode
      * @public function getSmartyIncludeFile
      * @param        $moduleDirname
      * @param string $fileName
-     * @param bool $admin
+     * @param bool   $admin
      *
-     * @param bool $q
+     * @param bool   $q
      * @param string $t
      * @param string $n
      * @param string $attributes
@@ -195,10 +195,10 @@ class CreateSmartyCode
 
     /**
      * @public function getSmartyIncludeFileListSection
-     * @param $moduleDirname
-     * @param $fileName
-     * @param $itemName
-     * @param $arrayName
+     * @param        $moduleDirname
+     * @param        $fileName
+     * @param        $itemName
+     * @param        $arrayName
      * @param string $t
      * @param string $n
      * @return string
@@ -210,9 +210,9 @@ class CreateSmartyCode
 
     /**
      * @public function getSmartyIncludeFileListForeach
-     * @param $moduleDirname
-     * @param $fileName
-     * @param $tableFieldName
+     * @param        $moduleDirname
+     * @param        $fileName
+     * @param        $tableFieldName
      * @param string $t
      * @param string $n
      * @return string
@@ -228,15 +228,16 @@ class CreateSmartyCode
      * @param string $operator
      * @param string $type
      * @param string $contentIf
-     * @param mixed $contentElse
-     * @param bool $count
-     * @param bool $noSimbol
+     * @param mixed  $contentElse
+     * @param bool   $count
+     * @param bool   $noSimbol
      * @param string $t
      * @param string $n
-     * @param bool $split
+     * @param bool   $split
+     * @param mixed  $default
      * @return string
      */
-    public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false, $t = '', $n = "\n", $split = true)
+    public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false, $t = '', $n = "\n", $split = true, $default = 'string')
     {
         $ns = '';
         $ts = '';
@@ -245,9 +246,21 @@ class CreateSmartyCode
             $ts = $t;
         }
         if (!$count) {
-            $ret = "{$t}<{if \${$condition}{$operator}{$type}}>{$ns}";
+            $ret = "{$t}<{if \${$condition}";
+            if ('string' === $default) {
+                $ret .= "|default:''";
+            } elseif ('int' === $default) {
+                $ret .= "|default:0";
+            }
+            $ret .= "{$operator}{$type}}>{$ns}";
         } elseif (!$noSimbol) {
-            $ret = "{$t}<{if {$condition}{$operator}{$type}}>{$ns}";
+            $ret = "{$t}<{if {$condition}";
+            if ('string' === $default) {
+                $ret .= "|default:''";
+            } elseif ('int' === $default) {
+                $ret .= "|default:0";
+            }
+            $ret .= "{$operator}{$type}}>{$ns}";
         } else {
             $ret = "{$t}<{if count(\${$condition}){$operator}{$type}}>{$ns}";
         }
@@ -257,7 +270,6 @@ class CreateSmartyCode
             $ret .= "{$contentElse}";
         }
         $ret .= "{$ts}<{/if}>{$n}";
-
 
         return $ret;
     }
@@ -312,8 +324,8 @@ class CreateSmartyCode
      * @param string $name
      * @param string $loop
      * @param string $content
-     * @param int $start
-     * @param int $step
+     * @param int    $start
+     * @param int    $step
      * @param string $t
      * @param string $n
      * @return string

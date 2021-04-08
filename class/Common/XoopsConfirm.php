@@ -15,7 +15,7 @@ namespace XoopsModules\Modulebuilder\Common;
 /**
  * My Module module for xoops
  *
- * @copyright     2020 XOOPS Project (https://xooops.org)
+ * @copyright      2020 XOOPS Project (https://xooops.org)
  * @license        GPL 2.0 or later
  * @package        Modulebuilder
  * @since          1.0
@@ -32,18 +32,17 @@ use XoopsModules\Modulebuilder;
  */
 class XoopsConfirm
 {
-    private $hiddens  = [];
-    private $action   = '';
-    private $title    = '';
-    private $label    = '';
-    private $object   = '';
+    private $hiddens = [];
+    private $action  = '';
+    private $title   = '';
+    private $label   = '';
+    private $object  = '';
 
     /**
      * @public function constructor class
-     *
-     * @param $hiddens
-     * @param $action
-     * @param $object
+     * @param        $hiddens
+     * @param        $action
+     * @param        $object
      * @param string $title
      * @param string $label
      */
@@ -63,19 +62,20 @@ class XoopsConfirm
     public function getFormXoopsConfirm()
     {
         //in order to be accessable from user and admin area this should be place in language common.php
-        \define('CO__MODULEBUILDER_DELETE_CONFIRM', 'Confirm delete');
-        \define('CO__MODULEBUILDER_DELETE_LABEL', 'Do you really want to delete:');
+        if (!defined('CO_MODULEBUILDER_DELETE_CONFIRM')) {
+            \define('CO_MODULEBUILDER_DELETE_CONFIRM', 'Confirm delete');
+            \define('CO_MODULEBUILDER_DELETE_LABEL', 'Do you really want to delete:');
+        }
 
         // Get Theme Form
         if ('' === $this->action) {
             $this->action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
         if ('' === $this->title) {
-            $this->title = CO__MODULEBUILDER_DELETE_CONFIRM;
+            $this->title = CO_MODULEBUILDER_DELETE_CONFIRM;
         }
         if ('' === $this->label) {
-
-            $this->label = CO__MODULEBUILDER_DELETE_LABEL;
+            $this->label = CO_MODULEBUILDER_DELETE_LABEL;
         }
 
         \xoops_load('XoopsFormLoader');
@@ -88,8 +88,8 @@ class XoopsConfirm
         }
         $form->addElement(new \XoopsFormHidden('ok', 1));
         $buttonTray = new \XoopsFormElementTray('');
-        $buttonTray->addElement(new \XoopsFormButton('', 'confirm_submit', _YES, 'submit', false));
-        $buttonBack = new \XoopsFormButton('', 'confirm_back', _NO, 'button', false);
+        $buttonTray->addElement(new \XoopsFormButton('', 'confirm_submit', _YES, 'submit'));
+        $buttonBack = new \XoopsFormButton('', 'confirm_back', _NO, 'button');
         $buttonBack->setExtra('onclick="history.go(-1);return true;"');
         $buttonTray->addElement($buttonBack);
         $form->addElement($buttonTray);

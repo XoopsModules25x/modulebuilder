@@ -17,7 +17,7 @@ use XoopsModules\Modulebuilder;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -51,13 +51,13 @@ class CreateXoopsCode
     /**
      * @public function getXcSwitch
      * @param string $op
-     * @param array $cases
-     * @param bool $defaultAfterCase
-     * @param bool $default
+     * @param array  $cases
+     * @param bool   $defaultAfterCase
+     * @param bool   $default
      * @param string $t - Indentation
      *
-     * @param bool $isString
-     * @param bool $isConst
+     * @param bool   $isString
+     * @param bool   $isConst
      * @return string
      */
     public function getXcSwitch($op = '', $cases = [], $defaultAfterCase = false, $default = false, $t = '', $isString = true, $isConst = false)
@@ -116,7 +116,7 @@ class CreateXoopsCode
      * @param string $varLeft
      * @param string $handle
      * @param string $var
-     * @param bool $isParam
+     * @param bool   $isParam
      * @param string $t
      *
      * @param string $format
@@ -239,10 +239,10 @@ class CreateXoopsCode
 
     /**
      * @public function getXcMediaUploader
-     * @param $var
-     * @param $dirPath
-     * @param $mimetype
-     * @param $maxsize
+     * @param        $var
+     * @param        $dirPath
+     * @param        $mimetype
+     * @param        $maxsize
      * @param string $t
      * @return string
      */
@@ -368,12 +368,12 @@ class CreateXoopsCode
      */
     public function getXcParentTopicGetVar($lpFieldName, $rpFieldName, $tableName, $tableSoleNameTopic, $tableNameTopic, $fieldNameParent, $t = '')
     {
-        $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $parentTopic  = $pc->getPhpCodeCommentLine('Get', $tableNameTopic . ' Handler', $t . "\t");
-        $parentTopic  .= $this->getXcHandlerLine($tableNameTopic, $t . "\t");
-        $elseGroups   = $this->getXcEqualsOperator('$groups', 'XOOPS_GROUP_ANONYMOUS');
-        $ret          = $pc->getPhpCodeConditions("!isset(\${$tableNameTopic}Handler", '', '', $parentTopic, $elseGroups);
-        $ret          .= $this->getXcGetVarFromID("\${$lpFieldName}['{$rpFieldName}']", $tableNameTopic, $tableSoleNameTopic, $tableName, $fieldNameParent, $t);
+        $pc          = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $parentTopic = $pc->getPhpCodeCommentLine('Get', $tableNameTopic . ' Handler', $t . "\t");
+        $parentTopic .= $this->getXcHandlerLine($tableNameTopic, $t . "\t");
+        $elseGroups  = $this->getXcEqualsOperator('$groups', 'XOOPS_GROUP_ANONYMOUS');
+        $ret         = $pc->getPhpCodeConditions("!isset(\${$tableNameTopic}Handler", '', '', $parentTopic, $elseGroups);
+        $ret         .= $this->getXcGetVarFromID("\${$lpFieldName}['{$rpFieldName}']", $tableNameTopic, $tableSoleNameTopic, $tableName, $fieldNameParent, $t);
 
         return $ret;
     }
@@ -592,10 +592,10 @@ class CreateXoopsCode
      */
     public function getXcUserSaveElements($moduleDirname, $tableName, $tableSoleName, $fields)
     {
-        $axc            = Modulebuilder\Files\Admin\AdminXoopsCode::getInstance();
-        $ret            = '';
-        $fieldMain      = '';
-        $countUploader  = 0;
+        $axc           = Modulebuilder\Files\Admin\AdminXoopsCode::getInstance();
+        $ret           = '';
+        $fieldMain     = '';
+        $countUploader = 0;
         foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -702,7 +702,7 @@ class CreateXoopsCode
      * @param string $permString
      * @param string $mid
      * @param string $var
-     * @param bool $isParam
+     * @param bool   $isParam
      *
      * @param string $t
      * @return string
@@ -719,7 +719,7 @@ class CreateXoopsCode
 
     /**
      * @public function getXcHandlerLine
-     * @param $tableName
+     * @param        $tableName
      * @param string $t
      * @return string
      */
@@ -859,7 +859,6 @@ class CreateXoopsCode
     public function getXcHandlerInsert($left, $var, $obj = '', $handler = 'Handler')
     {
         return "\${$left}{$handler}->insert(\${$var}{$obj})";
-
     }
 
     /**
@@ -967,11 +966,11 @@ class CreateXoopsCode
      */
     public function getXcSecurity($tableName, $t = '')
     {
-        $pc              = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $securityError   = $this->getXcXoopsSecurityErrors();
-        $implode         = $pc->getPhpCodeImplode(',', $securityError);
-        $content         = "{$t}\t" . $this->getXcRedirectHeader($tableName, '', 3, $implode, false, $t);
-        $securityCheck   = $this->getXcXoopsSecurityCheck();
+        $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $securityError = $this->getXcXoopsSecurityErrors();
+        $implode       = $pc->getPhpCodeImplode(',', $securityError);
+        $content       = "{$t}\t" . $this->getXcRedirectHeader($tableName, '', 3, $implode, false, $t);
+        $securityCheck = $this->getXcXoopsSecurityCheck();
 
         return $pc->getPhpCodeConditions('!' . $securityCheck, '', '', $content, $t);
     }
@@ -1182,7 +1181,6 @@ class CreateXoopsCode
         $fieldMain     = '';
         $countUploader = 0;
         foreach (\array_keys($fields) as $f) {
-
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldType    = $fields[$f]->getVar('field_type');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -1273,7 +1271,7 @@ class CreateXoopsCode
             }
             $detail .= '$' . $global;
         }
-       $ret .= $detail . ";\n";
+        $ret .= $detail . ";\n";
 
         return $ret;
     }
@@ -1416,7 +1414,6 @@ class CreateXoopsCode
         return "{$t}\${$varLeft} = new \XoopsGroupPermForm({$formTitle}, {$moduleId}, {$permName}, {$permDesc}, {$filename});\n";
     }
 
-
     /**
      * @public function getXoopsFormSelectExtraOptions
      * @param string $varSelect
@@ -1459,7 +1456,6 @@ class CreateXoopsCode
     /*************************************************************/
     /** other Xoops components */
     /*************************************************************/
-
 
     /**
      * @public function getXcXoopsCPHeader
@@ -1536,7 +1532,7 @@ class CreateXoopsCode
 
     /**
      * @public function getXcXoopsListLangList
-     * @param $return
+     * @param        $return
      * @param string $t
      *
      * @return string
@@ -1548,7 +1544,7 @@ class CreateXoopsCode
 
     /**
      * @public function getXcXoopsListCountryList
-     * @param $return
+     * @param        $return
      * @param string $t
      *
      * @return string
@@ -1684,13 +1680,12 @@ class CreateXoopsCode
         return $ret;
     }
 
-
     /**
      * @public function getXcXoThemeAddStylesheet
      * @param string $style
      *
      * @param string $t
-     * @param bool $isString
+     * @param bool   $isString
      * @return string
      */
     public function getXcXoThemeAddStylesheet($style = 'style', $t = '', $isString = true)
@@ -1749,8 +1744,8 @@ class CreateXoopsCode
      */
     public function getXcCommonPagesEdit($tableName, $ccFieldId, $t = '')
     {
-        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
         $ret = $pc->getPhpCodeCommentLine('Get Form', null, "\t\t");
         $ret .= $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
@@ -1768,8 +1763,8 @@ class CreateXoopsCode
      */
     public function getXcCommonPagesNew($tableName, $t = '')
     {
-        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
         $ret = $pc->getPhpCodeCommentLine('Form Create', null, $t);
         $ret .= $xc->getXcHandlerCreateObj($tableName, $t);
@@ -1783,12 +1778,12 @@ class CreateXoopsCode
      * @public function getXcCommonPagesDelete
      * @param        $language
      * @param        $tableName
-     * @param $tableSoleName
+     * @param        $tableSoleName
      * @param        $fieldId
      * @param        $fieldMain
-     * @param $tableNotifications
+     * @param        $tableNotifications
      * @param string $t
-     * @param bool $admin
+     * @param bool   $admin
      * @return string
      */
     public function getXcCommonPagesDelete($language, $tableName, $tableSoleName, $fieldId, $fieldMain, $tableNotifications, $t = '', $admin = false)
@@ -1797,8 +1792,8 @@ class CreateXoopsCode
         $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $cf = Modulebuilder\Files\CreateFile::getInstance();
 
-        $ccFieldId    = $cf->getCamelCase($fieldId, false, true);
-        $ccFieldMain  = $cf->getCamelCase($fieldMain, false, true);
+        $ccFieldId   = $cf->getCamelCase($fieldId, false, true);
+        $ccFieldMain = $cf->getCamelCase($fieldMain, false, true);
 
         $ret                  = $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
         $ret                  .= $xc->getXcGetVar($ccFieldMain, "{$tableName}Obj", $fieldMain, false, $t);
@@ -1810,7 +1805,7 @@ class CreateXoopsCode
         $redirectHeaderErrors = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t\t");
         $delete               = $xc->getXcHandlerDelete($tableName, $tableName, 'Obj', 'Handler');
         $condition            = $pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectHeaderErrors, false, $t . "\t");
-        $contInsert = '';
+        $contInsert           = '';
         if (!$admin && 1 == $tableNotifications) {
             $contInsert .= $pc->getPhpCodeCommentLine('Event delete notification', null, $t . "\t\t");
             $contInsert .= $pc->getPhpCodeArray('tags', [], false, $t . "\t\t");

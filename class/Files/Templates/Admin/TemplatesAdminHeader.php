@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -35,7 +35,6 @@ class TemplatesAdminHeader extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -89,7 +88,7 @@ class TemplatesAdminHeader extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
 
         $navigation = $this->sc->getSmartySingleVar('navigation');
-        $due        = $this->hc->getHtmlSpan($navigation, 'left', "\t") ;
+        $due        = $this->hc->getHtmlSpan($navigation, 'left', "\t");
         $buttons    = $this->sc->getSmartySingleVar('buttons');
         $right      = $this->hc->getHtmlSpan($buttons, 'left', "\t\t", "\n");
         $due        .= $this->sc->getSmartyConditions('buttons', '', '', $right, '', '', '', "\t", "\n");

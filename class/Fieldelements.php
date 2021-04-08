@@ -17,7 +17,7 @@ use XoopsModules\Modulebuilder;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.5
  *
@@ -43,7 +43,7 @@ class Fieldelements extends \XoopsObject
         $this->initVar('fieldelement_value', XOBJ_DTYPE_TXTBOX);
         $this->initVar('fieldelement_sort', XOBJ_DTYPE_INT);
         $this->initVar('fieldelement_deftype', XOBJ_DTYPE_TXTBOX);
-        $this->initVar('fieldelement_defvalue', XOBJ_DTYPE_INT);
+        $this->initVar('fieldelement_defvalue', XOBJ_DTYPE_TXTBOX);
     }
 
     /**

@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -35,12 +35,10 @@ class AdminBroken extends Files\CreateFile
      * @var mixed
      */
     private $axc = null;
-
     /**
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
@@ -89,8 +87,8 @@ class AdminBroken extends Files\CreateFile
 
     /**
      * @private function getAdminBrokenHeader
-     * @param $moduleDirname
-     * @param $tableName
+     * @param        $moduleDirname
+     * @param        $tableName
      * @param string $t
      * @return string
      */
@@ -112,7 +110,7 @@ class AdminBroken extends Files\CreateFile
 
     /**
      * @private  function getAdminBrokenList
-     * @param $tables
+     * @param        $tables
      * @param        $language
      * @param string $t
      * @return string
@@ -125,16 +123,16 @@ class AdminBroken extends Files\CreateFile
                 $tableName     = $tables[$i]->getVar('table_name');
                 $tableSoleName = $tables[$i]->getVar('table_solename');
                 $ucfTableName  = \ucfirst($tableName);
-                $ret        .= $this->pc->getPhpCodeBlankLine();
-                $ret        .= $this->pc->getPhpCodeCommentLine('Check table', $tableName, $t);
-                $ret        .= $this->xc->getXcXoopsRequest('start', 'start' . $ucfTableName, '0', 'Int', false, $t);
-                $adminpager = $this->xc->getXcGetConfig('adminpager');
-                $ret        .= $this->xc->getXcXoopsRequest('limit', 'limit' . $ucfTableName, $adminpager, 'Int', false, $t);
-                $critName    = 'cr' . $ucfTableName;
+                $ret           .= $this->pc->getPhpCodeBlankLine();
+                $ret           .= $this->pc->getPhpCodeCommentLine('Check table', $tableName, $t);
+                $ret           .= $this->xc->getXcXoopsRequest('start', 'start' . $ucfTableName, '0', 'Int', false, $t);
+                $adminpager    = $this->xc->getXcGetConfig('adminpager');
+                $ret           .= $this->xc->getXcXoopsRequest('limit', 'limit' . $ucfTableName, $adminpager, 'Int', false, $t);
+                $critName      = 'cr' . $ucfTableName;
 
-                $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
-                $fieldId = '';
-                $fieldMain = '';
+                $fields     = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
+                $fieldId    = '';
+                $fieldMain  = '';
                 $fieldSatus = '';
                 foreach (\array_keys($fields) as $f) {
                     $fieldName = $fields[$f]->getVar('field_name');
@@ -158,8 +156,8 @@ class AdminBroken extends Files\CreateFile
                 $sprintf  = $this->pc->getPhpCodeSprintf($language . 'BROKEN_RESULT', "'{$ucfTableName}'");
                 $ret      .= $this->xc->getXcXoopsTplAssign($tableName . '_result', $sprintf, true, $t);
 
-                $ret      .= $this->xc->getXcCriteriaSetStart($critName,'$start', $t);
-                $ret      .= $this->xc->getXcCriteriaSetLimit($critName,'$limit', $t);
+                $ret      .= $this->xc->getXcCriteriaSetStart($critName, '$start', $t);
+                $ret      .= $this->xc->getXcCriteriaSetLimit($critName, '$limit', $t);
                 $contIf   = $this->xc->getXcHandlerAllClear("{$tableName}All", $tableName, "\${$critName}", $t . "\t");
                 $foreach  = $this->xc->getXcEqualsOperator("\${$tableSoleName}['table']", "'{$ucfTableName}'", '', $t . "\t\t");
                 $foreach  .= $this->xc->getXcEqualsOperator("\${$tableSoleName}['key']", "'{$fieldId}'", '', $t . "\t\t");
@@ -189,7 +187,7 @@ class AdminBroken extends Files\CreateFile
      */
     public function render()
     {
-        $tf  = Modulebuilder\Files\CreateFile::getInstance();
+        $tf = Modulebuilder\Files\CreateFile::getInstance();
 
         $module        = $this->getModule();
         $tables        = $this->getTables();

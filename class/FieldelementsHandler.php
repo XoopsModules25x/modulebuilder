@@ -17,7 +17,7 @@ use XoopsModules\Modulebuilder;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.5
  *
@@ -143,7 +143,7 @@ class FieldelementsHandler extends \XoopsPersistableObjectHandler
             if (1 == $i) {
                 $fieldele[$i] = '...';
             } else {
-                $fieldele[$i] = constant ('_AM_MODULEBUILDER_FIELD_ELE_' . $stuFeName);
+                $fieldele[$i] = constant('_AM_MODULEBUILDER_FIELD_ELE_' . $stuFeName);
             }
         }
         return $fieldele;

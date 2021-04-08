@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder;
  * modulebuilderreate module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
  *
@@ -100,7 +100,7 @@ class Fields extends \XoopsObject
      * @private function getHeaderForm
      *
      * @param bool $action
-     * @param $prefix
+     * @param      $prefix
      * @return Modulebuilder\Form\ThemeForm
      */
     private function getHeaderForm($prefix, $action = false)
@@ -151,11 +151,11 @@ class Fields extends \XoopsObject
     {
         $helper = Modulebuilder\Helper::getInstance();
         // Get handler tables
-        $tableObj   = $helper->getHandler('Tables');
+        $tableObj = $helper->getHandler('Tables');
         // Header function class
-        $fieldsForm = self::getInstance();
-        $prefix     = $tableObj->get($fieldTid)->getVar('table_fieldname');
-        $form       = $fieldsForm->getHeaderForm($prefix, $action);
+        $fieldsForm         = self::getInstance();
+        $prefix             = $tableObj->get($fieldTid)->getVar('table_fieldname');
+        $form               = $fieldsForm->getHeaderForm($prefix, $action);
         $tableAutoincrement = $tableObj->get($fieldTid)->getVar('table_autoincrement');
         // Loop for fields number
         $class = 'even';
@@ -182,11 +182,11 @@ class Fields extends \XoopsObject
      */
     private function getFormNewLine($form, $class, $i, $fieldMid, $fieldTid, $fName, $tableAutoincrement)
     {
-        $helper = Modulebuilder\Helper::getInstance();
+        $helper        = Modulebuilder\Helper::getInstance();
         $fieldElements = $helper->getHandler('Fieldelements')->getAll();
         foreach ($fieldElements as $fe) {
             $form->addElement(new \XoopsFormHidden('fe_defaulttype[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_deftype')));
-            $form->addElement(new \XoopsFormHidden('fe_defaultvalue[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_defvalue')));
+            $form->addElement(new \XoopsFormHidden('fe_defaultvalue[' . $fe->getVar('fieldelement_id') . ']', "'" . $fe->getVar('fieldelement_defvalue') . "'"));
         }
         $form->addElement(new \XoopsFormHidden('field_id[' . $i . ']', 0));
         $form->addElement(new \XoopsFormHidden('field_mid', $fieldMid));
@@ -211,7 +211,7 @@ class Fields extends \XoopsObject
             $fieldElementsSelect = new \XoopsFormSelect(_AM_MODULEBUILDER_FIELD_ELEMENT_NAME, 'field_element[' . $i . ']');
             $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getFieldelementsList($crElement));
             $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getList($crTable));
-            $fieldElementsSelect->setExtra(" onchange='presetField(". $i . ")' ");
+            $fieldElementsSelect->setExtra(" onchange='presetField(" . $i . ")' ");
             unset($crElement, $crTable);
             $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldElementsSelect->render() . '</td>'));
             unset($fieldElementsSelect);
@@ -347,7 +347,7 @@ class Fields extends \XoopsObject
         $fieldsForm = self::getInstance();
         $form       = $fieldsForm->getHeaderForm($prefix, $action);
 
-        $class = 'even';
+        $class              = 'even';
         $tableAutoincrement = $tables->getVar('table_autoincrement');
         $fieldNumb          = $tables->getVar('table_nbfields');
         $fName              = $tables->getVar('table_fieldname');
@@ -393,7 +393,7 @@ class Fields extends \XoopsObject
                     $fieldElementsSelect = new \XoopsFormSelect(_AM_MODULEBUILDER_FIELD_ELEMENT_NAME, 'field_element[' . $id . ']', $field->getVar('field_element'));
                     $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getFieldelementsList($crElement));
                     $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getList($crTable));
-                    $fieldElementsSelect->setExtra(" onchange='presetField(". $id . ")' ");
+                    $fieldElementsSelect->setExtra(" onchange='presetField(" . $id . ")' ");
                     unset($crElement, $crTable);
                     $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldElementsSelect->render() . '</td>'));
                     unset($fieldElementsSelect);

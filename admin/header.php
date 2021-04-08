@@ -13,7 +13,7 @@
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -35,7 +35,7 @@ $modPathIcon32 = $GLOBALS['xoopsModule']->getInfo('modicons32');
 //$pathModuleAdmin = $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
 
 /** @var \XoopsModules\Modulebuilder\Helper $helper */
-$helper = \XoopsModules\Modulebuilder\Helper::getInstance();
+$helper  = \XoopsModules\Modulebuilder\Helper::getInstance();
 $utility = new \XoopsModules\Modulebuilder\Utility();
 
 // MyTextSanitizer

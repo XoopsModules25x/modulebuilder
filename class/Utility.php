@@ -23,7 +23,7 @@ namespace XoopsModules\Modulebuilder;
  * @copyright    https://xoops.org 2001-2017 &copy; XOOPS Project
  * @author       ZySpec <owners@zyspec.com>
  * @author       Mamba <mambax7@gmail.com>
- * @since        
+ * @since
  */
 
 use XoopsModules\Modulebuilder;
@@ -35,7 +35,6 @@ use XoopsModules\Modulebuilder\Common;
 class Utility extends Common\SysUtility
 {
     //--------------- Custom module methods -----------------------------
-
     /**
      * @param $about
      * @return string

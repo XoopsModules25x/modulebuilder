@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -123,7 +123,7 @@ EOT;
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         //$language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getTemplatesUserRssXml();
+        $content = $this->getTemplatesUserRssXml();
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 

@@ -17,7 +17,7 @@ use XoopsModules\Modulebuilder;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -34,7 +34,6 @@ class UserXoopsCode
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
@@ -190,15 +189,15 @@ class UserXoopsCode
      */
     public function getUserModVersionArray($eleArray, $descriptions, $name = null, $index = null, $num = false, $t = '')
     {
-        $ret = $t . '$modversion';
+        $ret     = $t . '$modversion';
         $isArray = false;
-        $n = '';
+        $n       = '';
         if (!\is_array($descriptions)) {
             $descs = [$descriptions];
         } else {
-            $descs = $descriptions;
+            $descs   = $descriptions;
             $isArray = true;
-            $n = "\n";
+            $n       = "\n";
         }
         if (0 === $eleArray) {
             $ret .= " = ";
@@ -220,7 +219,7 @@ class UserXoopsCode
         }
 
         foreach ($descs as $key => $desc) {
-            $space = str_repeat (  ' ' , $len - \strlen($key));
+            $space = str_repeat(' ', $len - \strlen($key));
             if ($eleArray < 4) {
                 $ret .= $t . "\t'{$key}'{$space} => {$desc},{$n}";
             } elseif (11 === $eleArray) {
@@ -229,7 +228,6 @@ class UserXoopsCode
                 } else {
                     $ret .= $t . "\t{$desc},{$n}";
                 }
-
             } elseif (12 === $eleArray) {
                 $ret .= $t . "\t{$desc}{$n}";
             }
@@ -245,11 +243,11 @@ class UserXoopsCode
     /**
      * @public function getUserModVersionText
      *
-     * @param int $eleArray
-     * @param $text
-     * @param null $name
-     * @param null $index
-     * @param bool $num
+     * @param int    $eleArray
+     * @param        $text
+     * @param null   $name
+     * @param null   $index
+     * @param bool   $num
      * @param string $t
      *
      * @return string

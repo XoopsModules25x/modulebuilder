@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -35,7 +35,6 @@ class TemplatesAdminFooter extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -90,14 +89,14 @@ class TemplatesAdminFooter extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $supportName   = $module->getVar('mod_support_name');
         $language      = $this->getLanguage($moduleDirname, 'AM');
-        $singleNoVar = $this->sc->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
-        $img         = $this->hc->getHtmlTag('img', ['src' => $singleNoVar, 'alt' => 'XOOPS'], '', true, '','');
-        $anchor      = $this->hc->getHtmlTag('a', ['href' => 'https://xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'], $img) ;
-        $content     = $this->hc->getHtmlTag('div', ['class' => 'center'], "\n\t" . $anchor);
-        $tree        = $this->hc->getHtmlTag('strong', [], $moduleName, false, '', '');
-        $tree        .= $this->sc->getSmartyConst($language, 'MAINTAINEDBY');
-        $tree        .= $this->hc->getHtmlTag('a', ['href' => '<{$maintainedby}>', 'title' => 'Visit ' . $supportName, 'class' => 'tooltip', 'rel' => 'external'], $supportName);
-        $content     .= $this->hc->getHtmlTag('div', ['class' => 'center smallsmall italic pad5'], "\n\t" . $tree);
+        $singleNoVar   = $this->sc->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
+        $img           = $this->hc->getHtmlTag('img', ['src' => $singleNoVar, 'alt' => 'XOOPS'], '', true, '', '');
+        $anchor        = $this->hc->getHtmlTag('a', ['href' => 'https://xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'], $img);
+        $content       = $this->hc->getHtmlTag('div', ['class' => 'center'], "\n\t" . $anchor);
+        $tree          = $this->hc->getHtmlTag('strong', [], $moduleName, false, '', '');
+        $tree          .= $this->sc->getSmartyConst($language, 'MAINTAINEDBY');
+        $tree          .= $this->hc->getHtmlTag('a', ['href' => '<{$maintainedby}>', 'title' => 'Visit ' . $supportName, 'class' => 'tooltip', 'rel' => 'external'], $supportName);
+        $content       .= $this->hc->getHtmlTag('div', ['class' => 'center smallsmall italic pad5'], "\n\t" . $tree);
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 

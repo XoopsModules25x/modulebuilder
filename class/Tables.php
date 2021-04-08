@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
  *
@@ -53,6 +53,7 @@ class Tables extends \XoopsObject
         'print',
         'pdf',
         'rss',
+        'reads',
         //'single',
         //'visit',
     ];
@@ -90,6 +91,7 @@ class Tables extends \XoopsObject
         $this->initVar('table_print', XOBJ_DTYPE_INT);
         $this->initVar('table_pdf', XOBJ_DTYPE_INT);
         $this->initVar('table_rss', XOBJ_DTYPE_INT);
+        $this->initVar('table_reads', XOBJ_DTYPE_INT);
         $this->initVar('table_single', XOBJ_DTYPE_INT);
         $this->initVar('table_visit', XOBJ_DTYPE_INT);
     }
@@ -245,15 +247,15 @@ class Tables extends \XoopsObject
      */
     public function getValuesTables($keys = null, $format = null, $maxDepth = null)
     {
-        $helper    = Modulebuilder\Helper::getInstance();
+        $helper = Modulebuilder\Helper::getInstance();
 
         $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
-        $ret['id']            = $this->getVar('table_id');
-        $ret['mid']           = $this->getVar('table_mid');
-        $modulesObj           = $helper->getHandler('Modules')->get($ret['mid']);
+        $ret['id']  = $this->getVar('table_id');
+        $ret['mid'] = $this->getVar('table_mid');
+        $modulesObj = $helper->getHandler('Modules')->get($ret['mid']);
         if (\is_object($modulesObj)) {
-            $ret['module']           = $modulesObj->getVar('mod_name');
+            $ret['module'] = $modulesObj->getVar('mod_name');
         }
         $ret['name']          = \ucfirst($this->getVar('table_name'));
         $ret['image']         = $this->getVar('table_image');

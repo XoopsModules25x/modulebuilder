@@ -20,26 +20,22 @@ use \XoopsModules\Modulebuilder\Common;
  * @category  Migrate
  * @author    Richard Griffith <richard@geekwright.com>
  * @copyright 2016 XOOPS Project (https://xoops.org)
- * @license   GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license   GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @link      https://xoops.org
  */
-
 class Migrate extends \Xmf\Database\Migrate
 {
     private $renameTables;
 
     /**
-     * Migrate constructor.
-     * @param Common\Configurator $configurator
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @param \XoopsModules\Modulebuilder\Common\Configurator|null $configurator
      */
     public function __construct(Common\Configurator $configurator = null)
     {
         if (null !== $configurator) {
             $this->renameTables = $configurator->renameTables;
 
-            $moduleDirName = \basename(\dirname(\dirname(__DIR__)));
+            $moduleDirName = \basename(\dirname(__DIR__, 2));
             parent::__construct($moduleDirName);
         }
     }

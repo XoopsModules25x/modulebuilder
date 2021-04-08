@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -35,7 +35,6 @@ class TemplatesAdminPermissions extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -86,7 +85,6 @@ class TemplatesAdminPermissions extends Files\CreateFile
      */
     private function getTemplatesAdminPermissionsHeader($moduleDirname)
     {
-
         return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
     }
 

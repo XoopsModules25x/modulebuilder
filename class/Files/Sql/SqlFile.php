@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -179,23 +179,23 @@ class SqlFile extends Files\CreateFile
      */
     private function getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb)
     {
-        $helper        = Modulebuilder\Helper::getInstance();
-        $ret           = null;
-        $j             = 0;
-        $comma         = [];
-        $row           = [];
+        $helper = Modulebuilder\Helper::getInstance();
+        $ret    = null;
+        $j      = 0;
+        $comma  = [];
+        $row    = [];
         //$type          = '';
         $fieldTypeName = '';
-        $fields = $this->getTableFields($tableMid, $tableId, 'field_order ASC, field_id');
+        $fields        = $this->getTableFields($tableMid, $tableId, 'field_order ASC, field_id');
         foreach (\array_keys($fields) as $f) {
             // Creation of database table
             $ret            = $this->getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb);
             $fieldName      = $fields[$f]->getVar('field_name');
             $fieldType      = $fields[$f]->getVar('field_type');
-            $fieldValue     = \str_replace('&#039;','', $fields[$f]->getVar('field_value')); //remove single quotes
+            $fieldValue     = \str_replace('&#039;', '', $fields[$f]->getVar('field_value')); //remove single quotes
             $fieldAttribute = $fields[$f]->getVar('field_attribute');
             $fieldNull      = $fields[$f]->getVar('field_null');
-            $fieldDefault   = \str_replace('&#039;','', $fields[$f]->getVar('field_default')); //remove single quotes
+            $fieldDefault   = \str_replace('&#039;', '', $fields[$f]->getVar('field_default')); //remove single quotes
             $fieldKey       = $fields[$f]->getVar('field_key');
             if ($fieldType > 1) {
                 $fType         = $helper->getHandler('Fieldtype')->get($fieldType);
@@ -354,7 +354,6 @@ class SqlFile extends Files\CreateFile
      */
     private function getTableRatings($moduleDirname)
     {
-
         $row   = [];
         $ret   = $this->getHeadDatabaseTable($moduleDirname, 'ratings', 6);
         $row[] = $this->getFieldRow('rate_id', 'INT(8)', 'UNSIGNED', 'NOT NULL', null, 'AUTO_INCREMENT');

@@ -1,7 +1,7 @@
 <!-- Header -->
 <{includeq file="db:modulebuilder_header.tpl"}>
 <!-- Display tables list -->
-<{if $devtools_list}>
+<{if $devtools_list|default:''}>
     <table class='outer width100'>
         <tr class='even'>
             <th class='center' colspan=2><{$smarty.const._AM_MODULEBUILDER_DEVTOOLS}></th>
@@ -22,7 +22,7 @@
         </tr>
     </table>
 <{/if}>
-<{if $clresults}>
+<{if $clresults|default:''}>
     <div class="row">
         <div class="col-xs-12">
             <h3 class='center'><{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_CL_RESULTS}></h3>
@@ -51,7 +51,7 @@
         </div>
     </div>
 <{/if}>
-<{if $error}>
+<{if $error|default:''}>
     <div class="errorMsg">
         <strong><{$error}></strong>
     </div>

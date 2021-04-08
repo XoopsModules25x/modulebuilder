@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -90,22 +90,26 @@ class LanguageBlocks extends Files\CreateFile
         $ret    .= $this->ld->getDefine($language, 'ALLCAT', 'All Categories');
         foreach (\array_keys($tables) as $t) {
             if (1 === (int)$tables[$t]->getVar('table_blocks')) {
-                $tableName = $tables[$t]->getVar('table_name');
-                $ucfTableName = \ucfirst($tableName);
-                $ret .= $this->ld->getAboveDefines($ucfTableName);
-                $fields = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
-                $stuTableName = \mb_strtoupper($tableName);
-                $ret .= $this->ld->getDefine($language, $stuTableName . '_TO_DISPLAY', $ucfTableName . ' to Display');
-                $ret .= $this->ld->getDefine($language, 'ALL_' . $stuTableName, 'All ' . $ucfTableName);
+                $tableName        = $tables[$t]->getVar('table_name');
+                $tableSoleName    = $tables[$t]->getVar('table_solename');
+                $ucfTableName     = \ucfirst($tableName);
+                $ucfTableSoleName = \ucfirst($tableSoleName);
+                $stuTableName     = \mb_strtoupper($tableName);
+                $stuTableSoleName = \mb_strtoupper($tableSoleName);
+                $ret              .= $this->ld->getAboveDefines($ucfTableName);
+                $fields           = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
+                $ret              .= $this->ld->getDefine($language, $stuTableName . '_TO_DISPLAY', $ucfTableName . ' to Display');
+                $ret              .= $this->ld->getDefine($language, 'ALL_' . $stuTableName, 'All ' . $ucfTableName);
                 foreach (\array_keys($fields) as $f) {
                     if (1 === (int)$fields[$f]->getVar('field_block')) {
-                        $fieldName = $fields[$f]->getVar('field_name');
-                        $stuFieldName = \mb_strtoupper($fieldName);
-                        $rpFieldName = $this->getRightString($fieldName);
+                        $fieldName     = $fields[$f]->getVar('field_name');
+                        $stuFieldName  = \mb_strtoupper($fieldName);
+                        $rpFieldName   = $this->getRightString($fieldName);
                         $fieldNameDesc = \ucfirst($rpFieldName);
-                        $ret .= $this->ld->getDefine($language, $stuFieldName, $fieldNameDesc);
+                        $ret           .= $this->ld->getDefine($language, $stuFieldName, $fieldNameDesc);
                     }
                 }
+                $ret .= $this->ld->getDefine($language, $stuTableSoleName . '_GOTO', 'Goto ' . $ucfTableSoleName);
             }
         }
 

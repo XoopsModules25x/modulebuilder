@@ -39,7 +39,7 @@ function xoops_module_update_modulebuilder($module, $prev_version = null)
     $ret = modulebuilder_check_db($module);
 
     //check upload directory
-	include_once __DIR__ . '/install.php';
+    include_once __DIR__ . '/install.php';
     $ret = xoops_module_install_modulebuilder($module);
 
     $errors = $module->getErrors();
@@ -48,7 +48,6 @@ function xoops_module_update_modulebuilder($module, $prev_version = null)
     }
 
     return $ret;
-
 }
 
 // irmtfan bug fix: solve templates duplicate issue
@@ -113,7 +112,7 @@ function update_modulebuilder_v10($module)
 function modulebuilder_check_db($module)
 {
     $ret = true;
-	//insert here code for database check
+    //insert here code for database check
 
     /*
     // Example: update table (add new field)

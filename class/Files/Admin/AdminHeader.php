@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -120,7 +120,7 @@ class AdminHeader extends Files\CreateFile
         $ret            .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
         $ret            .= $this->pc->getPhpCodeCommentLine();
         $template       = $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/template', true, false, 'include', "\t");
-        $template       .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new \XoopsTpl()', null,"\t");
+        $template       .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new \XoopsTpl()', null, "\t");
         $ret            .= $this->pc->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!\is_object($xoopsTpl)', $template, false);
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->pc->getPhpCodeCommentLine('Load languages');

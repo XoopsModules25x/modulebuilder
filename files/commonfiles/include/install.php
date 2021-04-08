@@ -57,8 +57,7 @@ function xoops_module_install_modulebuilder(\XoopsModule $module)
 {
     require \dirname(__DIR__) . '/preloads/autoloader.php';
 
-    /** @var Modulebuilder\Helper $helper */ 
-    /** @var Modulebuilder\Utility $utility */
+    /** @var Modulebuilder\Helper $helper */ /** @var Modulebuilder\Utility $utility */
     /** @var Common\Configurator $configurator */
     $helper       = Modulebuilder\Helper::getInstance();
     $utility      = new Modulebuilder\Utility();
@@ -71,9 +70,9 @@ function xoops_module_install_modulebuilder(\XoopsModule $module)
 
     //  ---  CREATE FOLDERS ---------------
     if ($configurator->uploadFolders && \is_array($configurator->uploadFolders)) {
-        //    foreach (\array_keys($GLOBALS['uploadFolders']) as $i) {
         foreach (\array_keys($configurator->uploadFolders) as $i) {
             $utility::createFolder($configurator->uploadFolders[$i]);
+            chmod($configurator->uploadFolders[$i], 0777);
         }
     }
 
@@ -84,7 +83,7 @@ function xoops_module_install_modulebuilder(\XoopsModule $module)
             $dest = $configurator->copyBlankFiles[$i] . '/blank.gif';
             $utility::copyFile($file, $dest);
         }
-		$file = \dirname(__DIR__) . '/assets/images/blank.png';
+        $file = \dirname(__DIR__) . '/assets/images/blank.png';
         foreach (\array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
             $utility::copyFile($file, $dest);

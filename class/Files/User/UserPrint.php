@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -35,13 +35,11 @@ class UserPrint extends Files\CreateFile
      * @var mixed
      */
     private $uxc = null;
-
     /**
      * @var mixed
      */
     private $xc = null;
-	
-	/**
+    /**
      * @var mixed
      */
     private $pc = null;
@@ -101,12 +99,12 @@ class UserPrint extends Files\CreateFile
         $tableSoleName    = $table->getVar('table_solename');
         $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
 
-        $fieldId          = '';
-        $fieldMain        = '';
-        $fieldName        = '';
-        $ucfFieldName     = '';
+        $fieldId      = '';
+        $fieldMain    = '';
+        $fieldName    = '';
+        $ucfFieldName = '';
         foreach (\array_keys($fields) as $f) {
-            $fieldName   = $fields[$f]->getVar('field_name');
+            $fieldName = $fields[$f]->getVar('field_name');
             if ((0 == $f) && (1 == $this->table->getVar('table_autoincrement'))) {
                 $fieldId = $fieldName;
             } else {
@@ -128,11 +126,11 @@ class UserPrint extends Files\CreateFile
         $redirectHeader = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}INVALID_PARAM", false, "\t");
         $ret            .= $this->pc->getPhpCodeConditions("empty(\${$ccFieldId})", '', '', $redirectHeader);
 
-        $ret            .= $this->pc->getPhpCodeCommentLine('Get Instance of Handler');
-        $ret            .= $this->xc->getXcHandlerLine($tableName);
-        $ret            .= $this->xc->getXcXoopsHandler('groupperm');
+        $ret .= $this->pc->getPhpCodeCommentLine('Get Instance of Handler');
+        $ret .= $this->xc->getXcHandlerLine($tableName);
+        $ret .= $this->xc->getXcXoopsHandler('groupperm');
 
-        $ret            .= $this->pc->getPhpCodeCommentLine('Verify that the article is published');
+        $ret .= $this->pc->getPhpCodeCommentLine('Verify that the article is published');
         if (false !== mb_strpos($fieldName, 'published')) {
             $ret            .= $this->pc->getPhpCodeCommentLine('Not yet', $fieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
@@ -153,20 +151,20 @@ class UserPrint extends Files\CreateFile
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret            .= $this->pc->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < \time()", '', '', $redirectHeader);
         }
-        $ret            .= $this->xc->getXcHandlerGet($tableName, $ccFieldId, '', $tableName . 'Handler',false);
-        $gperm          = $this->xc->getXcCheckRight('!$grouppermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVar('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
-        $ret            .= $this->pc->getPhpCodeCommentLine('Verify permissions');
-        $noPerm         = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '3', '_NOPERM', false, "\t");
-        $noPerm         .= $this->getSimpleString('exit();', "\t");
-        $ret            .= $this->pc->getPhpCodeConditions($gperm, '', '', $noPerm);
-        $ret            .= $this->xc->getXcGetValues($tableName, $tableSoleName, '', true);
-        $ret            .= $this->xc->getXcXoopsTplAppend($tableName . '_list', '$' . $tableSoleName, '');
-        $ret            .= $this->pc->getPhpCodeBlankLine();
-        $ret            .= $this->xc->getXcXoopsTplAssign('xoops_sitename', "\$GLOBALS['xoopsConfig']['sitename']");
-        $getVar         = $this->xc->getXcGetVar('', $tableName, $fieldMain, true);
-        $stripTags      = $this->pc->getPhpCodeStripTags('', $getVar . " . ' - ' . " . "{$language}PRINT" . " . ' - ' . " . "\$GLOBALS['xoopsModule']->getVar('name')", true);
-        $ret            .= $this->xc->getXcXoopsTplAssign('xoops_pagetitle', $stripTags);
-        $ret            .= $this->xc->getXcXoopsTplDisplay($tableName . '_print.tpl', '', false);
+        $ret       .= $this->xc->getXcHandlerGet($tableName, $ccFieldId, '', $tableName . 'Handler', false);
+        $gperm     = $this->xc->getXcCheckRight('!$grouppermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVar('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
+        $ret       .= $this->pc->getPhpCodeCommentLine('Verify permissions');
+        $noPerm    = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '3', '_NOPERM', false, "\t");
+        $noPerm    .= $this->getSimpleString('exit();', "\t");
+        $ret       .= $this->pc->getPhpCodeConditions($gperm, '', '', $noPerm);
+        $ret       .= $this->xc->getXcGetValues($tableName, $tableSoleName, '', true);
+        $ret       .= $this->xc->getXcXoopsTplAppend($tableName . '_list', '$' . $tableSoleName, '');
+        $ret       .= $this->pc->getPhpCodeBlankLine();
+        $ret       .= $this->xc->getXcXoopsTplAssign('xoops_sitename', "\$GLOBALS['xoopsConfig']['sitename']");
+        $getVar    = $this->xc->getXcGetVar('', $tableName, $fieldMain, true);
+        $stripTags = $this->pc->getPhpCodeStripTags('', $getVar . " . ' - ' . " . "{$language}PRINT" . " . ' - ' . " . "\$GLOBALS['xoopsModule']->getVar('name')", true);
+        $ret       .= $this->xc->getXcXoopsTplAssign('xoops_pagetitle', $stripTags);
+        $ret       .= $this->xc->getXcXoopsTplDisplay($tableName . '_print.tpl', '', false);
 
         return $ret;
     }

@@ -13,7 +13,7 @@
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
  *
@@ -24,8 +24,8 @@
 $moduleDirName      = \basename(__DIR__);
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-$modversion['version']             = 3.04;
-$modversion['module_status']       = 'Final';
+$modversion['version']             = 3.05;
+$modversion['module_status']       = 'RC1';
 $modversion['release_date']        = '2020/11/11';
 $modversion['name']                = _MI_MODULEBUILDER_NAME;
 $modversion['description']         = _MI_MODULEBUILDER_DESC;
@@ -54,7 +54,7 @@ $modversion['targetdir']           = XOOPS_UPLOAD_PATH . "/{$moduleDirName}/repo
 $modversion['module_website_url']  = 'https://github.com/XoopsModules25x/modulebuilder';
 $modversion['module_website_name'] = 'GitHub Xoops';
 $modversion['min_php']             = '7.2';
-$modversion['min_xoops']           = '2.5.11';
+$modversion['min_xoops']           = '2.5.10';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = ['mysql' => '5.5'];
 //about
@@ -136,7 +136,7 @@ $modversion['config'][] = [
     'description' => '_MI_MODULEBUILDER_CONFIG_MIMETYPES_IMAGE_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => 'gif|jpeg|jpg|pjpeg|png',
+    'default'     => 'gif|jpeg|pjpeg|png',
 ];
 
 $modversion['config'][] = [
@@ -436,7 +436,7 @@ $modversion['config'][] = [
     'description' => '_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => 'http://www.gnu.org/licenses/old-licenses/gpl-2.0.html',
+    'default'     => 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html',
 ];
 
 $modversion['config'][] = [

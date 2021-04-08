@@ -15,7 +15,7 @@ namespace XoopsModules\Modulebuilder\Common;
 /**
  * My Module module for xoops
  *
- * @copyright     2020 XOOPS Project (https://xooops.org)
+ * @copyright      2020 XOOPS Project (https://xooops.org)
  * @license        GPL 2.0 or later
  * @package        Modulebuilder
  * @since          1.0
@@ -62,19 +62,20 @@ class XoopsConfirm
     public function getFormXoopsConfirm()
     {
         //in order to be accessable from user and admin area this should be place in language common.php
-        \define('CO__MODULEBUILDER_DELETE_CONFIRM', 'Confirm delete');
-        \define('CO__MODULEBUILDER_DELETE_LABEL', 'Do you really want to delete:');
+        if (!defined('CO_MODULEBUILDER_DELETE_CONFIRM')) {
+            \define('CO_MODULEBUILDER_DELETE_CONFIRM', 'Confirm delete');
+            \define('CO_MODULEBUILDER_DELETE_LABEL', 'Do you really want to delete:');
+        }
 
         // Get Theme Form
         if ('' === $this->action) {
             $this->action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
         if ('' === $this->title) {
-            $this->title = CO__MODULEBUILDER_DELETE_CONFIRM;
+            $this->title = CO_MODULEBUILDER_DELETE_CONFIRM;
         }
         if ('' === $this->label) {
-
-            $this->label = CO__MODULEBUILDER_DELETE_LABEL;
+            $this->label = CO_MODULEBUILDER_DELETE_LABEL;
         }
 
         \xoops_load('XoopsFormLoader');

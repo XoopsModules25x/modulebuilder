@@ -19,7 +19,8 @@
  * @min_xoops      2.5.9
  * @author         XOOPS - Website:<https://xoops.org>
  */
-$moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
+
+$moduleDirName      = \basename(\dirname(__DIR__, 2));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 \define('CO_' . $moduleDirNameUpper . '_' . 'FB_FORM_TITLE', 'Send a feedback');

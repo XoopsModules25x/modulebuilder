@@ -14,7 +14,7 @@
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -106,7 +106,7 @@ switch ($op) {
         if ($tableMid > 0) {
             $tablesObj->setVar('table_mid', $tableMid);
         }
-        $form      = $tablesObj->getFormTables();
+        $form = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'save':
@@ -181,6 +181,7 @@ switch ($op) {
         $tablesObj->setVar('table_print', \in_array('print', $tableOption));
         $tablesObj->setVar('table_pdf', \in_array('pdf', $tableOption));
         $tablesObj->setVar('table_rss', \in_array('rss', $tableOption));
+        $tablesObj->setVar('table_reads', \in_array('reads', $tableOption));
         $tablesObj->setVar('table_single', \in_array('single', $tableOption));
         $tablesObj->setVar('table_visit', \in_array('visit', $tableOption));
 
@@ -195,7 +196,7 @@ switch ($op) {
                 $fieldelementObj->setVar('fieldelement_name', 'Table : ' . \ucfirst(\Xmf\Request::getString('table_name', '', 'POST')));
                 $fieldelementObj->setVar('fieldelement_value', 'XoopsFormTables-' . \ucfirst(\Xmf\Request::getString('table_name', '', 'POST')));
                 $fieldelementObj->setVar('fieldelement_deftype', 2);
-                $fieldelementObj->setVar('fieldelement_defvalue', 10);               
+                $fieldelementObj->setVar('fieldelement_defvalue', 10);
                 // Insert new field element id for table name
                 if (!$helper->getHandler('Fieldelements')->insert($fieldelementObj)) {
                     $GLOBALS['xoopsTpl']->assign('error', $fieldelementObj->getHtmlErrors() . ' Field element');
@@ -272,11 +273,9 @@ switch ($op) {
             }
         } else {
             $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\XoopsConfirm(
-                                        ['ok' => 1, 'table_id' => $tableId, 'table_mid' => $tableMid, 'op' => 'delete'],
-                                        \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'),
-                                        $tablesObj->getVar('table_name')
-                            );
-            $form = $xoopsconfirm->getFormXoopsConfirm();
+                ['ok' => 1, 'table_id' => $tableId, 'table_mid' => $tableMid, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), $tablesObj->getVar('table_name')
+            );
+            $form         = $xoopsconfirm->getFormXoopsConfirm();
             $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }
         break;

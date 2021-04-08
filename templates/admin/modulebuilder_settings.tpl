@@ -1,7 +1,7 @@
 <!-- Header -->
 <{includeq file="db:modulebuilder_header.tpl"}>
 <!-- Display settings list -->
-<{if $settings_list}>
+<{if $settings_list|default:''}>
     <form name="setting">
         <table class='outer width100'>
             <tr>
@@ -54,17 +54,17 @@
     <br/>
     <!-- Display settings navigation <input type='radio' name='settings' value='<{$set.type}>' />-->
     <div class="clear">&nbsp;</div>
-    <{if $pagenav}>
+    <{if $pagenav|default:''}>
         <div class="xo-pagenav floatright"><{$pagenav}></div>
         <div class="clear spacer"></div>
     <{/if}>
 <{else}>
     <!-- Display setting form (add,edit) -->
-    <{if $form}>
+    <{if $form|default:''}>
         <div class="spacer"><{$form}></div>
     <{/if}>
 <{/if}>
-<{if $error}>
+<{if $error|default:''}>
     <div class="errorMsg">
         <strong><{$error}></strong>
     </div>

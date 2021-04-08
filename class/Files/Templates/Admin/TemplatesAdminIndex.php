@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -35,7 +35,6 @@ class TemplatesAdminIndex extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -88,9 +87,9 @@ class TemplatesAdminIndex extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
 
-        $content = $this->hc->getHtmlComment('Header', '', "\n") ;
+        $content = $this->hc->getHtmlComment('Header', '', "\n");
         $content .= $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, true) . PHP_EOL;
-        $content .= $this->hc->getHtmlComment('Index Page', '', "\n") ;
+        $content .= $this->hc->getHtmlComment('Index Page', '', "\n");
         $single  = $this->sc->getSmartySingleVar('index');
         $content .= $this->hc->getHtmlTag('div', ['class' => 'top'], $single) . PHP_EOL;
         $content .= $this->hc->getHtmlComment('Footer', '', "\n");

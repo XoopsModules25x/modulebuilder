@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -43,7 +43,7 @@ class AdminMenu extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
     }
 
     /**
@@ -75,7 +75,7 @@ class AdminMenu extends Files\CreateFile
     /**
      * @private function getAdminMenuArray
      * @param array $param
-     * @param bool $adminObject
+     * @param bool  $adminObject
      * @return string
      */
     private function getAdminMenuArray($param = [], $adminObject = false)
@@ -104,7 +104,7 @@ class AdminMenu extends Files\CreateFile
     private function getAdminMenuHeader()
     {
         $ret = $this->getSimpleString('');
-        $mod     = [
+        $mod = [
             '$dirname      ' => '\basename(\dirname(__DIR__))',
             '$moduleHandler' => "\xoops_getHandler('module')",
             '$xoopsModule  ' => 'XoopsModule::getByDirname($dirname)',
@@ -143,8 +143,8 @@ class AdminMenu extends Files\CreateFile
      */
     private function getAdminMenuList($module, $language, $langAbout, $menu)
     {
-        $ret    = '';
-        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        $ret              = '';
+        $tables           = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $tablePermissions = [];
         $tableBroken      = [];
         foreach (\array_keys($tables) as $t) {

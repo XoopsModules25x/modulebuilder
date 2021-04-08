@@ -13,7 +13,7 @@
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -149,9 +149,12 @@
 \define('_AM_MODULEBUILDER_MODULE_NOTIMPORTANT', "<span style='color: #00FF00;'>Optional - Information</span>");
 \define('_AM_MODULEBUILDER_MODULE_ID', 'Id');
 \define('_AM_MODULEBUILDER_MODULE_NAME', 'Name');
-\define('_AM_MODULEBUILDER_MODULE_NAME_DESC',"The module name can contain spaces and special characters such as accents.<br />An example would be: <b class='red'>My Simple Module</b>");
+\define('_AM_MODULEBUILDER_MODULE_NAME_DESC', "The module name can contain spaces and special characters such as accents.<br />An example would be: <b class='red'>My Simple Module</b>");
 \define('_AM_MODULEBUILDER_MODULE_DIRNAME', 'Directory Name');
-\define('_AM_MODULEBUILDER_MODULE_DIRNAME_DESC', "The module directory can not contain spaces or special characters such as accents.<br />An example would be: <b class='red'>mysimplemodule</b>.<br />In case you write the module directory with uppercase characters, they are replaced automatically with lowercase, and if there are spaces they will also be automatically deleted.");
+\define(
+    '_AM_MODULEBUILDER_MODULE_DIRNAME_DESC',
+    "The module directory can not contain spaces or special characters such as accents.<br />An example would be: <b class='red'>mysimplemodule</b>.<br />In case you write the module directory with uppercase characters, they are replaced automatically with lowercase, and if there are spaces they will also be automatically deleted."
+);
 \define('_AM_MODULEBUILDER_MODULE_VERSION', 'Version');
 \define('_AM_MODULEBUILDER_MODULE_SINCE', 'Since');
 \define('_AM_MODULEBUILDER_MODULE_DESCRIPTION', 'Description');
@@ -215,7 +218,10 @@
 \define('_AM_MODULEBUILDER_TABLE_ORDER', 'Order tables');
 \define('_AM_MODULEBUILDER_TABLE_ORDER_DESC', 'You should order the tables to view them in the right ordered on the menu and index page of your new module');
 \define('_AM_MODULEBUILDER_TABLE_FIELDNAME', 'Prefix Field Name');
-\define('_AM_MODULEBUILDER_TABLE_FIELDNAME_DESC', "This is the prefix of field name (optional)<br />If you leave the field blank, doesn't appear anything in the fields of the next screen,<br />otherwise you'll see all the fields with a prefix type (i.e.: <span class='bold'>cat</span> of table <span class='bold'>categories</span>).<br /><b class='red bold'>WARNING</b>: It's recommended to use singular word");
+\define(
+    '_AM_MODULEBUILDER_TABLE_FIELDNAME_DESC',
+    "This is the prefix of field name (optional)<br />If you leave the field blank, doesn't appear anything in the fields of the next screen,<br />otherwise you'll see all the fields with a prefix type (i.e.: <span class='bold'>cat</span> of table <span class='bold'>categories</span>).<br /><b class='red bold'>WARNING</b>: It's recommended to use singular word"
+);
 \define('_AM_MODULEBUILDER_TABLE_OPTIONS_CHECKS_DESC', 'For each table created during building prcedure the relevant files will be created on behalf of this.<br />Selecting one or more of these options to decide which functions and condition should be implemented in your module for this table.');
 \define('_AM_MODULEBUILDER_TABLE_ALL', 'Check All');
 \define('_AM_MODULEBUILDER_TABLE_IMAGE', 'Table Logo');
@@ -242,9 +248,13 @@
 \define('_AM_MODULEBUILDER_TABLE_PRINT', 'Add in Print file');
 \define('_AM_MODULEBUILDER_TABLE_PDF', 'Add in Pdf file');
 \define('_AM_MODULEBUILDER_TABLE_RSS', 'Add in Rss file');
+\define('_AM_MODULEBUILDER_TABLE_READS', 'Add Counter Reads Function');
 \define('_AM_MODULEBUILDER_TABLE_SINGLE', 'Add in Single file');
 \define('_AM_MODULEBUILDER_TABLE_VISIT', 'Add in Visit file');
-\define('_AM_MODULEBUILDER_TABLE_IMAGE_DESC', "<span class='red bold'>WARNING</span>: If you want to choose a new image, is best to name it with the module name before and follow with the name of the image so as not to overwrite any images with the same name, in the <span class='bold'>Frameworks/moduleclasses/moduleadmin/icons/32/</span>. Otherwise an other solution, would be to insert the images in the module, a new folder is created, with the creation of the same module - <span class='bold'>assets/icons/32</span>.");
+\define(
+    '_AM_MODULEBUILDER_TABLE_IMAGE_DESC',
+    "<span class='red bold'>WARNING</span>: If you want to choose a new image, is best to name it with the module name before and follow with the name of the image so as not to overwrite any images with the same name, in the <span class='bold'>Frameworks/moduleclasses/moduleadmin/icons/32/</span>. Otherwise an other solution, would be to insert the images in the module, a new folder is created, with the creation of the same module - <span class='bold'>assets/icons/32</span>."
+);
 \define('_AM_MODULEBUILDER_TABLE_FORM_CREATED_OK', "The table <b class='green'>%s</b> is successfully created");
 \define('_AM_MODULEBUILDER_TABLE_FORM_UPDATED_OK', "The table <b class='green'>%s</b> is successfully updated");
 \define('_AM_MODULEBUILDER_TABLE_IMAGE_LIST', 'Table Icon');
@@ -285,10 +295,13 @@
 \define('_AM_MODULEBUILDER_FIELD_THEAD', 'User file: in header');
 \define('_AM_MODULEBUILDER_FIELD_TBODY', 'User file: in body');
 \define('_AM_MODULEBUILDER_FIELD_TFOOT', 'User file: in footer');
-\define('_AM_MODULEBUILDER_FIELD_RECOMMENDED', "It is recommended to create following fields:<br>
+\define(
+    '_AM_MODULEBUILDER_FIELD_RECOMMENDED',
+    "It is recommended to create following fields:<br>
 - %s_date:      for sorting items by date it is necessary to have a field, where date of creation/relevant date is stored<br>
 - %s_submitter: for sorting items by submitter it is necessary to have a field, where user of creation is stored<br> 
-- %s_status:    for using e.g. functions for broken items you need a 'Select Status'-field<br><br>");
+- %s_status:    for using e.g. functions for broken items you need a 'Select Status'-field<br><br>"
+);
 \define('_AM_MODULEBUILDER_FIELD_PARENT', 'Field: Is parent');
 \define('_AM_MODULEBUILDER_FIELD_INLIST', 'Admin: Visible in list');
 \define('_AM_MODULEBUILDER_FIELD_INFORM', 'Admin: Visible in form');
@@ -331,11 +344,17 @@
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS1', "The field '%f' in table '%t' have no params selected, but each field must have minimum one parameter");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS2', "The field '%f' in table '%t' should be used on user side: Param '" . _AM_MODULEBUILDER_FIELD_USER . "' is selected, but no selection is made, where it should be shown ('User index:...' or 'User file:...')");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS3', "The field '%f' in table '%t' should be used on user side, but you made multiple decision where ('header' and/or 'body' and/or 'footer'). It is recommended to select only one section per index or item file");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS4', "The table '%t' should contains field in index file on user side, but no selection is made, which fields (field params 'User index:...')");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS5', "The field '%f' in table '%t' should be used in index file on user side, but option 'Add in User Index Files' in table setting is deactivated)");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS6', "The table '%t' should contains field in user file on user side, but no selection is made, which fields (field params 'User file:...')");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS7', "The field '%f' in table '%t' should be used in user file on user side, but option 'Add in User Files' in table setting is deactivated)");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_BLOCK1', "The table '%t' should use block, but no selection is made which fields should be shown in the block");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_BLOCK2', "The table '%t' should use block, but blocks use e.g. function 'new' or 'latest'. For these functions a date field is necessary, but the table doesn't contain any date field");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS1', "The use of comments is activated for tables '%t'. For proper function it is currently only possible to use comments for one table");
-\define('_AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS2', "The table '%t' should use comment functionality, but the table do not have a '%f' field, which is obligatory for this function");
-\define('_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS1', "The table '%t' should use rating functionality, but the table do not have a '%f' field, which is obligatory for this function");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS2', "The table '%t' should use comment functionality, but the table do not have a field of type 'Comments Textbox', which is obligatory for this function");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS1', "The table '%t' should use rating functionality, but the table do not have a field of type 'Ratings Textbox', which is obligatory for this function");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS2', "The table '%t' should use rating functionality, but the table do not have a field of type 'Votes Textbox', which is obligatory for this function");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_READS1', "The table '%t' should use count reads functionality, but the table do not have a field of type 'Reads Textbox', which is obligatory for this function");
 \define('_AM_MODULEBUILDER_BUILDING_RATING', "Copied rating files");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_USERPAGE1', "The table '%t' should use submit or rate or broken functionality, but the table is not selected for user files");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_SQL1', "The field '%f' in table '%t' is type DECIMAL, FLOAT or DOUBLE. The value should be '{digits in total},{digits after the decimal point}', e.g. '16,2'");
@@ -397,6 +416,10 @@
 \define('_AM_MODULEBUILDER_FIELD_ELE_RADIO_2', "Radio Value 2");
 \define('_AM_MODULEBUILDER_FIELD_ELE_TEXTUUID', "UUID Textbox");
 \define('_AM_MODULEBUILDER_FIELD_ELE_TEXTIP', "IP Textbox");
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTCOMMENTS', "Comments Textbox");
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTRATINGS', "Ratings Textbox");
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTVOTES', "Votes Textbox");
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTREADS', "Reads Textbox");
 //
 // ------------------- Misc --------------------------------- //
 \define('_AM_MODULEBUILDER_THEREARE_DATABASE1', "There are <span style='color: #ff0000; font-weight: bold;'>%s</span>");

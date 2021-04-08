@@ -19,7 +19,7 @@ use XoopsModules\Modulebuilder\Files\Templates\User;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -36,7 +36,6 @@ class CategoriesList extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -188,8 +187,8 @@ EOT;
      */
     private function getTemplatesUserCategoriesListTfoot($table)
     {
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $ret       = <<<EOT
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $ret    = <<<EOT
 		<tfoot>
 			<tr>\n
 EOT;
@@ -296,7 +295,7 @@ EOT;
         $filename      = $this->getFileName();
         $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $moduleDirname = $module->getVar('mod_dirname');
-        $content  = '';
+        $content       = '';
         foreach (\array_keys($tables) as $t) {
             $tableId         = $tables[$t]->getVar('table_id');
             $tableMid        = $tables[$t]->getVar('table_mid');

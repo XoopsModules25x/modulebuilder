@@ -13,7 +13,7 @@
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -22,9 +22,10 @@
  */
 
 use XoopsModules\Modulebuilder;
+
 include \dirname(__DIR__) . '/preloads/autoloader.php';
 
-$moduleDirName = \basename(\dirname(__DIR__));
+$moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName); //$capsDirName
 
 \defined('XOOPS_ROOT_PATH') || exit('Restricted access');

@@ -9,11 +9,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -35,7 +36,7 @@ $testdataRestore = Request::getInt('testdata_restore');
 $checkData       = Request::hasVar('check_data');
 $moduleObj       = $helper->getHandler('Modules')->get($mid);
 
-$cachePath       = XOOPS_VAR_PATH . '/caches/modulebuilder_cache_';
+$cachePath = XOOPS_VAR_PATH . '/caches/modulebuilder_cache_';
 if (!\is_dir($cachePath)) {
     if (!\mkdir($cachePath, 0777) && !\is_dir($cachePath)) {
         throw new \RuntimeException(\sprintf('Directory "%s" was not created', $cachePath));
@@ -58,7 +59,7 @@ switch ($op) {
     case 'check_data':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
-        $checkdata    = Modulebuilder\Files\CheckData::getInstance();
+        $checkdata = Modulebuilder\Files\CheckData::getInstance();
 
         // check data for inconsistences
         $checkResults = [];
@@ -84,7 +85,7 @@ switch ($op) {
         //save test data of selected module before building new version
         if (1 === $testdataRestore) {
             // Directories for copy from
-            $fromDir   = XOOPS_ROOT_PATH . '/modules/' . \mb_strtolower($moduleDirname) . '/testdata';
+            $fromDir = XOOPS_ROOT_PATH . '/modules/' . \mb_strtolower($moduleDirname) . '/testdata';
             if (\is_dir($fromDir)) {
                 // Directories for copy to
                 $toDir = TDMC_UPLOAD_TEMP_PATH . '/' . \mb_strtolower($moduleDirname);
@@ -132,14 +133,14 @@ switch ($op) {
         unset($build);
 
         // Get common files
-        $resCommon = $architecture->setCommonFiles($moduleObj);
+        $resCommon     = $architecture->setCommonFiles($moduleObj);
         $build['list'] = _AM_MODULEBUILDER_BUILDING_COMMON;
         $GLOBALS['xoopsTpl']->append('builds', $build);
         unset($build);
 
         // Directory to saved all files
-		$building_directory = \sprintf(_AM_MODULEBUILDER_BUILDING_DIRECTORY, $moduleDirname);
-        
+        $building_directory = \sprintf(_AM_MODULEBUILDER_BUILDING_DIRECTORY, $moduleDirname);
+
         // Copy this module in root modules
         if (1 === $inrootCopy) {
             if (isset($moduleDirname)) {
@@ -152,7 +153,7 @@ switch ($op) {
                 }
             }
             $building->copyDir($fromDir, $toDir);
-			$building_directory .= \sprintf(_AM_MODULEBUILDER_BUILDING_DIRECTORY_INROOT, $toDir);
+            $building_directory .= \sprintf(_AM_MODULEBUILDER_BUILDING_DIRECTORY_INROOT, $toDir);
         }
         if (1 === $testdataRestore) {
             // Directories for copy from to

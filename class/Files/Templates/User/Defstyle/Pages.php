@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -35,7 +35,6 @@ class Pages extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -87,7 +86,7 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesHeader($moduleDirname)
     {
-        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', '','','',"\n\n");
+        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', '', '', '', "\n\n");
     }
 
     /**
@@ -135,15 +134,15 @@ class Pages extends Files\CreateFile
     private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName)
     {
         $single  = $this->sc->getSmartySingleVar('panel_type');
-        $include = $this->sc->getSmartyIncludeFile($moduleDirname, $tableName . '_item', false,false, "\t\t\t\t\t\t", "\n");
+        $include = $this->sc->getSmartyIncludeFile($moduleDirname, $tableName . '_item', false, false, "\t\t\t\t\t\t", "\n");
         $div     = $this->hc->getHtmlDiv($include, 'panel panel-' . $single, "\t\t\t\t\t", "\n");
         $cont    = $this->hc->getHtmlTableData($div, '', '', "\t\t\t\t", "\n", true);
         $html    = $this->hc->getHtmlEmpty('</tr><tr>', "\t\t\t\t\t", "\n");
-        $cont    .= $this->sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html, '', '', '',"\t\t\t\t");
-        $foreach = $this->sc->getSmartyForeach($tableSoleName, $tableName, $cont,'','',"\t\t\t\t");
-        $tr      = $this->hc->getHtmlTableRow($foreach,'',"\t\t\t");
+        $cont    .= $this->sc->getSmartyConditions('smarty.foreach.' . $tableSoleName . '.iteration', ' is div by ', '$divideby', $html, '', '', '', "\t\t\t\t", "\n", true, false);
+        $foreach = $this->sc->getSmartyForeach($tableSoleName, $tableName, $cont, $tableSoleName, '', "\t\t\t\t");
+        $tr      = $this->hc->getHtmlTableRow($foreach, '', "\t\t\t");
 
-        return $this->hc->getHtmlTableTbody($tr,'',"\t\t");
+        return $this->hc->getHtmlTableTbody($tr, '', "\t\t");
     }
 
     /**
@@ -172,7 +171,7 @@ class Pages extends Files\CreateFile
         $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language);
         $div   = $this->hc->getHtmlDiv($table, 'table-responsive');
 
-        return $this->sc->getSmartyConditions($tableName . 'Count', ' > ', '0', $div, false, false, true);
+        return $this->sc->getSmartyConditions($tableName . 'Count', ' > ', '0', $div, false, false, true, '', "\n", true, 'int');
     }
 
     /**
@@ -182,7 +181,7 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesForm($t = "\t")
     {
-        $var  = $this->sc->getSmartySingleVar('form', $t, "\n");
+        $var = $this->sc->getSmartySingleVar('form', $t, "\n");
 
         return $this->sc->getSmartyConditions('form', '', '', $var, false, false, true);
     }
@@ -194,7 +193,7 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesError($t = "\t")
     {
-        $var  = $this->sc->getSmartySingleVar('error', $t, "\n");
+        $var = $this->sc->getSmartySingleVar('error', $t, "\n");
 
         return $this->sc->getSmartyConditions('error', '', '', $var, false, false, true);
     }

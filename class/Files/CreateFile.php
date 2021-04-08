@@ -17,7 +17,7 @@ use XoopsModules\Modulebuilder;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -35,53 +35,44 @@ class CreateFile extends CreateTableFields
      * @var mixed
      */
     private $xf = null;
-
     /**
      * "fileName" attribute of the files.
      *
      * @var mixed
      */
     private $fileName = null;
-
     /**
      * "subdir" attribute of the directories.
      *
      * @var string
      */
     private $subdir = null;
-
     /**
      * "uploadPath" attribute of the files.
      *
      * @var string
      */
     private $uploadPath = null;
-
     /**
      * @var string
      */
     private $content = null;
-
     /**
      * @var mixed
      */
     private $created = null;
-
     /**
      * @var mixed
      */
     private $notCreated = null;
-
     /**
      * @var string
      */
     private $mode = null;
-
     /**
      * @var mixed
      */
     protected $phpcode = null;
-
     /**
      * @var mixed
      */
@@ -472,13 +463,13 @@ class CreateFile extends CreateTableFields
      */
     public function getHeaderFilesComments($module, $noPhpFile = null, $namespace = '')
     {
-        $pc               = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $name             = $module->getVar('mod_name');
-        $dirname          = $module->getVar('mod_dirname');
+        $pc      = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $name    = $module->getVar('mod_name');
+        $dirname = $module->getVar('mod_dirname');
         //$version          = $module->getVar('mod_version');
-        $since            = $module->getVar('mod_since');
-        $minXoops         = $module->getVar('mod_min_xoops');
-        $author           = $module->getVar('mod_author');
+        $since    = $module->getVar('mod_since');
+        $minXoops = $module->getVar('mod_min_xoops');
+        $author   = $module->getVar('mod_author');
         //$credits          = $module->getVar('mod_credits');
         $authorMail       = $module->getVar('mod_author_mail');
         $authorWebsiteUrl = $module->getVar('mod_author_website_url');
@@ -487,13 +478,13 @@ class CreateFile extends CreateTableFields
         //$date             = date('D Y-m-d H:i:s');
         if (null === $noPhpFile) {
             $ret = "<?php";
+            $ret .= "\n\ndeclare(strict_types=1);\n";
         } elseif (\is_string($noPhpFile)) {
             $ret = $noPhpFile;
         } else {
             $ret = '';
         }
         $ret .= "\n{$namespace}/*\n";
-
 
         $filename = TDMC_CLASS_PATH . '/Files/Docs/license.txt';
         $handle   = fopen($filename, 'rb');
@@ -510,7 +501,7 @@ class CreateFile extends CreateTableFields
             '@since    '    => "     {$since}",
             '@min_xoops   ' => "  {$minXoops}",
             '@author    '   => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
-//            '@version    '  => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$",
+            //            '@version    '  => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$",
         ];
         $ret       .= $pc->getPhpCodeCommentMultiLine($copyright);
 

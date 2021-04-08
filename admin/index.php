@@ -14,7 +14,7 @@
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -49,13 +49,6 @@ $folder = [
     TDMC_UPLOAD_IMGTAB_PATH,
 ];
 
-// Uploads Folders Created
-//foreach (\array_keys($folder) as $i) {
-//    $utility::createFolder($folder[$i]);
-//    $adminObject->addConfigBoxLine($folder[$i], 'folder');
-//    $adminObject->addConfigBoxLine([$folder[$i], '777'], 'chmod');
-//}
-
 //------ check Upload Folders ---------------
 
 $adminObject->addConfigBoxLine('');
@@ -64,11 +57,6 @@ $redirectFile = $_SERVER['SCRIPT_NAME'];
 foreach (\array_keys($folder) as $i) {
     $adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($folder[$i], 0777, $redirectFile));
 }
-
-//foreach ($pathArray as $path) {
-//    $adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path['dir'], $path['perm'], $languageConstants, $path['action']));
-//}
-
 
 $adminObject->displayNavigation(\basename(__FILE__));
 
@@ -83,7 +71,7 @@ if ($helper->getConfig('displaySampleButton')) {
         \xoops_loadLanguage('admin/modulesadmin', 'system');
         require __DIR__ . '/../testdata/index.php';
 
-        $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=load', 'add');
+        $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=load', 'add');
         $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=save', 'add');
         //    $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA'), '__DIR__ . /../../testdata/index.php?op=exportschema', 'add');
         $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'HIDE_SAMPLEDATA_BUTTONS'), '?op=hide_buttons', 'delete');
@@ -140,10 +128,6 @@ switch ($op) {
 }
 
 echo $utility::getServerStats();
-
-
-
-
 
 //$GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('index.php'));
 //$GLOBALS['xoopsTpl']->assign('index', $adminObject->displayIndex());

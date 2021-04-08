@@ -3,7 +3,9 @@
 namespace XoopsModules\Modulebuilder\Files\Admin;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\{Files,
+    Constants
+};
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -18,7 +20,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -35,12 +37,10 @@ class AdminPages extends Files\CreateFile
      * @var mixed
      */
     private $axc = null;
-
     /**
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
@@ -223,24 +223,24 @@ class AdminPages extends Files\CreateFile
      * @param        $fields
      * @param        $fieldId
      * @param        $fieldMain
-     * @param $tablePerms
+     * @param        $tablePerms
      * @param string $t
      * @return string
      */
     private function getAdminPagesSave($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldMain, $tablePerms, $t = '')
     {
         $ccFieldId          = $this->getCamelCase($fieldId, false, true);
-        $ret                = $this->pc->getPhpCodeCommentLine('Security Check','',  $t);
+        $ret                = $this->pc->getPhpCodeCommentLine('Security Check', '', $t);
         $xoopsSecurityCheck = $this->xc->getXcXoopsSecurityCheck('!');
         $securityError      = $this->xc->getXcXoopsSecurityErrors();
         $implode            = $this->pc->getPhpCodeImplode(',', $securityError);
         $redirectError      = $this->xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t");
         $ret                .= $this->pc->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, $t);
 
-        $contentIf   = $this->xc->getXcHandlerGetObj($tableName, $ccFieldId,  $t . "\t");
-        $contentElse = $this->xc->getXcHandlerCreateObj($tableName, $t . "\t");
-        $ret         .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $contentIf, $contentElse, $t);
-        $ret         .= $this->pc->getPhpCodeCommentLine('Set Vars', null, $t);
+        $contentIf     = $this->xc->getXcHandlerGetObj($tableName, $ccFieldId, $t . "\t");
+        $contentElse   = $this->xc->getXcHandlerCreateObj($tableName, $t . "\t");
+        $ret           .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $contentIf, $contentElse, $t);
+        $ret           .= $this->pc->getPhpCodeCommentLine('Set Vars', null, $t);
         $countUploader = 0;
         foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
@@ -251,37 +251,37 @@ class AdminPages extends Files\CreateFile
             }
             if ($f > 0) { // If we want to hide field id
                 switch ($fieldElement) {
-                    case 5:
-                    case 6:
+                    case Constants::FIELD_ELE_CHECKBOX:
+                    case Constants::FIELD_ELE_RADIOYN:
                         $ret .= $this->xc->getXcSetVarCheckBoxOrRadioYN($tableName, $fieldName, $t);
                         break;
-                    case 10:
+                    case Constants::FIELD_ELE_IMAGELIST:
                         $ret .= $this->axc->getAxcSetVarImageList($tableName, $fieldName, $t, $countUploader);
                         $countUploader++;
                         break;
-                    case 11:
+                    case Constants::FIELD_ELE_SELECTFILE:
                         $ret .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
-                    case 12:
+                    case Constants::FIELD_ELE_URLFILE:
                         $ret .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, true, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
-                    case 13:
+                    case Constants::FIELD_ELE_UPLOADIMAGE:
                         $ret .= $this->axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
                         $countUploader++;
                         break;
-                    case 14:
+                    case Constants::FIELD_ELE_UPLOADFILE:
                         $ret .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
-                    case 15:
+                    case Constants::FIELD_ELE_TEXTDATESELECT:
                         $ret .= $this->xc->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t);
                         break;
-                    case 17:
+                    case Constants::FIELD_ELE_PASSWORD:
                         $ret .= $this->axc->getAxcSetVarPassword($tableName, $fieldName, $t);
                         break;
-                    case 21:
+                    case Constants::FIELD_ELE_DATETIME:
                         $ret .= $this->xc->getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     default:
@@ -307,7 +307,7 @@ class AdminPages extends Files\CreateFile
         if ($countUploader > 0) {
             $errIf         = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=edit&{$fieldId}=' . \${$ccFieldId}", '', '5', '$uploaderErrors', false, $t . "\t\t");
             $errElse       = $this->xc->getXcRedirectHeader($tableName, '?op=list', '2', "{$language}FORM_OK", true, $t . "\t\t");
-            $contentInsert .= $this->pc->getPhpCodeConditions('$uploaderErrors', ' !== ',"''" , $errIf, $errElse, $t . "\t");
+            $contentInsert .= $this->pc->getPhpCodeConditions('$uploaderErrors', ' !== ', "''", $errIf, $errElse, $t . "\t");
         } else {
             $contentInsert .= $this->xc->getXcRedirectHeader($tableName . '', '?op=list', '2', "{$language}FORM_OK", true, $t . "\t");
         }
@@ -332,11 +332,11 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, $t = '')
     {
-        $tableName         = $table->getVar('table_name');
-        $tableSoleName     = $table->getVar('table_solename');
-        $stuTableName      = \mb_strtoupper($tableName);
-        $stuTableSoleName  = \mb_strtoupper($tableSoleName);
-        $ccFieldId         = $this->getCamelCase($fieldId, false, true);
+        $tableName        = $table->getVar('table_name');
+        $tableSoleName    = $table->getVar('table_solename');
+        $stuTableName     = \mb_strtoupper($tableName);
+        $stuTableSoleName = \mb_strtoupper($tableSoleName);
+        $ccFieldId        = $this->getCamelCase($fieldId, false, true);
 
         $ret        = $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
         $navigation = $this->axc->getAdminDisplayNavigation($tableName);
@@ -360,7 +360,7 @@ class AdminPages extends Files\CreateFile
      * @param        $language
      * @param        $fieldId
      * @param        $fieldMain
-     * @param $tableNotifications
+     * @param        $tableNotifications
      * @param string $t
      * @return string
      */

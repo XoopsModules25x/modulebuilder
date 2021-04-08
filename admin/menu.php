@@ -14,13 +14,15 @@
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
+use Xmf\Module\Admin;
+
 include \dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName      = \basename(\dirname(__DIR__));
@@ -32,8 +34,9 @@ $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');
 
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
-if (\is_object($helper->getModule())) {
-    //    $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
+$pathModIcon32 = XOOPS_URL .   '/modules/' . $moduleDirName . '/assets/images/icons/32/';
+if (is_object($helper->getModule()) && false !== $helper->getModule()->getInfo('modicons32')) {
+    $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
 }
 
 $moduleHandler = \xoops_getHandler('module');

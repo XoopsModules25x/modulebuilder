@@ -17,7 +17,7 @@ use XoopsModules\Modulebuilder;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -162,16 +162,16 @@ class ClassXoopsCode
      *
      * @param        $var
      * @param string $param1
-     * @param null $param2
-     * @param bool $isParam
+     * @param null   $param2
+     * @param bool   $isParam
      * @param string $t
      *
-     * @param bool $useParam
+     * @param bool   $useParam
      * @return string
      */
     public function getClassXoopsFormLabel($var, $param1 = '', $param2 = null, $isParam = false, $t = "\t\t", $useParam = false)
     {
-        $label  = 'new \XoopsFormLabel(';
+        $label = 'new \XoopsFormLabel(';
         if (false === $useParam) {
             $params = null != $param2 ? "{$param1}, {$param2}" : $param1;
         } else {
@@ -216,11 +216,11 @@ class ClassXoopsCode
      * @param        $var
      * @param        $param1
      * @param        $param2
-     * @param bool $isForm
-     * @param bool $isParam
+     * @param bool   $isForm
+     * @param bool   $isParam
      * @param string $t
      *
-     * @param bool $useParam
+     * @param bool   $useParam
      * @return string
      */
     public function getClassXoopsFormHidden($var, $param1, $param2, $isForm = false, $isParam = false, $t = "\t\t", $useParam = false)
@@ -588,7 +588,7 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormPassword($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
     {
-        $tpassword                = 'new \XoopsFormPassword(';
+        $tpassword      = 'new \XoopsFormPassword(';
         $getVarPassword = Modulebuilder\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param3, true);
         if (false === $isParam) {
             $ret = "{$t}\${$var} = {$tpassword}{$param1}, '{$param2}', '', {$getVarPassword});\n";
