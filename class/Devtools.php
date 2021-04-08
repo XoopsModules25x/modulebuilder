@@ -23,7 +23,7 @@ namespace XoopsModules\Modulebuilder;
  * @copyright    https://xoops.org 2001-2017 &copy; XOOPS Project
  * @author       ZySpec <owners@zyspec.com>
  * @author       Mamba <mambax7@gmail.com>
- * @since
+ * @since        
  */
 
 use XoopsModules\Modulebuilder;
@@ -33,8 +33,14 @@ use XoopsModules\Modulebuilder;
  */
 class Devtools
 {
-    public static function function_qualifier($src_path, $dst_path, $moduleName)
-    {
+    /* function to add function qualifier to module */
+    /**
+     * @param $src_path
+     * @param $dst_path
+     * @param $moduleName
+     */
+    public static function function_qualifier($src_path, $dst_path, $moduleName) {
+
         $functions = [];
         $constants = [];
 
@@ -175,32 +181,34 @@ class Devtools
         $moduleNameUpper = \mb_strtoupper($moduleName);
         // module language defines
         $constants[] = [
-            '_AM_' . $moduleNameUpper . '_',
-            '_MI_' . $moduleNameUpper . '_',
-            '_MB_' . $moduleNameUpper . '_',
-            '_MA_' . $moduleNameUpper . '_',
+            '_AM_' . $moduleNameUpper .'_',
+            '_MI_' . $moduleNameUpper .'_',
+            '_MB_' . $moduleNameUpper .'_',
+            '_MA_' . $moduleNameUpper .'_',
         ];
 
         // repair known errors
         $errors = [
-            'strto\time('                     => 'strtotime(',
-            'mb_\strlen('                     => 'mb_strlen(',
-            'mb_\substr('                     => 'mb_substr(',
-            'x\copy'                          => 'xcopy',
-            'r\rmdir'                         => 'rrmdir',
-            'r\copy'                          => 'rcopy',
-            'r\trim'                          => 'rtrim',
-            'l\trim'                          => 'ltrim',
-            '\dirname()'                      => 'dirname()',
-            'assw\ord'                        => 'assword',
-            'mb_\strpos'                      => 'mb_strpos',
-            'image\copy('                     => 'imagecopy(',
-            '<{if \count('                    => '<{if count(',
-            'define(\_'                       => 'define(_',
-            "'\_AM_" . $moduleNameUpper . '_' => "'_AM_" . $moduleNameUpper . '_',
-            "'\_MI_" . $moduleNameUpper . '_' => "'_MI_" . $moduleNameUpper . '_',
-            "'\_MB_" . $moduleNameUpper . '_' => "'_MB_" . $moduleNameUpper . '_',
-            "'\_MA_" . $moduleNameUpper . '_' => "'_MA_" . $moduleNameUpper . '_',
+            'substr_\count('   => 'substr_count(',
+            'micro\time('   => 'microtime(',
+            'strto\time('   => 'strtotime(',
+            'mb_\strlen('   => 'mb_strlen(',
+            'mb_\substr('   => 'mb_substr(',
+            'x\copy'        => 'xcopy',
+            'r\rmdir'       => 'rrmdir',
+            'r\copy'        => 'rcopy',
+            'r\trim'        => 'rtrim',
+            'l\trim'        => 'ltrim',
+            '\dirname()'    => 'dirname()',
+            'assw\ord'      => 'assword',
+            'mb_\strpos'    => 'mb_strpos',
+            'image\copy('   => 'imagecopy(',
+            '<{if \count('  => '<{if count(',
+            'define(\_'     => 'define(_',
+            "'\_AM_" . $moduleNameUpper .'_' => "'_AM_" . $moduleNameUpper .'_',
+            "'\_MI_" . $moduleNameUpper .'_' => "'_MI_" . $moduleNameUpper .'_',
+            "'\_MB_" . $moduleNameUpper .'_' => "'_MB_" . $moduleNameUpper .'_',
+            "'\_MA_" . $moduleNameUpper .'_' => "'_MA_" . $moduleNameUpper .'_',
         ];
 
         $patterns = [];
@@ -217,7 +225,7 @@ class Devtools
         foreach ($constants as $constant) {
             //reset existing in order to avoid double \\
             foreach ($constant as $item) {
-                $patterns['\\' . $item] = $item;
+                $patterns['\\' . $item ] = $item;
             }
             //apply now for all
             foreach ($constant as $item) {
@@ -233,30 +241,43 @@ class Devtools
         $patKeys   = \array_keys($patterns);
         $patValues = \array_values($patterns);
         Devtools::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues);
+
+    }
+
+    /* function to add function qualifier to module */
+    /**
+     * @param $src_path
+     * @param $dst_path
+     * @param $moduleName
+     */
+    public static function function_tabreplacer($src_path, $dst_path) {
+        $patKeys   = [];
+        $patValues = [];
+        Devtools::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues, true);
     }
 
     // recursive cloning script
-
     /**
-     * @param       $src_path
-     * @param       $dst_path
+     * @param $src_path
+     * @param $dst_path
      * @param array $patKeys
      * @param array $patValues
+     * @param bool  $replaceTabs
      */
-    public static function cloneFileFolder($src_path, $dst_path, $patKeys = [], $patValues = [])
+    public static function cloneFileFolder($src_path, $dst_path, $patKeys = [], $patValues =[], $replaceTabs = false)
     {
         // open the source directory
         $dir = \opendir($src_path);
         // Make the destination directory if not exist
         @\mkdir($dst_path);
         // Loop through the files in source directory
-        while ($file = \readdir($dir)) {
-            if (($file != '.') && ($file != '..')) {
-                if (\is_dir($src_path . '/' . $file)) {
+        while( $file = \readdir($dir) ) {
+            if (( $file != '.' ) && ( $file != '..' )) {
+                if ( \is_dir($src_path . '/' . $file) ) {
                     // Recursively calling custom copy function for sub directory
-                    Devtools::cloneFileFolder($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues);
+                    Devtools::cloneFileFolder($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs);
                 } else {
-                    Devtools::cloneFile($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues);
+                    Devtools::cloneFile($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs);
                 }
             }
         }
@@ -264,31 +285,37 @@ class Devtools
     }
 
     /**
-     * @param       $src_file
-     * @param       $dst_file
+     * @param $src_file
+     * @param $dst_file
      * @param array $patKeys
      * @param array $patValues
+     * @param array $patValues
+     * @param bool  $replaceTabs
      */
-    private static function cloneFile($src_file, $dst_file, $patKeys = [], $patValues = [])
+    private static function cloneFile($src_file, $dst_file, $patKeys = [], $patValues =[], $replaceTabs = false)
     {
-        $replace_code     = false;
+        $replace_code = false;
         $changeExtensions = ['php'];
         if (\in_array(\mb_strtolower(\pathinfo($src_file, PATHINFO_EXTENSION)), $changeExtensions)) {
             $replace_code = true;
         }
-        if (\strpos($dst_file, basename(__FILE__)) > 0) {
+        if (\strpos( $dst_file, basename(__FILE__)) > 0) {
             //skip myself
             $replace_code = false;
         }
         if ($replace_code) {
             // file, read it and replace text
             $content = \file_get_contents($src_file);
-            $content = \str_replace($patKeys, $patValues, $content);
+            if ($replaceTabs) {
+                $content = \preg_replace("/[\t]+/", "    ", $content);
+            } else {
+                $content = \str_replace($patKeys, $patValues, $content);
+            }
             //check file name whether it contains replace code
             $path_parts = \pathinfo($dst_file);
-            $path       = $path_parts['dirname'];
-            $file       = $path_parts['basename'];
-            $dst_file   = $path . '/' . \str_replace($patKeys, $patValues, $file);
+            $path = $path_parts['dirname'];
+            $file =  $path_parts['basename'];
+            $dst_file = $path . '/' . \str_replace($patKeys, $patValues, $file);
             \file_put_contents($dst_file, $content);
         } else {
             \copy($src_file, $dst_file);
@@ -298,7 +325,7 @@ class Devtools
     /**
      * get form with all existing modules
      * @param bool $action
-     * @return \XoopsThemeForm
+     * @return \XoopsSimpleForm
      */
     public static function getFormModulesFq($action = false)
     {
@@ -309,14 +336,14 @@ class Devtools
         \xoops_load('XoopsFormLoader');
         $form = new \XoopsSimpleForm('', 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        // Form Table projects
-        $resPro_idSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_DEVTOOLS_FQ_MODULE, 'fq_module', '');
-        $modulesArr      = \XoopsLists::getModulesList();
-        $resPro_idSelect->addOption('', ' ');
+        // Form Select Module
+        $modulesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_DEVTOOLS_FQ_MODULE, 'fq_module', '');
+        $modulesArr   = \XoopsLists::getModulesList();
+        $modulesSelect->addOption('', ' ');
         foreach ($modulesArr as $mod) {
-            $resPro_idSelect->addOption($mod, $mod);
+            $modulesSelect->addOption($mod, $mod);
         }
-        $form->addElement($resPro_idSelect, true);
+        $form->addElement($modulesSelect, true);
         // To Save
         $form->addElement(new \XoopsFormHidden('op', 'fq'));
         $form->addElement(new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false));
@@ -327,7 +354,7 @@ class Devtools
     /**
      * get form with all existing modules
      * @param bool $action
-     * @return \XoopsThemeForm
+     * @return \XoopsSimpleForm
      */
     public static function getFormModulesCl($action = false)
     {
@@ -338,16 +365,45 @@ class Devtools
         \xoops_load('XoopsFormLoader');
         $form = new \XoopsSimpleForm('', 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        // Form Table projects
-        $resPro_idSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_DEVTOOLS_CL_MODULE, 'cl_module', '');
-        $modulesArr      = \XoopsLists::getModulesList();
-        $resPro_idSelect->addOption('', ' ');
+        // Form Select Module
+        $modulesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_DEVTOOLS_CL_MODULE, 'cl_module', '');
+        $modulesArr   = \XoopsLists::getModulesList();
+        $modulesSelect->addOption('', ' ');
         foreach ($modulesArr as $mod) {
-            $resPro_idSelect->addOption($mod, $mod);
+            $modulesSelect->addOption($mod, $mod);
         }
-        $form->addElement($resPro_idSelect, true);
+        $form->addElement($modulesSelect, true);
         // To Save
         $form->addElement(new \XoopsFormHidden('op', 'check_lang'));
+        $form->addElement(new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false));
+
+        return $form;
+    }
+
+    /**
+     * get form with all existing modules
+     * @param bool $action
+     * @return \XoopsSimpleForm
+     */
+    public static function getFormModulesTab($action = false)
+    {
+        if (!$action) {
+            $action = $_SERVER['REQUEST_URI'];
+        }
+        // Get Theme Form
+        \xoops_load('XoopsFormLoader');
+        $form = new \XoopsSimpleForm('', 'form', $action, 'post', true);
+        $form->setExtra('enctype="multipart/form-data"');
+        // Form Select Module
+        $modulesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_DEVTOOLS_TAB_MODULE, 'tab_module', '');
+        $modulesArr   = \XoopsLists::getModulesList();
+        $modulesSelect->addOption('', ' ');
+        foreach ($modulesArr as $mod) {
+            $modulesSelect->addOption($mod, $mod);
+        }
+        $form->addElement($modulesSelect, true);
+        // To Save
+        $form->addElement(new \XoopsFormHidden('op', 'tab_replacer'));
         $form->addElement(new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false));
 
         return $form;

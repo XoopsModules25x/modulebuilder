@@ -5,6 +5,7 @@ namespace XoopsModules\Modulebuilder\Files\Blocks;
 use XoopsModules\Modulebuilder;
 use XoopsModules\Modulebuilder\Files;
 
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -31,10 +32,12 @@ use XoopsModules\Modulebuilder\Files;
  */
 class BlocksFiles extends Files\CreateFile
 {
+
     /**
      * @var mixed
      */
     private $xc = null;
+
     /**
      * @var mixed
      */
@@ -51,7 +54,7 @@ class BlocksFiles extends Files\CreateFile
         $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
     }
 
-    /**
+        /**
      * @static function getInstance
      * @param null
      * @return BlocksFiles
@@ -96,16 +99,16 @@ class BlocksFiles extends Files\CreateFile
         $ucfTableName     = \ucfirst($tableName);
         $critName         = 'cr' . $ucfTableName;
 
-        $ret = $this->pc->getPhpCodeCommentMultiLine(['Function' => 'show block', '@param  $options' => '', '@return' => 'array']);
+        $ret  = $this->pc->getPhpCodeCommentMultiLine(['Function' => 'show block', '@param  $options' => '', '@return' => 'array']);
 
-        $func = $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/class/{$tableName}.php'", '', true, true, '', "\t");
-        $func .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', '', "\t");
-        $func .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL", '', "\t");
-        $func .= $this->xc->getXcEqualsOperator('$block      ', '[]', '', "\t");
-        $func .= $this->xc->getXcEqualsOperator('$typeBlock  ', '$options[0]', '', "\t");
-        $func .= $this->xc->getXcEqualsOperator('$limit      ', '$options[1]', '', "\t");
-        $func .= $this->xc->getXcEqualsOperator('$lenghtTitle', '$options[2]', '', "\t");
-        $func .= $this->xc->getXcEqualsOperator('$helper     ', 'Helper::getInstance()', '', "\t");
+        $func = $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true, '', "\t");
+        $func .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', '',"\t");
+        $func .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url","{$stuModuleDirname}_UPLOAD_URL",'',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$block      ', '[]', '',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$typeBlock  ', '$options[0]','',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$limit      ', '$options[1]','',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$lenghtTitle', '$options[2]','',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$helper     ', 'Helper::getInstance()','',"\t");
         $func .= $this->xc->getXcHandlerLine($tableName, "\t");
         $func .= $this->xc->getXcCriteriaCompo($critName, "\t");
         $func .= $this->pc->getPhpCodeArrayShift('$options', "\t");
@@ -141,8 +144,8 @@ class BlocksFiles extends Files\CreateFile
                 }
             }
             if ('' !== $fieldStatus) {
-                $constant   = $this->xc->getXcGetConstants('PERM_GLOBAL_VIEW');
-                $crit       = $this->xc->getXcCriteria('', "'{$fieldStatus}'", $constant, "'>'", true);
+                $constant = $this->xc->getXcGetConstants('PERM_GLOBAL_VIEW');
+                $crit = $this->xc->getXcCriteria('', "'{$fieldStatus}'", $constant, "'>'", true);
                 $critStatus .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t\t");
             }
         }
@@ -153,41 +156,41 @@ class BlocksFiles extends Files\CreateFile
         $case4 = [];
         $case5 = [];
 
-        $case1[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} last", '', "\t\t\t");
+        $case1[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} last",'',"\t\t\t");
         if ('' !== $fieldStatus) {
             $case1[] = $critStatus;
         }
-        $case1[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldDate}'", "\t\t\t");
-        $case1[] = $this->xc->getXcCriteriaSetOrder($critName, "'DESC'", "\t\t\t");
-        $case2[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} new", '', "\t\t\t");
+        $case1[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldDate}'","\t\t\t");
+        $case1[] = $this->xc->getXcCriteriaSetOrder($critName, "'DESC'","\t\t\t");
+        $case2[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} new",'',"\t\t\t");
         if ('' !== $fieldStatus) {
             $case2[] = $critStatus;
         }
         $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", 'time() - 604800', "'>='", true);
-        $case2[] = $this->pc->getPhpCodeCommentLine("new since last week: 7 * 24 * 60 * 60 = 604800", '', "\t\t\t");
-        $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t\t");
+        $case2[] = $this->pc->getPhpCodeCommentLine("new since last week: 7 * 24 * 60 * 60 = 604800",'',"\t\t\t");
+        $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
         $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", 'time()', "'<='", true);
-        $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t\t");
-        $case2[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldDate}'", "\t\t\t");
-        $case2[] = $this->xc->getXcCriteriaSetOrder($critName, "'ASC'", "\t\t\t");
-        $case3[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} hits", '', "\t\t\t");
+        $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
+        $case2[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldDate}'","\t\t\t");
+        $case2[] = $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t\t\t");
+        $case3[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} hits",'',"\t\t\t");
         if ('' !== $fieldStatus) {
             $case3[] = $critStatus;
         }
-        $case3[] = $this->xc->getXcCriteriaSetSort($critName, "'{$tableFieldname}_hits'", "\t\t\t");
-        $case3[] = $this->xc->getXcCriteriaSetOrder($critName, "'DESC'", "\t\t\t");
-        $case4[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} top", '', "\t\t\t");
+        $case3[] = $this->xc->getXcCriteriaSetSort($critName, "'{$tableFieldname}_hits'","\t\t\t");
+        $case3[] = $this->xc->getXcCriteriaSetOrder($critName, "'DESC'","\t\t\t");
+        $case4[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} top",'',"\t\t\t");
         if ('' !== $fieldStatus) {
             $case4[] = $critStatus;
         }
-        $case4[] = $this->xc->getXcCriteriaSetSort($critName, "'{$tableFieldname}_top'", "\t\t\t");
-        $case4[] = $this->xc->getXcCriteriaSetOrder($critName, "'ASC'", "\t\t\t");
-        $case5[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} random", '', "\t\t\t");
+        $case4[] = $this->xc->getXcCriteriaSetSort($critName, "'{$tableFieldname}_top'","\t\t\t");
+        $case4[] = $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t\t\t");
+        $case5[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} random",'',"\t\t\t");
         if ('' !== $fieldStatus) {
             $case5[] = $critStatus;
         }
-        $case5[]    = $this->xc->getXcCriteriaSetSort($critName, "'RAND()'", "\t\t\t");
-        $cases      = [
+        $case5[] = $this->xc->getXcCriteriaSetSort($critName, "'RAND()'","\t\t\t");
+        $cases  = [
             'last'   => $case1,
             'new'    => $case2,
             'hits'   => $case3,
@@ -204,9 +207,9 @@ class BlocksFiles extends Files\CreateFile
         }
         $func .= $this->pc->getPhpCodeBlankLine();
 
-        $func           .= $this->xc->getXcCriteriaSetLimit($critName, '$limit', "\t");
-        $func           .= $this->xc->getXcHandlerAllClear("{$tableName}All", $tableName, "\${$critName}", "\t");
-        $func           .= $this->pc->getPhpCodeUnset($critName, "\t");
+        $func .= $this->xc->getXcCriteriaSetLimit($critName, '$limit', "\t");
+        $func .= $this->xc->getXcHandlerAllClear("{$tableName}All", $tableName, "\${$critName}", "\t");
+        $func .= $this->pc->getPhpCodeUnset($critName, "\t");
         $contentForeach = '';
         foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
@@ -229,10 +232,10 @@ class BlocksFiles extends Files\CreateFile
                         $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
                         break;
                     case 15:
-                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\\formatTimestamp(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
+                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']","\\formatTimestamp(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
                         break;
                     default:
-                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\${$tableName}All[\$i]->getVar('{$fieldName}')", null, "\t\t\t");
+                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']","\${$tableName}All[\$i]->getVar('{$fieldName}')", null, "\t\t\t");
                         break;
                 }
             }
@@ -241,10 +244,10 @@ class BlocksFiles extends Files\CreateFile
 
         $func .= $this->pc->getPhpCodeConditions("\count(\${$tableName}All)", ' > ', '0', $foreach, false, "\t");
         $func .= $this->pc->getPhpCodeBlankLine();
-        $func .= $this->getSimpleString('return $block;', "\t");
+        $func .= $this->getSimpleString('return $block;',"\t");
         $func .= $this->pc->getPhpCodeBlankLine();
 
-        $ret .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_show", '$options', $func, '', false, "");
+        $ret  .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_show", '$options', $func, '', false, "");
 
         return $ret;
     }
@@ -266,39 +269,40 @@ class BlocksFiles extends Files\CreateFile
         $ucfTableName     = \ucfirst($tableName);
         $critName         = 'cr' . $ucfTableName;
 
-        $ret            = $this->pc->getPhpCodeCommentMultiLine(['Function' => 'edit block', '@param  $options' => '', '@return' => 'string']);
-        $func           = $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/class/{$tableName}.php'", '', true, true, '', "\t");
-        $func           .= $this->xc->getXcEqualsOperator('$helper', 'Helper::getInstance()', '', "\t");
-        $func           .= $this->xc->getXcHandlerLine($tableName, "\t");
-        $func           .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL", '', "\t");
-        $func           .= $this->xc->getXcEqualsOperator('$form', "{$language}DISPLAY", '', "\t");
-        $func           .= $this->xc->getXcEqualsOperator('$form', "\"<input type='hidden' name='options[0]' value='\".\$options[0].\"' />\"", '.', "\t");
-        $func           .= $this->xc->getXcEqualsOperator('$form', "\"<input type='text' name='options[1]' size='5' maxlength='255' value='\" . \$options[1] . \"' />&nbsp;<br>\"", '.', "\t");
-        $func           .= $this->xc->getXcEqualsOperator('$form', "{$language}TITLE_LENGTH . \" : <input type='text' name='options[2]' size='5' maxlength='255' value='\" . \$options[2] . \"' /><br><br>\"", '.', "\t");
-        $func           .= $this->pc->getPhpCodeArrayShift('$options', "\t");
-        $func           .= $this->pc->getPhpCodeArrayShift('$options', "\t");
-        $func           .= $this->pc->getPhpCodeArrayShift('$options', "\t");
-        $func           .= $this->pc->getPhpCodeBlankLine();
-        $func           .= $this->xc->getXcCriteriaCompo($critName, "\t");
-        $crit           = $this->xc->getXcCriteria('', "'{$fieldId}'", '0', "'!='", true);
-        $func           .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t", "\n");
-        $func           .= $this->xc->getXcCriteriaSetSort($critName, "'{$fieldId}'", "\t", "\n");
-        $func           .= $this->xc->getXcCriteriaSetOrder($critName, "'ASC'", "\t", "\n");
-        $func           .= $this->xc->getXcHandlerAllClear("{$tableName}All", $tableName, "\${$critName}", "\t");
-        $func           .= $this->pc->getPhpCodeUnset($critName, "\t");
-        $func           .= $this->xc->getXcEqualsOperator('$form', "{$language}{$stuTableName}_TO_DISPLAY . \"<br><select name='options[]' multiple='multiple' size='5'>\"", '.', "\t");
-        $func           .= $this->xc->getXcEqualsOperator('$form', "\"<option value='0' \" . (\in_array(0, \$options) == false ? '' : \"selected='selected'\") . '>' . {$language}ALL_{$stuTableName} . '</option>'", '.', "\t");
-        $contentForeach = $this->xc->getXcEqualsOperator("\${$fieldId}", "\${$tableName}All[\$i]->getVar('{$fieldId}')", '', "\t\t");
-        $contentForeach .= $this->xc->getXcEqualsOperator('$form', "\"<option value='\" . \${$fieldId} . \"' \" . (\in_array(\${$fieldId}, \$options) == false ? '' : \"selected='selected'\") . '>' . \${$tableName}All[\$i]->getVar('{$fieldMain}') . '</option>'", '.', "\t\t");
-        $func           .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, "\t");
-        $func           .= $this->xc->getXcEqualsOperator('$form', "'</select>'", '.', "\t");
-        $func           .= $this->pc->getPhpCodeBlankLine();
-        $func           .= $this->getSimpleString('return $form;', "\t");
-        $func           .= $this->pc->getPhpCodeBlankLine();
+        $ret  = $this->pc->getPhpCodeCommentMultiLine(['Function' => 'edit block', '@param  $options' => '', '@return' => 'string']);
+        $func = $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true, '', "\t");
+        $func .= $this->xc->getXcEqualsOperator('$helper', 'Helper::getInstance()', '',"\t");
+		$func .= $this->xc->getXcHandlerLine($tableName, "\t");
+        $func .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url","{$stuModuleDirname}_UPLOAD_URL",'',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$form', "{$language}DISPLAY", '',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$form', "\"<input type='hidden' name='options[0]' value='\".\$options[0].\"' />\"", '.',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$form', "\"<input type='text' name='options[1]' size='5' maxlength='255' value='\" . \$options[1] . \"' />&nbsp;<br>\"", '.',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$form', "{$language}TITLE_LENGTH . \" : <input type='text' name='options[2]' size='5' maxlength='255' value='\" . \$options[2] . \"' /><br><br>\"", '.',"\t");
+        $func .= $this->pc->getPhpCodeArrayShift('$options', "\t");
+        $func .= $this->pc->getPhpCodeArrayShift('$options', "\t");
+        $func .= $this->pc->getPhpCodeArrayShift('$options', "\t");
+        $func .= $this->pc->getPhpCodeBlankLine();
+        $func .= $this->xc->getXcCriteriaCompo($critName, "\t");
+        $crit = $this->xc->getXcCriteria('', "'{$fieldId}'", '0', "'!='", true);
+        $func .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t", "\n");
+        $func .= $this->xc->getXcCriteriaSetSort($critName, "'{$fieldId}'","\t","\n");
+        $func .= $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t","\n");
+        $func .= $this->xc->getXcHandlerAllClear("{$tableName}All", $tableName, "\${$critName}", "\t");
+        $func .= $this->pc->getPhpCodeUnset($critName, "\t");
+        $func .= $this->xc->getXcEqualsOperator('$form', "{$language}{$stuTableName}_TO_DISPLAY . \"<br><select name='options[]' multiple='multiple' size='5'>\"", '.',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$form', "\"<option value='0' \" . (\in_array(0, \$options) == false ? '' : \"selected='selected'\") . '>' . {$language}ALL_{$stuTableName} . '</option>'", '.',"\t");
+        $contentForeach = $this->xc->getXcEqualsOperator("\${$fieldId}", "\${$tableName}All[\$i]->getVar('{$fieldId}')", '',"\t\t");
+        $contentForeach .= $this->xc->getXcEqualsOperator('$form', "\"<option value='\" . \${$fieldId} . \"' \" . (\in_array(\${$fieldId}, \$options) == false ? '' : \"selected='selected'\") . '>' . \${$tableName}All[\$i]->getVar('{$fieldMain}') . '</option>'", '.',"\t\t");
+        $func .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, "\t");
+        $func .= $this->xc->getXcEqualsOperator('$form', "'</select>'", '.',"\t");
+        $func .= $this->pc->getPhpCodeBlankLine();
+        $func .= $this->getSimpleString('return $form;', "\t");
+        $func .= $this->pc->getPhpCodeBlankLine();
 
         $ret .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_edit", '$options', $func, '', false, "");
 
         return $ret;
+
     }
 
     /**
@@ -335,7 +339,7 @@ class BlocksFiles extends Files\CreateFile
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Helper'], '', '');
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $content .= $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/include/common.php'", '', true, true);
+        $content .= $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/include/common.php'",'',true, true);
         $content .= $this->getBlocksShow($moduleDirname, $tableName, $tableFieldname, $tablePermissions, $fields, $fieldId, $fieldParent);
         $content .= $this->getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language);
 

@@ -34,17 +34,10 @@ use XoopsModules\Modulebuilder\Helper;
  */
 class SysUtility
 {
-    use VersionChecks;
+    use VersionChecks; //checkVerXoops, checkVerPhp Traits
+    use ServerStats; // getServerStats Trait
+    use FilesManagement; // Files Management Trait
 
-    //checkVerXoops, checkVerPhp Traits
-
-    use ServerStats;
-
-    // getServerStats Trait
-
-    use FilesManagement;
-
-    // Files Management Trait
 
     /**
      * Access the only instance of this class

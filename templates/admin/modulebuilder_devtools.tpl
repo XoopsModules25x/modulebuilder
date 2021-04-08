@@ -1,24 +1,40 @@
 <!-- Header -->
+<style>
+    .even, .odd {
+        border-top: 1px solid #cccccc;
+        border-bottom: 1px solid #cccccc;
+    }
+    .td-padding {
+        padding:20px 0 !important;
+    }
+</style>
 <{includeq file="db:modulebuilder_header.tpl"}>
 <!-- Display tables list -->
 <{if $devtools_list|default:''}>
     <table class='outer width100'>
-        <tr class='even'>
+        <tr>
             <th class='center' colspan=2><{$smarty.const._AM_MODULEBUILDER_DEVTOOLS}></th>
         </tr>
-        <tr>
-            <td class='left'>
+        <tr class='even'>
+            <td class='left td-padding'>
                 <h5><{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_FQ}></h5>
                 <p><{$fq_desc}></p>
             </td>
-            <td><{$fq_form}></td>
+            <td class='td-padding'><{$fq_form}></td>
         </tr>
         <tr class='odd'>
-            <td class='left'>
+            <td class='left td-padding'>
                 <h5><{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_CL}></h5>
                 <p><{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_CL_DESC}></p>
             </td>
-            <td><{$cl_form}></td>
+            <td class='td-padding'><{$cl_form}></td>
+        </tr>
+        <tr class='even'>
+            <td class='left td-padding'>
+                <h5><{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_TAB}></h5>
+                <p><{$tab_desc}></p>
+            </td>
+            <td class='td-padding'><{$tab_form}></td>
         </tr>
     </table>
 <{/if}>

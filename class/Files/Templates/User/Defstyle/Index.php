@@ -35,6 +35,7 @@ class Index extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
+
     /**
      * @var mixed
      */
@@ -88,7 +89,8 @@ class Index extends Files\CreateFile
      */
     public function getTemplateUserIndexHeader($moduleDirname)
     {
-        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', false, false, '', "\n");
+
+        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', false, false, '',  "\n");
     }
 
     /**
@@ -100,50 +102,50 @@ class Index extends Files\CreateFile
     public function getTemplatesUserIndexIntro($module, $language)
     {
         $moduleDirname = $module->getVar('mod_dirname');
-        $ret           = $this->hc->getHtmlEmpty('', '', "\n");
-        $ret           .= $this->hc->getHtmlComment('Start index list', '', "\n");
+        $ret           = $this->hc->getHtmlEmpty('','',"\n");
+        $ret           .= $this->hc->getHtmlComment('Start index list','', "\n");
         //Table head
-        $th        = $this->hc->getHtmlTableHead("<{\$smarty.const.{$language}TITLE}>  -  <{\$smarty.const.{$language}DESC}>", '', '', "\t\t\t");
-        $tr        = $this->hc->getHtmlTableRow($th, 'center', "\t\t");
-        $thead     = $this->hc->getHtmlTableThead($tr, '', "\t");
+        $th        = $this->hc->getHtmlTableHead("<{\$smarty.const.{$language}TITLE}>  -  <{\$smarty.const.{$language}DESC}>", '', '',"\t\t\t");
+        $tr        = $this->hc->getHtmlTableRow($th,'center',"\t\t");
+        $thead     = $this->hc->getHtmlTableThead($tr,'', "\t");
         $contTable = $thead;
         //Table body
-        $li     = $this->hc->getHtmlLi("<a href='<{\${$moduleDirname}_url}>'><{\$smarty.const.{$language}INDEX}></a>", '', "\t\t\t\t\t");
+        $li     = $this->hc->getHtmlLi("<a href='<{\${$moduleDirname}_url}>'><{\$smarty.const.{$language}INDEX}></a>",'',"\t\t\t\t\t");
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         foreach (\array_keys($tables) as $i) {
             if (1 == $tables[$i]->getVar('table_index')) {
-                $tableNameLi    = $tables[$i]->getVar('table_name');
-                $tableName      = $tables[$i]->getVar('table_name');
+                $tableNameLi = $tables[$i]->getVar('table_name');
+                $tableName = $tables[$i]->getVar('table_name');
                 $stuTableNameLi = \mb_strtoupper($tableName);
-                $li             .= $this->hc->getHtmlLi("<a href='<{\${$moduleDirname}_url}>/{$tableNameLi}.php'><{\$smarty.const.{$language}{$stuTableNameLi}}></a>", '', "\t\t\t\t\t");
+                $li .= $this->hc->getHtmlLi("<a href='<{\${$moduleDirname}_url}>/{$tableNameLi}.php'><{\$smarty.const.{$language}{$stuTableNameLi}}></a>", '', "\t\t\t\t\t");
             }
         }
-        $ul        = $this->hc->getHtmlUl($li, 'menu text-center', "\t\t\t\t");
-        $td        = $this->hc->getHtmlTableData($ul, 'bold pad5', '', "\t\t\t", "\n", true);
-        $tr        = $this->hc->getHtmlTablerow($td, 'center', "\t\t");
-        $tbody     = $this->hc->getHtmlTableTbody($tr, '', "\t");
+        $ul        = $this->hc->getHtmlUl($li,'menu text-center',"\t\t\t\t");
+        $td        = $this->hc->getHtmlTableData($ul, 'bold pad5','',"\t\t\t", "\n", true);
+        $tr        = $this->hc->getHtmlTablerow($td, 'center',"\t\t");
+        $tbody     = $this->hc->getHtmlTableTbody($tr,'', "\t");
         $contTable .= $tbody;
         //Table foot
         $single    = $this->sc->getSmartySingleVar('adv');
-        $cond      = $this->sc->getSmartyConditions('adv', '', '', $single, false, '', '', "\t\t\t\t", "\n", false);
-        $td        = $this->hc->getHtmlTableData($cond, 'bold pad5', '', "\t\t\t", "\n", true);
-        $tr        = $this->hc->getHtmlTablerow($td, 'center', "\t\t");
-        $tfoot     = $this->hc->getHtmlTableTfoot($tr, '', "\t");
+        $cond      = $this->sc->getSmartyConditions('adv','','', $single, false, '','', "\t\t\t\t", "\n", false);
+        $td        = $this->hc->getHtmlTableData($cond, 'bold pad5','',"\t\t\t", "\n", true);
+        $tr        = $this->hc->getHtmlTablerow($td, 'center',"\t\t");
+        $tfoot     = $this->hc->getHtmlTableTfoot($tr,'', "\t");
         $contTable .= $tfoot;
 
         $ret .= $this->hc->getHtmlTable($contTable);
-        $ret .= $this->hc->getHtmlComment('End index list', '', "\n");
-        $ret .= $this->hc->getHtmlEmpty('', '', "\n");
+        $ret .= $this->hc->getHtmlComment('End index list','', "\n");
+        $ret .= $this->hc->getHtmlEmpty('','',"\n");
 
         return $ret;
     }
 
     /**
      * @public function getTemplateUserIndexTable
-     * @param        $moduleDirname
-     * @param        $tableName
-     * @param        $tableSoleName
-     * @param        $language
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSoleName
+     * @param $language
      * @param string $t
      * @return bool|string
      */
@@ -151,18 +153,18 @@ class Index extends Files\CreateFile
     {
         $double  = $this->sc->getSmartyConst($language, 'INDEX_LATEST_LIST');
         $ret     = $this->hc->getHtmlDiv($double, "{$moduleDirname}-linetitle", $t, "\n", false);
-        $table   = $this->hc->getHtmlComment("Start show new {$tableName} in index", $t . "\t", "\n");
+        $table   = $this->hc->getHtmlComment("Start show new {$tableName} in index",$t . "\t", "\n");
         $include = $this->sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName, $t . "\t\t\t\t\t", "\n");
         $td      = $this->hc->getHtmlTableData($include, "col_width<{\$numb_col}> top center", '', $t . "\t\t\t\t", "\n", true);
         $tr      = $this->hc->getHtmlEmpty('</tr><tr>', $t . "\t\t\t\t\t", "\n");
         $td      .= $this->sc->getSmartyConditions('smarty.foreach.' . $tableSoleName . '.iteration', ' is div by ', '$divideby', $tr, false, false, false, $t . "\t\t\t\t", "\n", true, false);
-        $foreach = $this->hc->getHtmlComment('Start new link loop', $t . "\t\t\t", "\n");
-        $foreach .= $this->sc->getSmartyForeach($tableSoleName, $tableName, $td, $tableSoleName, '', "\t\t\t");
-        $foreach .= $this->hc->getHtmlComment('End new link loop', $t . "\t\t\t", "\n");
-        $tr      .= $this->hc->getHtmlTableRow($foreach, '', $t . "\t\t");
+        $foreach = $this->hc->getHtmlComment('Start new link loop',$t . "\t\t\t", "\n");
+        $foreach .= $this->sc->getSmartyForeach($tableSoleName, $tableName, $td, $tableSoleName,'',"\t\t\t");
+        $foreach .= $this->hc->getHtmlComment('End new link loop',$t . "\t\t\t", "\n");
+        $tr      .= $this->hc->getHtmlTableRow($foreach, '',$t . "\t\t");
 
-        $table .= $this->hc->getHtmlTable($tr, 'table table-<{$table_type}>', $t . "\t");
-        $ret   .= $this->sc->getSmartyConditions($tableName . 'Count', ' > ', '0', $table, false, false, false, '', "\n", true, 'int');
+        $table   .= $this->hc->getHtmlTable($tr, 'table table-<{$table_type}>', $t . "\t");
+        $ret     .= $this->sc->getSmartyConditions($tableName . 'Count', ' > ','0', $table, false, false, false, '', "\n", true, 'int');
 
         return $ret;
     }
@@ -192,14 +194,14 @@ class Index extends Files\CreateFile
         $content       = $this->getTemplateUserIndexHeader($moduleDirname);
         $content       .= $this->getTemplatesUserIndexIntro($module, $language);
         foreach (\array_keys($tables) as $t) {
-            $tableName     = $tables[$t]->getVar('table_name');
-            $tableSoleName = $tables[$t]->getVar('table_solename');
-            $tableIndex    = $tables[$t]->getVar('table_index');
+            $tableName      = $tables[$t]->getVar('table_name');
+            $tableSoleName  = $tables[$t]->getVar('table_solename');
+            $tableIndex     = $tables[$t]->getVar('table_index');
             if (1 == $tableIndex) {
                 $content .= $this->getTemplateUserIndexTable($moduleDirname, $tableName, $tableSoleName, $language);
             }
         }
-        $content .= $this->getTemplateUserIndexFooter($moduleDirname);
+        $content  .= $this->getTemplateUserIndexFooter($moduleDirname);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
 

@@ -9,6 +9,7 @@
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @package
  * @since           2.5.9
  * @author          Michael Beck (aka Mamba)
  */
@@ -18,16 +19,17 @@ use Xmf\Module\Helper;
 use Xmf\Request;
 use Xmf\Yaml;
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\{Common,
+use XoopsModules\Modulebuilder\{
+    Common,
     Utility
 };
 
-require dirname(__DIR__, 3) . '/include/cp_header.php';
+require_once dirname(__DIR__, 3) . '/include/cp_header.php';
 require \dirname(__DIR__) . '/preloads/autoloader.php';
 
 $op = \Xmf\Request::getCmd('op', '');
 
-$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirName = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 $helper = Modulebuilder\Helper::getInstance();
@@ -43,15 +45,12 @@ switch ($op) {
             loadSampleData();
         } else {
             xoops_cp_header();
-            xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', \sprintf(\constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_CONFIRM')), \constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'), true);
+            xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', \sprintf(\constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA_OK')), \constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'), true);
             xoops_cp_footer();
         }
         break;
     case 'save':
         saveSampleData();
-        break;
-    case 'clear':
-        clearSampleData();
         break;
 }
 
@@ -123,7 +122,7 @@ function saveSampleData()
 
     // save permissions
     $skipColumns = [];
-    $criteria    = new \CriteriaCompo();
+    $criteria = new \CriteriaCompo();
     $criteria->add(new \Criteria('gperm_modid', Helper::getHelper($moduleDirName)->getModule()->getVar('mid')));
     $skipColumns[] = 'gperm_id';
     TableLoad::saveTableToYamlFile('group_permission', $exportFolder . 'group_permission.yml', $criteria, $skipColumns);
@@ -154,6 +153,7 @@ function exportSchema()
     } catch (\Exception $e) {
         exit(\constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR'));
     }
+
 }
 
 /**
@@ -171,20 +171,20 @@ function exportSchema()
 function loadTableFromArrayWithReplace($table, $data, $search, $replace)
 {
     /** @var \XoopsDatabase */
-    $db            = \XoopsDatabaseFactory::getDatabaseConnection();
+    $db = \XoopsDatabaseFactory::getDatabaseConnection();
     $prefixedTable = $db->prefix($table);
-    $count         = 0;
-    $sql           = 'DELETE FROM ' . $prefixedTable . ' WHERE `' . $search . '`=' . $db->quote($replace);
+    $count = 0;
+    $sql = 'DELETE FROM ' . $prefixedTable . ' WHERE `' . $search . '`=' . $db->quote($replace);
     $db->queryF($sql);
     foreach ($data as $row) {
-        $insertInto  = 'INSERT INTO ' . $prefixedTable . ' (';
+        $insertInto = 'INSERT INTO ' . $prefixedTable . ' (';
         $valueClause = ' VALUES (';
-        $first       = true;
+        $first = true;
         foreach ($row as $column => $value) {
             if ($first) {
                 $first = false;
             } else {
-                $insertInto  .= ', ';
+                $insertInto .= ', ';
                 $valueClause .= ', ';
             }
             $insertInto .= $column;
@@ -194,7 +194,7 @@ function loadTableFromArrayWithReplace($table, $data, $search, $replace)
                 $valueClause .= $db->quote($value);
             }
         }
-        $sql    = $insertInto . ') ' . $valueClause . ')';
+        $sql = $insertInto . ') ' . $valueClause . ')';
         $result = $db->queryF($sql);
         if (false !== $result) {
             ++$count;

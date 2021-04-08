@@ -15,7 +15,7 @@ namespace XoopsModules\Modulebuilder\Common;
 /**
  * My Module module for xoops
  *
- * @copyright      2020 XOOPS Project (https://xooops.org)
+ * @copyright     2020 XOOPS Project (https://xooops.org)
  * @license        GPL 2.0 or later
  * @package        Modulebuilder
  * @since          1.0
@@ -75,6 +75,7 @@ class XoopsConfirm
             $this->title = CO_MODULEBUILDER_DELETE_CONFIRM;
         }
         if ('' === $this->label) {
+
             $this->label = CO_MODULEBUILDER_DELETE_LABEL;
         }
 

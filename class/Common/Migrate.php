@@ -23,6 +23,7 @@ use \XoopsModules\Modulebuilder\Common;
  * @license   GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @link      https://xoops.org
  */
+
 class Migrate extends \Xmf\Database\Migrate
 {
     private $renameTables;

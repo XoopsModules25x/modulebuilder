@@ -33,7 +33,7 @@ $templateMain = $moduleDirName . '_devtools.tpl';
 
 include __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
-$op = Request::getString('op', 'list');
+$op    = Request::getString('op', 'list');
 
 switch ($op) {
     case 'fq':
@@ -41,7 +41,7 @@ switch ($op) {
         $src_path = XOOPS_ROOT_PATH . '/modules/' . $fqModule;
         $dst_path = TDMC_UPLOAD_PATH . '/devtools/fq/' . $fqModule;
 
-        $patKeys   = [];
+        $patKeys = [];
         $patValues = [];
         //Devtools::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues);
         Devtools::function_qualifier($src_path, $dst_path, $fqModule);
@@ -49,11 +49,11 @@ switch ($op) {
         break;
     case 'check_lang':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('devtools.php'));
-        $clModuleName      = Request::getString('cl_module');
+        $clModuleName = Request::getString('cl_module');
         $clModuleNameUpper = \mb_strtoupper($clModuleName);
 
         //scan language files
-        $src_path  = XOOPS_ROOT_PATH . '/modules/' . $clModuleName . '/language/english/';
+        $src_path = XOOPS_ROOT_PATH . '/modules/' . $clModuleName . '/language/english/';
         $langfiles = [];
         foreach (scandir($src_path) as $scan) {
             if (is_file($src_path . $scan) && 'index.html' !== $scan) {
@@ -76,12 +76,12 @@ switch ($op) {
 
         //get all php and tpl files from module
         $check_path = XOOPS_ROOT_PATH . '/modules/' . $clModuleName;
-        $Directory  = new RecursiveDirectoryIterator($check_path);
-        $Iterator   = new RecursiveIteratorIterator($Directory);
+        $Directory = new RecursiveDirectoryIterator($check_path);
+        $Iterator = new RecursiveIteratorIterator($Directory);
         $regexFiles = new RegexIterator($Iterator, '/^.+\.(php|tpl)$/i', RecursiveRegexIterator::GET_MATCH);
         //$files = new RegexIterator($flattened, '#^(?:[A-Z]:)?(?:/(?!\.Trash)[^/]+)+/[^/]+\.(?:php|html)$#Di');
         $modfiles = [];
-        foreach ($regexFiles as $regexFiles) {
+        foreach($regexFiles as $regexFiles) {
             $file = str_replace('\\', '/', $regexFiles[0]);
             if (!\in_array($file, $langfiles)) {
                 $modfiles[] = $file;
@@ -91,24 +91,24 @@ switch ($op) {
         //check all constants in all files
         $resultCheck = [];
         foreach ($moduleConstants as $constKey) {
-            $foundMod  = 0;
-            $first     = '';
+            $foundMod = 0;
+            $first = '';
             $foundLang = 'not defined';
             //search for complete string
-            foreach ($modfiles as $modfile) {
-                if (strpos(file_get_contents($modfile), $constKey) !== false) {
+            foreach($modfiles as $modfile) {
+                if( strpos(file_get_contents($modfile),$constKey) !== false) {
                     $foundMod = 1;
-                    $first    = $modfile;
+                    $first = $modfile;
                     break;
                 }
             }
             if (0 == $foundMod) {
                 //search for concatenated string
                 $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_", $constKey);
-                foreach ($modfiles as $modfile) {
-                    if (strpos(file_get_contents($modfile), $needle) !== false) {
+                foreach($modfiles as $modfile) {
+                    if( strpos(file_get_contents($modfile),$needle) !== false) {
                         $foundMod = 1;
-                        $first    = $modfile;
+                        $first = $modfile;
                         break;
                     }
                 }
@@ -116,16 +116,16 @@ switch ($op) {
             if (0 == $foundMod) {
                 //search for concatenated string
                 $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_' . '", $constKey);
-                foreach ($modfiles as $modfile) {
-                    if (strpos(file_get_contents($modfile), $needle) !== false) {
+                foreach($modfiles as $modfile) {
+                    if( strpos(file_get_contents($modfile),$needle) !== false) {
                         $foundMod = 1;
-                        $first    = $modfile;
+                        $first = $modfile;
                         break;
                     }
                 }
             }
-            foreach ($langfiles as $langfile) {
-                if (strpos(file_get_contents($langfile), $constKey) !== false) {
+            foreach($langfiles as $langfile) {
+                if( strpos(file_get_contents($langfile),$constKey) !== false) {
                     $foundLang = $langfile;
                     break;
                 }
@@ -133,8 +133,8 @@ switch ($op) {
             if ('' == $foundLang) {
                 //search for concatenated string
                 $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_", $constKey);
-                foreach ($langfiles as $langfile) {
-                    if (strpos(file_get_contents($langfile), $needle) !== false) {
+                foreach($langfiles as $langfile) {
+                    if( strpos(file_get_contents($langfile),$needle) !== false) {
                         $foundLang = $langfile;
                         break;
                     }
@@ -143,8 +143,8 @@ switch ($op) {
             if ('' == $foundLang) {
                 //search for concatenated string
                 $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_' . '", $constKey);
-                foreach ($langfiles as $langfile) {
-                    if (strpos(file_get_contents($langfile), $needle) !== false) {
+                foreach($langfiles as $langfile) {
+                    if( strpos(file_get_contents($langfile),$needle) !== false) {
                         $foundLang = $langfile;
                         break;
                     }
@@ -156,22 +156,36 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
 
         break;
+    case 'tab_replacer':
+        $tabModule = Request::getString('tab_module');
+        $src_path = XOOPS_ROOT_PATH . '/modules/' . $tabModule;
+        $dst_path = TDMC_UPLOAD_PATH . '/devtools/tab/';
+        @\mkdir($dst_path);
+        $dst_path = TDMC_UPLOAD_PATH . '/devtools/tab/' . $tabModule;
+        @\mkdir($dst_path);
+
+        Devtools::function_tabreplacer($src_path, $dst_path);
+        \redirect_header('devtools.php', 3, _AM_MODULEBUILDER_DEVTOOLS_FQ_SUCCESS);
+        break;
     case 'list':
     default:
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('devtools.php'));
         $dst_path = TDMC_UPLOAD_PATH . '/devtools/fq/';
-        $GLOBALS['xoopsTpl']->assign('fq_desc', \str_replace('%s', $dst_path, _AM_MODULEBUILDER_DEVTOOLS_FQ_DESC));
+        $GLOBALS['xoopsTpl']->assign('fq_desc',\str_replace('%s', $dst_path, _AM_MODULEBUILDER_DEVTOOLS_FQ_DESC));
         $fq_form = Devtools::getFormModulesFq();
         $GLOBALS['xoopsTpl']->assign('fq_form', $fq_form->render());
         $cl_form = Devtools::getFormModulesCl();
         $GLOBALS['xoopsTpl']->assign('cl_form', $cl_form->render());
-        $GLOBALS['xoopsTpl']->assign('devtools_list', true);
+        $tab_form = Devtools::getFormModulesTab();
+        $GLOBALS['xoopsTpl']->assign('tab_form', $tab_form->render());
+        $dst_path = TDMC_UPLOAD_PATH . '/devtools/tab/';
+        $GLOBALS['xoopsTpl']->assign('tab_desc',\str_replace('%s', $dst_path, _AM_MODULEBUILDER_DEVTOOLS_TAB_DESC));
+        $GLOBALS['xoopsTpl']->assign('devtools_list',true);
 
         break;
 }
 
-function getUserDefinedConstants()
-{
+function getUserDefinedConstants() {
     $constants = get_defined_constants(true);
     return (isset($constants['user']) ? $constants['user'] : []);
 }

@@ -3,7 +3,8 @@
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\{Files,
+use XoopsModules\Modulebuilder\{
+    Files,
     Constants
 };
 

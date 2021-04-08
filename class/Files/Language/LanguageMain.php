@@ -35,6 +35,7 @@ class LanguageMain extends Files\CreateFile
      * @var mixed
      */
     private $ld = null;
+
     /**
      * @var mixed
      */
@@ -91,27 +92,27 @@ class LanguageMain extends Files\CreateFile
         /** @var \XoopsModules\Modulebuilder\Utility $utility */
         $utility = new \XoopsModules\Modulebuilder\Utility();
 
-        $moduleName       = $module->getVar('mod_name');
-        $tables           = $this->getTables();
-        $ret              = $this->ld->getBlankLine();
-        $ret              .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'admin', true);
-        $ret              .= $this->ld->getBlankLine();
-        $ret              .= $this->ld->getAboveHeadDefines('Main');
-        $ret              .= $this->ld->getDefine($language, 'INDEX', 'Home');
-        $ret              .= $this->ld->getDefine($language, 'TITLE', (string)$module->getVar('mod_name'));
-        $ret              .= $this->ld->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
-        $ret              .= $this->ld->getDefine(
+        $moduleName = $module->getVar('mod_name');
+        $tables     = $this->getTables();
+        $ret        = $this->ld->getBlankLine();
+        $ret        .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'admin', true);
+        $ret        .= $this->ld->getBlankLine();
+        $ret        .= $this->ld->getAboveHeadDefines('Main');
+        $ret        .= $this->ld->getDefine($language, 'INDEX', 'Overview ' . (string)$module->getVar('mod_name'));
+        $ret        .= $this->ld->getDefine($language, 'TITLE', (string)$module->getVar('mod_name'));
+        $ret        .= $this->ld->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
+        $ret        .= $this->ld->getDefine(
             $language,
             'INDEX_DESC',
             "Welcome to the homepage of your new module {$moduleName}!<br>
 As you can see, you have created a page with a list of links at the top to navigate between the pages of your module. This description is only visible on the homepage of this module, the other pages you will see the content you created when you built this module with the module ModuleBuilder, and after creating new content in admin of this module. In order to expand this module with other resources, just add the code you need to extend the functionality of the same. The files are grouped by type, from the header to the footer to see how divided the source code.<br><br>If you see this message, it is because you have not created content for this module. Once you have created any type of content, you will not see this message.<br><br>If you liked the module ModuleBuilder and thanks to the long process for giving the opportunity to the new module to be created in a moment, consider making a donation to keep the module ModuleBuilder and make a donation using this button <a href='http://www.txmodxoops.org/modules/xdonations/index.php' title='Donation To Txmod Xoops'><img src='https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif' alt='Button Donations' /></a><br>Thanks!<br><br>Use the link below to go to the admin and create content.",
             true
         );
-        $ret              .= $this->ld->getDefine($language, 'NO_PDF_LIBRARY', 'Libraries TCPDF not there yet, upload them in root/Frameworks');
-        $ret              .= $this->ld->getDefine($language, 'NO', 'No');
-        $ret              .= $this->ld->getDefine($language, 'DETAILS', 'Show details');
-        $ret              .= $this->ld->getDefine($language, 'BROKEN', 'Notify broken');
-        $ret              .= $this->ld->getAboveHeadDefines('Contents');
+        $ret        .= $this->ld->getDefine($language, 'NO_PDF_LIBRARY', 'Libraries TCPDF not there yet, upload them in root/Frameworks');
+        $ret        .= $this->ld->getDefine($language, 'NO', 'No');
+        $ret        .= $this->ld->getDefine($language, 'DETAILS', 'Show details');
+        $ret        .= $this->ld->getDefine($language, 'BROKEN', 'Notify broken');
+        $ret        .= $this->ld->getAboveHeadDefines('Contents');
         $ucfTableName     = '';
         $ucfTableSoleName = '';
         $stuTableSoleName = '';
@@ -122,7 +123,7 @@ As you can see, you have created a page with a list of links at the top to navig
         $tablePrint       = 0;
         foreach (\array_keys($tables) as $i) {
             if (1 == $tables[$i]->getVar('table_user')) {
-                $tableName     = $tables[$i]->getVar('table_name');
+                $tableName = $tables[$i]->getVar('table_name');
                 $tableSoleName = $tables[$i]->getVar('table_solename');
                 if (1 === (int)$tables[$i]->getVar('table_submit')) {
                     $tableSubmit = 1;
@@ -136,23 +137,30 @@ As you can see, you have created a page with a list of links at the top to navig
                 if (1 === (int)$tables[$i]->getVar('table_print')) {
                     $tablePrint = 1;
                 }
-                $stuTableName     = \mb_strtoupper($tableName);
+                $stuTableName = \mb_strtoupper($tableName);
                 $stuTableSoleName = \mb_strtoupper($tableSoleName);
-                $ucfTableName     = $utility::UcFirstAndToLower($tableName);
+                $ucfTableName = $utility::UcFirstAndToLower($tableName);
                 $ucfTableSoleName = $utility::UcFirstAndToLower($tableSoleName);
-                $ret              .= $this->ld->getAboveDefines($ucfTableSoleName);
-                $ret              .= $this->ld->getDefine($language, $stuTableSoleName, $ucfTableSoleName);
-                $ret              .= $this->ld->getDefine($language, $stuTableName, $ucfTableName);
-                $ret              .= $this->ld->getDefine($language, "{$stuTableName}_TITLE", "{$ucfTableName} title");
-                $ret              .= $this->ld->getDefine($language, "{$stuTableName}_DESC", "{$ucfTableName} description");
-                $ret              .= $this->ld->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
-                $ret              .= $this->ld->getAboveDefines("Caption of {$ucfTableSoleName}");
-                $fields           = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
+                $ret .= $this->ld->getAboveDefines($ucfTableSoleName);
+                $ret .= $this->ld->getDefine($language, $stuTableSoleName, $ucfTableSoleName);
+                if (1 === $tableSubmit) {
+                    $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_ADD", "Add {$ucfTableName}");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_EDIT", "Edit {$ucfTableName}");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_DELETE", "Delete {$ucfTableName}");
+                }
+                $ret .= $this->ld->getDefine($language, $stuTableName, $ucfTableName);
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_TITLE", "{$ucfTableName} title");
+                $ret .= $this->ld->getDefine($language, "{$stuTableName}_DESC", "{$ucfTableName} description");
+
+
+                $ret .= $this->ld->getAboveDefines("Caption of {$ucfTableSoleName}");
+                $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
                 foreach (\array_keys($fields) as $f) {
-                    $fieldName     = $fields[$f]->getVar('field_name');
-                    $rpFieldName   = $this->getRightString($fieldName);
+                    $fieldName = $fields[$f]->getVar('field_name');
+                    $rpFieldName = $this->getRightString($fieldName);
                     $fieldNameDesc = \ucfirst($rpFieldName);
-                    $ret           .= $this->ld->getDefine($language, $stuTableSoleName . '_' . $rpFieldName, $fieldNameDesc);
+                    $ret .= $this->ld->getDefine($language, $stuTableSoleName . '_' . $rpFieldName, $fieldNameDesc);
                 }
             }
         }

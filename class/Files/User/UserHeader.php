@@ -35,10 +35,12 @@ class UserHeader extends Files\CreateFile
      * @var mixed
      */
     private $uxc = null;
+
     /**
      * @var mixed
      */
     private $xc = null;
+
     /**
      * @var mixed
      */
@@ -96,13 +98,13 @@ class UserHeader extends Files\CreateFile
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $tables           = $this->getTables();
-        $language         = $this->getLanguage($moduleDirname, 'MA');
 
-        $ret         = $this->pc->getPhpCodeIncludeDir('\dirname(\dirname(__DIR__))', 'mainfile');
-        $ret         .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
-        $ret         .= $this->xc->getXcEqualsOperator('$moduleDirName', '\basename(__DIR__)');
-        $ret         .= $this->uxc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
-        $ret         .= $this->xc->getXcHelperGetInstance($moduleDirname);
+        $ret = $this->pc->getPhpCodeIncludeDir('\dirname(\dirname(__DIR__))', 'mainfile');
+        $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
+        $ret .= $this->xc->getXcEqualsOperator('$moduleDirName', '\basename(__DIR__)');
+        $ret .= $this->pc->getPhpCodeCommentLine('Breadcrumbs');
+        $ret .= $this->pc->getPhpCodeArray('xoBreadcrumbs', null, false, '');
+        $ret .= $this->xc->getXcHelperGetInstance($moduleDirname);
         $permissions = 0;
         $ratings     = 0;
         if (\is_array($tables)) {
@@ -127,7 +129,7 @@ class UserHeader extends Files\CreateFile
         $ret .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
         $ret .= $this->pc->getPhpCodeCommentLine('Default Css Style');
         $ret .= $this->xc->getXcEqualsOperator('$style', "{$stuModuleDirname}_URL . '/assets/css/style.css'");
-        $ret .= $this->pc->getPhpCodeCommentLine('Smarty Default');
+                $ret .= $this->pc->getPhpCodeCommentLine('Smarty Default');
         $ret .= $this->xc->getXcXoopsModuleGetInfo('sysPathIcon16', 'sysicons16');
         $ret .= $this->xc->getXcXoopsModuleGetInfo('sysPathIcon32', 'sysicons32');
         $ret .= $this->xc->getXcXoopsModuleGetInfo('pathModuleAdmin', 'dirmoduleadmin');
