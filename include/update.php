@@ -38,7 +38,13 @@ function xoops_module_update_modulebuilder(&$module, $prev_version = null)
         update_modulebuilder_v191($module);
     }
 
-	modulebuilder_check_db($module);
+	if (!modulebuilder_check_db($module)) {
+        print_r($module->getErrors());
+    }
+
+    if (!clean_index_files()) {
+        print_r($module->getErrors());
+    }
 	
 	//check upload directory
 	include_once __DIR__ . '/install.php';
@@ -700,4 +706,30 @@ function modulebuilder_check_db($module)
     }
 
     return $ret;
+}
+
+/**
+ * function remove unnecessary index.php from files folder
+ * which could be added by index_scan module
+ *
+ * @return bool
+ */
+function clean_index_files()
+{
+    $files = [];
+    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/admin/index.php';
+    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/assets/index.php';
+    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/class/index.php';
+    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/include/index.php';
+    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/language/index.php';
+    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/preloads/index.php';
+    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/ratingfiles/assets/index.php';
+    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/ratingfiles/class/index.php';
+    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/ratingfiles/templates/index.php';
+
+    foreach($files as $file) {
+        unlink($file);
+    }
+
+    return true;
 }
