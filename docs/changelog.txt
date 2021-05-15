@@ -22,6 +22,7 @@
  - added replacement of tabs by 4 spaces in devtools (goffy)
  - fixed bug with unnecessary index.php files adex by index_scan (mjoel/goffy)
  - fixed bug if no permissions are used (goffy)
+ - added default value for date/time form field (goffy)
 
 <h5>3.04 Final   [2020-11-11]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>

@@ -597,7 +597,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $t                   = "\t\t";
         $ccFieldName         = $this->cf->getCamelCase($fieldName, false, true);
         $ret                 = $this->pc->getPhpCodeCommentLine('Form Text', 'Date Select ' . $ccFieldName, $t);
-        $ret                 .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', 0, "\$this->getVar('{$fieldName}')", $t);
+        $ret                 .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', 'time()', "\$this->getVar('{$fieldName}')", $t);
         $xoopsTextDateSelect = $this->cxc->getClassXoopsFormDateTime('', $language, $fieldName, $fieldName, $ccFieldName, true, $t);
         $ret                 .= $this->cxc->getClassAddElement('form', $xoopsTextDateSelect . $required, $t);
 
