@@ -536,7 +536,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $t               = "\t\t";
         $ret             = $this->pc->getPhpCodeCommentLine('Form Select', 'User ' . $ccFieldName, $t);
         $ret             .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', '$GLOBALS[\'xoopsUser\']->uid()', "\$this->getVar('{$fieldName}')", $t);
-        $xoopsSelectUser = $this->cxc->getClassXoopsFormSelectUser('', $language, $fieldName, 'false', $fieldName, '$' . $ccFieldName, true, $t);
+        $xoopsSelectUser = $this->cxc->getClassXoopsFormSelectUser('', $language, $fieldName, 'false', '$' . $ccFieldName, true, $t);
         $ret             .= $this->cxc->getClassAddElement('form', $xoopsSelectUser . $required, $t);
 
         return $ret;
