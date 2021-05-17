@@ -148,15 +148,15 @@ class ClassSpecialFiles extends Files\CreateFile
                 break;
             case 8:
                 $comment  .= $this->pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalSubmit', 'returns' => 'right for global submit', '' => '', '@param' => 'null', '@return' => 'bool'], "\t");
-                $cond     .= $this->pc->getPhpCodeConditions('$this->getGlobalApprove()', '', '', $returnTrue, false, "\t\t");
+                $cond     .= $this->pc->getPhpCodeConditions('$this->getPermGlobalApprove()', '', '', $returnTrue, false, "\t\t");
                 $right    .= $this->xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', 8, '$my_group_ids', '$mid', true, "\t\t\t");
                 $cond     .= $this->pc->getPhpCodeConditions($right, '', '', $returnTrue, false, "\t\t");
                 $funcname .= 'getPermGlobalSubmit';
                 break;
             case 16:
                 $comment  .= $this->pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalView', 'returns' => 'right for global view', '' => '', '@param' => 'null', '@return' => 'bool'], "\t");
-                $cond     .= $this->pc->getPhpCodeConditions('$this->getGlobalApprove()', '', '', $returnTrue, false, "\t\t");
-                $cond     .= $this->pc->getPhpCodeConditions('$this->getGlobalSubmit()', '', '', $returnTrue, false, "\t\t");
+                $cond     .= $this->pc->getPhpCodeConditions('$this->getPermGlobalApprove()', '', '', $returnTrue, false, "\t\t");
+                $cond     .= $this->pc->getPhpCodeConditions('$this->getPermGlobalSubmit()', '', '', $returnTrue, false, "\t\t");
                 $right    .= $this->xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', 16, '$my_group_ids', '$mid', true, "\t\t\t");
                 $cond     .= $this->pc->getPhpCodeConditions($right, '', '', $returnTrue, false, "\t\t");
                 $funcname .= 'getPermGlobalView';
