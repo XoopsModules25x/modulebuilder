@@ -329,19 +329,20 @@ class ClassXoopsCode
      * @param        $param2
      * @param string $param3
      * @param        $param4
+     * @param        $ccFieldName
      * @param bool   $isParam
      * @param string $t
      *
      * @return string
      */
-    public function getClassXoopsFormSelectUser($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
+    public function getClassXoopsFormSelectUser($var, $param1, $param2, $param3, $param4, $ccFieldName, $isParam = false, $t = "\t\t")
     {
         $user             = 'new \XoopsFormSelectUser(';
-        $getVarSelectUser = Modulebuilder\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param4, true);
+        //$getVarSelectUser = Modulebuilder\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param4, true);
         if (false === $isParam) {
-            $ret = "{$t}\${$var} = {$user}{$param1}, '{$param2}', {$param3}, {$getVarSelectUser});\n";
+            $ret = "{$t}\${$var} = {$user}{$param1}, '{$param2}', {$param3}, {$ccFieldName});\n";
         } else {
-            $ret = "{$user}{$param1}, '{$param2}', {$param3}, {$getVarSelectUser})";
+            $ret = "{$user}{$param1}, '{$param2}', {$param3}, {$ccFieldName})";
         }
 
         return $ret;
