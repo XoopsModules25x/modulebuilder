@@ -153,7 +153,7 @@ class LanguageAdmin extends Files\CreateFile
             $tableName    = $tables[$t]->getVar('table_name');
             $stuTableName = \mb_strtoupper($tableName);
             $ucfTableName = \ucfirst($tableName);
-            $ret          .= $this->ld->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
+            $ret          .= $this->ld->getDefine($language, "LIST_{$stuTableName}", "List of {$ucfTableName}");
         }
 
         return $ret;
