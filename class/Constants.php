@@ -15,7 +15,7 @@ namespace XoopsModules\Modulebuilder;
 /**
  * Modulebuilder module for xoops
  *
- * @copyright     2020 XOOPS Project (https://xooops.org)
+ * @copyright     2020 XOOPS Project (https://xoops.org)
  * @license        GPL 2.0 or later
  * @package        Modulebuilder
  * @since          1.0
