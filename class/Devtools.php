@@ -192,7 +192,7 @@ class Devtools
         $errors = [
             'substr_\count('   => 'substr_count(',
             'micro\time('   => 'microtime(',
-            'mk\time'   => 'mktime',
+            'mk\time('   => 'mktime(',
             'strto\time('   => 'strtotime(',
             'mb_\strlen('   => 'mb_strlen(',
             'mb_\substr('   => 'mb_substr(',
@@ -207,6 +207,8 @@ class Devtools
             'image\copy('   => 'imagecopy(',
             '<{if \count('  => '<{if count(',
             'define(\_'     => 'define(_',
+            '\strr\chr('    => '\strrchr(',
+            'strf\time('    => 'strftime(',
             "'\_AM_" . $moduleNameUpper .'_' => "'_AM_" . $moduleNameUpper .'_',
             "'\_MI_" . $moduleNameUpper .'_' => "'_MI_" . $moduleNameUpper .'_',
             "'\_MB_" . $moduleNameUpper .'_' => "'_MB_" . $moduleNameUpper .'_',
