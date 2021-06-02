@@ -102,7 +102,7 @@ class AdminXoopsCode
                 break;
             case 'default':
             default:
-                $ret = $aM . "{$language}{$stuTableSoleName}_{$stuType}, '{$tableName}.php{$op}', '{$type}');\n";
+                $ret = $aM . "{$language}{$stuType}_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
             break;
         }
 
