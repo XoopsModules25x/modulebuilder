@@ -128,6 +128,7 @@ class Devtools
             'json_encode',
             'mime_content_type',
             'mkdir',
+            'mktime',
             'opendir',
             'ord',
             'pathinfo',
@@ -191,6 +192,7 @@ class Devtools
         $errors = [
             'substr_\count('   => 'substr_count(',
             'micro\time('   => 'microtime(',
+            'mk\time'   => 'mktime',
             'strto\time('   => 'strtotime(',
             'mb_\strlen('   => 'mb_strlen(',
             'mb_\substr('   => 'mb_substr(',
