@@ -268,6 +268,17 @@ class LanguageAdmin extends Files\CreateFile
             $ret .= $this->ld->getDefine($language, 'LIST_2', 'Sample List Value 2');
             $ret .= $this->ld->getDefine($language, 'LIST_3', 'Sample List Value 3');
         }
+        $ret .= $this->ld->getAboveDefines('Clone feature');
+        $ret .= $this->ld->getDefine($language, 'CLONE', 'Clone');
+        $ret .= $this->ld->getDefine($language, 'CLONE_DSC', 'Cloning a module has never been this easy! Just type in the name you want for it and hit submit button!');
+        $ret .= $this->ld->getDefine($language, 'CLONE_TITLE', 'Clone %s');
+        $ret .= $this->ld->getDefine($language, 'CLONE_NAME', 'Choose a name for the new module');
+        $ret .= $this->ld->getDefine($language, 'CLONE_NAME_DSC', 'Do not use special characters! <br>Do not choose an existing module dirname or database table name!');
+        $ret .= $this->ld->getDefine($language, 'CLONE_INVALIDNAME', 'ERROR: Invalid module name, please try another one!');
+        $ret .= $this->ld->getDefine($language, 'CLONE_EXISTS', 'ERROR: Module name already taken, please try another one!');
+        $ret .= $this->ld->getDefine($language, 'CLONE_CONGRAT', 'Congratulations! %s was sucessfully created!<br>You may want to make changes in language files.');
+        $ret .= $this->ld->getDefine($language, 'CLONE_IMAGEFAIL', 'Attention, we failed creating the new module logo. Please consider modifying assets/images/logo_module.png manually!');
+        $ret .= $this->ld->getDefine($language, 'CLONE_FAIL', 'Sorry, we failed in creating the new clone. Maybe you need to temporally set write permissions (CHMOD 777) to modules folder and try again.');
 
         return $ret;
     }
