@@ -728,7 +728,9 @@ function clean_index_files()
     $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/ratingfiles/templates/index.php';
 
     foreach($files as $file) {
-        unlink($file);
+        if (\file_exists($file)) {
+            \unlink($file);
+        }
     }
 
     return true;

@@ -310,6 +310,7 @@ class UserXoopsVersion extends Files\CreateFile
             if (\in_array(1, $tablePermissions)) {
                 $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'permissions', '', true);
             }
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'clone', '', true);
             $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer', '', true);
         }
 

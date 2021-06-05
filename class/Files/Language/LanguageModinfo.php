@@ -137,6 +137,8 @@ class LanguageModinfo extends Files\CreateFile
             $ret .= $this->ld->getDefine($language, "ADMENU{$menu}", 'Permissions');
         }
         ++$menu;
+        $ret .= $this->ld->getDefine($language, "ADMENU{$menu}", 'Clone');
+        ++$menu;
         $ret .= $this->ld->getDefine($language, "ADMENU{$menu}", 'Feedback');
         $ret .= $this->ld->getDefine($language, 'ABOUT', 'About');
         unset($menu, $tablePermissions);
