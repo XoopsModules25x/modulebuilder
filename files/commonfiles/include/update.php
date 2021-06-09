@@ -16,7 +16,7 @@
  * @param null|mixed $prev_version
  * @package        Modulebuilder
  * @since          1.0
- * @min_xoops      2.5.9
+ * @min_xoops      2.5.11
  * @author         Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com>
  * @version        $Id: 1.0 update.php 1 Mon 2018-03-19 10:04:53Z XOOPS Project (www.xoops.org) $
  * @copyright      module for xoops
@@ -39,12 +39,12 @@ function xoops_module_update_modulebuilder($module, $prev_version = null)
     $ret = modulebuilder_check_db($module);
 
     //check upload directory
-	include_once __DIR__ . '/install.php';
+	require_once __DIR__ . '/install.php';
     $ret = xoops_module_install_modulebuilder($module);
 
     $errors = $module->getErrors();
     if (!empty($errors)) {
-        print_r($errors);
+        \print_r($errors);
     }
 
     return $ret;
@@ -64,7 +64,7 @@ function update_modulebuilder_v10($module)
         'SELECT t1.tpl_id FROM ' . $xoopsDB->prefix('tplfile') . ' t1, ' . $xoopsDB->prefix('tplfile') . ' t2 WHERE t1.tpl_refid = t2.tpl_refid AND t1.tpl_module = t2.tpl_module AND t1.tpl_tplset=t2.tpl_tplset AND t1.tpl_file = t2.tpl_file AND t1.tpl_type = t2.tpl_type AND t1.tpl_id > t2.tpl_id'
     );
     $tplids = [];
-    while (false !== (list($tplid) = $xoopsDB->fetchRow($result))) {
+    while (list($tplid) = $xoopsDB->fetchRow($result)) {
         $tplids[] = $tplid;
     }
     if (\count($tplids) > 0) {
@@ -84,7 +84,7 @@ function update_modulebuilder_v10($module)
         return false;
     }
     $ret = [];
-    while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
+    while ($myrow = $xoopsDB->fetchArray($result)) {
         $ret[] = $myrow;
     }
     if (!empty($ret)) {

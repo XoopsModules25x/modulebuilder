@@ -26,8 +26,6 @@ use XoopsModules\Modulebuilder;
  *
  */
 
-// include __DIR__ . '/autoload.php';
-
 /**
  * @Class TablesHandler
  * @extends \XoopsPersistableObjectHandler

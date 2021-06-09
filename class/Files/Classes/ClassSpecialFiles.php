@@ -118,7 +118,7 @@ class ClassSpecialFiles extends Files\CreateFile
         $cCl            .= $this->pc->getPhpCodeFunction('getInstance', '', $getInstance, 'public static ', false, "\t");
         $content        .= $this->pc->getPhpCodeClass($this->className, $cCl, '\XoopsObject');
 
-        $this->create($moduleDirname, 'class', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'class', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }
@@ -176,8 +176,8 @@ class ClassSpecialFiles extends Files\CreateFile
         $globalContent  .= $this->xc->getXcEqualsOperator('$mid', '$xoopsModule->mid()', null, "\t\t");
         $globalContent  .= $this->xc->getXcXoopsHandler('member', "\t\t");
 
-        $contIfInt      = $this->xc->getXcEqualsOperator('$my_group_ids', '[XOOPS_GROUP_ANONYMOUS]', null, "\t\t\t");
-        $contElseInt    = $this->xc->getXcEqualsOperator('$my_group_ids', '$memberHandler->getGroupsByUser($currentuid);', null, "\t\t\t");
+        $contIfInt      = $this->xc->getXcEqualsOperator('$my_group_ids', '[\XOOPS_GROUP_ANONYMOUS]', null, "\t\t\t");
+        $contElseInt    = $this->xc->getXcEqualsOperator('$my_group_ids', '$memberHandler->getGroupsByUser($currentuid)', null, "\t\t\t");
         $globalContent  .= $this->pc->getPhpCodeConditions('$currentuid', ' == ', '0', $contIfInt, $contElseInt, "\t\t");
         $globalContent  .= $cond;
         $globalContent  .= $this->getSimpleString("return false;", "\t\t");
@@ -211,7 +211,7 @@ class ClassSpecialFiles extends Files\CreateFile
         $functions      .= $this->getGlobalPerms(16);
 
         $content        .= $this->pc->getPhpCodeClass($this->className, $functions, '\XoopsPersistableObjectHandler');
-        $this->create($moduleDirname, 'class', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'class', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }
@@ -243,7 +243,7 @@ class ClassSpecialFiles extends Files\CreateFile
         foreach (\array_keys($tables) as $t) {
             $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
             $stuTableName = \mb_strtoupper($tables[$t]->getVar('table_name'));
-            $contentClass .= $this->pc->getPhpCodeConstant("TABLE_" . $stuTableName, $t, "\t",'const');
+            $contentClass .= $this->pc->getPhpCodeConstant("TABLE_" . $stuTableName, $t, "\t",'public const');
         }
 
         $contentClass .= $this->pc->getPhpCodeBlankLine();
@@ -276,7 +276,7 @@ class ClassSpecialFiles extends Files\CreateFile
 
         $contentFile   .= $this->pc->getPhpCodeInterface($this->className, $contentClass);
 
-        $this->create($moduleDirname, 'class', $filename, $contentFile, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'class', $filename, $contentFile, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

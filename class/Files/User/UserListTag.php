@@ -79,8 +79,8 @@ class UserListTag extends Files\CreateFile
      */
     public function getUserListTag()
     {
-        $ret = $this->getInclude();
-        $ret .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'modules/tag/list.tag');
+        $ret = $this->getRequire();
+        $ret .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'modules/tag/list.tag');
 
         return $ret;
     }
@@ -98,7 +98,7 @@ class UserListTag extends Files\CreateFile
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserListTag();
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -103,7 +103,7 @@ class AdminIndex extends Files\CreateFile
         $ret              = $this->getSimpleString('');
         $ret              .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Common']);
         $ret              .= $this->pc->getPhpCodeIncludeDir('\dirname(__DIR__)', 'preloads/autoloader', true);
-        $ret              .= $this->getInclude();
+        $ret              .= $this->getRequire();
         $ret              .= $this->pc->getPhpCodeBlankLine();
         $ret              .= $this->pc->getPhpCodeCommentLine('Template Index');
         $ret              .= $this->axc->getAdminTemplateMain((string)$moduleDirname, 'index');
@@ -143,7 +143,7 @@ class AdminIndex extends Files\CreateFile
 
             $ret       .= $this->pc->getPhpCodeCommentLine('Uploads Folders Created');
             $boxLine   = $this->axc->getAxcAddConfigBoxLine('$folder[$i]', 'folder', '', "\t");
-            $boxLine   .= $this->axc->getAxcAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod', '', "\t");
+            $boxLine   .= $this->axc->getAxcAddConfigBoxLine("[\$folder[\$i], '777']", 'chmod', '', "\t");
             $ret       .= $this->pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '') . PHP_EOL;
         }
         $ret    .= $this->pc->getPhpCodeCommentLine('Render Index');
@@ -160,7 +160,7 @@ class AdminIndex extends Files\CreateFile
         $ret    .= $this->xc->getXcXoopsTplAssign('index', '$adminObject->displayIndex()');
         $ret    .= $this->pc->getPhpCodeCommentLine('End Test Data');
 
-        $ret    .= $this->getInclude('footer');
+        $ret    .= $this->getRequire('footer');
 
         return $ret;
     }
@@ -178,7 +178,7 @@ class AdminIndex extends Files\CreateFile
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getAdminIndex($module);
 
-        $this->create($moduleDirname, 'admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

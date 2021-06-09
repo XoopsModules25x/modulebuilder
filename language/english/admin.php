@@ -330,7 +330,7 @@
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_SOLVE', 'Please solve these problems and try again');
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_BROKEN1', "The table '%t' should use broken functionality, but the table do not have a 'Select Status' field, which is obligatory for this function");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS1', "The field '%f' in table '%t' have no params selected, but each field must have minimum one parameter");
-\define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS2', "The field '%f' in table '%t' should be used on user side: Param '" . _AM_MODULEBUILDER_FIELD_USER . "' is selected, but no selection is made, where it should be shown ('User index:...' or 'User file:...')");
+\define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS2', "The field '%f' in table '%t' should be used on user side: Param '" . \_AM_MODULEBUILDER_FIELD_USER . "' is selected, but no selection is made, where it should be shown ('User index:...' or 'User file:...')");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS3', "The field '%f' in table '%t' should be used on user side, but you made multiple decision where ('header' and/or 'body' and/or 'footer'). It is recommended to select only one section per index or item file");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS4', "The table '%t' should contains field in index file on user side, but no selection is made, which fields (field params 'User index:...')");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS5', "The field '%f' in table '%t' should be used in index file on user side, but option 'Add in User Index Files' in table setting is deactivated)");

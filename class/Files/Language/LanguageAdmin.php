@@ -342,7 +342,7 @@ class LanguageAdmin extends Files\CreateFile
         $tables        = $this->getTables();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'AM');
+        $language      = $this->getLanguage($moduleDirname, 'AM', '', false);
         $content       = $this->getHeaderFilesComments($module);
         if (\is_array($tables)) {
             $content .= $this->getLanguageAdminIndex($language, $tables);
@@ -354,7 +354,7 @@ class LanguageAdmin extends Files\CreateFile
         }
         $content .= $this->getLanguageAdminFoot($language);
 
-        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

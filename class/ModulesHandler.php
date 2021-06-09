@@ -23,7 +23,6 @@ namespace XoopsModules\Modulebuilder;
  * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
  *
  */
-// include __DIR__ . '/autoload.php';
 
 /**
  * @Class ModulesHandler

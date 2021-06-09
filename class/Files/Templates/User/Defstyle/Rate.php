@@ -236,7 +236,7 @@ EOT;
         $filename       = $this->getFileName();
         $moduleDirname  = $module->getVar('mod_dirname');
         $tableFieldname = $table->getVar('table_fieldname');
-        $language       = $this->getLanguage($moduleDirname, 'MA');
+        $language       = $this->getLanguage($moduleDirname, 'MA', '', false);
         $content        = $this->getTemplatesUserRateHeader($moduleDirname, $table, $language);
         // Verify if table_fieldname is not empty
         if (!empty($tableFieldname)) {
@@ -246,7 +246,7 @@ EOT;
         }
         $content .= $this->getTemplatesUserRateFooter($moduleDirname);
 
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -266,7 +266,7 @@ class TemplatesAdminPages extends Files\CreateFile
         $strong    = $this->hc->getHtmlTag('strong', [], $single, false, '', '');
         $div       = $this->hc->getHtmlTag('div', ['class' => 'errorMsg'], $strong, false, "\t", "\n");
         $ifList    .= $this->sc->getSmartyConditions('error', '', '', $div);
-        $ifList    .= $this->hc->getHtmlEmpty('', '', "\n");;
+        $ifList    .= $this->hc->getHtmlEmpty('', '', "\n");
 
         return $ifList;
     }
@@ -295,13 +295,13 @@ class TemplatesAdminPages extends Files\CreateFile
         $table         = $this->getTable();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'AM');
+        $language      = $this->getLanguage($moduleDirname, 'AM', '', false);
         $fields        = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order');
         $content       = $this->getTemplatesAdminPagesHeader($moduleDirname);
         $content       .= $this->getTemplatesAdminPages($moduleDirname, $table->getVar('table_name'), $table->getVar('table_solename'), $table->getVar('table_autoincrement'), $fields, $language);
         $content       .= $this->getTemplatesAdminPagesFooter($moduleDirname);
 
-        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

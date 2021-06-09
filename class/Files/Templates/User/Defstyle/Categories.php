@@ -221,12 +221,12 @@ class Categories extends Files\CreateFile
         $moduleDirname  = $module->getVar('mod_dirname');
         $tableName      = $table->getVar('table_name');
         $tableSoleName  = $table->getVar('table_solename');
-        $language       = $this->getLanguage($moduleDirname, 'MA');
+        $language       = $this->getLanguage($moduleDirname, 'MA', '', false);
         $content        = $this->getTemplatesUserCategoriesHeader($moduleDirname);
         $content        .= $this->getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSoleName, $language);
         $content        .= $this->getTemplatesUserCategoriesFooter($moduleDirname);
 
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

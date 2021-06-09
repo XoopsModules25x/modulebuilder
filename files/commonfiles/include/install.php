@@ -16,7 +16,7 @@
  * @license        GPL 2.0 or later
  * @package        Modulebuilder
  * @since          1.0
- * @min_xoops      2.5.9
+ * @min_xoops      2.5.11
  * @author         Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com> XOOPS Project (www.xoops.org) $
  */
 
@@ -30,7 +30,7 @@ use XoopsModules\Modulebuilder\Common;
 function xoops_module_pre_install_modulebuilder(\XoopsModule $module)
 {
     require \dirname(__DIR__) . '/preloads/autoloader.php';
-    /** @var Modulebuilder\Utility $utility */
+
     $utility = new Modulebuilder\Utility();
 
     //check for minimum XOOPS version
@@ -51,7 +51,7 @@ function xoops_module_pre_install_modulebuilder(\XoopsModule $module)
 
 /**
  * @param \XoopsModule $module
- * @return bool|string
+ * @return bool
  */
 function xoops_module_install_modulebuilder(\XoopsModule $module)
 {

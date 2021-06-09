@@ -65,7 +65,7 @@ class FormTabTray extends \XoopsFormElementTray
     {
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
-        $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . '/modules/system/css/ui/' . $this->uiTheme . '/ui.all.css');
+        $GLOBALS['xoTheme']->addStylesheet(\XOOPS_URL . '/modules/system/css/ui/' . $this->uiTheme . '/ui.all.css');
         $GLOBALS['xoTheme']->addScript('', ['type' => 'text/javascript'], '$(function() { $("#tabs_' . $this->getName() . '").tabs(); });');
 
         $ret = '<div id="tabs_' . $this->getName() . '">' . NWLINE;

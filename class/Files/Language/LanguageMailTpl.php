@@ -405,7 +405,7 @@ class LanguageMailTpl extends Files\CreateFile
         }
         $content .= $this->getTemplateTableFooter($line);
 
-        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'] . '/mail_template', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'] . '/mail_template', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -194,7 +194,7 @@ class PagesList extends Files\CreateFile
         $table  = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
         $filename      = $this->getFileName();
-        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $language      = $this->getLanguage($moduleDirname, 'MA', '', false);
         $content       = '';
         $tableId         = $table->getVar('table_id');
         $tableMid        = $table->getVar('table_mid');
@@ -205,7 +205,7 @@ class PagesList extends Files\CreateFile
             $content .= $this->getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
         }
 
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

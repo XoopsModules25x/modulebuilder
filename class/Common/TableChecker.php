@@ -12,7 +12,7 @@ namespace XoopsModules\Modulebuilder\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-use \XoopsModules\Modulebuilder\Common;
+use XoopsModules\Modulebuilder\Common;
 
 /**
  * Class to compare current DB table structure with sql/mysql.sql
@@ -46,10 +46,9 @@ class TableChecker extends \XoopsObject
      * @var mixed
      */
     private $checktype = null;
-
-    const CHECKTYPE_REPORT        = 0; //report only
-    const CHECKTYPE_UPDATE        = 1; //update only
-    const CHECKTYPE_UPDATE_REPORT = 2; //update and report
+    public const CHECKTYPE_REPORT = 0; //report only
+    public const CHECKTYPE_UPDATE = 1; //update only
+    public const CHECKTYPE_UPDATE_REPORT = 2; //update and report
 
 
     /**
@@ -89,7 +88,7 @@ class TableChecker extends \XoopsObject
                     if ($this->result = $GLOBALS['xoopsDB']->queryF($sql)) {
                         $this->result[] = 'Table created:' . $table;
                     } else {
-                        xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
+                        \xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
                         $this->result[] = 'Error creating table:' . $table;
                     }
                 } else {
@@ -110,15 +109,15 @@ class TableChecker extends \XoopsObject
     {
         $tabledefs = [];
 
-        $modhandler = \xoops_getHandler('module');
-        $module = $modhandler->getByDirname($this->mydirname);
+        $moduleHandler = \xoops_getHandler('module');
+        $module = $moduleHandler->getByDirname($this->mydirname);
         $module->loadInfoAsVar($this->mydirname);
         $sqlfile = $module->getInfo('sqlfile');
-        $sql_file_path = \XOOPS_ROOT_PATH . '/modules/' . $this->mydirname . '/' . $sqlfile[XOOPS_DB_TYPE];
+        $sql_file_path = \XOOPS_ROOT_PATH . '/modules/' . $this->mydirname . '/' . $sqlfile[\XOOPS_DB_TYPE];
 
         if (\file_exists($sql_file_path)) {
-            include_once \XOOPS_ROOT_PATH . '/class/database/sqlutility.php';
-            $sqlutil = new \SqlUtility;
+            require_once \XOOPS_ROOT_PATH . '/class/database/sqlutility.php';
+            $sqlutil = new \SqlUtility();
             $pieces = [];
             $sql_query = \trim(file_get_contents($sql_file_path));
             $sqlutil->splitMySqlFile($pieces, $sql_query);
@@ -126,7 +125,7 @@ class TableChecker extends \XoopsObject
             $countTable = 0;
             foreach ($pieces as $piece) {
                 $singleSql = $sqlutil->prefixQuery($piece, $GLOBALS['xoopsDB']->prefix());
-                $lines = preg_split('/\r\n|\n|\r/', $piece);
+                $lines = \preg_split('/\r\n|\n|\r/', $piece);
                 //var_dump($lines);
                 $needle1 = 'create table';
                 if ($needle1 == \mb_strtolower($singleSql[1])) {
@@ -139,11 +138,11 @@ class TableChecker extends \XoopsObject
                             $needle2 = 'primary key';
                             $needle3 = 'unique key';
                             $needle4 = 'key';
-                            if ($needle2 == \mb_strtolower(\substr(\trim($line), 0, \strlen($needle2)))) {
+                            if (0 === \stripos(\trim($line), $needle2)) {
                                 $tabledefs[$countTable][$needle2] = $line;
-                            } elseif ($needle3 == \mb_strtolower(\substr(\trim($line), 0, \strlen($needle3)))) {
+                            } elseif (0 === \stripos(\trim($line), $needle3)) {
                                 $tabledefs[$countTable][$needle3] = $line;
-                            } elseif ($needle4 == \mb_strtolower(\substr(\trim($line), 0, \strlen($needle4)))) {
+                            } elseif (0 === \stripos(\trim($line), $needle4)) {
                                 $tabledefs[$countTable][$needle4] = $line;
                             } else {
                                 if (\strpos($line, '`') > 0) {
@@ -235,7 +234,7 @@ class TableChecker extends \XoopsObject
                     if ($result = $GLOBALS['xoopsDB']->queryF($sql)) {
                         $this->result[] = 'Field added:' . $fieldname;
                     } else {
-                        xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
+                        \xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
                         $this->result[] = "Error when adding '$fieldname' to table '$table'.";
                     }
                 } else {

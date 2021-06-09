@@ -57,7 +57,7 @@ $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 \define('CO_' . $moduleDirNameUpper . '_ERROR_NO_PLUGIN', 'Could not load plugin');
 
 //Help
-\define('CO_' . $moduleDirNameUpper . '_DIRNAME', \basename(\dirname(\dirname(__DIR__))));
+\define('CO_' . $moduleDirNameUpper . '_DIRNAME', \basename(\dirname(__DIR__, 2)));
 \define('CO_' . $moduleDirNameUpper . '_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 \define('CO_' . $moduleDirNameUpper . '_BACK_2_ADMIN', 'Back to Administration of ');
 \define('CO_' . $moduleDirNameUpper . '_OVERVIEW', 'Overview');

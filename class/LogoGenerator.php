@@ -22,7 +22,7 @@ use XoopsModules\Modulebuilder;
  * @author          Xoops Team Developement Modules - https://xoops.org
  *
  */
-include_once \dirname(\dirname(\dirname(__DIR__))) . '/mainfile.php';
+require_once \dirname(__DIR__, 3) . '/mainfile.php';
 
 /**
  * @param string $val
@@ -66,12 +66,12 @@ class LogoGenerator
         }
 
         $dirname      = 'modulebuilder';
-        $iconFileName = XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32/' . \basename($logoIcon);
+        $iconFileName = \XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32/' . \basename($logoIcon);
 
         //$dirFonts = TDMC_PATH . "/assets/fonts";
         //$dirLogos = TDMC_PATH . "/assets/images/logos";
-        $dirFonts = XOOPS_ROOT_PATH . '/modules/' . $dirname . '/assets/fonts';
-        $dirLogos = XOOPS_ROOT_PATH . '/modules/' . $dirname . '/assets/images/logos';
+        $dirFonts = \XOOPS_ROOT_PATH . '/modules/' . $dirname . '/assets/fonts';
+        $dirLogos = \XOOPS_ROOT_PATH . '/modules/' . $dirname . '/assets/images/logos';
 
         if (!\file_exists($imageBase = $dirLogos . '/empty.png')
             || !\file_exists($font = $dirFonts . '/VeraBd.ttf')
@@ -92,11 +92,11 @@ class LogoGenerator
         //$targetImage = TDMC_UPLOAD_IMGMOD_URL . "/" . $moduleName . "_logo.png";
         $targetImage = '/uploads/' . $dirname . '/images/modules/' . $moduleName . '_logo.png';
 
-        \imagepng($imageModule, XOOPS_ROOT_PATH . $targetImage);
+        \imagepng($imageModule, \XOOPS_ROOT_PATH . $targetImage);
 
         \imagedestroy($imageModule);
         \imagedestroy($imageIcon);
 
-        return XOOPS_URL . $targetImage;
+        return \XOOPS_URL . $targetImage;
     }
 }

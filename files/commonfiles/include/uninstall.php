@@ -34,10 +34,9 @@ function xoops_module_uninstall_modulebuilder(\XoopsModule $module)
 
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
-    /** @var Modulebuilder\Helper $helper */
+
     $helper = Modulebuilder\Helper::getInstance();
 
-    /** @var Modulebuilder\Utility $utility */
     $utility = new Modulebuilder\Utility();
 
     $success = true;
@@ -67,7 +66,7 @@ function xoops_module_uninstall_modulebuilder(\XoopsModule $module)
     $xmlfile = $GLOBALS['xoops']->path('xsitemap.xml');
     if (is_file($xmlfile)) {
         if (false === ($delOk = \unlink($xmlfile))) {
-            $module->setErrors(\sprintf(_AM_MODULEBUILDER_ERROR_BAD_REMOVE, $xmlfile));
+            $module->setErrors(\sprintf(\_AM_MODULEBUILDER_ERROR_BAD_REMOVE, $xmlfile));
         }
     }
 //    return $success && $delOk; // use this if you're using this routine

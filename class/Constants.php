@@ -19,8 +19,8 @@ namespace XoopsModules\Modulebuilder;
  * @license        GPL 2.0 or later
  * @package        Modulebuilder
  * @since          1.0
- * @min_xoops      2.5.9
- * @author         TDM XOOPS - Email:<info@email.com> - Website:<http://xoops.org>
+ * @min_xoops      2.5.11
+ * @author         TDM XOOPS - Email:<info@email.com> - Website:<https://xoops.org>
  */
 
 /**

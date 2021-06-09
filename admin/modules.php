@@ -25,7 +25,7 @@
 // Define main template
 $templateMain = 'modulebuilder_modules.tpl';
 
-include __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
 $op    = \Xmf\Request::getString('op', 'list');
 $modId = \Xmf\Request::getInt('mod_id');
@@ -38,7 +38,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/modulebuilder/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_MODULES_ADD, 'modules.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_MODULES_ADD, 'modules.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
@@ -47,7 +47,7 @@ switch ($op) {
         $modulesAll   = $helper->getHandler('Modules')->getAllModules($start, $limit);
         // Redirect if there aren't modules
         if (0 == $modulesCount) {
-            \redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_MODULES2);
+            \redirect_header('modules.php?op=new', 2, \_AM_MODULEBUILDER_THEREARENT_MODULES2);
         }
         // Display modules list
         if ($modulesCount > 0) {
@@ -57,24 +57,24 @@ switch ($op) {
                 unset($module);
             }
             if ($modulesCount > $limit) {
-                include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+                require_once \XOOPS_ROOT_PATH . '/class/pagenav.php';
                 $pagenav = new \XoopsPageNav($modulesCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
-            $GLOBALS['xoopsTpl']->assign('error', _AM_MODULEBUILDER_THEREARENT_MODULES);
+            $GLOBALS['xoopsTpl']->assign('error', \_AM_MODULEBUILDER_THEREARENT_MODULES);
         }
 
         break;
     case 'new':
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_MODULES_LIST, 'modules.php', 'list');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_MODULES_LIST, 'modules.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $settings = $helper->getHandler('Settings')->getActiveSetting();
         if (0 == \count($settings)) {
-            \redirect_header('settings.php', 5, _AM_MODULEBUILDER_MODULE_NOACTSET);
+            \redirect_header('settings.php', 5, \_AM_MODULEBUILDER_MODULE_NOACTSET);
         }
         $modulesObj = $helper->getHandler('Modules')->create();
         $form       = $modulesObj->getFormModules();
@@ -115,7 +115,7 @@ switch ($op) {
             ]
         );
         //Form mod_image
-        include_once XOOPS_ROOT_PATH . '/class/uploader.php';
+        require_once \XOOPS_ROOT_PATH . '/class/uploader.php';
         $uploader = new \XoopsMediaUploader(
             TDMC_UPLOAD_IMGMOD_PATH, $helper->getConfig('mimetypes_image'), $helper->getConfig('maxsize_image'), null, null
         );
@@ -157,9 +157,9 @@ switch ($op) {
 
         if ($helper->getHandler('Modules')->insert($modulesObj)) {
             if ($modulesObj->isNew()) {
-                \redirect_header('tables.php', 5, \sprintf(_AM_MODULEBUILDER_MODULE_FORM_CREATED_OK, \Xmf\Request::getString('mod_name', '', 'POST')));
+                \redirect_header('tables.php', 5, \sprintf(\_AM_MODULEBUILDER_MODULE_FORM_CREATED_OK, \Xmf\Request::getString('mod_name', '', 'POST')));
             } else {
-                \redirect_header('modules.php', 5, \sprintf(_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('mod_name', '', 'POST')));
+                \redirect_header('modules.php', 5, \sprintf(\_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('mod_name', '', 'POST')));
             }
         }
 
@@ -170,8 +170,8 @@ switch ($op) {
     case 'edit':
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_MODULES_ADD, 'modules.php?op=new', 'add');
-        $adminObject->addItemButton(_AM_MODULEBUILDER_MODULES_LIST, 'modules.php', 'list');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_MODULES_ADD, 'modules.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_MODULES_LIST, 'modules.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $modulesObj = $helper->getHandler('Modules')->get($modId);
@@ -201,7 +201,7 @@ switch ($op) {
             unset($critDelete);
             //delete module
             if ($helper->getHandler('Modules')->delete($modulesObj)) {
-                \redirect_header('modules.php', 3, _AM_MODULEBUILDER_FORMDELOK);
+                \redirect_header('modules.php', 3, \_AM_MODULEBUILDER_FORMDELOK);
             } else {
                 $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
             }
@@ -227,12 +227,12 @@ switch ($op) {
                 }
             }
             if ($helper->getHandler('Modules')->insert($modulesObj)) {
-                \redirect_header('modules.php', 3, _AM_MODULEBUILDER_TOGGLE_SUCCESS);
+                \redirect_header('modules.php', 3, \_AM_MODULEBUILDER_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
         }
         break;
 }
 
-include __DIR__ . '/footer.php';
+require __DIR__ . '/footer.php';
 

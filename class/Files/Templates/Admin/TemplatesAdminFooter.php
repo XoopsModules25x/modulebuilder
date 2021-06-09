@@ -89,7 +89,7 @@ class TemplatesAdminFooter extends Files\CreateFile
         $moduleName    = $module->getVar('mod_name');
         $moduleDirname = $module->getVar('mod_dirname');
         $supportName   = $module->getVar('mod_support_name');
-        $language      = $this->getLanguage($moduleDirname, 'AM');
+        $language      = $this->getLanguage($moduleDirname, 'AM', '', false);
         $singleNoVar = $this->sc->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
         $img         = $this->hc->getHtmlTag('img', ['src' => $singleNoVar, 'alt' => 'XOOPS'], '', true, '','');
         $anchor      = $this->hc->getHtmlTag('a', ['href' => 'https://xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'], $img) ;
@@ -99,7 +99,7 @@ class TemplatesAdminFooter extends Files\CreateFile
         $tree        .= $this->hc->getHtmlTag('a', ['href' => '<{$maintainedby}>', 'title' => 'Visit ' . $supportName, 'class' => 'tooltip', 'rel' => 'external'], $supportName);
         $content     .= $this->hc->getHtmlTag('div', ['class' => 'center smallsmall italic pad5'], "\n\t" . $tree);
 
-        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

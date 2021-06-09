@@ -190,7 +190,7 @@ class CreateXoopsCode
         $tf            = Modulebuilder\Files\CreateFile::getInstance();
         $rightField    = $tf->getRightString($fieldName);
         $ucfRightField = \ucfirst($rightField);
-        $value         = "\DateTime::createFromFormat(_SHORTDATESTRING, Request::getString('{$fieldName}'))";
+        $value         = "\DateTime::createFromFormat(\_SHORTDATESTRING, Request::getString('{$fieldName}'))";
         $ret           = $this->getXcEqualsOperator("\${$tableSoleName}{$ucfRightField}Obj", $value, null, $t);
         $ret           .= $this->getXcSetVarObj($tableName, $fieldName, "\${$tableSoleName}{$ucfRightField}Obj->getTimestamp()", $t);
 
@@ -215,7 +215,7 @@ class CreateXoopsCode
         $varArr        = "\${$tableSoleName}{$ucfRightField}Arr";
         $ret           = $this->getXcEqualsOperator($varArr, $request, null, $t);
         $varObj        = "\${$tableSoleName}{$ucfRightField}Obj";
-        $value         = "\DateTime::createFromFormat(_SHORTDATESTRING, {$varArr}['date'])";
+        $value         = "\DateTime::createFromFormat(\_SHORTDATESTRING, {$varArr}['date'])";
         $ret           .= $this->getXcEqualsOperator($varObj, $value, null, $t);
         $ret           .= "{$t}{$varObj}->setTime(0, 0, 0);\n";
         $value         = "{$varObj}->getTimestamp() + (int){$varArr}['time']";
@@ -371,7 +371,7 @@ class CreateXoopsCode
         $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
         $parentTopic  = $pc->getPhpCodeCommentLine('Get', $tableNameTopic . ' Handler', $t . "\t");
         $parentTopic  .= $this->getXcHandlerLine($tableNameTopic, $t . "\t");
-        $elseGroups   = $this->getXcEqualsOperator('$groups', 'XOOPS_GROUP_ANONYMOUS');
+        $elseGroups   = $this->getXcEqualsOperator('$groups', '\XOOPS_GROUP_ANONYMOUS');
         $ret          = $pc->getPhpCodeConditions("!isset(\${$tableNameTopic}Handler", '', '', $parentTopic, $elseGroups);
         $ret          .= $this->getXcGetVarFromID("\${$lpFieldName}['{$rpFieldName}']", $tableNameTopic, $tableSoleNameTopic, $tableName, $fieldNameParent, $t);
 
@@ -501,7 +501,7 @@ class CreateXoopsCode
         $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
         $ret = $pc->getPhpCodeIncludeDir('__DIR__', 'header');
         $ret .= $this->getXcXoopsOptionTemplateMain($moduleDirname, $tableName);
-        $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'header', true);
 
         return $ret;
     }
@@ -515,10 +515,10 @@ class CreateXoopsCode
     {
         $pc         = Modulebuilder\Files\CreatePhpCode::getInstance();
         $ret        = $pc->getPhpCodeCommentLine('Permission');
-        $ret        .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
+        $ret        .= $pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
         $ret        .= $this->getXcXoopsHandler('groupperm');
         $groups     = $this->getXcEqualsOperator('$groups', '$xoopsUser->getGroups()');
-        $elseGroups = $this->getXcEqualsOperator('$groups', 'XOOPS_GROUP_ANONYMOUS');
+        $elseGroups = $this->getXcEqualsOperator('$groups', '\XOOPS_GROUP_ANONYMOUS');
         $ret        .= $pc->getPhpCodeConditions('\is_object($xoopsUser)', '', $type = '', $groups, $elseGroups);
 
         return $ret;
@@ -1177,9 +1177,11 @@ class CreateXoopsCode
     public function getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $fields, $t = '')
     {
         $axc           = Modulebuilder\Files\Admin\AdminXoopsCode::getInstance();
+        $xc            = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $ret           = '';
         $fieldMain     = '';
         $countUploader = 0;
+        $fieldLines    = '';
         foreach (\array_keys($fields) as $f) {
 
             $fieldName    = $fields[$f]->getVar('field_name');
@@ -1192,44 +1194,48 @@ class CreateXoopsCode
                 switch ($fieldElement) {
                     case 5:
                     case 6:
-                        $ret .= $this->getXcSetVarCheckBoxOrRadioYN($tableName, $fieldName, $t);
+                        $fieldLines .= $this->getXcSetVarCheckBoxOrRadioYN($tableName, $fieldName, $t);
                         break;
                     case 10:
-                        $ret .= $axc->getAxcSetVarImageList($tableName, $fieldName, $t, $countUploader);
+                        $fieldLines .= $axc->getAxcSetVarImageList($tableName, $fieldName, $t, $countUploader);
                         $countUploader++;
                         break;
                     case 11:
-                        $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
+                        $fieldLines .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case 12:
-                        $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, true, $t, $countUploader, $fieldMain);
+                        $fieldLines .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, true, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case 13:
-                        $ret .= $axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
+                        $fieldLines .= $axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
                         $countUploader++;
                         break;
                     case 14:
-                        $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
+                        $fieldLines .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case 15:
-                        $ret .= $this->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t);
+                        $fieldLines .= $this->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     case 17:
-                        $ret .= $axc->getAxcSetVarPassword($tableName, $fieldName, $t);
+                        $fieldLines .= $axc->getAxcSetVarPassword($tableName, $fieldName, $t);
                         $countUploader++;
                         break;
                     case 21:
-                        $ret .= $this->getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t);
+                        $fieldLines .= $this->getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     default:
-                        $ret .= $axc->getAxcSetVarMisc($tableName, $fieldName, $fieldType, $fieldElement, $t);
+                        $fieldLines .= $axc->getAxcSetVarMisc($tableName, $fieldName, $fieldType, $fieldElement, $t);
                         break;
                 }
             }
         }
+        if ($countUploader > 0) {
+            $ret .= $xc->getXcEqualsOperator('$uploaderErrors', "''", null, $t);
+        }
+        $ret .= $fieldLines;
 
         return $ret;
     }
@@ -1248,7 +1254,7 @@ class CreateXoopsCode
         $pc        = Modulebuilder\Files\CreatePhpCode::getInstance();
         $cxc       = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
         $ret       = $pc->getPhpCodeCommentLine('Display Navigation', null, $t);
-        $condition = $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/pagenav', true, false, 'include', $t . "\t");
+        $condition = $pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'class/pagenav', true, false, 'require', $t . "\t");
         $condition .= $cxc->getClassXoopsPageNav('pagenav', $tableName . 'Count', 'limit', 'start', $paramStart, $paramOp, false, $t . "\t");
         $condition .= $this->getXcXoopsTplAssign('pagenav', '$pagenav->renderNav(4)', true, $t . "\t");
         $ret       .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '$limit', $condition, false, $t);

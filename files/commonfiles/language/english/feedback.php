@@ -16,10 +16,10 @@
  * @license        GPL 2.0 or later
  * @package        general
  * @since          1.0
- * @min_xoops      2.5.9
+ * @min_xoops      2.5.11
  * @author         XOOPS - Website:<https://xoops.org>
  */
-$moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
+$moduleDirName      = \basename(\dirname(__DIR__, 2));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 \define('CO_' . $moduleDirNameUpper . '_' . 'FB_FORM_TITLE', 'Send a feedback');

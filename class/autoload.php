@@ -37,7 +37,7 @@ if (!\function_exists('application_autoloader')) {
     function application_autoloader($class)
     {
         $classFilename = $class . '.php';
-        $cachePath     = XOOPS_VAR_PATH . '/caches/modulebuilder_cache';
+        $cachePath     = \XOOPS_VAR_PATH . '/caches/modulebuilder_cache';
         if (!\is_dir($cachePath)) {
             if (!\mkdir($cachePath, 0777) && !\is_dir($cachePath)) {
                 throw new \RuntimeException(\sprintf('Directory "%s" was not created', $cachePath));

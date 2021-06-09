@@ -21,7 +21,7 @@
 
 use Xmf\Request;
 
-include __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 
 $adminObject = \Xmf\Module\Admin::getInstance();
 
@@ -41,7 +41,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('feedback.php'));
         $feedback->name  = $GLOBALS['xoopsUser']->getVar('name');
         $feedback->email = $GLOBALS['xoopsUser']->getVar('email');
-        $feedback->site  = XOOPS_URL;
+        $feedback->site  = \XOOPS_URL;
         $form            = $feedback->getFormFeedback();
         $form->display();
         break;

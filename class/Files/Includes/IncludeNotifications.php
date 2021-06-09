@@ -94,7 +94,7 @@ class IncludeNotifications extends Files\CreateFile
         $ret    = $this->pc->getPhpCodeCommentMultiLine(['comment' => 'callback functions','' => '', '@param  $category' => '', '@param  $item_id' => '', '@return' => 'array item|null']);
         $func   = $this->xc->getXcGetGlobal(['xoopsDB'], $t);
         $func   .= $this->pc->getPhpCodeBlankLine();
-        $contIf = $this->pc->getPhpCodeDefine($stuModuleDirname . '_URL',"XOOPS_URL . '/modules/{$moduleDirname}'", $t . "\t");
+        $contIf = $this->pc->getPhpCodeDefine($stuModuleDirname . '_URL',"\XOOPS_URL . '/modules/{$moduleDirname}'", $t . "\t");
         $func   .= $this->pc->getPhpCodeConditions("!\defined('{$stuModuleDirname}_URL')", '','',$contIf, false, $t);
         $func   .= $this->pc->getPhpCodeBlankLine();
 
@@ -136,9 +136,9 @@ class IncludeNotifications extends Files\CreateFile
                 $case[] = $this->xc->getXcEqualsOperator('$result_array', '$xoopsDB->fetchArray($result)','',$t . "\t\t");
                 $case[] = $this->xc->getXcEqualsOperator("\$item['name']", "\$result_array['{$fieldMain}']",'',$t . "\t\t");
                 if ($fieldParent) {
-                    $case[] = $this->xc->getXcEqualsOperator("\$item['url'] ", "{$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldParent}=' . \$result_array['{$fieldParent}'] . '&amp;{$fieldId}=' . \$item_id",'',$t . "\t\t");
+                    $case[] = $this->xc->getXcEqualsOperator("\$item['url'] ", "\\{$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldParent}=' . \$result_array['{$fieldParent}'] . '&amp;{$fieldId}=' . \$item_id",'',$t . "\t\t");
                 } else {
-                    $case[] = $this->xc->getXcEqualsOperator("\$item['url'] ", "{$stuModuleDirname}_URL . '/{$tableName}.php?{$fieldId}=' . \$item_id",'',$t . "\t\t");
+                    $case[] = $this->xc->getXcEqualsOperator("\$item['url'] ", "\\{$stuModuleDirname}_URL . '/{$tableName}.php?{$fieldId}=' . \$item_id",'',$t . "\t\t");
                 }
 
                 $case[] = $this->getSimpleString('return $item;', $t . "\t\t");
@@ -170,7 +170,7 @@ class IncludeNotifications extends Files\CreateFile
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getNotificationsFunction($moduleDirname);
 
-        $this->create($moduleDirname, 'include', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

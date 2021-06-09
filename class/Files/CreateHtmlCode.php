@@ -67,7 +67,11 @@ class CreateHtmlCode
         if ('br' === $tag) {
             $ret = "{$t}<{$tag}{$attr}>{$n}";
         } elseif ($noClosed) {
-            $ret = "{$t}<{$tag}{$attr} />{$n}";
+            if ('img' === $tag) {
+                $ret = "{$t}<{$tag}{$attr} >{$n}";
+            } else {
+                $ret = "{$t}<{$tag}{$attr} />{$n}";
+            }
 		} elseif ($multiLine) {
             $ret = "{$t}<{$tag}{$attr}>{$n}";
             $ret .= "{$content}";
@@ -133,7 +137,7 @@ class CreateHtmlCode
         $brClass = ('' != $htmlClass) ? " class='{$htmlClass}'" : '';
         $ret     = '';
         for ($i = 0; $i < $brNumb; ++$i) {
-            $ret .= "{$t}<br{$brClass} />{$n}";
+            $ret .= "{$t}<br{$brClass}>{$n}";
         }
 
         return $ret;
@@ -366,7 +370,7 @@ class CreateHtmlCode
     public function getHtmlImage($src = 'blank.gif', $alt = 'blank.gif', $imgClass = '', $t = '', $n = '')
     {
         $rImgClass = ('' != $imgClass) ? " class='{$imgClass}'" : '';
-        $ret       = "{$t}<img{$rImgClass} src='{$src}' alt='{$alt}' />{$n}";
+        $ret       = "{$t}<img{$rImgClass} src='{$src}' alt='{$alt}' >{$n}";
 
         return $ret;
     }

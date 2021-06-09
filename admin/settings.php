@@ -25,7 +25,7 @@
 // Define main template
 $templateMain = 'modulebuilder_settings.tpl';
 
-include __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 
 // Recovered value of argument op in the URL $
 $op    = \Xmf\Request::getString('op', 'list');
@@ -39,7 +39,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/modulebuilder/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_SETTINGS_ADD, 'settings.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_SETTINGS_ADD, 'settings.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
@@ -55,18 +55,18 @@ switch ($op) {
                 unset($setting);
             }
             if ($settingsCount > $limit) {
-                include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+                require_once \XOOPS_ROOT_PATH . '/class/pagenav.php';
                 $pagenav = new \XoopsPageNav($settingsCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
-            $GLOBALS['xoopsTpl']->assign('error', _AM_MODULEBUILDER_THEREARENT_SETTINGS);
+            $GLOBALS['xoopsTpl']->assign('error', \_AM_MODULEBUILDER_THEREARENT_SETTINGS);
         }
         break;
     case 'new':
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_SETTINGS_LIST, 'settings.php', 'list');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_SETTINGS_LIST, 'settings.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $settingsObj = $helper->getHandler('Settings')->create();
@@ -142,7 +142,7 @@ switch ($op) {
         $settingsObj->setVar('set_type', $setType);
 
         if ($helper->getHandler('Settings')->insert($settingsObj)) {
-            \redirect_header('settings.php', 5, \sprintf(_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('set_name', '', 'POST')));
+            \redirect_header('settings.php', 5, \sprintf(\_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('set_name', '', 'POST')));
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
@@ -151,8 +151,8 @@ switch ($op) {
         break;
     case 'edit':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_SETTINGS_ADD, 'settings.php?op=new', 'add');
-        $adminObject->addItemButton(_AM_MODULEBUILDER_SETTINGS_LIST, 'settings.php', 'list');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_SETTINGS_ADD, 'settings.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_SETTINGS_LIST, 'settings.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $settingsObj = $helper->getHandler('Settings')->get($setId);
         $form        = $settingsObj->getFormSettings();
@@ -165,7 +165,7 @@ switch ($op) {
                 \redirect_header('settings.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($helper->getHandler('Settings')->delete($settingsObj)) {
-                \redirect_header('settings.php', 3, _AM_MODULEBUILDER_FORMDELOK);
+                \redirect_header('settings.php', 3, \_AM_MODULEBUILDER_FORMDELOK);
             } else {
                 $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
             }
@@ -190,10 +190,10 @@ switch ($op) {
             $GLOBALS['xoopsDB']->queryF($strSQL);
             $strSQL = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . ' SET ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . '.set_type = 1 WHERE ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_settings') . '.set_id = ' . $setId;
             if ($GLOBALS['xoopsDB']->queryF($strSQL)) {
-                \redirect_header('settings.php', 5, \sprintf(_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('set_name', '', 'POST')));
+                \redirect_header('settings.php', 5, \sprintf(\_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('set_name', '', 'POST')));
             }
             $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
         }
         break;
 }
-include __DIR__ . '/footer.php';
+require __DIR__ . '/footer.php';

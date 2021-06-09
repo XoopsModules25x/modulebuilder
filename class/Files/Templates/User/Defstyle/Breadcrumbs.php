@@ -108,7 +108,7 @@ class Breadcrumbs extends Files\CreateFile
 
         $content = $this->hc->getHtmlOl($into,  'breadcrumb');
 
-        $this->cf->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->cf->create($moduleDirname, 'templates', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->cf->renderFile();
     }

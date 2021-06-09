@@ -23,7 +23,6 @@ namespace XoopsModules\Modulebuilder;
  * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
  *
  */
-// include __DIR__ . '/autoload.php';
 
 /**
  * Class Logo.
@@ -64,7 +63,7 @@ class Logo
         if (!\extension_loaded('gd')) {
             return false;
         } else {
-            $requiredFunctions = array('imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate');
+            $requiredFunctions = ['imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate'];
             foreach ($requiredFunctions as $func) {
                 if (!\function_exists($func)) {
                     return false;
@@ -73,7 +72,7 @@ class Logo
         }
         if (!\file_exists($imageBase = TDMC_IMAGES_LOGOS_PATH.'/empty.png') ||
             !\file_exists($font = TDMC_FONTS_PATH.'/VeraBd.ttf') ||
-            !\file_exists($iconFile = XOOPS_ICONS32_PATH.'/'.\basename($logoIcon))
+            !\file_exists($iconFile = \XOOPS_ICONS32_PATH.'/'.\basename($logoIcon))
         ) {
             return false;
         }
@@ -82,7 +81,7 @@ class Logo
         // Write text
         $textColor = imagecolorallocate($imageModule, 0, 0, 0);
         $spaceBorder = (92 - \strlen($moduleDirname) * 7.5) / 2;
-        imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, \ucfirst($moduleDirname), array());
+        imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, \ucfirst($moduleDirname), []);
         imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
         $logoImg = '/'.$moduleDirname.'_logo.png';
         \imagepng($imageModule, TDMC_UPLOAD_IMGMOD_PATH.$logoImg);
@@ -111,12 +110,12 @@ class Logo
         }
 
         $dirname      = 'modulebuilder';
-        $iconFileName = XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32/' . \basename($logoIcon);
+        $iconFileName = \XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32/' . \basename($logoIcon);
 
         //$dirFonts = TDMC_PATH . "/assets/fonts";
         //$dirLogos = TDMC_PATH . "/assets/images/logos";
-        $dirFonts = XOOPS_ROOT_PATH . '/modules/' . $dirname . '/assets/fonts';
-        $dirLogos = XOOPS_ROOT_PATH . '/modules/' . $dirname . '/assets/images/logos';
+        $dirFonts = \XOOPS_ROOT_PATH . '/modules/' . $dirname . '/assets/fonts';
+        $dirLogos = \XOOPS_ROOT_PATH . '/modules/' . $dirname . '/assets/images/logos';
 
         if (!\file_exists($imageBase = $dirLogos . '/empty.png')
             || !\file_exists($font = $dirFonts . '/VeraBd.ttf')
@@ -137,11 +136,11 @@ class Logo
         //$targetImage = TDMC_UPLOAD_IMGMOD_URL . "/" . $moduleDirname . "_logo.png";
         $targetImage = '/uploads/' . $dirname . '/images/modules/' . $moduleDirname . '_logo.png';
 
-        \imagepng($imageModule, XOOPS_ROOT_PATH . $targetImage);
+        \imagepng($imageModule, \XOOPS_ROOT_PATH . $targetImage);
 
         \imagedestroy($imageModule);
         \imagedestroy($imageIcon);
 
-        return XOOPS_URL . $targetImage;
+        return \XOOPS_URL . $targetImage;
     }
 }

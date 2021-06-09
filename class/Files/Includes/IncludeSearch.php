@@ -97,7 +97,7 @@ class IncludeSearch extends Files\CreateFile
         $ucfModuleDirname = \ucfirst($moduleDirname);
         $tables           = $this->getTables();
         $t     = "\t";
-        $ret   = $this->pc->getPhpCodeCommentMultiLine(['search callback functions' => '', '' => '', '@param $queryarray' => '', '@param $andor' => '', '@param $limit' => '', '@param $offset' => '', '@param $userid' => '', '@return' => 'mixed $itemIds']);
+        $ret   = $this->pc->getPhpCodeCommentMultiLine(['search callback functions' => '', '' => '', '@param $queryarray' => '', '@param $andor' => '', '@param $limit' => '', '@param $offset' => '', '@param $userid' => '', '@return' => 'array $itemIds']);
         $func  = $this->xc->getXcEqualsOperator('$ret', "[]", '', $t);
         $func .= $this->xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", $t);
 
@@ -146,7 +146,7 @@ class IncludeSearch extends Files\CreateFile
                     $contIf   .= $this->pc->getPhpCodeFor( 'i', $for, 'elementCount', '0', ' < ', $t . "\t");
                     $func     .= $this->pc->getPhpCodeConditions('$elementCount', ' > ', '0', $contIf, false, $t);
                     $func     .= $this->pc->getPhpCodeCommentLine('search user(s)', '', $t);
-                    $contIf   = $this->xc->getXcEqualsOperator('$userid', "array_map('intval', \$userid)", '', $t . "\t");
+                    $contIf   = $this->xc->getXcEqualsOperator('$userid', "array_map('\intval', \$userid)", '', $t . "\t");
                     $contIf   .= $this->xc->getXcCriteriaCompo('crUser', $t . "\t");
                     $crit     = $this->xc->getXcCriteria('', "'{$tableFieldname}_submitter'", "'(' . \implode(',', \$userid) . ')'", "'IN'", true, $t . "\t");
                     $contIf   .= $this->xc->getXcCriteriaAdd('crUser', $crit, $t . "\t", "\n", "'OR'");
@@ -208,7 +208,7 @@ class IncludeSearch extends Files\CreateFile
         $content       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
         $content       .= $this->getSearchFunction($moduleDirname);
 
-        $this->cf->create($moduleDirname, 'include', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->cf->create($moduleDirname, 'include', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->cf->renderFile();
     }
