@@ -21,7 +21,7 @@
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
-include \dirname(__DIR__) . '/preloads/autoloader.php';
+require \dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
@@ -43,49 +43,49 @@ $sysPathIcon32 = $moduleInfo->getInfo('sysicons32');
 $modPathIcon32 = $moduleInfo->getInfo('modicons32');
 
 $adminmenu[] = [
-    'title' => _MI_MODULEBUILDER_ADMENU1,
+    'title' => \_MI_MODULEBUILDER_ADMENU1,
     'link'  => 'admin/index.php',
     'icon'  => $pathIcon32 . '/dashboard.png',
 ];
 
 $adminmenu[] = [
-    'title' => _MI_MODULEBUILDER_ADMENU2,
+    'title' => \_MI_MODULEBUILDER_ADMENU2,
     'link'  => 'admin/settings.php',
     'icon'  => $modPathIcon32 . '/settings.png',
 ];
 
 $adminmenu[] = [
-    'title' => _MI_MODULEBUILDER_ADMENU3,
+    'title' => \_MI_MODULEBUILDER_ADMENU3,
     'link'  => 'admin/modules.php',
     'icon'  => $modPathIcon32 . '/addmodule.png',
 ];
 
 $adminmenu[] = [
-    'title' => _MI_MODULEBUILDER_ADMENU4,
+    'title' => \_MI_MODULEBUILDER_ADMENU4,
     'link'  => 'admin/tables.php',
     'icon'  => $modPathIcon32 . '/addtable.png',
 ];
 
 $adminmenu[] = [
-    'title' => _MI_MODULEBUILDER_ADMENU5,
+    'title' => \_MI_MODULEBUILDER_ADMENU5,
     'link'  => 'admin/fields.php',
     'icon'  => $modPathIcon32 . '/fields.png',
 ];
 
 $adminmenu[] = [
-    'title' => _MI_MODULEBUILDER_ADMENU6,
+    'title' => \_MI_MODULEBUILDER_ADMENU6,
     'link'  => 'admin/morefiles.php',
     'icon'  => $modPathIcon32 . '/files.png',
 ];
 
 $adminmenu[] = [
-    'title' => _MI_MODULEBUILDER_ADMENU7,
+    'title' => \_MI_MODULEBUILDER_ADMENU7,
     'link'  => 'admin/building.php',
     'icon'  => $modPathIcon32 . '/builder.png',
 ];
 
 $adminmenu[] = [
-    'title' => _MI_MODULEBUILDER_ADMENU8,
+    'title' => \_MI_MODULEBUILDER_ADMENU8,
     'link'  => 'admin/devtools.php',
     'icon'  => $modPathIcon32 . '/devtools.png',
 ];
@@ -106,7 +106,7 @@ if (\is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTool
 }
 
 $adminmenu[] = [
-    'title' => _MI_MODULEBUILDER_ABOUT,
+    'title' => \_MI_MODULEBUILDER_ABOUT,
     'link'  => 'admin/about.php',
     'icon'  => $pathIcon32 . 'about.png',
 ];

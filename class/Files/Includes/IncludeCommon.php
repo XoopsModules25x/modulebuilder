@@ -114,19 +114,19 @@ class IncludeCommon extends Files\CreateFile
         $moduleAuthorWebsiteUrl  = $module->getVar('mod_author_website_url');
         $moduleAuthorImage       = \str_replace(' ', '', \mb_strtolower($moduleAuthor));
 
-        $contIf = $this->pc->getPhpCodeDefine('XOOPS_ICONS32_PATH', "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'", "\t");
+        $contIf = $this->pc->getPhpCodeDefine('XOOPS_ICONS32_PATH', "\XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'", "\t");
         $ret    = $this->pc->getPhpCodeConditions("!\defined('XOOPS_ICONS32_PATH')", '','', $contIf, false);
-        $contIf = $this->pc->getPhpCodeDefine('XOOPS_ICONS32_URL', "XOOPS_URL . '/Frameworks/moduleclasses/icons/32'", "\t");
+        $contIf = $this->pc->getPhpCodeDefine('XOOPS_ICONS32_URL', "\XOOPS_URL . '/Frameworks/moduleclasses/icons/32'", "\t");
         $ret    .= $this->pc->getPhpCodeConditions("!\defined('XOOPS_ICONS32_URL')", '','', $contIf, false);
         $ret    .= $this->getCommonDefines($moduleDirname, 'DIRNAME', "'{$moduleDirname}'");
-        $ret    .= $this->getCommonDefines($moduleDirname, 'PATH', "XOOPS_ROOT_PATH . '/modules/' . {$stuModuleDirname}_DIRNAME");
-        $ret    .= $this->getCommonDefines($moduleDirname, 'URL', "XOOPS_URL . '/modules/' . {$stuModuleDirname}_DIRNAME");
-        $ret    .= $this->getCommonDefines($moduleDirname, 'ICONS_PATH', "{$stuModuleDirname}_PATH . '/assets/icons'");
-        $ret    .= $this->getCommonDefines($moduleDirname, 'ICONS_URL', "{$stuModuleDirname}_URL . '/assets/icons'");
-        $ret    .= $this->getCommonDefines($moduleDirname, 'IMAGE_PATH', "{$stuModuleDirname}_PATH . '/assets/images'");
-        $ret    .= $this->getCommonDefines($moduleDirname, 'IMAGE_URL', "{$stuModuleDirname}_URL . '/assets/images'");
-        $ret    .= $this->getCommonDefines($moduleDirname, 'UPLOAD_PATH', "XOOPS_UPLOAD_PATH . '/' . {$stuModuleDirname}_DIRNAME");
-        $ret    .= $this->getCommonDefines($moduleDirname, 'UPLOAD_URL', "XOOPS_UPLOAD_URL . '/' . {$stuModuleDirname}_DIRNAME");
+        $ret    .= $this->getCommonDefines($moduleDirname, 'PATH', "\XOOPS_ROOT_PATH . '/modules/' . \\{$stuModuleDirname}_DIRNAME");
+        $ret    .= $this->getCommonDefines($moduleDirname, 'URL', "\XOOPS_URL . '/modules/' . \\{$stuModuleDirname}_DIRNAME");
+        $ret    .= $this->getCommonDefines($moduleDirname, 'ICONS_PATH', "\\{$stuModuleDirname}_PATH . '/assets/icons'");
+        $ret    .= $this->getCommonDefines($moduleDirname, 'ICONS_URL', "\\{$stuModuleDirname}_URL . '/assets/icons'");
+        $ret    .= $this->getCommonDefines($moduleDirname, 'IMAGE_PATH', "\\{$stuModuleDirname}_PATH . '/assets/images'");
+        $ret    .= $this->getCommonDefines($moduleDirname, 'IMAGE_URL', "\\{$stuModuleDirname}_URL . '/assets/images'");
+        $ret    .= $this->getCommonDefines($moduleDirname, 'UPLOAD_PATH', "\XOOPS_UPLOAD_PATH . '/' . \\{$stuModuleDirname}_DIRNAME");
+        $ret    .= $this->getCommonDefines($moduleDirname, 'UPLOAD_URL', "\XOOPS_UPLOAD_URL . '/' . \\{$stuModuleDirname}_DIRNAME");
 
         if (\is_object($table)) {
             $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
@@ -135,22 +135,22 @@ class IncludeCommon extends Files\CreateFile
                 $fieldElement[] = $fields[$f]->getVar('field_element');
             }
         }
-        $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_FILES_PATH', "{$stuModuleDirname}_UPLOAD_PATH . '/files'");
-        $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_FILES_URL', "{$stuModuleDirname}_UPLOAD_URL . '/files'");
-        $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_IMAGE_PATH', "{$stuModuleDirname}_UPLOAD_PATH . '/images'");
-        $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_IMAGE_URL', "{$stuModuleDirname}_UPLOAD_URL . '/images'");
-        $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_SHOTS_PATH', "{$stuModuleDirname}_UPLOAD_PATH . '/images/shots'");
-        $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_SHOTS_URL', "{$stuModuleDirname}_UPLOAD_URL . '/images/shots'");
-        $ret     .= $this->getCommonDefines($moduleDirname, 'ADMIN', "{$stuModuleDirname}_URL . '/admin/index.php'");
-        $ret     .= $this->xc->getXcEqualsOperator('$localLogo', "{$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.png'");
+        $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_FILES_PATH', "\\{$stuModuleDirname}_UPLOAD_PATH . '/files'");
+        $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_FILES_URL', "\\{$stuModuleDirname}_UPLOAD_URL . '/files'");
+        $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_IMAGE_PATH', "\\{$stuModuleDirname}_UPLOAD_PATH . '/images'");
+        $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_IMAGE_URL', "\\{$stuModuleDirname}_UPLOAD_URL . '/images'");
+        $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_SHOTS_PATH', "\\{$stuModuleDirname}_UPLOAD_PATH . '/images/shots'");
+        $ret     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_SHOTS_URL', "\\{$stuModuleDirname}_UPLOAD_URL . '/images/shots'");
+        $ret     .= $this->getCommonDefines($moduleDirname, 'ADMIN', "\\{$stuModuleDirname}_URL . '/admin/index.php'");
+        $ret     .= $this->xc->getXcEqualsOperator('$localLogo', "\\{$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.png'");
         $ret     .= $this->pc->getPhpCodeCommentLine('Module Information');
 
         $img     = $this->hc->getHtmlImage('" . $localLogo . "', $moduleAuthorWebsiteName);
         $anchor  = $this->hc->getHtmlAnchor($moduleAuthorWebsiteUrl, $img, $moduleAuthorWebsiteName, '_blank', '', '', '', "\n");
         $replace = $this->xc->getXcEqualsOperator('$copyright', '"' . $anchor . '"');
         $ret     .= \str_replace("\n", '', $replace) . PHP_EOL;
-        $ret     .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsrequest', true);
-        $ret     .= $this->pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'include/functions', true);
+        $ret     .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'class/xoopsrequest', true);
+        $ret     .= $this->pc->getPhpCodeIncludeDir("\\{$stuModuleDirname}_PATH", 'include/functions', true);
 
         return $ret;
     }
@@ -167,7 +167,7 @@ class IncludeCommon extends Files\CreateFile
         $filename      = $this->getFileName();
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getCommonCode($module);
-        $this->create($moduleDirname, 'include', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

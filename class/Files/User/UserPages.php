@@ -107,9 +107,9 @@ class UserPages extends Files\CreateFile
         $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants'], '', '');
         $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Common']);
-        $ret       .= $this->getInclude();
+        $ret       .= $this->getRequire();
         $ret       .= $this->uxc->getUserTplMain($moduleDirname, $tableName);
-        $ret       .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret       .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'header', true);
         $ret       .= $this->pc->getPhpCodeBlankLine();
         $ret       .= $this->xc->getXcXoopsRequest('op   ', 'op', 'list', 'Cmd');
         $ret       .= $this->xc->getXcXoopsRequest('start', 'start', '0', 'Int');
@@ -120,8 +120,8 @@ class UserPages extends Files\CreateFile
         $ret       .= $this->pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret       .= $this->xc->getXcXoThemeAddStylesheet();
         $ret       .= $this->pc->getPhpCodeCommentLine('Paths');
-        $ret       .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret       .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
+        $ret       .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', '\XOOPS_ICONS32_URL');
+        $ret       .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "\\{$stuModuleDirname}_URL");
         $ret       .= $this->pc->getPhpCodeCommentLine('Keywords');
         $ret       .= $this->pc->getPhpCodeArray('keywords', null, false, '');
         $ret       .= $this->uxc->getUserBreadcrumbs($language, 'index', '', 'index.php');
@@ -162,14 +162,14 @@ class UserPages extends Files\CreateFile
         if ($tableRate) {
             $varRate = '$ratingbars';
             $ret .= $this->xc->getXcEqualsOperator($varRate, '(int)' . $this->xc->getXcGetConfig('ratingbars'),'', $t);
-            $contIf = $this->xc->getXcXoThemeAddStylesheet("{$stuModuleDirname}_URL . '/assets/css/rating.css'", $t . "\t", false);
+            $contIf = $this->xc->getXcXoThemeAddStylesheet("\\{$stuModuleDirname}_URL . '/assets/css/rating.css'", $t . "\t", false);
             $contIf .= $this->xc->getXcXoopsTplAssign('rating', $varRate, true, $t . "\t");
             $contIf .= $this->xc->getXcXoopsTplAssign('rating_5stars', "(Constants::RATING_5STARS === {$varRate})", true, $t . "\t");
             $contIf .= $this->xc->getXcXoopsTplAssign('rating_10stars', "(Constants::RATING_10STARS === {$varRate})", true, $t . "\t");
             $contIf .= $this->xc->getXcXoopsTplAssign('rating_10num', "(Constants::RATING_10NUM === {$varRate})", true, $t . "\t");
             $contIf .= $this->xc->getXcXoopsTplAssign('rating_likes', "(Constants::RATING_LIKES === {$varRate})", true, $t . "\t");
             $contIf .= $this->xc->getXcXoopsTplAssign('itemid', "'{$fieldId}'", true, $t . "\t");
-            $contIf .= $this->xc->getXcXoopsTplAssign($moduleDirname . '_icon_url_16', "{$stuModuleDirname}_URL . '/' . \$modPathIcon16", true, $t . "\t");
+            $contIf .= $this->xc->getXcXoopsTplAssign($moduleDirname . '_icon_url_16', "\\{$stuModuleDirname}_URL . '/' . \$modPathIcon16", true, $t . "\t");
             $ret .= $this->pc->getPhpCodeConditions($varRate, ' > ', '0', $contIf, false, $t);
         }
         $critName  = 'cr' . $ucfTableName;
@@ -282,7 +282,7 @@ class UserPages extends Files\CreateFile
         $ret                .= $this->pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectError, false, $t);
         if (1 == $tablePermissions) {
             $ret                .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
-            $contIf             = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '_NOPERM', true, $t . "\t");
+            $contIf             = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '\_NOPERM', true, $t . "\t");
             $ret                .= $this->pc->getPhpCodeConditions('!$permissionsHandler->getPermGlobalSubmit()', '', '', $contIf, false, $t);
         }
         $getObj             = $this->xc->getXcHandlerGetObj($tableName, $ccFieldId,  $t . "\t");
@@ -313,7 +313,7 @@ class UserPages extends Files\CreateFile
             }
             $contentInsert .= $this->pc->getPhpCodeArray('tags', [], false, $t . "\t");
             $contentInsert .= $this->xc->getXcEqualsOperator("\$tags['ITEM_NAME']", "\${$ccFieldMain}", '', $t . "\t");
-            $url = "XOOPS_URL . '/modules/{$moduleDirname}/{$tableName}.php?op=show&{$fieldId}=' . \${$ccFieldId}";
+            $url = "\XOOPS_URL . '/modules/{$moduleDirname}/{$tableName}.php?op=show&{$fieldId}=' . \${$ccFieldId}";
             $contentInsert .= $this->xc->getXcEqualsOperator("\$tags['ITEM_URL'] ", $url, '', $t . "\t");
             $contentInsert .= $this->xc->getXcXoopsHandler('notification', $t . "\t");
             if ('' === $fieldStatus) {
@@ -391,7 +391,7 @@ class UserPages extends Files\CreateFile
         $ret    = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'add', '', "\t\t");
         if (1 == $tablePermissions) {
             $ret    .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
-            $contIf = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '_NOPERM', true, $t . "\t");
+            $contIf = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '\_NOPERM', true, $t . "\t");
             $ret    .= $this->pc->getPhpCodeConditions('!$permissionsHandler->getPermGlobalSubmit()', '', '', $contIf, false, $t);
         }
         $ret    .= $this->xc->getXcCommonPagesNew($tableName, $t);
@@ -415,7 +415,7 @@ class UserPages extends Files\CreateFile
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         if (1 == $tablePermissions) {
             $ret       .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
-            $contIf    = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '_NOPERM', true, $t . "\t");
+            $contIf    = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '\_NOPERM', true, $t . "\t");
             $ret       .= $this->pc->getPhpCodeConditions('!$permissionsHandler->getPermGlobalSubmit()', '', '', $contIf, false, $t);
         }
         $ret       .= $this->pc->getPhpCodeCommentLine('Check params', '', $t);
@@ -444,7 +444,7 @@ class UserPages extends Files\CreateFile
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         if (1 == $tablePermissions) {
             $ret       .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
-            $contIf    = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '_NOPERM', true, $t . "\t");
+            $contIf    = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '\_NOPERM', true, $t . "\t");
             $ret       .= $this->pc->getPhpCodeConditions('!$permissionsHandler->getPermGlobalSubmit()', '', '', $contIf, false, $t);
         }
         $ret       .= $this->pc->getPhpCodeCommentLine('Check params', '', $t);
@@ -495,7 +495,7 @@ class UserPages extends Files\CreateFile
             $contInsert .= $this->pc->getPhpCodeCommentLine('Event broken notification', null, $t . "\t\t");
             $contInsert .= $this->pc->getPhpCodeArray('tags', [], false, $t . "\t\t");
             $contInsert .= $this->xc->getXcEqualsOperator("\$tags['ITEM_NAME']", "\${$ccFieldMain}", '', $t . "\t\t");
-            $url = "XOOPS_URL . '/modules/{$moduleDirname}/{$tableName}.php?op=show&{$fieldId}=' . \${$ccFieldId}";
+            $url = "\XOOPS_URL . '/modules/{$moduleDirname}/{$tableName}.php?op=show&{$fieldId}=' . \${$ccFieldId}";
             $contInsert .= $this->xc->getXcEqualsOperator("\$tags['ITEM_URL'] ", $url, '', $t . "\t\t");
             $contInsert .= $this->xc->getXcXoopsHandler('notification', $t . "\t\t");
             $contInsert .= $this->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_broken', \$tags);", $t . "\t\t");
@@ -531,15 +531,15 @@ class UserPages extends Files\CreateFile
         $ret .= $this->pc->getPhpCodeBlankLine();
         $ret .= $this->pc->getPhpCodeCommentLine('Description');
         $ret .= $this->uxc->getUserMetaDesc($moduleDirname, $language, $stuTableName);
-        $ret .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/{$tableName}.php'");
-        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "\\{$stuModuleDirname}_URL.'/{$tableName}.php'");
+        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "\\{$stuModuleDirname}_UPLOAD_URL");
         if (1 == $tableComments) {
             $ret .= $this->pc->getPhpCodeBlankLine();
             $ret .= $this->pc->getPhpCodeCommentLine('View comments');
-            $ret .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'include/comment_view', true, false, 'require');
+            $ret .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'include/comment_view', true, false, 'require');
         }
         $ret .= $this->pc->getPhpCodeBlankLine();
-        $ret .= $this->getInclude('footer');
+        $ret .= $this->getRequire('footer');
 
         return $ret;
     }
@@ -631,7 +631,7 @@ class UserPages extends Files\CreateFile
         $content .= $this->getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $tableRate, $fieldReads, $language, "\t");
         $content .= $this->getUserPagesFooter($moduleDirname, $tableName, $tableComments, $language);
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

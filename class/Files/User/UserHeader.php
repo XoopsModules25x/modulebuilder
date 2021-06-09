@@ -99,7 +99,7 @@ class UserHeader extends Files\CreateFile
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $tables           = $this->getTables();
 
-        $ret = $this->pc->getPhpCodeIncludeDir('\dirname(\dirname(__DIR__))', 'mainfile');
+        $ret = $this->pc->getPhpCodeIncludeDir('\dirname(__DIR__, 2)', 'mainfile');
         $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
         $ret .= $this->xc->getXcEqualsOperator('$moduleDirName', '\basename(__DIR__)');
         $ret .= $this->pc->getPhpCodeCommentLine('Breadcrumbs');
@@ -128,7 +128,7 @@ class UserHeader extends Files\CreateFile
         $ret .= $this->pc->getPhpCodeCommentLine();
         $ret .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
         $ret .= $this->pc->getPhpCodeCommentLine('Default Css Style');
-        $ret .= $this->xc->getXcEqualsOperator('$style', "{$stuModuleDirname}_URL . '/assets/css/style.css'");
+        $ret .= $this->xc->getXcEqualsOperator('$style', "\\{$stuModuleDirname}_URL . '/assets/css/style.css'");
                 $ret .= $this->pc->getPhpCodeCommentLine('Smarty Default');
         $ret .= $this->xc->getXcXoopsModuleGetInfo('sysPathIcon16', 'sysicons16');
         $ret .= $this->xc->getXcXoopsModuleGetInfo('sysPathIcon32', 'sysicons32');
@@ -155,7 +155,7 @@ class UserHeader extends Files\CreateFile
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserHeader($moduleDirname);
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

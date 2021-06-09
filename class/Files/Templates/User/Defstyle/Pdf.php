@@ -147,14 +147,14 @@ class Pdf extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $table  = $this->getTable();
-        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $language      = $this->getLanguage($moduleDirname, 'MA', '', false);
         $tableId         = $table->getVar('table_id');
         $tableMid        = $table->getVar('table_mid');
         $tableName       = $table->getVar('table_name');
         $tableSoleName   = $table->getVar('table_solename');
         $content       = $this->getTemplatesUserPdfBody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName,  $language);
 
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

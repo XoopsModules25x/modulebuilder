@@ -151,10 +151,10 @@ class UserXoopsVersion extends Files\CreateFile
             'license_url'         => "'http://www.gnu.org/licenses/gpl-3.0.en.html'",
             'help'                => "'page=help'",
             'release_info'        => "'{$module->getVar('mod_release_info')}'",
-            'release_file'        => "XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_release_file')}'",
+            'release_file'        => "\XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_release_file')}'",
             'release_date'        => "'{$date}'",
             'manual'              => "'{$module->getVar('mod_manual')}'",
-            'manual_file'         => "XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_manual_file')}'",
+            'manual_file'         => "\XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_manual_file')}'",
             'min_php'             => "'{$module->getVar('mod_min_php')}'",
             'min_xoops'           => "'{$module->getVar('mod_min_xoops')}'",
             'min_admin'           => "'{$module->getVar('mod_min_admin')}'",
@@ -1227,7 +1227,7 @@ class UserXoopsVersion extends Files\CreateFile
         if (\in_array(1, $tableNotifications)) {
             $content .= $this->getXoopsVersionNotifications($module, $language);
         }
-        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

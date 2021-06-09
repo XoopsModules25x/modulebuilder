@@ -93,7 +93,7 @@ class AdminFooter extends Files\CreateFile
         $content       .= $this->pc->getPhpCodeConditions($isset, '', '', $display, false, '') . PHP_EOL;
         $content       .= $this->xc->getXcXoopsCPFooter();
 
-        $this->create($moduleDirname, 'admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

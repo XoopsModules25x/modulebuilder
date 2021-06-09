@@ -227,7 +227,7 @@ class TemplatesAdminBroken extends Files\CreateFile
         $tables         = $this->getTables();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'AM');
+        $language      = $this->getLanguage($moduleDirname, 'AM', '', false);
         $content       = $this->getTemplatesAdminBrokenHeader($moduleDirname);
         foreach ($tables as $table) {
             if (1 === (int)$table->getVar('table_broken')) {
@@ -236,7 +236,7 @@ class TemplatesAdminBroken extends Files\CreateFile
         }
         $content .= $this->getTemplatesAdminBrokenFooter($moduleDirname);
 
-        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

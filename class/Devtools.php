@@ -350,7 +350,7 @@ class Devtools
         $form->addElement($modulesSelect, true);
         // To Save
         $form->addElement(new \XoopsFormHidden('op', 'fq'));
-        $form->addElement(new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false));
+        $form->addElement(new \XoopsFormButtonTray('', \_SUBMIT, 'submit', '', false));
 
         return $form;
     }
@@ -379,7 +379,7 @@ class Devtools
         $form->addElement($modulesSelect, true);
         // To Save
         $form->addElement(new \XoopsFormHidden('op', 'check_lang'));
-        $form->addElement(new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false));
+        $form->addElement(new \XoopsFormButtonTray('', \_SUBMIT, 'submit', '', false));
 
         return $form;
     }
@@ -408,7 +408,7 @@ class Devtools
         $form->addElement($modulesSelect, true);
         // To Save
         $form->addElement(new \XoopsFormHidden('op', 'tab_replacer'));
-        $form->addElement(new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false));
+        $form->addElement(new \XoopsFormButtonTray('', \_SUBMIT, 'submit', '', false));
 
         return $form;
     }

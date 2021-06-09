@@ -212,10 +212,10 @@ class CreatePhpCode
      * @param string $t
      * @return string
      */
-    public function getPhpCodeIncludeDir($directory = null, $filename = null, $once = false, $isPath = false, $type = 'include', $t = '')
+    public function getPhpCodeIncludeDir($directory = null, $filename = null, $once = false, $isPath = false, $type = 'require', $t = '')
     {
         if ('' === $type) {
-            $type = 'include';
+            $type = 'require';
         }
         if (false === $once) {
             if (!$isPath) {

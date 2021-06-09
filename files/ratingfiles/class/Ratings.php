@@ -36,13 +36,13 @@ class Ratings extends \XoopsObject
      */
     public function __construct()
     {
-        $this->initVar('rate_id', XOBJ_DTYPE_INT);
-        $this->initVar('rate_source', XOBJ_DTYPE_INT);
-        $this->initVar('rate_itemid', XOBJ_DTYPE_INT);
-        $this->initVar('rate_value', XOBJ_DTYPE_INT);
-        $this->initVar('rate_uid', XOBJ_DTYPE_INT);
-        $this->initVar('rate_ip', XOBJ_DTYPE_TXTBOX);
-        $this->initVar('rate_date', XOBJ_DTYPE_INT);
+        $this->initVar('rate_id', \XOBJ_DTYPE_INT);
+        $this->initVar('rate_source', \XOBJ_DTYPE_INT);
+        $this->initVar('rate_itemid', \XOBJ_DTYPE_INT);
+        $this->initVar('rate_value', \XOBJ_DTYPE_INT);
+        $this->initVar('rate_uid', \XOBJ_DTYPE_INT);
+        $this->initVar('rate_ip', \XOBJ_DTYPE_TXTBOX);
+        $this->initVar('rate_date', \XOBJ_DTYPE_INT);
     }
 
     /**

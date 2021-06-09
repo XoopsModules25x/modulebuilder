@@ -305,12 +305,16 @@ class CreateFile extends CreateTableFields
      * @param string $moduleDirname
      * @param string $prefix
      * @param string $suffix
-     *
+     * @param string $addFq //add function qualifier
      * @return string
      */
-    public function getLanguage($moduleDirname, $prefix = '', $suffix = '')
+    public function getLanguage($moduleDirname, $prefix = '', $suffix = '', $addFq = true)
     {
-        $lang = '_' . $prefix . '_' . \mb_strtoupper($moduleDirname);
+        $lang = '';
+        if ($addFq) {
+            $lang = '\\';
+        }
+        $lang .= '_' . $prefix . '_' . \mb_strtoupper($moduleDirname);
         $ret  = $lang;
         if (!empty($suffix) || '_' !== $suffix) {
             $ret = $lang . '_' . $suffix;
@@ -419,21 +423,21 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     * @public function getInclude
+     * @public function getRequire
      * @param $filename
      * @return string
      */
-    public function getInclude($filename = 'header')
+    public function getRequire($filename = 'header')
     {
         return "require __DIR__ . '/{$filename}.php';\n";
     }
 
     /**
-     * @public function getIncludeOnce
+     * @public function getRequireOnce
      * @param $filename
      * @return string
      */
-    public function getIncludeOnce($filename = 'header')
+    public function getRequireOnce($filename = 'header')
     {
         return "require_once __DIR__ . '/{$filename}.php';\n";
     }
@@ -505,7 +509,7 @@ class CreateFile extends CreateTableFields
         $copyright = [
             $name           => 'module for xoops',
             ''              => '',
-            '@copyright  '  => '   2020 XOOPS Project (https://xoops.org)',
+            '@copyright  '  => '   2021 XOOPS Project (https://xoops.org)',
             '@license   '   => "    {$license}",
             '@package   '   => "    {$dirname}",
             '@since    '    => "     {$since}",

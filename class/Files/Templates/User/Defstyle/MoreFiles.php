@@ -103,7 +103,7 @@ EOT;
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getTemplatesUserMoreFile();
 
-        $this->create($moduleDirname, $this->folder, $filename . '.' . $this->extension, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, $this->folder, $filename . '.' . $this->extension, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

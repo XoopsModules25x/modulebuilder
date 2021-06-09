@@ -79,8 +79,8 @@ class UserViewTag extends Files\CreateFile
      */
     public function getUserViewTag()
     {
-        $ret = $this->getInclude();
-        $ret .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'modules/tag/view.tag');
+        $ret = $this->getRequire();
+        $ret .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'modules/tag/view.tag');
 
         return $ret;
     }
@@ -98,7 +98,7 @@ class UserViewTag extends Files\CreateFile
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserViewTag();
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

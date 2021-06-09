@@ -89,7 +89,7 @@ class LanguageHelp extends Files\CreateFile
     <h1 class="head">Help:
         <a class="ui-corner-all tooltip" href="<{\$xoops_url}>/modules/{$moduleDirname}/admin/index.php"
            title="Back to the administration of {$moduleName}"> {$moduleName} <img src="<{xoAdminIcons home.png}>"
-                                                                       alt="Back to the Administration of {$moduleName}"/>
+                                                                       alt="Back to the Administration of {$moduleName}">
         </a></h1>
     <!-- -----Help Content ---------- -->
     <h4 class="odd">Description</h4>
@@ -114,9 +114,9 @@ Detailed instructions on installing modules are available in the <a href="http:/
 </div>
 EOT;
         if ('english' !== $language) {
-            $this->create($moduleDirname, 'language/' . $language . '/help', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+            $this->create($moduleDirname, 'language/' . $language . '/help', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
         }
-        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'] . '/help', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'] . '/help', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

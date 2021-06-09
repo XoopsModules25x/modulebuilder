@@ -99,7 +99,7 @@ class AdminBroken extends Files\CreateFile
         $ret        = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret        .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret        .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $ret        .= $this->getInclude();
+        $ret        .= $this->getRequire();
         $ret        .= $this->pc->getPhpCodeBlankLine();
         $ret        .= $this->pc->getPhpCodeCommentLine('Define Stylesheet', '', $t);
         $ret        .= $this->xc->getXcXoThemeAddStylesheet('style', $t);
@@ -200,9 +200,9 @@ class AdminBroken extends Files\CreateFile
         $content = $this->getHeaderFilesComments($module);
         $content .= $this->getAdminBrokenHeader($moduleDirname, 'broken');
         $content .= $this->getAdminBrokenList($tables, $language);
-        $content .= $this->getInclude('footer');
+        $content .= $this->getRequire('footer');
 
-        $tf->create($moduleDirname, 'admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $tf->create($moduleDirname, 'admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $tf->renderFile();
     }

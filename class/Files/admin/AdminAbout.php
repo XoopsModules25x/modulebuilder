@@ -90,14 +90,14 @@ class AdminAbout extends Files\CreateFile
         $moduleDirname   = $module->getVar('mod_dirname');
         $moduleDonations = $module->getVar('mod_donations');
         $content         = $this->getHeaderFilesComments($module);
-        $content         .= $this->getInclude();
+        $content         .= $this->getRequire();
         $content         .= $this->axc->getAdminTemplateMain($moduleDirname, 'about');
         $content         .= $this->xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('about.php')");
         $content         .= $this->getSimpleString("\$adminObject->setPaypal('{$moduleDonations}');");
         $content         .= $this->xc->getXcXoopsTplAssign('about', "\$adminObject->renderAbout(false)");
-        $content         .= $this->getInclude('footer');
+        $content         .= $this->getRequire('footer');
 
-        $this->create($moduleDirname, 'admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

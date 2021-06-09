@@ -120,12 +120,12 @@ class UserPrint extends Files\CreateFile
         $ret            = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret            .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret            .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $ret            .= $this->getInclude();
-        $ret            .= $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/header.php'", '', true, true, 'require', '');
+        $ret            .= $this->getRequire();
+        $ret            .= $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH . '/header.php'", '', true, true, 'require', '');
         $ret            .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '', 'Int');
         $ret            .= $this->pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret            .= $this->xc->getXcXoThemeAddStylesheet();
-        $redirectHeader = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}INVALID_PARAM", false, "\t");
+        $redirectHeader = $this->xc->getXcRedirectHeader("\\{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}INVALID_PARAM", false, "\t");
         $ret            .= $this->pc->getPhpCodeConditions("empty(\${$ccFieldId})", '', '', $redirectHeader);
 
         $ret            .= $this->pc->getPhpCodeCommentLine('Get Instance of Handler');
@@ -156,7 +156,7 @@ class UserPrint extends Files\CreateFile
         $ret            .= $this->xc->getXcHandlerGet($tableName, $ccFieldId, '', $tableName . 'Handler',false);
         $gperm          = $this->xc->getXcCheckRight('!$grouppermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVar('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
         $ret            .= $this->pc->getPhpCodeCommentLine('Verify permissions');
-        $noPerm         = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '3', '_NOPERM', false, "\t");
+        $noPerm         = $this->xc->getXcRedirectHeader("\\{$stuModuleDirname}_URL . '/index.php'", '', '3', '\_NOPERM', false, "\t");
         $noPerm         .= $this->getSimpleString('exit();', "\t");
         $ret            .= $this->pc->getPhpCodeConditions($gperm, '', '', $noPerm);
         $ret            .= $this->xc->getXcGetValues($tableName, $tableSoleName, '', true);
@@ -185,7 +185,7 @@ class UserPrint extends Files\CreateFile
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserPrint($moduleDirname, $language);
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

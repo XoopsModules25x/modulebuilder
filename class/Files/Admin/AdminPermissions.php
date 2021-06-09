@@ -119,7 +119,7 @@ class AdminPermissions extends Files\CreateFile
         $ret           = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret           .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret           .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $ret           .= $this->getInclude('header');
+        $ret           .= $this->getRequire('header');
         $ret           .= $this->pc->getPhpCodeBlankLine();
         $ret           .= $this->pc->getPhpCodeCommentLine('Template Index');
         $ret           .= $this->axc->getAdminTemplateMain($moduleDirname, 'permissions');
@@ -128,7 +128,7 @@ class AdminPermissions extends Files\CreateFile
         $ret           .= $this->xc->getXcXoopsRequest('op', 'op', 'global', 'Cmd');
         $ret           .= $this->pc->getPhpCodeBlankLine();
         $ret           .= $this->pc->getPhpCodeCommentLine('Get Form');
-        $ret           .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
+        $ret           .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
         $ret           .= $this->xc->getXcXoopsLoad('XoopsFormLoader');
         $optionsSelect['global'] = "{$language}PERMISSIONS_GLOBAL";
         foreach ($tableNames as $tableName) {
@@ -160,7 +160,7 @@ class AdminPermissions extends Files\CreateFile
                 "{$t}\$formTitle = {$language}PERMISSIONS_GLOBAL;{$n}",
                 "{$t}\$permName = '{$moduleDirname}_ac';{$n}",
                 "{$t}\$permDesc = {$language}PERMISSIONS_GLOBAL_DESC;{$n}",
-                "{$t}\$globalPerms = array( '4' => {$language}PERMISSIONS_GLOBAL_4, '8' => {$language}PERMISSIONS_GLOBAL_8, '16' => {$language}PERMISSIONS_GLOBAL_16 );{$n}",
+                "{$t}\$globalPerms = ['4' => {$language}PERMISSIONS_GLOBAL_4, '8' => {$language}PERMISSIONS_GLOBAL_8, '16' => {$language}PERMISSIONS_GLOBAL_16 ];{$n}",
                 ];
         foreach (\array_keys($tables) as $i) {
             if (1 == $tables[$i]->getVar('table_permissions')) {
@@ -210,7 +210,7 @@ class AdminPermissions extends Files\CreateFile
         $if1      = $this->pc->getPhpCodeForeach('globalPerms', false, 'gPermId', 'gPermName', $foreach1, "\t");
         $if1      .= $this->xc->getXcXoopsTplAssign('form', '$permform->render()', true, "\t");
         $if1      .= $this->xc->getXcEqualsOperator('$permFound', 'true', null, "\t");
-        $ret      .= $this->pc->getPhpCodeConditions('$op', ' === ', "'global'", $if1, false);
+        $ret      .= $this->pc->getPhpCodeConditions("'global'", ' === ', '$op', $if1, false);
 
         foreach (\array_keys($tables) as $t) {
             if (1 == $tables[$t]->getVar('table_permissions')) {
@@ -238,7 +238,7 @@ class AdminPermissions extends Files\CreateFile
                 $if_count   .= $this->xc->getXcXoopsTplAssign('form', '$permform->render()', true, "\t\t");
                 $if_table   .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $if_count, false, "\t");
                 $if_table   .= $this->xc->getXcEqualsOperator('$permFound', 'true', null, "\t");
-                $cond       = "\$op === 'approve_{$tableName}' || \$op === 'submit_{$tableName}' || \$op === 'view_{$tableName}'";
+                $cond       = "'approve_{$tableName}' === \$op || 'submit_{$tableName}' === \$op || 'view_{$tableName}' === \$op";
                 $ret        .= $this->pc->getPhpCodeConditions($cond, '', '', $if_table, false);
             }
         }
@@ -268,9 +268,9 @@ class AdminPermissions extends Files\CreateFile
         $content       .= $this->getPermissionsHeader($module, $language);
         $content       .= $this->getPermissionsSwitch($module, $language);
         $content       .= $this->getPermissionsBody($module, $language);
-        $content       .= $this->getInclude('footer');
+        $content       .= $this->getRequire('footer');
 
-        $this->create($moduleDirname, 'admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -132,7 +132,7 @@ class IncludeCommentFunctions extends Files\CreateFile
         $func2 .= $this->pc->getPhpCodeBlankLine();
         $func2 .= $this->pc->getPhpCodeArray('tags', [], false, $t);
         $func2 .= $this->xc->getXcEqualsOperator("\$tags['ITEM_NAME']", "\${$ccFieldMain}", '', $t);
-        $url    = "XOOPS_URL . '/modules/{$moduleDirname}/{$tableName}.php?op=show&{$fieldId}=' . \${$ccFieldId}";
+        $url    = "\XOOPS_URL . '/modules/{$moduleDirname}/{$tableName}.php?op=show&{$fieldId}=' . \${$ccFieldId}";
         $func2 .= $this->xc->getXcEqualsOperator("\$tags['ITEM_URL'] ", $url, '', $t);
         $func2 .= $this->xc->getXcXoopsHandler('notification', $t);
         $func2 .= $this->pc->getPhpCodeCommentLine('Event modify notification', null, $t);
@@ -140,7 +140,7 @@ class IncludeCommentFunctions extends Files\CreateFile
         $func2 .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \${$ccFieldId}, '{$tableSoleName}_comment', \$tags);", $t);
         $func2 .= $this->getSimpleString('return true;',$t);
         $func2 .= $this->pc->getPhpCodeBlankLine();
-        $ret   .= $this->pc->getPhpCodeFunction($moduleDirname . 'CommentsApprove', '&$comment', $func2);
+        $ret   .= $this->pc->getPhpCodeFunction($moduleDirname . 'CommentsApprove', '$comment', $func2);
 
         return $ret;
     }
@@ -160,7 +160,7 @@ class IncludeCommentFunctions extends Files\CreateFile
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getCommentBody($module, $table);
 
-        $this->create($moduleDirname, 'include', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

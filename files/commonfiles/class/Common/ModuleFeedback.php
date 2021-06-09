@@ -63,7 +63,7 @@ class ModuleFeedback extends \XoopsObject
      */
     public function getFormFeedback()
     {
-        $moduleDirName      = \basename(dirname(__DIR__, 2));
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         // Get Theme Form
         \xoops_load('XoopsFormLoader');
@@ -108,7 +108,7 @@ class ModuleFeedback extends \XoopsObject
         $form->addElement($editor, true);
 
         $form->addElement(new \XoopsFormHidden('op', 'send'));
-        $form->addElement(new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false));
+        $form->addElement(new \XoopsFormButtonTray('', \_SUBMIT, 'submit', '', false));
 
         return $form;
     }

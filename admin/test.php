@@ -27,7 +27,7 @@ use XoopsModules\Modulebuilder\Common\TableChecker;
 // Define main template
 $templateMain = 'modulebuilder_index.tpl';
 
-include __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 
 $tablechecker = new \XoopsModules\Modulebuilder\Common\TableChecker('modulebuilder');
 $result = $tablechecker->processSQL();
@@ -40,4 +40,4 @@ use XoopsModules\Wgdiaries\Common\TableChecker;
 
 var_dump($result);
 
-include __DIR__ . '/footer.php';
+require __DIR__ . '/footer.php';

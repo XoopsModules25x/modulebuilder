@@ -96,7 +96,7 @@ class LanguageModinfo extends Files\CreateFile
     private function getLanguageMain($language, $module)
     {
         $ret = $this->ld->getBlankLine();
-        $ret .= $this->pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
+        $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__','common', true);
         $ret .= $this->ld->getBlankLine();
         $ret .= $this->ld->getAboveHeadDefines('Admin Main');
         $ret .= $this->ld->getDefine($language, 'NAME', (string)$module->getVar('mod_name'));
@@ -519,7 +519,7 @@ class LanguageModinfo extends Files\CreateFile
         $tables             = $this->getTableTables($module->getVar('mod_id'));
         $filename           = $this->getFileName();
         $moduleDirname      = $module->getVar('mod_dirname');
-        $language           = $this->getLanguage($moduleDirname, 'MI');
+        $language           = $this->getLanguage($moduleDirname, 'MI', '', false);
         $tableAdmin         = [];
         $tableUser          = [];
         $tableSubmenu       = [];
@@ -579,7 +579,7 @@ class LanguageModinfo extends Files\CreateFile
         }
         $content .= $this->getLanguageFooter();
 
-        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

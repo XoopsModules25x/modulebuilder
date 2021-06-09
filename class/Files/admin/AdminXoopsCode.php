@@ -198,17 +198,16 @@ class AdminXoopsCode
     public function getAxcSetVarImageList($tableName, $fieldName, $t = '', $countUploader = 0)
     {
         $ret         = $this->pc->getPhpCodeCommentLine('Set Var', $fieldName, $t);
-        $ret         .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
-        $xRootPath   = "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'";
+        $ret         .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
+        $xRootPath   = "\XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'";
         $ret         .= $this->xc->getXcMediaUploader('uploader', $xRootPath, 'mimetypes_image', 'maxsize_image', $t);
         $post        = $this->pc->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
         $fetchMedia  = $this->getAxcFetchMedia('uploader', $post);
         $ifelse      = $t . "\t//" . $this->getAxcSetPrefix('uploader', "{$fieldName}_") . ";\n";
         $ifelse      .= $t . "\t//{$fetchMedia};\n";
-        $contElseInt = $this->xc->getXcSetVarObj($tableName, $fieldName, '$uploader->getSavedFileName()', $t . "\t\t");
-        $contIf      = $this->xc->getXcEqualsOperator('$errors', '$uploader->getErrors()', null, $t . "\t\t");
-        $contIf      .= $this->xc->getXcRedirectHeader('javascript:history.go(-1)', '', '3', '$errors', true, $t . "\t\t");
-        $ifelse      .= $this->pc->getPhpCodeConditions('!$uploader->upload()', '', '', $contIf, $contElseInt, $t . "\t");
+        $contIf      = $this->xc->getXcSetVarObj($tableName, $fieldName, '$uploader->getSavedFileName()', $t . "\t\t");
+        $contElseInt = $this->xc->getXcEqualsOperator('$uploaderErrors', "'<br>' . \$uploader->getErrors()", '.', $t . "\t\t");
+        $ifelse      .= $this->pc->getPhpCodeConditions('$uploader->upload()', '', '', $contIf, $contElseInt, $t . "\t");
         $contElseExt = $this->xc->getXcSetVarObj($tableName, $fieldName, "Request::getString('{$fieldName}')", $t . "\t");
 
         $ret         .= $this->pc->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contElseExt, $t);
@@ -231,14 +230,13 @@ class AdminXoopsCode
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $ucfModuleDirname = \ucfirst($moduleDirname);
         $ret          = $this->pc->getPhpCodeCommentLine('Set Var', $fieldName, $t);
-        $ret          .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
+        $ret          .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
         $file         = $this->pc->getPhpCodeGlobalsVariables($fieldName, 'FILES') . "['name']";
         $ret          .= $this->xc->getXcEqualsOperator('$filename      ', $file, null, $t);
         $mimetype     = $this->pc->getPhpCodeGlobalsVariables($fieldName, 'FILES') . "['type']";
         $ret          .= $this->xc->getXcEqualsOperator('$imgMimetype   ', $mimetype, null, $t);
         $ret          .= $this->xc->getXcEqualsOperator('$imgNameDef    ', "Request::getString('{$fieldMain}')", null, $t);
-        $ret          .= $this->xc->getXcEqualsOperator('$uploaderErrors', "''", null, $t);
-        $xUploadImage = "{$stuModuleDirname}_UPLOAD_IMAGE_PATH";
+        $xUploadImage = "\\{$stuModuleDirname}_UPLOAD_IMAGE_PATH";
         $ret          .= $this->xc->getXcMediaUploader('uploader', $xUploadImage . " . '/{$tableName}/'", 'mimetypes_image', 'maxsize_image', $t);
         $post         = $this->pc->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
         $fetchMedia   = $this->getAxcFetchMedia('uploader', $post);
@@ -247,11 +245,11 @@ class AdminXoopsCode
         $ifelse       .= $t . "\t\$imgName = \str_replace(' ', '', \$imgNameDef) . '.' . \$extension;\n";
         $ifelse       .= $this->getAxcSetPrefix('uploader', '$imgName', $t . "\t") . ";\n";
         $ifelse       .= $t . "\t{$fetchMedia};\n";
-        $contElseInt  = $this->xc->getXcEqualsOperator('$savedFilename', '$uploader->getSavedFileName()', null, $t . "\t\t");
+        $contIf       = $this->xc->getXcEqualsOperator('$savedFilename', '$uploader->getSavedFileName()', null, $t . "\t\t");
         $config       = $this->xc->getXcGetConfig('maxwidth_image');
-        $contElseInt  .= $this->xc->getXcEqualsOperator('$maxwidth ', "(int){$config}", null, $t . "\t\t");
+        $contIf       .= $this->xc->getXcEqualsOperator('$maxwidth ', "(int){$config}", null, $t . "\t\t");
         $config       = $this->xc->getXcGetConfig('maxheight_image');
-        $contElseInt  .= $this->xc->getXcEqualsOperator('$maxheight', "(int){$config}", null, $t . "\t\t");
+        $contIf       .= $this->xc->getXcEqualsOperator('$maxheight', "(int){$config}", null, $t . "\t\t");
         $resizer      = $this->pc->getPhpCodeCommentLine('Resize image', '', $t . "\t\t\t");
         $resizer      .= $this->xc->getXcEqualsOperator('$imgHandler               ', "new {$ucfModuleDirname}\Common\Resizer()", null, $t . "\t\t\t");
         $resizer      .= $this->xc->getXcEqualsOperator('$imgHandler->sourceFile   ', $xUploadImage . " . '/{$tableName}/' . \$savedFilename", null, $t . "\t\t\t");
@@ -260,11 +258,11 @@ class AdminXoopsCode
         $resizer      .= $this->xc->getXcEqualsOperator('$imgHandler->maxWidth     ', '$maxwidth', null, $t . "\t\t\t");
         $resizer      .= $this->xc->getXcEqualsOperator('$imgHandler->maxHeight    ', '$maxheight', null, $t . "\t\t\t");
         $resizer      .= $this->xc->getXcEqualsOperator('$result                   ', '$imgHandler->resizeImage()', null, $t . "\t\t\t");
-        $contElseInt  .= $this->pc->getPhpCodeConditions('$maxwidth > 0 && $maxheight > 0', '', '', $resizer, false, $t . "\t\t");
-        $contElseInt  .= $this->xc->getXcSetVarObj($tableName, $fieldName, '$savedFilename', $t . "\t\t");
-        $contIf       = $this->xc->getXcEqualsOperator('$uploaderErrors', '$uploader->getErrors()', null, $t . "\t\t");
-        $ifelse       .= $this->pc->getPhpCodeConditions('!$uploader->upload()', '', '', $contIf, $contElseInt, $t . "\t");
-        $ifelseExt    = $this->xc->getXcEqualsOperator('$uploaderErrors', '$uploader->getErrors()', null, $t . "\t\t");
+        $contIf       .= $this->pc->getPhpCodeConditions('$maxwidth > 0 && $maxheight > 0', '', '', $resizer, false, $t . "\t\t");
+        $contIf       .= $this->xc->getXcSetVarObj($tableName, $fieldName, '$savedFilename', $t . "\t\t");
+        $contElseInt  = $this->xc->getXcEqualsOperator('$uploaderErrors', "'<br>' . \$uploader->getErrors()", '.', $t . "\t\t");
+        $ifelse       .= $this->pc->getPhpCodeConditions('$uploader->upload()', '', '', $contIf, $contElseInt, $t . "\t");
+        $ifelseExt    = $this->xc->getXcEqualsOperator('$uploaderErrors', "'<br>' . \$uploader->getErrors()", '.', $t . "\t\t");
         $contElseExt  = $this->pc->getPhpCodeConditions("\$filename", ' > ', "''", $ifelseExt, false, $t . "\t");
         $contElseExt  .= $this->xc->getXcSetVarObj($tableName, $fieldName, "Request::getString('{$fieldName}')", $t . "\t");
 
@@ -287,7 +285,7 @@ class AdminXoopsCode
     public function getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, $formatUrl = false, $t = '', $countUploader = 0, $fieldMain = '')
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
-        $ret              = $this->getAxcSetVarImageFile($stuModuleDirname . '_UPLOAD_FILES_PATH', $tableName, $fieldName, $formatUrl, $t, $countUploader, $fieldMain, 'mimetypes_file', 'maxsize_file');
+        $ret              = $this->getAxcSetVarImageFile('\\' . $stuModuleDirname . '_UPLOAD_FILES_PATH', $tableName, $fieldName, $formatUrl, $t, $countUploader, $fieldMain, 'mimetypes_file', 'maxsize_file');
 
         return $ret;
     }
@@ -312,10 +310,10 @@ class AdminXoopsCode
         $contIf = '';
 
         if ($formatUrl) {
-            $ret .= $this->xc->getXcSetVarObj($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])", $t);
+            $ret .= $this->xc->getXcSetVarObj($tableName, $fieldName, "formatURL(\$_REQUEST['{$fieldName}'])", $t);
         }
         $ret         .= $this->pc->getPhpCodeCommentLine('Set Var', $fieldName, $t);
-        $ret         .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
+        $ret         .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
         $file        = $this->pc->getPhpCodeGlobalsVariables($fieldName, 'FILES') . "['name']";
         $ret         .= $this->xc->getXcEqualsOperator('$filename      ', $file, null, $t);
         $ret         .= $this->xc->getXcEqualsOperator('$imgNameDef    ', "Request::getString('{$fieldMain}')", null, $t);
@@ -327,10 +325,10 @@ class AdminXoopsCode
         $ifelse      .= $t . "\t\$imgName = \str_replace(' ', '', \$imgNameDef) . '.' . \$extension;\n";
         $ifelse      .= $this->getAxcSetPrefix('uploader', '$imgName', $t . "\t") . ";\n";
         $ifelse      .= $t . "\t{$fetchMedia};\n";
-        $contElseInt = $this->xc->getXcSetVarObj($tableName, $fieldName, '$uploader->getSavedFileName()', $t . "\t\t");
-        $contIf      .= $this->xc->getXcEqualsOperator('$errors', '$uploader->getErrors()', null, $t . "\t\t");
-        $ifelse      .= $this->pc->getPhpCodeConditions('!$uploader->upload()', '', '', $contIf, $contElseInt, $t . "\t");
-        $ifelseExt   = $this->xc->getXcEqualsOperator('$uploaderErrors', '$uploader->getErrors()', null, $t . "\t\t");
+        $contIf      = $this->xc->getXcSetVarObj($tableName, $fieldName, '$uploader->getSavedFileName()', $t . "\t\t");
+        $contElseInt .= $this->xc->getXcEqualsOperator('$uploaderErrors', "'<br>' . \$uploader->getErrors()", '.', $t . "\t\t");
+        $ifelse      .= $this->pc->getPhpCodeConditions('$uploader->upload()', '', '', $contIf, $contElseInt, $t . "\t");
+        $ifelseExt   = $this->xc->getXcEqualsOperator('$uploaderErrors', "'<br>' . \$uploader->getErrors()", '.', $t . "\t\t");
         $contElseExt = $this->pc->getPhpCodeConditions("\$filename", ' > ', "''", $ifelseExt, false, $t . "\t");
         $contElseExt .= $this->xc->getXcSetVarObj($tableName, $fieldName, "Request::getString('{$fieldName}')", $t . "\t");
 

@@ -94,8 +94,8 @@ class CreateMoreFiles extends Files\CreateFile
     {
         $ret = "<?php\n";
         $ret .= "{$header}\n";
-        $ret .= $this->getInclude();
-        $ret .= $this->getInclude('footer');
+        $ret .= $this->getRequire();
+        $ret .= $this->getRequire('footer');
 
         return $ret;
     }
@@ -207,7 +207,7 @@ class CreateMoreFiles extends Files\CreateFile
                 break;
         }
 
-        $this->create($moduleDirname, $this->folder, $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, $this->folder, $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

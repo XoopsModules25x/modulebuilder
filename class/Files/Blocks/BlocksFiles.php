@@ -101,9 +101,9 @@ class BlocksFiles extends Files\CreateFile
 
         $ret  = $this->pc->getPhpCodeCommentMultiLine(['Function' => 'show block', '@param  $options' => '', '@return' => 'array']);
 
-        $func = $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true, '', "\t");
-        $func .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', '',"\t");
-        $func .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url","{$stuModuleDirname}_UPLOAD_URL",'',"\t");
+        $func = $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true, '', "\t");
+        //$func .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', '',"\t");
+        $func .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url","\\{$stuModuleDirname}_UPLOAD_URL",'',"\t");
         $func .= $this->xc->getXcEqualsOperator('$block      ', '[]', '',"\t");
         $func .= $this->xc->getXcEqualsOperator('$typeBlock  ', '$options[0]','',"\t");
         $func .= $this->xc->getXcEqualsOperator('$limit      ', '$options[1]','',"\t");
@@ -166,10 +166,10 @@ class BlocksFiles extends Files\CreateFile
         if ('' !== $fieldStatus) {
             $case2[] = $critStatus;
         }
-        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", 'time() - 604800', "'>='", true);
+        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\time() - 604800', "'>='", true);
         $case2[] = $this->pc->getPhpCodeCommentLine("new since last week: 7 * 24 * 60 * 60 = 604800",'',"\t\t\t");
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
-        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", 'time()', "'<='", true);
+        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\time()', "'<='", true);
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
         $case2[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldDate}'","\t\t\t");
         $case2[] = $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t\t\t");
@@ -222,7 +222,7 @@ class BlocksFiles extends Files\CreateFile
             if (1 == $fields[$f]->getVar('field_block')) {
                 switch ($fieldElement) {
                     case 2:
-                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\$myts->htmlSpecialChars(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
+                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\htmlspecialchars(\${$tableName}All[\$i]->getVar('{$fieldName}'), ENT_QUOTES | ENT_HTML5)", null, "\t\t\t");
                         break;
                     case 3:
                     case 4:
@@ -270,14 +270,14 @@ class BlocksFiles extends Files\CreateFile
         $critName         = 'cr' . $ucfTableName;
 
         $ret  = $this->pc->getPhpCodeCommentMultiLine(['Function' => 'edit block', '@param  $options' => '', '@return' => 'string']);
-        $func = $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true, '', "\t");
+        $func = $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true, '', "\t");
         $func .= $this->xc->getXcEqualsOperator('$helper', 'Helper::getInstance()', '',"\t");
 		$func .= $this->xc->getXcHandlerLine($tableName, "\t");
-        $func .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url","{$stuModuleDirname}_UPLOAD_URL",'',"\t");
+        $func .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url","\\{$stuModuleDirname}_UPLOAD_URL",'',"\t");
         $func .= $this->xc->getXcEqualsOperator('$form', "{$language}DISPLAY", '',"\t");
-        $func .= $this->xc->getXcEqualsOperator('$form', "\"<input type='hidden' name='options[0]' value='\".\$options[0].\"' />\"", '.',"\t");
-        $func .= $this->xc->getXcEqualsOperator('$form', "\"<input type='text' name='options[1]' size='5' maxlength='255' value='\" . \$options[1] . \"' />&nbsp;<br>\"", '.',"\t");
-        $func .= $this->xc->getXcEqualsOperator('$form', "{$language}TITLE_LENGTH . \" : <input type='text' name='options[2]' size='5' maxlength='255' value='\" . \$options[2] . \"' /><br><br>\"", '.',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$form', "\"<input type='hidden' name='options[0]' value='\".\$options[0].\"' >\"", '.',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$form', "\"<input type='text' name='options[1]' size='5' maxlength='255' value='\" . \$options[1] . \"' >&nbsp;<br>\"", '.',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$form', "{$language}TITLE_LENGTH . \" : <input type='text' name='options[2]' size='5' maxlength='255' value='\" . \$options[2] . \"' ><br><br>\"", '.',"\t");
         $func .= $this->pc->getPhpCodeArrayShift('$options', "\t");
         $func .= $this->pc->getPhpCodeArrayShift('$options', "\t");
         $func .= $this->pc->getPhpCodeArrayShift('$options', "\t");
@@ -290,9 +290,9 @@ class BlocksFiles extends Files\CreateFile
         $func .= $this->xc->getXcHandlerAllClear("{$tableName}All", $tableName, "\${$critName}", "\t");
         $func .= $this->pc->getPhpCodeUnset($critName, "\t");
         $func .= $this->xc->getXcEqualsOperator('$form', "{$language}{$stuTableName}_TO_DISPLAY . \"<br><select name='options[]' multiple='multiple' size='5'>\"", '.',"\t");
-        $func .= $this->xc->getXcEqualsOperator('$form', "\"<option value='0' \" . (\in_array(0, \$options) == false ? '' : \"selected='selected'\") . '>' . {$language}ALL_{$stuTableName} . '</option>'", '.',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$form', "\"<option value='0' \" . (!\in_array(0, \$options) && !\in_array('0', \$options) ? '' : \"selected='selected'\") . '>' . {$language}ALL_{$stuTableName} . '</option>'", '.',"\t");
         $contentForeach = $this->xc->getXcEqualsOperator("\${$fieldId}", "\${$tableName}All[\$i]->getVar('{$fieldId}')", '',"\t\t");
-        $contentForeach .= $this->xc->getXcEqualsOperator('$form', "\"<option value='\" . \${$fieldId} . \"' \" . (\in_array(\${$fieldId}, \$options) == false ? '' : \"selected='selected'\") . '>' . \${$tableName}All[\$i]->getVar('{$fieldMain}') . '</option>'", '.',"\t\t");
+        $contentForeach .= $this->xc->getXcEqualsOperator('$form', "\"<option value='\" . \${$fieldId} . \"' \" . (!\in_array(\${$fieldId}, \$options) ? '' : \"selected='selected'\") . '>' . \${$tableName}All[\$i]->getVar('{$fieldMain}') . '</option>'", '.',"\t\t");
         $func .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, "\t");
         $func .= $this->xc->getXcEqualsOperator('$form', "'</select>'", '.',"\t");
         $func .= $this->pc->getPhpCodeBlankLine();
@@ -339,11 +339,11 @@ class BlocksFiles extends Files\CreateFile
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Helper'], '', '');
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $content .= $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/include/common.php'",'',true, true);
+        $content .= $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/include/common.php'",'',true, true);
         $content .= $this->getBlocksShow($moduleDirname, $tableName, $tableFieldname, $tablePermissions, $fields, $fieldId, $fieldParent);
         $content .= $this->getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language);
 
-        $this->create($moduleDirname, 'blocks', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'blocks', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -62,7 +62,7 @@ class ClassXoopsCode
     {
         $stuParamRight = \mb_strtoupper($paramRight);
 
-        return "{$t}\${$var}->initVar('{$paramLeft}', XOBJ_DTYPE_{$stuParamRight});\n";
+        return "{$t}\${$var}->initVar('{$paramLeft}', \XOBJ_DTYPE_{$stuParamRight});\n";
     }
 
     /**

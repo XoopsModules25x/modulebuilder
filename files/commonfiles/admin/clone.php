@@ -73,7 +73,7 @@ switch ($op) {
 
         //change module name in modinfo.php
         // file, read it
-        $content = file_get_contents($dirClone . '/language/english/modinfo.php');
+        $content = \file_get_contents($dirClone . '/language/english/modinfo.php');
         $content = \str_replace('Modulebuilder', \mb_strtolower($clone), $content);
         file_put_contents($dirClone . '/language/english/modinfo.php', $content);
 
@@ -113,7 +113,7 @@ function cloneFileFolder($path)
         $handle = \opendir($path);
         if ($handle) {
             while (false !== ($file = \readdir($handle))) {
-                if (0 !== mb_strpos($file, '.')) {
+                if (0 !== \mb_strpos($file, '.')) {
                     cloneFileFolder("{$path}/{$file}");
                 }
             }
@@ -126,9 +126,9 @@ function cloneFileFolder($path)
             \copy($path, $newPath);
         } else {
             // file, read it
-            $content = file_get_contents($path);
+            $content = \file_get_contents($path);
             $content = \str_replace($patKeys, $patValues, $content);
-            file_put_contents($newPath, $content);
+            \file_put_contents($newPath, $content);
         }
     }
 }
@@ -167,8 +167,8 @@ function createLogo($dirname)
 
     $imageModule = \imagecreatefrompng($imageBase);
     // save existing alpha channel
-    imagealphablending($imageModule, false);
-    imagesavealpha($imageModule, true);
+    \imagealphablending($imageModule, false);
+    \imagesavealpha($imageModule, true);
 
     //Erase old text
     $greyColor = \imagecolorallocate($imageModule, 237, 237, 237);
@@ -176,7 +176,7 @@ function createLogo($dirname)
 
     // Write text
     $textColor     = \imagecolorallocate($imageModule, 0, 0, 0);
-    $spaceToBorder = (int)((80 - mb_strlen($dirname) * 6.5) / 2);
+    $spaceToBorder = (int)((80 - \mb_strlen($dirname) * 6.5) / 2);
     \imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, \ucfirst($dirname), []);
 
     // Set transparency color

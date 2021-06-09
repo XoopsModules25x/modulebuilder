@@ -34,7 +34,7 @@
 // Define main template
 $templateMain = 'modulebuilder_fields.tpl';
 
-include __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 // Recovered value of arguments op in the URL $
 $op = \Xmf\Request::getString('op', 'list');
 // Get fields Variables
@@ -53,19 +53,19 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/sortable.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_TABLES_ADD, 'tables.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_TABLES_ADD, 'tables.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
         // Redirect if there aren't modules
         $modulesCount = $helper->getHandler('Modules')->getCountModules();
         if (0 == $modulesCount) {
-            \redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_MODULES2);
+            \redirect_header('modules.php?op=new', 2, \_AM_MODULEBUILDER_THEREARENT_MODULES2);
         }
         unset($modulesCount);
         // Redirect if there aren't tables
         $tablesCount = $helper->getHandler('Tables')->getCountTables();
         if (0 == $tablesCount) {
-            \redirect_header('tables.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_TABLES2);
+            \redirect_header('tables.php?op=new', 2, \_AM_MODULEBUILDER_THEREARENT_TABLES2);
         }
         // Get the list of tables
         $tablesAll = $helper->getHandler('Tables')->getAllTables($start, $limit);
@@ -100,12 +100,12 @@ switch ($op) {
             unset($tlid);
             unset($fields);
             if ($tablesCount > $limit) {
-                include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+                require_once \XOOPS_ROOT_PATH . '/class/pagenav.php';
                 $pagenav = new \XoopsPageNav($tablesCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
-            $GLOBALS['xoopsTpl']->assign('error', _AM_MODULEBUILDER_THEREARENT_FIELDS);
+            $GLOBALS['xoopsTpl']->assign('error', \_AM_MODULEBUILDER_THEREARENT_FIELDS);
         }
         break;
     case 'new':
@@ -113,8 +113,8 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_TABLES_LIST, 'tables.php', 'list');
-        $adminObject->addItemButton(_AM_MODULEBUILDER_FIELDS_LIST, 'fields.php', 'list');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_TABLES_LIST, 'tables.php', 'list');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_FIELDS_LIST, 'fields.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         // Form Add
         $fieldsObj = $helper->getHandler('Fields')->create();
@@ -175,10 +175,10 @@ switch ($op) {
         // Set field elements
         if ($fieldsObj->isNew()) {
             // Redirect to field.php if saved
-            \redirect_header('fields.php', 2, \sprintf(_AM_MODULEBUILDER_FIELDS_FORM_SAVED_OK, $tableName));
+            \redirect_header('fields.php', 2, \sprintf(\_AM_MODULEBUILDER_FIELDS_FORM_SAVED_OK, $tableName));
         } else {
             // Redirect to field.php if updated - (Needed code from table name by field_tid)
-            \redirect_header('fields.php', 2, \sprintf(_AM_MODULEBUILDER_FIELDS_FORM_UPDATED_OK, $tableName));
+            \redirect_header('fields.php', 2, \sprintf(\_AM_MODULEBUILDER_FIELDS_FORM_UPDATED_OK, $tableName));
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $fieldsObj->getHtmlErrors());
@@ -190,9 +190,9 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_TABLES_ADD, 'tables.php?op=new', 'add');
-        $adminObject->addItemButton(_AM_MODULEBUILDER_TABLES_LIST, 'tables.php', 'list');
-        $adminObject->addItemButton(_AM_MODULEBUILDER_FIELDS_LIST, 'fields.php', 'list');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_TABLES_ADD, 'tables.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_TABLES_LIST, 'tables.php', 'list');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_FIELDS_LIST, 'fields.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         // Form Edit
         $fieldId   = \Xmf\Request::getInt('field_id');
@@ -215,7 +215,7 @@ switch ($op) {
                     ++$i;
                 }
             }
-            \redirect_header('fields.php', 5, _AM_MODULEBUILDER_FIELD_ORDER_ERROR);
+            \redirect_header('fields.php', 5, \_AM_MODULEBUILDER_FIELD_ORDER_ERROR);
             unset($i);
         }
         exit;
@@ -235,10 +235,10 @@ switch ($op) {
                 }
             }
             if ($helper->getHandler('Fields')->insert($fieldsObj)) {
-                \redirect_header('fields.php', 3, _AM_MODULEBUILDER_TOGGLE_SUCCESS);
+                \redirect_header('fields.php', 3, \_AM_MODULEBUILDER_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $fieldsObj->getHtmlErrors());
         }
         break;
 }
-include __DIR__ . '/footer.php';
+require __DIR__ . '/footer.php';

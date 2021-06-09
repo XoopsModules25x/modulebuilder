@@ -101,7 +101,7 @@ class UserRate extends Files\CreateFile
         $ret = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $ret .= $this->getInclude();
+        $ret .= $this->getRequire();
         $ret .= $this->xc->getXcXoopsRequest('op', 'op', 'list', 'Cmd');
         $ret .= $this->xc->getXcXoopsRequest('source', 'source', '0', 'Int');
 
@@ -133,7 +133,7 @@ class UserRate extends Files\CreateFile
     public function getUserRateDefault($t = '')
     {
         $ret = $this->pc->getPhpCodeCommentLine('default should not happen','', $t);
-        $ret .= $this->xc->getXcRedirectHeader('index', '', '3', '_NOPERM', true, $t);
+        $ret .= $this->xc->getXcRedirectHeader('index', '', '3', '\_NOPERM', true, $t);
 
         return $ret;
     }
@@ -156,7 +156,7 @@ class UserRate extends Files\CreateFile
 
         $ret .= $this->xc->getXcXoopsRequest('rating', 'rating', '0', 'Int', false, $t);
         $ret .= $this->xc->getXcEqualsOperator('$itemid', '0','', $t);
-        $ret .= $this->xc->getXcEqualsOperator('$redir ', "\$_SERVER['HTTP_REFERER']",'', $t);
+        $ret .= $this->xc->getXcEqualsOperator('$redir ', "\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')",'', $t);
         foreach ($tables as $table) {
             $tableName = $table->getVar('table_name');
             $stuTableName = \mb_strtoupper($tableName);
@@ -179,10 +179,10 @@ class UserRate extends Files\CreateFile
         $ret    .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
         $ret    .= $this->xc->getXcEqualsOperator('$rate_allowed', 'false','', $t);
         $xUser  = $this->pc->getPhpCodeGlobals('xoopsUser');
-        $ret    .= $this->pc->getPhpCodeTernaryOperator('groups', '(isset(' . $xUser . ') && \is_object(' . $xUser . '))', $xUser . '->getGroups()', 'XOOPS_GROUP_ANONYMOUS', "\t\t");
+        $ret    .= $this->pc->getPhpCodeTernaryOperator('groups', '(isset(' . $xUser . ') && \is_object(' . $xUser . '))', $xUser . '->getGroups()', '\XOOPS_GROUP_ANONYMOUS', "\t\t");
         $contIf = $this->xc->getXcEqualsOperator('$rate_allowed', 'true','', $t . "\t\t");
         $contIf .= $this->getSimpleString('break;', $t . "\t\t");
-        $cond   = 'XOOPS_GROUP_ADMIN == $group || \in_array($group, $helper->getConfig(\'ratingbar_groups\'))';
+        $cond   = '\XOOPS_GROUP_ADMIN == $group || \in_array($group, $helper->getConfig(\'ratingbar_groups\'))';
         $contFe = $this->pc->getPhpCodeConditions($cond, '', '', $contIf, false, $t . "\t");
         $ret    .= $this->pc->getPhpCodeForeach('groups', false, false, 'group', $contFe, $t);
         $contIf = $this->xc->getXcRedirectHeader('index', '', '3', $language . 'RATING_NOPERM', true, $t . "\t");
@@ -289,7 +289,7 @@ class UserRate extends Files\CreateFile
      */
     public function getUserRateFooter()
     {
-        return $this->getInclude('footer');
+        return $this->getRequire('footer');
     }
 
     /**
@@ -309,7 +309,7 @@ class UserRate extends Files\CreateFile
         $content            .= $this->getUserRateSwitch($tables, $language);
         $content            .= $this->getUserRateFooter();
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -47,7 +47,7 @@ function xoops_module_update_modulebuilder(&$module, $prev_version = null)
     }
 	
 	//check upload directory
-	include_once __DIR__ . '/install.php';
+	require_once __DIR__ . '/install.php';
     xoops_module_install_modulebuilder($module);
 	
     $errors = $module->getErrors();
@@ -717,15 +717,15 @@ function modulebuilder_check_db($module)
 function clean_index_files()
 {
     $files = [];
-    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/admin/index.php';
-    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/assets/index.php';
-    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/class/index.php';
-    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/include/index.php';
-    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/language/index.php';
-    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/preloads/index.php';
-    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/ratingfiles/assets/index.php';
-    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/ratingfiles/class/index.php';
-    $files[] = XOOPS_ROOT_PATH . '/modules/modulebuilder/files/ratingfiles/templates/index.php';
+    $files[] = \XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/admin/index.php';
+    $files[] = \XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/assets/index.php';
+    $files[] = \XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/class/index.php';
+    $files[] = \XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/include/index.php';
+    $files[] = \XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/language/index.php';
+    $files[] = \XOOPS_ROOT_PATH . '/modules/modulebuilder/files/commonfiles/preloads/index.php';
+    $files[] = \XOOPS_ROOT_PATH . '/modules/modulebuilder/files/ratingfiles/assets/index.php';
+    $files[] = \XOOPS_ROOT_PATH . '/modules/modulebuilder/files/ratingfiles/class/index.php';
+    $files[] = \XOOPS_ROOT_PATH . '/modules/modulebuilder/files/ratingfiles/templates/index.php';
 
     foreach($files as $file) {
         if (\file_exists($file)) {

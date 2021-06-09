@@ -56,12 +56,12 @@ class Utility
     {
         if ($considerHtml) {
             // if the plain text is shorter than the maximum length, return the whole text
-            if (mb_strlen(\preg_replace('/<.*?' . '>/', '', $text)) <= $length) {
+            if (\mb_strlen(\preg_replace('/<.*?' . '>/', '', $text)) <= $length) {
                 return $text;
             }
             // splits all html-tags to scanable lines
-            \preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, PREG_SET_ORDER);
-            $total_length = mb_strlen($ending);
+            \preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, \PREG_SET_ORDER);
+            $total_length = \mb_strlen($ending);
             $open_tags    = [];
             $truncate     = '';
             foreach ($lines as $line_matchings) {
@@ -92,7 +92,7 @@ class Utility
                     $left            = $length - $total_length;
                     $entities_length = 0;
                     // search for html entities
-                    if (\preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, PREG_OFFSET_CAPTURE)) {
+                    if (\preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, \PREG_OFFSET_CAPTURE)) {
                         // calculate the real length of all entities in the legal range
                         foreach ($entities[0] as $entity) {
                             if ($left >= $entity[1] + 1 - $entities_length) {
@@ -104,7 +104,7 @@ class Utility
                             }
                         }
                     }
-                    $truncate .= mb_substr($line_matchings[2], 0, $left + $entities_length);
+                    $truncate .= \mb_substr($line_matchings[2], 0, $left + $entities_length);
                     // maximum lenght is reached, so get off the loop
                     break;
                 }
@@ -117,10 +117,10 @@ class Utility
                 }
             }
         } else {
-            if (mb_strlen($text) <= $length) {
+            if (\mb_strlen($text) <= $length) {
                 return $text;
             }
-            $truncate = mb_substr($text, 0, $length - mb_strlen($ending));
+            $truncate = \mb_substr($text, 0, $length - mb_strlen($ending));
         }
         // if the words shouldn't be cut in the middle...
         if (!$exact) {
@@ -128,11 +128,11 @@ class Utility
             $spacepos = \mb_strrpos($truncate, ' ');
             if (isset($spacepos)) {
                 // ...and cut the text in this position
-                $truncate = mb_substr($truncate, 0, $spacepos);
+                $truncate = \mb_substr($truncate, 0, $spacepos);
             }
         }
         // add the defined ending to the text
-        if (\strlen($truncate) > 0) {
+        if ('' != $truncate) {
             $truncate .= $ending;
         }
         if ($considerHtml) {
@@ -191,13 +191,13 @@ class Utility
         $donationform = [
             0   => '<form name="donation" id="donation" action="http://www.txmodxoops.org/modules/xdonations/" method="post" onsubmit="return xoopsFormValidate_donation();">',
             1   => '<table class="outer" cellspacing="1" width="100%"><tbody><tr><th colspan="2">'
-                   . _AM_MODULEBUILDER_ABOUT_MAKE_DONATION
+                   . \_AM_MODULEBUILDER_ABOUT_MAKE_DONATION
                    . '</th></tr><tr align="left" valign="top"><td class="head"><div class="xoops-form-element-caption-required"><span class="caption-text">'
-                   . _AM_MODULEBUILDER_DONATION_AMOUNT
+                   . \_AM_MODULEBUILDER_DONATION_AMOUNT
                    . '</span><span class="caption-marker">*</span></div></td><td class="even"><select size="1" name="item[A][amount]" id="item[A][amount]" title="Donation Amount"><option value="5">5.00 EUR</option><option value="10">10.00 EUR</option><option value="20">20.00 EUR</option><option value="40">40.00 EUR</option><option value="60">60.00 EUR</option><option value="80">80.00 EUR</option><option value="90">90.00 EUR</option><option value="100">100.00 EUR</option><option value="200">200.00 EUR</option></select></td></tr><tr align="left" valign="top"><td class="head"></td><td class="even"><input class="formButton" name="submit" id="submit" value="'
-                   . _SUBMIT
+                   . \_SUBMIT
                    . '" title="'
-                   . _SUBMIT
+                   . \_SUBMIT
                    . '" type="submit"></td></tr></tbody></table>',
             2   => '<input name="op" id="op" value="createinvoice" type="hidden"><input name="plugin" id="plugin" value="donations" type="hidden"><input name="donation" id="donation" value="1" type="hidden"><input name="drawfor" id="drawfor" value="Chronolabs Co-Operative" type="hidden"><input name="drawto" id="drawto" value="%s" type="hidden"><input name="drawto_email" id="drawto_email" value="%s" type="hidden"><input name="key" id="key" value="%s" type="hidden"><input name="currency" id="currency" value="EUR" type="hidden"><input name="weight_unit" id="weight_unit" value="kgs" type="hidden"><input name="item[A][cat]" id="item[A][cat]" value="XDN%s" type="hidden"><input name="item[A][name]" id="item[A][name]" value="Donation for %s" type="hidden"><input name="item[A][quantity]" id="item[A][quantity]" value="1" type="hidden"><input name="item[A][shipping]" id="item[A][shipping]" value="0" type="hidden"><input name="item[A][handling]" id="item[A][handling]" value="0" type="hidden"><input name="item[A][weight]" id="item[A][weight]" value="0" type="hidden"><input name="item[A][tax]" id="item[A][tax]" value="0" type="hidden"><input name="return" id="return" value="http://www.txmodxoops.org/modules/xdonations/success.php" type="hidden"><input name="cancel" id="cancel" value="http://www.txmodxoops.org/modules/xdonations/success.php" type="hidden"></form>',
             'D' => '',
@@ -226,7 +226,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                         $donationform[$key],
                         $GLOBALS['xoopsConfig']['sitename'] . ' - ' . ('' != $GLOBALS['xoopsUser']->getVar('name') ? $GLOBALS['xoopsUser']->getVar('name') . ' [' . $GLOBALS['xoopsUser']->getVar('uname') . ']' : $GLOBALS['xoopsUser']->getVar('uname')),
                         $GLOBALS['xoopsUser']->getVar('email'),
-                        XOOPS_LICENSE_KEY,
+                        \XOOPS_LICENSE_KEY,
                         \mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')),
                         \mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')) . ' ' . $GLOBALS['xoopsModule']->getVar('name')
                     );
@@ -234,11 +234,11 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
             }
         }
         $aboutRes = '';
-        $istart   = mb_strpos($about, $paypalform[0], 1);
-        $iend     = mb_strpos($about, $paypalform[5], $istart + 1) + mb_strlen($paypalform[5]) - 1;
-        $aboutRes .= mb_substr($about, 0, $istart - 1);
+        $istart   = \mb_strpos($about, $paypalform[0], 1);
+        $iend     = \mb_strpos($about, $paypalform[5], $istart + 1) + mb_strlen($paypalform[5]) - 1;
+        $aboutRes .= \mb_substr($about, 0, $istart - 1);
         $aboutRes .= \implode("\n", $donationform);
-        $aboutRes .= mb_substr($about, $iend + 1, mb_strlen($about) - $iend - 1);
+        $aboutRes .= \mb_substr($about, $iend + 1, mb_strlen($about) - $iend - 1);
 
         return $aboutRes;
     }

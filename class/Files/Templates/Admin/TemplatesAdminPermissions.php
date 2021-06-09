@@ -127,7 +127,7 @@ class TemplatesAdminPermissions extends Files\CreateFile
         $content       .= $this->getTemplatesAdminPermissions();
         $content       .= $this->getTemplatesAdminPermissionsFooter($moduleDirname);
 
-        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

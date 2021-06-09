@@ -31,21 +31,21 @@ $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 // Define main template
 $templateMain = $moduleDirName . '_devtools.tpl';
 
-include __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
 $op    = Request::getString('op', 'list');
 
 switch ($op) {
     case 'fq':
         $fqModule = Request::getString('fq_module');
-        $src_path = XOOPS_ROOT_PATH . '/modules/' . $fqModule;
+        $src_path = \XOOPS_ROOT_PATH . '/modules/' . $fqModule;
         $dst_path = TDMC_UPLOAD_PATH . '/devtools/fq/' . $fqModule;
 
         $patKeys = [];
         $patValues = [];
         //Devtools::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues);
         Devtools::function_qualifier($src_path, $dst_path, $fqModule);
-        \redirect_header('devtools.php', 3, _AM_MODULEBUILDER_DEVTOOLS_FQ_SUCCESS);
+        \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_FQ_SUCCESS);
         break;
     case 'check_lang':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('devtools.php'));
@@ -53,7 +53,7 @@ switch ($op) {
         $clModuleNameUpper = \mb_strtoupper($clModuleName);
 
         //scan language files
-        $src_path = XOOPS_ROOT_PATH . '/modules/' . $clModuleName . '/language/english/';
+        $src_path = \XOOPS_ROOT_PATH . '/modules/' . $clModuleName . '/language/english/';
         $langfiles = [];
         foreach (scandir($src_path) as $scan) {
             if (is_file($src_path . $scan) && 'index.html' !== $scan) {
@@ -75,7 +75,7 @@ switch ($op) {
         }
 
         //get all php and tpl files from module
-        $check_path = XOOPS_ROOT_PATH . '/modules/' . $clModuleName;
+        $check_path = \XOOPS_ROOT_PATH . '/modules/' . $clModuleName;
         $Directory = new RecursiveDirectoryIterator($check_path);
         $Iterator = new RecursiveIteratorIterator($Directory);
         $regexFiles = new RegexIterator($Iterator, '/^.+\.(php|tpl)$/i', RecursiveRegexIterator::GET_MATCH);
@@ -158,20 +158,20 @@ switch ($op) {
         break;
     case 'tab_replacer':
         $tabModule = Request::getString('tab_module');
-        $src_path = XOOPS_ROOT_PATH . '/modules/' . $tabModule;
+        $src_path = \XOOPS_ROOT_PATH . '/modules/' . $tabModule;
         $dst_path = TDMC_UPLOAD_PATH . '/devtools/tab/';
         @\mkdir($dst_path);
         $dst_path = TDMC_UPLOAD_PATH . '/devtools/tab/' . $tabModule;
         @\mkdir($dst_path);
 
         Devtools::function_tabreplacer($src_path, $dst_path);
-        \redirect_header('devtools.php', 3, _AM_MODULEBUILDER_DEVTOOLS_FQ_SUCCESS);
+        \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_FQ_SUCCESS);
         break;
     case 'list':
     default:
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('devtools.php'));
         $dst_path = TDMC_UPLOAD_PATH . '/devtools/fq/';
-        $GLOBALS['xoopsTpl']->assign('fq_desc',\str_replace('%s', $dst_path, _AM_MODULEBUILDER_DEVTOOLS_FQ_DESC));
+        $GLOBALS['xoopsTpl']->assign('fq_desc',\str_replace('%s', $dst_path, \_AM_MODULEBUILDER_DEVTOOLS_FQ_DESC));
         $fq_form = Devtools::getFormModulesFq();
         $GLOBALS['xoopsTpl']->assign('fq_form', $fq_form->render());
         $cl_form = Devtools::getFormModulesCl();
@@ -179,7 +179,7 @@ switch ($op) {
         $tab_form = Devtools::getFormModulesTab();
         $GLOBALS['xoopsTpl']->assign('tab_form', $tab_form->render());
         $dst_path = TDMC_UPLOAD_PATH . '/devtools/tab/';
-        $GLOBALS['xoopsTpl']->assign('tab_desc',\str_replace('%s', $dst_path, _AM_MODULEBUILDER_DEVTOOLS_TAB_DESC));
+        $GLOBALS['xoopsTpl']->assign('tab_desc',\str_replace('%s', $dst_path, \_AM_MODULEBUILDER_DEVTOOLS_TAB_DESC));
         $GLOBALS['xoopsTpl']->assign('devtools_list',true);
 
         break;
@@ -190,7 +190,7 @@ function getUserDefinedConstants() {
     return (isset($constants['user']) ? $constants['user'] : array());
 }
 
-include __DIR__ . '/footer.php';
+require __DIR__ . '/footer.php';
 
 
 

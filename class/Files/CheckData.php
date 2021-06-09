@@ -26,7 +26,7 @@ use XoopsModules\Modulebuilder\Constants;
  *
  */
 
-//include \dirname(__DIR__) . '/autoload.php';
+//require \dirname(__DIR__) . '/autoload.php';
 
 /**
  * Class CheckData.
@@ -126,7 +126,7 @@ class CheckData
                 }
                 // check whether each table with handling "broken" has also a field "status"
                 if ('' == $fieldSatus) {
-                    $info = \str_replace('%t', $tableName, _AM_MODULEBUILDER_BUILDING_CHECK_BROKEN1);
+                    $info = \str_replace('%t', $tableName, \_AM_MODULEBUILDER_BUILDING_CHECK_BROKEN1);
                     $this->infos[] = ['icon' => 'error', 'info' => $info];
                 }
             }
@@ -157,7 +157,7 @@ class CheckData
                         + (int)$fields[$f]->getVar('field_thead') + (int)$fields[$f]->getVar('field_tbody') + (int)$fields[$f]->getVar('field_tfoot') + (int)$fields[$f]->getVar('field_block')
                         + (int)$fields[$f]->getVar('field_main') + (int)$fields[$f]->getVar('field_search') + (int)$fields[$f]->getVar('field_required');
                     if (0 == $fieldParams) {
-                        $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS1);
+                        $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], \_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS1);
                         $this->infos[] = ['icon' => 'error', 'info' => $info];
                     }
                 }
@@ -178,7 +178,7 @@ class CheckData
                         $fieldParams = (int)$fields[$f]->getVar('field_ihead') + (int)$fields[$f]->getVar('field_ibody') + (int)$fields[$f]->getVar('field_ifoot')
                             + (int)$fields[$f]->getVar('field_thead') + (int)$fields[$f]->getVar('field_tbody') + (int)$fields[$f]->getVar('field_tfoot');
                         if (0 == $fieldParams) {
-                            $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS2);
+                            $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], \_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS2);
                             $this->infos[] = ['icon' => 'warning', 'info' => $info];
                         }
                     }
@@ -199,12 +199,12 @@ class CheckData
                     if ($f > 0) {
                         $fieldParams = (int)$fields[$f]->getVar('field_ihead') + (int)$fields[$f]->getVar('field_ibody') + (int)$fields[$f]->getVar('field_ifoot');
                         if ($fieldParams > 1) {
-                            $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS3);
+                            $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], \_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS3);
                             $this->infos[] = ['icon' => 'warning', 'info' => $info];
                         }
                         $fieldParams = (int)$fields[$f]->getVar('field_thead') + (int)$fields[$f]->getVar('field_tbody') + (int)$fields[$f]->getVar('field_tfoot');
                         if ($fieldParams > 1) {
-                            $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS3);
+                            $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], \_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS3);
                             $this->infos[] = ['icon' => 'warning', 'info' => $info];
                         }
                     }
@@ -216,7 +216,7 @@ class CheckData
         foreach (\array_keys($this->tables) as $t) {
             $tableName = $this->tables[$t]->getVar('table_name');
             if ((0 == $this->tables[$t]->getVar('table_user')) && (1 == $this->tables[$t]->getVar('table_submit') || 1 == $this->tables[$t]->getVar('table_broken') || 1 == $this->tables[$t]->getVar('table_rate'))) {
-                $info = \str_replace(['%t'], [$tableName], _AM_MODULEBUILDER_BUILDING_CHECK_USERPAGE1);
+                $info = \str_replace(['%t'], [$tableName], \_AM_MODULEBUILDER_BUILDING_CHECK_USERPAGE1);
                 $this->infos[] = ['icon' => 'error', 'info' => $info];
             }
         }
@@ -241,24 +241,24 @@ class CheckData
                         $fieldParams = (int)$fields[$f]->getVar('field_ihead') + (int)$fields[$f]->getVar('field_ibody') + (int)$fields[$f]->getVar('field_ifoot');
                         $fieldParamsIndex += $fieldParams;
                         if ($fieldParams >= 1 && 0 == $tableIndex) {
-                            $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS5);
+                            $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], \_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS5);
                             $this->infos[] = ['icon' => 'warning', 'info' => $info];
                         }
                         $fieldParams = (int)$fields[$f]->getVar('field_thead') + (int)$fields[$f]->getVar('field_tbody') + (int)$fields[$f]->getVar('field_tfoot');
                         $fieldParamsUser += $fieldParams;
                         if ($fieldParams >= 1 && 0 == $tableUser) {
-                            $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS7);
+                            $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], \_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS7);
                             $this->infos[] = ['icon' => 'warning', 'info' => $info];
                         }
                     }
                 }
             }
             if (0 == $fieldParamsIndex && 1 == $tableIndex) {
-                $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS4);
+                $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], \_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS4);
                 $this->infos[] = ['icon' => 'warning', 'info' => $info];
             }
             if (0 == $fieldParamsUser && 1 == $tableUser) {
-                $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_FIELDS6);
+                $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], \_AM_MODULEBUILDER_BUILDING_CHECK_FIELDS6);
                 $this->infos[] = ['icon' => 'warning', 'info' => $info];
             }
         }
@@ -286,7 +286,7 @@ class CheckData
                     }
                 }
                 if (0 == $count) {
-                    $info = \str_replace(['%t'], [$tableName], _AM_MODULEBUILDER_BUILDING_CHECK_BLOCK1);
+                    $info = \str_replace(['%t'], [$tableName], \_AM_MODULEBUILDER_BUILDING_CHECK_BLOCK1);
                     $this->infos[] = ['icon' => 'warning', 'info' => $info];
                 }
             }
@@ -305,7 +305,7 @@ class CheckData
                     }
                 }
                 if (0 == $count) {
-                    $info = \str_replace(['%t'], [$tableName], _AM_MODULEBUILDER_BUILDING_CHECK_BLOCK2);
+                    $info = \str_replace(['%t'], [$tableName], \_AM_MODULEBUILDER_BUILDING_CHECK_BLOCK2);
                     $this->infos[] = ['icon' => 'warning', 'info' => $info];
                 }
             }
@@ -332,7 +332,7 @@ class CheckData
         }
         if ($count > 1) {
             $tablesComments = \implode(', ', $tableComments);
-            $info = \str_replace('%t', $tablesComments, _AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS1);
+            $info = \str_replace('%t', $tablesComments, \_AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS1);
             $this->infos[] = ['icon' => 'error', 'info' => $info];
         }
 
@@ -349,7 +349,7 @@ class CheckData
                 }
                 // check whether each table with handling "comments" has also a field "comments"
                 if (0 == $fieldComments) {
-                    $info = \str_replace('%t', $tableName, _AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS2);
+                    $info = \str_replace('%t', $tableName, \_AM_MODULEBUILDER_BUILDING_CHECK_COMMENTS2);
                     $this->infos[] = ['icon' => 'warning', 'info' => $info];
                 }
             }
@@ -382,12 +382,12 @@ class CheckData
                 }
                 // check whether each table with handling "rating" has also a field "rating"
                 if (0 == (int)$fieldRatings) {
-                    $info = \str_replace('%t', $tableName, _AM_MODULEBUILDER_BUILDING_CHECK_RATINGS1);
+                    $info = \str_replace('%t', $tableName, \_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS1);
                     $this->infos[] = ['icon' => 'error', 'info' => $info];
                 }
                 // check whether each table with handling "rating" has also a field "votes"
                 if (0 == (int)$fieldVotes) {
-                    $info = \str_replace('%t', $tableName, _AM_MODULEBUILDER_BUILDING_CHECK_RATINGS2);
+                    $info = \str_replace('%t', $tableName, \_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS2);
                     $this->infos[] = ['icon' => 'error', 'info' => $info];
                 }
             }
@@ -416,7 +416,7 @@ class CheckData
                 }
                 // check whether each table with handling "reads" has also a field "reads"
                 if (0 == (int)$fieldReads) {
-                    $info = \str_replace('%t', $tableName, _AM_MODULEBUILDER_BUILDING_CHECK_READS1);
+                    $info = \str_replace('%t', $tableName, \_AM_MODULEBUILDER_BUILDING_CHECK_READS1);
                     $this->infos[] = ['icon' => 'error', 'info' => $info];
                 }
             }
@@ -442,12 +442,12 @@ class CheckData
                 if (6 == $fieldType || 7 == $fieldType || 8 == $fieldType) {
                     $fieldValue = $fields[$f]->getVar('field_value');
                     if (0 == \strpos($fieldValue,',')) {
-                        $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_SQL1);
+                        $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], \_AM_MODULEBUILDER_BUILDING_CHECK_SQL1);
                         $this->infos[] = ['icon' => 'error', 'info' => $info];
                     }
                     $fieldDefault = $fields[$f]->getVar('field_default');
                     if (0 == \strpos($fieldDefault,'.')) {
-                        $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], _AM_MODULEBUILDER_BUILDING_CHECK_SQL2);
+                        $info = \str_replace(['%f', '%t'], [$fieldName, $tableName], \_AM_MODULEBUILDER_BUILDING_CHECK_SQL2);
                         $this->infos[] = ['icon' => 'warning', 'info' => $info];
                     }
                 }

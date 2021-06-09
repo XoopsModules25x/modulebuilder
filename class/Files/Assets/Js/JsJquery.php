@@ -93,7 +93,7 @@ $(document).ready(function(){
 });
 EOT;
 
-        $this->tdmcfile->create($moduleDirname, 'assets/js', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'assets/js', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }
