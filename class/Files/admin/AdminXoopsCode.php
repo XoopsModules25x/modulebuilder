@@ -326,7 +326,7 @@ class AdminXoopsCode
         $ifelse      .= $this->getAxcSetPrefix('uploader', '$imgName', $t . "\t") . ";\n";
         $ifelse      .= $t . "\t{$fetchMedia};\n";
         $contIf      = $this->xc->getXcSetVarObj($tableName, $fieldName, '$uploader->getSavedFileName()', $t . "\t\t");
-        $contElseInt .= $this->xc->getXcEqualsOperator('$uploaderErrors', "'<br>' . \$uploader->getErrors()", '.', $t . "\t\t");
+        $contElseInt = $this->xc->getXcEqualsOperator('$uploaderErrors', "'<br>' . \$uploader->getErrors()", '.', $t . "\t\t");
         $ifelse      .= $this->pc->getPhpCodeConditions('$uploader->upload()', '', '', $contIf, $contElseInt, $t . "\t");
         $ifelseExt   = $this->xc->getXcEqualsOperator('$uploaderErrors', "'<br>' . \$uploader->getErrors()", '.', $t . "\t\t");
         $contElseExt = $this->pc->getPhpCodeConditions("\$filename", ' > ', "''", $ifelseExt, false, $t . "\t");
