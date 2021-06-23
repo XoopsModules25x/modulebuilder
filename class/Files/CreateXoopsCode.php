@@ -21,7 +21,8 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -1783,6 +1784,28 @@ class CreateXoopsCode
 
         return $ret;
     }
+
+    /**
+     * @public  function getXcCommonPagesClone
+     * @param        $tableName
+     * @param        $ccFieldId
+     * @param string $t
+     * @return string
+     */
+    public function getXcCommonPagesClone($tableName, $ccFieldId, $t = '')
+    {
+        $pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+
+        $ret = $pc->getPhpCodeCommentLine('Get Form', null, "\t\t");
+        $ret .= $xc->getXcHandlerGet($tableName, $ccFieldId . 'Source', 'ObjSource', $tableName . 'Handler', false, $t);
+        $ret .= $xc->getXcEqualsOperator('$' . $tableName . 'Obj', '$' . $tableName . 'ObjSource->xoopsClone()', null, $t);
+        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
+        $ret .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
+
+        return $ret;
+    }
+
 
     /**
      * @public function getXcCommonPagesDelete

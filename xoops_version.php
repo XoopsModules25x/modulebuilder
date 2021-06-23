@@ -17,7 +17,8 @@
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  */
  
 \defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -54,7 +55,7 @@ $modversion['modicons32']          = 'assets/images/icons/32';
 $modversion['targetdir']           = XOOPS_UPLOAD_PATH . "/{$moduleDirName}/repository/";
 $modversion['module_website_url']  = 'https://github.com/XoopsModules25x/modulebuilder';
 $modversion['module_website_name'] = 'GitHub Xoops';
-$modversion['min_php']             = '7.3';
+$modversion['min_php']             = '7.2';
 $modversion['min_xoops']           = '2.5.11-Beta 2';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = ['mysql' => '5.5'];

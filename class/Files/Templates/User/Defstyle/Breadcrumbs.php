@@ -23,7 +23,8 @@ use XoopsModules\Modulebuilder\Files\Templates\User;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 

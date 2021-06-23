@@ -21,7 +21,7 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <https://xoops.org/>
  *
  */
 

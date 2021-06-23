@@ -17,7 +17,8 @@
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 \defined('XOOPS_ROOT_PATH') || exit('Restricted access');
@@ -31,7 +32,7 @@
 function ModuleBuilder_MakeDonationForm($about)
 {
     $donationform = [
-        0   => '<form name="donation" id="donation" action="http://www.txmodxoops.org/modules/xdonations/" method="post" onsubmit="return xoopsFormValidate_donation();">',
+        0   => '<form name="donation" id="donation" action="https://xoops.org/modules/xdonations/" method="post" onsubmit="return xoopsFormValidate_donation();">',
         1   => '<table class="outer" cellspacing="1" width="100%"><tbody><tr><th colspan="2">'
                . \_AM_MODULEBUILDER_ABOUT_MAKE_DONATION
                . '</th></tr><tr align="left" valign="top"><td class="head"><div class="xoops-form-element-caption-required"><span class="caption-text">'
@@ -41,7 +42,7 @@ function ModuleBuilder_MakeDonationForm($about)
                . '" title="'
                . \_SUBMIT
                . '" type="submit"></td></tr></tbody></table>',
-        2   => '<input name="op" id="op" value="createinvoice" type="hidden"><input name="plugin" id="plugin" value="donations" type="hidden"><input name="donation" id="donation" value="1" type="hidden"><input name="drawfor" id="drawfor" value="Chronolabs Co-Operative" type="hidden"><input name="drawto" id="drawto" value="%s" type="hidden"><input name="drawto_email" id="drawto_email" value="%s" type="hidden"><input name="key" id="key" value="%s" type="hidden"><input name="currency" id="currency" value="EUR" type="hidden"><input name="weight_unit" id="weight_unit" value="kgs" type="hidden"><input name="item[A][cat]" id="item[A][cat]" value="XDN%s" type="hidden"><input name="item[A][name]" id="item[A][name]" value="Donation for %s" type="hidden"><input name="item[A][quantity]" id="item[A][quantity]" value="1" type="hidden"><input name="item[A][shipping]" id="item[A][shipping]" value="0" type="hidden"><input name="item[A][handling]" id="item[A][handling]" value="0" type="hidden"><input name="item[A][weight]" id="item[A][weight]" value="0" type="hidden"><input name="item[A][tax]" id="item[A][tax]" value="0" type="hidden"><input name="return" id="return" value="http://www.txmodxoops.org/modules/xdonations/success.php" type="hidden"><input name="cancel" id="cancel" value="http://www.txmodxoops.org/modules/xdonations/success.php" type="hidden"></form>',
+        2   => '<input name="op" id="op" value="createinvoice" type="hidden"><input name="plugin" id="plugin" value="donations" type="hidden"><input name="donation" id="donation" value="1" type="hidden"><input name="drawfor" id="drawfor" value="Chronolabs Co-Operative" type="hidden"><input name="drawto" id="drawto" value="%s" type="hidden"><input name="drawto_email" id="drawto_email" value="%s" type="hidden"><input name="key" id="key" value="%s" type="hidden"><input name="currency" id="currency" value="EUR" type="hidden"><input name="weight_unit" id="weight_unit" value="kgs" type="hidden"><input name="item[A][cat]" id="item[A][cat]" value="XDN%s" type="hidden"><input name="item[A][name]" id="item[A][name]" value="Donation for %s" type="hidden"><input name="item[A][quantity]" id="item[A][quantity]" value="1" type="hidden"><input name="item[A][shipping]" id="item[A][shipping]" value="0" type="hidden"><input name="item[A][handling]" id="item[A][handling]" value="0" type="hidden"><input name="item[A][weight]" id="item[A][weight]" value="0" type="hidden"><input name="item[A][tax]" id="item[A][tax]" value="0" type="hidden"><input name="return" id="return" value="https://xoops.org/modules/xdonations/success.php" type="hidden"><input name="cancel" id="cancel" value="https://xoops.org/modules/xdonations/success.php" type="hidden"></form>',
         'D' => '',
         3   => '',
         4   => '<!-- Start Form Validation JavaScript //-->

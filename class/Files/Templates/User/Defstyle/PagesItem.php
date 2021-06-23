@@ -25,7 +25,8 @@ use XoopsModules\Modulebuilder\{
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -180,17 +181,19 @@ class PagesItem extends Files\CreateFile
             }
         }
 
-        $anchors = '';
-        $lang        = $this->sc->getSmartyConst($language, \mb_strtoupper($tableName) . '_LIST');
-        $contIf =  $this->hc->getHtmlAnchor($tableName . ".php?op=list&amp;#{$ccFieldId}_" . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
-        $lang        = $this->sc->getSmartyConst($language, 'DETAILS');
+        $anchors  = '';
+        $lang     = $this->sc->getSmartyConst($language, \mb_strtoupper($tableName) . '_LIST');
+        $contIf   =  $this->hc->getHtmlAnchor($tableName . ".php?op=list&amp;#{$ccFieldId}_" . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
+        $lang     = $this->sc->getSmartyConst($language, 'DETAILS');
         $contElse =  $this->hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
         $anchors .= $this->sc->getSmartyConditions('showItem', '', '', $contIf, $contElse, '', '', "\t\t");
-        $lang        = $this->sc->getSmartyConst('', '_EDIT');
-        $contIf =  $this->hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
-        $lang        = $this->sc->getSmartyConst('', '_DELETE');
-        $contIf .=  $this->hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-danger right', '', "\t\t\t", "\n");
-        $anchors .= $this->sc->getSmartyConditions('permEdit', '', '', $contIf, false, '', '', "\t\t");
+        $lang     = $this->sc->getSmartyConst('', '_EDIT');
+        $contIf   =  $this->hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
+        $lang     = $this->sc->getSmartyConst('', '_CLONE');
+        $contIf   .=  $this->hc->getHtmlAnchor($tableName . ".php?op=clone&amp;{$fieldId}_source=" . $keyDouble, $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
+        $lang     = $this->sc->getSmartyConst('', '_DELETE');
+        $contIf   .=  $this->hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-danger right', '', "\t\t\t", "\n");
+        $anchors  .= $this->sc->getSmartyConditions('permEdit', '', '', $contIf, false, '', '', "\t\t");
         if (1 == $tableBroken) {
             $lang        = $this->sc->getSmartyConst($language, 'BROKEN');
             $anchors .=  $this->hc->getHtmlAnchor($tableName . ".php?op=broken&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-warning right', '', "\t\t", "\n");
