@@ -70,7 +70,7 @@
     field_parent: '0'
     field_admin: '1'
     field_inlist: '1'
-    field_inform: '0'
+    field_inform: '1'
     field_user: '0'
     field_ihead: '0'
     field_ibody: '0'
