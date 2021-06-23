@@ -18,7 +18,7 @@ use XoopsModules\Modulebuilder\Files;
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
@@ -148,7 +148,7 @@ class UserXoopsVersion extends Files\CreateFile
             'author_website_name' => "'{$module->getVar('mod_author_website_name')}'",
             'credits'             => "'{$module->getVar('mod_credits')}'",
             'license'             => "'{$module->getVar('mod_license')}'",
-            'license_url'         => "'http://www.gnu.org/licenses/gpl-3.0.en.html'",
+            'license_url'         => "'https://www.gnu.org/licenses/gpl-3.0.en.html'",
             'help'                => "'page=help'",
             'release_info'        => "'{$module->getVar('mod_release_info')}'",
             'release_file'        => "\XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_release_file')}'",

@@ -13,7 +13,7 @@
  * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
  *
@@ -54,7 +54,7 @@ $modversion['modicons32']          = 'assets/images/icons/32';
 $modversion['targetdir']           = XOOPS_UPLOAD_PATH . "/{$moduleDirName}/repository/";
 $modversion['module_website_url']  = 'https://github.com/XoopsModules25x/modulebuilder';
 $modversion['module_website_name'] = 'GitHub Xoops';
-$modversion['min_php']             = '7.2';
+$modversion['min_php']             = '7.3';
 $modversion['min_xoops']           = '2.5.11-Beta 2';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = ['mysql' => '5.5'];
@@ -437,7 +437,7 @@ $modversion['config'][] = [
     'description' => '\_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => 'http://www.gnu.org/licenses/old-licenses/gpl-2.0.html',
+    'default'     => 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html',
 ];
 
 $modversion['config'][] = [

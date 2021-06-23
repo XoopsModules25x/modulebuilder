@@ -65,8 +65,8 @@ class Resizer
 
         if ($width > $this->maxWidth || $height > $this->maxHeight) {
             // recalc image size based on this->maxWidth/this->maxHeight
-			$new_width  = 0;
-			$new_height = 0;
+            $new_width  = 0;
+            $new_height = 0;
             if ($width > $height) {
                 if ($width < $this->maxWidth) {
                     $new_width = $width;
