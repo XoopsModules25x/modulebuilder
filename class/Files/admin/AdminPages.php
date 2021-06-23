@@ -25,7 +25,8 @@ use XoopsModules\Modulebuilder\{
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -195,6 +196,36 @@ class AdminPages extends Files\CreateFile
             $ret .= $this->xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
         }
         $ret .= $this->xc->getXcCommonPagesNew($tableName, $t);
+
+        return $ret;
+    }
+
+    /**
+     * @private function getAdminPagesClone
+     * @param        $moduleDirname
+     * @param        $tableName
+     * @param        $fieldInForm
+     * @param        $language
+     * @param string $t
+     * @return string
+     */
+    private function getAdminPagesClone($moduleDirname, $tableName, $tableSoleName, $fieldInForm, $fieldId, $language, $t = '')
+    {
+        $stuTableName     = \mb_strtoupper($tableName);
+        $stuTableSoleName = \mb_strtoupper($tableSoleName);
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
+        $ret              = $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
+        $navigation       = $this->axc->getAdminDisplayNavigation($tableName);
+        $ret              .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
+
+        if (\in_array(1, $fieldInForm)) {
+            $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
+            $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', $t);
+            $ret .= $this->xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
+        }
+        $ret .= $this->pc->getPhpCodeCommentLine("Request source", '', $t);
+        $ret .= $this->xc->getXcXoopsRequest($ccFieldId . 'Source', $fieldId . '_source', '', 'Int', false, $t);
+        $ret .= $this->xc->getXcCommonPagesClone($tableName, $ccFieldId, $t);
 
         return $ret;
     }
@@ -390,7 +421,7 @@ class AdminPages extends Files\CreateFile
     public function render()
     {
         $tf  = Modulebuilder\Files\CreateFile::getInstance();
-        $new = $save = $edit = '';
+        $new = $clone = $save = $edit = '';
 
         $module             = $this->getModule();
         $table              = $this->getTable();
@@ -419,15 +450,17 @@ class AdminPages extends Files\CreateFile
         $content .= $this->getAdminPagesHeader($moduleDirname, $fieldId);
         $list    = $this->getAdminPagesList($moduleDirname, $table, $language, $fieldInForm, "\t\t");
         if (\in_array(1, $fieldInForm)) {
-            $new  = $this->getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, "\t\t");
-            $save = $this->getAdminPagesSave($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldMain, $tablePerms, "\t\t");
-            $edit = $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, "\t\t");
+            $new   = $this->getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, "\t\t");
+            $clone = $this->getAdminPagesClone($moduleDirname, $tableName, $tableSoleName, $fieldInForm, $fieldId, $language, "\t\t");
+            $save  = $this->getAdminPagesSave($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldMain, $tablePerms, "\t\t");
+            $edit  = $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, "\t\t");
         }
         $delete = $this->getAdminPagesDelete($moduleDirname, $tableName, $tableSoleName, $language, $fieldId, $fieldMain, $tableNotifications, "\t\t");
 
         $cases   = [
             'list'   => [$list],
             'new'    => [$new],
+            'clone'  => [$clone],
             'save'   => [$save],
             'edit'   => [$edit],
             'delete' => [$delete],

@@ -25,7 +25,8 @@ use XoopsModules\Modulebuilder\{
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -427,6 +428,35 @@ class UserPages extends Files\CreateFile
     }
 
     /**
+     * @public function getUserPagesClone
+     * @param        $tableName
+     * @param        $tableSoleName
+     * @param        $tablePermissions
+     * @param        $fieldId
+     * @param        $language
+     * @param string $t
+     * @return string
+     */
+    public function getUserPagesClone($tableName, $tableSoleName, $tablePermissions, $fieldId, $language, $t = '')
+    {
+        $ret       = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'clone', '', "\t\t");
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
+        if (1 == $tablePermissions) {
+            $ret       .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
+            $contIf    = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '\_NOPERM', true, $t . "\t");
+            $ret       .= $this->pc->getPhpCodeConditions('!$permissionsHandler->getPermGlobalSubmit()', '', '', $contIf, false, $t);
+        }
+        $ret    .= $this->pc->getPhpCodeCommentLine("Request source", '', $t);
+        $ret    .= $this->xc->getXcXoopsRequest($ccFieldId . 'Source', $fieldId . '_source', '', 'Int', false, $t);
+        $ret    .= $this->pc->getPhpCodeCommentLine('Check params', '', $t);
+        $contIf = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, "{$language}INVALID_PARAM", true, $t . "\t");
+        $ret    .= $this->pc->getPhpCodeConditions("\${$ccFieldId}Source", ' == ', '0', $contIf, false, $t);
+        $ret    .= $this->xc->getXcCommonPagesClone($tableName, $ccFieldId, $t);
+
+        return $ret;
+    }
+
+    /**
      * @private function getUserPagesDelete
      * @param        $tableName
      * @param        $tableSoleName
@@ -573,6 +603,7 @@ class UserPages extends Files\CreateFile
             $cases['save']   = [$this->getUserPagesSave($moduleDirname, $fields, $tableName, $tableSoleName, $tablePermissions, $tableNotifications, $language, $t . "\t")];
             $cases['new']    = [$this->getUserPagesNew($tableName, $tableSoleName, $tablePermissions, $language, $t . "\t")];
             $cases['edit']   = [$this->getUserPagesEdit($tableName, $tableSoleName, $tablePermissions, $fieldId, $language, $t . "\t")];
+            $cases['clone']  = [$this->getUserPagesClone($tableName, $tableSoleName, $tablePermissions, $fieldId, $language, $t . "\t")];
             $cases['delete'] = [$this->getUserPagesDelete($tableName, $tableSoleName, $tablePermissions, $language, $fieldId, $fieldMain, $tableNotifications,$t . "\t")];
         }
         if (1 == $tableBroken) {

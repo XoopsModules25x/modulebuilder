@@ -20,7 +20,7 @@ use XoopsModules\Modulebuilder\Common;
  * @category  Table Checker
  * @author    Goffy <webmmaster@wedega.com>
  * @copyright 2021 XOOPS Project (https://xoops.org)
- * @license   GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license   GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @link      https://xoops.org
  */
 
