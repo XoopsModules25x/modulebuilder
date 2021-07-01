@@ -113,10 +113,12 @@ class UserPages extends Files\CreateFile
         $ret       .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'header', true);
         $ret       .= $this->pc->getPhpCodeBlankLine();
         $ret       .= $this->xc->getXcXoopsRequest('op   ', 'op', 'list', 'Cmd');
+        $ret       .= $this->xc->getXcXoopsRequest($ccFieldId, $fieldId, '0', 'Int');
         $ret       .= $this->xc->getXcXoopsRequest('start', 'start', '0', 'Int');
         $userpager = $this->xc->getXcGetConfig('userpager');
         $ret       .= $this->xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int');
-        $ret       .= $this->xc->getXcXoopsRequest($ccFieldId, $fieldId, '0', 'Int');
+        $ret       .= $this->xc->getXcXoopsTplAssign('start', '$start');
+        $ret       .= $this->xc->getXcXoopsTplAssign('limit', '$limit');
         $ret       .= $this->pc->getPhpCodeBlankLine();
         $ret       .= $this->pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret       .= $this->xc->getXcXoThemeAddStylesheet();
@@ -180,8 +182,9 @@ class UserPages extends Files\CreateFile
         $ret       .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $contIf, false, $t);
         $ret       .= $this->xc->getXcHandlerCountClear($tableName . 'Count', $tableName, '$' . $critName, $t);
         $ret       .= $this->xc->getXcXoopsTplAssign($tableName . 'Count', "\${$tableName}Count", '', $t);
-        $ret       .= $this->xc->getXcCriteriaSetStart($critName, '$start', $t);
-        $ret       .= $this->xc->getXcCriteriaSetLimit($critName, '$limit', $t);
+        $contIf    = $this->xc->getXcCriteriaSetStart($critName, '$start', $t . "\t");
+        $contIf    .= $this->xc->getXcCriteriaSetLimit($critName, '$limit', $t . "\t");
+        $ret       .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' === ', '0', $contIf, false, $t);
         $ret       .= $this->xc->getXcHandlerAllClear($tableName . 'All', $tableName, '$' . $critName, $t);
         $condIf    = $this->pc->getPhpCodeArray($tableName, null, false, $t . "\t");
         $condIf    .= $this->xc->getXcEqualsOperator("\${$ccFieldMain}", "''",'', $t . "\t");
@@ -343,10 +346,10 @@ class UserPages extends Files\CreateFile
         $contentInsert .= $this->pc->getPhpCodeCommentLine('redirect after insert', null, $t . "\t");
         if ($countUploader > 0) {
             $errIf     = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=edit&{$fieldId}=' . \$new{$ucfFieldId}", '', '5', '$uploaderErrors', false, $t . "\t\t");
-            $errElse   = $this->xc->getXcRedirectHeader($tableName, '?op=list', '2', "{$language}FORM_OK", true, $t . "\t\t");
+            $errElse   = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&amp;start=' . \$start . '&amp;limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
             $confirmOk = $this->pc->getPhpCodeConditions('$uploaderErrors', ' !== ', "''", $errIf, $errElse, $t . "\t");
         } else {
-            $confirmOk = $this->xc->getXcRedirectHeader($tableName, '', '2', "{$language}FORM_OK", true, $t . "\t");
+            $confirmOk = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&amp;start=' . \$start . '&amp;limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
         }
         $contentInsert .= $confirmOk;
         $ret           .= $this->pc->getPhpCodeConditions($insert, '', '', $contentInsert, false, $t);
@@ -531,7 +534,7 @@ class UserPages extends Files\CreateFile
             $contInsert .= $this->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_broken', \$tags);", $t . "\t\t");
             $contInsert .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \${$ccFieldId}, '{$tableSoleName}_broken', \$tags);", $t . "\t\t");
         }
-        $contInsert   .= $this->xc->getXcRedirectHeader($tableName, '', '3', "{$language}FORM_OK", true, $t . "\t\t");
+        $contInsert   .= $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&amp;start=' . \$start . '&amp;limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
         $htmlErrors   = $this->xc->getXcHtmlErrors($tableName, true);
         $internalElse = $this->xc->getXcXoopsTplAssign('error', $htmlErrors, true, $t . "\t\t");
         $condition    .= $this->pc->getPhpCodeConditions($insert, '', '', $contInsert, $internalElse, $t . "\t");

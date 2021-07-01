@@ -105,10 +105,15 @@ class AdminPages extends Files\CreateFile
         $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants'], '', '');
         $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Common']);
         $ret       .= $this->getRequire();
-        $ret       .= $this->pc->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
+        $ret       .= $this->pc->getPhpCodeCommentLine('Get all request values');
         $ret       .= $this->xc->getXcXoopsRequest('op', 'op', 'list', 'Cmd');
-        $ret       .= $this->pc->getPhpCodeCommentLine("Request {$fieldId}");
         $ret       .= $this->xc->getXcXoopsRequest($ccFieldId, $fieldId, '', 'Int');
+        $ret       .= $this->xc->getXcXoopsRequest('start', 'start', '0', 'Int', false);
+        $config    = $this->xc->getXcGetConfig('adminpager');
+        $ret       .= $this->xc->getXcXoopsRequest('limit', 'limit', $config, 'Int', false);
+        $ret       .= $this->xc->getXcXoopsTplAssign('start', '$start');
+        $ret       .= $this->xc->getXcXoopsTplAssign('limit', '$limit');
+        $ret       .= $this->pc->getPhpCodeBlankLine();
 
         return $ret;
     }
@@ -145,9 +150,6 @@ class AdminPages extends Files\CreateFile
 
         $ret        = $this->pc->getPhpCodeCommentLine('Define Stylesheet', '', $t);
         $ret        .= $this->xc->getXcXoThemeAddStylesheet('style', $t);
-        $ret        .= $this->xc->getXcXoopsRequest('start', 'start', '0', 'Int', false, $t);
-        $adminpager = $this->xc->getXcGetConfig('adminpager');
-        $ret        .= $this->xc->getXcXoopsRequest('limit', 'limit', $adminpager, 'Int', false, $t);
         $ret        .= $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
         $navigation = $this->axc->getAdminDisplayNavigation($tableName);
         $ret        .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
@@ -345,10 +347,10 @@ class AdminPages extends Files\CreateFile
         }
         if ($countUploader > 0) {
             $errIf         = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=edit&{$fieldId}=' . \${$ccFieldId}", '', '5', '$uploaderErrors', false, $t . "\t\t");
-            $errElse       = $this->xc->getXcRedirectHeader($tableName, '?op=list', '2', "{$language}FORM_OK", true, $t . "\t\t");
+            $errElse       = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&amp;start=' . \$start . '&amp;limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
             $contentInsert .= $this->pc->getPhpCodeConditions('$uploaderErrors', ' !== ',"''" , $errIf, $errElse, $t . "\t");
         } else {
-            $contentInsert .= $this->xc->getXcRedirectHeader($tableName . '', '?op=list', '2', "{$language}FORM_OK", true, $t . "\t");
+            $contentInsert .= $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&amp;start=' . \$start . '&amp;limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
         }
         $ret .= $this->pc->getPhpCodeConditions($insert, '', '', $contentInsert, false, $t);
         $ret .= $this->pc->getPhpCodeCommentLine('Get Form', null, $t);
