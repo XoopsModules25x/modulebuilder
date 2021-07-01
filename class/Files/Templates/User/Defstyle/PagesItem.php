@@ -183,12 +183,12 @@ class PagesItem extends Files\CreateFile
 
         $anchors  = '';
         $lang     = $this->sc->getSmartyConst($language, \mb_strtoupper($tableName) . '_LIST');
-        $contIf   =  $this->hc->getHtmlAnchor($tableName . ".php?op=list&amp;#{$ccFieldId}_" . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
+        $contIf   =  $this->hc->getHtmlAnchor($tableName . '.php?op=list&amp;start=<{$start}>&amp;limit=<{$limit}>#' .$ccFieldId . '_' . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
         $lang     = $this->sc->getSmartyConst($language, 'DETAILS');
-        $contElse =  $this->hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
+        $contElse =  $this->hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start}>&amp;limit=<{$limit}>', $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
         $anchors .= $this->sc->getSmartyConditions('showItem', '', '', $contIf, $contElse, '', '', "\t\t");
         $lang     = $this->sc->getSmartyConst('', '_EDIT');
-        $contIf   =  $this->hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
+        $contIf   =  $this->hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start}>&amp;limit=<{$limit}>', $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
         $lang     = $this->sc->getSmartyConst('', '_CLONE');
         $contIf   .=  $this->hc->getHtmlAnchor($tableName . ".php?op=clone&amp;{$fieldId}_source=" . $keyDouble, $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
         $lang     = $this->sc->getSmartyConst('', '_DELETE');
@@ -196,7 +196,7 @@ class PagesItem extends Files\CreateFile
         $anchors  .= $this->sc->getSmartyConditions('permEdit', '', '', $contIf, false, '', '', "\t\t");
         if (1 == $tableBroken) {
             $lang        = $this->sc->getSmartyConst($language, 'BROKEN');
-            $anchors .=  $this->hc->getHtmlAnchor($tableName . ".php?op=broken&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-warning right', '', "\t\t", "\n");
+            $anchors .=  $this->hc->getHtmlAnchor($tableName . ".php?op=broken&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start}>&amp;limit=<{$limit}>', $lang, $lang, '', 'btn btn-warning right', '', "\t\t", "\n");
         }
         $retFoot     .= $this->hc->getHtmlDiv($anchors, 'col-sm-12 right',"\t", "\n");
         $ret .= $this->hc->getHtmlDiv($retFoot, 'panel-foot');

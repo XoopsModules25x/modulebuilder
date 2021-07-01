@@ -1031,7 +1031,7 @@ class CreateXoopsCode
         $pc         = Modulebuilder\Files\CreatePhpCode::getInstance();
         $xc         = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
-        $array   = "['ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'op' => '{$options}']";
+        $array   = "['ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'start' => \$start, 'limit' => \$limit, 'op' => '{$options}']";
         $server  = $pc->getPhpCodeGlobalsVariables('REQUEST_URI', 'SERVER');
         $getVar  = $this->getXcGetVar('', $tableName . 'Obj', $fieldMain, true, '');
         $sprintf = $pc->getPhpCodeSprintf($language . 'FORM_SURE_' . $stuOptions, $getVar);
@@ -1760,6 +1760,8 @@ class CreateXoopsCode
 
         $ret = $pc->getPhpCodeCommentLine('Get Form', null, "\t\t");
         $ret .= $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
+        $ret .= $xc->getXcEqualsOperator("\${$tableName}Obj->start", '$start', null, $t);
+        $ret .= $xc->getXcEqualsOperator("\${$tableName}Obj->limit", '$limit', null, $t);
         $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
         $ret .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
 

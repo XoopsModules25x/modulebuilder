@@ -222,7 +222,10 @@ class ClassFiles extends Files\CreateFile
             $cCl             .= $this->pc->getPhpCodeVariableClass('private', 'options', $options);
         }
         unset($optionsFieldName);
-
+        $cCl              .= $this->pc->getPhpCodeCommentMultiLine(['@var' => 'int'], "\t");
+        $cCl              .= $this->pc->getPhpCodeVariableClass('public', 'start', '0', "\t");
+        $cCl              .= $this->pc->getPhpCodeCommentMultiLine(['@var' => 'int'], "\t");
+        $cCl              .= $this->pc->getPhpCodeVariableClass('public', 'limit', '0', "\t");
         $cCl              .= $this->pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => 'null'], "\t");
         $constr           = $this->getInitVars($fields);
         $cCl              .= $this->pc->getPhpCodeFunction('__construct', '', $constr, 'public ', false, "\t");
@@ -321,6 +324,8 @@ class ClassFiles extends Files\CreateFile
         $getForm .= $this->pc->getPhpCodeCommentLine('To Save', '', "\t\t");
         //$hiddenSave = $cc->getClassXoopsFormHidden('', "'op'", "'save'", true, false);
         $getForm .= $this->cxc->getClassAddElement('form', "new \XoopsFormHidden('op', 'save')");
+        $getForm .= $this->cxc->getClassAddElement('form', "new \XoopsFormHidden('start', \$this->start)");
+        $getForm .= $this->cxc->getClassAddElement('form', "new \XoopsFormHidden('limit', \$this->limit)");
         $getForm .= $this->cxc->getClassAddElement('form', "new \XoopsFormButtonTray('', \_SUBMIT, 'submit', '', false)");
         $getForm .= $this->getSimpleString('return $form;', "\t\t");
 
