@@ -33,6 +33,11 @@ use XoopsModules\Modulebuilder;
 class CreateFile extends CreateTableFields
 {
     /**
+     * @var string
+     */
+    private $tab = '    ';
+
+    /**
      * @var mixed
      */
     private $xf = null;
@@ -213,7 +218,8 @@ class CreateFile extends CreateTableFields
      */
     private function setContent($content)
     {
-        $this->content = $content;
+        //replace tabs by 4 spaces
+        $this->content = preg_replace('/\t/', $this->tab, $content);
     }
 
     /**
