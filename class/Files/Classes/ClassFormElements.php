@@ -367,7 +367,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $languageShort = \substr($language, 0, 5) . \mb_strtoupper($moduleDirname) . '_';
         $t             = "\t\t";
         $ret           = $this->pc->getPhpCodeCommentLine('Form Url', 'Text File ' . $ccFieldName, $t);
-        $ret           .= $this->cxc->getClassXoopsFormElementTray('formUrlFile', $language, '<br><br>', $t);
+        $ret           .= $this->cxc->getClassXoopsFormElementTray('formUrlFile', $language, '<br>', $t);
         $ret           .= $this->pc->getPhpCodeTernaryOperator('formUrl', '$this->isNew()', "'{$fieldDefault}'", "\$this->getVar('{$fieldName}')", $t);
         $ret           .= $this->cxc->getClassXoopsFormText('formText', $language . '_UPLOADS', $fieldName, 75, 255, 'formUrl', false, $t);
         $ret           .= $this->cxc->getClassAddElement('formUrlFile', '$formText' . $required, $t);
