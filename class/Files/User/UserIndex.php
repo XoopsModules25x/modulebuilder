@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -95,17 +96,17 @@ class UserIndex extends Files\CreateFile
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
 
-        $ret = $this->getInclude();
+        $ret = $this->getRequire();
         $ret .= $this->uxc->getUserTplMain($moduleDirname);
-        $ret .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'header', true);
         $ret .= $this->pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret .= $this->xc->getXcXoThemeAddStylesheet();
         $ret .= $this->pc->getPhpCodeCommentLine('Keywords');
         $ret .= $this->pc->getPhpCodeArray('keywords', null, false, '');
         $ret .= $this->uxc->getUserBreadcrumbs($language);
         $ret .= $this->pc->getPhpCodeCommentLine('Paths');
-        $ret .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
+        $ret .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', '\XOOPS_ICONS32_URL');
+        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "\\{$stuModuleDirname}_URL");
 
         return $ret;
     }
@@ -134,7 +135,7 @@ class UserIndex extends Files\CreateFile
             $ret .= $this->getSimpleString('$count = 1;');
 
             $contentIf = $this->xc->getXcHandlerAllObj($tableName, '', 0, 0, "\t");
-            $contentIf .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true, false, 'include', "\t");
+            $contentIf .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true, false, 'require', "\t");
             //$contentIf .= $cc->getClassXoopsObjectTree('mytree', $tableName, $fieldId, $fieldParent, "\t");
             $contentIf .= $this->pc->getPhpCodeArray($tableName, "\t");
             $foreach   = $this->xc->getXcGetValues($tableName, $tableSoleName . 'Values', $tableFieldname, false, "\t\t");
@@ -222,10 +223,10 @@ class UserIndex extends Files\CreateFile
         $ret .= $this->pc->getPhpCodeUnset('keywords');
         $ret .= $this->pc->getPhpCodeCommentLine('Description');
         $ret .= $this->uxc->getUserMetaDesc($moduleDirname, $language);
-        $ret .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
-        $ret .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
-        $ret .= $this->getInclude('footer');
+        $ret .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "\\{$stuModuleDirname}_URL.'/index.php'");
+        $ret .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', '\XOOPS_ICONS32_URL');
+        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "\\{$stuModuleDirname}_UPLOAD_URL");
+        $ret .= $this->getRequire('footer');
 
         return $ret;
     }
@@ -266,7 +267,7 @@ class UserIndex extends Files\CreateFile
         }
         $content .= $this->getUserIndexFooter($moduleDirname, $language);
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

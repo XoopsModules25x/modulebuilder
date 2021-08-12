@@ -79,12 +79,12 @@ class SysUtility
     {
         if ($considerHtml) {
             // if the plain text is shorter than the maximum length, return the whole text
-            if (mb_strlen(\preg_replace('/<.*?' . '>/', '', $text)) <= $length) {
+            if (\mb_strlen(\preg_replace('/<.*?' . '>/', '', $text)) <= $length) {
                 return $text;
             }
             // splits all html-tags to scanable lines
-            \preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, PREG_SET_ORDER);
-            $total_length = mb_strlen($ending);
+            \preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, \PREG_SET_ORDER);
+            $total_length = \mb_strlen($ending);
             $open_tags    = [];
             $truncate     = '';
             foreach ($lines as $line_matchings) {
@@ -109,25 +109,25 @@ class SysUtility
                     $truncate .= $line_matchings[1];
                 }
                 // calculate the length of the plain text part of the line; handle entities as one character
-                $content_length = mb_strlen(\preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
+                $content_length = \mb_strlen(\preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
                 if ($total_length + $content_length > $length) {
                     // the number of characters which are left
                     $left            = $length - $total_length;
                     $entities_length = 0;
                     // search for html entities
-                    if (\preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, PREG_OFFSET_CAPTURE)) {
+                    if (\preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, \PREG_OFFSET_CAPTURE)) {
                         // calculate the real length of all entities in the legal range
                         foreach ($entities[0] as $entity) {
                             if ($left >= $entity[1] + 1 - $entities_length) {
                                 $left--;
-                                $entities_length += mb_strlen($entity[0]);
+                                $entities_length += \mb_strlen($entity[0]);
                             } else {
                                 // no more characters left
                                 break;
                             }
                         }
                     }
-                    $truncate .= mb_substr($line_matchings[2], 0, $left + $entities_length);
+                    $truncate .= \mb_substr($line_matchings[2], 0, $left + $entities_length);
                     // maximum lenght is reached, so get off the loop
                     break;
                 }
@@ -140,10 +140,10 @@ class SysUtility
                 }
             }
         } else {
-            if (mb_strlen($text) <= $length) {
+            if (\mb_strlen($text) <= $length) {
                 return $text;
             }
-            $truncate = mb_substr($text, 0, $length - mb_strlen($ending));
+            $truncate = \mb_substr($text, 0, $length - mb_strlen($ending));
         }
         // if the words shouldn't be cut in the middle...
         if (!$exact) {
@@ -151,7 +151,7 @@ class SysUtility
             $spacepos = \mb_strrpos($truncate, ' ');
             if (isset($spacepos)) {
                 // ...and cut the text in this position
-                $truncate = mb_substr($truncate, 0, $spacepos);
+                $truncate = \mb_substr($truncate, 0, $spacepos);
             }
         }
         // add the defined ending to the text
@@ -211,7 +211,7 @@ class SysUtility
      *
      * @return bool
      */
-    function fieldExists($fieldname, $table)
+    public function fieldExists($fieldname, $table)
     {
         global $xoopsDB;
         $result = $xoopsDB->queryF("SHOW COLUMNS FROM   $table LIKE '$fieldname'");

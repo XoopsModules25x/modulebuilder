@@ -60,23 +60,23 @@ class Building
             $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
         \xoops_load('XoopsFormLoader');
-        $form = new \XoopsThemeForm(_AM_MODULEBUILDER_ADMIN_CONST, 'buildform', $action, 'post', true);
+        $form = new \XoopsThemeForm(\_AM_MODULEBUILDER_ADMIN_CONST, 'buildform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
         $moduleObj  = $helper->getHandler('Modules')->getObjects(null);
-        $mod_select = new \XoopsFormSelect(_AM_MODULEBUILDER_CONST_MODULES, 'mod_id', 'mod_id');
-        $mod_select->addOption('', _AM_MODULEBUILDER_BUILD_MODSELOPT);
+        $mod_select = new \XoopsFormSelect(\_AM_MODULEBUILDER_CONST_MODULES, 'mod_id', 'mod_id');
+        $mod_select->addOption('', \_AM_MODULEBUILDER_BUILD_MODSELOPT);
         foreach ($moduleObj as $mod) {
             $mod_select->addOption($mod->getVar('mod_id'), $mod->getVar('mod_name'));
         }
         $form->addElement($mod_select, true);
 
-        $form->addElement(new \XoopsFormRadioYN(_AM_MODULEBUILDER_BUILDING_INROOT_COPY, 'inroot_copy', $helper->getConfig('inroot_copy')));
-        $form->addElement(new \XoopsFormRadioYN(_AM_MODULEBUILDER_BUILDING_TEST . _AM_MODULEBUILDER_BUILDING_TEST_DESC, 'testdata_restore', 0));
+        $form->addElement(new \XoopsFormRadioYN(\_AM_MODULEBUILDER_BUILDING_INROOT_COPY, 'inroot_copy', $helper->getConfig('inroot_copy')));
+        $form->addElement(new \XoopsFormRadioYN(\_AM_MODULEBUILDER_BUILDING_TEST . \_AM_MODULEBUILDER_BUILDING_TEST_DESC, 'testdata_restore', 0));
 
         $form->addElement(new \XoopsFormHidden('op', 'build'));
-        $btnTray = new \XoopsFormElementTray(_REQUIRED . ' <sup class="red bold">*</sup>', '&nbsp;');
-        $btnTray->addElement(new \XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
-        $btnTray->addElement(new \XoopsFormButton('', 'check_data', _AM_MODULEBUILDER_BUILDING_CHECK, 'submit'));
+        $btnTray = new \XoopsFormElementTray(\_REQUIRED . ' <sup class="red bold">*</sup>', '&nbsp;');
+        $btnTray->addElement(new \XoopsFormButton('', 'submit', \_SUBMIT, 'submit'));
+        $btnTray->addElement(new \XoopsFormButton('', 'check_data', \_AM_MODULEBUILDER_BUILDING_CHECK, 'submit'));
         $form->addElement($btnTray);
 
         return $form;

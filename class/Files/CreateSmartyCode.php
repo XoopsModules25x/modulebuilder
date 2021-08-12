@@ -22,7 +22,8 @@ use  XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -145,11 +146,18 @@ class CreateSmartyCode
      * @param string $var
      * @param string $t
      * @param string $n
+     * @param string $default
      * @return string
      */
-    public function getSmartySingleVar($var, $t = '', $n = "")
+    public function getSmartySingleVar($var, $t = '', $n = "", $default = 'false')
     {
-        return "{$t}<{\${$var}}>{$n}";
+        $ret = "{$t}<{\${$var}";
+        if ('' !== $default) {
+            $ret .= '|default:' . $default;
+        }
+        $ret .= "}>{$n}";
+
+        return $ret;
     }
 
     /**

@@ -22,10 +22,9 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <https://xoops.org/>
  *
  */
-//include __DIR__.'/autoload.php';
 
 /**
  * Class Fields.
@@ -110,27 +109,27 @@ class Fields extends \XoopsObject
         }
 
         $isNew = $this->isNew();
-        $title = $isNew ? \sprintf(_AM_MODULEBUILDER_FIELDS_NEW) : \sprintf(_AM_MODULEBUILDER_FIELDS_EDIT);
+        $title = $isNew ? \sprintf(\_AM_MODULEBUILDER_FIELDS_NEW) : \sprintf(\_AM_MODULEBUILDER_FIELDS_EDIT);
 
         $form = new Modulebuilder\Form\ThemeForm(null, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
         // New Object HtmlTable
-        $form->addElement(new Modulebuilder\Html\FormLabel(\str_replace('%s', $prefix, _AM_MODULEBUILDER_FIELD_RECOMMENDED)));
+        $form->addElement(new Modulebuilder\Html\FormLabel(\str_replace('%s', $prefix, \_AM_MODULEBUILDER_FIELD_RECOMMENDED)));
         $form->addElement(new Modulebuilder\Html\FormLabel('<table style="border-spacing:5px;" class="outer width100">'));
         $form->addElement(new Modulebuilder\Html\FormLabel('<thead class="center">'));
         $form->addElement(new Modulebuilder\Html\FormLabel('<tr class="head"><th colspan="10">' . $title . '</th></tr>'));
         $form->addElement(new Modulebuilder\Html\FormLabel('<tr class="head width5">'));
-        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . _AM_MODULEBUILDER_FIELD_ID . '</td>'));
-        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . _AM_MODULEBUILDER_FIELD_NAME . '</td>'));
-        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . _AM_MODULEBUILDER_FIELD_ELEMENT . '</td>'));
-        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . _AM_MODULEBUILDER_FIELD_TYPE . '</td>'));
-        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . _AM_MODULEBUILDER_FIELD_VALUE . '</th>'));
-        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . _AM_MODULEBUILDER_FIELD_ATTRIBUTE . '</th>'));
-        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . _AM_MODULEBUILDER_FIELD_NULL . '</th>'));
-        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . _AM_MODULEBUILDER_FIELD_DEFAULT . '</th>'));
-        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . _AM_MODULEBUILDER_FIELD_KEY . '</th>'));
-        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . _AM_MODULEBUILDER_FIELD_PARAMETERS . '</th>'));
+        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . \_AM_MODULEBUILDER_FIELD_ID . '</td>'));
+        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . \_AM_MODULEBUILDER_FIELD_NAME . '</td>'));
+        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . \_AM_MODULEBUILDER_FIELD_ELEMENT . '</td>'));
+        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . \_AM_MODULEBUILDER_FIELD_TYPE . '</td>'));
+        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . \_AM_MODULEBUILDER_FIELD_VALUE . '</th>'));
+        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . \_AM_MODULEBUILDER_FIELD_ATTRIBUTE . '</th>'));
+        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . \_AM_MODULEBUILDER_FIELD_NULL . '</th>'));
+        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . \_AM_MODULEBUILDER_FIELD_DEFAULT . '</th>'));
+        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . \_AM_MODULEBUILDER_FIELD_KEY . '</th>'));
+        $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . \_AM_MODULEBUILDER_FIELD_PARAMETERS . '</th>'));
         $form->addElement(new Modulebuilder\Html\FormLabel('</tr></thead>'));
         $form->addElement(new Modulebuilder\Html\FormLabel('<tbody>'));
 
@@ -197,7 +196,7 @@ class Fields extends \XoopsObject
         $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $i . '</td>'));
         // Field Name
         $thisFieldName = (!empty($fName) ? ((1 == $i) ? $fName . '_id' : $fName . '_') : '');
-        $fieldName     = new \XoopsFormText(_AM_MODULEBUILDER_FIELD_NAME, 'field_name[' . $i . ']', 15, 255, $thisFieldName);
+        $fieldName     = new \XoopsFormText(\_AM_MODULEBUILDER_FIELD_NAME, 'field_name[' . $i . ']', 15, 255, $thisFieldName);
         $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldName->render() . '</td>'));
         // Field Element
         if ((1 == $i) && (1 == $tableAutoincrement)) {
@@ -208,7 +207,7 @@ class Fields extends \XoopsObject
             $crElement->add(new \Criteria('fieldelement_tid', 0));
             $crTable = new \CriteriaCompo();
             $crTable->add(new \Criteria('fieldelement_mid', $fieldMid));
-            $fieldElementsSelect = new \XoopsFormSelect(_AM_MODULEBUILDER_FIELD_ELEMENT_NAME, 'field_element[' . $i . ']');
+            $fieldElementsSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_FIELD_ELEMENT_NAME, 'field_element[' . $i . ']');
             $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getFieldelementsList($crElement));
             $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getList($crTable));
             $fieldElementsSelect->setExtra(" onchange='presetField(" . $i . ")' ");
@@ -218,29 +217,29 @@ class Fields extends \XoopsObject
         }
         // Field Type
         $value           = (1 == $i) && (1 == $tableAutoincrement) ? '2' : '';
-        $fieldTypeSelect = new \XoopsFormSelect(_AM_MODULEBUILDER_FIELD_TYPE, 'field_type[' . $i . ']', $value);
+        $fieldTypeSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_FIELD_TYPE, 'field_type[' . $i . ']', $value);
         $fieldTypeSelect->addOptionArray($helper->getHandler('Fieldtype')->getList());
         $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldTypeSelect->render() . '</td>'));
         // Field Value
         $value      = (1 == $i) && (1 == $tableAutoincrement) ? '8' : '';
-        $fieldValue = new \XoopsFormText(_AM_MODULEBUILDER_FIELD_VALUE, 'field_value[' . $i . ']', 10, 200, $value);
+        $fieldValue = new \XoopsFormText(\_AM_MODULEBUILDER_FIELD_VALUE, 'field_value[' . $i . ']', 10, 200, $value);
         $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldValue->render() . '</td>'));
         // Field Attributes
         $value                 = (1 == $i) && (1 == $tableAutoincrement) ? '3' : '';
-        $fieldAttributesSelect = new \XoopsFormSelect(_AM_MODULEBUILDER_FIELD_TYPE, 'field_attribute[' . $i . ']', $value);
+        $fieldAttributesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_FIELD_TYPE, 'field_attribute[' . $i . ']', $value);
         $fieldAttributesSelect->addOptionArray($helper->getHandler('Fieldattributes')->getList());
         $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldAttributesSelect->render() . '</td>'));
         // Field Null
         $value           = (1 == $i) && (1 == $tableAutoincrement) ? '2' : '2';
-        $fieldNullSelect = new \XoopsFormSelect(_AM_MODULEBUILDER_FIELD_NULL, 'field_null[' . $i . ']', $value);
+        $fieldNullSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_FIELD_NULL, 'field_null[' . $i . ']', $value);
         $fieldNullSelect->addOptionArray($helper->getHandler('Fieldnull')->getList());
         $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldNullSelect->render() . '</td>'));
         // Field Default
-        $fieldDefault = new \XoopsFormText(_AM_MODULEBUILDER_FIELD_DEFAULT, 'field_default[' . $i . ']', 15, 25);
+        $fieldDefault = new \XoopsFormText(\_AM_MODULEBUILDER_FIELD_DEFAULT, 'field_default[' . $i . ']', 15, 25);
         $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldDefault->render() . '</td>'));
         // Field Key
         $value          = (1 == $i) && (1 == $tableAutoincrement) ? '2' : '';
-        $fieldKeySelect = new \XoopsFormSelect(_AM_MODULEBUILDER_FIELD_KEY, 'field_key[' . $i . ']', $value);
+        $fieldKeySelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_FIELD_KEY, 'field_key[' . $i . ']', $value);
         $fieldKeySelect->addOptionArray($helper->getHandler('Fieldkey')->getList());
         $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldKeySelect->render() . '</td>'));
         // Field Void
@@ -252,80 +251,80 @@ class Fields extends \XoopsObject
 
             $field_parent     = 0;
             $checkFieldParent = new \XoopsFormCheckBox(' ', 'field_parent[' . $i . ']', $field_parent);
-            $checkFieldParent->addOption(1, _AM_MODULEBUILDER_FIELD_PARENT);
+            $checkFieldParent->addOption(1, \_AM_MODULEBUILDER_FIELD_PARENT);
             $parametersTray->addElement($checkFieldParent);
 
             $field_admin     = 0;
             $checkFieldAdmin = new \XoopsFormCheckBox(' ', 'field_admin[' . $i . ']', $field_admin);
-            $checkFieldAdmin->addOption(1, _AM_MODULEBUILDER_FIELD_ADMIN);
+            $checkFieldAdmin->addOption(1, \_AM_MODULEBUILDER_FIELD_ADMIN);
             $parametersTray->addElement($checkFieldAdmin);
 
             $field_inlist     = 0;
             $checkFieldInList = new \XoopsFormCheckBox(' ', 'field_inlist[' . $i . ']', $field_inlist);
-            $checkFieldInList->addOption(1, _AM_MODULEBUILDER_FIELD_INLIST);
+            $checkFieldInList->addOption(1, \_AM_MODULEBUILDER_FIELD_INLIST);
             $parametersTray->addElement($checkFieldInList);
 
             $field_inform     = 0;
             $checkFieldInForm = new \XoopsFormCheckBox(' ', 'field_inform[' . $i . ']', $field_inform);
-            $checkFieldInForm->addOption(1, _AM_MODULEBUILDER_FIELD_INFORM);
+            $checkFieldInForm->addOption(1, \_AM_MODULEBUILDER_FIELD_INFORM);
             $parametersTray->addElement($checkFieldInForm);
 
             $field_user     = 0;
             $checkFieldUser = new \XoopsFormCheckBox(' ', 'field_user[' . $i . ']', $field_user);
-            $checkFieldUser->addOption(1, _AM_MODULEBUILDER_FIELD_USER);
+            $checkFieldUser->addOption(1, \_AM_MODULEBUILDER_FIELD_USER);
             $parametersTray->addElement($checkFieldUser);
 
             $field_ihead     = 0;
             $checkFieldIhead = new \XoopsFormCheckBox(' ', 'field_ihead[' . $i . ']', $field_ihead);
-            $checkFieldIhead->addOption(1, _AM_MODULEBUILDER_FIELD_IHEAD);
+            $checkFieldIhead->addOption(1, \_AM_MODULEBUILDER_FIELD_IHEAD);
             $parametersTray->addElement($checkFieldIhead);
 
             $field_ibody     = 0;
             $checkFieldIbody = new \XoopsFormCheckBox(' ', 'field_ibody[' . $i . ']', $field_ibody);
-            $checkFieldIbody->addOption(1, _AM_MODULEBUILDER_FIELD_IBODY);
+            $checkFieldIbody->addOption(1, \_AM_MODULEBUILDER_FIELD_IBODY);
             $parametersTray->addElement($checkFieldIbody);
 
             $field_ifoot     = 0;
             $checkFieldIfoot = new \XoopsFormCheckBox(' ', 'field_ifoot[' . $i . ']', $field_ifoot);
-            $checkFieldIfoot->addOption(1, _AM_MODULEBUILDER_FIELD_IFOOT);
+            $checkFieldIfoot->addOption(1, \_AM_MODULEBUILDER_FIELD_IFOOT);
             $parametersTray->addElement($checkFieldIfoot);
 
             $field_thead     = 0;
             $checkFieldThead = new \XoopsFormCheckBox(' ', 'field_thead[' . $i . ']', $field_thead);
-            $checkFieldThead->addOption(1, _AM_MODULEBUILDER_FIELD_THEAD);
+            $checkFieldThead->addOption(1, \_AM_MODULEBUILDER_FIELD_THEAD);
             $parametersTray->addElement($checkFieldThead);
 
             $field_tbody     = 0;
             $checkFieldTbody = new \XoopsFormCheckBox(' ', 'field_tbody[' . $i . ']', $field_tbody);
-            $checkFieldTbody->addOption(1, _AM_MODULEBUILDER_FIELD_TBODY);
+            $checkFieldTbody->addOption(1, \_AM_MODULEBUILDER_FIELD_TBODY);
             $parametersTray->addElement($checkFieldTbody);
 
             $field_tfoot     = 0;
             $checkFieldTfoot = new \XoopsFormCheckBox(' ', 'field_tfoot[' . $i . ']', $field_tfoot);
-            $checkFieldTfoot->addOption(1, _AM_MODULEBUILDER_FIELD_TFOOT);
+            $checkFieldTfoot->addOption(1, \_AM_MODULEBUILDER_FIELD_TFOOT);
             $parametersTray->addElement($checkFieldTfoot);
 
             $field_block     = 0;
             $checkFieldBlock = new \XoopsFormCheckBox('', 'field_block[' . $i . ']', $field_block);
-            $checkFieldBlock->addOption(1, _AM_MODULEBUILDER_FIELD_BLOCK);
+            $checkFieldBlock->addOption(1, \_AM_MODULEBUILDER_FIELD_BLOCK);
             $parametersTray->addElement($checkFieldBlock);
 
             $field_search       = 0;
             $check_field_search = new \XoopsFormCheckBox(' ', 'field_search[' . $i . ']', $field_search);
-            $check_field_search->addOption(1, _AM_MODULEBUILDER_FIELD_SEARCH);
+            $check_field_search->addOption(1, \_AM_MODULEBUILDER_FIELD_SEARCH);
             $parametersTray->addElement($check_field_search);
 
             $field_required     = 0;
             $checkFieldRequired = new \XoopsFormCheckBox(' ', 'field_required[' . $i . ']', $field_required);
-            $checkFieldRequired->addOption(1, _AM_MODULEBUILDER_FIELD_REQUIRED);
+            $checkFieldRequired->addOption(1, \_AM_MODULEBUILDER_FIELD_REQUIRED);
             $parametersTray->addElement($checkFieldRequired);
 
             $fieldMain      = (1 == $tableAutoincrement) ? 2 : 1;
             $checkFieldMain = new Modulebuilder\Form\FormRadio('', 'field_main', $fieldMain);
-            $checkFieldMain->addOption($i, _AM_MODULEBUILDER_FIELD_MAIN);
+            $checkFieldMain->addOption($i, \_AM_MODULEBUILDER_FIELD_MAIN);
             $parametersTray->addElement($checkFieldMain);
 
-            $form->addElement(new Modulebuilder\Html\FormLabel('<td><div class="portlet"><div class="portlet-header">' . _AM_MODULEBUILDER_FIELD_PARAMETERS_LIST . '</div><div class="portlet-content">' . $parametersTray->render() . '</div></div></td></tr>'));
+            $form->addElement(new Modulebuilder\Html\FormLabel('<td><div class="portlet"><div class="portlet-header">' . \_AM_MODULEBUILDER_FIELD_PARAMETERS_LIST . '</div><div class="portlet-content">' . $parametersTray->render() . '</div></div></td></tr>'));
         }
     }
 
@@ -379,7 +378,7 @@ class Fields extends \XoopsObject
                 // Index ID
                 $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $id . '</td>'));
                 // Field Name
-                $fieldName = new \XoopsFormText(_AM_MODULEBUILDER_FIELD_NAME, 'field_name[' . $id . ']', 15, 255, $field->getVar('field_name'));
+                $fieldName = new \XoopsFormText(\_AM_MODULEBUILDER_FIELD_NAME, 'field_name[' . $id . ']', 15, 255, $field->getVar('field_name'));
                 $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldName->render() . '</td>'));
                 // Field Element
                 if ((1 == $id) && (1 == $tableAutoincrement)) {
@@ -390,7 +389,7 @@ class Fields extends \XoopsObject
                     $crElement->add(new \Criteria('fieldelement_tid', 0));
                     $crTable = new \CriteriaCompo();
                     $crTable->add(new \Criteria('fieldelement_mid', $fieldMid));
-                    $fieldElementsSelect = new \XoopsFormSelect(_AM_MODULEBUILDER_FIELD_ELEMENT_NAME, 'field_element[' . $id . ']', $field->getVar('field_element'));
+                    $fieldElementsSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_FIELD_ELEMENT_NAME, 'field_element[' . $id . ']', $field->getVar('field_element'));
                     $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getFieldelementsList($crElement));
                     $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getList($crTable));
                     $fieldElementsSelect->setExtra(" onchange='presetField(" . $id . ")' ");
@@ -399,25 +398,25 @@ class Fields extends \XoopsObject
                     unset($fieldElementsSelect);
                 }
                 // Field Type
-                $fieldTypeSelect = new \XoopsFormSelect(_AM_MODULEBUILDER_FIELD_TYPE, 'field_type[' . $id . ']', $field->getVar('field_type'));
+                $fieldTypeSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_FIELD_TYPE, 'field_type[' . $id . ']', $field->getVar('field_type'));
                 $fieldTypeSelect->addOptionArray($helper->getHandler('Fieldtype')->getList());
                 $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldTypeSelect->render() . '</td>'));
                 // Field Value
-                $fieldValue = new \XoopsFormText(_AM_MODULEBUILDER_FIELD_VALUE, 'field_value[' . $id . ']', 10, 200, $field->getVar('field_value'));
+                $fieldValue = new \XoopsFormText(\_AM_MODULEBUILDER_FIELD_VALUE, 'field_value[' . $id . ']', 10, 200, $field->getVar('field_value'));
                 $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldValue->render() . '</td>'));
                 // Field Attributes
-                $fieldAttributesSelect = new \XoopsFormSelect(_AM_MODULEBUILDER_FIELD_TYPE, 'field_attribute[' . $id . ']', $field->getVar('field_attribute'));
+                $fieldAttributesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_FIELD_TYPE, 'field_attribute[' . $id . ']', $field->getVar('field_attribute'));
                 $fieldAttributesSelect->addOptionArray($helper->getHandler('Fieldattributes')->getList());
                 $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldAttributesSelect->render() . '</td>'));
                 // Field Null
-                $fieldNullSelect = new \XoopsFormSelect(_AM_MODULEBUILDER_FIELD_NULL, 'field_null[' . $id . ']', $field->getVar('field_null'));
+                $fieldNullSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_FIELD_NULL, 'field_null[' . $id . ']', $field->getVar('field_null'));
                 $fieldNullSelect->addOptionArray($helper->getHandler('Fieldnull')->getList());
                 $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldNullSelect->render() . '</td>'));
                 // Field Default
-                $fieldDefault = new \XoopsFormText(_AM_MODULEBUILDER_FIELD_DEFAULT, 'field_default[' . $id . ']', 15, 25, $field->getVar('field_default'));
+                $fieldDefault = new \XoopsFormText(\_AM_MODULEBUILDER_FIELD_DEFAULT, 'field_default[' . $id . ']', 15, 25, $field->getVar('field_default'));
                 $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldDefault->render() . '</td>'));
                 // Field Key
-                $fieldKeySelect = new \XoopsFormSelect(_AM_MODULEBUILDER_FIELD_KEY, 'field_key[' . $id . ']', $field->getVar('field_key'));
+                $fieldKeySelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_FIELD_KEY, 'field_key[' . $id . ']', $field->getVar('field_key'));
                 $fieldKeySelect->addOptionArray($helper->getHandler('Fieldkey')->getList());
                 $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldKeySelect->render() . '</td>'));
                 // Field Void
@@ -428,67 +427,67 @@ class Fields extends \XoopsObject
                     $parametersTray = new \XoopsFormElementTray('', '<br>');
 
                     $checkFieldParent = new \XoopsFormCheckBox(' ', 'field_parent[' . $id . ']', $field->getVar('field_parent'));
-                    $checkFieldParent->addOption(1, _AM_MODULEBUILDER_FIELD_PARENT);
+                    $checkFieldParent->addOption(1, \_AM_MODULEBUILDER_FIELD_PARENT);
                     $parametersTray->addElement($checkFieldParent);
 
                     $checkFieldAdmin = new \XoopsFormCheckBox(' ', 'field_admin[' . $id . ']', $field->getVar('field_admin'));
-                    $checkFieldAdmin->addOption(1, _AM_MODULEBUILDER_FIELD_ADMIN);
+                    $checkFieldAdmin->addOption(1, \_AM_MODULEBUILDER_FIELD_ADMIN);
                     $parametersTray->addElement($checkFieldAdmin);
 
                     $checkFieldInList = new \XoopsFormCheckBox(' ', 'field_inlist[' . $id . ']', $field->getVar('field_inlist'));
-                    $checkFieldInList->addOption(1, _AM_MODULEBUILDER_FIELD_INLIST);
+                    $checkFieldInList->addOption(1, \_AM_MODULEBUILDER_FIELD_INLIST);
                     $parametersTray->addElement($checkFieldInList);
 
                     $checkFieldInForm = new \XoopsFormCheckBox(' ', 'field_inform[' . $id . ']', $field->getVar('field_inform'));
-                    $checkFieldInForm->addOption(1, _AM_MODULEBUILDER_FIELD_INFORM);
+                    $checkFieldInForm->addOption(1, \_AM_MODULEBUILDER_FIELD_INFORM);
                     $parametersTray->addElement($checkFieldInForm);
 
                     $checkFieldUser = new \XoopsFormCheckBox(' ', 'field_user[' . $id . ']', $field->getVar('field_user'));
-                    $checkFieldUser->addOption(1, _AM_MODULEBUILDER_FIELD_USER);
+                    $checkFieldUser->addOption(1, \_AM_MODULEBUILDER_FIELD_USER);
                     $parametersTray->addElement($checkFieldUser);
 
                     $checkFieldIhead = new \XoopsFormCheckBox(' ', 'field_ihead[' . $id . ']', $field->getVar('field_ihead'));
-                    $checkFieldIhead->addOption(1, _AM_MODULEBUILDER_FIELD_IHEAD);
+                    $checkFieldIhead->addOption(1, \_AM_MODULEBUILDER_FIELD_IHEAD);
                     $parametersTray->addElement($checkFieldIhead);
 
                     $checkFieldIbody = new \XoopsFormCheckBox(' ', 'field_ibody[' . $id . ']', $field->getVar('field_ibody'));
-                    $checkFieldIbody->addOption(1, _AM_MODULEBUILDER_FIELD_IBODY);
+                    $checkFieldIbody->addOption(1, \_AM_MODULEBUILDER_FIELD_IBODY);
                     $parametersTray->addElement($checkFieldIbody);
 
                     $checkFieldIfoot = new \XoopsFormCheckBox(' ', 'field_ifoot[' . $id . ']', $field->getVar('field_ifoot'));
-                    $checkFieldIfoot->addOption(1, _AM_MODULEBUILDER_FIELD_IFOOT);
+                    $checkFieldIfoot->addOption(1, \_AM_MODULEBUILDER_FIELD_IFOOT);
                     $parametersTray->addElement($checkFieldIfoot);
 
                     $checkFieldThead = new \XoopsFormCheckBox(' ', 'field_thead[' . $id . ']', $field->getVar('field_thead'));
-                    $checkFieldThead->addOption(1, _AM_MODULEBUILDER_FIELD_THEAD);
+                    $checkFieldThead->addOption(1, \_AM_MODULEBUILDER_FIELD_THEAD);
                     $parametersTray->addElement($checkFieldThead);
 
                     $checkFieldTbody = new \XoopsFormCheckBox(' ', 'field_tbody[' . $id . ']', $field->getVar('field_tbody'));
-                    $checkFieldTbody->addOption(1, _AM_MODULEBUILDER_FIELD_TBODY);
+                    $checkFieldTbody->addOption(1, \_AM_MODULEBUILDER_FIELD_TBODY);
                     $parametersTray->addElement($checkFieldTbody);
 
                     $checkFieldTfoot = new \XoopsFormCheckBox(' ', 'field_tfoot[' . $id . ']', $field->getVar('field_tfoot'));
-                    $checkFieldTfoot->addOption(1, _AM_MODULEBUILDER_FIELD_TFOOT);
+                    $checkFieldTfoot->addOption(1, \_AM_MODULEBUILDER_FIELD_TFOOT);
                     $parametersTray->addElement($checkFieldTfoot);
 
                     $checkFieldBlock = new \XoopsFormCheckBox('', 'field_block[' . $id . ']', $field->getVar('field_block'));
-                    $checkFieldBlock->addOption(1, _AM_MODULEBUILDER_FIELD_BLOCK);
+                    $checkFieldBlock->addOption(1, \_AM_MODULEBUILDER_FIELD_BLOCK);
                     $parametersTray->addElement($checkFieldBlock);
 
                     $check_field_search = new \XoopsFormCheckBox(' ', 'field_search[' . $id . ']', $field->getVar('field_search'));
-                    $check_field_search->addOption(1, _AM_MODULEBUILDER_FIELD_SEARCH);
+                    $check_field_search->addOption(1, \_AM_MODULEBUILDER_FIELD_SEARCH);
                     $parametersTray->addElement($check_field_search);
 
                     $checkFieldRequired = new \XoopsFormCheckBox(' ', 'field_required[' . $id . ']', $field->getVar('field_required'));
-                    $checkFieldRequired->addOption(1, _AM_MODULEBUILDER_FIELD_REQUIRED);
+                    $checkFieldRequired->addOption(1, \_AM_MODULEBUILDER_FIELD_REQUIRED);
                     $parametersTray->addElement($checkFieldRequired);
 
                     $fieldMain      = (1 == $field->getVar('field_main')) ? $id : 1;
                     $checkFieldMain = new Modulebuilder\Form\FormRadio('', 'field_main', $fieldMain);
-                    $checkFieldMain->addOption($id, _AM_MODULEBUILDER_FIELD_MAIN);
+                    $checkFieldMain->addOption($id, \_AM_MODULEBUILDER_FIELD_MAIN);
                     $parametersTray->addElement($checkFieldMain);
 
-                    $form->addElement(new Modulebuilder\Html\FormLabel('<td><div class="portlet"><div class="portlet-header">' . _AM_MODULEBUILDER_FIELD_PARAMETERS_LIST . '</div><div class="portlet-content">' . $parametersTray->render() . '</div></div></td></tr>'));
+                    $form->addElement(new Modulebuilder\Html\FormLabel('<td><div class="portlet"><div class="portlet-header">' . \_AM_MODULEBUILDER_FIELD_PARAMETERS_LIST . '</div><div class="portlet-content">' . $parametersTray->render() . '</div></div></td></tr>'));
                 }
             }
             ++$id;
@@ -519,7 +518,7 @@ class Fields extends \XoopsObject
         $form->addElement(new Modulebuilder\Html\FormLabel('</tbody>'));
         $form->addElement(new Modulebuilder\Html\FormLabel('<tfoot><tr>'));
         $formHidden = new \XoopsFormHidden('op', 'save');
-        $formButton = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
+        $formButton = new \XoopsFormButton('', 'submit', \_SUBMIT, 'submit');
         $form->addElement(new Modulebuilder\Html\FormLabel('<td colspan="8">' . $formHidden->render() . '</td>'));
         $form->addElement(new Modulebuilder\Html\FormLabel('<td>' . $formButton->render() . '</td>'));
         $form->addElement(new Modulebuilder\Html\FormLabel('</tr></tfoot></table>'));

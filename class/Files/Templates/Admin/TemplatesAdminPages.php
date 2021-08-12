@@ -25,7 +25,8 @@ use XoopsModules\Modulebuilder\{
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -208,7 +209,12 @@ class TemplatesAdminPages extends Files\CreateFile
         $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
         $src     = $this->sc->getSmartyNoSimbol('xoModuleIcons16 edit.png');
         $img     = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $lang . ' ' . $tableName], '', true,'', '');
-        $anchor  = $this->hc->getHtmlTag('a', ['href' => $tableName . ".php?op=edit&amp;{$fieldId}=" . $double, 'title' => $lang], $img, false, "\t\t\t\t\t");
+        $anchor  = $this->hc->getHtmlTag('a', ['href' => $tableName . ".php?op=edit&amp;{$fieldId}=" . $double . '&amp;start=<{$start}>&amp;limit=<{$limit}>', 'title' => $lang], $img, false, "\t\t\t\t\t");
+        $lang    = $this->sc->getSmartyConst('', '_CLONE');
+        $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
+        $src     = $this->sc->getSmartyNoSimbol('xoModuleIcons16 editcopy.png');
+        $img     = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $lang . ' ' . $tableName], '', true,'', '');
+        $anchor  .= $this->hc->getHtmlTag('a', ['href' => $tableName . ".php?op=clone&amp;{$fieldId}_source=" . $double, 'title' => $lang], $img, false, "\t\t\t\t\t");
         $lang    = $this->sc->getSmartyConst('', '_DELETE');
         $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
         $src     = $this->sc->getSmartyNoSimbol('xoModuleIcons16 delete.png');
@@ -266,7 +272,7 @@ class TemplatesAdminPages extends Files\CreateFile
         $strong    = $this->hc->getHtmlTag('strong', [], $single, false, '', '');
         $div       = $this->hc->getHtmlTag('div', ['class' => 'errorMsg'], $strong, false, "\t", "\n");
         $ifList    .= $this->sc->getSmartyConditions('error', '', '', $div);
-        $ifList    .= $this->hc->getHtmlEmpty('', '', "\n");;
+        $ifList    .= $this->hc->getHtmlEmpty('', '', "\n");
 
         return $ifList;
     }
@@ -295,13 +301,13 @@ class TemplatesAdminPages extends Files\CreateFile
         $table         = $this->getTable();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'AM');
+        $language      = $this->getLanguage($moduleDirname, 'AM', '', false);
         $fields        = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order');
         $content       = $this->getTemplatesAdminPagesHeader($moduleDirname);
         $content       .= $this->getTemplatesAdminPages($moduleDirname, $table->getVar('table_name'), $table->getVar('table_solename'), $table->getVar('table_autoincrement'), $fields, $language);
         $content       .= $this->getTemplatesAdminPagesFooter($moduleDirname);
 
-        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -23,7 +23,8 @@ use XoopsModules\Modulebuilder\Files\Templates\User;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -106,7 +107,7 @@ class Breadcrumbs extends Files\CreateFile
 
         $content = $this->hc->getHtmlOl($into, 'breadcrumb');
 
-        $this->cf->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->cf->create($moduleDirname, 'templates', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->cf->renderFile();
     }

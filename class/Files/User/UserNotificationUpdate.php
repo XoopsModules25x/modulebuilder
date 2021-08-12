@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -83,10 +84,10 @@ class UserNotificationUpdate extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module);
-        $content       .= $this->pc->getPhpCodeIncludeDir('\dirname(\dirname(__DIR__))', 'mainfile');
-        $content       .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'include/notification_update');
+        $content       .= $this->pc->getPhpCodeIncludeDir('\dirname(__DIR__, 2)', 'mainfile');
+        $content       .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'include/notification_update');
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -38,7 +38,7 @@ trait VersionChecks
         \xoops_loadLanguage('common', $moduleDirName);
 
         //check for minimum XOOPS version
-        $currentVer = mb_substr(XOOPS_VERSION, 6); // get the numeric part of string
+        $currentVer = \mb_substr(\XOOPS_VERSION, 6); // get the numeric part of string
         if (null === $requiredVer) {
             $requiredVer = '' . $module->getInfo('min_xoops'); //making sure it's a string
         }
@@ -70,7 +70,7 @@ trait VersionChecks
         // check for minimum PHP version
         $success = true;
 
-        $verNum = PHP_VERSION;
+        $verNum = \PHP_VERSION;
         $reqVer = &$module->getInfo('min_php');
 
         if (false !== $reqVer && '' !== $reqVer) {
@@ -103,10 +103,10 @@ trait VersionChecks
         $infoReleasesUrl = "https://api.github.com/repos/$repository/releases";
         if ('github' === $source) {
             if (\function_exists('curl_init') && false !== ($curlHandle = \curl_init())) {
-                \curl_setopt($curlHandle, CURLOPT_URL, $infoReleasesUrl);
-                \curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-                \curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, false);
-                \curl_setopt($curlHandle, CURLOPT_HTTPHEADER, ["User-Agent:Publisher\r\n"]);
+                \curl_setopt($curlHandle, \CURLOPT_URL, $infoReleasesUrl);
+                \curl_setopt($curlHandle, \CURLOPT_RETURNTRANSFER, true);
+                \curl_setopt($curlHandle, \CURLOPT_SSL_VERIFYPEER, false);
+                \curl_setopt($curlHandle, \CURLOPT_HTTPHEADER, ["User-Agent:Publisher\r\n"]);
                 $curlReturn = \curl_exec($curlHandle);
                 if (false === $curlReturn) {
                     \trigger_error(\curl_error($curlHandle));
@@ -114,7 +114,7 @@ trait VersionChecks
                     \trigger_error('Repository Not Found: ' . $infoReleasesUrl);
                 } else {
                     $file              = \json_decode($curlReturn, false);
-                    $latestVersionLink = \sprintf("https://github.com/$repository/archive/%s.zip", $file ? reset($file)->tag_name : $default);
+                    $latestVersionLink = \sprintf("https://github.com/$repository/archive/%s.zip", $file ? \reset($file)->tag_name : $default);
                     $latestVersion     = $file[0]->tag_name;
                     $prerelease        = $file[0]->prerelease;
                     if ('master' !== $latestVersionLink) {

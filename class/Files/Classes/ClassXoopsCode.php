@@ -21,7 +21,8 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -62,7 +63,7 @@ class ClassXoopsCode
     {
         $stuParamRight = \mb_strtoupper($paramRight);
 
-        return "{$t}\${$var}->initVar('{$paramLeft}', XOBJ_DTYPE_{$stuParamRight});\n";
+        return "{$t}\${$var}->initVar('{$paramLeft}', \XOBJ_DTYPE_{$stuParamRight});\n";
     }
 
     /**
@@ -328,20 +329,20 @@ class ClassXoopsCode
      * @param        $param1
      * @param        $param2
      * @param string $param3
-     * @param        $param4
+     * @param        $ccFieldName
      * @param bool   $isParam
      * @param string $t
      *
      * @return string
      */
-    public function getClassXoopsFormSelectUser($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
+    public function getClassXoopsFormSelectUser($var, $param1, $param2, $param3, $ccFieldName, $isParam = false, $t = "\t\t")
     {
         $user             = 'new \XoopsFormSelectUser(';
-        $getVarSelectUser = Modulebuilder\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param4, true);
+        //$getVarSelectUser = Modulebuilder\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param4, true);
         if (false === $isParam) {
-            $ret = "{$t}\${$var} = {$user}{$param1}, '{$param2}', {$param3}, {$getVarSelectUser});\n";
+            $ret = "{$t}\${$var} = {$user}{$param1}, '{$param2}', {$param3}, {$ccFieldName});\n";
         } else {
-            $ret = "{$user}{$param1}, '{$param2}', {$param3}, {$getVarSelectUser})";
+            $ret = "{$user}{$param1}, '{$param2}', {$param3}, {$ccFieldName})";
         }
 
         return $ret;

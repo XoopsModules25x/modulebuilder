@@ -25,7 +25,8 @@ use XoopsModules\Modulebuilder\{
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -103,11 +104,16 @@ class AdminPages extends Files\CreateFile
         $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants'], '', '');
         $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Common']);
-        $ret       .= $this->getInclude();
-        $ret       .= $this->pc->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
+        $ret       .= $this->getRequire();
+        $ret       .= $this->pc->getPhpCodeCommentLine('Get all request values');
         $ret       .= $this->xc->getXcXoopsRequest('op', 'op', 'list', 'Cmd');
-        $ret       .= $this->pc->getPhpCodeCommentLine("Request {$fieldId}");
         $ret       .= $this->xc->getXcXoopsRequest($ccFieldId, $fieldId, '', 'Int');
+        $ret       .= $this->xc->getXcXoopsRequest('start', 'start', '0', 'Int', false);
+        $config    = $this->xc->getXcGetConfig('adminpager');
+        $ret       .= $this->xc->getXcXoopsRequest('limit', 'limit', $config, 'Int', false);
+        $ret       .= $this->xc->getXcXoopsTplAssign('start', '$start');
+        $ret       .= $this->xc->getXcXoopsTplAssign('limit', '$limit');
+        $ret       .= $this->pc->getPhpCodeBlankLine();
 
         return $ret;
     }
@@ -144,9 +150,6 @@ class AdminPages extends Files\CreateFile
 
         $ret        = $this->pc->getPhpCodeCommentLine('Define Stylesheet', '', $t);
         $ret        .= $this->xc->getXcXoThemeAddStylesheet('style', $t);
-        $ret        .= $this->xc->getXcXoopsRequest('start', 'start', '0', 'Int', false, $t);
-        $adminpager = $this->xc->getXcGetConfig('adminpager');
-        $ret        .= $this->xc->getXcXoopsRequest('limit', 'limit', $adminpager, 'Int', false, $t);
         $ret        .= $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
         $navigation = $this->axc->getAdminDisplayNavigation($tableName);
         $ret        .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
@@ -159,8 +162,8 @@ class AdminPages extends Files\CreateFile
         $ret .= $this->xc->getXcHandlerCountObj($tableName, $t);
         $ret .= $this->xc->getXcHandlerAllObj($tableName, '', '$start', '$limit', $t);
         $ret .= $this->xc->getXcXoopsTplAssign("{$tableName}_count", "\${$tableName}Count", true, $t);
-        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL", true, $t);
-        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL", true, $t);
+        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "\\{$stuModuleDirname}_URL", true, $t);
+        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "\\{$stuModuleDirname}_UPLOAD_URL", true, $t);
 
         $ret            .= $this->pc->getPhpCodeCommentLine('Table view', $tableName, $t);
         $contentForeach = $this->xc->getXcGetValues($tableName, $tableSoleName, 'i', false, $t . "\t\t");
@@ -195,6 +198,36 @@ class AdminPages extends Files\CreateFile
             $ret .= $this->xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
         }
         $ret .= $this->xc->getXcCommonPagesNew($tableName, $t);
+
+        return $ret;
+    }
+
+    /**
+     * @private function getAdminPagesClone
+     * @param        $moduleDirname
+     * @param        $tableName
+     * @param        $fieldInForm
+     * @param        $language
+     * @param string $t
+     * @return string
+     */
+    private function getAdminPagesClone($moduleDirname, $tableName, $tableSoleName, $fieldInForm, $fieldId, $language, $t = '')
+    {
+        $stuTableName     = \mb_strtoupper($tableName);
+        $stuTableSoleName = \mb_strtoupper($tableSoleName);
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
+        $ret              = $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
+        $navigation       = $this->axc->getAdminDisplayNavigation($tableName);
+        $ret              .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
+
+        if (\in_array(1, $fieldInForm)) {
+            $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
+            $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', $t);
+            $ret .= $this->xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
+        }
+        $ret .= $this->pc->getPhpCodeCommentLine("Request source", '', $t);
+        $ret .= $this->xc->getXcXoopsRequest($ccFieldId . 'Source', $fieldId . '_source', '', 'Int', false, $t);
+        $ret .= $this->xc->getXcCommonPagesClone($tableName, $ccFieldId, $t);
 
         return $ret;
     }
@@ -240,11 +273,12 @@ class AdminPages extends Files\CreateFile
         $redirectError      = $this->xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t");
         $ret                .= $this->pc->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, $t);
 
-        $contentIf   = $this->xc->getXcHandlerGetObj($tableName, $ccFieldId,  $t . "\t");
-        $contentElse = $this->xc->getXcHandlerCreateObj($tableName, $t . "\t");
-        $ret         .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $contentIf, $contentElse, $t);
-        $ret         .= $this->pc->getPhpCodeCommentLine('Set Vars', null, $t);
+        $contentIf     = $this->xc->getXcHandlerGetObj($tableName, $ccFieldId,  $t . "\t");
+        $contentElse   = $this->xc->getXcHandlerCreateObj($tableName, $t . "\t");
+        $ret           .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $contentIf, $contentElse, $t);
+        $ret           .= $this->pc->getPhpCodeCommentLine('Set Vars', null, $t);
         $countUploader = 0;
+        $fieldLines    = '';
         foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldType    = $fields[$f]->getVar('field_type');
@@ -256,43 +290,47 @@ class AdminPages extends Files\CreateFile
                 switch ($fieldElement) {
                     case Constants::FIELD_ELE_CHECKBOX:
                     case Constants::FIELD_ELE_RADIOYN:
-                        $ret .= $this->xc->getXcSetVarCheckBoxOrRadioYN($tableName, $fieldName, $t);
+                        $fieldLines .= $this->xc->getXcSetVarCheckBoxOrRadioYN($tableName, $fieldName, $t);
                         break;
                     case Constants::FIELD_ELE_IMAGELIST:
-                        $ret .= $this->axc->getAxcSetVarImageList($tableName, $fieldName, $t, $countUploader);
+                        $fieldLines .= $this->axc->getAxcSetVarImageList($tableName, $fieldName, $t, $countUploader);
                         $countUploader++;
                         break;
                     case Constants::FIELD_ELE_SELECTFILE:
-                        $ret .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
+                        $fieldLines .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case Constants::FIELD_ELE_URLFILE:
-                        $ret .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, true, $t, $countUploader, $fieldMain);
+                        $fieldLines .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, true, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case Constants::FIELD_ELE_UPLOADIMAGE:
-                        $ret .= $this->axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
+                        $fieldLines .= $this->axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
                         $countUploader++;
                         break;
                     case Constants::FIELD_ELE_UPLOADFILE:
-                        $ret .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
+                        $fieldLines .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case Constants::FIELD_ELE_TEXTDATESELECT:
-                        $ret .= $this->xc->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t);
+                        $fieldLines .= $this->xc->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     case Constants::FIELD_ELE_PASSWORD:
-                        $ret .= $this->axc->getAxcSetVarPassword($tableName, $fieldName, $t);
+                        $fieldLines .= $this->axc->getAxcSetVarPassword($tableName, $fieldName, $t);
                         break;
                     case Constants::FIELD_ELE_DATETIME:
-                        $ret .= $this->xc->getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t);
+                        $fieldLines .= $this->xc->getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     default:
-                        $ret .= $this->axc->getAxcSetVarMisc($tableName, $fieldName, $fieldType, $fieldElement, $t);
+                        $fieldLines .= $this->axc->getAxcSetVarMisc($tableName, $fieldName, $fieldType, $fieldElement, $t);
                         break;
                 }
             }
         }
+        if ($countUploader > 0) {
+            $ret .= $this->xc->getXcEqualsOperator('$uploaderErrors', "''", null, $t);
+        }
+        $ret           .= $fieldLines;
         $ret           .= $this->pc->getPhpCodeCommentLine('Insert Data', null, $t);
         $insert        = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
         $contentInsert = '';
@@ -309,10 +347,10 @@ class AdminPages extends Files\CreateFile
         }
         if ($countUploader > 0) {
             $errIf         = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=edit&{$fieldId}=' . \${$ccFieldId}", '', '5', '$uploaderErrors', false, $t . "\t\t");
-            $errElse       = $this->xc->getXcRedirectHeader($tableName, '?op=list', '2', "{$language}FORM_OK", true, $t . "\t\t");
+            $errElse       = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&amp;start=' . \$start . '&amp;limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
             $contentInsert .= $this->pc->getPhpCodeConditions('$uploaderErrors', ' !== ',"''" , $errIf, $errElse, $t . "\t");
         } else {
-            $contentInsert .= $this->xc->getXcRedirectHeader($tableName . '', '?op=list', '2', "{$language}FORM_OK", true, $t . "\t");
+            $contentInsert .= $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&amp;start=' . \$start . '&amp;limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
         }
         $ret .= $this->pc->getPhpCodeConditions($insert, '', '', $contentInsert, false, $t);
         $ret .= $this->pc->getPhpCodeCommentLine('Get Form', null, $t);
@@ -385,7 +423,7 @@ class AdminPages extends Files\CreateFile
     public function render()
     {
         $tf  = Modulebuilder\Files\CreateFile::getInstance();
-        $new = $save = $edit = '';
+        $new = $clone = $save = $edit = '';
 
         $module             = $this->getModule();
         $table              = $this->getTable();
@@ -414,23 +452,25 @@ class AdminPages extends Files\CreateFile
         $content .= $this->getAdminPagesHeader($moduleDirname, $fieldId);
         $list    = $this->getAdminPagesList($moduleDirname, $table, $language, $fieldInForm, "\t\t");
         if (\in_array(1, $fieldInForm)) {
-            $new  = $this->getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, "\t\t");
-            $save = $this->getAdminPagesSave($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldMain, $tablePerms, "\t\t");
-            $edit = $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, "\t\t");
+            $new   = $this->getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, "\t\t");
+            $clone = $this->getAdminPagesClone($moduleDirname, $tableName, $tableSoleName, $fieldInForm, $fieldId, $language, "\t\t");
+            $save  = $this->getAdminPagesSave($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldMain, $tablePerms, "\t\t");
+            $edit  = $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, "\t\t");
         }
         $delete = $this->getAdminPagesDelete($moduleDirname, $tableName, $tableSoleName, $language, $fieldId, $fieldMain, $tableNotifications, "\t\t");
 
         $cases   = [
             'list'   => [$list],
             'new'    => [$new],
+            'clone'  => [$clone],
             'save'   => [$save],
             'edit'   => [$edit],
             'delete' => [$delete],
         ];
         $content .= $this->getAdminPagesSwitch($cases);
-        $content .= $this->getInclude('footer');
+        $content .= $this->getRequire('footer');
 
-        $tf->create($moduleDirname, 'admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $tf->create($moduleDirname, 'admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $tf->renderFile();
     }

@@ -18,14 +18,15 @@
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
 // Define main template
 $templateMain = 'modulebuilder_tables.tpl';
 
-include __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 // Recovered value of arguments op in the URL $
 $op = \Xmf\Request::getString('op', 'list');
 
@@ -47,7 +48,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/sortable.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('tables.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_TABLES_ADD, 'tables.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_TABLES_ADD, 'tables.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
@@ -55,13 +56,13 @@ switch ($op) {
         $modulesCount = $helper->getHandler('Modules')->getCountModules();
         // Redirect if there aren't modules
         if (0 == $modulesCount) {
-            \redirect_header('modules.php?op=new', 10, _AM_MODULEBUILDER_THEREARENT_MODULES2);
+            \redirect_header('modules.php?op=new', 10, \_AM_MODULEBUILDER_THEREARENT_MODULES2);
         }
         $modulesAll  = $helper->getHandler('Modules')->getAllModules($start, $limit);
         $tablesCount = $helper->getHandler('Tables')->getObjects(null);
         // Redirect if there aren't tables
         if (0 == $tablesCount) {
-            \redirect_header('tables.php?op=new', 10, _AM_MODULEBUILDER_THEREARENT_TABLES2);
+            \redirect_header('tables.php?op=new', 10, \_AM_MODULEBUILDER_THEREARENT_TABLES2);
         }
         unset($tablesCount);
         // Display modules list
@@ -89,17 +90,17 @@ switch ($op) {
                 unset($module);
             }
             if ($modulesCount > $limit) {
-                include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+                require_once \XOOPS_ROOT_PATH . '/class/pagenav.php';
                 $pagenav = new \XoopsPageNav($modulesCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
-            $GLOBALS['xoopsTpl']->assign('error', _AM_MODULEBUILDER_THEREARENT_TABLES);
+            $GLOBALS['xoopsTpl']->assign('error', \_AM_MODULEBUILDER_THEREARENT_TABLES);
         }
         break;
     case 'new':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('tables.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_TABLES_LIST, 'tables.php', 'list');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_TABLES_LIST, 'tables.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $tablesObj = $helper->getHandler('Tables')->create();
@@ -125,7 +126,7 @@ switch ($op) {
             //unset($criteria);
             foreach (\array_keys($tableNameSearch) as $t) {
                 if ($tableNameSearch[$t]->getVar('table_name') === \Xmf\Request::getString('table_name', '', 'POST')) {
-                    \redirect_header('tables.php?op=new', 3, \sprintf(_AM_MODULEBUILDER_TABLE_ERROR_NAME_EXIST, \Xmf\Request::getString('table_name', '', 'POST')));
+                    \redirect_header('tables.php?op=new', 3, \sprintf(\_AM_MODULEBUILDER_TABLE_ERROR_NAME_EXIST, \Xmf\Request::getString('table_name', '', 'POST')));
                 }
             }
             $tablesObj = $tables->create();
@@ -145,8 +146,8 @@ switch ($op) {
             ]
         );
         //Form table_image
-        include_once XOOPS_ROOT_PATH . '/class/uploader.php';
-        $uploaddir = \is_dir(XOOPS_ICONS32_PATH) ? XOOPS_ICONS32_PATH : TDMC_UPLOAD_IMGTAB_PATH;
+        require_once \XOOPS_ROOT_PATH . '/class/uploader.php';
+        $uploaddir = \is_dir(\XOOPS_ICONS32_PATH) ? \XOOPS_ICONS32_PATH : TDMC_UPLOAD_IMGTAB_PATH;
         $uploader  = new \XoopsMediaUploader(
             $uploaddir, $helper->getConfig('mimetypes_image'), $helper->getConfig('maxsize_image'), null, null
         );
@@ -201,9 +202,9 @@ switch ($op) {
                 if (!$helper->getHandler('Fieldelements')->insert($fieldelementObj)) {
                     $GLOBALS['xoopsTpl']->assign('error', $fieldelementObj->getHtmlErrors() . ' Field element');
                 }
-                \redirect_header('fields.php?op=new' . $tableAction, 5, \sprintf(_AM_MODULEBUILDER_TABLE_FORM_CREATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
+                \redirect_header('fields.php?op=new' . $tableAction, 5, \sprintf(\_AM_MODULEBUILDER_TABLE_FORM_CREATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
             } else {
-                \redirect_header('tables.php', 5, \sprintf(_AM_MODULEBUILDER_TABLE_FORM_UPDATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
+                \redirect_header('tables.php', 5, \sprintf(\_AM_MODULEBUILDER_TABLE_FORM_UPDATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
             }
         }
 
@@ -213,8 +214,8 @@ switch ($op) {
         break;
     case 'edit':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('tables.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_TABLES_ADD, 'tables.php?op=new', 'add');
-        $adminObject->addItemButton(_AM_MODULEBUILDER_TABLES_LIST, 'tables.php?op=list', 'list');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_TABLES_ADD, 'tables.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_TABLES_LIST, 'tables.php?op=list', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $tablesObj = $helper->getHandler('Tables')->get($tableId);
@@ -236,7 +237,7 @@ switch ($op) {
                     ++$i;
                 }
             }
-            \redirect_header('tables.php', 5, _AM_MODULEBUILDER_TABLE_ORDER_ERROR);
+            \redirect_header('tables.php', 5, \_AM_MODULEBUILDER_TABLE_ORDER_ERROR);
             unset($i);
         }
         exit;
@@ -267,7 +268,7 @@ switch ($op) {
                     }
                     unset($fieldElementsObj);
                 }
-                \redirect_header('tables.php', 3, _AM_MODULEBUILDER_FORMDELOK);
+                \redirect_header('tables.php', 3, \_AM_MODULEBUILDER_FORMDELOK);
             } else {
                 $GLOBALS['xoopsTpl']->assign('error', $tablesObj->getHtmlErrors());
             }
@@ -291,7 +292,7 @@ switch ($op) {
                 }
             }
             if ($helper->getHandler('Modules')->insert($modulesObj)) {
-                \redirect_header('modules.php', 3, _AM_MODULEBUILDER_TOGGLE_SUCCESS);
+                \redirect_header('modules.php', 3, \_AM_MODULEBUILDER_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
         }
@@ -306,10 +307,10 @@ switch ($op) {
                 }
             }
             if ($helper->getHandler('Tables')->insert($tablesObj)) {
-                \redirect_header('tables.php', 3, _AM_MODULEBUILDER_TOGGLE_SUCCESS);
+                \redirect_header('tables.php', 3, \_AM_MODULEBUILDER_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $tablesObj->getHtmlErrors());
         }
         break;
 }
-include __DIR__ . '/footer.php';
+require __DIR__ . '/footer.php';

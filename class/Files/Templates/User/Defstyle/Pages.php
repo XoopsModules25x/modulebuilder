@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -227,14 +228,14 @@ class Pages extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $tableName     = $table->getVar('table_name');
         $tableSoleName = $table->getVar('table_solename');
-        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $language      = $this->getLanguage($moduleDirname, 'MA', '', false);
         $content       = $this->getTemplatesUserPagesHeader($moduleDirname);
         $content       .= $this->getTemplatesUserPages($moduleDirname, $tableName, $tableSoleName, $language);
         $content       .= $this->getTemplatesUserPagesForm();
         $content       .= $this->getTemplatesUserPagesError();
         $content       .= $this->getTemplatesUserPagesFooter($moduleDirname);
 
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

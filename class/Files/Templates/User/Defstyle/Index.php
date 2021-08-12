@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -190,7 +191,7 @@ class Index extends Files\CreateFile
         $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $language      = $this->getLanguage($moduleDirname, 'MA', '', false);
         $content       = $this->getTemplateUserIndexHeader($moduleDirname);
         $content       .= $this->getTemplatesUserIndexIntro($module, $language);
         foreach (\array_keys($tables) as $t) {
@@ -203,7 +204,7 @@ class Index extends Files\CreateFile
         }
         $content  .= $this->getTemplateUserIndexFooter($moduleDirname);
 
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

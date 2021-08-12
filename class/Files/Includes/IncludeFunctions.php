@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -35,6 +36,7 @@ class IncludeFunctions extends Files\CreateFile
      * @var mixed
      */
     private $xc = null;
+
     /**
      * @var mixed
      */
@@ -89,14 +91,14 @@ class IncludeFunctions extends Files\CreateFile
         $t      = "\t";
         $ret    = $this->pc->getPhpCodeCommentMultiLine(['function' => 'add selected cats to block', '' => '', '@param  $cats' => '', '@return' => 'string']);
         $func   = $this->xc->getXcEqualsOperator('$cat_sql', "'('", '', $t);
-        $contIf = $this->xc->getXcEqualsOperator('$cat_sql', "current(\$cats)", '.', $t . "\t");
-        $contIf .= $this->getSimpleString("array_shift(\$cats);", $t . "\t");
+        $contIf = $this->xc->getXcEqualsOperator('$cat_sql', "current(\$cats)", '.',$t. "\t");
+        $contIf .= $this->getSimpleString("array_shift(\$cats);", $t. "\t");
         $contFe = $this->getSimpleString("\$cat_sql .= ',' . \$cat;", $t . "\t\t");
-        $contIf .= $this->pc->getPhpCodeForeach('cats', false, false, 'cat', $contFe, $t . "\t");
-        $func   .= $this->pc->getPhpCodeConditions('\is_array($cats)', '', '', $contIf, false, $t);
+        $contIf .= $this->pc->getPhpCodeForeach('cats', false,false,'cat', $contFe, $t. "\t");
+        $func .= $this->pc->getPhpCodeConditions('\is_array($cats)','','', $contIf, false, $t);
         $func   .= $this->xc->getXcEqualsOperator('$cat_sql', "')'", '.', $t);
-        $func   .= $this->getSimpleString('return $cat_sql;', $t);
-        $ret    .= $this->pc->getPhpCodeFunction("{$moduleDirname}_block_addCatSelect", '$cats', $func);
+        $func .= $this->getSimpleString('return $cat_sql;', $t);
+        $ret  .= $this->pc->getPhpCodeFunction("{$moduleDirname}_block_addCatSelect", '$cats', $func);
 
         return $ret;
     }
@@ -111,17 +113,17 @@ class IncludeFunctions extends Files\CreateFile
     {
         $t      = "\t";
         $ret    = $this->pc->getPhpCodeCommentMultiLine(['Get the permissions ids' => '', '' => '', '@param  $permtype' => '', '@param  $dirname' => '', '@return' => 'mixed $itemIds']);
-        $func   = $this->xc->getXcGetGlobal(['xoopsUser'], $t);
-        $func   .= $this->xc->getXcEqualsOperator('static $permissions', "[]", '', $t);
+        $func = $this->xc->getXcGetGlobal(['xoopsUser'], $t);
+        $func .= $this->xc->getXcEqualsOperator('static $permissions', "[]", '', $t);
         $contIf = $this->getSimpleString('return $permissions[$permtype];', $t . "\t");
-        $func   .= $this->pc->getPhpCodeConditions('\is_array($permissions) && \array_key_exists($permtype, $permissions)', '', '', $contIf, false, $t);
-        $func   .= $this->xc->getXcXoopsHandler('module', $t);
-        $func   .= $this->xc->getXcEqualsOperator("\${$moduleDirname}Module", '$moduleHandler->getByDirname($dirname)', '', $t);
-        $func   .= $this->pc->getPhpCodeTernaryOperator('groups', '\is_object($xoopsUser)', '$xoopsUser->getGroups()', 'XOOPS_GROUP_ANONYMOUS', $t);
-        $func   .= $this->xc->getXcXoopsHandler('groupperm', $t);
-        $func   .= $this->xc->getXcEqualsOperator('$itemIds', "\$grouppermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'))", '', $t);
-        $func   .= $this->getSimpleString('return $itemIds;', $t);
-        $ret    .= $this->pc->getPhpCodeFunction("{$moduleDirname}GetMyItemIds", '$permtype, $dirname', $func);
+        $func .= $this->pc->getPhpCodeConditions('\is_array($permissions) && \array_key_exists($permtype, $permissions)','','', $contIf, false, $t);
+        $func .= $this->xc->getXcXoopsHandler('module', $t);
+        $func .= $this->xc->getXcEqualsOperator("\${$moduleDirname}Module", '$moduleHandler->getByDirname($dirname)', '', $t);
+        $func .= $this->pc->getPhpCodeTernaryOperator('groups', '\is_object($xoopsUser)', '$xoopsUser->getGroups()', '\XOOPS_GROUP_ANONYMOUS', $t);
+        $func .= $this->xc->getXcXoopsHandler('groupperm', $t);
+        $func .= $this->xc->getXcEqualsOperator('$itemIds', "\$grouppermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'))", '', $t);
+        $func .= $this->getSimpleString('return $itemIds;', $t);
+        $ret  .= $this->pc->getPhpCodeFunction("{$moduleDirname}GetMyItemIds", '$permtype, $dirname', $func);
 
         return $ret;
     }
@@ -138,7 +140,7 @@ class IncludeFunctions extends Files\CreateFile
      */
     private function getFunctionNumbersOfEntries($moduleDirname, $tableMid, $tableId, $tableName)
     {
-        $fields  = $this->getTableFields($tableMid, $tableId);
+        $fields = $this->getTableFields($tableMid, $tableId);
         $fieldId = '';
         foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -291,7 +293,7 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
             }
             \$rewrite_base = '/modules/';
             \$page = 'page=' . \$array['content_alias'];
-            return XOOPS_URL . \$rewrite_base . \$module . '/' . \$type . '.php?' . \$topic_name . 'id=' . \$id . '&amp;' . \$page . \$comment;
+            return \XOOPS_URL . \$rewrite_base . \$module . '/' . \$type . '.php?' . \$topic_name . 'id=' . \$id . '&amp;' . \$page . \$comment;
             break;
 
         case 'rewrite':
@@ -311,10 +313,10 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
                 \$type = '';
             }
             if ('comment-edit/' === \$type || 'comment-reply/' === \$type || 'comment-delete/' === \$type) {
-                return XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$id . '/';
+                return \XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$id . '/';
             }
 
-            return XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$topic_name  . \$id . \$page . \$rewrite_ext;
+            return \XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$topic_name  . \$id . \$page . \$rewrite_ext;
             break;
 
          case 'short':
@@ -333,10 +335,10 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
                 \$type = '';
             }
             if ('comment-edit/' === \$type || 'comment-reply/' === \$type || 'comment-delete/' === \$type) {
-                return XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$id . '/';
+                return \XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$id . '/';
             }
 
-            return XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$topic_name . \$page . \$rewrite_ext;
+            return \XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$topic_name . \$page . \$rewrite_ext;
             break;
     }
     return null;
@@ -373,12 +375,12 @@ function {$moduleDirname}_Filter(\$url, \$type = '') {
     \$regular_expression = \$helper->getConfig('regular_expression');
 
     \$url = \strip_tags(\$url);
-    \$url .= \preg_replace("`\[.*\]`U", '', \$url);
+    \$url .= \preg_replace('`\[.*\]`U', '', \$url);
     \$url .= \preg_replace('`&(amp;)?#?[a-z0-9]+;`i', '-', \$url);
-    \$url .= htmlentities(\$url, ENT_COMPAT, 'utf-8');
+    \$url .= \htmlentities(\$url, ENT_COMPAT, 'utf-8');
     \$url .= \preg_replace('`&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig);`i', "\\1", \$url);
-    \$url .= \preg_replace(array(\$regular_expression, '`[-]+`'), '-', \$url);
-    \$url = (\$url == '') ? \$type : strtolower(\trim(\$url, '-'));
+    \$url .= \preg_replace([\$regular_expression, '`[-]+`'], '-', \$url);
+    \$url = ('' == \$url) ? \$type : \strtolower(\\trim(\$url, '-'));
     return \$url;
 }
 EOT;
@@ -428,7 +430,7 @@ EOT;
         $content .= $this->getRewriteUrl($moduleDirname, $tableName);
         $content .= $this->getRewriteFilter($moduleDirname, $tableName);
 
-        $this->create($moduleDirname, 'include', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

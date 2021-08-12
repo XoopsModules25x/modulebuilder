@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -98,7 +99,7 @@ class UserSearch extends Files\CreateFile
         $ret      = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret      .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret      .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $ret      .= $this->getInclude();
+        $ret      .= $this->getRequire();
         $fieldId  = 0;
         $fieldPid = 0;
         foreach (\array_keys($fields) as $f) {
@@ -117,7 +118,7 @@ class UserSearch extends Files\CreateFile
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret       .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
         $ret       .= $this->uxc->getUserTplMain($moduleDirname);
-        $ret       .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret       .= $this->phpcode->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'header', true);
         $ret       .= $this->getDashComment('Define Stylesheet');
         $ret       .= $this->xc->getXcXoThemeAddStylesheet();
 
@@ -136,7 +137,7 @@ class UserSearch extends Files\CreateFile
         $ret = <<<'EOT'
 
 EOT;
-        $ret .= $this->getSimpleString('$keywords = array();');
+        $ret .= $this->getSimpleString('$keywords = [];');
 
         return $ret;
     }
@@ -161,10 +162,10 @@ EOT;
         $ret              .= $this->phpcode->getPhpCodeUnset('keywords');
         $ret              .= $this->getDashComment('Description');
         $ret              .= $this->uxc->getUserMetaDesc($moduleDirname, 'DESC', $language);
-        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
-        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret              .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
-        $ret              .= $this->getInclude('footer');
+        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "\\{$stuModuleDirname}_URL.'/index.php'");
+        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', '\XOOPS_ICONS32_URL');
+        $ret              .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "\\{$stuModuleDirname}_UPLOAD_URL");
+        $ret              .= $this->getRequire('footer');
 
         return $ret;
     }
@@ -190,7 +191,7 @@ EOT;
         $content       .= $this->getUserSearch($moduleDirname, $tableName, $language);
         $content       .= $this->getUserSearchFooter($moduleDirname, $tableName, $language);
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

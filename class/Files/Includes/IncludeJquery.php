@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 \defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -91,7 +92,7 @@ $(document).ready(function(){
     $( ".toolbar" ).css("color","#000").buttonset();
 });
 EOT;
-        $this->tdmcfile->create($moduleDirname, 'assets/js', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'assets/js', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }

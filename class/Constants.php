@@ -15,12 +15,12 @@ namespace XoopsModules\Modulebuilder;
 /**
  * Modulebuilder module for xoops
  *
- * @copyright     2020 XOOPS Project (https://xooops.org)
+ * @copyright     2020 XOOPS Project (https://xoops.org)
  * @license        GPL 2.0 or later
  * @package        Modulebuilder
  * @since          1.0
- * @min_xoops      2.5.9
- * @author         TDM XOOPS - Email:<info@email.com> - Website:<http://xoops.org>
+ * @min_xoops      2.5.11
+ * @author         TDM XOOPS - Email:<info@email.com> - Website:<https://xoops.org>
  */
 
 /**

@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -35,10 +36,12 @@ class UserPdf extends Files\CreateFile
      * @var mixed
      */
     private $uxc = null;
+
     /**
      * @var mixed
      */
     private $xc = null;
+
     /**
      * @var mixed
      */
@@ -99,16 +102,16 @@ class UserPdf extends Files\CreateFile
         $ret            = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret            .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret            .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $ret            .= $this->getInclude();
-        $ret            .= $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/header.php'", '', true, true, 'require', '');
-        $fileExist      = $this->pc->getPhpCodeFileExists("\$tcpdf = XOOPS_ROOT_PATH.'/Frameworks/tcpdf/'");
+        $ret            .= $this->getRequire();
+        $ret            .= $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH . '/header.php'", '', true, true, 'require', '');
+        $fileExist      = $this->pc->getPhpCodeFileExists("\$tcpdf = \XOOPS_ROOT_PATH.'/Frameworks/tcpdf/'");
         $requireOnce    = $this->pc->getPhpCodeIncludeDir("\$tcpdf . 'tcpdf.php'", '', true, true, 'require', "\t");
         $redirectHeader = $this->xc->getXcRedirectHeader($tableName, '', $numb = '2', "{$language}NO_PDF_LIBRARY", true, "\t");
         $ret            .= $this->pc->getPhpCodeConditions($fileExist, '', '', $requireOnce, $redirectHeader);
         $ret            .= $this->pc->getPhpCodeIncludeDir("\$tcpdf . 'config/tcpdf_config.php'", '', true, true, 'require', '');
         $ret            .= $this->pc->getPhpCodeCommentLine('Get new template');
-        $ret            .= $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/class/template.php'", '', true, true, 'require', '');
-        $ret            .= $this->xc->getXcEqualsOperator('$pdfTpl', 'new $xoopsTpl()');
+        $ret            .= $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH . '/class/template.php'", '', true, true, 'require', '');
+        $ret       .= $this->xc->getXcEqualsOperator('$pdfTpl', 'new $xoopsTpl()');
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->pc->getPhpCodeCommentLine('Get requests');
         $ret            .= $this->xc->getXcXoopsRequest($ccFieldId, $fieldId, '', 'Int');
@@ -133,13 +136,13 @@ class UserPdf extends Files\CreateFile
     public function getUserPdfTcpdf($moduleDirname, $tableName, $tableSolename, $fields)
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
-        $ret              = $this->pc->getPhpCodeCommentLine('Set defaults');
-        $ret              .= $this->xc->getXcEqualsOperator('$pdfFilename', "'$tableName.pdf'");
-        $ret              .= $this->xc->getXcEqualsOperator('$title      ', "'Pdf Title'");
-        $ret              .= $this->xc->getXcEqualsOperator('$subject    ', "'Pdf Subject'");
-        $ret              .= $this->xc->getXcEqualsOperator('$content    ', "''");
-        $ret              .= $this->pc->getPhpCodeBlankLine();
-        $ret              .= $this->pc->getPhpCodeCommentLine('Read data from table and create pdfData');
+        $ret = $this->pc->getPhpCodeCommentLine('Set defaults');
+        $ret .= $this->xc->getXcEqualsOperator('$pdfFilename', "'$tableName.pdf'");
+        $ret .= $this->xc->getXcEqualsOperator('$title      ', "'Pdf Title'");
+        $ret .= $this->xc->getXcEqualsOperator('$subject    ', "'Pdf Subject'");
+        $ret .= $this->xc->getXcEqualsOperator('$content    ', "''");
+        $ret .= $this->pc->getPhpCodeBlankLine();
+        $ret .= $this->pc->getPhpCodeCommentLine('Read data from table and create pdfData');
         foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldDefault = $fields[$f]->getVar('field_default');
@@ -164,29 +167,29 @@ class UserPdf extends Files\CreateFile
                     break;
             }
         }
-        $ret .= $this->pc->getPhpCodeStripTags("pdfData['title']   ", "\$myts->undoHtmlSpecialChars(\$title)");
-        $ret .= $this->pc->getPhpCodeStripTags("pdfData['subject'] ", '$subject');
-        $ret .= $this->xc->getXcEqualsOperator("\$pdfData['content'] ", "\$myts->undoHtmlSpecialChars(\$content)");
-        $ret .= $this->xc->getXcEqualsOperator("\$pdfData['fontname']", 'PDF_FONT_NAME_MAIN');
-        $ret .= $this->xc->getXcEqualsOperator("\$pdfData['fontsize']", 'PDF_FONT_SIZE_MAIN');
-        $ret .= $this->pc->getPhpCodeBlankLine();
-        $ret .= $this->pc->getPhpCodeCommentLine('Get Config');
-        $ret .= $this->xc->getXcEqualsOperator("\$pdfData['creator']  ", "\$GLOBALS['xoopsConfig']['sitename']");
-        $ret .= $this->xc->getXcEqualsOperator("\$pdfData['subject']  ", "\$GLOBALS['xoopsConfig']['slogan']");
-        $ret .= $this->xc->getXcEqualsOperator("\$pdfData['keywords'] ", "\$helper->getConfig('keywords')");
-        $ret .= $this->pc->getPhpCodeBlankLine();
-        $ret .= $this->pc->getPhpCodeCommentLine('Defines');
-        $ret .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_CREATOR", "\$pdfData['creator']");
-        $ret .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_AUTHOR", "\$pdfData['author']");
-        $ret .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_HEADER_TITLE", "\$pdfData['title']");
-        $ret .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_HEADER_STRING", "\$pdfData['subject']");
-        $ret .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_HEADER_LOGO", "'logo.gif'");
-        $ret .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_IMAGES_PATH", "XOOPS_ROOT_PATH.'/images/'");
-        $ret .= $this->pc->getPhpCodeBlankLine();
-        $ret .= $this->pc->getPhpCodeCommentLine('Assign customs tpl fields');
-        $ret .= $this->xc->getXcXoopsTplAssign('content_header', "'$tableName'", true, '', 'pdfTpl');
-        $ret .= $this->xc->getXcGetValues($tableName, $tableSolename, '', true, '', 'Obj');
-        $ret .= $this->xc->getXcXoopsTplAssign($tableSolename, '$' . $tableSolename, true, '', 'pdfTpl');
+        $ret       .= $this->pc->getPhpCodeStripTags("pdfData['title']   ", "\$myts->undoHtmlSpecialChars(\$title)");
+        $ret       .= $this->pc->getPhpCodeStripTags("pdfData['subject'] ", '$subject');
+        $ret       .= $this->xc->getXcEqualsOperator("\$pdfData['content'] ", "\$myts->undoHtmlSpecialChars(\$content)");
+        $ret       .= $this->xc->getXcEqualsOperator("\$pdfData['fontname']", 'PDF_FONT_NAME_MAIN');
+        $ret       .= $this->xc->getXcEqualsOperator("\$pdfData['fontsize']", 'PDF_FONT_SIZE_MAIN');
+        $ret       .= $this->pc->getPhpCodeBlankLine();
+        $ret       .= $this->pc->getPhpCodeCommentLine('Get Config');
+        $ret       .= $this->xc->getXcEqualsOperator("\$pdfData['creator']  ", "\$GLOBALS['xoopsConfig']['sitename']");
+        $ret       .= $this->xc->getXcEqualsOperator("\$pdfData['subject']  ", "\$GLOBALS['xoopsConfig']['slogan']");
+        $ret       .= $this->xc->getXcEqualsOperator("\$pdfData['keywords'] ", "\$helper->getConfig('keywords')");
+        $ret       .= $this->pc->getPhpCodeBlankLine();
+        $ret       .= $this->pc->getPhpCodeCommentLine('Defines');
+        $ret       .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_CREATOR", "\$pdfData['creator']");
+        $ret       .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_AUTHOR", "\$pdfData['author']");
+        $ret       .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_HEADER_TITLE", "\$pdfData['title']");
+        $ret       .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_HEADER_STRING", "\$pdfData['subject']");
+        $ret       .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_HEADER_LOGO", "'logo.gif'");
+        $ret       .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_IMAGES_PATH", "\XOOPS_ROOT_PATH.'/images/'");
+        $ret       .= $this->pc->getPhpCodeBlankLine();
+        $ret       .= $this->pc->getPhpCodeCommentLine('Assign customs tpl fields');
+        $ret       .= $this->xc->getXcXoopsTplAssign('content_header', "'$tableName'", true, '', 'pdfTpl');
+        $ret       .= $this->xc->getXcGetValues($tableName, $tableSolename, '', true, '', 'Obj');
+        $ret       .= $this->xc->getXcXoopsTplAssign($tableSolename, '$' .$tableSolename, true, '', 'pdfTpl');
 
         $ret       .= $this->pc->getPhpCodeBlankLine();
         $ret       .= $this->pc->getPhpCodeCommentLine('Create pdf');
@@ -200,24 +203,24 @@ class UserPdf extends Files\CreateFile
         $ret       .= $this->getSimpleString('$pdf->SetTitle($title);');
         $ret       .= $this->getSimpleString("\$pdf->SetKeywords(\$pdfData['keywords']);");
         $ret       .= $this->pc->getPhpCodeCommentLine('Set default header data');
-        $ret       .= $this->getSimpleString("\$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, {$stuModuleDirname}_HEADER_TITLE, {$stuModuleDirname}_HEADER_STRING);");
+        $ret       .= $this->getSimpleString("\$pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, {$stuModuleDirname}_HEADER_TITLE, {$stuModuleDirname}_HEADER_STRING);");
         $ret       .= $this->pc->getPhpCodeCommentLine('Set margins');
         $ret       .= $this->getSimpleString('$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP + 10, PDF_MARGIN_RIGHT);');
         $ret       .= $this->pc->getPhpCodeCommentLine('Set auto page breaks');
         $ret       .= $this->getSimpleString('$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);');
-        $ret       .= $this->getSimpleString('$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);');
-        $ret       .= $this->getSimpleString('$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);');
+        $ret       .= $this->getSimpleString('$pdf->setHeaderMargin(PDF_MARGIN_HEADER);');
+        $ret       .= $this->getSimpleString('$pdf->setFooterMargin(PDF_MARGIN_FOOTER);');
         $ret       .= $this->getSimpleString('$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor');
         $ret       .= $this->pc->getPhpCodeCommentLine('For chinese');
-        $ifLang    = $this->getSimpleString("\$pdf->setHeaderFont(array('gbsn00lp', '', \$pdfData['fontsize']));", "\t");
+        $ifLang    = $this->getSimpleString("\$pdf->setHeaderFont(['gbsn00lp', '', \$pdfData['fontsize']]);", "\t");
         $ifLang    .= $this->getSimpleString("\$pdf->SetFont('gbsn00lp', '', \$pdfData['fontsize']);", "\t");
-        $ifLang    .= $this->getSimpleString("\$pdf->setFooterFont(array('gbsn00lp', '', \$pdfData['fontsize']));", "\t");
-        $elseLang  = $this->getSimpleString("\$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));", "\t");
+        $ifLang    .= $this->getSimpleString("\$pdf->setFooterFont('gbsn00lp', '', \$pdfData['fontsize']]);", "\t");
+        $elseLang  = $this->getSimpleString("\$pdf->setHeaderFont(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN);", "\t");
         $elseLang  .= $this->getSimpleString("\$pdf->SetFont(\$pdfData['fontname'], '', \$pdfData['fontsize']);", "\t");
-        $elseLang  .= $this->getSimpleString("\$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));", "\t");
+        $elseLang  .= $this->getSimpleString("\$pdf->setFooterFont([PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA);", "\t");
         $ret       .= $this->pc->getPhpCodeConditions('_LANGCODE', ' == ', "'cn'", $ifLang, $elseLang);
         $ret       .= $this->pc->getPhpCodeCommentLine('Set some language-dependent strings (optional)');
-        $ret       .= $this->xc->getXcEqualsOperator('$lang', "XOOPS_ROOT_PATH.'/Frameworks/tcpdf/lang/eng.php'");
+        $ret       .= $this->xc->getXcEqualsOperator('$lang', "\XOOPS_ROOT_PATH.'/Frameworks/tcpdf/lang/eng.php'");
         $fileExist = $this->pc->getPhpCodeFileExists('$lang');
         $contIf    = $this->pc->getPhpCodeIncludeDir('$lang', '', true, true, 'require', "\t");
         $contIf    .= $this->getSimpleString('$pdf->setLanguageArray($lang);', "\t");
@@ -239,7 +242,7 @@ class UserPdf extends Files\CreateFile
         $ret = $this->pc->getPhpCodeCommentLine('Add Page document');
         $ret .= $this->getSimpleString('$pdf->AddPage();');
         $ret .= $this->pc->getPhpCodeCommentLine('Output');
-        $ret .= $this->xc->getXcEqualsOperator('$template_path', strtoupper($moduleDirname) . "_PATH . '/templates/" . $moduleDirname . '_' . $tableName . "_pdf.tpl'");
+        $ret .= $this->xc->getXcEqualsOperator('$template_path', '\\' . \strtoupper($moduleDirname) . "_PATH . '/templates/" . $moduleDirname . '_' . $tableName . "_pdf.tpl'");
         $ret .= $this->xc->getXcEqualsOperator('$content', '$pdfTpl->fetch($template_path)');
         $ret .= $this->getSimpleString("\$pdf->writeHTMLCell(\$w=0, \$h=0, \$x='', \$y='', \$content, \$border=0, \$ln=1, \$fill=0, \$reseth=true, \$align='', \$autopadding=true);");
         $ret .= $this->getSimpleString("\$pdf->Output(\$pdfFilename, 'I');");
@@ -269,7 +272,7 @@ class UserPdf extends Files\CreateFile
         $content       .= $this->getUserPdfTcpdf($moduleDirname, $tableName, $tableSolename, $fields);
         $content       .= $this->getUserPdfFooter($moduleDirname, $tableName);
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

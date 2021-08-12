@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -35,11 +36,11 @@ class Pdf extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
+
     /**
      * @var mixed
      */
     private $sc = null;
-
     /**
      * @public function constructor
      * @param null
@@ -92,11 +93,11 @@ class Pdf extends Files\CreateFile
      */
     private function getTemplatesUserPdfBody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
-        $fields         = $this->getTableFields($tableMid, $tableId);
-        $ret            = '';
+        $fields  = $this->getTableFields($tableMid, $tableId);
+        $ret     = '';
         $content_header = $this->sc->getSmartySingleVar('content_header');
-        $ret            .= $this->hc->getHtmlDiv($content_header, 'panel-heading', '', "\n", false);
-        $retElem        = '';
+        $ret     .= $this->hc->getHtmlDiv($content_header, 'panel-heading', '',"\n", false);
+        $retElem = '';
         foreach (\array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_user')) {
@@ -105,26 +106,26 @@ class Pdf extends Files\CreateFile
                     $rpFieldName = $this->getRightString($fieldName);
                     $langConst   = \mb_strtoupper($tableSoleName) . '_' . \mb_strtoupper($rpFieldName);
                     $lang        = $this->sc->getSmartyConst($language, $langConst);
-                    $retElem     .= $this->hc->getHtmlDiv($lang . ': ', 'col-sm-3', "\t", "\n", false);
+                    $retElem     .= $this->hc->getHtmlDiv($lang . ': ' , 'col-sm-3',"\t", "\n", false);
                     switch ($fieldElement) {
                         default:
                             //case 3:
                             //case 4:
-                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retElem   .= $this->hc->getHtmlDiv($doubleVar, 'col-sm-8', "\t", "\n", false);
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $retElem     .= $this->hc->getHtmlDiv($doubleVar, 'col-sm-8', "\t", "\n", false);
                             break;
                         case 10:
-                            $singleVar = $this->sc->getSmartySingleVar('xoops_icons32_url');
-                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img       = $this->hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
-                            $retElem   .= $this->hc->getHtmlDiv($img, 'col-sm-8', "\t", "\n", false);
+                            $singleVar   = $this->sc->getSmartySingleVar('xoops_icons32_url');
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $img         = $this->hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
+                            $retElem     .= $this->hc->getHtmlDiv($img, 'col-sm-8', "\t", "\n", false);
                             unset($img);
                             break;
                         case 13:
-                            $singleVar = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
-                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img       = $this->hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
-                            $retElem   .= $this->hc->getHtmlDiv($img, 'col-sm-9', "\t", "\n", false);
+                            $singleVar   = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $img         = $this->hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
+                            $retElem     .= $this->hc->getHtmlDiv($img, 'col-sm-9',"\t", "\n", false);
                             unset($img);
                             break;
                     }
@@ -146,15 +147,15 @@ class Pdf extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $table         = $this->getTable();
-        $language      = $this->getLanguage($moduleDirname, 'MA');
-        $tableId       = $table->getVar('table_id');
-        $tableMid      = $table->getVar('table_mid');
-        $tableName     = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
-        $content       = $this->getTemplatesUserPdfBody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
+        $table  = $this->getTable();
+        $language      = $this->getLanguage($moduleDirname, 'MA', '', false);
+        $tableId         = $table->getVar('table_id');
+        $tableMid        = $table->getVar('table_mid');
+        $tableName       = $table->getVar('table_name');
+        $tableSoleName   = $table->getVar('table_solename');
+        $content       = $this->getTemplatesUserPdfBody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName,  $language);
 
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

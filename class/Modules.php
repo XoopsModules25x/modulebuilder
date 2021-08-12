@@ -22,10 +22,9 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <https://xoops.org/>
  *
  */
-// include __DIR__ . '/autoload.php';
 
 /**
  * Class Modules.
@@ -181,40 +180,40 @@ class Modules extends \XoopsObject
         }
 
         $isNew = $this->isNew();
-        $title = $isNew ? \sprintf(_AM_MODULEBUILDER_MODULE_NEW) : \sprintf(_AM_MODULEBUILDER_MODULE_EDIT);
+        $title = $isNew ? \sprintf(\_AM_MODULEBUILDER_MODULE_NEW) : \sprintf(\_AM_MODULEBUILDER_MODULE_EDIT);
 
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once \XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         $form = new \XoopsThemeForm($title, 'moduleform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $modName     = $isNew ? $set['name'] : $this->getVar('mod_name');
-        $modNameText = new \XoopsFormText(_AM_MODULEBUILDER_MODULE_NAME, 'mod_name', 50, 255, $modName);
-        $modNameText->setDescription(_AM_MODULEBUILDER_MODULE_NAME_DESC);
+        $modName = $isNew ? $set['name'] : $this->getVar('mod_name');
+        $modNameText = new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_NAME, 'mod_name', 50, 255, $modName);
+        $modNameText->setDescription(\_AM_MODULEBUILDER_MODULE_NAME_DESC);
         $form->addElement($modNameText, true);
 
-        $modDirname     = $isNew ? $set['dirname'] : $this->getVar('mod_dirname');
-        $modDirnameText = new \XoopsFormText(_AM_MODULEBUILDER_MODULE_DIRNAME, 'mod_dirname', 25, 255, $modDirname);
-        $modDirnameText->setDescription(_AM_MODULEBUILDER_MODULE_DIRNAME_DESC);
+        $modDirname = $isNew ? $set['dirname'] : $this->getVar('mod_dirname');
+        $modDirnameText = new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_DIRNAME, 'mod_dirname', 25, 255, $modDirname);
+        $modDirnameText->setDescription(\_AM_MODULEBUILDER_MODULE_DIRNAME_DESC);
         $form->addElement($modDirnameText, true);
 
         $modVersion = $isNew ? $set['version'] : $this->getVar('mod_version');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_VERSION, 'mod_version', 10, 25, $modVersion), true);
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_VERSION, 'mod_version', 10, 25, $modVersion), true);
 
         $modSince = $isNew ? $set['since'] : $this->getVar('mod_since');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_SINCE, 'mod_since', 10, 25, $modSince), true);
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_SINCE, 'mod_since', 10, 25, $modSince), true);
 
         $modMinPhp = $isNew ? $set['min_php'] : $this->getVar('mod_min_php');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_MIN_PHP, 'mod_min_php', 10, 25, $modMinPhp), true);
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_MIN_PHP, 'mod_min_php', 10, 25, $modMinPhp), true);
 
         $modMinXoops = $isNew ? $set['min_xoops'] : $this->getVar('mod_min_xoops');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_MIN_XOOPS, 'mod_min_xoops', 10, 25, $modMinXoops), true);
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_MIN_XOOPS, 'mod_min_xoops', 10, 25, $modMinXoops), true);
 
         $modMinAdmin = $isNew ? $set['min_admin'] : $this->getVar('mod_min_admin');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_MIN_ADMIN, 'mod_min_admin', 10, 25, $modMinAdmin), true);
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_MIN_ADMIN, 'mod_min_admin', 10, 25, $modMinAdmin), true);
 
         $modMinMysql = $isNew ? $set['min_mysql'] : $this->getVar('mod_min_mysql');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_MIN_MYSQL, 'mod_min_mysql', 10, 25, $modMinMysql), true);
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_MIN_MYSQL, 'mod_min_mysql', 10, 25, $modMinMysql), true);
         // Name description
         $editorConfigs           = [];
         $editorConfigs['name']   = 'mod_description';
@@ -224,25 +223,25 @@ class Modules extends \XoopsObject
         $editorConfigs['width']  = '50%';
         $editorConfigs['height'] = '100px';
         $editorConfigs['editor'] = $helper->getConfig('modulebuilder_editor');
-        $form->addElement(new \XoopsFormEditor(_AM_MODULEBUILDER_MODULE_DESCRIPTION, 'mod_description', $editorConfigs), true);
+        $form->addElement(new \XoopsFormEditor(\_AM_MODULEBUILDER_MODULE_DESCRIPTION, 'mod_description', $editorConfigs), true);
         // Author
         $modAuthor = $isNew ? $set['author'] : $this->getVar('mod_author');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_AUTHOR, 'mod_author', 50, 255, $modAuthor), true);
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_AUTHOR, 'mod_author', 50, 255, $modAuthor), true);
         $modLicense = $isNew ? $set['license'] : $this->getVar('mod_license');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_LICENSE, 'mod_license', 50, 255, $modLicense), true);
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_LICENSE, 'mod_license', 50, 255, $modLicense), true);
 
         $optionsTray = new \XoopsFormElementTray(_OPTIONS, '<br>');
-        $optionsTray->setDescription(_AM_MODULEBUILDER_OPTIONS_DESC);
+        $optionsTray->setDescription(\_AM_MODULEBUILDER_OPTIONS_DESC);
         // Check All Modules Options
         $checkAllOptions = new \XoopsFormCheckBox('', 'modulebox', 1);
-        $checkAllOptions->addOption('allbox', _AM_MODULEBUILDER_MODULE_ALL);
+        $checkAllOptions->addOption('allbox', \_AM_MODULEBUILDER_MODULE_ALL);
         $checkAllOptions->setExtra(' onclick="xoopsCheckAll(\'moduleform\', \'modulebox\');" ');
         $checkAllOptions->setClass('xo-checkall');
         $optionsTray->addElement($checkAllOptions);
         // Options
         $checkbox = new \XoopsFormCheckbox(' ', 'module_option', $this->getOptionsModules(), '<br>');
         foreach ($this->options as $option) {
-            $checkbox->addOption($option, self::getDefinedLanguage('_AM_MODULEBUILDER_MODULE_' . \mb_strtoupper($option)));
+            $checkbox->addOption($option, self::getDefinedLanguage('\_AM_MODULEBUILDER_MODULE_' . \mb_strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
 
@@ -252,33 +251,33 @@ class Modules extends \XoopsObject
         $modImage = $modImage ?: $set['image'];
 
         $uploadDirectory = 'uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/modules';
-        $imgtray         = new \XoopsFormElementTray(_AM_MODULEBUILDER_MODULE_IMAGE, '<br>');
-        $imgpath         = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './' . $uploadDirectory . '/');
+        $imgtray         = new \XoopsFormElementTray(\_AM_MODULEBUILDER_MODULE_IMAGE, '<br>');
+        $imgpath         = \sprintf(\_AM_MODULEBUILDER_FORMIMAGE_PATH, './' . $uploadDirectory . '/');
         $imageselect     = new \XoopsFormSelect($imgpath, 'mod_image', $modImage);
         $modImageArray   = \XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
         foreach ($modImageArray as $image) {
             $imageselect->addOption($image, $image);
         }
-        $imageselect->setExtra("onchange='showImgSelected(\"image3\", \"mod_image\", \"" . $uploadDirectory . '", "", "' . XOOPS_URL . "\")'");
+        $imageselect->setExtra("onchange='showImgSelected(\"image3\", \"mod_image\", \"" . $uploadDirectory . '", "", "' . \XOOPS_URL . "\")'");
         $imgtray->addElement($imageselect);
         $imgtray->addElement(new \XoopsFormLabel('', "<br><img src='" . TDMC_UPLOAD_IMGMOD_URL . '/' . $modImage . "' id='image3' alt='' /><br>"));
 
         $fileseltray = new \XoopsFormElementTray('', '<br>');
-        $fileseltray->addElement(new \XoopsFormFile(_AM_MODULEBUILDER_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize_image')));
+        $fileseltray->addElement(new \XoopsFormFile(\_AM_MODULEBUILDER_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize_image')));
         $fileseltray->addElement(new \XoopsFormLabel(''));
         $imgtray->addElement($fileseltray);
         $form->addElement($imgtray);
         //---------- START LOGO GENERATOR -----------------
         $tables_img = $this->getVar('table_image') ?: 'about.png';
         $iconsdir   = '/Frameworks/moduleclasses/icons/32';
-        if (\is_dir(XOOPS_ROOT_PATH . $iconsdir)) {
+        if (\is_dir(\XOOPS_ROOT_PATH . $iconsdir)) {
             $uploadDirectory = $iconsdir;
-            $imgpath         = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, ".{$iconsdir}/");
+            $imgpath         = \sprintf(\_AM_MODULEBUILDER_FORMIMAGE_PATH, ".{$iconsdir}/");
         } else {
             $uploadDirectory = '/uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/tables';
-            $imgpath         = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/tables');
+            $imgpath         = \sprintf(\_AM_MODULEBUILDER_FORMIMAGE_PATH, './uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/tables');
         }
-        $createLogoTray    = new \XoopsFormElementTray(_AM_MODULEBUILDER_MODULE_CREATENEWLOGO, '<br>');
+        $createLogoTray    = new \XoopsFormElementTray(\_AM_MODULEBUILDER_MODULE_CREATENEWLOGO, '<br>');
         $iconSelect        = new \XoopsFormSelect($imgpath, 'tables_img', $tables_img, 8);
         $tablesImagesArray = \XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $uploadDirectory);
         foreach ($tablesImagesArray as $image) {
@@ -288,7 +287,7 @@ class Modules extends \XoopsObject
         $createLogoTray->addElement($iconSelect);
         $createLogoTray->addElement(new \XoopsFormLabel('', "<br><img src='" . XOOPS_URL . '/' . $uploadDirectory . '/' . $tables_img . "' id='image4' alt='' />"));
         // Create preview and submit buttons
-        $buttonLogoGenerator4 = new \XoopsFormButton('', 'button4', _AM_MODULEBUILDER_MODULE_CREATENEWLOGO, 'button');
+        $buttonLogoGenerator4 = new \XoopsFormButton('', 'button4', \_AM_MODULEBUILDER_MODULE_CREATENEWLOGO, 'button');
         $buttonLogoGenerator4->setExtra(" onclick='createNewModuleLogo(\"" . TDMC_URL . "\")' ");
         $createLogoTray->addElement($buttonLogoGenerator4);
 
@@ -296,62 +295,62 @@ class Modules extends \XoopsObject
         //------------ END LOGO GENERATOR --------------------
 
         $modAuthorMail = $isNew ? $set['author_mail'] : $this->getVar('mod_author_mail');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_AUTHOR_MAIL, 'mod_author_mail', 50, 255, $modAuthorMail));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_AUTHOR_MAIL, 'mod_author_mail', 50, 255, $modAuthorMail));
 
         $modAuthorWebsiteUrl = $isNew ? $set['author_website_url'] : $this->getVar('mod_author_website_url');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_AUTHOR_WEBSITE_URL, 'mod_author_website_url', 50, 255, $modAuthorWebsiteUrl));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_AUTHOR_WEBSITE_URL, 'mod_author_website_url', 50, 255, $modAuthorWebsiteUrl));
 
         $modAuthorWebsiteName = $isNew ? $set['author_website_name'] : $this->getVar('mod_author_website_name');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_AUTHOR_WEBSITE_NAME, 'mod_author_website_name', 50, 255, $modAuthorWebsiteName));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_AUTHOR_WEBSITE_NAME, 'mod_author_website_name', 50, 255, $modAuthorWebsiteName));
 
         $modCredits = $isNew ? $set['credits'] : $this->getVar('mod_credits');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_CREDITS, 'mod_credits', 50, 255, $modCredits));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_CREDITS, 'mod_credits', 50, 255, $modCredits));
 
         $modReleaseInfo = $isNew ? $set['release_info'] : $this->getVar('mod_release_info');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_RELEASE_INFO, 'mod_release_info', 50, 255, $modReleaseInfo));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_RELEASE_INFO, 'mod_release_info', 50, 255, $modReleaseInfo));
 
         $modReleaseFile = $isNew ? $set['release_file'] : $this->getVar('mod_release_file');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_RELEASE_FILE, 'mod_release_file', 50, 255, $modReleaseFile));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_RELEASE_FILE, 'mod_release_file', 50, 255, $modReleaseFile));
 
         $modManual = $isNew ? $set['manual'] : $this->getVar('mod_manual');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_MANUAL, 'mod_manual', 50, 255, $modManual));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_MANUAL, 'mod_manual', 50, 255, $modManual));
 
         $modManualFile = $isNew ? $set['manual_file'] : $this->getVar('mod_manual_file');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_MANUAL_FILE, 'mod_manual_file', 50, 255, $modManualFile));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_MANUAL_FILE, 'mod_manual_file', 50, 255, $modManualFile));
 
         $modDemoSiteUrl = $isNew ? $set['demo_site_url'] : $this->getVar('mod_demo_site_url');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_DEMO_SITE_URL, 'mod_demo_site_url', 50, 255, $modDemoSiteUrl));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_DEMO_SITE_URL, 'mod_demo_site_url', 50, 255, $modDemoSiteUrl));
 
         $modDemoSiteName = $isNew ? $set['demo_site_name'] : $this->getVar('mod_demo_site_name');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_DEMO_SITE_NAME, 'mod_demo_site_name', 50, 255, $modDemoSiteName));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_DEMO_SITE_NAME, 'mod_demo_site_name', 50, 255, $modDemoSiteName));
 
         $modSupportUrl = $isNew ? $set['support_url'] : $this->getVar('mod_support_url');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_SUPPORT_URL, 'mod_support_url', 50, 255, $modSupportUrl));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_SUPPORT_URL, 'mod_support_url', 50, 255, $modSupportUrl));
 
         $modSupportName = $isNew ? $set['support_name'] : $this->getVar('mod_support_name');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_SUPPORT_NAME, 'mod_support_name', 50, 255, $modSupportName));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_SUPPORT_NAME, 'mod_support_name', 50, 255, $modSupportName));
 
         $modWebsiteUrl = $isNew ? $set['website_url'] : $this->getVar('mod_website_url');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_WEBSITE_URL, 'mod_website_url', 50, 255, $modWebsiteUrl));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_WEBSITE_URL, 'mod_website_url', 50, 255, $modWebsiteUrl));
 
         $modWebsiteName = $isNew ? $set['website_name'] : $this->getVar('mod_website_name');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_WEBSITE_NAME, 'mod_website_name', 50, 255, $modWebsiteName));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_WEBSITE_NAME, 'mod_website_name', 50, 255, $modWebsiteName));
 
         $modRelease = $isNew ? $set['release'] : $this->getVar('mod_release');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_RELEASE, 'mod_release', 50, 255, $modRelease));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_RELEASE, 'mod_release', 50, 255, $modRelease));
 
         $modStatus = $isNew ? $set['status'] : $this->getVar('mod_status');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_STATUS, 'mod_status', 50, 255, $modStatus));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_STATUS, 'mod_status', 50, 255, $modStatus));
 
         $modDonations = $isNew ? $set['donations'] : $this->getVar('mod_donations');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_PAYPAL_BUTTON, 'mod_donations', 50, 255, $modDonations));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_PAYPAL_BUTTON, 'mod_donations', 50, 255, $modDonations));
 
         $modSubversion = $isNew ? $set['subversion'] : $this->getVar('mod_subversion');
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_MODULE_SUBVERSION, 'mod_subversion', 50, 255, $modSubversion));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_MODULE_SUBVERSION, 'mod_subversion', 50, 255, $modSubversion));
 
         $buttonTray = new \XoopsFormElementTray(_REQUIRED . ' <sup class="red bold">*</sup>', '');
         $buttonTray->addElement(new \XoopsFormHidden('op', 'save'));
-        $buttonTray->addElement(new \XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
+        $buttonTray->addElement(new \XoopsFormButton('', 'submit', \_SUBMIT, 'submit'));
         $form->addElement($buttonTray);
 
         return $form;

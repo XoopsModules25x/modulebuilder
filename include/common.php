@@ -17,29 +17,29 @@
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
 use XoopsModules\Modulebuilder;
+require \dirname(__DIR__) . '/preloads/autoloader.php';
 
-include \dirname(__DIR__) . '/preloads/autoloader.php';
-
-$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirName = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName); //$capsDirName
 
 \defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 $dirname = $GLOBALS['xoopsModule']->getVar('dirname');
 // Root Frameworks icons 32x32 directory
 if (!\defined('XOOPS_ICONS32_PATH')) {
-    \define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32');
+    \define('XOOPS_ICONS32_PATH', \XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32');
 }
 if (!\defined('XOOPS_ICONS32_URL')) {
-    \define('XOOPS_ICONS32_URL', XOOPS_URL . '/Frameworks/moduleclasses/icons/32');
+    \define('XOOPS_ICONS32_URL', \XOOPS_URL . '/Frameworks/moduleclasses/icons/32');
 }
 // Local Directories
-\define('TDMC_PATH', XOOPS_ROOT_PATH . '/modules/' . $dirname);
-\define('TDMC_URL', XOOPS_URL . '/modules/' . $dirname);
+\define('TDMC_PATH', \XOOPS_ROOT_PATH . '/modules/' . $dirname);
+\define('TDMC_URL', \XOOPS_URL . '/modules/' . $dirname);
 \define('TDMC_CLASS_PATH', TDMC_PATH . '/class');
 \define('TDMC_CLASS_URL', TDMC_URL . '/class');
 \define('TDMC_DOCS_PATH', TDMC_PATH . '/docs');
@@ -54,8 +54,8 @@ if (!\defined('XOOPS_ICONS32_URL')) {
 \define('TDMC_ICONS_URL', TDMC_URL . '/assets/icons');
 \define($moduleDirNameUpper . '_AUTHOR_LOGOIMG', TDMC_URL . '/assets/images/logoModule.png');
 // Uploads Directories
-\define('TDMC_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . $dirname);
-\define('TDMC_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . $dirname);
+\define('TDMC_UPLOAD_PATH', \XOOPS_UPLOAD_PATH . '/' . $dirname);
+\define('TDMC_UPLOAD_URL', \XOOPS_UPLOAD_URL . '/' . $dirname);
 \define('TDMC_UPLOAD_REPOSITORY_PATH', TDMC_UPLOAD_PATH . '/repository');
 \define('TDMC_UPLOAD_REPOSITORY_URL', TDMC_UPLOAD_URL . '/repository');
 \define('TDMC_UPLOAD_IMGMOD_PATH', TDMC_UPLOAD_PATH . '/images/modules');
@@ -65,6 +65,4 @@ if (!\defined('XOOPS_ICONS32_URL')) {
 \define('TDMC_UPLOAD_TEMP_PATH', TDMC_UPLOAD_PATH . '/temp');
 \define('TDMC_UPLOAD_FILES_PATH', TDMC_UPLOAD_PATH . '/files');
 // Xoops Request
-include_once XOOPS_ROOT_PATH . '/class/xoopsrequest.php';
-//include_once TDMC_PATH . '/include/functions.php';
-
+require_once \XOOPS_ROOT_PATH . '/class/xoopsrequest.php';

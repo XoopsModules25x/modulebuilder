@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -167,6 +168,9 @@ class AdminMenu extends Files\CreateFile
             $ret    .= $this->getAdminMenuArray($param2, true);
         }
         ++$menu;
+        $param3 = ['title' => "{$language}{$menu}", 'link' => "'admin/clone.php'", 'icon' => "\$sysPathIcon32.'/page_copy.png'"];
+        $ret    .= $this->getAdminMenuArray($param3, true);
+        ++$menu;
         $param3 = ['title' => "{$language}{$menu}", 'link' => "'admin/feedback.php'", 'icon' => "\$sysPathIcon32.'/mail_foward.png'"];
         $ret    .= $this->getAdminMenuArray($param3, true);
         unset($menu);
@@ -194,7 +198,7 @@ class AdminMenu extends Files\CreateFile
         $content       .= $this->getAdminMenuDashboard($language, $menu);
         $content       .= $this->getAdminMenuList($module, $language, $langAbout, $menu);
 
-        $this->create($moduleDirname, 'admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

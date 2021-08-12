@@ -21,7 +21,6 @@ namespace XoopsModules\Modulebuilder\Common;
  * @since       1.05
  */
 
-// require_once \dirname(\dirname(__DIR__)) . '/include/common.php';
 
 /**
  * Class Configurator
@@ -45,13 +44,7 @@ class Configurator
      */
     public function __construct()
     {
-        //        $moduleDirName      = \basename(\dirname(__DIR__, 2));
-        //        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
-
-        //        require \dirname(\dirname(__DIR__)) . '/config/config.php';
-        //        $config = getConfig();
-
-        $config = include \dirname(__DIR__, 2) . '/config/config.php';
+        $config = require \dirname(__DIR__, 2) . '/config/config.php';
 
         $this->name            = $config->name;
         $this->paths           = $config->paths;

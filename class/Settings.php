@@ -25,7 +25,7 @@ use XoopsModules\Modulebuilder;
  * @author          TDM TEAM DEV MODULE
  *
  */
-// include __DIR__ . '/autoload.php';
+
 /*
 *  @Class Settings
 *  @extends \XoopsObject
@@ -144,38 +144,38 @@ class Settings extends \XoopsObject
         }
 
         $isNew = $this->isNew();
-        $title = $isNew ? \sprintf(_AM_MODULEBUILDER_SETTING_NEW) : \sprintf(_AM_MODULEBUILDER_SETTING_EDIT);
+        $title = $isNew ? \sprintf(\_AM_MODULEBUILDER_SETTING_NEW) : \sprintf(\_AM_MODULEBUILDER_SETTING_EDIT);
 
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once \XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         $form = new \XoopsThemeForm($title, 'settingform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
         $form->addElement(new \XoopsFormHidden('set_id', $this->getVar('set_id')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_NAME, 'set_name', 50, 255, $this->getVar('set_name')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_DIRNAME, 'set_dirname', 25, 255, $this->getVar('set_dirname')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_VERSION, 'set_version', 10, 25, $this->getVar('set_version')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_SINCE, 'set_since', 10, 25, $this->getVar('set_since')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_MIN_PHP, 'set_min_php', 10, 25, $this->getVar('set_min_php')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_MIN_XOOPS, 'set_min_xoops', 10, 25, $this->getVar('set_min_xoops')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_MIN_ADMIN, 'set_min_admin', 10, 25, $this->getVar('set_min_admin')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_MIN_MYSQL, 'set_min_mysql', 10, 25, $this->getVar('set_min_mysql')));
-        $form->addElement(new \XoopsFormTextArea(_AM_MODULEBUILDER_SETTING_DESCRIPTION, 'set_description', $this->getVar('set_description'), 4, 25));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_AUTHOR, 'set_author', 50, 255, $this->getVar('set_author')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_LICENSE, 'set_license', 50, 255, $this->getVar('set_license')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_NAME, 'set_name', 50, 255, $this->getVar('set_name')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_DIRNAME, 'set_dirname', 25, 255, $this->getVar('set_dirname')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_VERSION, 'set_version', 10, 25, $this->getVar('set_version')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_SINCE, 'set_since', 10, 25, $this->getVar('set_since')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_MIN_PHP, 'set_min_php', 10, 25, $this->getVar('set_min_php')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_MIN_XOOPS, 'set_min_xoops', 10, 25, $this->getVar('set_min_xoops')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_MIN_ADMIN, 'set_min_admin', 10, 25, $this->getVar('set_min_admin')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_MIN_MYSQL, 'set_min_mysql', 10, 25, $this->getVar('set_min_mysql')));
+        $form->addElement(new \XoopsFormTextArea(\_AM_MODULEBUILDER_SETTING_DESCRIPTION, 'set_description', $this->getVar('set_description'), 4, 25));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_AUTHOR, 'set_author', 50, 255, $this->getVar('set_author')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_LICENSE, 'set_license', 50, 255, $this->getVar('set_license')));
         // Check All Settings Options
         $optionsTray     = new \XoopsFormElementTray(_OPTIONS, '<br>');
         $checkAllOptions = new \XoopsFormCheckBox('', 'settingbox', 1);
-        $checkAllOptions->addOption('allbox', _AM_MODULEBUILDER_SETTING_ALL);
+        $checkAllOptions->addOption('allbox', \_AM_MODULEBUILDER_SETTING_ALL);
         $checkAllOptions->setExtra(' onclick="xoopsCheckAll(\'settingform\', \'settingbox\');" ');
         $checkAllOptions->setClass('xo-checkall');
         $optionsTray->addElement($checkAllOptions);
         // Options
         $settingOption = $this->getOptionsSettings();
         $checkbox      = new \XoopsFormCheckbox(' ', 'setting_option', $settingOption, '<br>');
-        $checkbox->setDescription(_AM_MODULEBUILDER_OPTIONS_DESC);
+        $checkbox->setDescription(\_AM_MODULEBUILDER_OPTIONS_DESC);
         foreach ($this->options as $option) {
-            $checkbox->addOption($option, self::getDefinedLanguage('_AM_MODULEBUILDER_SETTING_' . \mb_strtoupper($option)));
+            $checkbox->addOption($option, self::getDefinedLanguage('\_AM_MODULEBUILDER_SETTING_' . \mb_strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
 
@@ -185,49 +185,49 @@ class Settings extends \XoopsObject
         //$modImage = $modImage ?: $set['image'];
 
         $uploadDirectory = 'uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/modules';
-        $imgtray         = new \XoopsFormElementTray(_AM_MODULEBUILDER_SETTING_IMAGE, '<br>');
-        $imgpath         = \sprintf(_AM_MODULEBUILDER_FORMIMAGE_PATH, './' . $uploadDirectory . '/');
+        $imgtray         = new \XoopsFormElementTray(\_AM_MODULEBUILDER_SETTING_IMAGE, '<br>');
+        $imgpath         = \sprintf(\_AM_MODULEBUILDER_FORMIMAGE_PATH, './' . $uploadDirectory . '/');
         $imageSelect     = new \XoopsFormSelect($imgpath, 'set_image', $modImage);
         $modImage_array  = \XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
         foreach ($modImage_array as $image) {
             $imageSelect->addOption($image, $image);
         }
-        $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"set_image\", \"" . $uploadDirectory . '", "", "' . XOOPS_URL . "\")'");
+        $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"set_image\", \"" . $uploadDirectory . '", "", "' . \XOOPS_URL . "\")'");
         $imgtray->addElement($imageSelect);
         $imgtray->addElement(new \XoopsFormLabel('', "<br><img src='" . TDMC_UPLOAD_IMGMOD_URL . '/' . $modImage . "' id='image3' alt='' /><br>"));
 
         $fileseltray = new \XoopsFormElementTray('', '<br>');
-        $fileseltray->addElement(new \XoopsFormFile(_AM_MODULEBUILDER_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize_image')));
+        $fileseltray->addElement(new \XoopsFormFile(\_AM_MODULEBUILDER_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize_image')));
         $fileseltray->addElement(new \XoopsFormLabel(''));
         $imgtray->addElement($fileseltray);
         $form->addElement($imgtray);
 
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_AUTHOR_MAIL, 'set_author_mail', 50, 255, $this->getVar('set_author_mail')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_AUTHOR_WEBSITE_URL, 'set_author_website_url', 50, 255, $this->getVar('set_author_website_url')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_AUTHOR_WEBSITE_NAME, 'set_author_website_name', 50, 255, $this->getVar('set_author_website_name')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_CREDITS, 'set_credits', 50, 255, $this->getVar('set_credits')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_RELEASE_INFO, 'set_release_info', 50, 255, $this->getVar('set_release_info')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_RELEASE_FILE, 'set_release_file', 50, 255, $this->getVar('set_release_file')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_MANUAL, 'set_manual', 50, 255, $this->getVar('set_manual')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_MANUAL_FILE, 'set_manual_file', 50, 255, $this->getVar('set_manual_file')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_DEMO_SITE_URL, 'set_demo_site_url', 50, 255, $this->getVar('set_demo_site_url')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_DEMO_SITE_NAME, 'set_demo_site_name', 50, 255, $this->getVar('set_demo_site_name')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_SUPPORT_URL, 'set_support_url', 50, 255, $this->getVar('set_support_url')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_SUPPORT_NAME, 'set_support_name', 50, 255, $this->getVar('set_support_name')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_WEBSITE_URL, 'set_website_url', 50, 255, $this->getVar('set_website_url')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_WEBSITE_NAME, 'set_website_name', 50, 255, $this->getVar('set_website_name')));
-        $form->addElement(new \XoopsFormTextDateSelect(_AM_MODULEBUILDER_SETTING_RELEASE, 'set_release', '', $this->getVar('set_release')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_STATUS, 'set_status', 50, 255, $this->getVar('set_status')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_PAYPAL_BUTTON, 'set_donations', 50, 255, $this->getVar('set_donations')));
-        $form->addElement(new \XoopsFormText(_AM_MODULEBUILDER_SETTING_SUBVERSION, 'set_subversion', 50, 255, $this->getVar('set_subversion')));
-        $setTypeRadio = new \XoopsFormRadio(_AM_MODULEBUILDER_SETTING_TYPE, 'set_type', $this->getVar('set_type'));
-        $setTypeRadio->addOption(0, _AM_MODULEBUILDER_SETTING_TYPE_INACTIVE);
-        $setTypeRadio->addOption(1, _AM_MODULEBUILDER_SETTING_TYPE_ACTIVE);
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_AUTHOR_MAIL, 'set_author_mail', 50, 255, $this->getVar('set_author_mail')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_AUTHOR_WEBSITE_URL, 'set_author_website_url', 50, 255, $this->getVar('set_author_website_url')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_AUTHOR_WEBSITE_NAME, 'set_author_website_name', 50, 255, $this->getVar('set_author_website_name')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_CREDITS, 'set_credits', 50, 255, $this->getVar('set_credits')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_RELEASE_INFO, 'set_release_info', 50, 255, $this->getVar('set_release_info')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_RELEASE_FILE, 'set_release_file', 50, 255, $this->getVar('set_release_file')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_MANUAL, 'set_manual', 50, 255, $this->getVar('set_manual')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_MANUAL_FILE, 'set_manual_file', 50, 255, $this->getVar('set_manual_file')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_DEMO_SITE_URL, 'set_demo_site_url', 50, 255, $this->getVar('set_demo_site_url')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_DEMO_SITE_NAME, 'set_demo_site_name', 50, 255, $this->getVar('set_demo_site_name')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_SUPPORT_URL, 'set_support_url', 50, 255, $this->getVar('set_support_url')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_SUPPORT_NAME, 'set_support_name', 50, 255, $this->getVar('set_support_name')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_WEBSITE_URL, 'set_website_url', 50, 255, $this->getVar('set_website_url')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_WEBSITE_NAME, 'set_website_name', 50, 255, $this->getVar('set_website_name')));
+        $form->addElement(new \XoopsFormTextDateSelect(\_AM_MODULEBUILDER_SETTING_RELEASE, 'set_release', '', $this->getVar('set_release')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_STATUS, 'set_status', 50, 255, $this->getVar('set_status')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_PAYPAL_BUTTON, 'set_donations', 50, 255, $this->getVar('set_donations')));
+        $form->addElement(new \XoopsFormText(\_AM_MODULEBUILDER_SETTING_SUBVERSION, 'set_subversion', 50, 255, $this->getVar('set_subversion')));
+        $setTypeRadio = new \XoopsFormRadio(\_AM_MODULEBUILDER_SETTING_TYPE, 'set_type', $this->getVar('set_type'));
+        $setTypeRadio->addOption(0, \_AM_MODULEBUILDER_SETTING_TYPE_INACTIVE);
+        $setTypeRadio->addOption(1, \_AM_MODULEBUILDER_SETTING_TYPE_ACTIVE);
         $form->addElement($setTypeRadio);
 
         $buttonTray = new \XoopsFormElementTray(_REQUIRED . ' <sup class="red bold">*</sup>', '');
         $buttonTray->addElement(new \XoopsFormHidden('op', 'save'));
-        $buttonTray->addElement(new \XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
+        $buttonTray->addElement(new \XoopsFormButton('', 'submit', \_SUBMIT, 'submit'));
         $form->addElement($buttonTray);
 
         return $form;

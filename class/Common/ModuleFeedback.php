@@ -108,7 +108,7 @@ class ModuleFeedback extends \XoopsObject
         $form->addElement($editor, true);
 
         $form->addElement(new \XoopsFormHidden('op', 'send'));
-        $form->addElement(new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false));
+        $form->addElement(new \XoopsFormButtonTray('', \_SUBMIT, 'submit', '', false));
 
         return $form;
     }

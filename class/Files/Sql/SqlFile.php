@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -255,7 +256,7 @@ class SqlFile extends Files\CreateFile
                     case 12:
                         $type = $fieldTypeName . '(' . $fieldValue . ')';
                         if (empty($fieldDefault)) {
-                            $default = "DEFAULT 'http:\\'";
+                            $default = "DEFAULT 'https:\\'";
                         } else {
                             $default = "DEFAULT '{$fieldDefault}'";
                         }
@@ -461,7 +462,7 @@ class SqlFile extends Files\CreateFile
         $content       = $this->getHeaderSqlComments($moduleName);
         $content       .= $this->getDatabaseTables($module);
 
-        $this->create($moduleDirname, 'sql', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'sql', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

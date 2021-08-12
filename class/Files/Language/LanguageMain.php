@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -105,7 +106,7 @@ class LanguageMain extends Files\CreateFile
             $language,
             'INDEX_DESC',
             "Welcome to the homepage of your new module {$moduleName}!<br>
-As you can see, you have created a page with a list of links at the top to navigate between the pages of your module. This description is only visible on the homepage of this module, the other pages you will see the content you created when you built this module with the module ModuleBuilder, and after creating new content in admin of this module. In order to expand this module with other resources, just add the code you need to extend the functionality of the same. The files are grouped by type, from the header to the footer to see how divided the source code.<br><br>If you see this message, it is because you have not created content for this module. Once you have created any type of content, you will not see this message.<br><br>If you liked the module ModuleBuilder and thanks to the long process for giving the opportunity to the new module to be created in a moment, consider making a donation to keep the module ModuleBuilder and make a donation using this button <a href='http://www.txmodxoops.org/modules/xdonations/index.php' title='Donation To Txmod Xoops'><img src='https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif' alt='Button Donations' /></a><br>Thanks!<br><br>Use the link below to go to the admin and create content.",
+As you can see, you have created a page with a list of links at the top to navigate between the pages of your module. This description is only visible on the homepage of this module, the other pages you will see the content you created when you built this module with the module ModuleBuilder, and after creating new content in admin of this module. In order to expand this module with other resources, just add the code you need to extend the functionality of the same. The files are grouped by type, from the header to the footer to see how divided the source code.<br><br>If you see this message, it is because you have not created content for this module. Once you have created any type of content, you will not see this message.<br><br>If you liked the module ModuleBuilder and thanks to the long process for giving the opportunity to the new module to be created in a moment, consider making a donation to keep the module ModuleBuilder and make a donation using this button <a href='https://xoops.org/modules/xdonations/index.php' title='Donation To Txmod Xoops'><img src='https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif' alt='Button Donations' ></a><br>Thanks!<br><br>Use the link below to go to the admin and create content.",
             true
         );
         $ret        .= $this->ld->getDefine($language, 'NO_PDF_LIBRARY', 'Libraries TCPDF not there yet, upload them in root/Frameworks');
@@ -144,15 +145,15 @@ As you can see, you have created a page with a list of links at the top to navig
                 $ret .= $this->ld->getAboveDefines($ucfTableSoleName);
                 $ret .= $this->ld->getDefine($language, $stuTableSoleName, $ucfTableSoleName);
                 if (1 === $tableSubmit) {
-                    $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_ADD", "Add {$ucfTableName}");
-                    $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_EDIT", "Edit {$ucfTableName}");
-                    $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_DELETE", "Delete {$ucfTableName}");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_ADD", "Add {$ucfTableSoleName}");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_EDIT", "Edit {$ucfTableSoleName}");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_DELETE", "Delete {$ucfTableSoleName}");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_CLONE", "Clone {$ucfTableSoleName}");
                 }
                 $ret .= $this->ld->getDefine($language, $stuTableName, $ucfTableName);
                 $ret .= $this->ld->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
                 $ret .= $this->ld->getDefine($language, "{$stuTableName}_TITLE", "{$ucfTableName} title");
                 $ret .= $this->ld->getDefine($language, "{$stuTableName}_DESC", "{$ucfTableName} description");
-
 
                 $ret .= $this->ld->getAboveDefines("Caption of {$ucfTableSoleName}");
                 $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
@@ -177,7 +178,7 @@ As you can see, you have created a page with a list of links at the top to navig
             if (1 === $tableBroken) {
                 $ret .= $this->ld->getDefine($language, 'FORM_SURE_BROKEN', "Are you sure to notify as broken: <b><span style='color : Red;'>%s </span></b>", true);
             }
-            $ret .= $this->ld->getDefine($language, 'INVALID_PARAM', "Invalid parameter", true);
+            $ret .= $this->ld->getDefine($language, 'INVALID_PARAM', 'Invalid parameter', false);
         }
         if (1 === $tableRate) {
             $ret .= $this->ld->getAboveHeadDefines('Ratings');
@@ -241,12 +242,12 @@ As you can see, you have created a page with a list of links at the top to navig
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $language      = $this->getLanguage($moduleDirname, 'MA', '', false);
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getLanguageMain($module, $language);
         $content       .= $this->getLanguageMainFooter($language);
 
-        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -23,7 +23,6 @@ namespace XoopsModules\Modulebuilder;
  * @author          TDM TEAM DEV MODULE
  *
  */
-// include __DIR__ . '/autoload.php';
 
 /**
  * Class SettingsHandler.

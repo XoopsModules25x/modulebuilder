@@ -22,7 +22,7 @@ use XoopsModules\Modulebuilder;
  * @author          Txmod Xoops <support@txmodxoops.org>
  *
  */
-include __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 $funct    = \Xmf\Request::getString('funct', '', 'GET');
 $iconName = \Xmf\Request::getString('iconName', '', 'GET');
 $caption  = \Xmf\Request::getString('caption', '', 'GET');

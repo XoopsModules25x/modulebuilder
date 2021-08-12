@@ -1,0 +1,21 @@
+# language: php
+build:
+  nodes:
+    tests: true
+    analysis:
+      dependencies:
+        after:
+        # The following installs the most recent XOOPS CMS version, you might want
+        # to install a specific release tag or branch instead.
+        - git clone --depth=1 https://github.com/XOOPS/XoopsCore25
+      project_setup:
+        override: true
+      tests:
+        override:
+          - php-scrutinizer-run --enable-security-analysis
+  environment:
+    php:
+      version: "7.2"
+filter:
+  dependency_paths:
+    - XoopsCore25/*

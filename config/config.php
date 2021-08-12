@@ -10,9 +10,11 @@
  */
 
 /**
- * @copyright    XOOPS Project (https://xoops.org)
+ * @copyright    XOOPS Project https://xoops.org/
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @author      XOOPS Development Team
+ * @package
+ * @since
+ * @author       XOOPS Development Team
  */
 $moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
@@ -22,40 +24,40 @@ return (object)[
     'name'           => \mb_strtoupper($moduleDirName) . ' ModuleConfigurator',
     'paths'          => [
         'dirname'    => $moduleDirName,
-        'admin'      => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
-        'modPath'    => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName,
-        'modUrl'     => XOOPS_URL . '/modules/' . $moduleDirName,
-        'uploadPath' => XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
-        'uploadUrl'  => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
+        'admin'      => \XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
+        'modPath'    => \XOOPS_ROOT_PATH . '/modules/' . $moduleDirName,
+        'modUrl'     => \XOOPS_URL . '/modules/' . $moduleDirName,
+        'uploadPath' => \XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
+        'uploadUrl'  => \XOOPS_UPLOAD_URL . '/' . $moduleDirName,
     ],
     'uploadFolders'  => [
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/modules',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/tables',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/repository',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/files',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/temp',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/devtools',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/devtools/fq',
+        \XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
+        \XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
+        \XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/modules',
+        \XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/tables',
+        \XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/repository',
+        \XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/files',
+        \XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/temp',
+        \XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/devtools',
+        \XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/devtools/fq',
     ],
     'copyBlankFiles' => [
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/modules',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/tables',
+        \XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
+        \XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/modules',
+        \XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/tables',
     ],
     'copyEmptyFiles' => [
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/modules',
+        \XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/modules',
     ],
 
     'copyTestFolders' => [
         [
-            XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/images',
-            XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
+            \XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/images',
+            \XOOPS_UPLOAD_PATH . '/' . $moduleDirName  . '/images',
         ],
         //            [
-        //                XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/thumbs',
-        //                XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/thumbs',
+        //                \XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/thumbs',
+        //                \XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/thumbs',
         //            ],
     ],
 
@@ -88,5 +90,5 @@ return (object)[
         //            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_SUBMITTED]),
     ],
     'modCopyright' => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
-                     <img src='" . XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/assets/images/logo/logoModule.png' . "' alt='XOOPS Project'></a>",
+                     <img src='" . \XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/assets/images/logo/logoModule.png' . "' alt='XOOPS Project'></a>",
 ];

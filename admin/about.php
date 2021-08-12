@@ -18,12 +18,13 @@
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  */
-include __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 
 $adminObject->displayNavigation(\basename(__FILE__));
 $adminObject::setPaypal('xoopsfoundation@gmail.com');
 $adminObject->displayAbout(false);
 
-include __DIR__ . '/footer.php';
+require __DIR__ . '/footer.php';

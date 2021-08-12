@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -93,7 +94,7 @@ class AdminHeader extends Files\CreateFile
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $table            = $this->getTable();
         $tables           = $this->getTables();
-        $ret              = $this->pc->getPhpCodeIncludeDir('\dirname(\dirname(\dirname(__DIR__)))', 'include/cp_header');
+        $ret              = $this->pc->getPhpCodeIncludeDir('\dirname(__DIR__, 3)', 'include/cp_header');
         $ret              .= $this->pc->getPhpCodeIncludeDir('\dirname(__DIR__)', 'include/common', true);
         $ret              .= $this->pc->getPhpCodeBlankLine();
         $sysicons16       = $this->xc->getXcXoopsModuleGetInfo('', 'sysicons16', true);
@@ -104,8 +105,8 @@ class AdminHeader extends Files\CreateFile
         $ret              .= $this->xc->getXcEqualsOperator('$sysPathIcon16  ', "'../' . {$sysicons16}");
         $ret              .= $this->xc->getXcEqualsOperator('$sysPathIcon32  ', "'../' . {$sysicons32}");
         $ret              .= $this->xc->getXcEqualsOperator('$pathModuleAdmin', $dirmoduleadmin);
-        $ret              .= $this->xc->getXcEqualsOperator('$modPathIcon16  ', "{$stuModuleDirname}_URL . '/' . {$modicons16} . '/'");
-        $ret              .= $this->xc->getXcEqualsOperator('$modPathIcon32  ', "{$stuModuleDirname}_URL . '/' . {$modicons32} . '/'");
+        $ret              .= $this->xc->getXcEqualsOperator('$modPathIcon16  ', "\\{$stuModuleDirname}_URL . '/' . {$modicons16} . '/'");
+        $ret              .= $this->xc->getXcEqualsOperator('$modPathIcon32  ', "\\{$stuModuleDirname}_URL . '/' . {$modicons32} . '/'");
         if (\is_object($table) && '' != $table->getVar('table_name')) {
             $ret .= $this->pc->getPhpCodeBlankLine();
             $ret .= $this->pc->getPhpCodeCommentLine('Get instance of module');
@@ -119,8 +120,8 @@ class AdminHeader extends Files\CreateFile
         }
         $ret            .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
         $ret            .= $this->pc->getPhpCodeCommentLine();
-        $template       = $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/template', true, false, 'include', "\t");
-        $template       .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new \XoopsTpl()', null, "\t");
+        $template       = $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'class/template', true, false, 'require', "\t");
+        $template       .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new \XoopsTpl()', null,"\t");
         $ret            .= $this->pc->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!\is_object($xoopsTpl)', $template, false);
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->pc->getPhpCodeCommentLine('Load languages');
@@ -130,8 +131,8 @@ class AdminHeader extends Files\CreateFile
         $ret            .= $this->pc->getPhpCodeCommentLine('Local admin menu class');
         $xoopsPathCond  = $this->xc->getXcXoopsPath('$pathModuleAdmin', 'moduleadmin', true);
         $fileExists     = $this->pc->getPhpCodeFileExists($xoopsPathCond);
-        $moduleadmin    = $this->pc->getPhpCodeIncludeDir($xoopsPathCond, '', true, true, 'include', "\t");
-        $redirectHeader = $this->xc->getXcRedirectHeader("'../../../admin.php'", '', '5', '_AM_MODULEADMIN_MISSING', false, "\t");
+        $moduleadmin    = $this->pc->getPhpCodeIncludeDir($xoopsPathCond, '', true, true, 'require', "\t");
+        $redirectHeader = $this->xc->getXcRedirectHeader("'../../../admin.php'", '', '5', '\_AM_MODULEADMIN_MISSING', false, "\t");
         $ret            .= $this->pc->getPhpCodeConditions($fileExists, '', '', $moduleadmin, $redirectHeader);
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->xc->getXcXoopsCPHeader();
@@ -143,7 +144,7 @@ class AdminHeader extends Files\CreateFile
         $ret            .= $this->xc->getXcXoopsTplAssign('modPathIcon32', '$modPathIcon32');
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->xc->getXcEqualsOperator('$adminObject', '\Xmf\Module\Admin::getInstance()');
-        $ret            .= $this->getSimpleString("\$style = {$stuModuleDirname}_URL . '/assets/css/admin/style.css';");
+        $ret            .= $this->getSimpleString("\$style = \\{$stuModuleDirname}_URL . '/assets/css/admin/style.css';");
 
         return $ret;
     }
@@ -161,7 +162,7 @@ class AdminHeader extends Files\CreateFile
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getAdminHeader($moduleDirname);
 
-        $this->create($moduleDirname, 'admin', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

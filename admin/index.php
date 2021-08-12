@@ -18,7 +18,8 @@
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -26,7 +27,7 @@ use XoopsModules\Modulebuilder\Common;
 
 $GLOBALS['xoopsOption']['template_main'] = 'modulebuilder_index.tpl';
 
-include __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 $countSettings = $helper->getHandler('Settings')->getCount();
 $countModules  = $helper->getHandler('Modules')->getCount();
 $countTables   = $helper->getHandler('Tables')->getCount();
@@ -35,12 +36,12 @@ $countFiles    = $helper->getHandler('Morefiles')->getCount();
 unset($criteria);
 
 //$templateMain = 'modulebuilder_index.tpl';
-$adminObject->addInfoBox(_AM_MODULEBUILDER_ADMIN_NUMMODULES);
-$adminObject->addInfoBoxLine(\sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMSETTINGS . '</label>', $countSettings), 'Blue');
-$adminObject->addInfoBoxLine(\sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMMODULES . '</label>', $countModules), 'Green');
-$adminObject->addInfoBoxLine(\sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMTABLES . '</label>', $countTables), 'Orange');
-$adminObject->addInfoBoxLine(\sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMFIELDS . '</label>', $countFields), 'Gray');
-$adminObject->addInfoBoxLine(\sprintf('<label>' . _AM_MODULEBUILDER_THEREARE_NUMFILES . '</label>', $countFiles), 'Red');
+$adminObject->addInfoBox(\_AM_MODULEBUILDER_ADMIN_NUMMODULES);
+$adminObject->addInfoBoxLine(\sprintf('<label>' . \_AM_MODULEBUILDER_THEREARE_NUMSETTINGS . '</label>', $countSettings), 'Blue');
+$adminObject->addInfoBoxLine(\sprintf('<label>' . \_AM_MODULEBUILDER_THEREARE_NUMMODULES . '</label>', $countModules), 'Green');
+$adminObject->addInfoBoxLine(\sprintf('<label>' . \_AM_MODULEBUILDER_THEREARE_NUMTABLES . '</label>', $countTables), 'Orange');
+$adminObject->addInfoBoxLine(\sprintf('<label>' . \_AM_MODULEBUILDER_THEREARE_NUMFIELDS . '</label>', $countFields), 'Gray');
+$adminObject->addInfoBoxLine(\sprintf('<label>' . \_AM_MODULEBUILDER_THEREARE_NUMFILES . '</label>', $countFiles), 'Red');
 // Upload Folders
 $folder = [
     TDMC_UPLOAD_PATH,
@@ -132,4 +133,4 @@ echo $utility::getServerStats();
 //$GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('index.php'));
 //$GLOBALS['xoopsTpl']->assign('index', $adminObject->displayIndex());
 
-include __DIR__ . '/footer.php';
+require __DIR__ . '/footer.php';

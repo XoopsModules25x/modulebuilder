@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -149,7 +150,7 @@ class ClassHandlerFiles extends Files\CreateFile
      */
     private function getClassGet()
     {
-        $ret   = $this->pc->getPhpCodeCommentMultiLine(['retrieve a' => 'field', '' => '', '@param int' => '$i field id', '@param null' => 'fields', '@return mixed reference to the' => '{@link Get} object'], "\t");
+        $ret   = $this->pc->getPhpCodeCommentMultiLine(['retrieve a' => 'field', '' => '', '@param int' => '$i field id', '@param null' => 'fields', '@return \XoopsObject|null reference to the' => '{@link Get} object'], "\t");
         $cClhg = $this->getSimpleString('return parent::get($i, $fields);', "\t\t");
 
         $ret .= $this->pc->getPhpCodeFunction('get', '$i = null, $fields = null', $cClhg, 'public ', false, "\t");
@@ -360,7 +361,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $content   .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
         $content   .= $this->getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldName, $fieldMain, $fieldParentId, $fieldElement);
 
-        $this->create($moduleDirname, 'class', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'class', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

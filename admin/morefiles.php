@@ -25,7 +25,7 @@
 // Define main template
 $templateMain = 'modulebuilder_morefiles.tpl';
 
-include __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
 $op = \Xmf\Request::getString('op', 'list');
 
@@ -39,7 +39,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/modulebuilder/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_MORE_FILES_ADD, 'morefiles.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_MORE_FILES_ADD, 'morefiles.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgfile_url', TDMC_UPLOAD_IMGMOD_URL);
@@ -48,7 +48,7 @@ switch ($op) {
         $modulesCount = $helper->getHandler('Modules')->getCountModules();
         // Redirect if there aren't modules
         if (0 == $modulesCount) {
-            \redirect_header('modules.php?op=new', 2, _AM_MODULEBUILDER_THEREARENT_MODULES2);
+            \redirect_header('modules.php?op=new', 2, \_AM_MODULEBUILDER_THEREARENT_MODULES2);
         }
         $morefilesCount = $helper->getHandler('Morefiles')->getCountMorefiles();
         $morefilesAll   = $helper->getHandler('Morefiles')->getAllMorefiles($start, $limit);
@@ -60,18 +60,18 @@ switch ($op) {
                 unset($files);
             }
             if ($morefilesCount > $limit) {
-                include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+                require_once \XOOPS_ROOT_PATH . '/class/pagenav.php';
                 $pagenav = new \XoopsPageNav($morefilesCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
-            $GLOBALS['xoopsTpl']->assign('error', _AM_MODULEBUILDER_THEREARENT_MORE_FILES);
+            $GLOBALS['xoopsTpl']->assign('error', \_AM_MODULEBUILDER_THEREARENT_MORE_FILES);
         }
         break;
     case 'new':
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_MORE_FILES_LIST, 'morefiles.php', 'list');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_MORE_FILES_LIST, 'morefiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $morefilesObj = $helper->getHandler('Morefiles')->create();
@@ -101,9 +101,9 @@ switch ($op) {
 
         if ($helper->getHandler('Morefiles')->insert($morefilesObj)) {
             if ($morefilesObj->isNew()) {
-                \redirect_header('morefiles.php', 5, \sprintf(_AM_MODULEBUILDER_FILE_FORM_CREATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
+                \redirect_header('morefiles.php', 5, \sprintf(\_AM_MODULEBUILDER_FILE_FORM_CREATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
             } else {
-                \redirect_header('morefiles.php', 5, \sprintf(_AM_MODULEBUILDER_FILE_FORM_UPDATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
+                \redirect_header('morefiles.php', 5, \sprintf(\_AM_MODULEBUILDER_FILE_FORM_UPDATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
             }
         }
 
@@ -114,8 +114,8 @@ switch ($op) {
     case 'edit':
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
-        $adminObject->addItemButton(_AM_MODULEBUILDER_MORE_FILES_ADD, 'morefiles.php?op=new', 'add');
-        $adminObject->addItemButton(_AM_MODULEBUILDER_MORE_FILES_LIST, 'morefiles.php', 'list');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_MORE_FILES_ADD, 'morefiles.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_MORE_FILES_LIST, 'morefiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $morefilesObj = $helper->getHandler('Morefiles')->get($fileId);
@@ -129,7 +129,7 @@ switch ($op) {
                 \redirect_header('morefiles.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($helper->getHandler('Morefiles')->delete($morefilesObj)) {
-                \redirect_header('morefiles.php', 3, _AM_MODULEBUILDER_FORM_DELETED_OK);
+                \redirect_header('morefiles.php', 3, \_AM_MODULEBUILDER_FORM_DELETED_OK);
             } else {
                 $GLOBALS['xoopsTpl']->assign('error', $morefilesObj->getHtmlErrors());
             }
@@ -143,4 +143,4 @@ switch ($op) {
         break;
 }
 
-include __DIR__ . '/footer.php';
+require __DIR__ . '/footer.php';

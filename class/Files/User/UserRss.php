@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -116,12 +117,12 @@ class UserRss extends Files\CreateFile
         }
 
         $ret = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request']);
-        $ret .= $this->getInclude();
+        $ret .= $this->getRequire();
 
         $ret .= <<<EOT
 
 \${$fppf} = Request::getInt('{$fppf}', 0, 'GET');
-include_once XOOPS_ROOT_PATH.'/class/template.php';
+require_once \XOOPS_ROOT_PATH.'/class/template.php';
 if (\\function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
@@ -136,7 +137,7 @@ if (\\function_exists('mb_http_output')) {
 
 \$criteria->add(new \Criteria('cat_status', 0, '!='));
 \$criteria->add(new \Criteria('{$fppf}', '(' . \implode(',', \$categories) . ')','IN'));
-if (\${$fppf} != 0){
+if (0 != \${$fppf}){
     \$criteria->add(new \Criteria('{$fppf}', \${$fppf}));
     \${$tableName} = \${$tableName}Handler->get(\${$fppf});
     \$title = \$xoopsConfig['sitename'] . ' - ' . \$xoopsModule->getVar('name') . ' - ' . \${$tableName}->getVar('{$fpmf}');
@@ -150,22 +151,22 @@ if (\${$fppf} != 0){
 unset(\$criteria);
 
 if (!\$tpl->is_cached('db:{$moduleDirname}_rss.tpl', \${$fppf})) {
-    \$tpl->assign('channel_title', htmlspecialchars(\$title, ENT_QUOTES));
-    \$tpl->assign('channel_link', XOOPS_URL.'/');
-    \$tpl->assign('channel_desc', htmlspecialchars(\$xoopsConfig['slogan'], ENT_QUOTES));
+    \$tpl->assign('channel_title', \htmlspecialchars(\$title, ENT_QUOTES));
+    \$tpl->assign('channel_link', \XOOPS_URL.'/');
+    \$tpl->assign('channel_desc', \htmlspecialchars(\$xoopsConfig['slogan'], ENT_QUOTES));
     \$tpl->assign('channel_lastbuild', \\formatTimestamp(\time(), 'rss'));
     \$tpl->assign('channel_webmaster', \$xoopsConfig['adminmail']);
     \$tpl->assign('channel_editor', \$xoopsConfig['adminmail']);
     \$tpl->assign('channel_category', 'Event');
-    \$tpl->assign('channel_generator', 'XOOPS - ' . htmlspecialchars(\$xoopsModule->getVar('{$fpmf}'), ENT_QUOTES));
+    \$tpl->assign('channel_generator', 'XOOPS - ' . \htmlspecialchars(\$xoopsModule->getVar('{$fpmf}'), ENT_QUOTES));
     \$tpl->assign('channel_language', _LANGCODE);
-    if ( _LANGCODE == 'fr' ) {
+    if ( 'fr' == _LANGCODE ) {
         \$tpl->assign('docs', 'http://www.scriptol.fr/rss/RSS-2.0.html');
     } else {
         \$tpl->assign('docs', 'http://cyber.law.harvard.edu/rss/rss.html');
     }
-    \$tpl->assign('image_url', XOOPS_URL . \$xoopsModuleConfig['logorss']);
-    \$dimention = \getimagesize(XOOPS_ROOT_PATH . \$xoopsModuleConfig['logorss']);
+    \$tpl->assign('image_url', \XOOPS_URL . \$xoopsModuleConfig['logorss']);
+    \$dimention = \getimagesize(\XOOPS_ROOT_PATH . \$xoopsModuleConfig['logorss']);
     if (empty(\$dimention[0])) {
         \$width = 88;
     } else {
@@ -181,20 +182,22 @@ if (!\$tpl->is_cached('db:{$moduleDirname}_rss.tpl', \${$fppf})) {
     foreach (\array_keys(\${$tableName}Arr) as \$i) {
         \$description = \${$tableName}Arr[\$i]->getVar('description');
         //permet d'afficher uniquement la description courte
-        if (\strpos(\$description,'[pagebreak]')==false){
+        if (false == \strpos(\$description,'[pagebreak]')){
             \$description_short = \$description;
         } else {
             \$description_short = \substr(\$description,0,\strpos(\$description,'[pagebreak]'));
         }
-        \$tpl->append('items', array('title' => htmlspecialchars(\${$tableName}Arr[\$i]->getVar('{$fpmf}'), ENT_QUOTES),
-                                    'link' => XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
-                                    'guid' => XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
+        \$tpl->append('items', ['title' => \htmlspecialchars(\${$tableName}Arr[\$i]->getVar('{$fpmf}'), ENT_QUOTES),
+                                    'link' => \XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
+                                    'guid' => \XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
                                     'pubdate' => \\formatTimestamp(\${$tableName}Arr[\$i]->getVar('date'), 'rss'),
-                                    'description' => htmlspecialchars(\$description_short, ENT_QUOTES)));
+                                    'description' => \htmlspecialchars(\$description_short, ENT_QUOTES)
+                                ]);
     }
 }
 header('Content-Type:text/xml; charset=' . _CHARSET);
 \$tpl->display('db:{$moduleDirname}_rss.tpl', \${$fppf});
+
 EOT;
 
         return $ret;
@@ -212,7 +215,7 @@ EOT;
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserRss($moduleDirname);
-        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

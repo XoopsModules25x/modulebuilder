@@ -12,7 +12,7 @@ namespace XoopsModules\Modulebuilder\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-use \XoopsModules\Modulebuilder\Common;
+use XoopsModules\Modulebuilder\Common;
 
 /**
  * Class Migrate synchronize existing tables with target schema
@@ -63,8 +63,8 @@ class Migrate extends \Xmf\Database\Migrate
     {
         if ($this->tableHandler->useTable($tableName)) {
             $attributes = $this->tableHandler->getColumnAttributes($tableName, $columnName);
-            if (false !== mb_strpos($attributes, ' int(')) {
-                if (false === mb_strpos($attributes, 'unsigned')) {
+            if (false !== \mb_strpos($attributes, ' int(')) {
+                if (false === \mb_strpos($attributes, 'unsigned')) {
                     $this->tableHandler->alterColumn($tableName, $columnName, " bigint(16) NOT NULL  DEFAULT '0' ");
                     $this->tableHandler->update($tableName, [$columnName => "4294967296 + $columnName"], "WHERE $columnName < 0", false);
                 }

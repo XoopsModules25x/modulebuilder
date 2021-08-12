@@ -21,11 +21,12 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
-//include \dirname(__DIR__) . '/autoload.php';
+//require \dirname(__DIR__) . '/autoload.php';
 
 /**
  * Class Architecture.
@@ -275,7 +276,7 @@ class CreateArchitecture extends CreateStructure
             // Copy of tables images file
             if (\file_exists($uploadTableImage = TDMC_UPLOAD_IMGTAB_PATH . '/' . $tableImage)) {
                 $this->copyFile($icon32, $uploadTableImage, $tableImage);
-            } elseif (\file_exists($uploadTableImage = XOOPS_ICONS32_PATH . '/' . $tableImage)) {
+            } elseif (\file_exists($uploadTableImage = \XOOPS_ICONS32_PATH . '/' . $tableImage)) {
                 $this->copyFile($icon32, $uploadTableImage, $tableImage);
             }
             // Creation of admin files
@@ -687,7 +688,7 @@ class CreateArchitecture extends CreateStructure
                 $ret[] = $userRate->render();
 
                 $this->CopyRatingFiles($moduleDirname);
-                $ret[] = _AM_MODULEBUILDER_BUILDING_RATING;
+                $ret[] = \_AM_MODULEBUILDER_BUILDING_RATING;
             }
 
             // User Rss File

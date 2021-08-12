@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -35,6 +36,7 @@ class IncludeComments extends Files\CreateFile
      * @var mixed
      */
     private $xc = null;
+
     /**
      * @var mixed
      */
@@ -47,8 +49,8 @@ class IncludeComments extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
-        $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -88,10 +90,10 @@ class IncludeComments extends Files\CreateFile
     {
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module);
-        $content       .= $this->pc->getPhpCodeIncludeDir("\dirname(\dirname(__DIR__)) . '/mainfile.php'", '', true, true);
-        $content       .= $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/include/{$filename}.php'", '', true, true);
+        $content       .= $this->pc->getPhpCodeIncludeDir("\dirname(__DIR__, 2) . '/mainfile.php'",'',true, true);
+        $content       .= $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH.'/include/{$filename}.php'",'',true, true);
 
-        $this->create($moduleDirname, '', $filename . '.php', $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '', $filename . '.php', $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }
@@ -117,16 +119,16 @@ class IncludeComments extends Files\CreateFile
         }
         $content = $this->getHeaderFilesComments($module);
         $content .= $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request']);
-        $content .= $this->pc->getPhpCodeIncludeDir("__DIR__ . '/../../../mainfile.php'", '', true, true);
-        $content .= $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php'", '', true, true);
+        $content .= $this->pc->getPhpCodeIncludeDir("__DIR__ . '/../../../mainfile.php'",'',true, true);
+        $content .= $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true);
         $content .= $this->xc->getXcXoopsRequest('com_itemid', 'com_itemid', '0', 'Int');
-        $contIf  = $this->xc->getXcEqualsOperator("\${$tableName}Handler", "xoops_getModuleHandler('{$tableName}', '{$moduleDirname}')", '', "\t");
-        $contIf  .= $this->xc->getXcHandlerGet("{$tableName}", 'com_itemid', 'Obj', "{$tableName}Handler", false, "\t");
-        $contIf  .= $this->xc->getXcGetVar('com_replytitle', "{$tableName}Obj", $fieldMain, false, "\t");
-        $contIf  .= $this->pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/include/{$filename}.php'", '', true, true, '', "\t");
-        $content .= $this->pc->getPhpCodeConditions('$com_itemid', ' > ', '0', $contIf);
+        $contIf  = $this->xc->getXcEqualsOperator("\${$tableName}Handler", "xoops_getModuleHandler('{$tableName}', '{$moduleDirname}')",'',"\t");
+        $contIf  .= $this->xc->getXcHandlerGet("{$tableName}", 'com_itemid','Obj', "{$tableName}Handler", false, "\t");
+        $contIf  .= $this->xc->getXcGetVar('com_replytitle', "{$tableName}Obj", $fieldMain,false, "\t");
+        $contIf  .= $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH.'/include/{$filename}.php'",'',true, true, '',"\t");
+        $content .= $this->pc->getPhpCodeConditions('$com_itemid',' > ', '0', $contIf);
 
-        $this->create($moduleDirname, 'include', $filename . '.php', $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename . '.php', $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

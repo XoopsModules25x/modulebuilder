@@ -22,7 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  *
  */
 
@@ -94,10 +95,10 @@ class UserFooter extends Files\CreateFile
         $ret              .= $this->xc->getXcXoopsTplAssign('bookmarks', "\$helper->getConfig('bookmarks')");
         $ret              .= $this->xc->getXcXoopsTplAssign('fbcomments', "\$helper->getConfig('fbcomments')");
         $ret              .= $this->pc->getPhpCodeCommentLine();
-        $ret              .= $this->xc->getXcXoopsTplAssign('admin', "{$stuModuleDirname}_ADMIN");
+        $ret              .= $this->xc->getXcXoopsTplAssign('admin', "\\{$stuModuleDirname}_ADMIN");
         $ret              .= $this->xc->getXcXoopsTplAssign('copyright', '$copyright');
         $ret              .= $this->pc->getPhpCodeCommentLine();
-        $ret              .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'footer', true);
+        $ret              .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'footer', true);
 
         return $ret;
     }
@@ -115,7 +116,7 @@ class UserFooter extends Files\CreateFile
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserFooter($moduleDirname);
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_MODULEBUILDER_FILE_CREATED, _AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -128,6 +128,7 @@ class Devtools
             'json_encode',
             'mime_content_type',
             'mkdir',
+            'mktime',
             'opendir',
             'ord',
             'pathinfo',
@@ -191,6 +192,7 @@ class Devtools
         $errors = [
             'substr_\count('   => 'substr_count(',
             'micro\time('   => 'microtime(',
+            'mk\time('   => 'mktime(',
             'strto\time('   => 'strtotime(',
             'mb_\strlen('   => 'mb_strlen(',
             'mb_\substr('   => 'mb_substr(',
@@ -205,6 +207,8 @@ class Devtools
             'image\copy('   => 'imagecopy(',
             '<{if \count('  => '<{if count(',
             'define(\_'     => 'define(_',
+            '\strr\chr('    => '\strrchr(',
+            'strf\time('    => 'strftime(',
             "'\_AM_" . $moduleNameUpper .'_' => "'_AM_" . $moduleNameUpper .'_',
             "'\_MI_" . $moduleNameUpper .'_' => "'_MI_" . $moduleNameUpper .'_',
             "'\_MB_" . $moduleNameUpper .'_' => "'_MB_" . $moduleNameUpper .'_',
@@ -346,7 +350,7 @@ class Devtools
         $form->addElement($modulesSelect, true);
         // To Save
         $form->addElement(new \XoopsFormHidden('op', 'fq'));
-        $form->addElement(new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false));
+        $form->addElement(new \XoopsFormButtonTray('', \_SUBMIT, 'submit', '', false));
 
         return $form;
     }
@@ -375,7 +379,7 @@ class Devtools
         $form->addElement($modulesSelect, true);
         // To Save
         $form->addElement(new \XoopsFormHidden('op', 'check_lang'));
-        $form->addElement(new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false));
+        $form->addElement(new \XoopsFormButtonTray('', \_SUBMIT, 'submit', '', false));
 
         return $form;
     }
@@ -404,7 +408,7 @@ class Devtools
         $form->addElement($modulesSelect, true);
         // To Save
         $form->addElement(new \XoopsFormHidden('op', 'tab_replacer'));
-        $form->addElement(new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false));
+        $form->addElement(new \XoopsFormButtonTray('', \_SUBMIT, 'submit', '', false));
 
         return $form;
     }
