@@ -74,14 +74,13 @@
                 </td>
                 <td class='xo-actions txtcenter width5'>
                     <a href="modules.php?op=edit&amp;mod_id=<{$module.id}>" title="<{$smarty.const._EDIT}>">
-                        <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._EDIT}>"/>
-                    </a>
+                        <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._EDIT}>"/></a>
                     <a href="modules.php?op=delete&amp;mod_id=<{$module.id}>" title="<{$smarty.const._DELETE}>">
-                        <img src="<{xoModuleIcons16 delete.png}>" alt="<{$smarty.const._DELETE}>"/>
-                    </a>
-                    <a href="building.php?op=build&amp;mod_id=<{$module.id}>"><img src="<{xoModuleIcons16 forward.png}>"
-                                                                                     alt="<{$smarty.const._AM_MODULEBUILDER_ADMIN_CONST}>"
-                                                                                     title="<{$smarty.const._AM_MODULEBUILDER_ADMIN_CONST}>"></a>
+                        <img src="<{xoModuleIcons16 delete.png}>" alt="<{$smarty.const._DELETE}>"/></a>
+                    <a href="building.php?op=build&amp;mod_id=<{$module.id}>">
+                        <img src="<{xoModuleIcons16 forward.png}>" alt="<{$smarty.const._AM_MODULEBUILDER_ADMIN_CONST}>" title="<{$smarty.const._AM_MODULEBUILDER_ADMIN_CONST}>"></a>
+                    <a href="modules.php?op=clone&amp;mod_id=<{$module.id}>" title="<{$smarty.const._CLONE}>">
+                        <img src="<{xoModuleIcons16 editcopy.png}>" alt="<{$smarty.const._CLONE}>"/></a>
                 </td>
             </tr>
         <{/foreach}>

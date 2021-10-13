@@ -99,5 +99,13 @@ function xoops_module_install_modulebuilder(\XoopsModule $module)
         }
     }
 
+    //  ---  COPY page_copy.png  ---------------
+    // needed for clone feature of by modulebuilder created modules
+    $dest =\XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32/page_copy.png';
+    if (!\file_exists($dest)) {
+        $file = \dirname(__DIR__) . '/assets/images/icons/32/page_copy.png';
+        $utility::copyFile($file, $dest);
+    }
+
     return true;
 }
