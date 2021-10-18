@@ -198,6 +198,8 @@
 \define('_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK', "The module <b class='green'>%s</b> is successfully updated");
 \define('_AM_MODULEBUILDER_MODULE_BUTTON_NEW_LOGO', 'Create new Logo');
 \define('_AM_MODULEBUILDER_MODULE_NOACTSET', 'Error: No active setting found');
+\define('_AM_MODULEBUILDER_MODULE_CLONE_SUCCESS', 'Module successfully cloned');
+\define('_AM_MODULEBUILDER_MODULE_CLONE_ERROR', 'An error occured when cloning module');
 //
 // ------------------- Tables --------------------------------- //
 // buttons
