@@ -2,7 +2,7 @@
 
 function getIcons()
 {
-    $pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
+    $pathIcon16    = \Xmf\Module\Admin::iconUrl('', '16');
     $moduleDirName = \basename(\dirname(__DIR__));
 
     return (object)[
