@@ -3,8 +3,7 @@
 namespace XoopsModules\Modulebuilder\Files\Language;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\{
-    Files,
+use XoopsModules\Modulebuilder\{Files,
     Constants
 };
 
@@ -39,12 +38,11 @@ class LanguageAdmin extends Files\CreateFile
      * @var mixed
      */
     private $ld = null;
-
     /**
      * @var mixed
      */
     private $pc = null;
-    
+
     /**
      * @public function constructor
      * @param null
@@ -89,7 +87,7 @@ class LanguageAdmin extends Files\CreateFile
     /**
      * @public function getLanguageAdminIndex
      * @param string $language
-     * @param array $tables
+     * @param array  $tables
      * @return string
      */
     public function getLanguageAdminIndex($language, $tables)
@@ -103,10 +101,10 @@ class LanguageAdmin extends Files\CreateFile
             $tableName    = $tables[$t]->getVar('table_name');
             $stuTableName = \mb_strtoupper($tableName);
             $stlTableName = \mb_strtolower($tableName);
-            $thereare .= $this->ld->getDefine($language, "THEREARE_{$stuTableName}", "There are <span class='bold'>%s</span> {$stlTableName} in the database", true);
+            $thereare     .= $this->ld->getDefine($language, "THEREARE_{$stuTableName}", "There are <span class='bold'>%s</span> {$stlTableName} in the database", true);
         }
         $ret = $this->ld->getBlankLine();
-        $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__','common', true);
+        $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'common', true);
         if ($tableUser) {
             $ret .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'main', true);
         }
@@ -122,7 +120,7 @@ class LanguageAdmin extends Files\CreateFile
     /**
      * @public function getLanguageAdminPages
      * @param string $language
-     * @param array $tables
+     * @param array  $tables
      * @return string
      */
     public function getLanguageAdminPages($language, $tables)
@@ -163,12 +161,12 @@ class LanguageAdmin extends Files\CreateFile
     /**
      * @public function getLanguageAdminClass
      * @param string $language
-     * @param array $tables
+     * @param array  $tables
      * @return string
      */
     public function getLanguageAdminClass($language, $tables)
     {
-        $ret = $this->ld->getAboveHeadDefines('Admin Classes');
+        $ret                  = $this->ld->getAboveHeadDefines('Admin Classes');
         $fieldStatus          = 0;
         $fieldSampleListValue = 0;
         $tableBroken          = 0;
@@ -196,7 +194,7 @@ class LanguageAdmin extends Files\CreateFile
             foreach (\array_keys($fields) as $f) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');
-                $rpFieldName = $this->getRightString($fieldName);
+                $rpFieldName  = $this->getRightString($fieldName);
                 if ($fieldElement >= Constants::FIRST_FIELDELEMENT_TABLE) {
                     $fieldElements    = Modulebuilder\Helper::getInstance()->getHandler('Fieldelements')->get($fieldElement);
                     $fieldElementName = $fieldElements->getVar('fieldelement_name');
@@ -205,7 +203,7 @@ class LanguageAdmin extends Files\CreateFile
                 } else {
                     $fieldNameDesc = false !== mb_strpos($rpFieldName, '_') ? \str_replace('_', ' ', \ucfirst($rpFieldName)) : \ucfirst($rpFieldName);
                 }
-                $ret          .= $this->ld->getDefine($language, $tableSoleName . '_' . $rpFieldName, $fieldNameDesc);
+                $ret .= $this->ld->getDefine($language, $tableSoleName . '_' . $rpFieldName, $fieldNameDesc);
 
                 switch ($fieldElement) {
                     case 10:
@@ -334,8 +332,8 @@ class LanguageAdmin extends Files\CreateFile
      */
     public function render()
     {
-        $module = $this->getModule();
-        $tables = $this->getTableTables($module->getVar('mod_id'));
+        $module           = $this->getModule();
+        $tables           = $this->getTableTables($module->getVar('mod_id'));
         $tablePermissions = [];
         foreach (\array_keys($tables) as $t) {
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');

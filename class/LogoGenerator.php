@@ -41,7 +41,6 @@ if (\function_exists($myfunction)) {
     echo 'Method Not Exist';
 }
 
-
 /**
  * Class LogoGenerator.
  */

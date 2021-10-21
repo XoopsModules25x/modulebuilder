@@ -36,12 +36,10 @@ class UserIndex extends Files\CreateFile
      * @var mixed
      */
     private $uxc = null;
-
     /**
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
@@ -201,7 +199,7 @@ class UserIndex extends Files\CreateFile
         $condIf   .= $this->xc->getXcXoopsTplAssign('lang_thereare', $thereare, true, "\t");
         $divideby = $this->xc->getXcGetConfig('divideby');
         $condIf   .= $this->xc->getXcXoopsTplAssign('divideby', $divideby, true, "\t");
-        $numb_col  = $this->xc->getXcGetConfig('numb_col');
+        $numb_col = $this->xc->getXcGetConfig('numb_col');
         $condIf   .= $this->xc->getXcXoopsTplAssign('numb_col', $numb_col, true, "\t");
         $ret       .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
         $ret       .= $this->pc->getPhpCodeUnset('count');
@@ -253,13 +251,13 @@ class UserIndex extends Files\CreateFile
         $content .= $this->getUserIndexHeader($language, $moduleDirname);
 
         foreach (\array_keys($tables) as $t) {
-            $tableId         = $tables[$t]->getVar('table_id');
-            $tableMid        = $tables[$t]->getVar('table_mid');
-            $tableName       = $tables[$t]->getVar('table_name');
-            $tableSoleName   = $tables[$t]->getVar('table_solename');
-            $tableCategory   = $tables[$t]->getVar('table_category');
-            $tableFieldname  = $tables[$t]->getVar('table_fieldname');
-            $tableIndex      = $tables[$t]->getVar('table_index');
+            $tableId        = $tables[$t]->getVar('table_id');
+            $tableMid       = $tables[$t]->getVar('table_mid');
+            $tableName      = $tables[$t]->getVar('table_name');
+            $tableSoleName  = $tables[$t]->getVar('table_solename');
+            $tableCategory  = $tables[$t]->getVar('table_category');
+            $tableFieldname = $tables[$t]->getVar('table_fieldname');
+            $tableIndex     = $tables[$t]->getVar('table_index');
             if (1 == $tableCategory && 1 == $tableIndex) {
                 $content .= $this->getBodyCategoriesIndex($tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname);
             }

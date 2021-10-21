@@ -150,9 +150,12 @@
 \define('_AM_MODULEBUILDER_MODULE_NOTIMPORTANT', "<span style='color: #00FF00;'>Optional - Information</span>");
 \define('_AM_MODULEBUILDER_MODULE_ID', 'Id');
 \define('_AM_MODULEBUILDER_MODULE_NAME', 'Name');
-\define('_AM_MODULEBUILDER_MODULE_NAME_DESC',"The module name can contain spaces and special characters such as accents.<br />An example would be: <b class='red'>My Simple Module</b>");
+\define('_AM_MODULEBUILDER_MODULE_NAME_DESC', "The module name can contain spaces and special characters such as accents.<br />An example would be: <b class='red'>My Simple Module</b>");
 \define('_AM_MODULEBUILDER_MODULE_DIRNAME', 'Directory Name');
-\define('_AM_MODULEBUILDER_MODULE_DIRNAME_DESC', "The module directory can not contain spaces or special characters such as accents.<br />An example would be: <b class='red'>mysimplemodule</b>.<br />In case you write the module directory with uppercase characters, they are replaced automatically with lowercase, and if there are spaces they will also be automatically deleted.");
+\define(
+    '_AM_MODULEBUILDER_MODULE_DIRNAME_DESC',
+    "The module directory can not contain spaces or special characters such as accents.<br />An example would be: <b class='red'>mysimplemodule</b>.<br />In case you write the module directory with uppercase characters, they are replaced automatically with lowercase, and if there are spaces they will also be automatically deleted."
+);
 \define('_AM_MODULEBUILDER_MODULE_VERSION', 'Version');
 \define('_AM_MODULEBUILDER_MODULE_SINCE', 'Since');
 \define('_AM_MODULEBUILDER_MODULE_DESCRIPTION', 'Description');
@@ -218,7 +221,10 @@
 \define('_AM_MODULEBUILDER_TABLE_ORDER', 'Order tables');
 \define('_AM_MODULEBUILDER_TABLE_ORDER_DESC', 'You should order the tables to view them in the right ordered on the menu and index page of your new module');
 \define('_AM_MODULEBUILDER_TABLE_FIELDNAME', 'Prefix Field Name');
-\define('_AM_MODULEBUILDER_TABLE_FIELDNAME_DESC', "This is the prefix of field name (optional)<br />If you leave the field blank, doesn't appear anything in the fields of the next screen,<br />otherwise you'll see all the fields with a prefix type (i.e.: <span class='bold'>cat</span> of table <span class='bold'>categories</span>).<br /><b class='red bold'>WARNING</b>: It's recommended to use singular word");
+\define(
+    '_AM_MODULEBUILDER_TABLE_FIELDNAME_DESC',
+    "This is the prefix of field name (optional)<br />If you leave the field blank, doesn't appear anything in the fields of the next screen,<br />otherwise you'll see all the fields with a prefix type (i.e.: <span class='bold'>cat</span> of table <span class='bold'>categories</span>).<br /><b class='red bold'>WARNING</b>: It's recommended to use singular word"
+);
 \define('_AM_MODULEBUILDER_TABLE_OPTIONS_CHECKS_DESC', 'For each table created during building prcedure the relevant files will be created on behalf of this.<br />Selecting one or more of these options to decide which functions and condition should be implemented in your module for this table.');
 \define('_AM_MODULEBUILDER_TABLE_ALL', 'Check All');
 \define('_AM_MODULEBUILDER_TABLE_IMAGE', 'Table Logo');
@@ -248,7 +254,10 @@
 \define('_AM_MODULEBUILDER_TABLE_READS', 'Add Counter Reads Function');
 \define('_AM_MODULEBUILDER_TABLE_SINGLE', 'Add in Single file');
 \define('_AM_MODULEBUILDER_TABLE_VISIT', 'Add in Visit file');
-\define('_AM_MODULEBUILDER_TABLE_IMAGE_DESC', "<span class='red bold'>WARNING</span>: If you want to choose a new image, is best to name it with the module name before and follow with the name of the image so as not to overwrite any images with the same name, in the <span class='bold'>Frameworks/moduleclasses/moduleadmin/icons/32/</span>. Otherwise an other solution, would be to insert the images in the module, a new folder is created, with the creation of the same module - <span class='bold'>assets/icons/32</span>.");
+\define(
+    '_AM_MODULEBUILDER_TABLE_IMAGE_DESC',
+    "<span class='red bold'>WARNING</span>: If you want to choose a new image, is best to name it with the module name before and follow with the name of the image so as not to overwrite any images with the same name, in the <span class='bold'>Frameworks/moduleclasses/moduleadmin/icons/32/</span>. Otherwise an other solution, would be to insert the images in the module, a new folder is created, with the creation of the same module - <span class='bold'>assets/icons/32</span>."
+);
 \define('_AM_MODULEBUILDER_TABLE_FORM_CREATED_OK', "The table <b class='green'>%s</b> is successfully created");
 \define('_AM_MODULEBUILDER_TABLE_FORM_UPDATED_OK', "The table <b class='green'>%s</b> is successfully updated");
 \define('_AM_MODULEBUILDER_TABLE_IMAGE_LIST', 'Table Icon');
@@ -289,10 +298,13 @@
 \define('_AM_MODULEBUILDER_FIELD_THEAD', 'User file: in header');
 \define('_AM_MODULEBUILDER_FIELD_TBODY', 'User file: in body');
 \define('_AM_MODULEBUILDER_FIELD_TFOOT', 'User file: in footer');
-\define('_AM_MODULEBUILDER_FIELD_RECOMMENDED', "It is recommended to create following fields:<br>
+\define(
+    '_AM_MODULEBUILDER_FIELD_RECOMMENDED',
+    "It is recommended to create following fields:<br>
 - %s_date:      for sorting items by date it is necessary to have a field, where date of creation/relevant date is stored<br>
 - %s_submitter: for sorting items by submitter it is necessary to have a field, where user of creation is stored<br> 
-- %s_status:    for using e.g. functions for broken items you need a 'Select Status'-field<br><br>");
+- %s_status:    for using e.g. functions for broken items you need a 'Select Status'-field<br><br>"
+);
 \define('_AM_MODULEBUILDER_FIELD_PARENT', 'Field: Is parent');
 \define('_AM_MODULEBUILDER_FIELD_INLIST', 'Admin: Visible in list');
 \define('_AM_MODULEBUILDER_FIELD_INFORM', 'Admin: Visible in form');

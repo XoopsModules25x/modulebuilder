@@ -210,7 +210,7 @@ switch ($op) {
         } else {
             $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\XoopsConfirm(
                                         ['ok' => 1, 'mod_id' => $modId, 'op' => 'delete'],
-                                        Request::getString('REQUEST_URI', '', 'SERVER'),
+                                        \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'),
                                         $modulesObj->getVar('mod_name')
                             );
             $form = $xoopsconfirm->getFormXoopsConfirm();
@@ -262,7 +262,7 @@ switch ($op) {
                         $moduleTarget->setVar($varKey, $varArray['value']);
                     }
                 }
-            }
+}
 
             if ($modulesHandler->insert($moduleTarget)) {
                 //get new mod_id

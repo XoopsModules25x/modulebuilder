@@ -122,7 +122,6 @@ class SettingsHandler extends \XoopsPersistableObjectHandler
         return $this->getAll($crActiveSetting);
     }
 
-
     /**
      * Get Settings Criteria.
      *

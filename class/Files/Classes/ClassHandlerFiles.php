@@ -36,12 +36,10 @@ class ClassHandlerFiles extends Files\CreateFile
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
     private $pc = null;
-
     /**
      * @var mixed
      */
@@ -104,11 +102,11 @@ class ClassHandlerFiles extends Files\CreateFile
      */
     private function getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldName, $fieldMain, $fieldParentId, $fieldElement)
     {
-        $tableName        = $table->getVar('table_name');
-        $tableFieldName   = $table->getVar('table_fieldname');
-        $ucfTableName     = \ucfirst($tableName);
-        $multiLineCom     = ['Class Object Handler' => $ucfTableName];
-        $ret              = $this->pc->getPhpCodeCommentMultiLine($multiLineCom);
+        $tableName      = $table->getVar('table_name');
+        $tableFieldName = $table->getVar('table_fieldname');
+        $ucfTableName   = \ucfirst($tableName);
+        $multiLineCom   = ['Class Object Handler' => $ucfTableName];
+        $ret            = $this->pc->getPhpCodeCommentMultiLine($multiLineCom);
 
         $cClh   = $this->pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => '\XoopsDatabase $db'], "\t");
         $constr = "\t\tparent::__construct(\$db, '{$moduleDirname}_{$tableName}', {$ucfTableName}::class, '{$fieldId}', '{$fieldMain}');\n";
@@ -308,15 +306,15 @@ class ClassHandlerFiles extends Files\CreateFile
         $ucfTableSoleName = \ucfirst($tableSoleName);
         $ccTableSoleName  = $this->getCamelCase($tableSoleName, true);
 
-        $ret              = $this->pc->getPhpCodeCommentMultiLine(['Returns the' => $ucfTableSoleName . ' from id', '' => '', '@return' => 'string'], "\t");
-        $soleName         = $this->xc->getXcEqualsOperator("\${$tableSoleName}Id", "(int)( \${$tableSoleName}Id )", null, "\t\t");
-        $soleName         .= $this->xc->getXcEqualsOperator("\${$tableSoleName}", "''", null, "\t\t");
-        $contentIf        = $this->xc->getXcHandlerLine($tableName, "\t\t\t");
-        $contentIf        .= $this->xc->getXcHandlerGet($tableName, "\${$tableSoleName}Id", 'Obj', true, false, "\t\t\t");
-        $getVar           = $this->xc->getXcGetVar($ccTableSoleName, "{$tableSoleName}Obj", $fieldMain, false, "\t\t\t\t");
-        $contentIf        .= $this->pc->getPhpCodeConditions("\is_object( \${$tableSoleName}Obj )", '', '', $getVar, false, "\t\t\t");
-        $soleName         .= $this->pc->getPhpCodeConditions("\${$tableSoleName}Id", ' > ', '0', $contentIf, false, "\t\t");
-        $soleName         .= $this->getSimpleString("return \${$tableSoleName};", "\t\t");
+        $ret       = $this->pc->getPhpCodeCommentMultiLine(['Returns the' => $ucfTableSoleName . ' from id', '' => '', '@return' => 'string'], "\t");
+        $soleName  = $this->xc->getXcEqualsOperator("\${$tableSoleName}Id", "(int)( \${$tableSoleName}Id )", null, "\t\t");
+        $soleName  .= $this->xc->getXcEqualsOperator("\${$tableSoleName}", "''", null, "\t\t");
+        $contentIf = $this->xc->getXcHandlerLine($tableName, "\t\t\t");
+        $contentIf .= $this->xc->getXcHandlerGet($tableName, "\${$tableSoleName}Id", 'Obj', true, false, "\t\t\t");
+        $getVar    = $this->xc->getXcGetVar($ccTableSoleName, "{$tableSoleName}Obj", $fieldMain, false, "\t\t\t\t");
+        $contentIf .= $this->pc->getPhpCodeConditions("\is_object( \${$tableSoleName}Obj )", '', '', $getVar, false, "\t\t\t");
+        $soleName  .= $this->pc->getPhpCodeConditions("\${$tableSoleName}Id", ' > ', '0', $contentIf, false, "\t\t");
+        $soleName  .= $this->getSimpleString("return \${$tableSoleName};", "\t\t");
 
         $ret .= $this->pc->getPhpCodeFunction("get{$ucfTableSoleName}FromId", "\${$tableSoleName}Id", $soleName, 'public ', false, "\t");
 
