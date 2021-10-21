@@ -27,8 +27,8 @@ $moduleDirName      = \basename(__DIR__);
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 $modversion['version']             = 3.05;
-$modversion['module_status']       = 'RC2';
-$modversion['release_date']        = '2020/11/11';
+$modversion['module_status']       = 'Final';
+$modversion['release_date']        = '2021/10/21';
 $modversion['name']                = \_MI_MODULEBUILDER_NAME;
 $modversion['description']         = \_MI_MODULEBUILDER_DESC;
 $modversion['author']              = 'Xoops TDM';
@@ -46,9 +46,9 @@ $modversion['manual_file']         = XOOPS_URL . "/modules/{$moduleDirName}/docs
 $modversion['image']               = "assets/images/logoModule.png";
 $modversion['dirname']             = $moduleDirName;
 // Frameworks icons
-$modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
-$modversion['sysicons16']     = '../../Frameworks/moduleclasses/icons/16';
-$modversion['sysicons32']     = '../../Frameworks/moduleclasses/icons/32';
+$modversion['dirmoduleadmin']      = '/Frameworks/moduleclasses/moduleadmin';
+$modversion['sysicons16']          = '../../Frameworks/moduleclasses/icons/16';
+$modversion['sysicons32']          = '../../Frameworks/moduleclasses/icons/32';
 // Module icons
 $modversion['modicons16']          = 'assets/images/icons/16';
 $modversion['modicons32']          = 'assets/images/icons/32';
