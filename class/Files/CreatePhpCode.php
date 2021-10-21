@@ -73,7 +73,7 @@ class CreatePhpCode
     {
         $values = !empty($multiLine) ? $multiLine : [];
 
-        $ret    = "\n{$t}/**\n";
+        $ret = "\n{$t}/**\n";
         foreach ($values as $string => $value) {
             if ('' === $string && '' === $value) {
                 $ret .= "{$t} *\n";
@@ -92,11 +92,11 @@ class CreatePhpCode
 
     /**
      * @public function getPhpCodeDefine
-     * @param $left
-     * @param $right
+     * @param        $left
+     * @param        $right
      *
      * @param string $t
-     * @param bool $leftstr
+     * @param bool   $leftstr
      * @return string
      */
     public function getPhpCodeDefine($left, $right, $t = '', $leftstr = true)
@@ -258,10 +258,10 @@ class CreatePhpCode
 
     /**
      * @public function getPhpCodeClass
-     * @param $name
-     * @param $content
-     * @param $extends
-     * @param $type
+     * @param      $name
+     * @param      $content
+     * @param      $extends
+     * @param      $type
      *
      * @param null $implements
      * @return string
@@ -342,7 +342,7 @@ class CreatePhpCode
      * @param string $operator
      * @param string $type
      * @param string $contentIf
-     * @param mixed $contentElse
+     * @param mixed  $contentElse
      * @param string $t - Indentation
      *
      * @param string $conditionElse
@@ -450,19 +450,19 @@ class CreatePhpCode
     /**
      * @public function getPhpCodeSwitch
      *
-     * @param $op
-     * @param $content
+     * @param        $op
+     * @param        $content
      * @param string $t
      *
-     * @param bool $isParam
+     * @param bool   $isParam
      * @return string
      */
     public function getPhpCodeSwitch($op = null, $content = null, $t = '', $isParam = true)
     {
         $value = $isParam ? "\${$op}" : $op;
-        $ret = "{$t}switch ({$value}) {\n";
-        $ret .= $content;
-        $ret .= "{$t}}\n";
+        $ret   = "{$t}switch ({$value}) {\n";
+        $ret   .= $content;
+        $ret   .= "{$t}}\n";
 
         return $ret;
     }
@@ -470,12 +470,12 @@ class CreatePhpCode
     /**
      * @public function getPhpCodeCaseSwitch
      *
-     * @param array $cases
-     * @param bool $defaultAfterCase
-     * @param bool $default
+     * @param array  $cases
+     * @param bool   $defaultAfterCase
+     * @param bool   $default
      * @param string $t
      *
-     * @param bool $isConst
+     * @param bool   $isConst
      * @return string
      */
     public function getPhpCodeCaseSwitch($cases = [], $defaultAfterCase = false, $default = false, $t = '', $isConst = false)
@@ -486,7 +486,7 @@ class CreatePhpCode
             $case = $isConst || !\is_string($case) ? $case : "'{$case}'";
             if (empty($value)) {
                 $ret .= "{$t}case {$case}:\n";
-            } else if (!empty($case)) {
+            } elseif (!empty($case)) {
                 $ret .= "{$t}case {$case}:\n";
                 if (false !== $defaultAfterCase) {
                     $ret .= $def;
@@ -496,7 +496,7 @@ class CreatePhpCode
                         $ret .= "{$content}";
                     }
                 }
-                $ret .= "{$t}\tbreak;\n";
+                $ret              .= "{$t}\tbreak;\n";
                 $defaultAfterCase = false;
             }
         }
@@ -806,18 +806,18 @@ class CreatePhpCode
 
     /**
      * @public function getPhpCodeNamespace
-     * @param $dimensions
+     * @param        $dimensions
      * @param string $t
      * @param string $n
      * @return string
      */
     public function getPhpCodeNamespace($dimensions, $t = '', $n = "\n\n")
     {
-        $ret  = "\n{$t}namespace ";
+        $ret = "\n{$t}namespace ";
         foreach ($dimensions as $key => $dim) {
             if ($key > 0) {
                 $ucfDim = \ucfirst($dim);
-                $ret .= "\\{$ucfDim}";
+                $ret    .= "\\{$ucfDim}";
             } else {
                 $ret .= "{$dim}";
             }
@@ -829,18 +829,18 @@ class CreatePhpCode
 
     /**
      * @public function getPhpCodeUseNamespace
-     * @param $dimensions
+     * @param        $dimensions
      * @param string $t
      * @param string $n
      * @return string
      */
     public function getPhpCodeUseNamespace($dimensions, $t = '', $n = "\n\n")
     {
-        $ret  = "\n{$t}use ";
+        $ret = "\n{$t}use ";
         foreach ($dimensions as $key => $dim) {
             if ($key > 0) {
                 $ucfDim = \ucfirst($dim);
-                $ret .= "\\{$ucfDim}";
+                $ret    .= "\\{$ucfDim}";
             } else {
                 $ret .= "{$dim}";
             }
@@ -849,6 +849,7 @@ class CreatePhpCode
 
         return $ret;
     }
+
     /**
      * @public function getPhpCodeBlankLine
      *
@@ -862,26 +863,26 @@ class CreatePhpCode
     /**
      * @public function getPhpCodeConstant
      *
-     * @param $const
-     * @param $value
+     * @param        $const
+     * @param        $value
      * @param string $t
      * @param string $type
      * @return string
      */
     public function getPhpCodeConstant($const, $value, $t = '', $type = 'const')
     {
-        return  "{$t}{$type} {$const} = {$value};\n";
+        return "{$t}{$type} {$const} = {$value};\n";
     }
 
     /**
      * @public function getPhpCodeTriggerError
      *
-     * @param $msg
-     * @param $type
+     * @param        $msg
+     * @param        $type
      * @param string $t
      * @return string
      */
-    public function getPhpCodeTriggerError($msg, $type, $t ='')
+    public function getPhpCodeTriggerError($msg, $type, $t = '')
     {
         $ret = "{$t}\\trigger_error($msg, {$type});\n";
         return $ret;

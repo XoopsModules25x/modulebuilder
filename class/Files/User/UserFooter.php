@@ -32,12 +32,10 @@ use XoopsModules\Modulebuilder\Files;
  */
 class UserFooter extends Files\CreateFile
 {
-
     /**
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */

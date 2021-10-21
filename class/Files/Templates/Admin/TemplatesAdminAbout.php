@@ -36,7 +36,6 @@ class TemplatesAdminAbout extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */

@@ -36,8 +36,8 @@ class UserViewTag extends Files\CreateFile
      * @var mixed
      */
     private $pc = null;
-	
-	/**
+
+    /**
      * @public function constructor
      * @param null
      */

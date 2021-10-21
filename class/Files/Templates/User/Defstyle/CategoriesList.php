@@ -37,7 +37,6 @@ class CategoriesList extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -189,8 +188,8 @@ EOT;
      */
     private function getTemplatesUserCategoriesListTfoot($table)
     {
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $ret       = <<<EOT
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $ret    = <<<EOT
 		<tfoot>
 			<tr>\n
 EOT;
@@ -297,7 +296,7 @@ EOT;
         $filename      = $this->getFileName();
         $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $moduleDirname = $module->getVar('mod_dirname');
-        $content  = '';
+        $content       = '';
         foreach (\array_keys($tables) as $t) {
             $tableId         = $tables[$t]->getVar('table_id');
             $tableMid        = $tables[$t]->getVar('table_mid');

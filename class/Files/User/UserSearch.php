@@ -36,12 +36,10 @@ class UserSearch extends Files\CreateFile
      * @var mixed
      */
     private $uxc = null;
-
     /**
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */

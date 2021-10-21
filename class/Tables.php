@@ -246,15 +246,15 @@ class Tables extends \XoopsObject
      */
     public function getValuesTables($keys = null, $format = null, $maxDepth = null)
     {
-        $helper    = Modulebuilder\Helper::getInstance();
+        $helper = Modulebuilder\Helper::getInstance();
 
         $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
-        $ret['id']            = $this->getVar('table_id');
-        $ret['mid']           = $this->getVar('table_mid');
-        $modulesObj           = $helper->getHandler('Modules')->get($ret['mid']);
+        $ret['id']  = $this->getVar('table_id');
+        $ret['mid'] = $this->getVar('table_mid');
+        $modulesObj = $helper->getHandler('Modules')->get($ret['mid']);
         if (\is_object($modulesObj)) {
-            $ret['module']           = $modulesObj->getVar('mod_name');
+            $ret['module'] = $modulesObj->getVar('mod_name');
         }
         $ret['name']          = \ucfirst($this->getVar('table_name'));
         $ret['image']         = $this->getVar('table_image');

@@ -36,7 +36,6 @@ class TemplatesAdminPermissions extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -87,7 +86,6 @@ class TemplatesAdminPermissions extends Files\CreateFile
      */
     private function getTemplatesAdminPermissionsHeader($moduleDirname)
     {
-
         return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
     }
 

@@ -15,57 +15,63 @@
  */
 
 use Xmf\Database\TableLoad;
-use Xmf\Module\Helper;
+//use Xmf\Module\Helper;
 use Xmf\Request;
 use Xmf\Yaml;
-use XoopsModules\Modulebuilder;
 use XoopsModules\Modulebuilder\{
-    Common,
+    Helper,
+    Common\Configurator,
     Utility
 };
+/** @var Helper $helper */
+/** @var Utility $utility */
+/** @var Configurator $configurator */
 
 require_once dirname(__DIR__, 3) . '/include/cp_header.php';
 require \dirname(__DIR__) . '/preloads/autoloader.php';
 
-$op = \Xmf\Request::getCmd('op', '');
+$op = Request::getCmd('op', '');
 
 $moduleDirName = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-$helper = Modulebuilder\Helper::getInstance();
+$helper = Helper::getInstance();
 // Load language files
 $helper->loadLanguage('common');
 
 switch ($op) {
     case 'load':
-        if (\Xmf\Request::hasVar('ok', 'REQUEST') && 1 == $_REQUEST['ok']) {
+        if (Request::hasVar('ok', 'REQUEST') && 1 === Request::getInt('ok', 0)) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
-                \redirect_header('../admin/index.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+                \redirect_header($helper->url('admin/index.php'), 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             loadSampleData();
         } else {
             xoops_cp_header();
-            xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', \sprintf(\constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA_OK')), \constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'), true);
+            xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', \sprintf(\constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_CONFIRM')), \constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'), true);
             xoops_cp_footer();
         }
         break;
     case 'save':
         saveSampleData();
         break;
+    case 'clear':
+        clearSampleData();
+        break;
 }
 
 // XMF TableLoad for SAMPLE data
+
 function loadSampleData()
 {
     global $xoopsConfig;
-
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-    $utility      = new Modulebuilder\Utility();
-    $configurator = new Common\Configurator();
+    $utility      = new Utility();
+    $configurator = new Configurator();
 
-    $tables = Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
+    $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
 
     $language = 'english/';
     if (\is_dir(__DIR__ . '/' . $xoopsConfig['language'])) {
@@ -82,30 +88,28 @@ function loadSampleData()
     // load permissions
     $table     = 'group_permission';
     $tabledata = Yaml::readWrapped($language . $table . '.yml');
-    $mid       = Helper::getHelper($moduleDirName)->getModule()->getVar('mid');
+    $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid');
     loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $mid);
 
     //  ---  COPY test folder files ---------------
     if (\is_array($configurator->copyTestFolders) && \count($configurator->copyTestFolders) > 0) {
+        //        $file =  dirname(__DIR__) . '/testdata/images/';
         foreach (\array_keys($configurator->copyTestFolders) as $i) {
             $src  = $configurator->copyTestFolders[$i][0];
             $dest = $configurator->copyTestFolders[$i][1];
             $utility::rcopy($src, $dest);
         }
     }
-    \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'SAMPLEDATA_SUCCESS'));
+    \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_SUCCESS'));
 }
 
 function saveSampleData()
 {
     global $xoopsConfig;
-
-    $configurator = new Common\Configurator();
-
     $moduleDirName      = \basename(\dirname(__DIR__));
-    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
-
-    $tables = Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
+    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $helper             = Helper::getInstance();
+    $tables             = $helper->getModule()->getInfo('tables');
 
     $languageFolder = __DIR__ . '/' . $xoopsConfig['language'];
     if (!\file_exists($languageFolder . '/')) {
@@ -120,39 +124,29 @@ function saveSampleData()
     }
 
     // save permissions
-    $skipColumns = [];
     $criteria = new \CriteriaCompo();
-    $criteria->add(new \Criteria('gperm_modid', Helper::getHelper($moduleDirName)->getModule()->getVar('mid')));
+    $criteria->add(new \Criteria('gperm_modid', $helper->getModule()->getVar('mid')));
     $skipColumns[] = 'gperm_id';
     TableLoad::saveTableToYamlFile('group_permission', $exportFolder . 'group_permission.yml', $criteria, $skipColumns);
     unset($criteria);
 
-    //  ---  COPY test folder files ---------------
-    if (\is_array($configurator->copyTestFolders) && \count($configurator->copyTestFolders) > 0) {
-        foreach (\array_keys($configurator->copyTestFolders) as $i) {
-            $src  = $configurator->copyTestFolders[$i][1];
-            $dest = $configurator->copyTestFolders[$i][0];
-            Utility::rcopy($src, $dest);
-        }
-    }
     \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
 }
 
 function exportSchema()
 {
     $moduleDirName      = \basename(\dirname(__DIR__));
-    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
+    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
     try {
         // TODO set exportSchema
-        //        $migrate = new Modulebuilder\Migrate($moduleDirName);
+        //        $migrate = new Migrate($moduleDirName);
         //        $migrate->saveCurrentSchema();
         //
-        //        \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS'));
-    } catch (\Exception $e) {
-        exit(\constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR'));
+        //        redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS'));
+    } catch (\Throwable $e) {
+        exit(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR'));
     }
-
 }
 
 /**
@@ -169,36 +163,59 @@ function exportSchema()
  */
 function loadTableFromArrayWithReplace($table, $data, $search, $replace)
 {
-    /** @var \XoopsDatabase */
+    /** @var \XoopsMySQLDatabase $db */
     $db = \XoopsDatabaseFactory::getDatabaseConnection();
+
     $prefixedTable = $db->prefix($table);
-    $count = 0;
+    $count         = 0;
+
     $sql = 'DELETE FROM ' . $prefixedTable . ' WHERE `' . $search . '`=' . $db->quote($replace);
-    $db->queryF($sql);
-    foreach ($data as $row) {
-        $insertInto = 'INSERT INTO ' . $prefixedTable . ' (';
-        $valueClause = ' VALUES (';
-        $first = true;
-        foreach ($row as $column => $value) {
-            if ($first) {
-                $first = false;
-            } else {
-                $insertInto .= ', ';
-                $valueClause .= ', ';
+
+    $result = $db->queryF($sql);
+
+    if ($result) {
+        foreach ($data as $row) {
+            $insertInto  = 'INSERT INTO ' . $prefixedTable . ' (';
+            $valueClause = ' VALUES (';
+            $first       = true;
+            foreach ($row as $column => $value) {
+                if ($first) {
+                    $first = false;
+                } else {
+                    $insertInto  .= ', ';
+                    $valueClause .= ', ';
+                }
+
+                $insertInto .= $column;
+                if ($search === $column) {
+                    $valueClause .= $db->quote($replace);
+                } else {
+                    $valueClause .= $db->quote($value);
+                }
             }
-            $insertInto .= $column;
-            if ($search === $column) {
-                $valueClause .= $db->quote($replace);
-            } else {
-                $valueClause .= $db->quote($value);
+
+            $sql = $insertInto . ') ' . $valueClause . ')';
+
+            $result = $db->queryF($sql);
+            if (false !== $result) {
+                ++$count;
             }
-        }
-        $sql = $insertInto . ') ' . $valueClause . ')';
-        $result = $db->queryF($sql);
-        if (false !== $result) {
-            ++$count;
         }
     }
-
     return $count;
+}
+
+function clearSampleData()
+{
+    $moduleDirName      = \basename(\dirname(__DIR__));
+    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $helper             = Helper::getInstance();
+    // Load language files
+    $helper->loadLanguage('common');
+    $tables = $helper->getModule()->getInfo('tables');
+    // truncate module tables
+    foreach ($tables as $table) {
+        \Xmf\Database\TableLoad::truncateTable($table);
+    }
+    redirect_header($helper->url('admin/index.php'), 1, constant('CO_' . $moduleDirNameUpper . '_' . 'CLEAR_SAMPLEDATA_OK'));
 }

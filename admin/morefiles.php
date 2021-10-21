@@ -135,11 +135,9 @@ switch ($op) {
             }
         } else {
             $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\XoopsConfirm(
-                                        ['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'],
-                                        \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'),
-                                        $morefilesObj->getVar('file_name')
-                            );
-            $form = $xoopsconfirm->getFormXoopsConfirm();
+                ['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), $morefilesObj->getVar('file_name')
+            );
+            $form         = $xoopsconfirm->getFormXoopsConfirm();
             $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }
         break;

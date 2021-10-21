@@ -347,7 +347,6 @@ class LanguageMailTpl extends Files\CreateFile
         return $ret;
     }
 
-
     /**
      * @public   function renderFile
      * @return bool|string
@@ -360,7 +359,7 @@ class LanguageMailTpl extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $tableSoleName = $table->getVar('table_solename');
 
-        $line = '------------------------------------------------------------------';
+        $line    = '------------------------------------------------------------------';
         $content = '';
         switch ($filename) {
             case 'category_new_notify.tpl':

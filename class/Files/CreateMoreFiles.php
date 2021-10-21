@@ -35,7 +35,6 @@ class CreateMoreFiles extends Files\CreateFile
      * @var mixed
      */
     private $folder = null;
-
     /**
      * @var mixed
      */

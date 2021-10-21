@@ -36,7 +36,6 @@ class TemplatesAdminIndex extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -89,9 +88,9 @@ class TemplatesAdminIndex extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
 
-        $content = $this->hc->getHtmlComment('Header', '', "\n") ;
+        $content = $this->hc->getHtmlComment('Header', '', "\n");
         $content .= $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, true) . PHP_EOL;
-        $content .= $this->hc->getHtmlComment('Index Page', '', "\n") ;
+        $content .= $this->hc->getHtmlComment('Index Page', '', "\n");
         $single  = $this->sc->getSmartySingleVar('index');
         $content .= $this->hc->getHtmlTag('div', ['class' => 'top'], $single) . PHP_EOL;
         $content .= $this->hc->getHtmlComment('Footer', '', "\n");

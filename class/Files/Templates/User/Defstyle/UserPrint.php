@@ -36,7 +36,6 @@ class UserPrint extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -88,7 +87,7 @@ class UserPrint extends Files\CreateFile
      */
     private function getTemplatesUserPrintHeader($moduleDirname)
     {
-        $ret = $this->hc->getHtmlComment('Header', '',"\n");
+        $ret = $this->hc->getHtmlComment('Header', '', "\n");
         $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'header', false, '', '', "\n\n");
 
         return $ret;
@@ -98,7 +97,7 @@ class UserPrint extends Files\CreateFile
      * @private  function getTemplatesUserPrintTableThead
      * @param        $tableSoleName
      * @param        $tableAutoincrement
-     * @param array $fields
+     * @param array  $fields
      * @param string $language
      * @return string
      */
@@ -120,8 +119,8 @@ class UserPrint extends Files\CreateFile
             }
         }
 
-        $tr   = $this->hc->getHtmlTableRow($th, 'head', "\t\t");
-        $ret  = $this->hc->getHtmlTableThead($tr, '', "\t");
+        $tr  = $this->hc->getHtmlTableRow($th, 'head', "\t\t");
+        $ret = $this->hc->getHtmlTableThead($tr, '', "\t");
 
         return $ret;
     }
@@ -132,7 +131,7 @@ class UserPrint extends Files\CreateFile
      * @param string $tableName
      * @param        $tableSoleName
      * @param        $tableAutoincrement
-     * @param array $fields
+     * @param array  $fields
      * @return string
      * @internal param string $language
      */
@@ -141,7 +140,7 @@ class UserPrint extends Files\CreateFile
         $td = '';
         if (1 == $tableAutoincrement) {
             $double = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
-            $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t");
+            $td     .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t");
         }
         foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
@@ -152,13 +151,13 @@ class UserPrint extends Files\CreateFile
                     case 3:
                     case 4:
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short');
-                        $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t");
+                        $td     .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t");
                         break;
                     case 5:
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $src    = $this->sc->getSmartyNoSimbol('xoModuleIcons16') . $double . '.png';
-                        $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'','');
-                        $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t");
+                        $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
+                        $td     .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t");
                         break;
                     case 9:
                         // This is to be reviewed, as it was initially to style = "backgroung-color: #"
@@ -166,31 +165,31 @@ class UserPrint extends Files\CreateFile
                         // Old code was <span style="background-color: #<{\$list.{$rpFieldName}}>;">...
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $color  = "<span style='background-color:{$double};'>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
-                        $td     .= $this->hc->getHtmlTableData($color, 'center', '',"\t\t\t");
+                        $td     .= $this->hc->getHtmlTableData($color, 'center', '', "\t\t\t");
                         break;
                     case 10:
                         $src = $this->sc->getSmartyNoSimbol('xoModuleIcons32');
                         $src .= $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'','');
-                        $td  .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t");
+                        $img = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
+                        $td  .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t");
                         break;
                     case 13:
                         $single = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $img    = $this->hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName, 'style' => 'max-width:100px'], '', true, '', '');
-                        $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t");
+                        $td     .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t");
                         break;
                     case 16:
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $src    = $this->sc->getSmartyNoSimbol('$modPathIcon16') . 'status' . $double . '.png';
                         $imgAlt = $this->sc->getSmartyDoubleVar($tableSoleName, 'status_text');
-                        $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $imgAlt, 'title' => $imgAlt], '', true,'','');
-                        $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t");
+                        $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $imgAlt, 'title' => $imgAlt], '', true, '', '');
+                        $td     .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t");
                         break;
                     default:
                         if (0 != $f) {
                             $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t");
+                            $td     .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t");
                         }
                         break;
                 }
@@ -198,8 +197,8 @@ class UserPrint extends Files\CreateFile
         }
         $cycle   = $this->sc->getSmartyNoSimbol('cycle values=\'odd, even\'');
         $tr      = $this->hc->getHtmlTableRow($td, $cycle, "\t\t");
-        $foreach = $this->sc->getSmartyForeach($tableSoleName, $tableName . '_list', $tr, '','', "\t\t");
-        $tbody   = $this->hc->getHtmlTableTbody($foreach,'' , "\t");
+        $foreach = $this->sc->getSmartyForeach($tableSoleName, $tableName . '_list', $tr, '', '', "\t\t");
+        $tbody   = $this->hc->getHtmlTableTbody($foreach, '', "\t");
 
         return $tbody;
     }

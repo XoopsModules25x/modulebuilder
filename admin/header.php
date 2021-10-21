@@ -36,7 +36,7 @@ $modPathIcon32 = $GLOBALS['xoopsModule']->getInfo('modicons32');
 //$pathModuleAdmin = $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
 
 /** @var \XoopsModules\Modulebuilder\Helper $helper */
-$helper = \XoopsModules\Modulebuilder\Helper::getInstance();
+$helper  = \XoopsModules\Modulebuilder\Helper::getInstance();
 $utility = new \XoopsModules\Modulebuilder\Utility();
 
 // MyTextSanitizer

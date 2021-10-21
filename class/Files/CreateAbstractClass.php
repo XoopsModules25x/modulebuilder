@@ -37,21 +37,18 @@ abstract class CreateAbstractClass
      * @var mixed
      */
     protected $module;
-
     /**
      * "table" attribute fot files.
      *
      * @var mixed
      */
     protected $table;
-
     /**
      * "tables" attribute fot files.
      *
      * @var mixed
      */
     protected $tables;
-
     /**
      * "fields" attribute fot files.
      *

@@ -33,7 +33,6 @@ use XoopsModules\Modulebuilder\Files;
 class Morefiles extends Files\CreateFile
 {
     private $folder = null;
-
     private $extension = null;
 
     /**

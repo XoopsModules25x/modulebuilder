@@ -22,7 +22,6 @@
 class ModulebuilderCorePreload extends \XoopsPreloadItem
 {
     // to add PSR-4 autoloader
-
     /**
      * @param $args
      */

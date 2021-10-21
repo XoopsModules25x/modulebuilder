@@ -31,7 +31,6 @@ use XoopsModules\Modulebuilder;
  */
 class LanguageDefines
 {
-
     /**
      * @public function constructor
      * @param null

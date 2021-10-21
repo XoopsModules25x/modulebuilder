@@ -36,7 +36,6 @@ class TemplatesAdminHeader extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -90,7 +89,7 @@ class TemplatesAdminHeader extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
 
         $navigation = $this->sc->getSmartySingleVar('navigation');
-        $due        = $this->hc->getHtmlSpan($navigation, 'left', "\t") ;
+        $due        = $this->hc->getHtmlSpan($navigation, 'left', "\t");
         $buttons    = $this->sc->getSmartySingleVar('buttons');
         $right      = $this->hc->getHtmlSpan($buttons, 'left', "\t\t", "\n");
         $due        .= $this->sc->getSmartyConditions('buttons', '', '', $right, '', '', '', "\t", "\n");
