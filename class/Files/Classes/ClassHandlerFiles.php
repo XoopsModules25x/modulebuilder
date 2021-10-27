@@ -119,7 +119,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $cClh .= $this->getClassAll($tableName, $fieldId, $fieldMain);
         $cClh .= $this->getClassCriteria($tableName);
         if ($fieldElement > 16 && \in_array(1, $fieldParentId)) {
-            $cClh .= $this->getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldElement);
+            //$cClh .= $this->getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldElement);
             $cClh .= $this->getClassGetTableSolenameById($table, $fieldMain);
         }
 
@@ -223,6 +223,7 @@ class ClassHandlerFiles extends Files\CreateFile
         return $ret;
     }
 
+    /*remark from goffy: 'getClassByCategory' currently not in use*/
     /**
      * @public function getClassByCategory
      *
@@ -235,6 +236,7 @@ class ClassHandlerFiles extends Files\CreateFile
      * @param $fieldElement
      * @return string
      */
+    /*
     private function getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldElement)
     {
         $ucfTableName      = \ucfirst($tableName);
@@ -266,7 +268,9 @@ class ClassHandlerFiles extends Files\CreateFile
         $ret .= $this->pc->getPhpCodeFunction("getAll{$ucfTableName}By{$fieldNameDesc}Id" . $ucfTableName, $params, $critAll, 'public ', false, "\t");
 
         return $ret;
+
     }
+    */
 
     /**
      * @public function getClassCriteria
@@ -304,14 +308,13 @@ class ClassHandlerFiles extends Files\CreateFile
         $tableName        = $table->getVar('table_name');
         $tableSoleName    = $table->getVar('table_solename');
         $ucfTableSoleName = \ucfirst($tableSoleName);
-        $ccTableSoleName  = $this->getCamelCase($tableSoleName, true);
 
         $ret       = $this->pc->getPhpCodeCommentMultiLine(['Returns the' => $ucfTableSoleName . ' from id', '' => '', '@return' => 'string'], "\t");
         $soleName  = $this->xc->getXcEqualsOperator("\${$tableSoleName}Id", "(int)( \${$tableSoleName}Id )", null, "\t\t");
         $soleName  .= $this->xc->getXcEqualsOperator("\${$tableSoleName}", "''", null, "\t\t");
         $contentIf = $this->xc->getXcHandlerLine($tableName, "\t\t\t");
-        $contentIf .= $this->xc->getXcHandlerGet($tableName, "\${$tableSoleName}Id", 'Obj', true, false, "\t\t\t");
-        $getVar    = $this->xc->getXcGetVar($ccTableSoleName, "{$tableSoleName}Obj", $fieldMain, false, "\t\t\t\t");
+        $contentIf .= $this->xc->getXcHandlerGet($tableName, "{$tableSoleName}Id", 'Obj', $tableName . 'Handler', false, "\t\t\t");
+        $getVar    = $this->xc->getXcGetVar($tableSoleName, "{$tableSoleName}Obj", $fieldMain, false, "\t\t\t\t");
         $contentIf .= $this->pc->getPhpCodeConditions("\is_object( \${$tableSoleName}Obj )", '', '', $getVar, false, "\t\t\t");
         $soleName  .= $this->pc->getPhpCodeConditions("\${$tableSoleName}Id", ' > ', '0', $contentIf, false, "\t\t");
         $soleName  .= $this->getSimpleString("return \${$tableSoleName};", "\t\t");
