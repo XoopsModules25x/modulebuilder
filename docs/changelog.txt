@@ -1,8 +1,16 @@
-<h5>3.5.0 RC2   [2021-10-13]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
+<h5>3.5.1 Beta 1   [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.25, PHP 8.0.12, PHP 8.1.0 Beta 4
+ - semantic versioning (mamba)
+
+<h5>3.05 Final   [2021-10-21]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
+<hr>
+ - moved to final (goffy)
+ - fixed bug in class handler creation (jjdai/goffy)
+ - changed font color (jjdai/goffy)
+ 
+<h5>3.05 RC2   [2021-10-13]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>
  - added icon for clone (goffy)
  - added feature to clone module (mamba/goffy)
- - semantic versioning (mamba)
 
 <h5>3.05 RC1   [2020-11-11]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.5
 <hr>
