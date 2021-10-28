@@ -37,7 +37,7 @@ class TestdataButtons
     public static function loadButtonConfig($adminObject)
     {
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
-        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         $yamlFile           = \dirname(__DIR__, 2) . '/config/admin.yml';
         $config             = Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
         $displaySampleButton = $config['displaySampleButton'];
