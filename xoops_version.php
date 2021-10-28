@@ -26,9 +26,9 @@
 $moduleDirName      = \basename(__DIR__);
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-$modversion['version']             = 3.05;
+$modversion['version']             = '3.5.0';
 $modversion['module_status']       = 'RC2';
-$modversion['release_date']        = '2020/11/11';
+$modversion['release_date']        = '2021/10/27';
 $modversion['name']                = \_MI_MODULEBUILDER_NAME;
 $modversion['description']         = \_MI_MODULEBUILDER_DESC;
 $modversion['author']              = 'Xoops TDM';
@@ -230,7 +230,7 @@ $modversion['config'][] = [
     'description' => '\_MI_MODULEBUILDER_CONFIG_',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => '1.0',
+    'default'     => '1.0.0',
 ];
 
 $modversion['config'][] = [
