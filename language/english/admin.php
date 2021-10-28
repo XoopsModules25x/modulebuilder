@@ -435,7 +435,7 @@
 \define('_AM_MODULEBUILDER_TOGGLE_SUCCESS', 'Successfully Changed Display');
 \define('_AM_MODULEBUILDER_TOGGLE_FAILED', 'Changing Display Failed');
 //
-\define('_AM_MODULEBUILDER_ABOUT_WEBSITE_FORUM', 'Forum Web Site');
+\define('_AM_MODULEBUILDER_ABOUT_WEBSITE_FORUM', 'Forum Website');
 \define('_AM_MODULEBUILDER_ABOUT_MAKE_DONATION', 'Make a Donation to support this module');
 \define('_AM_MODULEBUILDER_MAINTAINED', '<strong>%s</strong> is maintained by the ');
 \define('_AM_MODULEBUILDER_SUPPORT_FORUM', 'Support Forum');
