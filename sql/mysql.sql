@@ -72,7 +72,7 @@ CREATE TABLE `modulebuilder_modules` (
   `mod_id`                  INT(5)     UNSIGNED NOT NULL AUTO_INCREMENT,
   `mod_name`                VARCHAR(200)        NOT NULL DEFAULT '',
   `mod_dirname`             VARCHAR(100)        NOT NULL DEFAULT '',
-  `mod_version`             VARCHAR(4)          NOT NULL DEFAULT '1.0',
+  `mod_version`             VARCHAR(10)         NOT NULL DEFAULT '1.0',
   `mod_since`               VARCHAR(4)          NOT NULL DEFAULT '1.0',
   `mod_min_php`             VARCHAR(4)          NOT NULL DEFAULT '5.5',
   `mod_min_xoops`           VARCHAR(6)          NOT NULL DEFAULT '2.5.9',
