@@ -464,14 +464,12 @@
 
 // -------------------- IMPORT MODULE -----------------------------------
 
-define('_AM_MODULEBUILDER_MODULES_IMPORT', 'Import Module');
-define('_MI_MODULEBUILDER_ADMIN_MODULES', 'Modules');
-define('_AM_MODULEBUILDER_TABLES_IMPORT', 'Import Table');
-//define('_AM_MODULEBUILDER_MODULE_ID', 'Import this module into TDMCreate:');
-define('_AM_MODULEBUILDER_MODULE_IMPORT_INTO', 'Import Table into this module:');
-define('_AM_MODULEBUILDER_TABLE_ID', 'Select table to import:');
-define('_AM_MODULEBUILDER_MODULE_NEW_NAME', 'New Name for the generated module:');
-
-define('_AM_MODULEBUILDER_GENERATE', 'Generate');
-define('_AM_MODULEBUILDER_ERROR_DATABASE', "Unable to list the databases \n");
-define('_AM_MODULEBUILDER_ERROR_SQL', 'Error SQL: ');
+\define('_AM_MODULEBUILDER_MODULES_IMPORT', 'Import Module');
+\define('_MI_MODULEBUILDER_ADMIN_MODULES', 'Modules');
+\define('_AM_MODULEBUILDER_TABLES_IMPORT', 'Import Table');
+\define('_AM_MODULEBUILDER_MODULE_IMPORT_INTO', 'Import Table into this module:');
+\define('_AM_MODULEBUILDER_TABLE_ID', 'Select table to import:');
+\define('_AM_MODULEBUILDER_MODULE_NEW_NAME', 'New Name for the generated module:');
+\define('_AM_MODULEBUILDER_GENERATE', 'Import');
+\define('_AM_MODULEBUILDER_ERROR_DATABASE', "Unable to list the databases \n");
+\define('_AM_MODULEBUILDER_ERROR_SQL', 'Error SQL: ');
