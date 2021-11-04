@@ -41,10 +41,10 @@ $select_table = new \XoopsFormSelect(_AM_MODULEBUILDER_TABLE_ID, 'table_id', '')
 $sql    = 'SHOW TABLES';
 $result = $GLOBALS['xoopsDB']->queryF($sql);
 
-if (!$result) {
-    echo '_AM_MODULEBUILDER_ERROR_DATABASE';
-    echo '_AM_MODULEBUILDER_ERROR_SQL' . $GLOBALS['xoopsDB']->error();
-    exit;
+if (!$result instanceof \mysqli_result) {
+//    echo '_AM_MODULEBUILDER_ERROR_DATABASE';
+//    echo '_AM_MODULEBUILDER_ERROR_SQL' . $GLOBALS['xoopsDB']->error();
+    \trigger_error($GLOBALS['xoopsDB']->error());
 }
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchRow($result))) {

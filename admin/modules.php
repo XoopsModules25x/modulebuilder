@@ -44,13 +44,15 @@ $modId = Request::getInt('mod_id');
  */
 function importFields($tableName)
 {
-    $table = $GLOBALS['xoopsDB']->prefix((string)$tableName);
-
+    $table  = $GLOBALS['xoopsDB']->prefix((string)$tableName);
     $sql    = 'SHOW COLUMNS FROM ' . $table;
     $result = $GLOBALS['xoopsDB']->query($sql);
 
-    $tFields = [];
+    if (!$result instanceof \mysqli_result) {
+        \trigger_error($GLOBALS['xoopsDB']->error());
+    }
 
+    $tFields = [];
     while ($data = $GLOBALS['xoopsDB']->fetchBoth($result)) {
         $t          = [];
         $t['Field'] = $data['Field'];
@@ -84,9 +86,8 @@ function importFields($tableName)
         }
 
         $tFields[$t['Field']] = $t;
-
-        return $tFields;
     }
+    return $tFields;
 }
 
 function importModule()
@@ -185,7 +186,6 @@ function importTables($moduleId, $moduleName)
             $newTable->setVar('table_nbfields', $countFields);
 
             $currentNumber = 0;
-
             foreach ($importedFields as $t) {
                 $fieldsObj = $fieldsHandler->create();
                 $fieldsObj->setVar('field_mid', $moduleId);
@@ -197,7 +197,6 @@ function importTables($moduleId, $moduleName)
                 $fieldsObj->setVar('field_attribute', $t['Signed'] ?? '');
                 $fieldsObj->setVar('field_null', $t['Null'] ?? '');
                 $fieldsObj->setVar('field_default', $t['Default']);
-
                 if (isset($t['Key'])) {
                     if ('PRI' === $t['Key']) {
                         $fieldsObj->setVar('field_key', 'primary');
@@ -210,6 +209,7 @@ function importTables($moduleId, $moduleName)
                 $fieldsObj->setVar('field_element', $t['Field']);
 
                 if ($currentNumber < $countFields - 1) {
+                    //
                 }
 
                 if (0 == $currentNumber) {
@@ -508,6 +508,9 @@ switch ($op) {
             $resultTables = $GLOBALS['xoopsDB']->query(
                 'SELECT table_id FROM ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_tables') . " as ts WHERE ts.table_mid = '{$modIdSource}'"
             );
+            if (!$resultTables instanceof \mysqli_result) {
+                \trigger_error($GLOBALS['xoopsDB']->error());
+            }
             $num_rows1    = $GLOBALS['xoopsDB']->getRowsNum($resultTables);
             if ($num_rows1 > 0) {
                 while (false !== ($myTables = $GLOBALS['xoopsDB']->fetchArray($resultTables))) {
@@ -537,6 +540,9 @@ switch ($op) {
                     $resultFields = $GLOBALS['xoopsDB']->query(
                         'SELECT field_id FROM ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_fields') . " as fs WHERE fs.field_tid = '{$tableIdSource}'"
                     );
+                    if (!$resultFields instanceof \mysqli_result) {
+                        \trigger_error($GLOBALS['xoopsDB']->error());
+                    }
                     $num_rows2    = $GLOBALS['xoopsDB']->getRowsNum($resultFields);
                     if ($num_rows2 > 0) {
                         while (false !== ($myField = $GLOBALS['xoopsDB']->fetchArray($resultFields))) {
