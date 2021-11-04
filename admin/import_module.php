@@ -28,10 +28,11 @@ require XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 $formImportModule = new \XoopsThemeForm('modules_import', 'Class', 'modules.php?op=modules_import', 'post', true);
 $select_module    = new \XoopsFormSelect(_AM_MODULEBUILDER_MODULE_ID, 'moduleName', '');
 $newModuleName    = new \XoopsFormText(_AM_MODULEBUILDER_MODULE_NEW_NAME, 'moduleNewName', 50, 50, '');
-$moduleHandler    = xoops_getHandler('module');
-$installed_mods   = $moduleHandler->getObjects();
-$listed_mods      = [];
-$count            = 0;
+/** @var \XoopsModuleHandler $moduleHandler */
+$moduleHandler  = xoops_getHandler('module');
+$installed_mods = $moduleHandler->getObjects();
+$listed_mods    = [];
+$count          = 0;
 foreach ($installed_mods as $module) {
     $select_module->addOption($module->getVar('dirname', 'E'), $module->getVar('dirname', 'E'));
 }

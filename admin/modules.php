@@ -147,7 +147,7 @@ function importModule()
     if ($modulesHandler->insert($newModule)) {
         // get the ID of the new module
         $criteria     = new \Criteria('mod_name', $moduleNewName);
-        $moduleObject = $modulesHandler->getObjects($criteria, '', true);
+        $moduleObject = $modulesHandler->getObjects($criteria, false, true);
         $moduleId     = $moduleObject[0]->getVar('mod_id');
         importTables($moduleId, $moduleName);
     }
@@ -162,7 +162,8 @@ function importTables($moduleId, $moduleName)
     $helper        = Helper::getInstance();
     $tablesHandler = $helper->getHandler('Tables');
     $fieldsHandler = $helper->getHandler('Fields');
-    //mb---------------------------------------------
+
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname($moduleName);
     $moduleTables  = $module->getInfo('tables');
