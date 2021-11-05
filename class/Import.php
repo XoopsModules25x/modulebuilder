@@ -2,16 +2,14 @@
 
 namespace XoopsModules\Modulebuilder;
 
-use function GuzzleHttp\Psr7\_caseless_remove;
-
-use const XoopsModules\Modulebuilder\_caseless_remove as _caseless_removeAlias;
+use Xmf\Request;
 
 class Import
 {
     public static function importModule()
     {
-        $moduleName    = isset($_POST['moduleName']) ? $_POST['moduleName'] : 'newModule';
-        $moduleNewName = isset($_POST['moduleNewName']) ? $_POST['moduleNewName'] : $moduleName;
+        $moduleName    = Request::getString('moduleName',  'newModule', 'POST');
+        $moduleNewName = Request::getString('moduleNewName',  $moduleName, 'POST');
         $moduleDirname = \preg_replace('/[^a-zA-Z0-9]\s+/', '', \mb_strtolower($moduleNewName));
 
         $helper         = Helper::getInstance();
@@ -201,8 +199,7 @@ class Import
                             //XoopsFormTextDateSelect
                             $fieldsObj->setVar('field_element', '15');
                         }
-                    } else {
-                        if ($currentFieldNumber > 0) {
+                    } elseif ($currentFieldNumber > 0) {
                             if (in_array($t['Type'], ['blob', 'text', 'mediumblob', 'mediumtext', 'longblob', 'longtext', 'enum', 'set',])) {
                                 //XoopsFormTextArea
                                 $fieldsObj->setVar('field_element', '3');
@@ -216,7 +213,6 @@ class Import
                                 //XoopsFormTextDateSelect
                                 $fieldsObj->setVar('field_element', '15');
                             }
-                        }
                     }
 
                     ++$currentFieldNumber;
