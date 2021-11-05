@@ -257,7 +257,7 @@ class Import
             $t['Default'] = $data['Default'];
             $t['Extra']   = $data['Extra'];
 
-            $t['Label'] = isset($data['Label']) ? $data['Label'] : '';
+            $t['Label'] = $data['Label'] ?? '';
 
             $h = strpos($data['Type'], '(');
             $i = strpos($data['Type'], ')');
