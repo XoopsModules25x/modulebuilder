@@ -4,6 +4,9 @@ namespace XoopsModules\Modulebuilder;
 
 use Xmf\Request;
 
+/**
+ * class Import
+ */
 class Import
 {
     public static function importModule()
