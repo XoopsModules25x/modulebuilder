@@ -11,66 +11,83 @@ class Import
 {
     public static function importModule()
     {
+        $ret = [];
         $moduleName    = Request::getString('moduleName',  'newModule', 'POST');
         $moduleNewName = Request::getString('moduleNewName',  $moduleName, 'POST');
         $moduleDirname = \preg_replace('/[^a-zA-Z0-9]\s+/', '', \mb_strtolower($moduleNewName));
+        if ('' === $moduleDirname) {
+            $ret['result'] = false;
+            $ret['error'] = \_AM_MODULEBUILDER_ERROR_MNAME;
+            return $ret;
+        }
 
         $helper         = Helper::getInstance();
         $modulesHandler = $helper->getHandler('Modules');
-        $newModule      = $modulesHandler->create();
+        $newModuleObj   = $modulesHandler->create();
 
-        $newModule->setVar('mod_name', $moduleNewName);
-        $newModule->setVar('mod_release', date('Y-m-d'));
-        $newModule->setVar('mod_dirname', $moduleDirname);
+        $newModuleObj->setVar('mod_name', $moduleNewName);
+        $newModuleObj->setVar('mod_release', date('Y-m-d'));
+        $newModuleObj->setVar('mod_dirname', $moduleDirname);
 
-        $newModule->setVar('mod_version', $helper->getConfig('version')); //$GLOBALS['xoopsModuleConfig']['version']);
+        $newModuleObj->setVar('mod_version', $helper->getConfig('version')); //$GLOBALS['xoopsModuleConfig']['version']);
 
-        $newModule->setVar('mod_since', $helper->getConfig('since'));
-        $newModule->setVar('mod_min_php', $helper->getConfig('min_php'));
-        $newModule->setVar('mod_min_xoops', $helper->getConfig('min_xoops'));
-        $newModule->setVar('mod_min_admin', $helper->getConfig('min_admin'));
-        $newModule->setVar('mod_min_mysql', $helper->getConfig('min_mysql'));
+        $newModuleObj->setVar('mod_since', $helper->getConfig('since'));
+        $newModuleObj->setVar('mod_min_php', $helper->getConfig('min_php'));
+        $newModuleObj->setVar('mod_min_xoops', $helper->getConfig('min_xoops'));
+        $newModuleObj->setVar('mod_min_admin', $helper->getConfig('min_admin'));
+        $newModuleObj->setVar('mod_min_mysql', $helper->getConfig('min_mysql'));
 
-        $newModule->setVar('mod_description', $helper->getConfig('description'));
-        $newModule->setVar('mod_author', $helper->getConfig('author'));
-        $newModule->setVar('mod_author_mail', $helper->getConfig('author_email'));
-        $newModule->setVar('mod_author_website_url', $helper->getConfig('author_website_url'));
-        $newModule->setVar('mod_author_website_name', $helper->getConfig('author_website_name'));
-        $newModule->setVar('mod_credits', $helper->getConfig('credits'));
-        $newModule->setVar('mod_license', $helper->getConfig('license'));
-        $newModule->setVar('mod_display_admin', $helper->getConfig('display_admin'));
-        $newModule->setVar('mod_display_user', $helper->getConfig('display_user'));
-        $newModule->setVar('mod_active_search', $helper->getConfig('active_search'));
-        $newModule->setVar('mod_active_comments', $helper->getConfig('active_comments'));
-        $newModule->setVar('mod_release_info', $helper->getConfig('release_info'));
-        $newModule->setVar('mod_release_file', $helper->getConfig('release_file'));
-        $newModule->setVar('mod_manual', $helper->getConfig('manual'));
-        $newModule->setVar('mod_manual_file', $helper->getConfig('manual_file'));
-        $newModule->setVar('mod_image', 'empty.png');
-        $newModule->setVar('mod_demo_site_url', $helper->getConfig('demo_site_url'));
-        $newModule->setVar('mod_demo_site_name', $helper->getConfig('demo_site_name'));
-        $newModule->setVar('mod_support_url', $helper->getConfig('support_url'));
-        $newModule->setVar('mod_support_name', $helper->getConfig('support_name'));
-        $newModule->setVar('mod_website_url', $helper->getConfig('website_url'));
-        $newModule->setVar('mod_website_name', $helper->getConfig('website_name'));
-        $newModule->setVar('mod_status', $helper->getConfig('status'));
+        $newModuleObj->setVar('mod_description', $helper->getConfig('description'));
+        $newModuleObj->setVar('mod_author', $helper->getConfig('author'));
+        $newModuleObj->setVar('mod_author_mail', $helper->getConfig('author_email'));
+        $newModuleObj->setVar('mod_author_website_url', $helper->getConfig('author_website_url'));
+        $newModuleObj->setVar('mod_author_website_name', $helper->getConfig('author_website_name'));
+        $newModuleObj->setVar('mod_credits', $helper->getConfig('credits'));
+        $newModuleObj->setVar('mod_license', $helper->getConfig('license'));
+        $newModuleObj->setVar('mod_display_admin', $helper->getConfig('display_admin'));
+        $newModuleObj->setVar('mod_display_user', $helper->getConfig('display_user'));
+        $newModuleObj->setVar('mod_active_search', $helper->getConfig('active_search'));
+        $newModuleObj->setVar('mod_active_comments', $helper->getConfig('active_comments'));
+        $newModuleObj->setVar('mod_release_info', $helper->getConfig('release_info'));
+        $newModuleObj->setVar('mod_release_file', $helper->getConfig('release_file'));
+        $newModuleObj->setVar('mod_manual', $helper->getConfig('manual'));
+        $newModuleObj->setVar('mod_manual_file', $helper->getConfig('manual_file'));
+        $newModuleObj->setVar('mod_image', 'empty.png');
+        $newModuleObj->setVar('mod_demo_site_url', $helper->getConfig('demo_site_url'));
+        $newModuleObj->setVar('mod_demo_site_name', $helper->getConfig('demo_site_name'));
+        $newModuleObj->setVar('mod_support_url', $helper->getConfig('support_url'));
+        $newModuleObj->setVar('mod_support_name', $helper->getConfig('support_name'));
+        $newModuleObj->setVar('mod_website_url', $helper->getConfig('website_url'));
+        $newModuleObj->setVar('mod_website_name', $helper->getConfig('website_name'));
+        $newModuleObj->setVar('mod_status', $helper->getConfig('status'));
 
-        $newModule->setVar('mod_admin', $helper->getConfig('display_admin'));
-        $newModule->setVar('mod_user', $helper->getConfig('display_user'));
-        $newModule->setVar('mod_search', $helper->getConfig('active_search'));
-        $newModule->setVar('mod_comments', $helper->getConfig('active_comments'));
-        $newModule->setVar('mod_notifications', $helper->getConfig('active_notifications'));
-        $newModule->setVar('mod_permissions', $helper->getConfig('active_permissions'));
-        $newModule->setVar('mod_donations', $helper->getConfig('donations'));
-        $newModule->setVar('mod_subversion', $helper->getConfig('subversion'));
+        $newModuleObj->setVar('mod_admin', $helper->getConfig('display_admin'));
+        $newModuleObj->setVar('mod_user', $helper->getConfig('display_user'));
+        $newModuleObj->setVar('mod_search', $helper->getConfig('active_search'));
+        $newModuleObj->setVar('mod_comments', $helper->getConfig('active_comments'));
+        $newModuleObj->setVar('mod_notifications', $helper->getConfig('active_notifications'));
+        $newModuleObj->setVar('mod_permissions', $helper->getConfig('active_permissions'));
+        $newModuleObj->setVar('mod_donations', $helper->getConfig('donations'));
+        $newModuleObj->setVar('mod_subversion', $helper->getConfig('subversion'));
 
-        if ($modulesHandler->insert($newModule)) {
+        if ($modulesHandler->insert($newModuleObj)) {
             // get the ID of the new module
             $criteria     = new \Criteria('mod_name', $moduleNewName);
             $moduleObject = $modulesHandler->getObjects($criteria, false, true);
             $moduleId     = $moduleObject[0]->getVar('mod_id');
-            self::importTables($moduleId, $moduleName);
+            $tables = self::importTables($moduleId, $moduleName);
+            if (false === $tables ) {
+                $ret['result'] = false;
+                $ret['error'] = \_AM_MODULEBUILDER_ERROR_IMPTABLES;
+            } else {
+                $ret['result'] = true;
+                $ret['tables'] = $tables;
+            }
+        } else {
+            $ret['result'] = false;
+            $ret['error'] = \_AM_MODULEBUILDER_ERROR_MCREATE . $GLOBALS['xoopsDB']->error();
         }
+        return $ret;
     }
 
     /**
@@ -87,6 +104,8 @@ class Import
         $moduleHandler = xoops_getHandler('module');
         $module        = $moduleHandler->getByDirname($moduleName);
         $moduleTables  = $module->getInfo('tables');
+
+        $tables = [];
 
         if (false !== $moduleTables && is_array($moduleTables)) {
             $currentTableNumber = 0;
@@ -223,11 +242,14 @@ class Import
                     $fieldsHandler->insert($fieldsObj);
                 }
 
-                echo $table . ' Table has been imported <br>';
+                $tables[] = \_AM_MODULEBUILDER_SUCCESS_IMPTABLES . $table;
 
                 ++$currentTableNumber;
             }
+        } else {
+            return false;
         }
+        return $tables;
     }
 
     /**

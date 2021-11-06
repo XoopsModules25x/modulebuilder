@@ -539,7 +539,7 @@ class ClassFiles extends Files\CreateFile
 
         $getToArray = $this->pc->getPhpCodeArray('ret', [], false, "\t\t");
         $getToArray .= $this->xc->getXcEqualsOperator('$vars', '$this->getVars()', null, "\t\t");
-        $foreach    = $this->xc->getXcGetVar('ret[$var]', 'this', '"{$var}"', false, "\t\t\t");
+        $foreach    = $this->xc->getXcEqualsOperator('$ret[$var]', '$this->getVar($var)', null, "\t\t\t");
         $getToArray .= $this->pc->getPhpCodeForeach('vars', true, false, 'var', $foreach, "\t\t");
         $getToArray .= $this->getSimpleString('return $ret;', "\t\t");
 

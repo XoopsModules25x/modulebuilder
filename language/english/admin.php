@@ -473,3 +473,6 @@
 \define('_AM_MODULEBUILDER_GENERATE', 'Import');
 \define('_AM_MODULEBUILDER_ERROR_DATABASE', "Unable to list the databases \n");
 \define('_AM_MODULEBUILDER_ERROR_SQL', 'Error SQL: ');
+\define('_AM_MODULEBUILDER_ERROR_MNAME', 'Error: no valid new module name');
+\define('_AM_MODULEBUILDER_ERROR_IMPTABLES', 'Error: import tables failed');
+\define('_AM_MODULEBUILDER_SUCCESS_IMPTABLES', 'Table has been imported: ');

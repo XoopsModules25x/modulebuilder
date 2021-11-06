@@ -93,7 +93,15 @@ switch ($op) {
         break;
 
     case 'modules_import':
-        Import::importModule();
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_MODULES_LIST, 'modules.php', 'list');
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
+        $result = Import::importModule();
+        if (false === $result['result']) {
+            $GLOBALS['xoopsTpl']->assign('error', $result['error']);
+        } else {
+            $GLOBALS['xoopsTpl']->assign('tables_list', $result['tables']);
+        }
         break;
 
     case 'save':
