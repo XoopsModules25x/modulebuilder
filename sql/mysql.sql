@@ -15,7 +15,7 @@ CREATE TABLE `modulebuilder_settings` (
   `set_id`                  INT(5)     UNSIGNED NOT NULL AUTO_INCREMENT,
   `set_name`                VARCHAR(255)        NOT NULL DEFAULT 'My Module',
   `set_dirname`             VARCHAR(100)        NOT NULL DEFAULT 'mymoduledirname',
-  `set_version`             VARCHAR(5)          NOT NULL DEFAULT '1.0',
+  `set_version`             VARCHAR(10)         NOT NULL DEFAULT '1.0',
   `set_since`               VARCHAR(5)          NOT NULL DEFAULT '1.0',
   `set_min_php`             VARCHAR(5)          NOT NULL DEFAULT '7.0',
   `set_min_xoops`           VARCHAR(8)          NOT NULL DEFAULT '2.5.10',
