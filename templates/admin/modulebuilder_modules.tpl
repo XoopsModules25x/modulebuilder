@@ -99,10 +99,17 @@
         <div class="spacer"><{$form}></div>
     <{/if}>
 <{/if}>
+<!-- Display errors -->
 <{if $error|default:''}>
     <div class="errorMsg">
         <strong><{$error}></strong>
     </div>
+<{/if}>
+<!-- Display result of module import -->
+<{if $tables_list|default:''}>
+    <{foreach item=table from=$tables_list}>
+        <p><{$table}></p>
+    <{/foreach}>
 <{/if}>
 <!-- Footer -->
 <{includeq file="db:modulebuilder_footer.tpl"}>

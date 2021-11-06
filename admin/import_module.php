@@ -16,6 +16,9 @@
  * @author       Mamba
  */
 
+// Define main template
+$templateMain = 'modulebuilder_modules.tpl';
+
 require __DIR__ . '/header.php';
 //xoops_cp_header();
 $adminObject = \Xmf\Module\Admin::getInstance();
@@ -69,6 +72,6 @@ $buttonTray->addElement($cancel_button);
 
 $formImportModule->addElement($buttonTray);
 
-$formImportModule->display();
+$GLOBALS['xoopsTpl']->assign('form', $formImportModule->render());
 
 require __DIR__ . '/footer.php';
