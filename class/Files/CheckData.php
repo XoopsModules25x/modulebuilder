@@ -100,7 +100,7 @@ class CheckData
         $this->getCheckUserpage();
         $this->getCheckRating();
         $this->getCheckReads();
-        $this->getCheckSQL();
+        $this->getCheckSql();
 
         return $this->infos;
     }
