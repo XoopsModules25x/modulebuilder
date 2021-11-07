@@ -66,7 +66,7 @@ function xoops_module_update_modulebuilder(&$module, $prev_version = null)
  *
  * @return bool
  */
-function update_modulebuilder_v191(&$module)
+function update_modulebuilder_v191($module)
 {
     global $xoopsDB;
     $result = $xoopsDB->query(
