@@ -488,7 +488,7 @@ class CreateFile extends CreateTableFields
         //$subversion       = $module->getVar('mod_subversion');
         //$date             = date('D Y-m-d H:i:s');
         if (null === $noPhpFile) {
-            $ret = "<?php";
+            $ret = '<?php';
             $ret .= "\n\ndeclare(strict_types=1);\n";
         } elseif (\is_string($noPhpFile)) {
             $ret = $noPhpFile;

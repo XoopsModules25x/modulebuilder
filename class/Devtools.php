@@ -311,7 +311,7 @@ class Devtools
             // file, read it and replace text
             $content = \file_get_contents($src_file);
             if ($replaceTabs) {
-                $content = \preg_replace("/[\t]+/", "    ", $content);
+                $content = \preg_replace("/[\t]+/", '    ', $content);
             } else {
                 $content = \str_replace($patKeys, $patValues, $content);
             }

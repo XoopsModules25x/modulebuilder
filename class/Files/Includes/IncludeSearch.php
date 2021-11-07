@@ -99,7 +99,7 @@ class IncludeSearch extends Files\CreateFile
         $tables           = $this->getTables();
         $t     = "\t";
         $ret   = $this->pc->getPhpCodeCommentMultiLine(['search callback functions' => '', '' => '', '@param $queryarray' => '', '@param $andor' => '', '@param $limit' => '', '@param $offset' => '', '@param $userid' => '', '@return' => 'array $itemIds']);
-        $func  = $this->xc->getXcEqualsOperator('$ret', "[]", '', $t);
+        $func  = $this->xc->getXcEqualsOperator('$ret', '[]', '', $t);
         $func .= $this->xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", $t);
 
         if (\is_array($tables)) {

@@ -149,7 +149,7 @@ class CreateSmartyCode
      * @param string $default
      * @return string
      */
-    public function getSmartySingleVar($var, $t = '', $n = "", $default = 'false')
+    public function getSmartySingleVar($var, $t = '', $n = '', $default = 'false')
     {
         $ret = "{$t}<{\${$var}";
         if ('' !== $default) {
@@ -168,7 +168,7 @@ class CreateSmartyCode
      * @param string $n
      * @return string
      */
-    public function getSmartyDoubleVar($leftVar, $rightVar, $t = '', $n = "")
+    public function getSmartyDoubleVar($leftVar, $rightVar, $t = '', $n = '')
     {
         return "{$t}<{\${$leftVar}.{$rightVar}}>{$n}";
     }
@@ -258,7 +258,7 @@ class CreateSmartyCode
             if ('string' === $default) {
                 $ret .= "|default:''";
             } elseif ('int' === $default) {
-                $ret .= "|default:0";
+                $ret .= '|default:0';
             }
             $ret .= "{$operator}{$type}}>{$ns}";
         } elseif (!$noSimbol) {
@@ -266,7 +266,7 @@ class CreateSmartyCode
             if ('string' === $default) {
                 $ret .= "|default:''";
             } elseif ('int' === $default) {
-                $ret .= "|default:0";
+                $ret .= '|default:0';
             }
             $ret .= "{$operator}{$type}}>{$ns}";
         } else {

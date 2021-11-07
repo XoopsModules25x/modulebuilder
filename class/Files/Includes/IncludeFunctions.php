@@ -114,7 +114,7 @@ class IncludeFunctions extends Files\CreateFile
         $t      = "\t";
         $ret    = $this->pc->getPhpCodeCommentMultiLine(['Get the permissions ids' => '', '' => '', '@param  $permtype' => '', '@param  $dirname' => '', '@return' => 'mixed $itemIds']);
         $func = $this->xc->getXcGetGlobal(['xoopsUser'], $t);
-        $func .= $this->xc->getXcEqualsOperator('static $permissions', "[]", '', $t);
+        $func .= $this->xc->getXcEqualsOperator('static $permissions', '[]', '', $t);
         $contIf = $this->getSimpleString('return $permissions[$permtype];', $t . "\t");
         $func .= $this->pc->getPhpCodeConditions('\is_array($permissions) && \array_key_exists($permtype, $permissions)','','', $contIf, false, $t);
         $func .= $this->xc->getXcXoopsHandler('module', $t);

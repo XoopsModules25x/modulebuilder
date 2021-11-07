@@ -154,7 +154,7 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesTableTfoot()
     {
-        $td = $this->hc->getHtmlTableData("&nbsp;", '', '', '', '');
+        $td = $this->hc->getHtmlTableData('&nbsp;', '', '', '', '');
         $tr = $this->hc->getHtmlTableRow($td, '', '', '');
 
         return $this->hc->getHtmlTableTfoot($tr, '', "\t\t", "\n", false);

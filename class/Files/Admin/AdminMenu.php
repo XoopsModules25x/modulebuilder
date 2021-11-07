@@ -87,7 +87,7 @@ class AdminMenu extends Files\CreateFile
             foreach ($param as $key => $value) {
                 $ret .= $this->getSimpleString("\t'{$key}' => {$value},");
             }
-            $ret .= $this->getSimpleString("];");
+            $ret .= $this->getSimpleString('];');
         } else {
             foreach ($param as $key => $value) {
                 $ret .= $this->xc->getXcEqualsOperator((string)$key, (string)$value);

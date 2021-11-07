@@ -822,7 +822,7 @@ class CreatePhpCode
                 $ret .= "{$dim}";
             }
         }
-        $ret .= ";" . $n;
+        $ret .= ';' . $n;
 
         return $ret;
     }
@@ -845,7 +845,7 @@ class CreatePhpCode
                 $ret .= "{$dim}";
             }
         }
-        $ret .= ";" . $n;
+        $ret .= ';' . $n;
 
         return $ret;
     }

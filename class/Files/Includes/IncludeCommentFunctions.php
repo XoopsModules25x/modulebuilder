@@ -127,7 +127,7 @@ class IncludeCommentFunctions extends Files\CreateFile
         $func2 = $this->pc->getPhpCodeCommentLine('Notification event','',$t);
         $func2 .= $this->xc->getXcHelperGetInstance($moduleDirname, $t);
         $func2 .= $this->xc->getXcHandlerLine($tableName, $t);
-        $func2 .= $this->xc->getXcGetVar($ccFieldId, "comment", "com_itemid", false, $t);
+        $func2 .= $this->xc->getXcGetVar($ccFieldId, 'comment', 'com_itemid', false, $t);
         $func2 .= $this->xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
         $func2 .= $this->xc->getXcGetVar($ccFieldMain, "{$tableName}Obj", $fieldMain, false, $t);
         $func2 .= $this->pc->getPhpCodeBlankLine();

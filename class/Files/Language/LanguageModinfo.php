@@ -429,7 +429,7 @@ class LanguageModinfo extends Files\CreateFile
             'NOTIFY_' . $stuTableSoleName                       => $ucfTableSoleName . ' notification',
             'NOTIFY_' . $stuTableSoleName . '_MODIFY'           => "{$ucfTableSoleName} modification",
             'NOTIFY_' . $stuTableSoleName . '_MODIFY_CAPTION'   => "Notify me about {$tableSoleName} modification",
-            'NOTIFY_' . $stuTableSoleName . '_MODIFY_SUBJECT'   => "Notification about modification",
+            'NOTIFY_' . $stuTableSoleName . '_MODIFY_SUBJECT'   => 'Notification about modification',
             'NOTIFY_' . $stuTableSoleName . '_DELETE'           => "{$ucfTableSoleName} deleted",
             'NOTIFY_' . $stuTableSoleName . '_DELETE_CAPTION'   => "Notify me about deleted {$tableName}",
             'NOTIFY_' . $stuTableSoleName . '_DELETE_SUBJECT'   => "Notification delete {$tableSoleName}",

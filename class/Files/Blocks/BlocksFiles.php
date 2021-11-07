@@ -168,7 +168,7 @@ class BlocksFiles extends Files\CreateFile
             $case2[] = $critStatus;
         }
         $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\time() - 604800', "'>='", true);
-        $case2[] = $this->pc->getPhpCodeCommentLine("new since last week: 7 * 24 * 60 * 60 = 604800",'',"\t\t\t");
+        $case2[] = $this->pc->getPhpCodeCommentLine('new since last week: 7 * 24 * 60 * 60 = 604800', '', "\t\t\t");
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
         $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\time()', "'<='", true);
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
@@ -248,7 +248,7 @@ class BlocksFiles extends Files\CreateFile
         $func .= $this->getSimpleString('return $block;',"\t");
         $func .= $this->pc->getPhpCodeBlankLine();
 
-        $ret  .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_show", '$options', $func, '', false, "");
+        $ret  .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_show", '$options', $func, '', false, '');
 
         return $ret;
     }
@@ -300,7 +300,7 @@ class BlocksFiles extends Files\CreateFile
         $func .= $this->getSimpleString('return $form;', "\t");
         $func .= $this->pc->getPhpCodeBlankLine();
 
-        $ret .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_edit", '$options', $func, '', false, "");
+        $ret .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_edit", '$options', $func, '', false, '');
 
         return $ret;
 

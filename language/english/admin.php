@@ -63,7 +63,7 @@
 \define('_AM_MODULEBUILDER_FORMADD', 'Add');
 \define(
     '_AM_MODULEBUILDER_OPTIONS_DESC',
-    "<b>Select one or all items to add specific addon in this new module</b>"
+    '<b>Select one or all items to add specific addon in this new module</b>'
 );
 // Common / List headers in templates
 \define('_AM_MODULEBUILDER_ID', 'Id');
@@ -329,7 +329,7 @@
 // others
 \define('_AM_MODULEBUILDER_BUILDING_DIRECTORY', "Files created in the directory <span class='bold'>uploads/modulebuilder/repository/</span> of the module <span class='bold green'>%s</span>");
 \define('_AM_MODULEBUILDER_BUILDING_DIRECTORY_INROOT', "<br><span class='bold red'>Created module was also copied to %s</span>");
-\define('_AM_MODULEBUILDER_BUILDING_COMMON', "Copied common files and created folder for test data");
+\define('_AM_MODULEBUILDER_BUILDING_COMMON', 'Copied common files and created folder for test data');
 \define('_AM_MODULEBUILDER_BUILDING_DELETED_CACHE_FILES', 'Cache Files Are Deleted Succefully');
 \define('_AM_MODULEBUILDER_BUILDING_INROOT_COPY', "Create copy of this module in root/modules<br /><b class='red'>Pay attention: if yes, then an existing module with same name will be overwritten irreversible!</b>");
 \define('_AM_MODULEBUILDER_BUILDING_TEST', 'Save and restore test data of selected module');
@@ -358,7 +358,7 @@
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS1', "The table '%t' should use rating functionality, but the table do not have a field of type 'Ratings Textbox', which is obligatory for this function");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS2', "The table '%t' should use rating functionality, but the table do not have a field of type 'Votes Textbox', which is obligatory for this function");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_READS1', "The table '%t' should use count reads functionality, but the table do not have a field of type 'Reads Textbox', which is obligatory for this function");
-\define('_AM_MODULEBUILDER_BUILDING_RATING', "Copied rating files");
+\define('_AM_MODULEBUILDER_BUILDING_RATING', 'Copied rating files');
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_USERPAGE1', "The table '%t' should use submit or rate or broken functionality, but the table is not selected for user files");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_SQL1', "The field '%f' in table '%t' is type DECIMAL, FLOAT or DOUBLE. The value should be '{digits in total},{digits after the decimal point}', e.g. '16,2'");
 \define('_AM_MODULEBUILDER_BUILDING_CHECK_SQL2', "The field '%f' in table '%t' is type DECIMAL, FLOAT or DOUBLE. The default value should be related to precision, e.g. '0.00' if value is '16,2'");
@@ -394,35 +394,35 @@
 \define('_AM_MODULEBUILDER_FORM_ACTION', 'Action');
 //
 // ------------------- Field elements --------------------------------- //
-\define('_AM_MODULEBUILDER_FIELD_ELE_TEXT', "Textbox");
-\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTAREA', "Plain TextArea Field");
-\define('_AM_MODULEBUILDER_FIELD_ELE_DHTMLTEXTAREA', "Selectable Editor (Dhtml)");
-\define('_AM_MODULEBUILDER_FIELD_ELE_CHECKBOX', "CheckBox");
-\define('_AM_MODULEBUILDER_FIELD_ELE_RADIOYN', "Radio Yes/No");
-\define('_AM_MODULEBUILDER_FIELD_ELE_SELECTBOX', "Select Listbox");
-\define('_AM_MODULEBUILDER_FIELD_ELE_SELECTUSER', "Select User Field");
-\define('_AM_MODULEBUILDER_FIELD_ELE_COLORPICKER', "Color Picker Field");
-\define('_AM_MODULEBUILDER_FIELD_ELE_IMAGELIST', "Image List");
-\define('_AM_MODULEBUILDER_FIELD_ELE_SELECTFILE', "Select File Field");
-\define('_AM_MODULEBUILDER_FIELD_ELE_URLFILE', "Url File Field");
-\define('_AM_MODULEBUILDER_FIELD_ELE_UPLOADIMAGE', "Upload Image Field");
-\define('_AM_MODULEBUILDER_FIELD_ELE_UPLOADFILE', "Upload File Field");
-\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTDATESELECT', "Date Select Field");
-\define('_AM_MODULEBUILDER_FIELD_ELE_SELECTSTATUS', "Select Status Field");
-\define('_AM_MODULEBUILDER_FIELD_ELE_PASSWORD', "Password Field");
-\define('_AM_MODULEBUILDER_FIELD_ELE_SELECTCOUNTRY', "Select Country List");
-\define('_AM_MODULEBUILDER_FIELD_ELE_SELECTLANG', "Select Language List");
-\define('_AM_MODULEBUILDER_FIELD_ELE_DATETIME', "Date/Time Select Field");
-\define('_AM_MODULEBUILDER_FIELD_ELE_SELECTCOMBO', "Select Combobox");
-\define('_AM_MODULEBUILDER_FIELD_ELE_RADIO', "Radio");
-\define('_AM_MODULEBUILDER_FIELD_ELE_RADIO_1', "Radio Value 1");
-\define('_AM_MODULEBUILDER_FIELD_ELE_RADIO_2', "Radio Value 2");
-\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTUUID', "UUID Textbox");
-\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTIP', "IP Textbox");
-\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTCOMMENTS', "Comments Textbox");
-\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTRATINGS', "Ratings Textbox");
-\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTVOTES', "Votes Textbox");
-\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTREADS', "Reads Textbox");
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXT', 'Textbox');
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTAREA', 'Plain TextArea Field');
+\define('_AM_MODULEBUILDER_FIELD_ELE_DHTMLTEXTAREA', 'Selectable Editor (Dhtml)');
+\define('_AM_MODULEBUILDER_FIELD_ELE_CHECKBOX', 'CheckBox');
+\define('_AM_MODULEBUILDER_FIELD_ELE_RADIOYN', 'Radio Yes/No');
+\define('_AM_MODULEBUILDER_FIELD_ELE_SELECTBOX', 'Select Listbox');
+\define('_AM_MODULEBUILDER_FIELD_ELE_SELECTUSER', 'Select User Field');
+\define('_AM_MODULEBUILDER_FIELD_ELE_COLORPICKER', 'Color Picker Field');
+\define('_AM_MODULEBUILDER_FIELD_ELE_IMAGELIST', 'Image List');
+\define('_AM_MODULEBUILDER_FIELD_ELE_SELECTFILE', 'Select File Field');
+\define('_AM_MODULEBUILDER_FIELD_ELE_URLFILE', 'Url File Field');
+\define('_AM_MODULEBUILDER_FIELD_ELE_UPLOADIMAGE', 'Upload Image Field');
+\define('_AM_MODULEBUILDER_FIELD_ELE_UPLOADFILE', 'Upload File Field');
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTDATESELECT', 'Date Select Field');
+\define('_AM_MODULEBUILDER_FIELD_ELE_SELECTSTATUS', 'Select Status Field');
+\define('_AM_MODULEBUILDER_FIELD_ELE_PASSWORD', 'Password Field');
+\define('_AM_MODULEBUILDER_FIELD_ELE_SELECTCOUNTRY', 'Select Country List');
+\define('_AM_MODULEBUILDER_FIELD_ELE_SELECTLANG', 'Select Language List');
+\define('_AM_MODULEBUILDER_FIELD_ELE_DATETIME', 'Date/Time Select Field');
+\define('_AM_MODULEBUILDER_FIELD_ELE_SELECTCOMBO', 'Select Combobox');
+\define('_AM_MODULEBUILDER_FIELD_ELE_RADIO', 'Radio');
+\define('_AM_MODULEBUILDER_FIELD_ELE_RADIO_1', 'Radio Value 1');
+\define('_AM_MODULEBUILDER_FIELD_ELE_RADIO_2', 'Radio Value 2');
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTUUID', 'UUID Textbox');
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTIP', 'IP Textbox');
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTCOMMENTS', 'Comments Textbox');
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTRATINGS', 'Ratings Textbox');
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTVOTES', 'Votes Textbox');
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTREADS', 'Reads Textbox');
 //
 // ------------------- Misc --------------------------------- //
 \define('_AM_MODULEBUILDER_THEREARE_DATABASE1', "There are <span style='color: #ff0000; font-weight: bold;'>%s</span>");

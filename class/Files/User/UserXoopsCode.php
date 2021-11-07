@@ -198,7 +198,7 @@ class UserXoopsCode
             $n       = "\n";
         }
         if (0 === $eleArray) {
-            $ret .= " = ";
+            $ret .= ' = ';
         } elseif (1 === $eleArray || 11 === $eleArray) {
             $ret .= "['{$name}'] = ";
         } elseif (2 === $eleArray) {
@@ -207,7 +207,7 @@ class UserXoopsCode
             $ret .= "['{$name}'][{$index}][{$num}] = ";
         }
         if ($isArray) {
-            $ret .= "[";
+            $ret .= '[';
         }
         $ret .= $n;
         //search for longest key
@@ -232,7 +232,7 @@ class UserXoopsCode
         }
         $ret .= $t;
         if ($isArray) {
-            $ret .= "]";
+            $ret .= ']';
         }
         $ret .= ";\n";
         return $ret;
@@ -255,7 +255,7 @@ class UserXoopsCode
         $ret = $t . '$modversion';
 
         if (0 === $eleArray) {
-            $ret .= " = ";
+            $ret .= ' = ';
         } elseif (1 === $eleArray) {
             $ret .= "['{$name}'] = ";
         } elseif (2 === $eleArray) {

@@ -225,7 +225,7 @@ class AdminPages extends Files\CreateFile
             $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', $t);
             $ret .= $this->xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
         }
-        $ret .= $this->pc->getPhpCodeCommentLine("Request source", '', $t);
+        $ret .= $this->pc->getPhpCodeCommentLine('Request source', '', $t);
         $ret .= $this->xc->getXcXoopsRequest($ccFieldId . 'Source', $fieldId . '_source', '', 'Int', false, $t);
         $ret .= $this->xc->getXcCommonPagesClone($tableName, $ccFieldId, $t);
 

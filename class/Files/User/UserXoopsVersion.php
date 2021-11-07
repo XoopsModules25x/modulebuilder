@@ -268,7 +268,7 @@ class UserXoopsVersion extends Files\CreateFile
             }
         }
         $ret          = $this->getDashComment('Comments');
-        $ret          .= $this->uxc->getUserModVersionText(1, "1", 'hasComments');
+        $ret          .= $this->uxc->getUserModVersionText(1, '1', 'hasComments');
         $ret          .= $this->uxc->getUserModVersionText(2, "'{$tableName}.php'", 'comments', "'pageName'");
         $ret          .= $this->uxc->getUserModVersionText(2, "'{$fieldId}'", 'comments', "'itemName'");
         $ret          .= Modulebuilder\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('Comment callback functions');
@@ -376,7 +376,7 @@ class UserXoopsVersion extends Files\CreateFile
             $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer', '');
         }
 
-        $ret .= $this->uxc->getUserModVersionArray(11, $item, "templates");
+        $ret .= $this->uxc->getUserModVersionArray(11, $item, 'templates');
 
         return $ret;
     }
@@ -702,7 +702,7 @@ class UserXoopsVersion extends Files\CreateFile
                 'description' => "'{$language}RATINGBARS_DESC'",
                 'formtype'    => "'select'",
                 'valuetype'   => "'int'",
-                'default'     => "0",
+                'default'     => '0',
                 'options'     => "['{$language}RATING_NONE' => 0, '{$language}RATING_5STARS' => 1, '{$language}RATING_10STARS' => 2, '{$language}RATING_LIKES' => 3, '{$language}RATING_10NUM' => 4]",
             ];
             $ret .= $this->uxc->getUserModVersionArray(2, $mimetypes_image, 'config');

@@ -188,7 +188,7 @@ class TemplatesBlocks extends Files\CreateFile
         $foreach = $this->sc->getSmartyForeach($tableSoleName, 'block', $tr, '','', "\t\t");
         $tbody   = $this->hc->getHtmlTableTbody($foreach,'' , "\t");
 
-        return $this->sc->getSmartyConditions("block", '', '', $tbody, false, true, true, "\t");
+        return $this->sc->getSmartyConditions('block', '', '', $tbody, false, true, true, "\t");
     }
 
     /**
@@ -197,7 +197,7 @@ class TemplatesBlocks extends Files\CreateFile
      */
     private function getTemplatesBlocksTableTfoot()
     {
-        $td = $this->hc->getHtmlTag('td', [], "&nbsp;", false, '', '');
+        $td = $this->hc->getHtmlTag('td', [], '&nbsp;', false, '', '');
         $tr = $this->hc->getHtmlTag('tr', [], $td, false, '', '');
 
         return $this->hc->getHtmlTag('tfoot', [], $tr, false, "\t");

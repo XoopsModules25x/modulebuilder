@@ -1271,7 +1271,7 @@ class CreateXoopsCode
      */
     public function getXcGetGlobal($globals, $t = '')
     {
-        $ret    = $t . "global ";
+        $ret    = $t . 'global ';
         $detail = '';
         foreach ($globals as $global) {
             if ($detail !== '') {

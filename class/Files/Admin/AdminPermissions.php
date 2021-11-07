@@ -246,7 +246,7 @@ class AdminPermissions extends Files\CreateFile
 
         $ret       .= $this->pc->getPhpCodeUnset('permform');
         $elseInter = $this->xc->getXcRedirectHeader("'permissions.php'", '', '3', "{$language}NO_PERMISSIONS_SET", false, "\t");
-        $elseInter .= $this->getSimpleString("exit();", "\t");
+        $elseInter .= $this->getSimpleString('exit();', "\t");
         $ret       .= $this->pc->getPhpCodeConditions('$permFound', ' !== ', 'true', $elseInter, false);
 
         return $ret;
