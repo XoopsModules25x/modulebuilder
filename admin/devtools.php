@@ -187,7 +187,7 @@ switch ($op) {
 
 function getUserDefinedConstants() {
     $constants = get_defined_constants(true);
-    return (isset($constants['user']) ? $constants['user'] : []);
+    return ($constants['user'] ?? []);
 }
 
 require __DIR__ . '/footer.php';
