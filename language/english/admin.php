@@ -476,3 +476,5 @@
 \define('_AM_MODULEBUILDER_ERROR_MNAME', 'Error: no valid new module name');
 \define('_AM_MODULEBUILDER_ERROR_IMPTABLES', 'Error: import tables failed');
 \define('_AM_MODULEBUILDER_SUCCESS_IMPTABLES', 'Table has been imported: ');
+\define('_AM_MODULEBUILDER_ERROR_MCREATE', 'Error creating imported module');
+
