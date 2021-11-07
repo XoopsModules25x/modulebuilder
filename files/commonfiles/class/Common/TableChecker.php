@@ -120,11 +120,11 @@ class TableChecker extends \XoopsObject
             $sqlutil = new \SqlUtility();
             $pieces = [];
             $sql_query = \trim(file_get_contents($sql_file_path));
-            $sqlutil->splitMySqlFile($pieces, $sql_query);
+            $sqlutil::splitMySqlFile($pieces, $sql_query);
 
             $countTable = 0;
             foreach ($pieces as $piece) {
-                $singleSql = $sqlutil->prefixQuery($piece, $GLOBALS['xoopsDB']->prefix());
+                $singleSql = $sqlutil::prefixQuery($piece, $GLOBALS['xoopsDB']->prefix());
                 $lines = \preg_split('/\r\n|\n|\r/', $piece);
                 //var_dump($lines);
                 $needle1 = 'create table';
