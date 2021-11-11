@@ -23,6 +23,12 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Modulebuilder\{
+    Helper,
+    Import
+};
+
+/** @var Helper $helper */
 
 // Define main template
 $templateMain = 'modulebuilder_modules.tpl';
@@ -41,6 +47,9 @@ switch ($op) {
         $GLOBALS['xoTheme']->addStylesheet('modules/modulebuilder/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
         $adminObject->addItemButton(\_AM_MODULEBUILDER_MODULES_ADD, 'modules.php?op=new', 'add');
+
+        $adminObject->addItemButton(_AM_MODULEBUILDER_MODULES_IMPORT, 'import_module.php', 'compfile');
+
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
@@ -82,6 +91,19 @@ switch ($op) {
         $form       = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
+
+    case 'modules_import':
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_MODULES_LIST, 'modules.php', 'list');
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
+        $result = Import::importModule();
+        if (false === $result['result']) {
+            $GLOBALS['xoopsTpl']->assign('error', $result['error']);
+        } else {
+            $GLOBALS['xoopsTpl']->assign('tables_list', $result['tables']);
+        }
+        break;
+
     case 'save':
         if (!$GLOBALS['xoopsSecurity']->check()) {
             \redirect_header('modules.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -209,11 +231,11 @@ switch ($op) {
             }
         } else {
             $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\XoopsConfirm(
-                                        ['ok' => 1, 'mod_id' => $modId, 'op' => 'delete'],
-                                        \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'),
-                                        $modulesObj->getVar('mod_name')
-                            );
-            $form = $xoopsconfirm->getFormXoopsConfirm();
+                ['ok' => 1, 'mod_id' => $modId, 'op' => 'delete'],
+                \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'),
+                $modulesObj->getVar('mod_name')
+            );
+            $form         = $xoopsconfirm->getFormXoopsConfirm();
             $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }
         break;
@@ -240,19 +262,19 @@ switch ($op) {
             //clone data table modules
             $modulesHandler = $helper->getHandler('Modules');
             $tablesHandler  = $helper->getHandler('Tables');
-            $fieldsHandler = $helper->getHandler('Fields');
-            $moduleSource = $modulesHandler->get($modIdSource);
-            $moduleTarget = $modulesHandler->create();
-            $sourceVars = $moduleSource->getVars();
+            $fieldsHandler  = $helper->getHandler('Fields');
+            $moduleSource   = $modulesHandler->get($modIdSource);
+            $moduleTarget   = $modulesHandler->create();
+            $sourceVars     = $moduleSource->getVars();
             foreach ($sourceVars as $varKey => $varArray) {
                 if ('mod_id' !== $varKey) {
                     if (in_array($varKey, ['mod_name', 'mod_dirname'])) {
                         for ($i = 1; $i <= 10; $i++) {
                             $uniqValue = $varArray['value'] . $i;
-                            $result = $GLOBALS['xoopsDB']->query(
+                            $result    = $GLOBALS['xoopsDB']->query(
                                 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_modules') . " as ms WHERE ms.{$varKey} = '{$uniqValue}'"
                             );
-                            $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
+                            $num_rows  = $GLOBALS['xoopsDB']->getRowsNum($result);
                             if ($num_rows == 0) {
                                 break;
                             }
@@ -262,7 +284,7 @@ switch ($op) {
                         $moduleTarget->setVar($varKey, $varArray['value']);
                     }
                 }
-}
+            }
 
             if ($modulesHandler->insert($moduleTarget)) {
                 //get new mod_id
@@ -275,13 +297,16 @@ switch ($op) {
             $resultTables = $GLOBALS['xoopsDB']->query(
                 'SELECT table_id FROM ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_tables') . " as ts WHERE ts.table_mid = '{$modIdSource}'"
             );
-            $num_rows1 = $GLOBALS['xoopsDB']->getRowsNum($resultTables);
+            if (!$resultTables instanceof \mysqli_result) {
+                \trigger_error($GLOBALS['xoopsDB']->error());
+            }
+            $num_rows1    = $GLOBALS['xoopsDB']->getRowsNum($resultTables);
             if ($num_rows1 > 0) {
                 while (false !== ($myTables = $GLOBALS['xoopsDB']->fetchArray($resultTables))) {
                     $tableIdSource = $myTables['table_id'];
-                    $tableSource = $tablesHandler->get($tableIdSource);
-                    $tableTarget = $tablesHandler->create();
-                    $sourceVars = $tableSource->getVars();
+                    $tableSource   = $tablesHandler->get($tableIdSource);
+                    $tableTarget   = $tablesHandler->create();
+                    $sourceVars    = $tableSource->getVars();
                     foreach ($sourceVars as $varKey => $varArray) {
                         //skip table_id
                         if ('table_id' !== $varKey) {
@@ -304,13 +329,16 @@ switch ($op) {
                     $resultFields = $GLOBALS['xoopsDB']->query(
                         'SELECT field_id FROM ' . $GLOBALS['xoopsDB']->prefix('modulebuilder_fields') . " as fs WHERE fs.field_tid = '{$tableIdSource}'"
                     );
-                    $num_rows2 = $GLOBALS['xoopsDB']->getRowsNum($resultFields);
+                    if (!$resultFields instanceof \mysqli_result) {
+                        \trigger_error($GLOBALS['xoopsDB']->error());
+                    }
+                    $num_rows2    = $GLOBALS['xoopsDB']->getRowsNum($resultFields);
                     if ($num_rows2 > 0) {
                         while (false !== ($myField = $GLOBALS['xoopsDB']->fetchArray($resultFields))) {
                             $fieldIdSource = $myField['field_id'];
-                            $fieldsSource = $fieldsHandler->get($fieldIdSource);
-                            $fieldsTarget = $fieldsHandler->create();
-                            $sourceVars = $fieldsSource->getVars();
+                            $fieldsSource  = $fieldsHandler->get($fieldIdSource);
+                            $fieldsTarget  = $fieldsHandler->create();
+                            $sourceVars    = $fieldsSource->getVars();
                             foreach ($sourceVars as $varKey => $varArray) {
                                 //skip field_id
                                 if ('field_id' !== $varKey) {
@@ -335,10 +363,6 @@ switch ($op) {
 
             \redirect_header('modules.php', 5, \_AM_MODULEBUILDER_MODULE_CLONE_SUCCESS);
         }
-
-
-
-
 
         break;
 }

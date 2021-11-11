@@ -18,7 +18,7 @@
  *
  * @since           2.5.5
  *
- * @author          Txmod Xoops <support@txmodxoops.org>
+ * @author          Goffy https://myxoops.org
  *
  */
 

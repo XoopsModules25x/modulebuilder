@@ -461,3 +461,20 @@
 \define('_AM_MODULEBUILDER_DEVTOOLS_TAB', 'Replace tab by 4 spaces');
 \define('_AM_MODULEBUILDER_DEVTOOLS_TAB_MODULE', 'Select module to replace tabs');
 \define('_AM_MODULEBUILDER_DEVTOOLS_TAB_DESC', 'This tool creates a copy of selected module in %s and replace tab by 4 spaces');
+
+// -------------------- IMPORT MODULE -----------------------------------
+
+\define('_AM_MODULEBUILDER_MODULES_IMPORT', 'Import Module');
+\define('_MI_MODULEBUILDER_ADMIN_MODULES', 'Modules');
+\define('_AM_MODULEBUILDER_TABLES_IMPORT', 'Import Table');
+\define('_AM_MODULEBUILDER_MODULE_IMPORT_INTO', 'Import Table into this module:');
+\define('_AM_MODULEBUILDER_TABLE_ID', 'Select table to import:');
+\define('_AM_MODULEBUILDER_MODULE_NEW_NAME', 'New Name for the generated module:');
+\define('_AM_MODULEBUILDER_GENERATE', 'Import');
+\define('_AM_MODULEBUILDER_ERROR_DATABASE', "Unable to list the databases \n");
+\define('_AM_MODULEBUILDER_ERROR_SQL', 'Error SQL: ');
+\define('_AM_MODULEBUILDER_ERROR_MNAME', 'Error: no valid new module name');
+\define('_AM_MODULEBUILDER_ERROR_IMPTABLES', 'Error: import tables failed');
+\define('_AM_MODULEBUILDER_SUCCESS_IMPTABLES', 'Table has been imported: ');
+\define('_AM_MODULEBUILDER_ERROR_MCREATE', 'Error creating imported module');
+
