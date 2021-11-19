@@ -101,8 +101,7 @@ class AdminIndex extends Files\CreateFile
         $language         = $this->getLanguage($moduleDirname, 'AM');
         $languageThereAre = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
 
-        $ret              = $this->getSimpleString('');
-        $ret              .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Common']);
+        $ret              = $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Common']);
         $ret              .= $this->pc->getPhpCodeIncludeDir('\dirname(__DIR__)', 'preloads/autoloader', true);
         $ret              .= $this->getRequire();
         $ret              .= $this->pc->getPhpCodeBlankLine();

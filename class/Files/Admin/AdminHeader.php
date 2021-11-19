@@ -160,6 +160,7 @@ class AdminHeader extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module);
+        $content       .= $this->getSimpleString('');
         $content       .= $this->getAdminHeader($moduleDirname);
 
         $this->create($moduleDirname, 'admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);

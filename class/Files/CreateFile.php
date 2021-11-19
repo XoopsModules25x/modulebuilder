@@ -506,14 +506,21 @@ class CreateFile extends CreateTableFields
         $copyright = [
             $name           => 'module for xoops',
             ''              => '',
-            '@copyright  '  => '   2021 XOOPS Project (https://xoops.org)',
-            '@license   '   => "    {$license}",
-            '@package   '   => "    {$dirname}",
-            '@since    '    => "     {$since}",
-            '@min_xoops   ' => "  {$minXoops}",
-            '@author    '   => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
-            //            '@version    '  => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$",
+            '@copyright   '  => '2021 XOOPS Project (https://xoops.org)',
+            '@license     '   => $license,
+            '@package     '   => $dirname,
+            '@since       '    => $since,
+            '@min_xoops   ' => $minXoops,
         ];
+        $authorLine = $author;
+        if ('' !== $authorMail) {
+            $authorLine .= ' - Email:' . $authorMail;
+        }
+        if ('' !== $authorWebsiteUrl) {
+            $authorLine .= ' - Website:' . $authorWebsiteUrl;
+        }
+        $copyright['@author      '] = $authorLine;
+
         $ret       .= $pc->getPhpCodeCommentMultiLine($copyright);
 
         return $ret;

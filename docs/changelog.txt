@@ -7,6 +7,7 @@
 - fixed bug in class handler creation (jjdai/goffy)
 - increasing field size (mamba/goffy)
 - fixed bug in class utility (jjdai/goffy)
+- removed empty items from autor info (mjoel/goffy)
 
 <h5>3.5.1 Beta 1   [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.25, PHP 8.0.12, PHP 8.1.0 Beta 4
  - semantic versioning (mamba)

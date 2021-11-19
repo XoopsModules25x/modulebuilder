@@ -88,6 +88,7 @@ class AdminFooter extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module);
+        $content       .= $this->getSimpleString('');
         $isset         = $this->pc->getPhpCodeIsset('templateMain');
         $display       = "\t" . $this->xc->getXcXoopsTplAssign('maintainedby', "\$helper->getConfig('maintainedby')");
         $display       .= "\t" . $this->pc->getPhpCodeRemoveCarriageReturn($this->xc->getXcXoopsTplDisplay(), '', "\r");
