@@ -292,6 +292,7 @@ class CreateArchitecture extends CreateStructure
             }
             // Creation of blocks
             if (1 === (int)$tables[$t]->getVar('table_blocks')) {
+                // Default block
                 // Blocks Files
                 $blocksFiles = Modulebuilder\Files\Blocks\BlocksFiles::getInstance();
                 $blocksFiles->write($module, $table, $tableName . '.php');
@@ -303,6 +304,19 @@ class CreateArchitecture extends CreateStructure
                     $templatesBlocks = Modulebuilder\Files\Templates\Blocks\Defstyle\TemplatesBlocks::getInstance();
                 }
                 $templatesBlocks->write($module, $table, $moduleDirname . '_block_' . $tableName . '.tpl');
+                $ret[] = $templatesBlocks->render();
+                // Spotlight block
+                // Blocks Files
+                $blocksFiles = Modulebuilder\Files\Blocks\BlocksFilesSpotlight::getInstance();
+                $blocksFiles->write($module, $table, $tableName . '_spotlight.php');
+                $ret[] = $blocksFiles->render();
+                // Templates Blocks Files
+                if ($templateType == 'bootstrap') {
+                    $templatesBlocks = Modulebuilder\Files\Templates\Blocks\Bootstrap\TemplatesBlocksSpotlight::getInstance();
+                } else {
+                    $templatesBlocks = Modulebuilder\Files\Templates\Blocks\Defstyle\TemplatesBlocksSpotlight::getInstance();
+                }
+                $templatesBlocks->write($module, $table, $moduleDirname . '_block_' . $tableName . '_spotlight.tpl');
                 $ret[] = $templatesBlocks->render();
             }
             // Creation of classes

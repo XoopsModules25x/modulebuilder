@@ -85,7 +85,8 @@ class LanguageBlocks extends Files\CreateFile
     {
         $tables = $this->getTables();
         $ret    = $this->ld->getAboveDefines('Admin Edit');
-        $ret    .= $this->ld->getDefine($language, 'DISPLAY', 'How Many Tables to Display');
+        $ret    .= $this->ld->getDefine($language, 'DISPLAY', 'How Many Items to Display');
+        $ret    .= $this->ld->getDefine($language, 'DISPLAY_SPOTLIGHT', "How Many Items to Display (only valid if you select 'all')", true);
         $ret    .= $this->ld->getDefine($language, 'TITLE_LENGTH', 'Title Length');
         $ret    .= $this->ld->getDefine($language, 'CATTODISPLAY', 'Categories to Display');
         $ret    .= $this->ld->getDefine($language, 'ALLCAT', 'All Categories');

@@ -30,8 +30,6 @@ function xoops_module_pre_uninstall_modulebuilder(\XoopsModule $module)
  */
 function xoops_module_uninstall_modulebuilder(\XoopsModule $module)
 {
-    //    return true;
-
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 

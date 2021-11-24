@@ -57,8 +57,6 @@ function xoops_module_install_modulebuilder(\XoopsModule $module)
 {
     require \dirname(__DIR__) . '/preloads/autoloader.php';
 
-    /** @var Modulebuilder\Helper $helper */ /** @var Modulebuilder\Utility $utility */
-    /** @var Common\Configurator $configurator */
     $helper       = Modulebuilder\Helper::getInstance();
     $utility      = new Modulebuilder\Utility();
     $configurator = new Common\Configurator();

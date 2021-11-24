@@ -234,6 +234,8 @@ class LanguageModinfo extends Files\CreateFile
                     $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_TOP_DESC", "{$ucfTableName} block top description");
                     $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_RANDOM", "{$ucfTableName} block random");
                     $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_RANDOM_DESC", "{$ucfTableName} block random description");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_SPOTLIGHT", "{$ucfTableName} block spotlight");
+                    $ret .= $this->ld->getDefine($language, "{$stuTableName}_BLOCK_SPOTLIGHT_DESC", "{$ucfTableName} block spotlight description");
                 }
             }
         }

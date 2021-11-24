@@ -141,7 +141,7 @@ class UserXoopsVersion extends Files\CreateFile
 
         $descriptions = [
             'name'                => "{$language}NAME",
-            'version'             => (string)$module->getVar('mod_version'),
+            'version'             => "'" . (string)$module->getVar('mod_version') . "'",
             'description'         => "{$language}DESC",
             'author'              => "'{$module->getVar('mod_author')}'",
             'author_mail'         => "'{$module->getVar('mod_author_mail')}'",
@@ -481,7 +481,7 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionBlocks($moduleDirname, $tables, $language)
     {
-        $ret           = $this->getDashComment('Blocks');
+        $ret = $this->getDashComment('Default Blocks');
         foreach (\array_keys($tables) as $i) {
             $tableName        = $tables[$i]->getVar('table_name');
             if (0 == $tables[$i]->getVar('table_category') && 1 == $tables[$i]->getVar('table_blocks')) {
@@ -490,6 +490,13 @@ class UserXoopsVersion extends Files\CreateFile
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'HITS', $language, 'hits');
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'TOP', $language, 'top');
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'RANDOM', $language, 'random');
+            }
+        }
+        $ret .= $this->getDashComment('Spotlight Blocks');
+        foreach (\array_keys($tables) as $i) {
+            $tableName        = $tables[$i]->getVar('table_name');
+            if (0 == $tables[$i]->getVar('table_category') && 1 == $tables[$i]->getVar('table_blocks')) {
+                $ret .= $this->getXoopsVersionSpotlightBlocks($moduleDirname, $tableName, '', $language, 'spotlight');
             }
         }
 
@@ -517,6 +524,34 @@ class UserXoopsVersion extends Files\CreateFile
             'show_func'   => "'b_{$moduleDirname}_{$tableName}_show'",
             'edit_func'   => "'b_{$moduleDirname}_{$tableName}_edit'",
             'template'    => "'{$moduleDirname}_block_{$tableName}.tpl'",
+            'options'     => "'{$type}|5|25|0'",
+        ];
+        $ret             .= $this->uxc->getUserModVersionArray(2, $blocks, 'blocks');
+
+        return $ret;
+    }
+
+    /**
+     * @private function getXoopsVersionTypeBlocks
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $stuTableSoleName
+     * @param $language
+     * @param $type
+     * @return string
+     */
+    private function getXoopsVersionSpotlightBlocks($moduleDirname, $tableName, $stuTableSoleName, $language, $type)
+    {
+        $stuTableName    = \mb_strtoupper($tableName);
+        $ucfTableName    = \ucfirst($tableName);
+        $ret             = $this->pc->getPhpCodeCommentLine($ucfTableName . ' ' . $type);
+        $blocks          = [
+            'file'        => "'{$tableName}_spotlight.php'",
+            'name'        => "{$language}{$stuTableName}_BLOCK_SPOTLIGHT",
+            'description' => "{$language}{$stuTableName}_BLOCK_SPOTLIGHT_DESC",
+            'show_func'   => "'b_{$moduleDirname}_{$tableName}_spotlight_show'",
+            'edit_func'   => "'b_{$moduleDirname}_{$tableName}_spotlight_edit'",
+            'template'    => "'{$moduleDirname}_block_{$tableName}_spotlight.tpl'",
             'options'     => "'{$type}|5|25|0'",
         ];
         $ret             .= $this->uxc->getUserModVersionArray(2, $blocks, 'blocks');

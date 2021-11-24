@@ -65,15 +65,18 @@ class CreatePhpCode
     /**
      * @public function getPhpCodeCommentMultiLine
      * @param array  $multiLine
-     *
      * @param string $t
+     * @param bool   $blankLineBefore
      * @return string
      */
-    public function getPhpCodeCommentMultiLine($multiLine = [], $t = '')
+    public function getPhpCodeCommentMultiLine($multiLine = [], $t = '', $blankLineBefore = true)
     {
         $values = !empty($multiLine) ? $multiLine : [];
-
-        $ret = "\n{$t}/**\n";
+        $ret = '';
+        if ($blankLineBefore) {
+            $ret .= "\n";
+        }
+        $ret .= "{$t}/**\n";
         foreach ($values as $string => $value) {
             if ('' === $string && '' === $value) {
                 $ret .= "{$t} *\n";
