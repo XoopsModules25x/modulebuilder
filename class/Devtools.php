@@ -80,6 +80,9 @@ class Devtools
             'explode',
             'extension_loaded',
             'file_exists',
+            'file_get_contents',
+            'file_put_contents',
+            'filemtime',
             'finfo_open',
             'floatval',
             'floor',
@@ -91,12 +94,14 @@ class Devtools
             'get_class',
             'getimagesize',
             'gettype',
+            'imagealphablending',
             'imagecopyresampled',
             'imagecreatefromgif',
             'imagecreatefromjpeg',
             'imagecreatefrompng',
             'imagecreatefromstring',
             'imagecreatetruecolor',
+            'imagesavealpha',
             'imagedestroy',
             'imagegif',
             'imagejpeg',
@@ -114,6 +119,7 @@ class Devtools
             'is_callable',
             'is_dir',
             'is_double',
+            'is_file',
             'is_float',
             'is_int',
             'is_integer',
@@ -144,6 +150,11 @@ class Devtools
             'round',
             'scandir',
             'sprintf',
+            'mb_strtoupper',
+            'mb_strtolower',
+            'mb_strpos',
+            'mb_strlen',
+            'mb_strrpos',
             'str_replace',
             'strip_tags',
             'strlen',
@@ -158,11 +169,6 @@ class Devtools
             'ucfirst',
             'unlink',
             'version_compare',
-            'mb_strtoupper',
-            'mb_strtolower',
-            'mb_strpos',
-            'mb_strlen',
-            'mb_strrpos',
         ];
 
         // xoops functions
@@ -191,24 +197,25 @@ class Devtools
         // repair known errors
         $errors = [
             'substr_\count('   => 'substr_count(',
-            'micro\time('   => 'microtime(',
-            'mk\time('   => 'mktime(',
+            'micro\time('   => '\microtime(',
+            'mk\time('   => '\mktime(',
             'strto\time('   => 'strtotime(',
             'mb_\strlen('   => 'mb_strlen(',
             'mb_\substr('   => 'mb_substr(',
             'x\copy'        => 'xcopy',
             'r\rmdir'       => 'rrmdir',
             'r\copy'        => 'rcopy',
-            'r\trim'        => 'rtrim',
-            'l\trim'        => 'ltrim',
+            'r\trim'        => '\rtrim',
+            'l\trim'        => '\ltrim',
             '\dirname()'    => 'dirname()',
             'assw\ord'      => 'assword',
             'mb_\strpos'    => 'mb_strpos',
-            'image\copy('   => 'imagecopy(',
+            'image\copy('   => '\imagecopy(',
             '<{if \count('  => '<{if count(',
             'define(\_'     => 'define(_',
             '\strr\chr('    => '\strrchr(',
             'strf\time('    => 'strftime(',
+            'filem\time'     => 'filemtime',
             "'\_AM_" . $moduleNameUpper .'_' => "'_AM_" . $moduleNameUpper .'_',
             "'\_MI_" . $moduleNameUpper .'_' => "'_MI_" . $moduleNameUpper .'_',
             "'\_MB_" . $moduleNameUpper .'_' => "'_MB_" . $moduleNameUpper .'_',
@@ -301,7 +308,7 @@ class Devtools
         if (\in_array(\mb_strtolower(\pathinfo($src_file, PATHINFO_EXTENSION)), $changeExtensions)) {
             $replace_code = true;
         }
-        if (\strpos( $dst_file, basename(__FILE__)) > 0) {
+        if (\strpos( $dst_file, \basename(__FILE__)) > 0) {
             //skip myself
             $replace_code = false;
         }
