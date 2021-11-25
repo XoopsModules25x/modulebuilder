@@ -197,6 +197,7 @@ class ClassFiles extends Files\CreateFile
         $fieldInForm      = [];
         $fieldElementId   = [];
         $optionsFieldName = [];
+        $fieldUpload      = false;
         $fieldId          = null;
         foreach (\array_keys($fields) as $f) {
             $fieldName        = $fields[$f]->getVar('field_name');
@@ -204,6 +205,10 @@ class ClassFiles extends Files\CreateFile
             $fieldInForm[]    = $fields[$f]->getVar('field_inform');
             $fieldElements    = $this->helper->getHandler('Fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
+            if (13 == $fieldElements->getVar('fieldelement_id') || 14 == $fieldElements->getVar('fieldelement_id')) {
+                //13: UploadImage, 14: UploadFile
+                $fieldUpload = true;
+            }
             $rpFieldName      = $this->getRightString($fieldName);
             if (\in_array(5, $fieldElementId)) {
                 //if (\count($rpFieldName) % 5) {
@@ -237,7 +242,7 @@ class ClassFiles extends Files\CreateFile
         $cCl              .= $this->pc->getPhpCodeFunction('getInstance', '', $getInstance, 'public static ', false, "\t");
 
         $cCl .= $this->getNewInsertId($table);
-        $cCl .= $this->getFunctionForm($module, $table, $fieldId, $fieldInForm);
+        $cCl .= $this->getFunctionForm($module, $table, $fieldId, $fieldInForm, $fieldUpload);
         $cCl .= $this->getValuesInObject($moduleDirname, $table, $fields);
         $cCl .= $this->getToArrayInObject($table);
 
@@ -276,12 +281,12 @@ class ClassFiles extends Files\CreateFile
      *
      * @param string $module
      * @param string $table
-     *
      * @param        $fieldId
      * @param        $fieldInForm
+     * @param        $fieldUpload
      * @return string
      */
-    private function getFunctionForm($module, $table, $fieldId, $fieldInForm)
+    private function getFunctionForm($module, $table, $fieldId, $fieldInForm, $fieldUpload)
     {
         $fe               = ClassFormElements::getInstance();
         $moduleDirname    = $module->getVar('mod_dirname');
@@ -300,7 +305,7 @@ class ClassFiles extends Files\CreateFile
         $xUser            = $this->pc->getPhpCodeGlobals('xoopsUser');
         $xModule          = $this->pc->getPhpCodeGlobals('xoopsModule');
         $getForm          .= $this->xc->getXcEqualsOperator('$isAdmin', $xUser . '->isAdmin(' . $xModule . '->mid())', null, "\t\t");
-        if ((1 != $tableCategory) && (1 == $table->getVar('table_permissions'))) {
+        if ($fieldUpload) {
             $permString = 'upload_groups';
             $getForm          .= $this->pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
             $getForm          .= $this->xc->getXcXoopsHandler('groupperm', "\t\t");

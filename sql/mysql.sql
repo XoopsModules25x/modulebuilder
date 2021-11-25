@@ -60,7 +60,7 @@ CREATE TABLE `modulebuilder_settings` (
 
 INSERT INTO `modulebuilder_settings` (`set_id`, `set_name`, `set_dirname`, `set_version`, `set_since`, `set_min_php`, `set_min_xoops`, `set_min_admin`, `set_min_mysql`, `set_description`, `set_author`, `set_author_mail`, `set_author_website_url`, `set_author_website_name`, `set_credits`, `set_license`, `set_release_info`, `set_release_file`, `set_manual`, `set_manual_file`, `set_image`, `set_demo_site_url`, `set_demo_site_name`, `set_support_url`, `set_support_name`, `set_website_url`, `set_website_name`, `set_release`, `set_status`, `set_admin`, `set_user`, `set_blocks`, `set_search`, `set_comments`, `set_notifications`, `set_permissions`, `set_inroot_copy`, `set_donations`, `set_subversion`, `set_type`)
 VALUES
-  (1, 'My Module', 'mymoduledirname', '1.0', '1.0', '7.0', '2.5.9', '1.2', '5.6', 'This module is for doing following...', 'TDM XOOPS', 'info@email.com', 'http://xoops.org', 'XOOPS Project', 'XOOPS Development Team', 'GPL 2.0 or later', 'release_info', 'release_info file', 'link to manual file',
+  (1, 'My Module', 'mymoduledirname', '1.0.0', '1.0.0', '7.0', '2.5.10', '1.2', '5.6', 'This module is for doing following...', 'TDM XOOPS', 'info@email.com', 'http://xoops.org', 'XOOPS Project', 'XOOPS Development Team', 'GPL 2.0 or later', 'release_info', 'release_info file', 'link to manual file',
                                                                                                                                         'install.txt', 'empty.png', 'https://xoops.org', 'XOOPS Demo Site', 'https://xoops.org/modules/newbb', 'Support Forum', 'www.xoops.org', 'XOOPS Project',
                                                                                                                                                                     '2017-12-02', 'Beta 1', '1', '1', '1', '0', '0', '0', '0', '0', '6KJ7RW5DR3VTJ', '13070', 1);
 
@@ -73,7 +73,7 @@ CREATE TABLE `modulebuilder_modules` (
   `mod_name`                VARCHAR(200)        NOT NULL DEFAULT '',
   `mod_dirname`             VARCHAR(100)        NOT NULL DEFAULT '',
   `mod_version`             VARCHAR(10)         NOT NULL DEFAULT '1.0.0',
-  `mod_since`               VARCHAR(4)          NOT NULL DEFAULT '1.0.0',
+  `mod_since`               VARCHAR(10)         NOT NULL DEFAULT '1.0.0',
   `mod_min_php`             VARCHAR(4)          NOT NULL DEFAULT '5.5',
   `mod_min_xoops`           VARCHAR(15)         NOT NULL DEFAULT '2.5.11',
   `mod_min_admin`           VARCHAR(4)          NOT NULL DEFAULT '1.2',

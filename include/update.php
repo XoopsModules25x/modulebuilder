@@ -726,6 +726,16 @@ function modulebuilder_check_db($module)
         $ret = false;
     }
 
+    // update table 'modulebuilder_modules'
+    $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_modules');
+    $field   = 'mod_since';
+    $sql = "ALTER TABLE `$table` CHANGE `$field` `$field` varchar(10) NOT NULL DEFAULT '1.0';";
+    if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+        xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
+        $module->setErrors("Error when changing '$field' in table '$table'.");
+        $ret = false;
+    }
+
     return $ret;
 }
 
