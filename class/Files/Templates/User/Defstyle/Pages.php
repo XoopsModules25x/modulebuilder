@@ -136,8 +136,8 @@ class Pages extends Files\CreateFile
     private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName)
     {
         $single  = $this->sc->getSmartySingleVar('panel_type');
-        $include = $this->sc->getSmartyIncludeFile($moduleDirname, $tableName . '_item', false,false, "\t\t\t\t\t\t", "\n");
-        $div     = $this->hc->getHtmlDiv($include, 'panel panel-' . $single, "\t\t\t\t\t", "\n");
+        $include = $this->sc->getSmartyIncludeFile($moduleDirname, $tableName . '_item', false,false, "\t\t\t\t\t\t");
+        $div     = $this->hc->getHtmlDiv($include, 'panel panel-' . $single, "\t\t\t\t\t");
         $cont    = $this->hc->getHtmlTableData($div, '', '', "\t\t\t\t", "\n", true);
         $html    = $this->hc->getHtmlEmpty('</tr><tr>', "\t\t\t\t\t", "\n");
         $cont    .= $this->sc->getSmartyConditions('smarty.foreach.' . $tableSoleName . '.iteration', ' is div by ', '$divideby', $html, '', '', '',"\t\t\t\t", "\n", true, false);

@@ -22,7 +22,7 @@
  *                  Goffy https://myxoops.org
  *
  */
-$pathIcon32 = Xmf\Module\Admin::iconUrl('', '32');
+$pathIcon32 = Xmf\Module\Admin::iconUrl();
 
 if (isset($templateMain)) {
     $GLOBALS['xoopsTpl']->display("db:{$templateMain}");

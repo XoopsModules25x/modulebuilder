@@ -144,7 +144,7 @@ class AdminIndex extends Files\CreateFile
             $ret       .= $this->pc->getPhpCodeCommentLine('Uploads Folders Created');
             $boxLine   = $this->axc->getAxcAddConfigBoxLine('$folder[$i]', 'folder', '', "\t");
             $boxLine   .= $this->axc->getAxcAddConfigBoxLine("[\$folder[\$i], '777']", 'chmod', '', "\t");
-            $ret       .= $this->pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '') . PHP_EOL;
+            $ret       .= $this->pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine) . PHP_EOL;
         }
         $ret    .= $this->pc->getPhpCodeCommentLine('Render Index');
         $ret    .= $this->xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('index.php')");

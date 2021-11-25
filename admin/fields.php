@@ -42,19 +42,19 @@ $op = \Xmf\Request::getString('op', 'list');
 $fieldMid  = \Xmf\Request::getInt('field_mid');
 $fieldTid  = \Xmf\Request::getInt('field_tid');
 $fieldNumb = \Xmf\Request::getInt('field_numb');
-$fieldName = \Xmf\Request::getString('field_name', '');
+$fieldName = \Xmf\Request::getString('field_name');
 // switch op
 switch ($op) {
     case 'list':
     default:
-        $start = \Xmf\Request::getInt('start', 0);
+        $start = \Xmf\Request::getInt('start');
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('tables_adminpager'));
         $GLOBALS['xoTheme']->addStylesheet('modules/modulebuilder/assets/css/admin/style.css');
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/sortable.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
-        $adminObject->addItemButton(\_AM_MODULEBUILDER_TABLES_ADD, 'tables.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_TABLES_ADD, 'tables.php?op=new');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
         // Redirect if there aren't modules
@@ -103,7 +103,7 @@ switch ($op) {
             if ($tablesCount > $limit) {
                 require_once \XOOPS_ROOT_PATH . '/class/pagenav.php';
                 $pagenav = new \XoopsPageNav($tablesCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
-                $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
+                $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav());
             }
         } else {
             $GLOBALS['xoopsTpl']->assign('error', \_AM_MODULEBUILDER_THEREARENT_FIELDS);
@@ -191,7 +191,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
-        $adminObject->addItemButton(\_AM_MODULEBUILDER_TABLES_ADD, 'tables.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_TABLES_ADD, 'tables.php?op=new');
         $adminObject->addItemButton(\_AM_MODULEBUILDER_TABLES_LIST, 'tables.php', 'list');
         $adminObject->addItemButton(\_AM_MODULEBUILDER_FIELDS_LIST, 'fields.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
@@ -220,7 +220,6 @@ switch ($op) {
             unset($i);
         }
         exit;
-        break;
     case 'delete':
         //delete is not needed as deletion is done by deleting whole table
         break;

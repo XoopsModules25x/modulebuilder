@@ -30,7 +30,7 @@ use XoopsModules\Modulebuilder\{
 require_once dirname(__DIR__, 3) . '/include/cp_header.php';
 require \dirname(__DIR__) . '/preloads/autoloader.php';
 
-$op = Request::getCmd('op', '');
+$op = Request::getCmd('op');
 
 $moduleDirName = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
@@ -41,14 +41,14 @@ $helper->loadLanguage('common');
 
 switch ($op) {
     case 'load':
-        if (Request::hasVar('ok', 'REQUEST') && 1 === Request::getInt('ok', 0)) {
+        if (Request::hasVar('ok', 'REQUEST') && 1 === Request::getInt('ok')) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 \redirect_header($helper->url('admin/index.php'), 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             loadSampleData();
         } else {
             xoops_cp_header();
-            xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', \sprintf(\constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_CONFIRM')), \constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'), true);
+            xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', \sprintf(\constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_CONFIRM')), \constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'));
             xoops_cp_footer();
         }
         break;

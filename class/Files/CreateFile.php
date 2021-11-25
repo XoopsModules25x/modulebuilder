@@ -210,7 +210,7 @@ class CreateFile extends CreateTableFields
     private function setContent($content)
     {
         //replace tabs by 4 spaces
-        $this->content = preg_replace('/\t/', $this->tab, $content);
+        $this->content = \preg_replace('/\t/', $this->tab, $content);
     }
 
     /**
@@ -234,10 +234,10 @@ class CreateFile extends CreateTableFields
         if (\mb_strrpos($path, '\\')) {
             $str = \mb_strrpos($path, '\\');
             if (false !== $str) {
-                return mb_substr($path, $str + 1, mb_strlen($path));
+                return \mb_substr($path, $str + 1, mb_strlen($path));
             }
 
-            return mb_substr($path, $str, mb_strlen($path));
+            return \mb_substr($path, $str, mb_strlen($path));
         }
         //return 'root module';
         return false;
@@ -303,7 +303,7 @@ class CreateFile extends CreateTableFields
      * @param string $moduleDirname
      * @param string $prefix
      * @param string $suffix
-     * @param string $addFq //add function qualifier
+     * @param bool   $addFq //add function qualifier
      * @return string
      */
     public function getLanguage($moduleDirname, $prefix = '', $suffix = '', $addFq = true)
@@ -331,7 +331,7 @@ class CreateFile extends CreateTableFields
      */
     public function getLeftString($string)
     {
-        return mb_substr($string, 0, mb_strpos($string, '_'));
+        return \mb_substr($string, 0, mb_strpos($string, '_'));
     }
 
     /**
@@ -342,10 +342,10 @@ class CreateFile extends CreateTableFields
      */
     public function getRightString($string = null)
     {
-        if (mb_strpos($string, '_')) {
-            $str = mb_strpos($string, '_');
+        if (\mb_strpos($string, '_')) {
+            $str = \mb_strpos($string, '_');
             if (false !== $str) {
-                $ret = mb_substr($string, $str + 1, mb_strlen($string));
+                $ret = \mb_substr($string, $str + 1, \mb_strlen($string));
 
                 return $ret;
             }
@@ -395,7 +395,7 @@ class CreateFile extends CreateTableFields
      */
     public function getLcfirst($string)
     {
-        return lcfirst($string);
+        return \lcfirst($string);
     }
 
     /**
@@ -498,9 +498,9 @@ class CreateFile extends CreateTableFields
         $ret .= "\n{$namespace}/*\n";
 
         $filename = TDMC_CLASS_PATH . '/Files/Docs/license.txt';
-        $handle   = fopen($filename, 'rb');
-        $data     = fread($handle, filesize($filename));
-        fclose($handle);
+        $handle   = \fopen($filename, 'rb');
+        $data     = \fread($handle, \filesize($filename));
+        \fclose($handle);
         $ret       .= $data . "\n";
         $ret       .= "*/\n";
         $copyright = [

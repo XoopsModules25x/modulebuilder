@@ -27,15 +27,14 @@ require \dirname(__DIR__) . '/preloads/autoloader.php';
 $moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-/** @var \XoopsModules\Modulebuilder\Helper $helper */
 $helper = \XoopsModules\Modulebuilder\Helper::getInstance();
 $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');
 
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
-if (\is_object($helper->getModule())) {
+//if (\is_object($helper->getModule())) {
     //    $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
-}
+//}
 
 $moduleHandler = \xoops_getHandler('module');
 $xoopsModule   = \XoopsModule::getByDirname($moduleDirName);

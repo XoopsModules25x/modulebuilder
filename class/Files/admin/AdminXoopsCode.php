@@ -308,7 +308,6 @@ class AdminXoopsCode
     {
         $ret    = '';
         $files  = '';
-        $contIf = '';
 
         if ($formatUrl) {
             $ret .= $this->xc->getXcSetVarObj($tableName, $fieldName, "formatURL(\$_REQUEST['{$fieldName}'])", $t);

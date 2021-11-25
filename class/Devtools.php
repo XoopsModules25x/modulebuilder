@@ -252,7 +252,6 @@ class Devtools
     /**
      * @param $src_path
      * @param $dst_path
-     * @param $moduleName
      */
     public static function function_tabreplacer($src_path, $dst_path) {
         $patKeys   = [];
@@ -293,8 +292,7 @@ class Devtools
      * @param $dst_file
      * @param array $patKeys
      * @param array $patValues
-     * @param array $patValues
-     * @param bool  $replaceTabs
+     * @param bool $replaceTabs
      */
     private static function cloneFile($src_file, $dst_file, $patKeys = [], $patValues =[], $replaceTabs = false)
     {

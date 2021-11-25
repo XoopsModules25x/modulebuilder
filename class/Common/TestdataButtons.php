@@ -62,7 +62,7 @@ class TestdataButtons
         $app                        = [];
         $app['displaySampleButton'] = 0;
         Yaml::save($app, $yamlFile);
-        \redirect_header('index.php', 0, '');
+        \redirect_header('index.php', 0);
     }
 
     public static function showButtons()
@@ -71,6 +71,6 @@ class TestdataButtons
         $app                        = [];
         $app['displaySampleButton'] = 1;
         Yaml::save($app, $yamlFile);
-        \redirect_header('index.php', 0, '');
+        \redirect_header('index.php', 0);
     }
 }

@@ -221,7 +221,7 @@ class UserPages extends Files\CreateFile
             $condIf3 .= $this->xc->getXcEqualsOperator("\${$ccFieldReads}", "(int)" . $getVar . ' + 1', false, $t . "\t\t");
             $condIf3 .= $this->xc->getXcSetVarObj($tableName, $fieldReads, "\${$ccFieldReads}", $t . "\t\t");
             $condIf3 .= $this->pc->getPhpCodeCommentLine('Insert Data', null, $t . "\t\t");
-            $insert = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj', 'Handler');
+            $insert = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
             $condIf3 .= $this->getSimpleString($insert .';',$t . "\t\t");
             //$contentInsert = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&{$fieldId}=' . \${$ccFieldId}", '', '5', "\${$tableName}Obj->getHtmlErrors()", false, $t . "\t\t\t");
             //$condIf3 .= $this->pc->getPhpCodeConditions('!' . $insert, '', '', $contentInsert, false, $t . "\t\t");
@@ -294,7 +294,7 @@ class UserPages extends Files\CreateFile
         $ret                .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $getObj, $createObj, $t);
         $ret                .= $this->xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $fields, $t);
         $ret                .= $this->pc->getPhpCodeCommentLine('Insert Data', null, $t);
-        $insert             = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj', 'Handler');
+        $insert             = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
 
         $contentInsert = '';
         if (1 == $tableNotifications || $countUploader > 0) {
@@ -518,7 +518,7 @@ class UserPages extends Files\CreateFile
         $xoopsSecurityErrors  = $this->xc->getXcXoopsSecurityErrors();
         $implode              = $this->pc->getPhpCodeImplode(', ', $xoopsSecurityErrors);
         $redirectHeaderErrors = $this->xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t\t");
-        $insert               = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj', 'Handler');
+        $insert               = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
         $condition            = $this->pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectHeaderErrors, false, $t . "\t");
         $constant             = $this->xc->getXcGetConstants('STATUS_BROKEN');
         $condition            .= $this->xc->getXcSetVarObj($tableName, $fieldStatus, $constant, $t . "\t");
@@ -569,7 +569,7 @@ class UserPages extends Files\CreateFile
         if (1 == $tableComments) {
             $ret .= $this->pc->getPhpCodeBlankLine();
             $ret .= $this->pc->getPhpCodeCommentLine('View comments');
-            $ret .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'include/comment_view', true, false, 'require');
+            $ret .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'include/comment_view', true, false);
         }
         $ret .= $this->pc->getPhpCodeBlankLine();
         $ret .= $this->getRequire('footer');

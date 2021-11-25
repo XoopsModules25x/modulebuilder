@@ -53,11 +53,11 @@ switch ($op) {
 
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('feedback.php'));
 
-        $your_name  = Request::getString('your_name', '');
-        $your_site  = Request::getString('your_site', '');
-        $your_mail  = Request::getString('your_mail', '');
-        $fb_type    = Request::getString('fb_type', '');
-        $fb_content = Request::getText('fb_content', '');
+        $your_name  = Request::getString('your_name');
+        $your_site  = Request::getString('your_site');
+        $your_mail  = Request::getString('your_mail');
+        $fb_type    = Request::getString('fb_type');
+        $fb_content = Request::getText('fb_content');
         $fb_content = \str_replace(["\r\n", "\n", "\r"], '<br>', $fb_content); //clean line break from dhtmltextarea
 
         $title       = \constant('CO_' . $moduleDirNameUpper . '_' . 'FB_SEND_FOR') . $GLOBALS['xoopsModule']->getVar('dirname');
@@ -73,7 +73,7 @@ switch ($op) {
         $xoopsMailer->setFromEmail($your_mail);
         $xoopsMailer->setFromName($your_name);
         $xoopsMailer->setSubject($title);
-        $xoopsMailer->multimailer->isHTML(true);
+        $xoopsMailer->multimailer->isHTML();
         $xoopsMailer->setBody($body);
         $ret = $xoopsMailer->send();
         if ($ret) {
@@ -86,7 +86,7 @@ switch ($op) {
         $feedback->site    = $your_site;
         $feedback->type    = $fb_type;
         $feedback->content = $fb_content;
-        echo '<div align="center" style="width: 80%; padding: 10px; border: 2px solid #ff0000; color: #ff0000; margin-right:auto;margin-left:auto;">
+        echo '<div style="text-align:center;width: 80%; padding: 10px; border: 2px solid #ff0000; color: #ff0000; margin-right:auto;margin-left:auto;">
             <h3>' . \constant('CO_' . $moduleDirNameUpper . '_' . 'FB_SEND_ERROR') . '</h3>
             </div>';
         $form = $feedback->getFormFeedback();

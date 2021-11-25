@@ -133,7 +133,7 @@ class ClassFiles extends Files\CreateFile
                 case 3:
                 case 4:
                 case 5:
-                    $ret .= $this->getInitVar($fieldName, 'INT');
+                    $ret .= $this->getInitVar($fieldName);
                     break;
                 case 6:
                     $ret .= $this->getInitVar($fieldName, 'FLOAT');
@@ -197,6 +197,7 @@ class ClassFiles extends Files\CreateFile
         $fieldInForm      = [];
         $fieldElementId   = [];
         $optionsFieldName = [];
+        $fieldUpload      = false;
         $fieldId          = null;
         foreach (\array_keys($fields) as $f) {
             $fieldName        = $fields[$f]->getVar('field_name');
@@ -204,6 +205,10 @@ class ClassFiles extends Files\CreateFile
             $fieldInForm[]    = $fields[$f]->getVar('field_inform');
             $fieldElements    = $this->helper->getHandler('Fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
+            if (13 == $fieldElements->getVar('fieldelement_id') || 14 == $fieldElements->getVar('fieldelement_id')) {
+                //13: UploadImage, 14: UploadFile
+                $fieldUpload = true;
+            }
             $rpFieldName      = $this->getRightString($fieldName);
             if (\in_array(5, $fieldElementId)) {
                 //if (\count($rpFieldName) % 5) {
@@ -237,7 +242,7 @@ class ClassFiles extends Files\CreateFile
         $cCl              .= $this->pc->getPhpCodeFunction('getInstance', '', $getInstance, 'public static ', false, "\t");
 
         $cCl .= $this->getNewInsertId($table);
-        $cCl .= $this->getFunctionForm($module, $table, $fieldId, $fieldInForm);
+        $cCl .= $this->getFunctionForm($module, $table, $fieldId, $fieldInForm, $fieldUpload);
         $cCl .= $this->getValuesInObject($moduleDirname, $table, $fields);
         $cCl .= $this->getToArrayInObject($table);
 
@@ -276,18 +281,17 @@ class ClassFiles extends Files\CreateFile
      *
      * @param string $module
      * @param string $table
-     *
      * @param        $fieldId
      * @param        $fieldInForm
+     * @param        $fieldUpload
      * @return string
      */
-    private function getFunctionForm($module, $table, $fieldId, $fieldInForm)
+    private function getFunctionForm($module, $table, $fieldId, $fieldInForm, $fieldUpload)
     {
         $fe               = ClassFormElements::getInstance();
         $moduleDirname    = $module->getVar('mod_dirname');
         $tableName        = $table->getVar('table_name');
         $tableSoleName    = $table->getVar('table_solename');
-        $tableCategory    = $table->getVar('table_category');
         $ucfTableName     = \ucfirst($tableName);
         $stuTableSoleName = \mb_strtoupper($tableSoleName);
         $language         = $this->getLanguage($moduleDirname, 'AM');
@@ -300,7 +304,7 @@ class ClassFiles extends Files\CreateFile
         $xUser            = $this->pc->getPhpCodeGlobals('xoopsUser');
         $xModule          = $this->pc->getPhpCodeGlobals('xoopsModule');
         $getForm          .= $this->xc->getXcEqualsOperator('$isAdmin', $xUser . '->isAdmin(' . $xModule . '->mid())', null, "\t\t");
-        if ((1 != $tableCategory) && (1 == $table->getVar('table_permissions'))) {
+        if ($fieldUpload) {
             $permString = 'upload_groups';
             $getForm          .= $this->pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
             $getForm          .= $this->xc->getXcXoopsHandler('groupperm', "\t\t");
@@ -322,7 +326,6 @@ class ClassFiles extends Files\CreateFile
             }
         }
         $getForm .= $this->pc->getPhpCodeCommentLine('To Save', '', "\t\t");
-        //$hiddenSave = $cc->getClassXoopsFormHidden('', "'op'", "'save'", true, false);
         $getForm .= $this->cxc->getClassAddElement('form', "new \XoopsFormHidden('op', 'save')");
         $getForm .= $this->cxc->getClassAddElement('form', "new \XoopsFormHidden('start', \$this->start)");
         $getForm .= $this->cxc->getClassAddElement('form', "new \XoopsFormHidden('limit', \$this->limit)");
@@ -352,7 +355,7 @@ class ClassFiles extends Files\CreateFile
         $ret               .= $this->xc->getXcXoopsHandler('member', "\t\t");
         $ret               .= $this->xc->getXcEqualsOperator('$groupList', '$memberHandler->getGroupList()', null, "\t\t");
         $ret               .= $this->xc->getXcXoopsHandler('groupperm',  "\t\t");
-        $ret               .= $this->pc->getPhpCodeArrayType('fullList', 'keys', 'groupList', null, false, "\t\t");
+        $ret               .= $this->pc->getPhpCodeArrayType('fullList', 'keys', 'groupList');
         $fId               = $this->xc->getXcGetVar('', 'this', $fieldId, true);
         $mId               = $this->xc->getXcGetVar('', "GLOBALS['xoopsModule']", 'mid', true);
         $contElse          = $this->xc->getXcGetGroupIds('groupsIdsApprove', 'grouppermHandler', "'{$moduleDirname}_approve_{$tableName}'", $fId, $mId, "\t\t\t");
@@ -537,7 +540,7 @@ class ClassFiles extends Files\CreateFile
         $multiLineCom = ['Returns an array representation' => 'of the object', '' => '', '@return' => 'array'];
         $ret          = $this->pc->getPhpCodeCommentMultiLine($multiLineCom, "\t");
 
-        $getToArray = $this->pc->getPhpCodeArray('ret', [], false, "\t\t");
+        $getToArray = $this->pc->getPhpCodeArray('ret', []);
         $getToArray .= $this->xc->getXcEqualsOperator('$vars', '$this->getVars()', null, "\t\t");
         $foreach    = $this->xc->getXcEqualsOperator('$ret[$var]', '$this->getVar($var)', null, "\t\t\t");
         $getToArray .= $this->pc->getPhpCodeForeach('vars', true, false, 'var', $foreach, "\t\t");

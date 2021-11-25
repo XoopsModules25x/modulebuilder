@@ -141,7 +141,7 @@ class UserXoopsVersion extends Files\CreateFile
 
         $descriptions = [
             'name'                => "{$language}NAME",
-            'version'             => (string)$module->getVar('mod_version'),
+            'version'             => "'" . (string)$module->getVar('mod_version') . "'",
             'description'         => "{$language}DESC",
             'author'              => "'{$module->getVar('mod_author')}'",
             'author_mail'         => "'{$module->getVar('mod_author_mail')}'",
@@ -317,8 +317,8 @@ class UserXoopsVersion extends Files\CreateFile
 
         if ($user) {
             $item[]      = $this->pc->getPhpCodeCommentLine('User templates');
-            $item[]      = $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', '');
-            $item[]      = $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', '');
+            $item[]      = $this->getXoopsVersionTemplatesLine($moduleDirname, 'header');
+            $item[]      = $this->getXoopsVersionTemplatesLine($moduleDirname, 'index');
             $tableBroken = [];
             $tablePdf    = [];
             $tablePrint  = [];
@@ -339,17 +339,17 @@ class UserXoopsVersion extends Files\CreateFile
                     $tableSingle[] = $tables[$t]->getVar('table_single');
                     $tableSubmit[] = $tables[$t]->getVar('table_submit');
                     $tableRate[]   = $tables[$t]->getVar('table_rate');
-                    $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '');
+                    $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName);
                     $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
                     $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'item');
                 }
             }
-            $item[]  = $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs', '');
+            $item[]  = $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs');
             if (\in_array(1, $tablePdf)) {
                 foreach (\array_keys($tables) as $t) {
                     if ($tables[$t]->getVar('table_pdf')) {
                         $tableName = $tables[$t]->getVar('table_name');
-                        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName . '_pdf', '');
+                        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName . '_pdf');
                     }
                 }
             }
@@ -357,23 +357,23 @@ class UserXoopsVersion extends Files\CreateFile
                 foreach (\array_keys($tables) as $t) {
                     if ($tables[$t]->getVar('table_print')) {
                         $tableName = $tables[$t]->getVar('table_name');
-                        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName . '_print', '');
+                        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName . '_print');
                     }
                 }
             }
             if (\in_array(1, $tableRate)) {
-                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'rate', '');
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'rate');
             }
             if (\in_array(1, $tableRss)) {
-                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'rss', '');
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'rss');
             }
             if (\in_array(1, $tableSearch)) {
-                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'search', '');
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'search');
             }
             if (\in_array(1, $tableSingle)) {
-                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'single', '');
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'single');
             }
-            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer', '');
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer');
         }
 
         $ret .= $this->uxc->getUserModVersionArray(11, $item, "templates");
@@ -481,7 +481,7 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionBlocks($moduleDirname, $tables, $language)
     {
-        $ret           = $this->getDashComment('Blocks');
+        $ret = $this->getDashComment('Default Blocks');
         foreach (\array_keys($tables) as $i) {
             $tableName        = $tables[$i]->getVar('table_name');
             if (0 == $tables[$i]->getVar('table_category') && 1 == $tables[$i]->getVar('table_blocks')) {
@@ -490,6 +490,13 @@ class UserXoopsVersion extends Files\CreateFile
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'HITS', $language, 'hits');
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'TOP', $language, 'top');
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'RANDOM', $language, 'random');
+            }
+        }
+        $ret .= $this->getDashComment('Spotlight Blocks');
+        foreach (\array_keys($tables) as $i) {
+            $tableName        = $tables[$i]->getVar('table_name');
+            if (0 == $tables[$i]->getVar('table_category') && 1 == $tables[$i]->getVar('table_blocks')) {
+                $ret .= $this->getXoopsVersionSpotlightBlocks($moduleDirname, $tableName, $language, 'spotlight');
             }
         }
 
@@ -525,6 +532,33 @@ class UserXoopsVersion extends Files\CreateFile
     }
 
     /**
+     * @private function getXoopsVersionTypeBlocks
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $language
+     * @param $type
+     * @return string
+     */
+    private function getXoopsVersionSpotlightBlocks($moduleDirname, $tableName, $language, $type)
+    {
+        $stuTableName    = \mb_strtoupper($tableName);
+        $ucfTableName    = \ucfirst($tableName);
+        $ret             = $this->pc->getPhpCodeCommentLine($ucfTableName . ' ' . $type);
+        $blocks          = [
+            'file'        => "'{$tableName}_spotlight.php'",
+            'name'        => "{$language}{$stuTableName}_BLOCK_SPOTLIGHT",
+            'description' => "{$language}{$stuTableName}_BLOCK_SPOTLIGHT_DESC",
+            'show_func'   => "'b_{$moduleDirname}_{$tableName}_spotlight_show'",
+            'edit_func'   => "'b_{$moduleDirname}_{$tableName}_spotlight_edit'",
+            'template'    => "'{$moduleDirname}_block_{$tableName}_spotlight.tpl'",
+            'options'     => "'{$type}|5|25|0'",
+        ];
+        $ret             .= $this->uxc->getUserModVersionArray(2, $blocks, 'blocks');
+
+        return $ret;
+    }
+
+    /**
      * @private function getXoopsVersionConfig
      * @param $module
      * @param $tables
@@ -551,8 +585,6 @@ class UserXoopsVersion extends Files\CreateFile
                 $fieldElement = (int)$fields[$f]->getVar('field_element');
                 switch ($fieldElement) {
                     case 3:
-                        $table_editors = 1;
-                        break;
                     case 4:
                         $table_editors = 1;
                         break;
@@ -657,7 +689,7 @@ class UserXoopsVersion extends Files\CreateFile
             $ret         .= $this->pc->getPhpCodeCommentLine('Get Admin groups');
             $ret         .= $this->xc->getXcCriteriaCompo('crGroups');
             $crit        = $this->xc->getXcCriteria('', "'group_type'", "'Admin'", '', true);
-            $ret         .= $this->xc->getXcCriteriaAdd('crGroups', $crit, '', "\n");
+            $ret         .= $this->xc->getXcCriteriaAdd('crGroups', $crit);
             $ret         .= $this->xc->getXcXoopsHandler('member');
             $ret         .= $this->xc->getXcEqualsOperator('$adminXoopsGroups ', '$memberHandler->getGroupList($crGroups)');
             $ret         .= $this->xc->getXcEqualsOperator('$adminGroups', '[]');

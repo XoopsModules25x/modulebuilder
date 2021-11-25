@@ -93,6 +93,7 @@ class Import
     /**
      * @param $moduleId
      * @param $moduleName
+     * @return array|false
      */
     public static function importTables($moduleId, $moduleName)
     {
@@ -203,9 +204,9 @@ class Import
                     $fieldsObj->setVar('field_key', $key);
                     $fieldsObj->setVar('field_element', $t['Field']);
 
-                    if ($currentFieldNumber < $countFields - 1) {
+                    //if ($currentFieldNumber < $countFields - 1) {
                         //
-                    }
+                    //}
 
                     if (0 == $currentFieldNumber) {
                         if (in_array($t['Type'], ['blob', 'text', 'mediumblob', 'mediumtext', 'longblob', 'longtext', 'enum', 'set',])) {

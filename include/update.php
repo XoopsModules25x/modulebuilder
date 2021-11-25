@@ -66,7 +66,7 @@ function xoops_module_update_modulebuilder(&$module, $prev_version = null)
  *
  * @return bool
  */
-function update_modulebuilder_v191(&$module)
+function update_modulebuilder_v191($module)
 {
     global $xoopsDB;
     $result = $xoopsDB->query(
@@ -708,8 +708,8 @@ function modulebuilder_check_db($module)
 
     // update table 'modulebuilder_settings'
     $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_settings');
-    $field   = 'set_version';
-    $sql = "ALTER TABLE `$table` CHANGE `$field` `$field` varchar(10) NOT NULL DEFAULT '1.0';";
+    $field   = 'set_min_xoops';
+    $sql = "ALTER TABLE `$table` CHANGE `$field` `$field` varchar(15) NOT NULL DEFAULT '1.0';";
     if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
         xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
         $module->setErrors("Error when changing '$field' in table '$table'.");
@@ -718,7 +718,17 @@ function modulebuilder_check_db($module)
 
     // update table 'modulebuilder_modules'
     $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_modules');
-    $field   = 'mod_version';
+    $field   = 'mod_min_xoops';
+    $sql = "ALTER TABLE `$table` CHANGE `$field` `$field` varchar(15) NOT NULL DEFAULT '1.0';";
+    if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+        xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
+        $module->setErrors("Error when changing '$field' in table '$table'.");
+        $ret = false;
+    }
+
+    // update table 'modulebuilder_modules'
+    $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_modules');
+    $field   = 'mod_since';
     $sql = "ALTER TABLE `$table` CHANGE `$field` `$field` varchar(10) NOT NULL DEFAULT '1.0';";
     if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
         xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);

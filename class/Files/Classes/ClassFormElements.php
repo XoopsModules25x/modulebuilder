@@ -169,7 +169,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     {
         $ccFieldName = $this->cf->getCamelCase($fieldName, false, true);
         $ret         = $this->pc->getPhpCodeCommentLine('Form Editor', 'DhtmlTextArea ' . $ccFieldName, "\t\t");
-        $ret         .= $this->pc->getPhpCodeArray('editorConfigs', null, false, "\t\t");
+        $ret         .= $this->pc->getPhpCodeArray('editorConfigs');
         $getConfig    = $this->xc->getXcGetConfig('editor_admin');
         $contIf       = $this->xc->getXcEqualsOperator("\$editor", $getConfig, null, "\t\t\t");
         $getConfig    = $this->xc->getXcGetConfig('editor_user');
@@ -900,7 +900,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $tablePermissions = $table->getVar('table_permissions');
         $languageFunct    = $this->cf->getLanguage($moduleDirname, 'AM');
         $ret               = '';
-        $fields            = $this->tf->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order ASC, field_id');
+        $fields            = $this->tf->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldId           = '';
         $fieldIdTopic      = '';
         $fieldPidTopic     = '';

@@ -206,7 +206,9 @@ class AdminPages extends Files\CreateFile
      * @private function getAdminPagesClone
      * @param        $moduleDirname
      * @param        $tableName
+     * @param        $tableSoleName
      * @param        $fieldInForm
+     * @param        $fieldId
      * @param        $language
      * @param string $t
      * @return string
@@ -296,6 +298,7 @@ class AdminPages extends Files\CreateFile
                         $fieldLines .= $this->axc->getAxcSetVarImageList($tableName, $fieldName, $t, $countUploader);
                         $countUploader++;
                         break;
+                    case Constants::FIELD_ELE_UPLOADFILE:
                     case Constants::FIELD_ELE_SELECTFILE:
                         $fieldLines .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
@@ -306,10 +309,6 @@ class AdminPages extends Files\CreateFile
                         break;
                     case Constants::FIELD_ELE_UPLOADIMAGE:
                         $fieldLines .= $this->axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
-                        $countUploader++;
-                        break;
-                    case Constants::FIELD_ELE_UPLOADFILE:
-                        $fieldLines .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case Constants::FIELD_ELE_TEXTDATESELECT:

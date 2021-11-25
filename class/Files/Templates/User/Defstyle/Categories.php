@@ -89,7 +89,7 @@ class Categories extends Files\CreateFile
     private function getTemplatesUserCategoriesHeader($moduleDirname)
     {
 
-        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header') . PHP_EOL;
+        return $this->sc->getSmartyIncludeFile($moduleDirname) . PHP_EOL;
     }
 
     /**

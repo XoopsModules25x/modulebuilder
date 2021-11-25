@@ -244,7 +244,7 @@ class UserIndex extends Files\CreateFile
         $moduleDirname    = $module->getVar('mod_dirname');
         $language         = $this->getLanguage($moduleDirname, 'MA');
 
-        $content = $this->getHeaderFilesComments($module, null);
+        $content = $this->getHeaderFilesComments($module);
         $content .= $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);

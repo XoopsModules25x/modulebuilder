@@ -84,7 +84,7 @@ class ModuleFeedback extends \XoopsObject
         $form->addElement($your_mail);
 
         $fbtypeSelect = new \XoopsFormSelect(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_TYPE'), 'fb_type', $this->type);
-        $fbtypeSelect->addOption('', '');
+        $fbtypeSelect->addOption('');
         $fbtypeSelect->addOption(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_TYPE_SUGGESTION'), \constant('CO_' . $moduleDirNameUpper . '_' . 'FB_TYPE_SUGGESTION'));
         $fbtypeSelect->addOption(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_TYPE_BUGS'), \constant('CO_' . $moduleDirNameUpper . '_' . 'FB_TYPE_BUGS'));
         $fbtypeSelect->addOption(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_TYPE_TESTIMONIAL'), \constant('CO_' . $moduleDirNameUpper . '_' . 'FB_TYPE_TESTIMONIAL'));
