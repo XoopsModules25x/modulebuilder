@@ -133,7 +133,7 @@ class ClassFiles extends Files\CreateFile
                 case 3:
                 case 4:
                 case 5:
-                    $ret .= $this->getInitVar($fieldName, 'INT');
+                    $ret .= $this->getInitVar($fieldName);
                     break;
                 case 6:
                     $ret .= $this->getInitVar($fieldName, 'FLOAT');
@@ -292,7 +292,6 @@ class ClassFiles extends Files\CreateFile
         $moduleDirname    = $module->getVar('mod_dirname');
         $tableName        = $table->getVar('table_name');
         $tableSoleName    = $table->getVar('table_solename');
-        $tableCategory    = $table->getVar('table_category');
         $ucfTableName     = \ucfirst($tableName);
         $stuTableSoleName = \mb_strtoupper($tableSoleName);
         $language         = $this->getLanguage($moduleDirname, 'AM');
@@ -327,7 +326,6 @@ class ClassFiles extends Files\CreateFile
             }
         }
         $getForm .= $this->pc->getPhpCodeCommentLine('To Save', '', "\t\t");
-        //$hiddenSave = $cc->getClassXoopsFormHidden('', "'op'", "'save'", true, false);
         $getForm .= $this->cxc->getClassAddElement('form', "new \XoopsFormHidden('op', 'save')");
         $getForm .= $this->cxc->getClassAddElement('form', "new \XoopsFormHidden('start', \$this->start)");
         $getForm .= $this->cxc->getClassAddElement('form', "new \XoopsFormHidden('limit', \$this->limit)");
@@ -357,7 +355,7 @@ class ClassFiles extends Files\CreateFile
         $ret               .= $this->xc->getXcXoopsHandler('member', "\t\t");
         $ret               .= $this->xc->getXcEqualsOperator('$groupList', '$memberHandler->getGroupList()', null, "\t\t");
         $ret               .= $this->xc->getXcXoopsHandler('groupperm',  "\t\t");
-        $ret               .= $this->pc->getPhpCodeArrayType('fullList', 'keys', 'groupList', null, false, "\t\t");
+        $ret               .= $this->pc->getPhpCodeArrayType('fullList', 'keys', 'groupList');
         $fId               = $this->xc->getXcGetVar('', 'this', $fieldId, true);
         $mId               = $this->xc->getXcGetVar('', "GLOBALS['xoopsModule']", 'mid', true);
         $contElse          = $this->xc->getXcGetGroupIds('groupsIdsApprove', 'grouppermHandler', "'{$moduleDirname}_approve_{$tableName}'", $fId, $mId, "\t\t\t");
@@ -542,7 +540,7 @@ class ClassFiles extends Files\CreateFile
         $multiLineCom = ['Returns an array representation' => 'of the object', '' => '', '@return' => 'array'];
         $ret          = $this->pc->getPhpCodeCommentMultiLine($multiLineCom, "\t");
 
-        $getToArray = $this->pc->getPhpCodeArray('ret', [], false, "\t\t");
+        $getToArray = $this->pc->getPhpCodeArray('ret', []);
         $getToArray .= $this->xc->getXcEqualsOperator('$vars', '$this->getVars()', null, "\t\t");
         $foreach    = $this->xc->getXcEqualsOperator('$ret[$var]', '$this->getVar($var)', null, "\t\t\t");
         $getToArray .= $this->pc->getPhpCodeForeach('vars', true, false, 'var', $foreach, "\t\t");

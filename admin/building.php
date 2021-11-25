@@ -41,7 +41,7 @@ if (!\is_dir($cachePath)) {
     if (!\mkdir($cachePath, 0777) && !\is_dir($cachePath)) {
         throw new \RuntimeException(\sprintf('Directory "%s" was not created', $cachePath));
     }
-    chmod($cachePath, 0777);
+    \chmod($cachePath, 0777);
 }
 // Clear cache
 if (\file_exists($cache = $cachePath . '/classpaths.cache')) {

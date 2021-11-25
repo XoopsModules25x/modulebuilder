@@ -58,7 +58,7 @@ class BlocksFilesSpotlight extends Files\CreateFile
         /**
      * @static function getInstance
      * @param null
-     * @return BlocksFiles
+     * @return false|BlocksFiles|BlocksFilesSpotlight
      */
     public static function getInstance()
     {
@@ -189,7 +189,7 @@ class BlocksFilesSpotlight extends Files\CreateFile
         $func .= $this->getSimpleString('return $block;',"\t");
         $func .= $this->pc->getPhpCodeBlankLine();
 
-        $ret  .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_spotlight_show", '$options', $func, '', false, "");
+        $ret  .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_spotlight_show", '$options', $func, '');
 
         return $ret;
     }
@@ -226,9 +226,9 @@ class BlocksFilesSpotlight extends Files\CreateFile
         $func .= $this->pc->getPhpCodeBlankLine();
         $func .= $this->xc->getXcCriteriaCompo($critName, "\t");
         $crit = $this->xc->getXcCriteria('', "'{$fieldId}'", '0', "'!='", true);
-        $func .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t", "\n");
-        $func .= $this->xc->getXcCriteriaSetSort($critName, "'{$fieldId}'","\t","\n");
-        $func .= $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t","\n");
+        $func .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t");
+        $func .= $this->xc->getXcCriteriaSetSort($critName, "'{$fieldId}'","\t");
+        $func .= $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t");
         $func .= $this->xc->getXcHandlerAllClear("{$tableName}All", $tableName, "\${$critName}", "\t");
         $func .= $this->pc->getPhpCodeUnset($critName, "\t");
         $func .= $this->xc->getXcEqualsOperator('$form', "{$language}{$stuTableName}_TO_DISPLAY . \"<br><select name='options[]' multiple='multiple' size='5'>\"", '.',"\t");
@@ -241,7 +241,7 @@ class BlocksFilesSpotlight extends Files\CreateFile
         $func .= $this->getSimpleString('return $form;', "\t");
         $func .= $this->pc->getPhpCodeBlankLine();
 
-        $ret .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_spotlight_edit", '$options', $func, '', false, "");
+        $ret .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_spotlight_edit", '$options', $func, '');
 
         return $ret;
 

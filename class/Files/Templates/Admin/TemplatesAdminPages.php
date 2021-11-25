@@ -263,14 +263,14 @@ class TemplatesAdminPages extends Files\CreateFile
         $htmlTable .= $this->hc->getHtmlTag('div', ['class' => 'clear'], '&nbsp;', false, "\t");
         $single    = $this->sc->getSmartySingleVar('pagenav');
         $div       = $this->hc->getHtmlTag('div', ['class' => 'xo-pagenav floatright'], $single, false, "\t\t");
-        $div       .= $this->hc->getHtmlTag('div', ['class' => 'clear spacer'], '', false, "\t\t", "\n");
+        $div       .= $this->hc->getHtmlTag('div', ['class' => 'clear spacer'], '', false, "\t\t");
         $htmlTable .= $this->sc->getSmartyConditions('pagenav', '', '', $div, '', '', '', "\t" );
         $ifList    = $this->sc->getSmartyConditions($tableName . '_list', '', '', $htmlTable);
         $single    = $this->sc->getSmartySingleVar('form', "\t", "\n");
         $ifList    .= $this->sc->getSmartyConditions('form', '', '', $single);
         $single    = $this->sc->getSmartySingleVar('error');
         $strong    = $this->hc->getHtmlTag('strong', [], $single, false, '', '');
-        $div       = $this->hc->getHtmlTag('div', ['class' => 'errorMsg'], $strong, false, "\t", "\n");
+        $div       = $this->hc->getHtmlTag('div', ['class' => 'errorMsg'], $strong, false, "\t");
         $ifList    .= $this->sc->getSmartyConditions('error', '', '', $div);
         $ifList    .= $this->hc->getHtmlEmpty('', '', "\n");
 

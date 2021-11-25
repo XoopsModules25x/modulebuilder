@@ -94,16 +94,14 @@ class ClassHandlerFiles extends Files\CreateFile
      * @param string $moduleDirname
      * @param string $table
      * @param string $fieldId
-     * @param        $fieldName
      * @param string $fieldMain
      * @param        $fieldParentId
      * @param        $fieldElement
      * @return string
      */
-    private function getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldName, $fieldMain, $fieldParentId, $fieldElement)
+    private function getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldMain, $fieldParentId, $fieldElement)
     {
         $tableName      = $table->getVar('table_name');
-        $tableFieldName = $table->getVar('table_fieldname');
         $ucfTableName   = \ucfirst($tableName);
         $multiLineCom   = ['Class Object Handler' => $ucfTableName];
         $ret            = $this->pc->getPhpCodeCommentMultiLine($multiLineCom);
@@ -362,7 +360,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $namespace = $this->pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
         $content   = $this->getHeaderFilesComments($module, null, $namespace);
         $content   .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
-        $content   .= $this->getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldName, $fieldMain, $fieldParentId, $fieldElement);
+        $content   .= $this->getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldMain, $fieldParentId, $fieldElement);
 
         $this->create($moduleDirname, 'class', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 

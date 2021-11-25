@@ -81,7 +81,6 @@ class FormTabTray extends \XoopsFormElementTray
         $extras = [];
 
         foreach ($this->getElements() as $ele) {
-            /* @var \XoopsFormElement $ele */
             if (!$ele->isHidden()) {
                 if (!$ele instanceof Modulebuilder\Form\FormRaw) {
                     if ($ele instanceof Modulebuilder\Form\FormTab) {

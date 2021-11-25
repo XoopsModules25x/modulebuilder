@@ -50,7 +50,6 @@ class FormTab extends \XoopsFormElementTray
     public function render()
     {
         $ret = '';
-        /* @var \XoopsFormElement $ele */
         foreach ($this->getElements() as $ele) {
             $ret         .= NWLINE;
             $ret         .= '<tr>' . NWLINE;

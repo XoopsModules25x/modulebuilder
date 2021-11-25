@@ -151,7 +151,7 @@ class AdminBroken extends Files\CreateFile
                 $ret      .= $this->xc->getXcCriteriaCompo($critName, $t);
                 $constant = $this->xc->getXcGetConstants('STATUS_BROKEN');
                 $crit     = $this->xc->getXcCriteria('', "'{$fieldSatus}'", $constant, '', true);
-                $ret      .= $this->xc->getXcCriteriaAdd($critName, $crit, $t, "\n");
+                $ret      .= $this->xc->getXcCriteriaAdd($critName, $crit, $t);
                 $ret      .= $this->xc->getXcHandlerCountClear($tableName . 'Count', $tableName, '$' . $critName, $t);
                 $ret      .= $this->xc->getXcXoopsTplAssign($tableName . '_count', "\${$tableName}Count", true, $t);
                 $sprintf  = $this->pc->getPhpCodeSprintf($language . 'BROKEN_RESULT', "'{$ucfTableName}'");

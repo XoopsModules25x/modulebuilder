@@ -349,7 +349,7 @@ class CreateXoopsCode
     {
         $pc          = Modulebuilder\Files\CreatePhpCode::getInstance();
         $ret         = $pc->getPhpCodeCommentLine('Get Var', $fieldNameParent, $t);
-        $fieldParent = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldNameParent, true, '');
+        $fieldParent = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldNameParent, true);
         $ret         .= $this->getXcHandlerGet($rpFieldName, $fieldParent, '', $tableNameTopic . 'Handler', false, $t);
         $ret         .= $this->getXcGetVar("\${$lpFieldName}['{$rpFieldName}']", "\${$rpFieldName}", $fieldNameTopic, false, $t);
 
@@ -393,7 +393,7 @@ class CreateXoopsCode
     {
         $pc           = Modulebuilder\Files\CreatePhpCode::getInstance();
         $ret          = $pc->getPhpCodeCommentLine('Get Var', $fieldName, $t);
-        $getVarFromID = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldName, true, '');
+        $getVarFromID = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldName, true);
         $rightGet     = $this->getXcAnchorFunction($anchor . 'Handler', 'get' . $var . 'FromId', $getVarFromID);
         $ret          .= $this->getXcEqualsOperator($left, $rightGet, null, $t);
 
@@ -446,7 +446,7 @@ class CreateXoopsCode
     public function getXcGetVarTextArea($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
     {
         $pc     = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $getVar = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldName, true, '');
+        $getVar = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldName, true);
 
         return $t . $pc->getPhpCodeStripTags("{$lpFieldName}['{$rpFieldName}']", $getVar, false, $t);
     }
@@ -1033,7 +1033,7 @@ class CreateXoopsCode
 
         $array   = "['ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'start' => \$start, 'limit' => \$limit, 'op' => '{$options}']";
         $server  = $pc->getPhpCodeGlobalsVariables('REQUEST_URI', 'SERVER');
-        $getVar  = $this->getXcGetVar('', $tableName . 'Obj', $fieldMain, true, '');
+        $getVar  = $this->getXcGetVar('', $tableName . 'Obj', $fieldMain, true);
         $sprintf = $pc->getPhpCodeSprintf($language . 'FORM_SURE_' . $stuOptions, $getVar);
         $confirm = 'new Common\XoopsConfirm(' . "\n";
         $confirm .= $t . "\t" . $array . ",\n";
@@ -1097,7 +1097,7 @@ class CreateXoopsCode
     public function getTopicGetVar($lpFieldName, $rpFieldName, $tableName, $tableNameTopic, $fieldNameParent, $fieldNameTopic, $t = '')
     {
         $ret      = Modulebuilder\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('Get Var', $fieldNameParent, $t);
-        $paramGet = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldNameParent, true, '');
+        $paramGet = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldNameParent, true);
         $ret      .= $this->getXcHandlerGet($rpFieldName, $paramGet, '', $tableNameTopic . 'Handler', false, $t);
         $ret      .= $this->getXcGetVar("\${$lpFieldName}['{$rpFieldName}']", "\${$rpFieldName}", $fieldNameTopic, false, $t);
 
@@ -1201,6 +1201,7 @@ class CreateXoopsCode
                         $fieldLines .= $axc->getAxcSetVarImageList($tableName, $fieldName, $t, $countUploader);
                         $countUploader++;
                         break;
+                    case 14:
                     case 11:
                         $fieldLines .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
@@ -1211,10 +1212,6 @@ class CreateXoopsCode
                         break;
                     case 13:
                         $fieldLines .= $axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
-                        $countUploader++;
-                        break;
-                    case 14:
-                        $fieldLines .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case 15:
@@ -1838,7 +1835,7 @@ class CreateXoopsCode
         $xoopsSecurityErrors  = $xc->getXcXoopsSecurityErrors();
         $implode              = $pc->getPhpCodeImplode(', ', $xoopsSecurityErrors);
         $redirectHeaderErrors = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t\t");
-        $delete               = $xc->getXcHandlerDelete($tableName, $tableName, 'Obj', 'Handler');
+        $delete               = $xc->getXcHandlerDelete($tableName, $tableName, 'Obj');
         $condition            = $pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectHeaderErrors, false, $t . "\t");
         $contInsert = '';
         if (!$admin && 1 == $tableNotifications) {

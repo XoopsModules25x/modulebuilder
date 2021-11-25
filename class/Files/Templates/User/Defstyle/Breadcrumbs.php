@@ -101,7 +101,7 @@ class Breadcrumbs extends Files\CreateFile
         $anchor     = $this->hc->getHtmlAnchor('<{xoAppUrl index.php}>', $glyph, 'home');
         $into       = $this->hc->getHtmlLi($anchor, 'breadcrumb-item', "\t");
         $anchorIf   = $this->hc->getHtmlAnchor($link, $title, $title, '', '', '', "\t\t\t", "\n");
-        $breadcrumb = $this->sc->getSmartyConditions('itm.link', '', '', $anchorIf, $titleElse, false, false, "\t\t", "\n");
+        $breadcrumb = $this->sc->getSmartyConditions('itm.link', '', '', $anchorIf, $titleElse, false, false, "\t\t");
         $foreach    = $this->hc->getHtmlLi($breadcrumb, 'breadcrumb-item', "\t", "\n", true);
         $into       .= $this->sc->getSmartyForeach('itm', 'xoBreadcrumbs', $foreach, 'bcloop', '', "\t");
 

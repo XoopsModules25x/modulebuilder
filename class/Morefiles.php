@@ -36,12 +36,6 @@ use XoopsModules\Modulebuilder;
  */
 class Morefiles extends \XoopsObject
 {
-    /**
-     * Settings.
-     *
-     * @var mixed
-     */
-    private $settings;
 
     /**
      * @public function constructor class
@@ -110,7 +104,7 @@ class Morefiles extends \XoopsObject
         $form = new \XoopsThemeForm($title, 'morefilesform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $modules       = $helper->getHandler('Modules')->getObjects(null);
+        $modules       = $helper->getHandler('Modules')->getObjects();
         $modulesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_MORE_FILES_MODULES, 'file_mid', $this->getVar('file_mid'));
         $modulesSelect->addOption('', \_AM_MODULEBUILDER_MORE_FILES_MODULE_SELECT);
         foreach ($modules as $mod) {

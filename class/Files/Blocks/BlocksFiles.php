@@ -242,7 +242,7 @@ class BlocksFiles extends Files\CreateFile
         $func .= $this->getSimpleString('return $block;',"\t");
         $func .= $this->pc->getPhpCodeBlankLine();
 
-        $ret  .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_show", '$options', $func, '', false, "");
+        $ret  .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_show", '$options', $func, '', false);
 
         return $ret;
     }
@@ -277,9 +277,9 @@ class BlocksFiles extends Files\CreateFile
         $func .= $this->pc->getPhpCodeBlankLine();
         $func .= $this->xc->getXcCriteriaCompo($critName, "\t");
         $crit = $this->xc->getXcCriteria('', "'{$fieldId}'", '0', "'!='", true);
-        $func .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t", "\n");
-        $func .= $this->xc->getXcCriteriaSetSort($critName, "'{$fieldId}'","\t","\n");
-        $func .= $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t","\n");
+        $func .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t");
+        $func .= $this->xc->getXcCriteriaSetSort($critName, "'{$fieldId}'","\t");
+        $func .= $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t");
         $func .= $this->pc->getPhpCodeCommentMultiLine([
             'If you want to filter your results by e.g. a category used in your' . $tableName => '',
             'then you can activate the following code, but you have to change it according your category' => ''
@@ -300,7 +300,7 @@ class BlocksFiles extends Files\CreateFile
         $func .= $this->getSimpleString('return $form;', "\t");
         $func .= $this->pc->getPhpCodeBlankLine();
 
-        $ret .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_edit", '$options', $func, '', false, "");
+        $ret .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_edit", '$options', $func, '');
 
         return $ret;
 

@@ -186,12 +186,12 @@ class CreatePhpCode
      * @param        $string
      *
      * @param string $n
-     * @param string $t
+     * @param string $r
      * @return string
      */
-    public function getPhpCodeRemoveCarriageReturn($string, $n = "\n", $t = "\r")
+    public function getPhpCodeRemoveCarriageReturn($string, $n = "\n", $r = "\r")
     {
-        return \str_replace([(string)$n, (string)$t], '', $string);
+        return \str_replace([(string)$n, (string)$r], '', $string);
     }
 
     /**

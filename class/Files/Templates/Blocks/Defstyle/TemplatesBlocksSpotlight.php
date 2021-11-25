@@ -56,7 +56,7 @@ class TemplatesBlocksSpotlight extends Files\CreateFile
     /**
      * @static function getInstance
      * @param null
-     * @return TemplatesBlocks
+     * @return false|TemplatesBlocks|TemplatesBlocksSpotlight
      */
     public static function getInstance()
     {

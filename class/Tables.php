@@ -144,7 +144,7 @@ class Tables extends \XoopsObject
         $form = new \XoopsThemeForm($title, 'tableform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $modules       = $helper->getHandler('Modules')->getObjects(null);
+        $modules       = $helper->getHandler('Modules')->getObjects();
         $modulesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_TABLE_MODULES, 'table_mid', $tableMid);
         $modulesSelect->addOption('', \_AM_MODULEBUILDER_TABLE_MODSELOPT);
         foreach ($modules as $mod) {

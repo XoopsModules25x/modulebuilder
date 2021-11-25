@@ -34,12 +34,12 @@ $fileId = \Xmf\Request::getInt('file_id');
 switch ($op) {
     case 'list':
     default:
-        $start = \Xmf\Request::getInt('start', 0);
+        $start = \Xmf\Request::getInt('start');
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('morefiles_adminpager'));
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/modulebuilder/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
-        $adminObject->addItemButton(\_AM_MODULEBUILDER_MORE_FILES_ADD, 'morefiles.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_MORE_FILES_ADD, 'morefiles.php?op=new');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgfile_url', TDMC_UPLOAD_IMGMOD_URL);
@@ -62,7 +62,7 @@ switch ($op) {
             if ($morefilesCount > $limit) {
                 require_once \XOOPS_ROOT_PATH . '/class/pagenav.php';
                 $pagenav = new \XoopsPageNav($morefilesCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
-                $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
+                $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav());
             }
         } else {
             $GLOBALS['xoopsTpl']->assign('error', \_AM_MODULEBUILDER_THEREARENT_MORE_FILES);
@@ -114,7 +114,7 @@ switch ($op) {
     case 'edit':
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
-        $adminObject->addItemButton(\_AM_MODULEBUILDER_MORE_FILES_ADD, 'morefiles.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_MORE_FILES_ADD, 'morefiles.php?op=new');
         $adminObject->addItemButton(\_AM_MODULEBUILDER_MORE_FILES_LIST, 'morefiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 

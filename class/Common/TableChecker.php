@@ -53,6 +53,7 @@ class TableChecker extends \XoopsObject
 
     /**
      * @param \XoopsModules\Modulebuilder\Common\TableChecker|null
+     * @param int $checktype
      */
     public function __construct($mydirname, $checktype = 0)
     {
@@ -167,9 +168,9 @@ class TableChecker extends \XoopsObject
     private function extractKey($line) {
         //todo: split string into single keys
         $needle = '(';
-        $key_text = \substr($line, \strpos($line, $needle, 0) + 1);
+        $key_text = \substr($line, \strpos($line, $needle) + 1);
         $needle = ')';
-        $key_text = \substr($key_text, 0, \strpos($key_text, $needle, 0));
+        $key_text = \substr($key_text, 0, \strpos($key_text, $needle));
 
         return $key_text;
 

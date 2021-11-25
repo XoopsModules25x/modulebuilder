@@ -38,8 +38,8 @@ use XoopsModules\Modulebuilder\Common;
  */
 class Breadcrumb
 {
-    public  $dirname;
-    private $bread = [];
+    public string $dirname;
+    private array $bread = [];
 
     public function __construct()
     {

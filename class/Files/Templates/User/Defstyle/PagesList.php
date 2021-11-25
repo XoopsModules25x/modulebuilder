@@ -177,7 +177,7 @@ class PagesList extends Files\CreateFile
             }
         }
         $lang        = $this->sc->getSmartyConst($language, 'DETAILS');
-        $anchor =  $this->hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-primary', '', '', '');
+        $anchor =  $this->hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-primary');
         $retFoot     .= $this->hc->getHtmlSpan($anchor, 'col-sm-12',"\t");
         $ret .= $this->hc->getHtmlDiv($retFoot, 'panel-foot');
 

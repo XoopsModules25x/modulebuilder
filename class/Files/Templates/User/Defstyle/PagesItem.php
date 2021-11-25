@@ -198,7 +198,7 @@ class PagesItem extends Files\CreateFile
             $lang        = $this->sc->getSmartyConst($language, 'BROKEN');
             $anchors .=  $this->hc->getHtmlAnchor($tableName . ".php?op=broken&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start}>&amp;limit=<{$limit}>', $lang, $lang, '', 'btn btn-warning right', '', "\t\t", "\n");
         }
-        $retFoot     .= $this->hc->getHtmlDiv($anchors, 'col-sm-12 right',"\t", "\n");
+        $retFoot     .= $this->hc->getHtmlDiv($anchors, 'col-sm-12 right',"\t");
         $ret .= $this->hc->getHtmlDiv($retFoot, 'panel-foot');
         if ($tableRate) {
             $rate = $this->sc->getSmartyIncludeFile($moduleDirname, 'rate', false, false, "\t", "\n", 'item=$' . $tableSoleName);

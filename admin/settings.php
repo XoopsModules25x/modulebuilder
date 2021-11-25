@@ -34,12 +34,12 @@ $setId = \Xmf\Request::getInt('set_id');
 switch ($op) {
     case 'list':
     default:
-        $start = \Xmf\Request::getInt('start', 0);
+        $start = \Xmf\Request::getInt('start');
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('settings_adminpager'));
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/modulebuilder/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
-        $adminObject->addItemButton(\_AM_MODULEBUILDER_SETTINGS_ADD, 'settings.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_SETTINGS_ADD, 'settings.php?op=new');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
@@ -57,7 +57,7 @@ switch ($op) {
             if ($settingsCount > $limit) {
                 require_once \XOOPS_ROOT_PATH . '/class/pagenav.php';
                 $pagenav = new \XoopsPageNav($settingsCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
-                $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
+                $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav());
             }
         } else {
             $GLOBALS['xoopsTpl']->assign('error', \_AM_MODULEBUILDER_THEREARENT_SETTINGS);
@@ -151,7 +151,7 @@ switch ($op) {
         break;
     case 'edit':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
-        $adminObject->addItemButton(\_AM_MODULEBUILDER_SETTINGS_ADD, 'settings.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_SETTINGS_ADD, 'settings.php?op=new');
         $adminObject->addItemButton(\_AM_MODULEBUILDER_SETTINGS_LIST, 'settings.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $settingsObj = $helper->getHandler('Settings')->get($setId);
@@ -178,7 +178,7 @@ switch ($op) {
         }
         break;
     case 'display':
-        $setId = \Xmf\Request::getInt('set_id', 0);
+        $setId = \Xmf\Request::getInt('set_id');
         if ($setId > 0) {
             $settingsHandler = $helper->getHandler('Settings');
             $settingsObj     = $settingsHandler->get($setId);

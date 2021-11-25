@@ -171,7 +171,7 @@ class LanguageMain extends Files\CreateFile
             if (1 === $tableBroken) {
                 $ret .= $this->ld->getDefine($language, 'FORM_SURE_BROKEN', "Are you sure to notify as broken: <b><span style='color : Red;'>%s </span></b>", true);
             }
-            $ret .= $this->ld->getDefine($language, 'INVALID_PARAM', 'Invalid parameter', false);
+            $ret .= $this->ld->getDefine($language, 'INVALID_PARAM', 'Invalid parameter');
         }
         if (1 === $tableRate) {
             $ret .= $this->ld->getAboveHeadDefines('Ratings');

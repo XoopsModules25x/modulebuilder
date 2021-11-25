@@ -122,7 +122,7 @@ class UserPrint extends Files\CreateFile
         $ret            .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret            .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $ret            .= $this->getRequire();
-        $ret            .= $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH . '/header.php'", '', true, true, 'require', '');
+        $ret            .= $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH . '/header.php'", '', true, true);
         $ret            .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '', 'Int');
         $ret            .= $this->pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret            .= $this->xc->getXcXoThemeAddStylesheet();
@@ -161,7 +161,7 @@ class UserPrint extends Files\CreateFile
         $noPerm         .= $this->getSimpleString('exit();', "\t");
         $ret            .= $this->pc->getPhpCodeConditions($gperm, '', '', $noPerm);
         $ret            .= $this->xc->getXcGetValues($tableName, $tableSoleName, '', true);
-        $ret            .= $this->xc->getXcXoopsTplAppend($tableName . '_list', '$' . $tableSoleName, '');
+        $ret            .= $this->xc->getXcXoopsTplAppend($tableName . '_list', '$' . $tableSoleName);
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->xc->getXcXoopsTplAssign('xoops_sitename', "\$GLOBALS['xoopsConfig']['sitename']");
         $getVar         = $this->xc->getXcGetVar('', $tableName, $fieldMain, true);

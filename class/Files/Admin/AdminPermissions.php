@@ -120,7 +120,7 @@ class AdminPermissions extends Files\CreateFile
         $ret           = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret           .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret           .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $ret           .= $this->getRequire('header');
+        $ret           .= $this->getRequire();
         $ret           .= $this->pc->getPhpCodeBlankLine();
         $ret           .= $this->pc->getPhpCodeCommentLine('Template Index');
         $ret           .= $this->axc->getAdminTemplateMain($moduleDirname, 'permissions');
