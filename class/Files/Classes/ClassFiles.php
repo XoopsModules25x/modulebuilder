@@ -303,7 +303,7 @@ class ClassFiles extends Files\CreateFile
         $getForm          .= $this->pc->getPhpCodeConditions('!', '', '$action', $action, false, "\t\t");
         $xUser            = $this->pc->getPhpCodeGlobals('xoopsUser');
         $xModule          = $this->pc->getPhpCodeGlobals('xoopsModule');
-        $getForm          .= $this->xc->getXcEqualsOperator('$isAdmin', $xUser . '->isAdmin(' . $xModule . '->mid())', null, "\t\t");
+        $getForm          .= $this->pc->getPhpCodeTernaryOperator('isAdmin', '\is_object(' . $xUser . ')', $xUser . '->isAdmin(' . $xModule . '->mid())', 'false', "\t\t");
         if ($fieldUpload) {
             $permString = 'upload_groups';
             $getForm          .= $this->pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
