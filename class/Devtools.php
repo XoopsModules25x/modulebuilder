@@ -53,6 +53,7 @@ class Devtools
             'array_search',
             'array_slice',
             'array_unshift',
+            'array_shift',
             'array_values',
             'array_flip',
             'assert',
@@ -155,6 +156,8 @@ class Devtools
             'mb_strpos',
             'mb_strlen',
             'mb_strrpos',
+            'setcookie',
+            'str_repeat',
             'str_replace',
             'strip_tags',
             'strlen',
@@ -192,6 +195,29 @@ class Devtools
             '_MI_' . $moduleNameUpper .'_',
             '_MB_' . $moduleNameUpper .'_',
             '_MA_' . $moduleNameUpper .'_',
+        ];
+
+        // xoops objects
+        $xobjects[] = [
+            'XoopsThemeForm',
+            'XoopsSimpleForm',
+            'XoopsTableForm',
+            'XoopsFormText', //XoopsFormTextArea, XoopsFormTextDateSelect
+            'XoopsFormHidden',
+            'XoopsFormButton', //XoopsFormButtonTray
+            'XoopsFormEditor',
+            'XoopsFormCheckBox',
+            'XoopsFormRadio', //XoopsFormRadioYN
+            'XoopsFormSelect', //XoopsFormSelectUser
+            'XoopsFormColorPicker',
+            'XoopsFormElementTray',
+            'XoopsFormLabel',
+            'XoopsFormFile',
+            'XoopsFormPassword',
+            'XoopsFormDateTime',
+            'CriteriaCompo(',
+            'Criteria(',
+            'XoopsTpl',
         ];
 
         // repair known errors
@@ -240,6 +266,16 @@ class Devtools
             }
             //apply now for all
             foreach ($constant as $item) {
+                $patterns[$item] = '\\' . $item;
+            }
+        }
+        foreach ($xobjects as $xobject) {
+            //reset existing in order to avoid double \\
+            foreach ($xobject as $item) {
+                $patterns['\\' . $item ] = $item;
+            }
+            //apply now for all
+            foreach ($xobject as $item) {
                 $patterns[$item] = '\\' . $item;
             }
         }
