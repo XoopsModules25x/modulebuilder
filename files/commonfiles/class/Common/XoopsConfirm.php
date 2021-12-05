@@ -72,11 +72,11 @@ class XoopsConfirm
             $this->action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
         if ('' === $this->title) {
-            $this->title = CO_MYMODULE_DELETE_CONFIRM;
+            $this->title = \CO_MYMODULE_DELETE_CONFIRM;
         }
         if ('' === $this->label) {
 
-            $this->label = CO_MYMODULE_DELETE_LABEL;
+            $this->label = \CO_MYMODULE_DELETE_LABEL;
         }
 
         \xoops_load('XoopsFormLoader');
@@ -89,8 +89,8 @@ class XoopsConfirm
         }
         $form->addElement(new \XoopsFormHidden('ok', 1));
         $buttonTray = new \XoopsFormElementTray('');
-        $buttonTray->addElement(new \XoopsFormButton('', 'confirm_submit', _YES, 'submit'));
-        $buttonBack = new \XoopsFormButton('', 'confirm_back', _NO, 'button');
+        $buttonTray->addElement(new \XoopsFormButton('', 'confirm_submit', \_YES, 'submit'));
+        $buttonBack = new \XoopsFormButton('', 'confirm_back', \_NO, 'button');
         $buttonBack->setExtra('onclick="history.go(-1);return true;"');
         $buttonTray->addElement($buttonBack);
         $form->addElement($buttonTray);
