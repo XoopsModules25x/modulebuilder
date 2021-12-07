@@ -1254,7 +1254,7 @@ class CreateXoopsCode
         $ret       = $pc->getPhpCodeCommentLine('Display Navigation', null, $t);
         $condition = $pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'class/pagenav', true, false, 'require', $t . "\t");
         $condition .= $cxc->getClassXoopsPageNav('pagenav', $tableName . 'Count', 'limit', 'start', $paramStart, $paramOp, false, $t . "\t");
-        $condition .= $this->getXcXoopsTplAssign('pagenav', '$pagenav->renderNav(4)', true, $t . "\t");
+        $condition .= $this->getXcXoopsTplAssign('pagenav', '$pagenav->renderNav()', true, $t . "\t");
         $ret       .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '$limit', $condition, false, $t);
 
         return $ret;

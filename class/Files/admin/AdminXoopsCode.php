@@ -96,7 +96,7 @@ class AdminXoopsCode
         $aM      = $t . '$adminObject->addItemButton(';
         switch ($type) {
             case 'add';
-                $ret = $aM . "{$language}ADD_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
+                $ret = $aM . "{$language}ADD_{$stuTableSoleName}, '{$tableName}.php{$op}');\n";
             break;
             case 'samplebutton';
                 $ret = $aM . "{$language}, '{$op}', 'add');\n";
