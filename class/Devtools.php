@@ -251,7 +251,7 @@ class Devtools
             '\dirname()'    => 'dirname()',
             'assw\ord'      => 'assword',
             'mb_\strpos'    => 'mb_strpos',
-            'image\copy('   => '\imagecopy(',
+            'image\copy('   => 'imagecopy(',
             '<{if \count('  => '<{if count(',
             'define(\_'     => 'define(_',
             '\strr\chr('    => '\strrchr(',
@@ -268,6 +268,8 @@ class Devtools
             "'\\" . $moduleNameUpper .'_' => "'" . $moduleNameUpper .'_',
             'namespace \XoopsModules' => 'namespace XoopsModules',
             'use \XoopsModules' => 'use XoopsModules',
+            "'\XOOPS_" => "'XOOPS_",
+            "prefix = '\XoopsModules\\" => "prefix = 'XoopsModules\\",
         ];
 
         $patterns = [];
