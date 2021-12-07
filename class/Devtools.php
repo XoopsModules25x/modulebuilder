@@ -265,6 +265,7 @@ class Devtools
             "_MI_\\" . $moduleNameUpper .'_' => "_MI_" . $moduleNameUpper .'_',
             "_MB_\\" . $moduleNameUpper .'_' => "_MB_" . $moduleNameUpper .'_',
             "_MA_\\" . $moduleNameUpper .'_' => "_MA_" . $moduleNameUpper .'_',
+            "'\\" . $moduleNameUpper .'_' => "'" . $moduleNameUpper .'_',
             'namespace \XoopsModules' => 'namespace XoopsModules',
             'use \XoopsModules' => 'use XoopsModules',
         ];
