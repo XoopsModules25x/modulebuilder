@@ -223,8 +223,6 @@ class Devtools
             'XoopsFormFile',
             'XoopsFormPassword',
             'XoopsFormDateTime',
-            'CriteriaCompo(',
-            'Criteria(',
             'XoopsTpl',
             'XoopsPageNav',
             'XoopsUser',
@@ -235,11 +233,17 @@ class Devtools
             'XoopsPreloadItem',
         ];
 
+        // misc corrections
+        $misc = [
+            'new Criteria('   => 'new \Criteria(',
+            'new CriteriaCompo('   => 'new \CriteriaCompo(',
+        ];
+
         // repair known errors
         $errors = [
             'substr_\count('   => 'substr_count(',
             'micro\time('   => '\microtime(',
-            'mk\time('   => '\mktime(',
+            'mk\time('   => 'mktime(',
             'strto\time('   => 'strtotime(',
             'mb_\strlen('   => 'mb_strlen(',
             'mb_\substr('   => 'mb_substr(',
@@ -251,7 +255,7 @@ class Devtools
             '\dirname()'    => 'dirname()',
             'assw\ord'      => 'assword',
             'mb_\strpos'    => 'mb_strpos',
-            'image\copy('   => '\imagecopy(',
+            'image\copy('   => 'imagecopy(',
             '<{if \count('  => '<{if count(',
             'define(\_'     => 'define(_',
             '\strr\chr('    => '\strrchr(',
@@ -265,9 +269,14 @@ class Devtools
             "_MI_\\" . $moduleNameUpper .'_' => "_MI_" . $moduleNameUpper .'_',
             "_MB_\\" . $moduleNameUpper .'_' => "_MB_" . $moduleNameUpper .'_',
             "_MA_\\" . $moduleNameUpper .'_' => "_MA_" . $moduleNameUpper .'_',
+            "CO_\\" . $moduleNameUpper .'_' => "CO_" . $moduleNameUpper .'_',
             "'\\" . $moduleNameUpper .'_' => "'" . $moduleNameUpper .'_',
             'namespace \XoopsModules' => 'namespace XoopsModules',
-            'use \XoopsModules' => 'use XoopsModules',
+            'use \Xoops' => 'use Xoops',
+            "'\XOOPS_" => "'XOOPS_",
+            "prefix = '\XoopsModules\\" => "prefix = 'XoopsModules\\",
+            '\XoopsModules25x' => 'XoopsModules25x',
+            '@link \XoopsModule' => '@link XoopsModule',
         ];
 
         $patterns = [];
@@ -302,6 +311,10 @@ class Devtools
             }
         }
 
+        //add misc
+        foreach ($misc as $key => $value) {
+            $patterns[$key] = $value;
+        }
         //add errors
         foreach ($errors as $key => $value) {
             $patterns[$key] = $value;
