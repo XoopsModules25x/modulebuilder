@@ -101,9 +101,8 @@ class BlocksFiles extends Files\CreateFile
 
         $ret  = $this->pc->getPhpCodeCommentMultiLine(['Function' => 'show block', '@param  $options' => '', '@return' => 'array']);
 
-        $func = $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true, '', "\t");
         //$func .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', '',"\t");
-        $func .= $this->xc->getXcEqualsOperator('$block      ', '[]', '',"\t");
+        $func = $this->xc->getXcEqualsOperator('$block      ', '[]', '',"\t");
         $func .= $this->xc->getXcEqualsOperator('$typeBlock  ', '$options[0]','',"\t");
         $func .= $this->xc->getXcEqualsOperator('$limit      ', '$options[1]','',"\t");
         $func .= $this->xc->getXcEqualsOperator('$lenghtTitle', '$options[2]','',"\t");
@@ -265,8 +264,7 @@ class BlocksFiles extends Files\CreateFile
         $critName         = 'cr' . $ucfTableName;
 
         $ret  = $this->pc->getPhpCodeCommentMultiLine(['Function' => 'edit block', '@param  $options' => '', '@return' => 'string']);
-        $func = $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true, '', "\t");
-        $func .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url","\\{$stuModuleDirname}_UPLOAD_URL",'',"\t");
+        $func = $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url","\\{$stuModuleDirname}_UPLOAD_URL",'',"\t");
         $func .= $this->xc->getXcEqualsOperator('$form', "{$language}DISPLAY . ' : '", '',"\t");
         $func .= $this->xc->getXcEqualsOperator('$form', "\"<input type='hidden' name='options[0]' value='\".\$options[0].\"' >\"", '.',"\t");
         $func .= $this->xc->getXcEqualsOperator('$form', "\"<input type='text' name='options[1]' size='5' maxlength='255' value='\" . \$options[1] . \"' >&nbsp;<br>\"", '.',"\t");
