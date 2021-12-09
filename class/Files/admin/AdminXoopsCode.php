@@ -348,7 +348,7 @@ class AdminXoopsCode
     {
         $cf  = Modulebuilder\Files\CreateFile::getInstance();
         $ccFieldId = $cf->getCamelCase($fieldName, false, true);
-        $ret       = $this->xc->getXcEqualsOperator("\${$ccFieldId}", "Request::getString('{$fieldName}', '')", '',$t);
+        $ret       = $this->xc->getXcEqualsOperator("\${$ccFieldId}", "Request::getString('{$fieldName}')", '',$t);
         $contIf    = $this->xc->getXcSetVarObj($tableName, $fieldName, "password_hash(\${$ccFieldId}, PASSWORD_DEFAULT)", $t . "\t");
         $ret       .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' !== ', "''", $contIf, false, $t);
 
@@ -372,12 +372,12 @@ class AdminXoopsCode
             case 3:
             case 4:
             case 5:
-                $ret = $this->xc->getXcSetVarObj($tableName, $fieldName, "Request::getInt('{$fieldName}', 0)", $t);
+                $ret = $this->xc->getXcSetVarObj($tableName, $fieldName, "Request::getInt('{$fieldName}')", $t);
                 break;
             case 6:
             case 7:
             case 8:
-                $ret = $this->xc->getXcSetVarObj($tableName, $fieldName, "Request::getFloat('{$fieldName}', 0)", $t);
+                $ret = $this->xc->getXcSetVarObj($tableName, $fieldName, "Request::getFloat('{$fieldName}')", $t);
                 break;
             case 13:
             case 14:
@@ -386,9 +386,9 @@ class AdminXoopsCode
             case 17:
             case 18:
                 if ((int)$fieldElement == 4) {
-                    $ret = $this->xc->getXcSetVarObj($tableName, $fieldName, "Request::getText('{$fieldName}', '')", $t);
+                    $ret = $this->xc->getXcSetVarObj($tableName, $fieldName, "Request::getText('{$fieldName}')", $t);
                 } else {
-                    $ret = $this->xc->getXcSetVarObj($tableName, $fieldName, "Request::getString('{$fieldName}', '')", $t);
+                    $ret = $this->xc->getXcSetVarObj($tableName, $fieldName, "Request::getString('{$fieldName}')", $t);
                 }
                 break;
             case 0:

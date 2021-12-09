@@ -113,10 +113,10 @@ class UserSearch extends Files\CreateFile
         }
         if (1 == $table->getVar('table_category')) {
             $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
-            $ret        .= $this->xc->getXcXoopsRequest($ccFieldPid, (string)$fieldPid, '0', 'Int');
+            $ret        .= $this->xc->getXcXoopsRequest($ccFieldPid, (string)$fieldPid, '', 'Int');
         }
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret       .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
+        $ret       .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '', 'Int');
         $ret       .= $this->uxc->getUserTplMain($moduleDirname);
         $ret       .= $this->phpcode->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'header', true);
         $ret       .= $this->getDashComment('Define Stylesheet');

@@ -121,7 +121,7 @@ class IncludeComments extends Files\CreateFile
         $content .= $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request']);
         $content .= $this->pc->getPhpCodeIncludeDir("__DIR__ . '/../../../mainfile.php'",'',true, true);
         $content .= $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true);
-        $content .= $this->xc->getXcXoopsRequest('com_itemid', 'com_itemid', '0', 'Int');
+        $content .= $this->xc->getXcXoopsRequest('com_itemid', 'com_itemid', '', 'Int');
         $contIf  = $this->xc->getXcEqualsOperator("\${$tableName}Handler", "xoops_getModuleHandler('{$tableName}', '{$moduleDirname}')",'',"\t");
         $contIf  .= $this->xc->getXcHandlerGet("{$tableName}", 'com_itemid','Obj', "{$tableName}Handler", false, "\t");
         $contIf  .= $this->xc->getXcGetVar('com_replytitle', "{$tableName}Obj", $fieldMain,false, "\t");

@@ -235,7 +235,7 @@ class CreateXoopsCode
      */
     public function getXcSetVarCheckBoxOrRadioYN($tableName, $fieldName, $t = '')
     {
-        return $this->getXcSetVarObj($tableName, $fieldName, "Request::getInt('{$fieldName}', 0)", $t);
+        return $this->getXcSetVarObj($tableName, $fieldName, "Request::getInt('{$fieldName}')", $t);
     }
 
     /**
@@ -633,14 +633,17 @@ class CreateXoopsCode
      */
     public function getXcXoopsRequest($left = '', $var1 = '', $var2 = '', $type = 'String', $method = false, $t = '')
     {
-        $ret     = '';
-        $intVars = ('' != $var2) ? "'{$var1}', {$var2}" : "'{$var1}'";
+        $ret        = '';
+        $intVars    = ('' != $var2) ? "'{$var1}', {$var2}" : "'{$var1}'";
+        $stringVars = ('' != $var2) ? "'{$var1}', {$var2}" : "'{$var1}'";
         if ('String' === $type) {
-            $ret .= "{$t}\${$left} = Request::getString('{$var1}', '{$var2}');\n";
+            $ret .= "{$t}\${$left} = Request::getString({$stringVars});\n";
         } elseif ('Int' === $type) {
-            $ret .= "{$t}\${$left} = Request::getInt({$intVars});\n";
-        } elseif ('Int' === $type && false !== $method) {
-            $ret .= "{$t}\${$left} = Request::getInt({$intVars}, '{$method}');\n";
+            if (false !== $method) {
+                $ret .= "{$t}\${$left} = Request::getInt({$intVars}, '{$method}');\n";
+            } else {
+                $ret .= "{$t}\${$left} = Request::getInt({$intVars});\n";
+            }
         } else {
             $ret .= "{$t}\${$left} = Request::get{$type}('{$var1}', '{$var2}');\n";
         }
