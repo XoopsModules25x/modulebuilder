@@ -112,11 +112,26 @@ class UserPages extends Files\CreateFile
         $ret       .= $this->uxc->getUserTplMain($moduleDirname, $tableName);
         $ret       .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'header', true);
         $ret       .= $this->pc->getPhpCodeBlankLine();
-        $ret       .= $this->xc->getXcXoopsRequest('op   ', 'op', 'list', 'Cmd');
-        $ret       .= $this->xc->getXcXoopsRequest($ccFieldId, $fieldId, '0', 'Int');
-        $ret       .= $this->xc->getXcXoopsRequest('start', 'start', '0', 'Int');
+        $leftLen   = \strlen($ccFieldId);
+        $leftOp    = 'op';
+        $leftField = $ccFieldId;
+        $leftStart = 'start';
+        $leftLimit = 'limit';
+        if ($leftLen > 5) {
+            $leftOp    .= \str_repeat(' ', $leftLen - 2);
+            $leftStart .= \str_repeat(' ', $leftLen - 5);
+            $leftLimit .= \str_repeat(' ', $leftLen - 5);
+        } else {
+            $leftOp    .= \str_repeat(' ', 3);
+            if (\strlen($ccFieldId) < 5) {
+                $leftField .= \str_repeat(' ', 5 - $leftLen);
+            }
+        }
+        $ret       .= $this->xc->getXcXoopsRequest($leftOp, 'op', 'list', 'Cmd');
+        $ret       .= $this->xc->getXcXoopsRequest($leftField, $fieldId, '', 'Int');
+        $ret       .= $this->xc->getXcXoopsRequest($leftStart, 'start', '', 'Int');
         $userpager = $this->xc->getXcGetConfig('userpager');
-        $ret       .= $this->xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int');
+        $ret       .= $this->xc->getXcXoopsRequest($leftLimit, 'limit', $userpager, 'Int');
         $ret       .= $this->xc->getXcXoopsTplAssign('start', '$start');
         $ret       .= $this->xc->getXcXoopsTplAssign('limit', '$limit');
         $ret       .= $this->pc->getPhpCodeBlankLine();

@@ -104,7 +104,7 @@ class UserRate extends Files\CreateFile
         $ret .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $ret .= $this->getRequire();
         $ret .= $this->xc->getXcXoopsRequest('op', 'op', 'list', 'Cmd');
-        $ret .= $this->xc->getXcXoopsRequest('source', 'source', '0', 'Int');
+        $ret .= $this->xc->getXcXoopsRequest('source', 'source', '', 'Int');
 
         return $ret;
     }
@@ -155,7 +155,7 @@ class UserRate extends Files\CreateFile
         $redirectError      = $this->xc->getXcRedirectHeader('index', '', '3', $implode, true, $t . "\t");
         $ret                .= $this->pc->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, $t);
 
-        $ret .= $this->xc->getXcXoopsRequest('rating', 'rating', '0', 'Int', false, $t);
+        $ret .= $this->xc->getXcXoopsRequest('rating', 'rating', '', 'Int', false, $t);
         $ret .= $this->xc->getXcEqualsOperator('$itemid', '0','', $t);
         $ret .= $this->xc->getXcEqualsOperator('$redir ', "\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')",'', $t);
         foreach ($tables as $table) {
@@ -169,7 +169,7 @@ class UserRate extends Files\CreateFile
                         $fieldId = $fields[$f]->getVar('field_name');
                     }
                 }
-                $contIf = $this->xc->getXcXoopsRequest('itemid', $fieldId, '0', 'Int', false, $t . "\t");
+                $contIf = $this->xc->getXcXoopsRequest('itemid', $fieldId, '', 'Int', false, $t . "\t");
                 $contIf .= $this->xc->getXcEqualsOperator('$redir', "'{$tableName}.php?op=show&amp;{$fieldId}=' . \$itemid",'', $t . "\t");
                 $const = $this->xc->getXcGetConstants('TABLE_' . $stuTableName);
                 $ret .= $this->pc->getPhpCodeConditions('$source', ' === ', $const, $contIf, false, $t);
