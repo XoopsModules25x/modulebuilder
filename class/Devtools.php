@@ -196,12 +196,10 @@ class Devtools
         $moduleNameUpper = \mb_strtoupper($moduleName);
         // module language defines
         $constants[] = [
-            /*
             '_AM_' . $moduleNameUpper .'_',
             '_MI_' . $moduleNameUpper .'_',
             '_MB_' . $moduleNameUpper .'_',
             '_MA_' . $moduleNameUpper .'_',
-            */
             $moduleNameUpper .'_',
         ];
 
@@ -261,16 +259,16 @@ class Devtools
             '\strr\chr('    => '\strrchr(',
             'strf\time('    => 'strftime(',
             'filem\time'     => 'filemtime',
-            "'\_AM_\\" . $moduleNameUpper .'_' => "'_AM_" . $moduleNameUpper .'_',
-            "'\_MI_\\" . $moduleNameUpper .'_' => "'_MI_" . $moduleNameUpper .'_',
-            "'\_MB_\\" . $moduleNameUpper .'_' => "'_MB_" . $moduleNameUpper .'_',
-            "'\_MA_\\" . $moduleNameUpper .'_' => "'_MA_" . $moduleNameUpper .'_',
             "_AM_\\" . $moduleNameUpper .'_' => "_AM_" . $moduleNameUpper .'_',
             "_MI_\\" . $moduleNameUpper .'_' => "_MI_" . $moduleNameUpper .'_',
             "_MB_\\" . $moduleNameUpper .'_' => "_MB_" . $moduleNameUpper .'_',
             "_MA_\\" . $moduleNameUpper .'_' => "_MA_" . $moduleNameUpper .'_',
             "CO_\\" . $moduleNameUpper .'_' => "CO_" . $moduleNameUpper .'_',
             "'\\" . $moduleNameUpper .'_' => "'" . $moduleNameUpper .'_',
+            "'\_AM_\\" . $moduleNameUpper .'_' => "'_AM_" . $moduleNameUpper .'_',
+            "'\_MI_\\" . $moduleNameUpper .'_' => "'_MI_" . $moduleNameUpper .'_',
+            "'\_MB_\\" . $moduleNameUpper .'_' => "'_MB_" . $moduleNameUpper .'_',
+            "'\_MA_\\" . $moduleNameUpper .'_' => "'_MA_" . $moduleNameUpper .'_',
             'namespace \XoopsModules' => 'namespace XoopsModules',
             'use \Xoops' => 'use Xoops',
             "'\XOOPS_" => "'XOOPS_",
