@@ -235,6 +235,7 @@ class Devtools
         $misc = [
             'new Criteria('   => 'new \Criteria(',
             'new CriteriaCompo('   => 'new \CriteriaCompo(',
+            "\define('\\"   => "\define('",
         ];
 
         // repair known errors
