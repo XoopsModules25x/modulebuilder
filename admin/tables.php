@@ -272,10 +272,10 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $tablesObj->getHtmlErrors());
             }
         } else {
-            $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\XoopsConfirm(
+            $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\Confirm(
                 ['ok' => 1, 'table_id' => $tableId, 'table_mid' => $tableMid, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), $tablesObj->getVar('table_name')
             );
-            $form         = $xoopsconfirm->getFormXoopsConfirm();
+            $form         = $xoopsconfirm->getFormConfirm();
             $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }
         break;

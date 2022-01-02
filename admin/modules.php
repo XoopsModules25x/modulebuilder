@@ -230,12 +230,12 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
             }
         } else {
-            $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\XoopsConfirm(
+            $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\Confirm(
                 ['ok' => 1, 'mod_id' => $modId, 'op' => 'delete'],
                 \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'),
                 $modulesObj->getVar('mod_name')
             );
-            $form         = $xoopsconfirm->getFormXoopsConfirm();
+            $form         = $xoopsconfirm->getFormConfirm();
             $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }
         break;
