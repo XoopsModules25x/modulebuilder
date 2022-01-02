@@ -1038,12 +1038,12 @@ class CreateXoopsCode
         $server  = $pc->getPhpCodeGlobalsVariables('REQUEST_URI', 'SERVER');
         $getVar  = $this->getXcGetVar('', $tableName . 'Obj', $fieldMain, true);
         $sprintf = $pc->getPhpCodeSprintf($language . 'FORM_SURE_' . $stuOptions, $getVar);
-        $confirm = 'new Common\XoopsConfirm(' . "\n";
+        $confirm = 'new Common\Confirm(' . "\n";
         $confirm .= $t . "\t" . $array . ",\n";
         $confirm .= $t . "\t" . $server . ",\n";
         $confirm .= $t . "\t" . $sprintf . ')';
-        $ret     = $xc->getXcEqualsOperator('$xoopsconfirm', $confirm, '', $t);
-        $ret     .= $xc->getXcEqualsOperator('$form', '$xoopsconfirm->getFormXoopsConfirm()', '', $t);
+        $ret     = $xc->getXcEqualsOperator('$customConfirm', $confirm, '', $t);
+        $ret     .= $xc->getXcEqualsOperator('$form', '$customConfirm->getFormConfirm()', '', $t);
         $ret     .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
         return $ret;
     }
