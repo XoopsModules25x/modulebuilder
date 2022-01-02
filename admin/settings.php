@@ -170,10 +170,10 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
             }
         } else {
-            $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\Confirm(
+            $customConfirm = new \XoopsModules\Modulebuilder\Common\Confirm(
                 ['ok' => 1, 'set_id' => $setId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), $settingsObj->getVar('set_name')
             );
-            $form         = $xoopsconfirm->getFormConfirm();
+            $form         = $customConfirm->getFormConfirm();
             $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }
         break;

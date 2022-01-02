@@ -24,12 +24,12 @@ namespace XoopsModules\Modulebuilder\Common;
  *
  *
  * Example:
-    $xoopsconfirm = new Common\Confirm(
+    $customConfirm = new Common\Confirm(
         ['ok' => 1, 'item_id' => $itemId, 'op' => 'delete'],
         $_SERVER['REQUEST_URI'],
         \sprintf(\_MA_MYMODULE_FORM_SURE_DELETE,
         $itemsObj->getCaption()));
-    $form = $xoopsconfirm->getFormConfirm();
+    $form = $customConfirm->getFormConfirm();
     $GLOBALS['xoopsTpl']->assign('form', $form->render());
  */
 

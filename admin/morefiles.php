@@ -134,10 +134,10 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $morefilesObj->getHtmlErrors());
             }
         } else {
-            $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\Confirm(
+            $customConfirm = new \XoopsModules\Modulebuilder\Common\Confirm(
                 ['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), $morefilesObj->getVar('file_name')
             );
-            $form         = $xoopsconfirm->getFormConfirm();
+            $form         = $customConfirm->getFormConfirm();
             $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }
         break;

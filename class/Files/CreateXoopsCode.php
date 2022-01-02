@@ -1042,8 +1042,8 @@ class CreateXoopsCode
         $confirm .= $t . "\t" . $array . ",\n";
         $confirm .= $t . "\t" . $server . ",\n";
         $confirm .= $t . "\t" . $sprintf . ')';
-        $ret     = $xc->getXcEqualsOperator('$xoopsconfirm', $confirm, '', $t);
-        $ret     .= $xc->getXcEqualsOperator('$form', '$xoopsconfirm->getFormConfirm()', '', $t);
+        $ret     = $xc->getXcEqualsOperator('$customConfirm', $confirm, '', $t);
+        $ret     .= $xc->getXcEqualsOperator('$form', '$customConfirm->getFormConfirm()', '', $t);
         $ret     .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
         return $ret;
     }
