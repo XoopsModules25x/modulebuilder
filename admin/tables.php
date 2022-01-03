@@ -204,6 +204,21 @@ switch ($op) {
                 }
                 \redirect_header('fields.php?op=new' . $tableAction, 5, \sprintf(\_AM_MODULEBUILDER_TABLE_FORM_CREATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
             } else {
+                // table exists, recreate fieldelement_name/fieldelement_value in order to catch changes of table name
+                $crFieldelements = new \CriteriaCompo();
+                $crFieldelements->add(new \Criteria('fieldelement_mid', $tableMid));
+                $crFieldelements->add(new \Criteria('fieldelement_tid', $tableId));
+                $fieldelementsAll = $helper->getHandler('Fieldelements')->getAll($crFieldelements);
+                foreach (\array_keys($fieldelementsAll) as $feid) {
+                    $fieldelementObj = $helper->getHandler('Fieldelements')->get($feid);
+                    $fieldelementObj->setVar('fieldelement_name', 'Table : ' . \ucfirst(\Xmf\Request::getString('table_name', '', 'POST')));
+                    $fieldelementObj->setVar('fieldelement_value', 'XoopsFormTables-' . \ucfirst(\Xmf\Request::getString('table_name', '', 'POST')));
+                    // Insert new field element id for table name
+                    if (!$helper->getHandler('Fieldelements')->insert($fieldelementObj)) {
+                        $GLOBALS['xoopsTpl']->assign('error', $fieldelementObj->getHtmlErrors() . ' Field element');
+                    }
+                }
+
                 \redirect_header('tables.php', 5, \sprintf(\_AM_MODULEBUILDER_TABLE_FORM_UPDATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
             }
         }
