@@ -423,6 +423,8 @@
 \define('_AM_MODULEBUILDER_FIELD_ELE_TEXTRATINGS', "Ratings Textbox");
 \define('_AM_MODULEBUILDER_FIELD_ELE_TEXTVOTES', "Votes Textbox");
 \define('_AM_MODULEBUILDER_FIELD_ELE_TEXTREADS', "Reads Textbox");
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTINTEGER', "Textbox Integer");
+\define('_AM_MODULEBUILDER_FIELD_ELE_TEXTFLOAT', "Textbox Float");
 //
 // ------------------- Misc --------------------------------- //
 \define('_AM_MODULEBUILDER_THEREARE_DATABASE1', "There are <span style='color: #ff0000; font-weight: bold;'>%s</span>");

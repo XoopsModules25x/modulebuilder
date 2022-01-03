@@ -32,7 +32,7 @@ interface Constants
 	const MORE_FILES_TYPE_EMPTY = 1;
 	const MORE_FILES_TYPE_COPY = 2;
 
-	const FIRST_FIELDELEMENT_TABLE = 30;
+	const FIRST_FIELDELEMENT_TABLE = 31;
 
     // ------------------- Field elements ---------------------------------
     // --------- The values MUST BE IDENTICAL to fieldelement_id ----------
@@ -63,5 +63,7 @@ interface Constants
     const FIELD_ELE_TEXTRATINGS    = 26;
     const FIELD_ELE_TEXTVOTES      = 27;
     const FIELD_ELE_TEXTREADS      = 28;
+    const FIELD_ELE_TEXTINTEGER    = 29;
+    const FIELD_ELE_TEXTFLOAT      = 30;
 
 }

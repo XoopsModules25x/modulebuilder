@@ -933,6 +933,8 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
                     case 1:
                         break;
                     case Constants::FIELD_ELE_TEXT:  // textbox
+                    case Constants::FIELD_ELE_TEXTINTEGER:  // textbox integer
+                    case Constants::FIELD_ELE_TEXTFLOAT:  // textbox float
                     case Constants::FIELD_ELE_TEXTCOMMENTS: // textbox comments
                     case Constants::FIELD_ELE_TEXTRATINGS: // textbox ratings
                     case Constants::FIELD_ELE_TEXTVOTES: // textbox votes

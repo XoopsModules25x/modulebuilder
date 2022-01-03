@@ -185,7 +185,8 @@ class Fields extends \XoopsObject
         $fieldElements = $helper->getHandler('Fieldelements')->getAll();
         foreach ($fieldElements as $fe) {
             $form->addElement(new \XoopsFormHidden('fe_defaulttype[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_deftype')));
-            $form->addElement(new \XoopsFormHidden('fe_defaultvalue[' . $fe->getVar('fieldelement_id') . ']', "'" . $fe->getVar('fieldelement_defvalue') . "'"));
+            $form->addElement(new \XoopsFormHidden('fe_defaultvalue[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_defvalue')));
+            $form->addElement(new \XoopsFormHidden('fe_defaultfield[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_deffield')));
         }
         $form->addElement(new \XoopsFormHidden('field_id[' . $i . ']', 0));
         $form->addElement(new \XoopsFormHidden('field_mid', $fieldMid));
@@ -363,6 +364,7 @@ class Fields extends \XoopsObject
         foreach ($fieldElements as $fe) {
             $form->addElement(new \XoopsFormHidden('fe_defaulttype[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_deftype')));
             $form->addElement(new \XoopsFormHidden('fe_defaultvalue[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_defvalue')));
+            $form->addElement(new \XoopsFormHidden('fe_defaultfield[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_deffield')));
         }
         $id = 1;
         foreach ($fields as $field) {
