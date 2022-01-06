@@ -143,6 +143,7 @@ class LanguageMain extends Files\CreateFile
                     $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_DELETE", "Delete {$ucfTableSoleName}");
                     $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_CLONE", "Clone {$ucfTableSoleName}");
                 }
+                $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_DETAILS", "Details {$ucfTableSoleName}");
                 $ret .= $this->ld->getDefine($language, $stuTableName, $ucfTableName);
                 $ret .= $this->ld->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
                 $ret .= $this->ld->getDefine($language, "{$stuTableName}_TITLE", "{$ucfTableName} title");
@@ -163,6 +164,7 @@ class LanguageMain extends Files\CreateFile
         if (1 === $tableSubmit) {
             $ret .= $this->ld->getAboveDefines('Submit');
             $ret .= $this->ld->getDefine($language, 'SUBMIT', 'Submit');
+            $ret .= $this->ld->getDefine($language, 'SAVE', 'Save');
             $ret .= $this->ld->getAboveDefines('Form');
             $ret .= $this->ld->getDefine($language, 'FORM_OK', 'Successfully saved');
             $ret .= $this->ld->getDefine($language, 'FORM_DELETE_OK', 'Successfully deleted');
