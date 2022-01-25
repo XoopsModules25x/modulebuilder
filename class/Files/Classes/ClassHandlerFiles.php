@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Classes;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -80,7 +79,7 @@ class ClassHandlerFiles extends Files\CreateFile
      * @param mixed  $tables
      * @param        $filename
      */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $table, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);

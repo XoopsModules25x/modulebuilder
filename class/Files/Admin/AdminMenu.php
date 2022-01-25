@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Admin;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -67,7 +66,7 @@ class AdminMenu extends Files\CreateFile
      * @param string $module
      * @param string $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -83,7 +82,7 @@ class AdminMenu extends Files\CreateFile
     {
         $ret = '';
         if ($adminObject) {
-            $ret .= $this->getSimpleString("\$adminmenu[] = [");
+            $ret .= $this->getSimpleString('$adminmenu[] = [');
             foreach ($param as $key => $value) {
                 $ret .= $this->getSimpleString("\t'{$key}' => {$value},");
             }

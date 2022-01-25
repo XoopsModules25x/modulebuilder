@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -22,8 +22,7 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops <webmaster@txmodxoops.org> - <https://xoops.org/>
- *
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <https://xoops.org>
  */
 
 /**
@@ -179,7 +178,7 @@ class Fields extends \XoopsObject
      * @param $fName
      * @param $tableAutoincrement
      */
-    private function getFormNewLine($form, $class, $i, $fieldMid, $fieldTid, $fName, $tableAutoincrement)
+    private function getFormNewLine($form, $class, $i, $fieldMid, $fieldTid, $fName, $tableAutoincrement): void
     {
         $helper        = Modulebuilder\Helper::getInstance();
         $fieldElements = $helper->getHandler('Fieldelements')->getAll();

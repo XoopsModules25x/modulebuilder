@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -23,7 +23,6 @@ use XoopsModules\Modulebuilder;
  * @since           2.5.x
  *
  * @author          TDM TEAM DEV MODULE
- *
  */
 
 /**
@@ -86,7 +85,7 @@ class Building
      * @param string $dir
      * @param string $pattern
      */
-    public function clearDir($dir, $pattern = '*')
+    public function clearDir($dir, $pattern = '*'): void
     {
         // Find all files and folders matching pattern
         $files = glob($dir . "/$pattern");
@@ -110,7 +109,7 @@ class Building
      * @param string $src
      * @param string $dst
      */
-    public function copyDir($src, $dst)
+    public function copyDir($src, $dst): void
     {
         $dir = \opendir($src);
         if (!\mkdir($dst) && !\is_dir($dst)) {
