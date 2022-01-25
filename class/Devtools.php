@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -18,12 +18,11 @@ namespace XoopsModules\Modulebuilder;
 /**
  * Module:  modulebuilder
  *
- * @package      \module\modulebuilder\class
- * @license      http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @license      https://www.fsf.org/copyleft/gpl.html GNU public license
  * @copyright    https://xoops.org 2001-2017 &copy; XOOPS Project
  * @author       Goffy https://myxoops.org
  * @author       Mamba <mambax7@gmail.com>
- * @since        
+ * @since
  */
 
 use XoopsModules\Modulebuilder;
@@ -34,13 +33,14 @@ use XoopsModules\Modulebuilder;
 class Devtools
 {
     /* function to add function qualifier to module */
+
     /**
      * @param $src_path
      * @param $dst_path
      * @param $moduleName
      */
-    public static function function_qualifier($src_path, $dst_path, $moduleName) {
-
+    public static function function_qualifier($src_path, $dst_path, $moduleName): void
+    {
         $functions = [];
         $constants = [];
 
@@ -182,37 +182,37 @@ class Devtools
         $moduleNameUpper = \mb_strtoupper($moduleName);
         // module language defines
         $constants[] = [
-            '_AM_' . $moduleNameUpper .'_',
-            '_MI_' . $moduleNameUpper .'_',
-            '_MB_' . $moduleNameUpper .'_',
-            '_MA_' . $moduleNameUpper .'_',
+            '_AM_' . $moduleNameUpper . '_',
+            '_MI_' . $moduleNameUpper . '_',
+            '_MB_' . $moduleNameUpper . '_',
+            '_MA_' . $moduleNameUpper . '_',
         ];
 
         // repair known errors
         $errors = [
-            'substr_\count('   => 'substr_count(',
-            'micro\time('   => 'microtime(',
-            'mk\time('   => 'mktime(',
-            'strto\time('   => 'strtotime(',
-            'mb_\strlen('   => 'mb_strlen(',
-            'mb_\substr('   => 'mb_substr(',
-            'x\copy'        => 'xcopy',
-            'r\rmdir'       => 'rrmdir',
-            'r\copy'        => 'rcopy',
-            'r\trim'        => 'rtrim',
-            'l\trim'        => 'ltrim',
-            '\dirname()'    => 'dirname()',
-            'assw\ord'      => 'assword',
-            'mb_\strpos'    => 'mb_strpos',
-            'image\copy('   => 'imagecopy(',
-            '<{if \count('  => '<{if count(',
-            'define(\_'     => 'define(_',
-            '\strr\chr('    => '\strrchr(',
-            'strf\time('    => 'strftime(',
-            "'\_AM_" . $moduleNameUpper .'_' => "'_AM_" . $moduleNameUpper .'_',
-            "'\_MI_" . $moduleNameUpper .'_' => "'_MI_" . $moduleNameUpper .'_',
-            "'\_MB_" . $moduleNameUpper .'_' => "'_MB_" . $moduleNameUpper .'_',
-            "'\_MA_" . $moduleNameUpper .'_' => "'_MA_" . $moduleNameUpper .'_',
+            'substr_\count('                  => 'substr_count(',
+            'micro\time('                     => 'microtime(',
+            'mk\time('                        => 'mktime(',
+            'strto\time('                     => 'strtotime(',
+            'mb_\strlen('                     => 'mb_strlen(',
+            'mb_\substr('                     => 'mb_substr(',
+            'x\copy'                          => 'xcopy',
+            'r\rmdir'                         => 'rrmdir',
+            'r\copy'                          => 'rcopy',
+            'r\trim'                          => 'rtrim',
+            'l\trim'                          => 'ltrim',
+            '\dirname()'                      => 'dirname()',
+            'assw\ord'                        => 'assword',
+            'mb_\strpos'                      => 'mb_strpos',
+            'image\copy('                     => 'imagecopy(',
+            '<{if \count('                    => '<{if count(',
+            'define(\_'                       => 'define(_',
+            '\strr\chr('                      => '\strrchr(',
+            'strf\time('                      => 'strftime(',
+            "'\_AM_" . $moduleNameUpper . '_' => "'_AM_" . $moduleNameUpper . '_',
+            "'\_MI_" . $moduleNameUpper . '_' => "'_MI_" . $moduleNameUpper . '_',
+            "'\_MB_" . $moduleNameUpper . '_' => "'_MB_" . $moduleNameUpper . '_',
+            "'\_MA_" . $moduleNameUpper . '_' => "'_MA_" . $moduleNameUpper . '_',
         ];
 
         $patterns = [];
@@ -229,7 +229,7 @@ class Devtools
         foreach ($constants as $constant) {
             //reset existing in order to avoid double \\
             foreach ($constant as $item) {
-                $patterns['\\' . $item ] = $item;
+                $patterns['\\' . $item] = $item;
             }
             //apply now for all
             foreach ($constant as $item) {
@@ -244,44 +244,45 @@ class Devtools
 
         $patKeys   = \array_keys($patterns);
         $patValues = \array_values($patterns);
-        Devtools::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues);
-
+        self::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues);
     }
 
     /* function to add function qualifier to module */
+
     /**
      * @param $src_path
      * @param $dst_path
-     * @param $moduleName
      */
-    public static function function_tabreplacer($src_path, $dst_path) {
+    public static function function_tabreplacer($src_path, $dst_path): void
+    {
         $patKeys   = [];
         $patValues = [];
-        Devtools::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues, true);
+        self::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues, true);
     }
 
     // recursive cloning script
+
     /**
-     * @param $src_path
-     * @param $dst_path
+     * @param       $src_path
+     * @param       $dst_path
      * @param array $patKeys
      * @param array $patValues
      * @param bool  $replaceTabs
      */
-    public static function cloneFileFolder($src_path, $dst_path, $patKeys = [], $patValues =[], $replaceTabs = false)
+    public static function cloneFileFolder($src_path, $dst_path, $patKeys = [], $patValues = [], $replaceTabs = false): void
     {
         // open the source directory
         $dir = \opendir($src_path);
         // Make the destination directory if not exist
         @\mkdir($dst_path);
         // Loop through the files in source directory
-        while( $file = \readdir($dir) ) {
-            if (( $file != '.' ) && ( $file != '..' )) {
-                if ( \is_dir($src_path . '/' . $file) ) {
+        while ($file = \readdir($dir)) {
+            if (($file != '.') && ($file != '..')) {
+                if (\is_dir($src_path . '/' . $file)) {
                     // Recursively calling custom copy function for sub directory
-                    Devtools::cloneFileFolder($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs);
+                    self::cloneFileFolder($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs);
                 } else {
-                    Devtools::cloneFile($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs);
+                    self::cloneFile($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs);
                 }
             }
         }
@@ -289,21 +290,20 @@ class Devtools
     }
 
     /**
-     * @param $src_file
-     * @param $dst_file
+     * @param       $src_file
+     * @param       $dst_file
      * @param array $patKeys
-     * @param array $patValues
      * @param array $patValues
      * @param bool  $replaceTabs
      */
-    private static function cloneFile($src_file, $dst_file, $patKeys = [], $patValues =[], $replaceTabs = false)
+    private static function cloneFile($src_file, $dst_file, $patKeys = [], $patValues = [], $replaceTabs = false): void
     {
-        $replace_code = false;
+        $replace_code     = false;
         $changeExtensions = ['php'];
         if (\in_array(\mb_strtolower(\pathinfo($src_file, PATHINFO_EXTENSION)), $changeExtensions)) {
             $replace_code = true;
         }
-        if (\strpos( $dst_file, basename(__FILE__)) > 0) {
+        if (\mb_strpos($dst_file, basename(__FILE__)) > 0) {
             //skip myself
             $replace_code = false;
         }
@@ -317,9 +317,9 @@ class Devtools
             }
             //check file name whether it contains replace code
             $path_parts = \pathinfo($dst_file);
-            $path = $path_parts['dirname'];
-            $file =  $path_parts['basename'];
-            $dst_file = $path . '/' . \str_replace($patKeys, $patValues, $file);
+            $path       = $path_parts['dirname'];
+            $file       = $path_parts['basename'];
+            $dst_file   = $path . '/' . \str_replace($patKeys, $patValues, $file);
             \file_put_contents($dst_file, $content);
         } else {
             \copy($src_file, $dst_file);
@@ -342,7 +342,7 @@ class Devtools
         $form->setExtra('enctype="multipart/form-data"');
         // Form Select Module
         $modulesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_DEVTOOLS_FQ_MODULE, 'fq_module', '');
-        $modulesArr   = \XoopsLists::getModulesList();
+        $modulesArr    = \XoopsLists::getModulesList();
         $modulesSelect->addOption('', ' ');
         foreach ($modulesArr as $mod) {
             $modulesSelect->addOption($mod, $mod);
@@ -371,7 +371,7 @@ class Devtools
         $form->setExtra('enctype="multipart/form-data"');
         // Form Select Module
         $modulesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_DEVTOOLS_CL_MODULE, 'cl_module', '');
-        $modulesArr   = \XoopsLists::getModulesList();
+        $modulesArr    = \XoopsLists::getModulesList();
         $modulesSelect->addOption('', ' ');
         foreach ($modulesArr as $mod) {
             $modulesSelect->addOption($mod, $mod);
@@ -400,7 +400,7 @@ class Devtools
         $form->setExtra('enctype="multipart/form-data"');
         // Form Select Module
         $modulesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_DEVTOOLS_TAB_MODULE, 'tab_module', '');
-        $modulesArr   = \XoopsLists::getModulesList();
+        $modulesArr    = \XoopsLists::getModulesList();
         $modulesSelect->addOption('', ' ');
         foreach ($modulesArr as $mod) {
             $modulesSelect->addOption($mod, $mod);
