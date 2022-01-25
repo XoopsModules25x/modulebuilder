@@ -53,9 +53,9 @@ class AdminPages extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
-        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $this->axc = Modulebuilder\Files\Admin\AdminXoopsCode::getInstance();
+        $this->xc  = Files\CreateXoopsCode::getInstance();
+        $this->pc  = Files\CreatePhpCode::getInstance();
+        $this->axc = Files\Admin\AdminXoopsCode::getInstance();
     }
 
     /**
@@ -429,7 +429,7 @@ class AdminPages extends Files\CreateFile
      */
     public function render()
     {
-        $tf  = Modulebuilder\Files\CreateFile::getInstance();
+        $tf  = Files\CreateFile::getInstance();
         $new = $clone = $save = $edit = '';
 
         $module             = $this->getModule();

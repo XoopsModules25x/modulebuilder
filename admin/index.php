@@ -27,7 +27,7 @@ use Xmf\Request;
 use XoopsModules\Modulebuilder\{
     Common,
     Common\TestdataButtons,
-    Forms,
+    Form,
     Helper,
     Utility
 };
