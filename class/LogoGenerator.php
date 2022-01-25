@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Modulebuilder;
+<?php declare(strict_types=1);
+
+namespace XoopsModules\Modulebuilder;
 
 use XoopsModules\Modulebuilder;
 
@@ -20,15 +22,15 @@ use XoopsModules\Modulebuilder;
  * @since           2.5.0
  *
  * @author          Xoops Team Developement Modules - https://xoops.org
- *
  */
 require_once \dirname(__DIR__, 3) . '/mainfile.php';
 
 /**
  * @param string $val
  */
-function phpFunction($val = '')
-{ // create php function here
+function phpFunction($val = ''): void
+{
+    // create php function here
     echo $val;
 }
 

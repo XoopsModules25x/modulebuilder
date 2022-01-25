@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -20,8 +20,7 @@ namespace XoopsModules\Modulebuilder;
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops <webmaster@txmodxoops.org> - <https://xoops.org/>
- *
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <https://xoops.org>
  */
 
 /**

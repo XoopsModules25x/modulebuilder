@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
@@ -25,9 +25,8 @@ use XoopsModules\Modulebuilder\{
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -65,7 +64,7 @@ class Rate extends Files\CreateFile
      * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -83,25 +82,25 @@ class Rate extends Files\CreateFile
     private function getTemplatesUserRateHeader($moduleDirname, $table, $language)
     {
         $ret    = <<<EOT
-<{include file="db:{$moduleDirname}_header.tpl"}>
-<table class="{$moduleDirname}">
-    <thead class="outer">
-        <tr class="head">\n
-EOT;
+            <{include file="db:{$moduleDirname}_header.tpl"}>
+            <table class="{$moduleDirname}">
+                <thead class="outer">
+                    <tr class="head">\n
+            EOT;
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (\array_keys($fields) as $f) {
             $fieldName        = $fields[$f]->getVar('field_name');
             $langStuFieldName = $language . \mb_strtoupper($fieldName);
             if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
                 $ret .= <<<EOT
-            <th class="center"><{\$smarty.const.{$langStuFieldName}}></th>\n
-EOT;
+                                <th class="center"><{\$smarty.const.{$langStuFieldName}}></th>\n
+                    EOT;
             }
         }
         $ret .= <<<EOT
-        </tr>
-    </thead>\n
-EOT;
+                    </tr>
+                </thead>\n
+            EOT;
 
         return $ret;
     }
@@ -117,10 +116,10 @@ EOT;
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
-    <tbody>
-        <{foreach item=list from=\${$tableName}}>
-            <tr class="<{cycle values='odd, even'}>">\n
-EOT;
+                <tbody>
+                    <{foreach item=list from=\${$tableName}}>
+                        <tr class="<{cycle values='odd, even'}>">\n
+            EOT;
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
@@ -130,33 +129,33 @@ EOT;
                 switch ($fieldElement) {
                     case Constants::FIELD_ELE_COLORPICKER:
                         $ret .= <<<EOT
-                <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">\t\t</span></td>\n
-EOT;
+                                            <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">\t\t</span></td>\n
+                            EOT;
                         break;
                     case Constants::FIELD_ELE_IMAGELIST:
                         $ret .= <<<EOT
-                <td class="center"><img src="<{xoModuleIcons32}><{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
-EOT;
+                                            <td class="center"><img src="<{xoModuleIcons32}><{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
+                            EOT;
                         break;
                     case Constants::FIELD_ELE_UPLOADIMAGE:
                         $ret .= <<<EOT
-                <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
-EOT;
+                                            <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
+                            EOT;
                         break;
                     default:
                         $ret .= <<<EOT
-                <td class="center"><{\$list.{$rpFieldName}}></td>\n
-EOT;
+                                            <td class="center"><{\$list.{$rpFieldName}}></td>\n
+                            EOT;
                         break;
                 }
             }
         }
         $ret .= <<<EOT
-            </tr>
-        <{/foreach}>
-    </tbody>
-</table>\n
-EOT;
+                        </tr>
+                    <{/foreach}>
+                </tbody>
+            </table>\n
+            EOT;
 
         return $ret;
     }
@@ -172,10 +171,10 @@ EOT;
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
-    <tbody>
-        <{foreach item=list from=\${$tableName}}>
-            <tr class="<{cycle values='odd, even'}>">\n
-EOT;
+                <tbody>
+                    <{foreach item=list from=\${$tableName}}>
+                        <tr class="<{cycle values='odd, even'}>">\n
+            EOT;
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
@@ -184,28 +183,28 @@ EOT;
                 switch ($fieldElement) {
                     case Constants::FIELD_ELE_COLORPICKER:
                         $ret .= <<<EOT
-            <td class="center"><span style="background-color: #<{\$list.{$fieldName}}>;"></span></td>\n
-EOT;
+                                        <td class="center"><span style="background-color: #<{\$list.{$fieldName}}>;"></span></td>\n
+                            EOT;
                         break;
                     case Constants::FIELD_ELE_UPLOADIMAGE:
                         $ret .= <<<EOT
-            <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$fieldName}}>" alt="{$tableName}"></td>\n
-EOT;
+                                        <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$fieldName}}>" alt="{$tableName}"></td>\n
+                            EOT;
                         break;
                     default:
                         $ret .= <<<EOT
-            <td class="center"><{\$list.{$fieldName}}></td>\n
-EOT;
+                                        <td class="center"><{\$list.{$fieldName}}></td>\n
+                            EOT;
                         break;
                 }
             }
         }
         $ret .= <<<EOT
-            </tr>
-        <{/foreach}>
-    </tbody>
-</table>\n
-EOT;
+                        </tr>
+                    <{/foreach}>
+                </tbody>
+            </table>\n
+            EOT;
 
         return $ret;
     }
@@ -219,8 +218,8 @@ EOT;
     private function getTemplatesUserRateFooter($moduleDirname)
     {
         $ret = <<<EOT
-<{include file="db:{$moduleDirname}_footer.tpl"}>
-EOT;
+            <{include file="db:{$moduleDirname}_footer.tpl"}>
+            EOT;
 
         return $ret;
     }

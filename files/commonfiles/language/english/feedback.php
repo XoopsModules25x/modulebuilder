@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -13,8 +13,7 @@
  * feedback plugin for xoops modules
  *
  * @copyright      module for xoops
- * @license        GPL 2.0 or later
- * @package        general
+ * @license         GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @since          1.0
  * @min_xoops      2.5.11
  * @author         XOOPS - Website:<https://xoops.org>

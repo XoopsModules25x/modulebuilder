@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -36,12 +35,10 @@ class Header extends Files\CreateFile
      * @var mixed
      */
     private $cf = null;
-
     /**
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -79,7 +76,7 @@ class Header extends Files\CreateFile
      * @param        $module
      * @param string $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -92,12 +89,12 @@ class Header extends Files\CreateFile
      */
     public function getTemplatesUserHeader($moduleDirname)
     {
-        $ret = '';
+        $ret  = '';
         $cond = $this->sc->getSmartyIncludeFile($moduleDirname, 'breadcrumbs', false, true, "\t");
-        $ret .= $this->sc->getSmartyConditions('xoBreadcrumbs', '', '', $cond);
-        $var = $this->sc->getSmartySingleVar('ads', '', '');
-        $div = $this->hc->getHtmlDiv($var, 'center', "\t","\n", false) ;
-        $ret .= $this->sc->getSmartyConditions('ads', '', '', $div);
+        $ret  .= $this->sc->getSmartyConditions('xoBreadcrumbs', '', '', $cond);
+        $var  = $this->sc->getSmartySingleVar('ads', '', '');
+        $div  = $this->hc->getHtmlDiv($var, 'center', "\t", "\n", false);
+        $ret  .= $this->sc->getSmartyConditions('ads', '', '', $div);
 
         return $ret;
     }
@@ -111,16 +108,16 @@ class Header extends Files\CreateFile
     public function getTemplateUserHeaderFacebbokSDK()
     {
         $ret = <<<'EOT'
-	<!-- Load Facebook SDK for JavaScript -->
-	<div id="fb-root"></div>
-	<script>(function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	  if (d.getElementById(id)) return;
-	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1";
-	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));</script>
-EOT;
+            	<!-- Load Facebook SDK for JavaScript -->
+            	<div id="fb-root"></div>
+            	<script>(function(d, s, id) {
+            	  var js, fjs = d.getElementsByTagName(s)[0];
+            	  if (d.getElementById(id)) return;
+            	  js = d.createElement(s); js.id = id;
+            	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1";
+            	  fjs.parentNode.insertBefore(js, fjs);
+            	}(document, 'script', 'facebook-jssdk'));</script>
+            EOT;
 
         return $ret;
     }
@@ -135,7 +132,7 @@ EOT;
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->getTemplatesUserHeader($moduleDirname);
+        $content       = $this->getTemplatesUserHeader($moduleDirname);
 
         $this->cf->create($moduleDirname, 'templates', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 

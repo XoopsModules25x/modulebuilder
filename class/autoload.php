@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -19,9 +19,8 @@ namespace XoopsModules\Modulebuilder;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 \defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /*
@@ -35,7 +34,7 @@ if (!\function_exists('application_autoloader')) {
     /**
      * @param $class
      */
-    function application_autoloader($class)
+    function application_autoloader($class): void
     {
         $classFilename = $class . '.php';
         $cachePath     = \XOOPS_VAR_PATH . '/caches/modulebuilder_cache';

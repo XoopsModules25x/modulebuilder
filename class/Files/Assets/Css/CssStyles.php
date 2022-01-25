@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Assets\Css;
 
@@ -21,9 +21,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -60,7 +59,7 @@ class CssStyles extends Files\CreateFile
      * @param $module
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -78,28 +77,28 @@ class CssStyles extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module, '@charset "UTF-8";');
         $content       .= <<<EOT
-ul.menu {
-	list-style: none;
-	background-color: #f5f5f5;
-	border-radius: 4px;
-}
+            ul.menu {
+            	list-style: none;
+            	background-color: #f5f5f5;
+            	border-radius: 4px;
+            }
 
-ul.menu > li {
-	display: inline-block;
-}
+            ul.menu > li {
+            	display: inline-block;
+            }
 
-ul.menu > li + li:before {  
-    content: "|\a0";
-}
+            ul.menu > li + li:before {  
+                content: "|\a0";
+            }
 
-.printOnly {
-	display: none;
-}
+            .printOnly {
+            	display: none;
+            }
 
-img {
-	max-width: 300px;
-}
-EOT;
+            img {
+            	max-width: 300px;
+            }
+            EOT;
         $this->create($moduleDirname, 'assets/css', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Form;
 
@@ -17,9 +17,8 @@ namespace XoopsModules\Modulebuilder\Form;
  *
  * @since       1.91
  *
- * @author      Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, http://jp.xoops.org/
+ * @author      Kazumi Ono (AKA onokazu) https://www.myweb.ne.jp/, https://jp.xoops.org/
  * @author      Taiwen Jiang <phppp@users.sourceforge.net>
- *
  */
 class FormRadio extends \XoopsFormRadio
 {
@@ -54,7 +53,7 @@ class FormRadio extends \XoopsFormRadio
             if (isset($ele_value) && $value == $ele_value) {
                 $ret .= ' checked';
             }
-            $ret .= $ele_extra . ' />' . "<label name='xolb_{$ele_name}' for='" . $ele_name . '[' . $value . ']' . $id_ele . "'><span><span></span></span>" . $name . '</label>' . $ele_delimeter;
+            $ret .= $ele_extra . '>' . "<label name='xolb_{$ele_name}' for='" . $ele_name . '[' . $value . ']' . $id_ele . "'><span><span></span></span>" . $name . '</label>' . $ele_delimeter;
             if (!empty($this->columns)) {
                 $ret .= '</td>';
                 if (0 == ++$i % $this->columns) {

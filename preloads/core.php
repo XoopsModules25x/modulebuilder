@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -25,7 +25,7 @@ class ModulebuilderCorePreload extends \XoopsPreloadItem
     /**
      * @param $args
      */
-    public static function eventCoreIncludeCommonEnd($args)
+    public static function eventCoreIncludeCommonEnd($args): void
     {
         require __DIR__ . '/autoloader.php';
     }

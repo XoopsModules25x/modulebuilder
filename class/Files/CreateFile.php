@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files;
 
@@ -21,9 +21,8 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 \xoops_load('XoopsFile');
 
@@ -36,7 +35,6 @@ class CreateFile extends CreateTableFields
      * @var string
      */
     private $tab = '    ';
-
     /**
      * @var mixed
      */
@@ -120,7 +118,7 @@ class CreateFile extends CreateTableFields
      * @param $notCreated
      * @param $mode
      */
-    public function create($moduleDirname, $subdir = null, $fileName = null, $content = '', $created = null, $notCreated = null, $mode = 'w+')
+    public function create($moduleDirname, $subdir = null, $fileName = null, $content = '', $created = null, $notCreated = null, $mode = 'w+'): void
     {
         $this->setFileName($fileName);
         $this->created    = $created;
@@ -149,7 +147,7 @@ class CreateFile extends CreateTableFields
      * @private function setRepositoryPath
      * @param string $moduleDirname
      */
-    private function setRepositoryPath($moduleDirname)
+    private function setRepositoryPath($moduleDirname): void
     {
         $this->uploadPath = TDMC_UPLOAD_REPOSITORY_PATH . '/' . $moduleDirname;
     }
@@ -168,7 +166,7 @@ class CreateFile extends CreateTableFields
      * @private function setSubDir
      * @param $subdir
      */
-    private function setSubDir($subdir)
+    private function setSubDir($subdir): void
     {
         $this->subdir = $subdir;
     }
@@ -188,7 +186,7 @@ class CreateFile extends CreateTableFields
      *
      * @param $fileName
      */
-    public function setFileName($fileName)
+    public function setFileName($fileName): void
     {
         $this->fileName = $fileName;
     }
@@ -207,7 +205,7 @@ class CreateFile extends CreateTableFields
      * @private function setContent
      * @param $content
      */
-    private function setContent($content)
+    private function setContent($content): void
     {
         //replace tabs by 4 spaces
         $this->content = preg_replace('/\t/', $this->tab, $content);
@@ -283,7 +281,7 @@ class CreateFile extends CreateTableFields
      * @private function setMode
      * @param $mode
      */
-    private function setMode($mode)
+    private function setMode($mode): void
     {
         $this->mode = $mode;
     }
@@ -303,7 +301,7 @@ class CreateFile extends CreateTableFields
      * @param string $moduleDirname
      * @param string $prefix
      * @param string $suffix
-     * @param string $addFq //add function qualifier
+     * @param bool   $addFq //add function qualifier
      * @return string
      */
     public function getLanguage($moduleDirname, $prefix = '', $suffix = '', $addFq = true)
@@ -342,10 +340,10 @@ class CreateFile extends CreateTableFields
      */
     public function getRightString($string = null)
     {
-        if (mb_strpos($string, '_')) {
-            $str = mb_strpos($string, '_');
+        if (\mb_strpos($string, '_')) {
+            $str = \mb_strpos($string, '_');
             if (false !== $str) {
-                $ret = mb_substr($string, $str + 1, mb_strlen($string));
+                $ret = \mb_substr($string, $str + 1, \mb_strlen($string));
 
                 return $ret;
             }
@@ -395,7 +393,7 @@ class CreateFile extends CreateTableFields
      */
     public function getLcfirst($string)
     {
-        return lcfirst($string);
+        return \lcfirst($string);
     }
 
     /**
@@ -498,9 +496,9 @@ class CreateFile extends CreateTableFields
         $ret .= "\n{$namespace}/*\n";
 
         $filename = TDMC_CLASS_PATH . '/Files/Docs/license.txt';
-        $handle   = fopen($filename, 'rb');
-        $data     = fread($handle, filesize($filename));
-        fclose($handle);
+        $handle   = \fopen($filename, 'rb');
+        $data     = \fread($handle, \filesize($filename));
+        \fclose($handle);
         $ret       .= $data . "\n";
         $ret       .= "*/\n";
         $copyright = [
@@ -541,6 +539,7 @@ class CreateFile extends CreateTableFields
                     if (!$this->xf->write($this->getContent(), $mode, true)) {
                         $ret .= \sprintf($notCreated, $fileName, $folderName);
                         $GLOBALS['xoopsTpl']->assign('created', false);
+
                         return $ret;
                     }
                     // Created

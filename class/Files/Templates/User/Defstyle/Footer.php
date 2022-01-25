@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -32,12 +31,10 @@ use XoopsModules\Modulebuilder\Files;
  */
 class Footer extends Files\CreateFile
 {
-
     /**
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -75,7 +72,7 @@ class Footer extends Files\CreateFile
      * @param mixed  $table
      * @param string $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -119,19 +116,18 @@ class Footer extends Files\CreateFile
         $contIf  = $this->hc->getHtmlDiv("<a href='<{\$admin}>'><{\$smarty.const.{$language}ADMIN}></a>", 'text-center bold', "\t", "\n", false);
         $ret     .= $this->sc->getSmartyConditions('xoops_isadmin', '', '', $contIf);
         $ret     .= $this->hc->getHtmlEmpty("\n");
-        $contIf  = $this->sc->getSmartyIncludeFile('system_comments','flat',false, false,"\t\t\t");
-        $contIf  .= $this->getSimpleString('<{elseif $comment_mode == "thread"}>',"\t\t");
-        $contIf  .= $this->sc->getSmartyIncludeFile('system_comments','thread',false, false,"\t\t\t");
-        $contIf  .= $this->getSimpleString('<{elseif $comment_mode == "nest"}>',"\t\t");
-        $contIf  .= $this->sc->getSmartyIncludeFile('system_comments','nest',false, false,"\t\t\t");
-        $contDiv = $this->sc->getSmartyConditions('comment_mode', ' == ', '"flat"', $contIf, false, '','',"\t\t", "\n", true, false);
+        $contIf  = $this->sc->getSmartyIncludeFile('system_comments', 'flat', false, false, "\t\t\t");
+        $contIf  .= $this->getSimpleString('<{elseif $comment_mode == "thread"}>', "\t\t");
+        $contIf  .= $this->sc->getSmartyIncludeFile('system_comments', 'thread', false, false, "\t\t\t");
+        $contIf  .= $this->getSimpleString('<{elseif $comment_mode == "nest"}>', "\t\t");
+        $contIf  .= $this->sc->getSmartyIncludeFile('system_comments', 'nest', false, false, "\t\t\t");
+        $contDiv = $this->sc->getSmartyConditions('comment_mode', ' == ', '"flat"', $contIf, false, '', '', "\t\t", "\n", true, false);
         $contIf  = $this->hc->getHtmlDiv($contDiv, 'pad2 marg2', "\t", "\n", true);
         $ret     .= $this->sc->getSmartyConditions('comment_mode', '', '', $contIf);
-        $ret     .= $this->sc->getSmartyIncludeFile('system_notification','select');
+        $ret     .= $this->sc->getSmartyIncludeFile('system_notification', 'select');
 
         return $ret;
     }
-
 
     /**
      * @public function render

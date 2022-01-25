@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -22,8 +22,7 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops <webmaster@txmodxoops.org> - <https://xoops.org/>
- *
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <https://xoops.org>
  */
 
 /*
@@ -133,21 +132,19 @@ class Morefiles extends \XoopsObject
         $fileExtension->setDescription(\_AM_MODULEBUILDER_MORE_FILES_EXTENSION_DESC);
         $form->addElement($fileExtension);
 
-
-        $fileUpload = $this->isNew() ? '' : $this->getVar('file_upload');
-        $fileTray = new \XoopsFormElementTray(\_AM_MODULEBUILDER_MORE_FILES_UPLOAD, '<br>' );
+        $fileUpload    = $this->isNew() ? '' : $this->getVar('file_upload');
+        $fileTray      = new \XoopsFormElementTray(\_AM_MODULEBUILDER_MORE_FILES_UPLOAD, '<br>');
         $fileDirectory = '/uploads/modulebuilder/files';
-        $fileSelect = new \XoopsFormSelect( ".{$fileDirectory}/", 'file_upload', $fileUpload, 5);
-        $filesArray = \XoopsLists::getFileListAsArray( TDMC_UPLOAD_FILES_PATH);
+        $fileSelect    = new \XoopsFormSelect(".{$fileDirectory}/", 'file_upload', $fileUpload, 5);
+        $filesArray    = \XoopsLists::getFileListAsArray(TDMC_UPLOAD_FILES_PATH);
         $fileSelect->addOption('', ' - ');
-        foreach($filesArray as $file1) {
+        foreach ($filesArray as $file1) {
             if ('index.html' !== $file1 && 'index.php' !== $file1) {
                 $fileSelect->addOption("{$file1}", $file1);
             }
         }
         $fileTray->addElement($fileSelect, false);
         $form->addElement($fileTray);
-
 
         $fileInfolder = new \XoopsFormText(\_AM_MODULEBUILDER_MORE_FILES_INFOLDER, 'file_infolder', 50, 255, $this->getVar('file_infolder'));
         $fileInfolder->setDescription(\_AM_MODULEBUILDER_MORE_FILES_INFOLDER_DESC);
@@ -178,7 +175,7 @@ class Morefiles extends \XoopsObject
         $ret['type']      = $this->getVar('file_type') == Constants::MORE_FILES_TYPE_EMPTY ? \_AM_MODULEBUILDER_MORE_FILES_TYPE_EMPTY : \_AM_MODULEBUILDER_MORE_FILES_TYPE_COPY;
         $ret['name']      = $this->getVar('file_name');
         $ret['extension'] = $this->getVar('file_extension');
-        $ret['upload']      = $this->getVar('file_upload');
+        $ret['upload']    = $this->getVar('file_upload');
         $ret['infolder']  = $this->getVar('file_infolder');
 
         return $ret;

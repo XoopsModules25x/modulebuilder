@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -36,17 +35,14 @@ class AdminPermissions extends Files\CreateFile
      * @var mixed
      */
     private $axc = null;
-
     /**
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
     private $pc = null;
-
     /**
      * @var mixed
      */
@@ -117,29 +113,29 @@ class AdminPermissions extends Files\CreateFile
                 $tableNames[] = $tables[$t]->getVar('table_name');
             }
         }
-        $ret           = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
-        $ret           .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
-        $ret           .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $ret           .= $this->getRequire('header');
-        $ret           .= $this->pc->getPhpCodeBlankLine();
-        $ret           .= $this->pc->getPhpCodeCommentLine('Template Index');
-        $ret           .= $this->axc->getAdminTemplateMain($moduleDirname, 'permissions');
-        $ret           .= $this->xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('permissions.php')");
-        $ret           .= $this->pc->getPhpCodeBlankLine();
-        $ret           .= $this->xc->getXcXoopsRequest('op', 'op', 'global', 'Cmd');
-        $ret           .= $this->pc->getPhpCodeBlankLine();
-        $ret           .= $this->pc->getPhpCodeCommentLine('Get Form');
-        $ret           .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret           .= $this->xc->getXcXoopsLoad('XoopsFormLoader');
+        $ret = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret .= $this->getRequire('header');
+        $ret                     .= $this->pc->getPhpCodeBlankLine();
+        $ret                     .= $this->pc->getPhpCodeCommentLine('Template Index');
+        $ret                     .= $this->axc->getAdminTemplateMain($moduleDirname, 'permissions');
+        $ret                     .= $this->xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('permissions.php')");
+        $ret                     .= $this->pc->getPhpCodeBlankLine();
+        $ret                     .= $this->xc->getXcXoopsRequest('op', 'op', 'global', 'Cmd');
+        $ret                     .= $this->pc->getPhpCodeBlankLine();
+        $ret                     .= $this->pc->getPhpCodeCommentLine('Get Form');
+        $ret                     .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
+        $ret                     .= $this->xc->getXcXoopsLoad('XoopsFormLoader');
         $optionsSelect['global'] = "{$language}PERMISSIONS_GLOBAL";
         foreach ($tableNames as $tableName) {
-            $ucfTablename = \ucfirst($tableName);
+            $ucfTablename                          = \ucfirst($tableName);
             $optionsSelect["approve_{$tableName}"] = "{$language}PERMISSIONS_APPROVE . ' {$ucfTablename}'";
-            $optionsSelect["submit_{$tableName}"] = "{$language}PERMISSIONS_SUBMIT . ' {$ucfTablename}'";
-            $optionsSelect["view_{$tableName}"] = "{$language}PERMISSIONS_VIEW . ' {$ucfTablename}'";
+            $optionsSelect["submit_{$tableName}"]  = "{$language}PERMISSIONS_SUBMIT . ' {$ucfTablename}'";
+            $optionsSelect["view_{$tableName}"]    = "{$language}PERMISSIONS_VIEW . ' {$ucfTablename}'";
         }
-        $formSelect    = $this->xc->getXoopsFormSelectExtraOptions('formSelect', '\'\'', 'op', $optionsSelect, 'onchange="document.fselperm.submit()"');
-        $ret           .= $this->cxc->getXoopsSimpleForm('permTableForm', 'formSelect', $formSelect, '\'\'', 'fselperm', 'permissions');
+        $formSelect = $this->xc->getXoopsFormSelectExtraOptions('formSelect', '\'\'', 'op', $optionsSelect, 'onchange="document.fselperm.submit()"');
+        $ret        .= $this->cxc->getXoopsSimpleForm('permTableForm', 'formSelect', $formSelect, '\'\'', 'fselperm', 'permissions');
 
         return $ret;
     }
@@ -153,33 +149,33 @@ class AdminPermissions extends Files\CreateFile
      */
     private function getPermissionsSwitch($module, $language)
     {
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tables        = $this->getTableTables($module->getVar('mod_id'));
-        $t = "\t\t";
-        $n = "\n";
-        $cases['global']= [
-                "{$t}\$formTitle = {$language}PERMISSIONS_GLOBAL;{$n}",
-                "{$t}\$permName = '{$moduleDirname}_ac';{$n}",
-                "{$t}\$permDesc = {$language}PERMISSIONS_GLOBAL_DESC;{$n}",
-                "{$t}\$globalPerms = ['4' => {$language}PERMISSIONS_GLOBAL_4, '8' => {$language}PERMISSIONS_GLOBAL_8, '16' => {$language}PERMISSIONS_GLOBAL_16 ];{$n}",
-                ];
+        $moduleDirname   = $module->getVar('mod_dirname');
+        $tables          = $this->getTableTables($module->getVar('mod_id'));
+        $t               = "\t\t";
+        $n               = "\n";
+        $cases['global'] = [
+            "{$t}\$formTitle = {$language}PERMISSIONS_GLOBAL;{$n}",
+            "{$t}\$permName = '{$moduleDirname}_ac';{$n}",
+            "{$t}\$permDesc = {$language}PERMISSIONS_GLOBAL_DESC;{$n}",
+            "{$t}\$globalPerms = ['4' => {$language}PERMISSIONS_GLOBAL_4, '8' => {$language}PERMISSIONS_GLOBAL_8, '16' => {$language}PERMISSIONS_GLOBAL_16 ];{$n}",
+        ];
         foreach (\array_keys($tables) as $i) {
             if (1 == $tables[$i]->getVar('table_permissions')) {
-                $tableName = $tables[$i]->getVar('table_name');
-                $ucfTablename = \ucfirst($tableName);
+                $tableName                     = $tables[$i]->getVar('table_name');
+                $ucfTablename                  = \ucfirst($tableName);
                 $cases["approve_{$tableName}"] = [
                     "{$t}\$formTitle = {$language}PERMISSIONS_APPROVE;{$n}",
                     "{$t}\$permName = '{$moduleDirname}_approve_{$tableName}';{$n}",
                     "{$t}\$permDesc = {$language}PERMISSIONS_APPROVE_DESC . ' {$ucfTablename}';{$n}",
                     "{$t}\$handler = \$helper->getHandler('{$tableName}');{$n}",
                 ];
-                $cases["submit_{$tableName}"] = [
+                $cases["submit_{$tableName}"]  = [
                     "{$t}\$formTitle = {$language}PERMISSIONS_SUBMIT;{$n}",
                     "{$t}\$permName = '{$moduleDirname}_submit_{$tableName}';{$n}",
                     "{$t}\$permDesc = {$language}PERMISSIONS_SUBMIT_DESC . ' {$ucfTablename}';{$n}",
                     "{$t}\$handler = \$helper->getHandler('{$tableName}');{$n}",
                 ];
-                $cases["view_{$tableName}"] = [
+                $cases["view_{$tableName}"]    = [
                     "{$t}\$formTitle = {$language}PERMISSIONS_VIEW;{$n}",
                     "{$t}\$permName = '{$moduleDirname}_view_{$tableName}';{$n}",
                     "{$t}\$permDesc = {$language}PERMISSIONS_VIEW_DESC . ' {$ucfTablename}';{$n}",
@@ -202,7 +198,7 @@ class AdminPermissions extends Files\CreateFile
      */
     private function getPermissionsBody($module, $language)
     {
-        $tables   = $this->getTableTables($module->getVar('mod_id'));
+        $tables = $this->getTableTables($module->getVar('mod_id'));
 
         $ret      = $this->xc->getXcGetVar('moduleId', 'xoopsModule', 'mid');
         $ret      .= $this->xc->getXcXoopsFormGroupPerm('permform', '$formTitle', '$moduleId', '$permName', '$permDesc', "'admin/permissions.php'");

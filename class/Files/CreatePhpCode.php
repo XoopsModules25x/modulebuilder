@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files;
 
@@ -21,9 +21,8 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -108,6 +107,7 @@ class CreatePhpCode
             $ret .= "{$left}";
         }
         $ret .= ", {$right});\n";
+
         return $ret;
     }
 
@@ -253,6 +253,7 @@ class CreatePhpCode
             $ret .= " {$one} ";
         }
         $ret .= ": {$two};\n";
+
         return $ret;
     }
 
@@ -885,6 +886,7 @@ class CreatePhpCode
     public function getPhpCodeTriggerError($msg, $type, $t = '')
     {
         $ret = "{$t}\\trigger_error($msg, {$type});\n";
+
         return $ret;
     }
 }

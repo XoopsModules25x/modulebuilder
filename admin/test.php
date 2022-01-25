@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -18,9 +18,8 @@
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 use XoopsModules\Modulebuilder\Common\TableChecker;
@@ -31,7 +30,7 @@ $templateMain = 'modulebuilder_index.tpl';
 require __DIR__ . '/header.php';
 
 $tablechecker = new \XoopsModules\Modulebuilder\Common\TableChecker('modulebuilder');
-$result = $tablechecker->processSQL();
+$result       = $tablechecker->processSQL();
 
 /*
 use XoopsModules\Wgdiaries\Common\TableChecker;

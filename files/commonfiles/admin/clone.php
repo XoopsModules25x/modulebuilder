@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -13,8 +13,7 @@
  * Modulebuilder module for xoops
  *
  * @copyright      module for xoops
- * @license        GPL 2.0 or later
- * @package        modulebuilder
+ * @license         GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @since          1.0
  * @min_xoops      2.5.11
  * @author         Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com>
@@ -61,8 +60,8 @@ switch ($op) {
         }
 
         $patterns = [
-            \mb_strtolower(\MODULEBUILDER_DIRNAME)          => \mb_strtolower($clone),
-            \mb_strtoupper(\MODULEBUILDER_DIRNAME)          => \mb_strtoupper($clone),
+            \mb_strtolower(\MODULEBUILDER_DIRNAME)           => \mb_strtolower($clone),
+            \mb_strtoupper(\MODULEBUILDER_DIRNAME)           => \mb_strtoupper($clone),
             \ucfirst(\mb_strtolower(\MODULEBUILDER_DIRNAME)) => \ucfirst(\mb_strtolower($clone)),
         ];
 
@@ -95,13 +94,13 @@ require __DIR__ . '/footer.php';
 /**
  * @param $path
  */
-function cloneFileFolder($path)
+function cloneFileFolder($path): void
 {
     global $patKeys;
     global $patValues;
 
     //remove \XOOPS_ROOT_PATH and add after replace, otherwise there can be a bug if \XOOPS_ROOT_PATH contains same pattern
-    $newPath = \XOOPS_ROOT_PATH . \str_replace($patKeys[0], $patValues[0], \substr($path, \strlen(\XOOPS_ROOT_PATH)));
+    $newPath = \XOOPS_ROOT_PATH . \str_replace($patKeys[0], $patValues[0], \mb_substr($path, \mb_strlen(\XOOPS_ROOT_PATH)));
 
     if (\is_dir($path)) {
         // create new dir
@@ -121,7 +120,7 @@ function cloneFileFolder($path)
         }
     } else {
         $noChangeExtensions = ['jpeg', 'jpg', 'gif', 'png', 'zip', 'ttf'];
-        if (\in_array(\mb_strtolower(\pathinfo($path, \PATHINFO_EXTENSION)), $noChangeExtensions, true)) {
+        if (\in_array(\mb_strtolower(\pathinfo($path, \PATHINFO_EXTENSION)), $noChangeExtensions)) {
             // image
             \copy($path, $newPath);
         } else {

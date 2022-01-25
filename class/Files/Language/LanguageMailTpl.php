@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Language;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -63,7 +62,7 @@ class LanguageMailTpl extends Files\CreateFile
      * @param $table
      * @param $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -372,7 +371,7 @@ class LanguageMailTpl extends Files\CreateFile
             case 'global_new_notify.tpl':
                 $content .= $this->getTemplateGlobalNew($line);
                 break;
-            case'global_modify_notify.tpl':
+            case 'global_modify_notify.tpl':
                 $content .= $this->getTemplateGlobalModify($line);
                 break;
             case 'global_delete_notify.tpl':

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
@@ -25,9 +25,8 @@ use XoopsModules\Modulebuilder\{
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -39,7 +38,6 @@ class PagesList extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -78,7 +76,7 @@ class PagesList extends Files\CreateFile
      * @param string $filename
      * @param        $tables
      */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $table, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -107,7 +105,7 @@ class PagesList extends Files\CreateFile
                 if (1 == $fields[$f]->getVar('field_ihead')) {
                     switch ($fieldElement) {
                         default:
-                        //case 2:
+                            //case 2:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
                             $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
@@ -117,13 +115,13 @@ class PagesList extends Files\CreateFile
                 }
             }
         }
-        $ret     .= $this->hc->getHtmlDiv($retNumb, 'panel-heading');
+        $ret       .= $this->hc->getHtmlDiv($retNumb, 'panel-heading');
         $retElem   = '';
         $fieldId   = '';
         $keyDouble = '';
         foreach (\array_keys($fields) as $f) {
             if (0 == $f) {
-                $fieldId = $fields[$f]->getVar('field_name');
+                $fieldId   = $fields[$f]->getVar('field_name');
                 $keyDouble = $this->sc->getSmartyDoubleVar($tableSoleName, $fieldId);
             }
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -131,8 +129,8 @@ class PagesList extends Files\CreateFile
                 if (1 == $fields[$f]->getVar('field_ibody')) {
                     switch ($fieldElement) {
                         default:
-                        //case 3:
-                        //case 4:
+                            //case 3:
+                            //case 4:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
                             $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
@@ -153,14 +151,13 @@ class PagesList extends Files\CreateFile
                             $singleVar   = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
                             $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $img         = $this->hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
-                            $retElem     .= $this->hc->getHtmlSpan($img, 'col-sm-3',"\t");
+                            $retElem     .= $this->hc->getHtmlSpan($img, 'col-sm-3', "\t");
                             unset($img);
                             break;
                     }
                 }
             }
         }
-
 
         $ret     .= $this->hc->getHtmlDiv($retElem, 'panel-body');
         $retFoot = '';
@@ -172,14 +169,14 @@ class PagesList extends Files\CreateFile
                     $langConst   = \mb_strtoupper($tableSoleName) . '_' . \mb_strtoupper($rpFieldName);
                     $lang        = $this->sc->getSmartyConst($language, $langConst);
                     $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                    $retFoot     .= $this->hc->getHtmlSpan($lang . ': ' . $doubleVar, 'block-pie justify',"\t");
+                    $retFoot     .= $this->hc->getHtmlSpan($lang . ': ' . $doubleVar, 'block-pie justify', "\t");
                 }
             }
         }
-        $lang        = $this->sc->getSmartyConst($language, 'DETAILS');
-        $anchor =  $this->hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-primary', '', '', '');
-        $retFoot     .= $this->hc->getHtmlSpan($anchor, 'col-sm-12',"\t");
-        $ret .= $this->hc->getHtmlDiv($retFoot, 'panel-foot');
+        $lang    = $this->sc->getSmartyConst($language, 'DETAILS');
+        $anchor  = $this->hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-primary', '', '', '');
+        $retFoot .= $this->hc->getHtmlSpan($anchor, 'col-sm-12', "\t");
+        $ret     .= $this->hc->getHtmlDiv($retFoot, 'panel-foot');
 
         return $ret;
     }
@@ -191,12 +188,12 @@ class PagesList extends Files\CreateFile
      */
     public function render()
     {
-        $module = $this->getModule();
-        $table  = $this->getTable();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $filename      = $this->getFileName();
-        $language      = $this->getLanguage($moduleDirname, 'MA', '', false);
-        $content       = '';
+        $module          = $this->getModule();
+        $table           = $this->getTable();
+        $moduleDirname   = $module->getVar('mod_dirname');
+        $filename        = $this->getFileName();
+        $language        = $this->getLanguage($moduleDirname, 'MA', '', false);
+        $content         = '';
         $tableId         = $table->getVar('table_id');
         $tableMid        = $table->getVar('table_mid');
         $tableName       = $table->getVar('table_name');

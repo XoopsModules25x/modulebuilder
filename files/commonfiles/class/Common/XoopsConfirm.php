@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Common;
 
@@ -15,9 +15,8 @@ namespace XoopsModules\Modulebuilder\Common;
 /**
  * My Module module for xoops
  *
- * @copyright     2020 XOOPS Project (https://xoops.org)
- * @license        GPL 2.0 or later
- * @package        Modulebuilder
+ * @copyright      2020 XOOPS Project (https://xoops.org)
+ * @license         GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @since          1.0
  * @min_xoops      2.5.9
  * @author         Goffy - Email:<goffy@myxoops.org> - Website:<https://xoops.org>
@@ -75,7 +74,6 @@ class XoopsConfirm
             $this->title = CO_MYMODULE_DELETE_CONFIRM;
         }
         if ('' === $this->label) {
-
             $this->label = CO_MYMODULE_DELETE_LABEL;
         }
 
@@ -94,6 +92,7 @@ class XoopsConfirm
         $buttonBack->setExtra('onclick="history.go(-1);return true;"');
         $buttonTray->addElement($buttonBack);
         $form->addElement($buttonTray);
+
         return $form;
     }
 }

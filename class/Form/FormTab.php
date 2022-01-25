@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Form;
 
@@ -18,7 +18,7 @@ namespace XoopsModules\Modulebuilder\Form;
  *
  * @author    trabis <lusopoemas@gmail.com>
  * @copyright 2012-2014 XOOPS Project (https://xoops.org)
- * @license   GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @license   GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  *
  * @link      https://xoops.org
  * @since     2.0.0
@@ -50,7 +50,7 @@ class FormTab extends \XoopsFormElementTray
     public function render()
     {
         $ret = '';
-        /* @var \XoopsFormElement $ele */
+        /** @var \XoopsFormElement $ele */
         foreach ($this->getElements() as $ele) {
             $ret         .= NWLINE;
             $ret         .= '<tr>' . NWLINE;

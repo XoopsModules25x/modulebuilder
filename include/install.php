@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -13,8 +13,7 @@
  * Modulebuilder module for xoops
  *
  * @copyright      module for xoops
- * @license        GPL 2.0 or later
- * @package        Modulebuilder
+ * @license         GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @since          1.0
  * @min_xoops      2.5.11
  * @author         Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com> XOOPS Project (www.xoops.org) $
@@ -100,7 +99,7 @@ function xoops_module_install_modulebuilder(\XoopsModule $module)
 
     //  ---  COPY page_copy.png  ---------------
     // needed for clone feature of by modulebuilder created modules
-    $dest =\XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32/page_copy.png';
+    $dest = \XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32/page_copy.png';
     if (!\file_exists($dest)) {
         $file = \dirname(__DIR__) . '/assets/images/icons/32/page_copy.png';
         $utility::copyFile($file, $dest);

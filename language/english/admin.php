@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -17,9 +17,8 @@
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 //
 //Menu
@@ -150,11 +149,11 @@
 \define('_AM_MODULEBUILDER_MODULE_NOTIMPORTANT', "<span style='color: #00FF00;'>Optional - Information</span>");
 \define('_AM_MODULEBUILDER_MODULE_ID', 'Id');
 \define('_AM_MODULEBUILDER_MODULE_NAME', 'Name');
-\define('_AM_MODULEBUILDER_MODULE_NAME_DESC', "The module name can contain spaces and special characters such as accents.<br />An example would be: <b class='red'>My Simple Module</b>");
+\define('_AM_MODULEBUILDER_MODULE_NAME_DESC', "The module name can contain spaces and special characters such as accents.<br>An example would be: <b class='red'>My Simple Module</b>");
 \define('_AM_MODULEBUILDER_MODULE_DIRNAME', 'Directory Name');
 \define(
     '_AM_MODULEBUILDER_MODULE_DIRNAME_DESC',
-    "The module directory can not contain spaces or special characters such as accents.<br />An example would be: <b class='red'>mysimplemodule</b>.<br />In case you write the module directory with uppercase characters, they are replaced automatically with lowercase, and if there are spaces they will also be automatically deleted."
+    "The module directory can not contain spaces or special characters such as accents.<br>An example would be: <b class='red'>mysimplemodule</b>.<br>In case you write the module directory with uppercase characters, they are replaced automatically with lowercase, and if there are spaces they will also be automatically deleted."
 );
 \define('_AM_MODULEBUILDER_MODULE_VERSION', 'Version');
 \define('_AM_MODULEBUILDER_MODULE_SINCE', 'Since');
@@ -193,7 +192,7 @@
 \define('_AM_MODULEBUILDER_MODULE_MIN_XOOPS', 'Minimum XOOPS');
 \define('_AM_MODULEBUILDER_MODULE_MIN_ADMIN', 'Minimum Admin');
 \define('_AM_MODULEBUILDER_MODULE_MIN_MYSQL', 'Minimum Database');
-//
+
 \define('_AM_MODULEBUILDER_MODULE_FORM_CREATED_OK', "The module <b class='green'>%s</b> is successfully created");
 \define('_AM_MODULEBUILDER_MODULE_FORM_UPDATED_OK', "The module <b class='green'>%s</b> is successfully updated");
 \define('_AM_MODULEBUILDER_MODULE_BUTTON_NEW_LOGO', 'Create new Logo');
@@ -215,7 +214,7 @@
 \define('_AM_MODULEBUILDER_TABLE_SOLENAME', 'Table Singular Name');
 \define('_AM_MODULEBUILDER_TABLE_SOLENAME_DESC', "Singular  Name: It's recommended to use singular word (i.e.: <span style='text-decoration: underline;'>category</span> for admin buttons)");
 \define('_AM_MODULEBUILDER_TABLE_CATEGORY', 'This table is a category or topic?');
-\define('_AM_MODULEBUILDER_TABLE_CATEGORY_DESC', "<b class='red bold'>WARNING</b>: <i>Once you have used this option for this module, and edit this table,<br />will not be displayed following the creation of other tables</i>");
+\define('_AM_MODULEBUILDER_TABLE_CATEGORY_DESC', "<b class='red bold'>WARNING</b>: <i>Once you have used this option for this module, and edit this table,<br>will not be displayed following the creation of other tables</i>");
 \define('_AM_MODULEBUILDER_TABLE_NBFIELDS', 'Number fields');
 \define('_AM_MODULEBUILDER_TABLE_NBFIELDS_DESC', 'Number of fields for this table');
 \define('_AM_MODULEBUILDER_TABLE_ORDER', 'Order tables');
@@ -223,9 +222,9 @@
 \define('_AM_MODULEBUILDER_TABLE_FIELDNAME', 'Prefix Field Name');
 \define(
     '_AM_MODULEBUILDER_TABLE_FIELDNAME_DESC',
-    "This is the prefix of field name (optional)<br />If you leave the field blank, doesn't appear anything in the fields of the next screen,<br />otherwise you'll see all the fields with a prefix type (i.e.: <span class='bold'>cat</span> of table <span class='bold'>categories</span>).<br /><b class='red bold'>WARNING</b>: It's recommended to use singular word"
+    "This is the prefix of field name (optional)<br>If you leave the field blank, doesn't appear anything in the fields of the next screen,<br>otherwise you'll see all the fields with a prefix type (i.e.: <span class='bold'>cat</span> of table <span class='bold'>categories</span>).<br><b class='red bold'>WARNING</b>: It's recommended to use singular word"
 );
-\define('_AM_MODULEBUILDER_TABLE_OPTIONS_CHECKS_DESC', 'For each table created during building prcedure the relevant files will be created on behalf of this.<br />Selecting one or more of these options to decide which functions and condition should be implemented in your module for this table.');
+\define('_AM_MODULEBUILDER_TABLE_OPTIONS_CHECKS_DESC', 'For each table created during building prcedure the relevant files will be created on behalf of this.<br>Selecting one or more of these options to decide which functions and condition should be implemented in your module for this table.');
 \define('_AM_MODULEBUILDER_TABLE_ALL', 'Check All');
 \define('_AM_MODULEBUILDER_TABLE_IMAGE', 'Table Logo');
 //\define('_AM_MODULEBUILDER_TABLE_IMAGE_DESC', "You can choose an image from the list, or upload a new one from your computer");
@@ -331,7 +330,7 @@
 \define('_AM_MODULEBUILDER_BUILDING_DIRECTORY_INROOT', "<br><span class='bold red'>Created module was also copied to %s</span>");
 \define('_AM_MODULEBUILDER_BUILDING_COMMON', 'Copied common files and created folder for test data');
 \define('_AM_MODULEBUILDER_BUILDING_DELETED_CACHE_FILES', 'Cache Files Are Deleted Succefully');
-\define('_AM_MODULEBUILDER_BUILDING_INROOT_COPY', "Create copy of this module in root/modules<br /><b class='red'>Pay attention: if yes, then an existing module with same name will be overwritten irreversible!</b>");
+\define('_AM_MODULEBUILDER_BUILDING_INROOT_COPY', "Create copy of this module in root/modules<br><b class='red'>Pay attention: if yes, then an existing module with same name will be overwritten irreversible!</b>");
 \define('_AM_MODULEBUILDER_BUILDING_TEST', 'Save and restore test data of selected module');
 \define('_AM_MODULEBUILDER_BUILDING_TEST_DESC', '<br>If you create copy of this module in root/modules then all data of previous module will be deleted.<br>If you select this option, then data of selected module will be stored temporary and copied back as test data to new build module');
 \define('_AM_MODULEBUILDER_BUILDING_CHECK', 'Run data check for errors/inconsistencies before building the module');
@@ -429,12 +428,12 @@
 \define('_AM_MODULEBUILDER_THEREARE_DATABASE2', 'in the database');
 \define('_AM_MODULEBUILDER_THEREARE_PENDING', "There are <span style='color: #ff0000; font-weight: bold;'>%s</span>");
 \define('_AM_MODULEBUILDER_THEREARE_PENDING2', 'waiting');
-// 
+
 \define('_AM_MODULEBUILDER_CHANGE_DISPLAY', 'Change Display');
 \define('_AM_MODULEBUILDER_CHANGE_SETTINGS', 'Change Settings');
 \define('_AM_MODULEBUILDER_TOGGLE_SUCCESS', 'Successfully Changed Display');
 \define('_AM_MODULEBUILDER_TOGGLE_FAILED', 'Changing Display Failed');
-//
+
 \define('_AM_MODULEBUILDER_ABOUT_WEBSITE_FORUM', 'Forum Website');
 \define('_AM_MODULEBUILDER_ABOUT_MAKE_DONATION', 'Make a Donation to support this module');
 \define('_AM_MODULEBUILDER_MAINTAINED', '<strong>%s</strong> is maintained by the ');
@@ -477,4 +476,3 @@
 \define('_AM_MODULEBUILDER_ERROR_IMPTABLES', 'Error: import tables failed');
 \define('_AM_MODULEBUILDER_SUCCESS_IMPTABLES', 'Table has been imported: ');
 \define('_AM_MODULEBUILDER_ERROR_MCREATE', 'Error creating imported module');
-

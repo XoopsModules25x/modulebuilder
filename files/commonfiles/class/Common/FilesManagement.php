@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Common;
 
@@ -14,7 +14,7 @@ namespace XoopsModules\Modulebuilder\Common;
 
 /**
  * @copyright   XOOPS Project (https://xoops.org)
- * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @license     https://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      mamba <mambax7@gmail.com>
  */
 trait FilesManagement
@@ -27,7 +27,7 @@ trait FilesManagement
      * @return void
      * @throws \RuntimeException
      */
-    public static function createFolder($folder)
+    public static function createFolder($folder): void
     {
         try {
             if (!\file_exists($folder)) {
@@ -43,11 +43,11 @@ trait FilesManagement
     }
 
     /**
-     * @param $file
-     * @param $folder
+     * @param string $file
+     * @param string $folder
      * @return bool
      */
-    public static function copyFile($file, $folder)
+    public static function copyFile(string $file, string $folder): bool
     {
         return \copy($file, $folder);
     }
@@ -56,7 +56,7 @@ trait FilesManagement
      * @param $src
      * @param $dst
      */
-    public static function recurseCopy($src, $dst)
+    public static function recurseCopy($src, $dst): void
     {
         $dir = \opendir($src);
         //        @\mkdir($dst);
@@ -82,7 +82,7 @@ trait FilesManagement
      * @return      bool     Returns true on success, false on failure
      * @author      Aidan Lister <aidan@php.net>
      * @version     1.0.1
-     * @link        http://aidanlister.com/2004/04/recursively-copying-directories-in-php/
+     * @link        https://aidanlister.com/2004/04/recursively-copying-directories-in-php/
      */
     public static function xcopy($source, $dest)
     {
@@ -208,6 +208,7 @@ trait FilesManagement
             }
         }
         $iterator = null;   // clear iterator Obj to close file/directory
+
         return \rmdir($src); // remove the directory & return results
     }
 
@@ -248,6 +249,7 @@ trait FilesManagement
             }
         }
         $iterator = null;   // clear iterator Obj to close file/directory
+
         return \rmdir($src); // remove the directory & return results
     }
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\User;
 
@@ -21,9 +21,8 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -140,9 +139,9 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbs($language, $tableName = 'index', $op = '', $link = '', $t = '')
     {
-        $stuTableName     = \mb_strtoupper($tableName);
-        $stuOp            = '';
-        $ret              = $this->pc->getPhpCodeCommentLine('Breadcrumbs', '', $t);
+        $stuTableName = \mb_strtoupper($tableName);
+        $stuOp        = '';
+        $ret          = $this->pc->getPhpCodeCommentLine('Breadcrumbs', '', $t);
         if ('' !== $op) {
             $stuOp = '';
             if ('' !== $tableName) {
@@ -151,9 +150,9 @@ class UserXoopsCode
             $stuOp .= \mb_strtoupper($op);
         }
         if ('' === $link) {
-            $arrBCrumb        = ["'title'" => "{$language}{$stuTableName}{$stuOp}"];
+            $arrBCrumb = ["'title'" => "{$language}{$stuTableName}{$stuOp}"];
         } else {
-            $arrBCrumb        = ["'title'" => "{$language}{$stuTableName}{$stuOp}", "'link'" => "'{$link}'"];
+            $arrBCrumb = ["'title'" => "{$language}{$stuTableName}{$stuOp}", "'link'" => "'{$link}'"];
         }
         $ret .= $this->pc->getPhpCodeArray('xoBreadcrumbs[]', $arrBCrumb, false, $t);
 
@@ -213,15 +212,15 @@ class UserXoopsCode
         //search for longest key
         $len = 0;
         foreach ($descs as $key => $desc) {
-            $len = \strlen($key) > $len ? \strlen($key) : $len;
+            $len = \mb_strlen($key) > $len ? \mb_strlen($key) : $len;
         }
 
         foreach ($descs as $key => $desc) {
-            $space = str_repeat(' ', $len - \strlen($key));
+            $space = str_repeat(' ', $len - \mb_strlen($key));
             if ($eleArray < 4) {
                 $ret .= $t . "\t'{$key}'{$space} => {$desc},{$n}";
             } elseif (11 === $eleArray) {
-                if ('/' === \substr($desc, 1, 1)) {
+                if ('/' === \mb_substr($desc, 1, 1)) {
                     $ret .= $t . "\t{$desc}";
                 } else {
                     $ret .= $t . "\t{$desc},{$n}";
@@ -235,6 +234,7 @@ class UserXoopsCode
             $ret .= ']';
         }
         $ret .= ";\n";
+
         return $ret;
     }
 
@@ -265,6 +265,7 @@ class UserXoopsCode
         }
 
         $ret .= $t . "{$text};\n";
+
         return $ret;
     }
 }

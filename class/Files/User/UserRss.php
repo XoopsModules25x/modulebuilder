@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\User;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -78,7 +77,7 @@ class UserRss extends Files\CreateFile
      * @param mixed  $table
      * @param string $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -121,84 +120,84 @@ class UserRss extends Files\CreateFile
 
         $ret .= <<<EOT
 
-\${$fppf} = Request::getInt('{$fppf}', 0, 'GET');
-require_once \XOOPS_ROOT_PATH.'/class/template.php';
-if (\\function_exists('mb_http_output')) {
-    mb_http_output('pass');
-}
-//header ('Content-Type:text/xml; charset=UTF-8');
-\$xoopsModuleConfig['utf8'] = false;
+            \${$fppf} = Request::getInt('{$fppf}', 0, 'GET');
+            require_once \XOOPS_ROOT_PATH.'/class/template.php';
+            if (\\function_exists('mb_http_output')) {
+                mb_http_output('pass');
+            }
+            //header ('Content-Type:text/xml; charset=UTF-8');
+            \$xoopsModuleConfig['utf8'] = false;
 
-\$tpl = new \XoopsTpl();
-\$tpl->xoops_setCaching(2); //1 = Cache global, 2 = Cache individual (for template)
-\$tpl->xoops_setCacheTime(\$helper->getConfig('timecacherss')*60); // Time of the cache on seconds
-\$categories = {$moduleDirname}MyGetItemIds('{$moduleDirname}_view', '{$moduleDirname}');
-\$criteria = new \CriteriaCompo();
+            \$tpl = new \XoopsTpl();
+            \$tpl->xoops_setCaching(2); //1 = Cache global, 2 = Cache individual (for template)
+            \$tpl->xoops_setCacheTime(\$helper->getConfig('timecacherss')*60); // Time of the cache on seconds
+            \$categories = {$moduleDirname}MyGetItemIds('{$moduleDirname}_view', '{$moduleDirname}');
+            \$criteria = new \CriteriaCompo();
 
-\$criteria->add(new \Criteria('cat_status', 0, '!='));
-\$criteria->add(new \Criteria('{$fppf}', '(' . \implode(',', \$categories) . ')','IN'));
-if (0 != \${$fppf}){
-    \$criteria->add(new \Criteria('{$fppf}', \${$fppf}));
-    \${$tableName} = \${$tableName}Handler->get(\${$fppf});
-    \$title = \$xoopsConfig['sitename'] . ' - ' . \$xoopsModule->getVar('name') . ' - ' . \${$tableName}->getVar('{$fpmf}');
-} else {
-    \$title = \$xoopsConfig['sitename'] . ' - ' . \$xoopsModule->getVar('name');
-}
-\$criteria->setLimit(\$helper->getConfig('perpagerss'));
-\$criteria->setSort('date');
-\$criteria->setOrder('DESC');
-\${$tableName}Arr = \${$tableName}Handler->getAll(\$criteria);
-unset(\$criteria);
+            \$criteria->add(new \Criteria('cat_status', 0, '!='));
+            \$criteria->add(new \Criteria('{$fppf}', '(' . \implode(',', \$categories) . ')','IN'));
+            if (0 != \${$fppf}){
+                \$criteria->add(new \Criteria('{$fppf}', \${$fppf}));
+                \${$tableName} = \${$tableName}Handler->get(\${$fppf});
+                \$title = \$xoopsConfig['sitename'] . ' - ' . \$xoopsModule->getVar('name') . ' - ' . \${$tableName}->getVar('{$fpmf}');
+            } else {
+                \$title = \$xoopsConfig['sitename'] . ' - ' . \$xoopsModule->getVar('name');
+            }
+            \$criteria->setLimit(\$helper->getConfig('perpagerss'));
+            \$criteria->setSort('date');
+            \$criteria->setOrder('DESC');
+            \${$tableName}Arr = \${$tableName}Handler->getAll(\$criteria);
+            unset(\$criteria);
 
-if (!\$tpl->is_cached('db:{$moduleDirname}_rss.tpl', \${$fppf})) {
-    \$tpl->assign('channel_title', \htmlspecialchars(\$title, ENT_QUOTES));
-    \$tpl->assign('channel_link', \XOOPS_URL.'/');
-    \$tpl->assign('channel_desc', \htmlspecialchars(\$xoopsConfig['slogan'], ENT_QUOTES));
-    \$tpl->assign('channel_lastbuild', \\formatTimestamp(\time(), 'rss'));
-    \$tpl->assign('channel_webmaster', \$xoopsConfig['adminmail']);
-    \$tpl->assign('channel_editor', \$xoopsConfig['adminmail']);
-    \$tpl->assign('channel_category', 'Event');
-    \$tpl->assign('channel_generator', 'XOOPS - ' . \htmlspecialchars(\$xoopsModule->getVar('{$fpmf}'), ENT_QUOTES));
-    \$tpl->assign('channel_language', _LANGCODE);
-    if ( 'fr' == _LANGCODE ) {
-        \$tpl->assign('docs', 'http://www.scriptol.fr/rss/RSS-2.0.html');
-    } else {
-        \$tpl->assign('docs', 'http://cyber.law.harvard.edu/rss/rss.html');
-    }
-    \$tpl->assign('image_url', \XOOPS_URL . \$xoopsModuleConfig['logorss']);
-    \$dimention = \getimagesize(\XOOPS_ROOT_PATH . \$xoopsModuleConfig['logorss']);
-    if (empty(\$dimention[0])) {
-        \$width = 88;
-    } else {
-       \$width = (\$dimention[0] > 144) ? 144 : \$dimention[0];
-    }
-    if (empty(\$dimention[1])) {
-        \$height = 31;
-    } else {
-        \$height = (\$dimention[1] > 400) ? 400 : \$dimention[1];
-    }
-    \$tpl->assign('image_width', \$width);
-    \$tpl->assign('image_height', \$height);
-    foreach (\array_keys(\${$tableName}Arr) as \$i) {
-        \$description = \${$tableName}Arr[\$i]->getVar('description');
-        //permet d'afficher uniquement la description courte
-        if (false == \strpos(\$description,'[pagebreak]')){
-            \$description_short = \$description;
-        } else {
-            \$description_short = \substr(\$description,0,\strpos(\$description,'[pagebreak]'));
-        }
-        \$tpl->append('items', ['title' => \htmlspecialchars(\${$tableName}Arr[\$i]->getVar('{$fpmf}'), ENT_QUOTES),
-                                    'link' => \XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
-                                    'guid' => \XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
-                                    'pubdate' => \\formatTimestamp(\${$tableName}Arr[\$i]->getVar('date'), 'rss'),
-                                    'description' => \htmlspecialchars(\$description_short, ENT_QUOTES)
-                                ]);
-    }
-}
-header('Content-Type:text/xml; charset=' . _CHARSET);
-\$tpl->display('db:{$moduleDirname}_rss.tpl', \${$fppf});
+            if (!\$tpl->is_cached('db:{$moduleDirname}_rss.tpl', \${$fppf})) {
+                \$tpl->assign('channel_title', \htmlspecialchars(\$title, ENT_QUOTES));
+                \$tpl->assign('channel_link', \XOOPS_URL.'/');
+                \$tpl->assign('channel_desc', \htmlspecialchars(\$xoopsConfig['slogan'], ENT_QUOTES));
+                \$tpl->assign('channel_lastbuild', \\formatTimestamp(\time(), 'rss'));
+                \$tpl->assign('channel_webmaster', \$xoopsConfig['adminmail']);
+                \$tpl->assign('channel_editor', \$xoopsConfig['adminmail']);
+                \$tpl->assign('channel_category', 'Event');
+                \$tpl->assign('channel_generator', 'XOOPS - ' . \htmlspecialchars(\$xoopsModule->getVar('{$fpmf}'), ENT_QUOTES));
+                \$tpl->assign('channel_language', _LANGCODE);
+                if ( 'fr' == _LANGCODE ) {
+                    \$tpl->assign('docs', 'https://www.scriptol.fr/rss/RSS-2.0.html');
+                } else {
+                    \$tpl->assign('docs', 'https://cyber.law.harvard.edu/rss/rss.html');
+                }
+                \$tpl->assign('image_url', \XOOPS_URL . \$xoopsModuleConfig['logorss']);
+                \$dimention = \getimagesize(\XOOPS_ROOT_PATH . \$xoopsModuleConfig['logorss']);
+                if (empty(\$dimention[0])) {
+                    \$width = 88;
+                } else {
+                   \$width = (\$dimention[0] > 144) ? 144 : \$dimention[0];
+                }
+                if (empty(\$dimention[1])) {
+                    \$height = 31;
+                } else {
+                    \$height = (\$dimention[1] > 400) ? 400 : \$dimention[1];
+                }
+                \$tpl->assign('image_width', \$width);
+                \$tpl->assign('image_height', \$height);
+                foreach (\array_keys(\${$tableName}Arr) as \$i) {
+                    \$description = \${$tableName}Arr[\$i]->getVar('description');
+                    //permet d'afficher uniquement la description courte
+                    if (false === \strpos(\$description,'[pagebreak]')){
+                        \$description_short = \$description;
+                    } else {
+                        \$description_short = \substr(\$description,0,\strpos(\$description,'[pagebreak]'));
+                    }
+                    \$tpl->append('items', ['title' => \htmlspecialchars(\${$tableName}Arr[\$i]->getVar('{$fpmf}'), ENT_QUOTES),
+                                                'link' => \XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
+                                                'guid' => \XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
+                                                'pubdate' => \\formatTimestamp(\${$tableName}Arr[\$i]->getVar('date'), 'rss'),
+                                                'description' => \htmlspecialchars(\$description_short, ENT_QUOTES)
+                                            ]);
+                }
+            }
+            header('Content-Type:text/xml; charset=' . _CHARSET);
+            \$tpl->display('db:{$moduleDirname}_rss.tpl', \${$fppf});
 
-EOT;
+            EOT;
 
         return $ret;
     }

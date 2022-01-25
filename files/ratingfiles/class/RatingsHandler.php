@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -17,7 +17,6 @@ namespace XoopsModules\Modulebuilder;
  *
  * @copyright      module for xoops
  * @license        GPL 3.0 or later
- * @package        Modulebuilder
  * @since          1.0
  * @min_xoops      2.5.10
  * @author         XOOPS Development Team
@@ -41,7 +40,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
     /**
      * @param bool $isNew
      *
-     * @return Object
+     * @return object
      */
     public function create($isNew = true)
     {

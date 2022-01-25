@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -11,7 +11,7 @@
 
 /**
  * @copyright    XOOPS Project (https://xoops.org), TDM Team
- * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @license      GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author       XOOPS Development Team, TDM Team
  * @author       Mamba
  */
@@ -45,8 +45,8 @@ $sql    = 'SHOW TABLES';
 $result = $GLOBALS['xoopsDB']->queryF($sql);
 
 if (!$result instanceof \mysqli_result) {
-//    echo '_AM_MODULEBUILDER_ERROR_DATABASE';
-//    echo '_AM_MODULEBUILDER_ERROR_SQL' . $GLOBALS['xoopsDB']->error();
+    //    echo '_AM_MODULEBUILDER_ERROR_DATABASE';
+    //    echo '_AM_MODULEBUILDER_ERROR_SQL' . $GLOBALS['xoopsDB']->error();
     \trigger_error($GLOBALS['xoopsDB']->error());
 }
 

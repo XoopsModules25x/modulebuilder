@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Form;
 
@@ -20,7 +20,6 @@ namespace XoopsModules\Modulebuilder\Form;
  * @since           2.5.5
  *
  * @author          Txmod Xoops <support@txmodxoops.org>
- *
  */
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 

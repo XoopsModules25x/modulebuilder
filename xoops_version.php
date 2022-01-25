@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -17,10 +17,9 @@
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
  */
- 
 \defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 $moduleDirName      = \basename(__DIR__);

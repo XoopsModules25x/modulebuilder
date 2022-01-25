@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Templates\Admin;
 
@@ -25,9 +25,8 @@ use XoopsModules\Modulebuilder\{
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -39,7 +38,6 @@ class TemplatesAdminPages extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -77,7 +75,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -91,7 +89,7 @@ class TemplatesAdminPages extends Files\CreateFile
      */
     private function getTemplatesAdminPagesHeader($moduleDirname)
     {
-        $ret = $this->hc->getHtmlComment('Header', '',"\n");
+        $ret = $this->hc->getHtmlComment('Header', '', "\n");
         $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
 
         return $ret;
@@ -101,7 +99,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @private  function getTemplatesAdminPagesTableThead
      * @param        $tableSoleName
      * @param        $tableAutoincrement
-     * @param array $fields
+     * @param array  $fields
      * @param string $language
      * @return string
      */
@@ -137,7 +135,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @param string $tableName
      * @param        $tableSoleName
      * @param        $tableAutoincrement
-     * @param array $fields
+     * @param array  $fields
      * @return string
      * @internal param string $language
      */
@@ -146,7 +144,7 @@ class TemplatesAdminPages extends Files\CreateFile
         $td = '';
         if (1 == $tableAutoincrement) {
             $double = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
-            $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
+            $td     .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t\t");
         }
         $fieldId = '';
         foreach (\array_keys($fields) as $f) {
@@ -161,13 +159,13 @@ class TemplatesAdminPages extends Files\CreateFile
                     case Constants::FIELD_ELE_TEXTAREA:
                     case Constants::FIELD_ELE_DHTMLTEXTAREA:
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short');
-                        $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
+                        $td     .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t\t");
                         break;
                     case Constants::FIELD_ELE_CHECKBOX:
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $src    = $this->sc->getSmartyNoSimbol('xoModuleIcons16') . $double . '.png';
-                        $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'','');
-                        $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
+                        $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
+                        $td     .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t\t");
                         break;
                     case Constants::FIELD_ELE_COLORPICKER:
                         // This is to be reviewed, as it was initially to style = "backgroung-color: #"
@@ -175,31 +173,31 @@ class TemplatesAdminPages extends Files\CreateFile
                         // Old code was <span style="background-color: #<{\$list.{$rpFieldName}}>;">...
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $color  = "<span style='background-color:{$double};'>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
-                        $td     .= $this->hc->getHtmlTableData($color, 'center', '',"\t\t\t\t");
+                        $td     .= $this->hc->getHtmlTableData($color, 'center', '', "\t\t\t\t");
                         break;
                     case Constants::FIELD_ELE_IMAGELIST:
                         $src = $this->sc->getSmartyNoSimbol('xoModuleIcons32');
                         $src .= $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'','');
-                        $td  .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
+                        $img = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
+                        $td  .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t\t");
                         break;
                     case Constants::FIELD_ELE_UPLOADIMAGE:
                         $single = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $img    = $this->hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName, 'style' => 'max-width:100px'], '', true, '', '');
-                        $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
+                        $td     .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t\t");
                         break;
                     case Constants::FIELD_ELE_SELECTSTATUS:
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, 'status');
                         $src    = $this->sc->getSmartyNoSimbol('$modPathIcon16') . 'status' . $double . '.png';
                         $imgAlt = $this->sc->getSmartyDoubleVar($tableSoleName, 'status_text');
-                        $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $imgAlt, 'title' => $imgAlt], '', true,'','');
-                        $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
+                        $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $imgAlt, 'title' => $imgAlt], '', true, '', '');
+                        $td     .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t\t");
                         break;
                     default:
                         if (0 != $f) {
                             $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
+                            $td     .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t\t");
                         }
                         break;
                 }
@@ -208,12 +206,12 @@ class TemplatesAdminPages extends Files\CreateFile
         $lang    = $this->sc->getSmartyConst('', '_EDIT');
         $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
         $src     = $this->sc->getSmartyNoSimbol('xoModuleIcons16 edit.png');
-        $img     = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $lang . ' ' . $tableName], '', true,'', '');
+        $img     = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $lang . ' ' . $tableName], '', true, '', '');
         $anchor  = $this->hc->getHtmlTag('a', ['href' => $tableName . ".php?op=edit&amp;{$fieldId}=" . $double . '&amp;start=<{$start}>&amp;limit=<{$limit}>', 'title' => $lang], $img, false, "\t\t\t\t\t");
         $lang    = $this->sc->getSmartyConst('', '_CLONE');
         $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
         $src     = $this->sc->getSmartyNoSimbol('xoModuleIcons16 editcopy.png');
-        $img     = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $lang . ' ' . $tableName], '', true,'', '');
+        $img     = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $lang . ' ' . $tableName], '', true, '', '');
         $anchor  .= $this->hc->getHtmlTag('a', ['href' => $tableName . ".php?op=clone&amp;{$fieldId}_source=" . $double, 'title' => $lang], $img, false, "\t\t\t\t\t");
         $lang    = $this->sc->getSmartyConst('', '_DELETE');
         $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
@@ -223,8 +221,8 @@ class TemplatesAdminPages extends Files\CreateFile
         $td      .= $this->hc->getHtmlTag('td', ['class' => 'center  width5'], "\n" . $anchor . "\t\t\t\t", false, "\t\t\t\t");
         $cycle   = $this->sc->getSmartyNoSimbol('cycle values=\'odd, even\'');
         $tr      = $this->hc->getHtmlTableRow($td, $cycle, "\t\t\t");
-        $foreach = $this->sc->getSmartyForeach($tableSoleName, $tableName . '_list', $tr, '','', "\t\t\t");
-        $tbody   = $this->hc->getHtmlTableTbody($foreach,'' , "\t\t");
+        $foreach = $this->sc->getSmartyForeach($tableSoleName, $tableName . '_list', $tr, '', '', "\t\t\t");
+        $tbody   = $this->hc->getHtmlTableTbody($foreach, '', "\t\t");
 
         return $this->sc->getSmartyConditions($tableName . '_count', '', '', $tbody, '', false, false, "\t\t");
     }
@@ -264,7 +262,7 @@ class TemplatesAdminPages extends Files\CreateFile
         $single    = $this->sc->getSmartySingleVar('pagenav');
         $div       = $this->hc->getHtmlTag('div', ['class' => 'xo-pagenav floatright'], $single, false, "\t\t");
         $div       .= $this->hc->getHtmlTag('div', ['class' => 'clear spacer'], '', false, "\t\t", "\n");
-        $htmlTable .= $this->sc->getSmartyConditions('pagenav', '', '', $div, '', '', '', "\t" );
+        $htmlTable .= $this->sc->getSmartyConditions('pagenav', '', '', $div, '', '', '', "\t");
         $ifList    = $this->sc->getSmartyConditions($tableName . '_list', '', '', $htmlTable);
         $single    = $this->sc->getSmartySingleVar('form', "\t", "\n");
         $ifList    .= $this->sc->getSmartyConditions('form', '', '', $single);

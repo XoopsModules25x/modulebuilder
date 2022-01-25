@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\User;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -164,9 +163,9 @@ class UserIndex extends Files\CreateFile
      */
     private function getBodyPagesIndex($tableName, $tableSoleName, $language)
     {
-        $ucfTableName     = \ucfirst($tableName);
-        $table            = $this->getTable();
-        $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $ucfTableName = \ucfirst($tableName);
+        $table        = $this->getTable();
+        $fields       = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
 
         $ret       = $this->pc->getPhpCodeCommentLine('Tables');
         $ret       .= $this->xc->getXcHandlerCountObj($tableName);
@@ -189,18 +188,18 @@ class UserIndex extends Files\CreateFile
                 $fieldMain = $fieldName; // fieldMain = fields parameters main field
             }
         }
-        $foreach  .= $this->xc->getXcGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain, false, "\t\t");
-        $foreach  .= $this->getSimpleString('++$count;', "\t\t");
-        $condIf   .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, "\t");
-        $condIf   .= $this->xc->getXcXoopsTplAssign($tableName, '$' . $tableName, true, "\t");
-        $condIf   .= $this->pc->getPhpCodeUnset($tableName, "\t");
-        $condIf   .= $this->xc->getXcPageNav($tableName, "\t");
-        $thereare = $this->pc->getPhpCodeSprintf("{$language}INDEX_THEREARE", "\${$tableName}Count");
-        $condIf   .= $this->xc->getXcXoopsTplAssign('lang_thereare', $thereare, true, "\t");
-        $divideby = $this->xc->getXcGetConfig('divideby');
-        $condIf   .= $this->xc->getXcXoopsTplAssign('divideby', $divideby, true, "\t");
-        $numb_col = $this->xc->getXcGetConfig('numb_col');
-        $condIf   .= $this->xc->getXcXoopsTplAssign('numb_col', $numb_col, true, "\t");
+        $foreach   .= $this->xc->getXcGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain, false, "\t\t");
+        $foreach   .= $this->getSimpleString('++$count;', "\t\t");
+        $condIf    .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, "\t");
+        $condIf    .= $this->xc->getXcXoopsTplAssign($tableName, '$' . $tableName, true, "\t");
+        $condIf    .= $this->pc->getPhpCodeUnset($tableName, "\t");
+        $condIf    .= $this->xc->getXcPageNav($tableName, "\t");
+        $thereare  = $this->pc->getPhpCodeSprintf("{$language}INDEX_THEREARE", "\${$tableName}Count");
+        $condIf    .= $this->xc->getXcXoopsTplAssign('lang_thereare', $thereare, true, "\t");
+        $divideby  = $this->xc->getXcGetConfig('divideby');
+        $condIf    .= $this->xc->getXcXoopsTplAssign('divideby', $divideby, true, "\t");
+        $numb_col  = $this->xc->getXcGetConfig('numb_col');
+        $condIf    .= $this->xc->getXcXoopsTplAssign('numb_col', $numb_col, true, "\t");
         $ret       .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
         $ret       .= $this->pc->getPhpCodeUnset('count');
         $tableType = $this->xc->getXcGetConfig('table_type');
@@ -218,15 +217,15 @@ class UserIndex extends Files\CreateFile
     private function getUserIndexFooter($moduleDirname, $language)
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
-        $ret = $this->pc->getPhpCodeCommentLine('Keywords');
-        $ret .= $this->uxc->getUserMetaKeywords($moduleDirname);
-        $ret .= $this->pc->getPhpCodeUnset('keywords');
-        $ret .= $this->pc->getPhpCodeCommentLine('Description');
-        $ret .= $this->uxc->getUserMetaDesc($moduleDirname, $language);
-        $ret .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "\\{$stuModuleDirname}_URL.'/index.php'");
-        $ret .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', '\XOOPS_ICONS32_URL');
-        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "\\{$stuModuleDirname}_UPLOAD_URL");
-        $ret .= $this->getRequire('footer');
+        $ret              = $this->pc->getPhpCodeCommentLine('Keywords');
+        $ret              .= $this->uxc->getUserMetaKeywords($moduleDirname);
+        $ret              .= $this->pc->getPhpCodeUnset('keywords');
+        $ret              .= $this->pc->getPhpCodeCommentLine('Description');
+        $ret              .= $this->uxc->getUserMetaDesc($moduleDirname, $language);
+        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "\\{$stuModuleDirname}_URL.'/index.php'");
+        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', '\XOOPS_ICONS32_URL');
+        $ret              .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "\\{$stuModuleDirname}_UPLOAD_URL");
+        $ret              .= $this->getRequire('footer');
 
         return $ret;
     }
@@ -238,11 +237,11 @@ class UserIndex extends Files\CreateFile
      */
     public function render()
     {
-        $module           = $this->getModule();
-        $tables           = $this->getTableTables($module->getVar('mod_id'), 'table_order');
-        $filename         = $this->getFileName();
-        $moduleDirname    = $module->getVar('mod_dirname');
-        $language         = $this->getLanguage($moduleDirname, 'MA');
+        $module        = $this->getModule();
+        $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        $filename      = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $language      = $this->getLanguage($moduleDirname, 'MA');
 
         $content = $this->getHeaderFilesComments($module, null);
         $content .= $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');

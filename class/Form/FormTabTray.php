@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Form;
 
@@ -20,7 +20,7 @@ use XoopsModules\Modulebuilder;
  *
  * @author    trabis <lusopoemas@gmail.com>
  * @copyright 2012-2014 XOOPS Project (https://xoops.org)
- * @license   GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @license   GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  *
  * @link      https://xoops.org
  * @since     2.0.0
@@ -81,7 +81,7 @@ class FormTabTray extends \XoopsFormElementTray
         $extras = [];
 
         foreach ($this->getElements() as $ele) {
-            /* @var \XoopsFormElement $ele */
+            /** @var \XoopsFormElement $ele */
             if (!$ele->isHidden()) {
                 if (!$ele instanceof Modulebuilder\Form\FormRaw) {
                     if ($ele instanceof Modulebuilder\Form\FormTab) {

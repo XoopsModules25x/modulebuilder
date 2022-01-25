@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Templates\Admin;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -73,7 +72,7 @@ class TemplatesAdminBroken extends Files\CreateFile
      * @param        $tables
      * @param        $filename
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setTables($tables);
