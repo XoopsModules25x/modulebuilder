@@ -1,6 +1,6 @@
 ![alt XOOPS CMS](https://xoops.org/images/logoXoops4GithubRepository.png)
 
-![alt XOOPS CMS](https://xoops.org/images/logoXoopsPhp8.png)
+![alt XOOPS CMS](https://xoops.org/images/logoXoopsPhp81.png)
 
 # Support
 
