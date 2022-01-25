@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -9,15 +9,16 @@ use Xmf\Request;
  */
 class Import
 {
-    public static function importModule()
+    public static function importModule(): array
     {
-        $ret = [];
-        $moduleName    = Request::getString('moduleName',  'newModule', 'POST');
-        $moduleNewName = Request::getString('moduleNewName',  $moduleName, 'POST');
+        $ret           = [];
+        $moduleName    = Request::getString('moduleName', 'newModule', 'POST');
+        $moduleNewName = Request::getString('moduleNewName', $moduleName, 'POST');
         $moduleDirname = \preg_replace('/[^a-zA-Z0-9]\s+/', '', \mb_strtolower($moduleNewName));
         if ('' === $moduleDirname) {
             $ret['result'] = false;
-            $ret['error'] = \_AM_MODULEBUILDER_ERROR_MNAME;
+            $ret['error']  = \_AM_MODULEBUILDER_ERROR_MNAME;
+
             return $ret;
         }
 
@@ -75,26 +76,27 @@ class Import
             $criteria     = new \Criteria('mod_name', $moduleNewName);
             $moduleObject = $modulesHandler->getObjects($criteria, false, true);
             $moduleId     = $moduleObject[0]->getVar('mod_id');
-            $tables = self::importTables($moduleId, $moduleName);
-            if (false === $tables ) {
+            $tables       = self::importTables($moduleId, $moduleName);
+            if (null === $tables) {
                 $ret['result'] = false;
-                $ret['error'] = \_AM_MODULEBUILDER_ERROR_IMPTABLES;
+                $ret['error']  = \_AM_MODULEBUILDER_ERROR_IMPTABLES;
             } else {
                 $ret['result'] = true;
                 $ret['tables'] = $tables;
             }
         } else {
             $ret['result'] = false;
-            $ret['error'] = \_AM_MODULEBUILDER_ERROR_MCREATE . $GLOBALS['xoopsDB']->error();
+            $ret['error']  = \_AM_MODULEBUILDER_ERROR_MCREATE . $GLOBALS['xoopsDB']->error();
         }
+
         return $ret;
     }
 
     /**
-     * @param $moduleId
-     * @param $moduleName
+     * @param int    $moduleId
+     * @param string $moduleName
      */
-    public static function importTables($moduleId, $moduleName)
+    public static function importTables($moduleId, $moduleName): ?array
     {
         $helper        = Helper::getInstance();
         $tablesHandler = $helper->getHandler('Tables');
@@ -105,10 +107,11 @@ class Import
         $module        = $moduleHandler->getByDirname($moduleName);
         $moduleTables  = $module->getInfo('tables');
 
-        $tables = [];
+        $tables = null;
 
         if (false !== $moduleTables && is_array($moduleTables)) {
             $currentTableNumber = 0;
+            $tables             = [];
             foreach ($moduleTables as $table) {
                 //create a new tablesholder
                 $newTable = $tablesHandler->create();
@@ -133,7 +136,6 @@ class Import
                     $fieldsObj->setVar('field_tid', $newTable->getVar('table_id'));
                     $fieldsObj->setVar('field_order', $currentFieldNumber);
                     $fieldsObj->setVar('field_name', $t['Field']);
-
 
                     $type = '1';
                     if (isset($t['Type'])) {
@@ -161,7 +163,7 @@ class Import
                             22 => 'TIME',
                             23 => 'YEAR',
                         ];
-                        $type = array_search(strtolower($t['Type']), array_map('strtolower', $types));
+                        $type  = array_search(mb_strtolower($t['Type']), array_map('strtolower', $types), true);
                     }
                     $fieldsObj->setVar('field_type', $type);
                     $fieldsObj->setVar('field_value', $t['Len']);
@@ -175,7 +177,7 @@ class Import
                             5 => 'SMALLINT',
                             6 => 'CURRENT_TIMESTAMP',
                         ];
-                        $attr    = array_search(strtolower($t['Signed']), array_map('strtolower', $attribs));
+                        $attr    = array_search(mb_strtolower($t['Signed']), array_map('strtolower', $attribs), true);
                     }
                     $fieldsObj->setVar('field_attribute', $attr);
 
@@ -189,7 +191,7 @@ class Import
                     $fieldsObj->setVar('field_null', $null);
                     $fieldsObj->setVar('field_default', $t['Default']);
 
-                    $key  = 1;
+                    $key = 1;
                     if (isset($t['Key'])) {
                         $keys = [
                             2 => 'PRI',
@@ -198,20 +200,19 @@ class Import
                             5 => 'IND',
                             6 => 'FUL',
                         ];
-                        $key = array_search(strtolower($t['Key']), array_map('strtolower', $keys));
+                        $key  = array_search(mb_strtolower($t['Key']), array_map('strtolower', $keys), true);
                     }
                     $fieldsObj->setVar('field_key', $key);
                     $fieldsObj->setVar('field_element', $t['Field']);
 
                     if ($currentFieldNumber < $countFields - 1) {
-                        //
                     }
 
                     if (0 == $currentFieldNumber) {
-                        if (in_array($t['Type'], ['blob', 'text', 'mediumblob', 'mediumtext', 'longblob', 'longtext', 'enum', 'set',])) {
+                        if (in_array($t['Type'], ['blob', 'text', 'mediumblob', 'mediumtext', 'longblob', 'longtext', 'enum', 'set'])) {
                             // XoopsFormTextArea
                             $fieldsObj->setVar('field_element', '3');
-                        } elseif (in_array($t['Type'], ['int', 'integer', 'tinyint', 'smallint', 'mediumint', 'bigint', 'float', 'double', 'real', 'char', 'varchar',])) {
+                        } elseif (in_array($t['Type'], ['int', 'integer', 'tinyint', 'smallint', 'mediumint', 'bigint', 'float', 'double', 'real', 'char', 'varchar'])) {
                             //XoopsFormText
                             $fieldsObj->setVar('field_element', '2');
                         } elseif ('datetime' === $t['Type']) {
@@ -222,19 +223,19 @@ class Import
                             $fieldsObj->setVar('field_element', '15');
                         }
                     } elseif ($currentFieldNumber > 0) {
-                            if (in_array($t['Type'], ['blob', 'text', 'mediumblob', 'mediumtext', 'longblob', 'longtext', 'enum', 'set',])) {
-                                //XoopsFormTextArea
-                                $fieldsObj->setVar('field_element', '3');
-                            } elseif (in_array($t['Type'], ['int', 'integer', 'tinyint', 'smallint', 'mediumint', 'bigint', 'float', 'double', 'real', 'char', 'varchar',])) {
-                                //XoopsFormText
-                                $fieldsObj->setVar('field_element', '2');
-                            } elseif ('datetime' === $t['Type']) {
-                                //XoopsFormDateTime //XoopsFormDatePicker
-                                $fieldsObj->setVar('field_element', '21');
-                            } elseif ('date' === $t['Type']) {
-                                //XoopsFormTextDateSelect
-                                $fieldsObj->setVar('field_element', '15');
-                            }
+                        if (in_array($t['Type'], ['blob', 'text', 'mediumblob', 'mediumtext', 'longblob', 'longtext', 'enum', 'set'])) {
+                            //XoopsFormTextArea
+                            $fieldsObj->setVar('field_element', '3');
+                        } elseif (in_array($t['Type'], ['int', 'integer', 'tinyint', 'smallint', 'mediumint', 'bigint', 'float', 'double', 'real', 'char', 'varchar'])) {
+                            //XoopsFormText
+                            $fieldsObj->setVar('field_element', '2');
+                        } elseif ('datetime' === $t['Type']) {
+                            //XoopsFormDateTime //XoopsFormDatePicker
+                            $fieldsObj->setVar('field_element', '21');
+                        } elseif ('date' === $t['Type']) {
+                            //XoopsFormTextDateSelect
+                            $fieldsObj->setVar('field_element', '15');
+                        }
                     }
 
                     ++$currentFieldNumber;
@@ -246,14 +247,13 @@ class Import
 
                 ++$currentTableNumber;
             }
-        } else {
-            return false;
         }
+
         return $tables;
     }
 
     /**
-     * @param $tableName
+     * @param string $tableName
      *
      * @return array
      */
@@ -268,7 +268,7 @@ class Import
         }
 
         $tFields = [];
-        while ($data = $GLOBALS['xoopsDB']->fetchBoth($result)) {
+        while (false !== ($data = $GLOBALS['xoopsDB']->fetchBoth($result))) {
             $t          = [];
             $t['Field'] = $data['Field'];
             $t['Type']  = $data['Type'];
@@ -284,24 +284,25 @@ class Import
 
             $t['Label'] = $data['Label'] ?? '';
 
-            $h = strpos($data['Type'], '(');
-            $i = strpos($data['Type'], ')');
+            $h = mb_strpos($data['Type'], '(');
+            $i = mb_strpos($data['Type'], ')');
             if (false === $h) {
                 $t['Len'] = 0;
             } else {
-                $t['Type'] = substr($data['Type'], 0, $h);
+                $t['Type'] = mb_substr($data['Type'], 0, $h);
                 if ('double' === $t['Type'] || 'float' === $t['Type'] || 'real' === $t['Type']) {
-                    $t['Len'] = substr($data['Type'], $h + 1, $i - 1 - $h);
+                    $t['Len'] = mb_substr($data['Type'], $h + 1, $i - 1 - $h);
                 } else {
-                    $t['Len'] = (int)substr($data['Type'], $h + 1, $i - 1 - $h);
+                    $t['Len'] = (int)mb_substr($data['Type'], $h + 1, $i - 1 - $h);
                 }
-                if (strlen($data['Type']) > $i) {
-                    $t['Signed'] = substr($data['Type'], $i + 2);
+                if (mb_strlen($data['Type']) > $i) {
+                    $t['Signed'] = mb_substr($data['Type'], $i + 2);
                 }
             }
 
             $tFields[$t['Field']] = $t;
         }
+
         return $tFields;
     }
 }
