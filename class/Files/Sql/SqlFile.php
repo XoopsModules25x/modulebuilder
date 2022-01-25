@@ -186,7 +186,7 @@ class SqlFile extends Files\CreateFile
         $row    = [];
         //$type          = '';
         $fieldTypeName = '';
-        $fields        = $this->getTableFields($tableMid, $tableId, 'field_order ASC, field_id');
+        $fields        = $this->getTableFields($tableMid, $tableId);
         foreach (\array_keys($fields) as $f) {
             // Creation of database table
             $ret            = $this->getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb);
@@ -260,11 +260,6 @@ class SqlFile extends Files\CreateFile
                             $default = "DEFAULT '{$fieldDefault}'";
                         }
                         break;
-                    case 13:
-                    case 14:
-                        $type    = $fieldTypeName . '(' . $fieldValue . ')';
-                        $default = "DEFAULT '{$fieldDefault}'";
-                        break;
                     case 15:
                     case 16:
                     case 17:
@@ -275,7 +270,6 @@ class SqlFile extends Files\CreateFile
                     case 19:
                     case 20:
                     case 21:
-                    case 22:
                         $type    = $fieldTypeName . '(' . $fieldValue . ')';
                         $default = "DEFAULT '{$fieldDefault}'";
                         break;
@@ -287,6 +281,9 @@ class SqlFile extends Files\CreateFile
                             $default = "DEFAULT '{$fieldDefault}'";
                         }
                         break;
+                    case 13:
+                    case 14:
+                    case 22:
                     default:
                         $type    = $fieldTypeName . '(' . $fieldValue . ')';
                         $default = "DEFAULT '{$fieldDefault}'";

@@ -13,23 +13,32 @@ namespace XoopsModules\Modulebuilder\Common;
 */
 
 /**
- * My Module module for xoops
+ * Custom form confirm for XOOPS modules
  *
- * @copyright      2020 XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @copyright     2020 XOOPS Project (https://xoops.org)
+ * @license        GPL 2.0 or later
+ * @package        Modulebuilder
  * @since          1.0
  * @min_xoops      2.5.9
  * @author         Goffy - Email:<goffy@myxoops.org> - Website:<https://xoops.org>
+ *
+ *
+ * Example:
+    $customConfirm = new Common\Confirm(
+        ['ok' => 1, 'item_id' => $itemId, 'op' => 'delete'],
+        $_SERVER['REQUEST_URI'],
+        \sprintf(\_MA_MYMODULE_FORM_SURE_DELETE,
+        $itemsObj->getCaption()));
+    $form = $customConfirm->getFormConfirm();
+    $GLOBALS['xoopsTpl']->assign('form', $form->render());
  */
-
-use XoopsModules\Modulebuilder;
 
 \defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
- * Class Object XoopsConfirm
+ * Class Object Confirm
  */
-class XoopsConfirm
+class Confirm
 {
     private $hiddens = [];
     private $action  = '';
@@ -55,15 +64,17 @@ class XoopsConfirm
     }
 
     /**
-     * @public function getXoopsConfirm
+     * @public function getFormConfirm
      * @return \XoopsThemeForm
      */
-    public function getFormXoopsConfirm()
+    public function getFormConfirm()
     {
+        $moduleDirName      = \basename(__DIR__);
+        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         //in order to be accessable from user and admin area this should be place in language common.php
-        if (!\defined('CO_MYMODULE_DELETE_CONFIRM')) {
-            \define('CO_MYMODULE_DELETE_CONFIRM', 'Confirm delete');
-            \define('CO_MYMODULE_DELETE_LABEL', 'Do you really want to delete:');
+        if (!\defined('CO_' . $moduleDirNameUpper . '_DELETE_CONFIRM')) {
+            \define('CO_' . $moduleDirNameUpper . '_DELETE_CONFIRM', 'Confirm delete');
+            \define('CO_' . $moduleDirNameUpper . '_DELETE_LABEL', 'Do you really want to delete:');
         }
 
         // Get Theme Form
@@ -71,14 +82,14 @@ class XoopsConfirm
             $this->action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
         if ('' === $this->title) {
-            $this->title = CO_MYMODULE_DELETE_CONFIRM;
+            $this->title = \constant('CO_' . $moduleDirNameUpper . '_DELETE_CONFIRM');
         }
         if ('' === $this->label) {
-            $this->label = CO_MYMODULE_DELETE_LABEL;
+            $this->label = \constant('CO_' . $moduleDirNameUpper . '_DELETE_LABEL');
         }
 
         \xoops_load('XoopsFormLoader');
-        $form = new \XoopsThemeForm($this->title, 'formXoopsConfirm', $this->action, 'post', true);
+        $form = new \XoopsThemeForm($this->title, 'formConfirm', $this->action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
         $form->addElement(new \XoopsFormLabel($this->label, $this->object));
         //hiddens
@@ -87,8 +98,8 @@ class XoopsConfirm
         }
         $form->addElement(new \XoopsFormHidden('ok', 1));
         $buttonTray = new \XoopsFormElementTray('');
-        $buttonTray->addElement(new \XoopsFormButton('', 'confirm_submit', _YES, 'submit'));
-        $buttonBack = new \XoopsFormButton('', 'confirm_back', _NO, 'button');
+        $buttonTray->addElement(new \XoopsFormButton('', 'confirm_submit', \_YES, 'submit'));
+        $buttonBack = new \XoopsFormButton('', 'confirm_back', \_NO, 'button');
         $buttonBack->setExtra('onclick="history.go(-1);return true;"');
         $buttonTray->addElement($buttonBack);
         $form->addElement($buttonTray);

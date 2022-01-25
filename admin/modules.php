@@ -41,12 +41,12 @@ $modId = Request::getInt('mod_id');
 switch ($op) {
     case 'list':
     default:
-        $start = Request::getInt('start', 0);
+        $start = Request::getInt('start');
         $limit = Request::getInt('limit', $helper->getConfig('modules_adminpager'));
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/modulebuilder/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
-        $adminObject->addItemButton(\_AM_MODULEBUILDER_MODULES_ADD, 'modules.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_MODULES_ADD, 'modules.php?op=new');
 
         $adminObject->addItemButton(_AM_MODULEBUILDER_MODULES_IMPORT, 'import_module.php', 'compfile');
 
@@ -70,7 +70,7 @@ switch ($op) {
             if ($modulesCount > $limit) {
                 require_once \XOOPS_ROOT_PATH . '/class/pagenav.php';
                 $pagenav = new \XoopsPageNav($modulesCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
-                $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
+                $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav());
             }
         } else {
             $GLOBALS['xoopsTpl']->assign('error', \_AM_MODULEBUILDER_THEREARENT_MODULES);
@@ -192,7 +192,7 @@ switch ($op) {
     case 'edit':
         $GLOBALS['xoTheme']->addScript('modules/modulebuilder/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
-        $adminObject->addItemButton(\_AM_MODULEBUILDER_MODULES_ADD, 'modules.php?op=new', 'add');
+        $adminObject->addItemButton(\_AM_MODULEBUILDER_MODULES_ADD, 'modules.php?op=new');
         $adminObject->addItemButton(\_AM_MODULEBUILDER_MODULES_LIST, 'modules.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
@@ -228,12 +228,12 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
             }
         } else {
-            $xoopsconfirm = new \XoopsModules\Modulebuilder\Common\XoopsConfirm(
+            $customConfirm = new \XoopsModules\Modulebuilder\Common\Confirm(
                 ['ok' => 1, 'mod_id' => $modId, 'op' => 'delete'],
                 \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'),
                 $modulesObj->getVar('mod_name')
             );
-            $form         = $xoopsconfirm->getFormXoopsConfirm();
+            $form         = $customConfirm->getFormConfirm();
             $GLOBALS['xoopsTpl']->assign('form', $form->render());
         }
         break;
@@ -255,7 +255,7 @@ switch ($op) {
         }
         break;
     case 'clone':
-        $modIdSource = Request::getInt('mod_id', 0);
+        $modIdSource = Request::getInt('mod_id');
         if ($modIdSource > 0) {
             //clone data table modules
             $modulesHandler = $helper->getHandler('Modules');
@@ -267,6 +267,7 @@ switch ($op) {
             foreach ($sourceVars as $varKey => $varArray) {
                 if ('mod_id' !== $varKey) {
                     if (in_array($varKey, ['mod_name', 'mod_dirname'])) {
+                        $uniqValue = '';
                         for ($i = 1; $i <= 10; $i++) {
                             $uniqValue = $varArray['value'] . $i;
                             $result    = $GLOBALS['xoopsDB']->query(

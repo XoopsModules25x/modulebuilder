@@ -43,6 +43,7 @@ class Fieldelements extends \XoopsObject
         $this->initVar('fieldelement_sort', XOBJ_DTYPE_INT);
         $this->initVar('fieldelement_deftype', XOBJ_DTYPE_TXTBOX);
         $this->initVar('fieldelement_defvalue', XOBJ_DTYPE_TXTBOX);
+        $this->initVar('fieldelement_deffield', XOBJ_DTYPE_TXTBOX);
     }
 
     /**
@@ -92,6 +93,7 @@ class Fieldelements extends \XoopsObject
         $ret['sort']     = $this->getVar('fieldelement_sort');
         $ret['deftype']  = $this->getVar('fieldelement_deftype');
         $ret['defvalue'] = $this->getVar('fieldelement_defvalue');
+        $ret['deffield'] = $this->getVar('fieldelement_deffield');
 
         return $ret;
     }

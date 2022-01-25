@@ -11,13 +11,13 @@ class Import
 {
     public static function importModule(): array
     {
-        $ret           = [];
-        $moduleName    = Request::getString('moduleName', 'newModule', 'POST');
-        $moduleNewName = Request::getString('moduleNewName', $moduleName, 'POST');
+        $ret = [];
+        $moduleName    = Request::getString('moduleName',  'newModule', 'POST');
+        $moduleNewName = Request::getString('moduleNewName',  $moduleName, 'POST');
         $moduleDirname = \preg_replace('/[^a-zA-Z0-9]\s+/', '', \mb_strtolower($moduleNewName));
         if ('' === $moduleDirname) {
             $ret['result'] = false;
-            $ret['error']  = \_AM_MODULEBUILDER_ERROR_MNAME;
+            $ret['error'] = \_AM_MODULEBUILDER_ERROR_MNAME;
 
             return $ret;
         }
@@ -76,25 +76,26 @@ class Import
             $criteria     = new \Criteria('mod_name', $moduleNewName);
             $moduleObject = $modulesHandler->getObjects($criteria, false, true);
             $moduleId     = $moduleObject[0]->getVar('mod_id');
-            $tables       = self::importTables($moduleId, $moduleName);
+            $tables = self::importTables($moduleId, $moduleName);
             if (null === $tables) {
                 $ret['result'] = false;
-                $ret['error']  = \_AM_MODULEBUILDER_ERROR_IMPTABLES;
+                $ret['error'] = \_AM_MODULEBUILDER_ERROR_IMPTABLES;
             } else {
                 $ret['result'] = true;
                 $ret['tables'] = $tables;
             }
         } else {
             $ret['result'] = false;
-            $ret['error']  = \_AM_MODULEBUILDER_ERROR_MCREATE . $GLOBALS['xoopsDB']->error();
+            $ret['error'] = \_AM_MODULEBUILDER_ERROR_MCREATE . $GLOBALS['xoopsDB']->error();
         }
 
         return $ret;
     }
 
     /**
-     * @param int    $moduleId
-     * @param string $moduleName
+     * @param $moduleId
+     * @param $moduleName
+     * @return array|null
      */
     public static function importTables($moduleId, $moduleName): ?array
     {
@@ -191,7 +192,7 @@ class Import
                     $fieldsObj->setVar('field_null', $null);
                     $fieldsObj->setVar('field_default', $t['Default']);
 
-                    $key = 1;
+                    $key  = 1;
                     if (isset($t['Key'])) {
                         $keys = [
                             2 => 'PRI',
@@ -205,8 +206,8 @@ class Import
                     $fieldsObj->setVar('field_key', $key);
                     $fieldsObj->setVar('field_element', $t['Field']);
 
-                    if ($currentFieldNumber < $countFields - 1) {
-                    }
+                    //if ($currentFieldNumber < $countFields - 1) {
+                    //}
 
                     if (0 == $currentFieldNumber) {
                         if (in_array($t['Type'], ['blob', 'text', 'mediumblob', 'mediumtext', 'longblob', 'longtext', 'enum', 'set'])) {
@@ -224,18 +225,18 @@ class Import
                         }
                     } elseif ($currentFieldNumber > 0) {
                         if (in_array($t['Type'], ['blob', 'text', 'mediumblob', 'mediumtext', 'longblob', 'longtext', 'enum', 'set'])) {
-                            //XoopsFormTextArea
-                            $fieldsObj->setVar('field_element', '3');
+                                //XoopsFormTextArea
+                                $fieldsObj->setVar('field_element', '3');
                         } elseif (in_array($t['Type'], ['int', 'integer', 'tinyint', 'smallint', 'mediumint', 'bigint', 'float', 'double', 'real', 'char', 'varchar'])) {
-                            //XoopsFormText
-                            $fieldsObj->setVar('field_element', '2');
-                        } elseif ('datetime' === $t['Type']) {
-                            //XoopsFormDateTime //XoopsFormDatePicker
-                            $fieldsObj->setVar('field_element', '21');
-                        } elseif ('date' === $t['Type']) {
-                            //XoopsFormTextDateSelect
-                            $fieldsObj->setVar('field_element', '15');
-                        }
+                                //XoopsFormText
+                                $fieldsObj->setVar('field_element', '2');
+                            } elseif ('datetime' === $t['Type']) {
+                                //XoopsFormDateTime //XoopsFormDatePicker
+                                $fieldsObj->setVar('field_element', '21');
+                            } elseif ('date' === $t['Type']) {
+                                //XoopsFormTextDateSelect
+                                $fieldsObj->setVar('field_element', '15');
+                            }
                     }
 
                     ++$currentFieldNumber;

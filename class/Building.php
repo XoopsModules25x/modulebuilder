@@ -61,7 +61,7 @@ class Building
         \xoops_load('XoopsFormLoader');
         $form = new \XoopsThemeForm(\_AM_MODULEBUILDER_ADMIN_CONST, 'buildform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        $moduleObj  = $helper->getHandler('Modules')->getObjects(null);
+        $moduleObj  = $helper->getHandler('Modules')->getObjects();
         $mod_select = new \XoopsFormSelect(\_AM_MODULEBUILDER_CONST_MODULES, 'mod_id', 'mod_id');
         $mod_select->addOption('', \_AM_MODULEBUILDER_BUILD_MODSELOPT);
         foreach ($moduleObj as $mod) {

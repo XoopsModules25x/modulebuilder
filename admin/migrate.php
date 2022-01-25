@@ -44,10 +44,8 @@ echo <<<EOF
 
 //XoopsLoad::load('migrate', 'newbb');
 
-/** @var Modulebuilder\Common\Configurator $configurator */
 $configurator = new Modulebuilder\Common\Configurator();
 
-/** @var \XoopsModules\Modulebuilder\Common\Migrate $migrator */
 $migrator = new \XoopsModules\Modulebuilder\Common\Migrate($configurator);
 
 $op        = Request::getCmd('op', 'default');

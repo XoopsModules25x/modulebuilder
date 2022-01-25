@@ -59,7 +59,7 @@ $folder = [
 
 //------ check Upload Folders ---------------
 
-$adminObject->addConfigBoxLine('');
+$adminObject->addConfigBoxLine();
 $redirectFile = $_SERVER['SCRIPT_NAME'];
 
 foreach (\array_keys($folder) as $i) {

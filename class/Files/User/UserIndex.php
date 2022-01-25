@@ -171,7 +171,7 @@ class UserIndex extends Files\CreateFile
         $ret       .= $this->xc->getXcHandlerCountObj($tableName);
         $ret       .= $this->xc->getXcXoopsTplAssign($tableName . 'Count', "\${$tableName}Count");
         $ret       .= $this->getSimpleString('$count = 1;');
-        $condIf    = $this->xc->getXcXoopsRequest('start', 'start', '0', 'Int', false, "\t");
+        $condIf    = $this->xc->getXcXoopsRequest('start', 'start', '', 'Int', false, "\t");
         $userpager = $this->xc->getXcGetConfig('userpager');
         $condIf    .= $this->xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int', false, "\t");
         $condIf    .= $this->xc->getXcHandlerAllObj($tableName, '', '$start', '$limit', "\t");
@@ -243,7 +243,7 @@ class UserIndex extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
 
-        $content = $this->getHeaderFilesComments($module, null);
+        $content = $this->getHeaderFilesComments($module);
         $content .= $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $content .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);

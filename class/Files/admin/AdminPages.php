@@ -102,11 +102,26 @@ class AdminPages extends Files\CreateFile
         $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Common']);
         $ret       .= $this->getRequire();
         $ret       .= $this->pc->getPhpCodeCommentLine('Get all request values');
-        $ret       .= $this->xc->getXcXoopsRequest('op', 'op', 'list', 'Cmd');
-        $ret       .= $this->xc->getXcXoopsRequest($ccFieldId, $fieldId, '', 'Int');
-        $ret       .= $this->xc->getXcXoopsRequest('start', 'start', '0', 'Int', false);
+        $leftLen   = \strlen($ccFieldId);
+        $leftOp    = 'op';
+        $leftField = $ccFieldId;
+        $leftStart = 'start';
+        $leftLimit = 'limit';
+        if ($leftLen > 5) {
+            $leftOp    .= \str_repeat(' ', $leftLen - 2);
+            $leftStart .= \str_repeat(' ', $leftLen - 5);
+            $leftLimit .= \str_repeat(' ', $leftLen - 5);
+        } else {
+            $leftOp    .= \str_repeat(' ', 3);
+            if (\strlen($ccFieldId) < 5) {
+                $leftField .= \str_repeat(' ', 5 - $leftLen);
+            }
+        }
+        $ret       .= $this->xc->getXcXoopsRequest($leftOp, 'op', 'list', 'Cmd');
+        $ret       .= $this->xc->getXcXoopsRequest($leftField, $fieldId, '', 'Int');
+        $ret       .= $this->xc->getXcXoopsRequest($leftStart, 'start', '', 'Int', false);
         $config    = $this->xc->getXcGetConfig('adminpager');
-        $ret       .= $this->xc->getXcXoopsRequest('limit', 'limit', $config, 'Int', false);
+        $ret       .= $this->xc->getXcXoopsRequest($leftLimit, 'limit', $config, 'Int', false);
         $ret       .= $this->xc->getXcXoopsTplAssign('start', '$start');
         $ret       .= $this->xc->getXcXoopsTplAssign('limit', '$limit');
         $ret       .= $this->pc->getPhpCodeBlankLine();
@@ -202,7 +217,9 @@ class AdminPages extends Files\CreateFile
      * @private function getAdminPagesClone
      * @param        $moduleDirname
      * @param        $tableName
+     * @param        $tableSoleName
      * @param        $fieldInForm
+     * @param        $fieldId
      * @param        $language
      * @param string $t
      * @return string
@@ -279,9 +296,6 @@ class AdminPages extends Files\CreateFile
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldType    = $fields[$f]->getVar('field_type');
             $fieldElement = $fields[$f]->getVar('field_element');
-            if (1 == $fields[$f]->getVar('field_main')) {
-                $fieldMain = $fieldName;
-            }
             if ($f > 0) { // If we want to hide field id
                 switch ($fieldElement) {
                     case Constants::FIELD_ELE_CHECKBOX:
@@ -292,6 +306,7 @@ class AdminPages extends Files\CreateFile
                         $fieldLines .= $this->axc->getAxcSetVarImageList($tableName, $fieldName, $t, $countUploader);
                         $countUploader++;
                         break;
+                    case Constants::FIELD_ELE_UPLOADFILE:
                     case Constants::FIELD_ELE_SELECTFILE:
                         $fieldLines .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
@@ -302,10 +317,6 @@ class AdminPages extends Files\CreateFile
                         break;
                     case Constants::FIELD_ELE_UPLOADIMAGE:
                         $fieldLines .= $this->axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
-                        $countUploader++;
-                        break;
-                    case Constants::FIELD_ELE_UPLOADFILE:
-                        $fieldLines .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case Constants::FIELD_ELE_TEXTDATESELECT:

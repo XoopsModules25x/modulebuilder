@@ -217,7 +217,7 @@ class UserPrint extends Files\CreateFile
         $tbody = $this->getTemplatesUserPrintTableThead($tableSoleName, $tableAutoincrement, $fields, $language);
         $tbody .= $this->getTemplatesUserPrintTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields);
 
-        return $this->hc->getHtmlTable($tbody, 'table table-bordered', '');
+        return $this->hc->getHtmlTable($tbody, 'table table-bordered');
     }
 
     /**

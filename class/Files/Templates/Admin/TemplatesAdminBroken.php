@@ -133,11 +133,11 @@ class TemplatesAdminBroken extends Files\CreateFile
         $td      .= $this->hc->getHtmlTableData($double, 'center', '', $t . "\t\t");
         $lang    = $this->sc->getSmartyConst('', '_EDIT');
         $src     = $this->sc->getSmartyNoSimbol('xoModuleIcons16 edit.png');
-        $img     = $this->hc->getHtmlImage($src, $tableName, '', '', '');
+        $img     = $this->hc->getHtmlImage($src, $tableName);
         $anchor  = $this->hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$doubleKey}=" . $doubleVal, $img, $lang, '', '', '', $t . "\t\t\t", "\n");
         $lang    = $this->sc->getSmartyConst('', '_DELETE');
         $src     = $this->sc->getSmartyNoSimbol('xoModuleIcons16 delete.png');
-        $img     = $this->hc->getHtmlImage($src, $tableName, '', '', '');
+        $img     = $this->hc->getHtmlImage($src, $tableName);
         $anchor  .= $this->hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$doubleKey}=" . $doubleVal, $img, $lang, '', '', '', $t . "\t\t\t", "\n");
         $td      .= $this->hc->getHtmlTableData($anchor, 'center width5', '', $t . "\t\t", "\n", true);
         $cycle   = $this->sc->getSmartyNoSimbol('cycle values=\'odd, even\'');
@@ -177,7 +177,7 @@ class TemplatesAdminBroken extends Files\CreateFile
         $tableSoleName = $table->getVar('table_solename');
         $ucfTableName  = \ucfirst($tableName);
         $double        = $this->sc->getSmartySingleVar($tableName . '_result');
-        $ret           = $this->hc->getHtmlHNumb($double, 3, '');
+        $ret           = $this->hc->getHtmlHNumb($double, 3);
         $htmlTable     = $this->getTemplatesAdminBrokenTable($tableName, $tableSoleName, $language);
         $htmlTable     .= $this->hc->getHtmlDiv('&nbsp;', 'clear', $t, "\n", false);
         $single        = $this->sc->getSmartySingleVar('pagenav');
@@ -206,7 +206,7 @@ class TemplatesAdminBroken extends Files\CreateFile
     {
         $single = $this->sc->getSmartySingleVar('error');
         $strong = $this->hc->getHtmlTag('strong', [], $single, false, '', '');
-        $div    = $this->hc->getHtmlDiv($strong, 'errorMsg', "\t", "\n");
+        $div    = $this->hc->getHtmlDiv($strong, 'errorMsg', "\t");
         $ret    = $this->sc->getSmartyConditions('error', '', '', $div);
         $ret    .= $this->hc->getHtmlEmpty('', '', "\n");
         $ret    .= $this->hc->getHtmlComment('Footer', '', "\n");

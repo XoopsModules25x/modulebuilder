@@ -25,7 +25,7 @@ use XoopsModules\Modulebuilder\{
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org
+ * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
  */
 
@@ -98,15 +98,15 @@ class PagesItem extends Files\CreateFile
      */
     private function getTemplatesUserPagesItemPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableRate, $tableBroken, $language)
     {
-        $fields    = $this->getTableFields($tableMid, $tableId);
-        $ret       = '';
-        $retNumb   = '';
+        $fields  = $this->getTableFields($tableMid, $tableId);
+        $ret     = '';
+        $retNumb = '';
         $fieldId   = '';
         $ccFieldId = '';
         $keyDouble = '';
         foreach (\array_keys($fields) as $f) {
             if (0 == $f) {
-                $fieldId   = $fields[$f]->getVar('field_name');
+                $fieldId = $fields[$f]->getVar('field_name');
                 $ccFieldId = $this->getCamelCase($fieldId, false, true);
                 $keyDouble = $this->sc->getSmartyDoubleVar($tableSoleName, $fieldId);
             }
@@ -115,7 +115,7 @@ class PagesItem extends Files\CreateFile
                 if (1 == $fields[$f]->getVar('field_thead')) {
                     switch ($fieldElement) {
                         default:
-                            //case 2:
+                        //case 2:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
                             $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
@@ -134,8 +134,8 @@ class PagesItem extends Files\CreateFile
                 if (1 == $fields[$f]->getVar('field_tbody')) {
                     switch ($fieldElement) {
                         default:
-                            //case 3:
-                            //case 4:
+                        //case 3:
+                        //case 4:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
                             $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
@@ -156,7 +156,7 @@ class PagesItem extends Files\CreateFile
                             $singleVar   = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
                             $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $img         = $this->hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
-                            $retElem     .= $this->hc->getHtmlSpan($img, 'col-sm-3', "\t");
+                            $retElem     .= $this->hc->getHtmlSpan($img, 'col-sm-3',"\t");
                             unset($img);
                             break;
                     }
@@ -165,7 +165,7 @@ class PagesItem extends Files\CreateFile
         }
         $ret .= $this->hc->getHtmlDiv($retElem, 'panel-body');
 
-        $retFoot = '';
+        $retFoot   = '';
         foreach (\array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_tfoot')) {
@@ -174,33 +174,33 @@ class PagesItem extends Files\CreateFile
                     $langConst   = \mb_strtoupper($tableSoleName) . '_' . \mb_strtoupper($rpFieldName);
                     $lang        = $this->sc->getSmartyConst($language, $langConst);
                     $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                    $retFoot     .= $this->hc->getHtmlSpan($lang . ': ' . $doubleVar, 'block-pie justify', "\t");
+                    $retFoot     .= $this->hc->getHtmlSpan($lang . ': ' . $doubleVar, 'block-pie justify',"\t");
                 }
             }
         }
 
         $anchors  = '';
         $lang     = $this->sc->getSmartyConst($language, \mb_strtoupper($tableName) . '_LIST');
-        $contIf   = $this->hc->getHtmlAnchor($tableName . '.php?op=list&amp;start=<{$start}>&amp;limit=<{$limit}>#' . $ccFieldId . '_' . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
+        $contIf   =  $this->hc->getHtmlAnchor($tableName . '.php?op=list&amp;start=<{$start}>&amp;limit=<{$limit}>#' .$ccFieldId . '_' . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
         $lang     = $this->sc->getSmartyConst($language, 'DETAILS');
-        $contElse = $this->hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start}>&amp;limit=<{$limit}>', $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
-        $anchors  .= $this->sc->getSmartyConditions('showItem', '', '', $contIf, $contElse, '', '', "\t\t");
+        $contElse =  $this->hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start}>&amp;limit=<{$limit}>', $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
+        $anchors .= $this->sc->getSmartyConditions('showItem', '', '', $contIf, $contElse, '', '', "\t\t");
         $lang     = $this->sc->getSmartyConst('', '_EDIT');
-        $contIf   = $this->hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start}>&amp;limit=<{$limit}>', $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
+        $contIf   =  $this->hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start}>&amp;limit=<{$limit}>', $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
         $lang     = $this->sc->getSmartyConst('', '_CLONE');
-        $contIf   .= $this->hc->getHtmlAnchor($tableName . ".php?op=clone&amp;{$fieldId}_source=" . $keyDouble, $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
+        $contIf   .=  $this->hc->getHtmlAnchor($tableName . ".php?op=clone&amp;{$fieldId}_source=" . $keyDouble, $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
         $lang     = $this->sc->getSmartyConst('', '_DELETE');
-        $contIf   .= $this->hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-danger right', '', "\t\t\t", "\n");
+        $contIf   .=  $this->hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-danger right', '', "\t\t\t", "\n");
         $anchors  .= $this->sc->getSmartyConditions('permEdit', '', '', $contIf, false, '', '', "\t\t");
         if (1 == $tableBroken) {
-            $lang    = $this->sc->getSmartyConst($language, 'BROKEN');
-            $anchors .= $this->hc->getHtmlAnchor($tableName . ".php?op=broken&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start}>&amp;limit=<{$limit}>', $lang, $lang, '', 'btn btn-warning right', '', "\t\t", "\n");
+            $lang        = $this->sc->getSmartyConst($language, 'BROKEN');
+            $anchors .=  $this->hc->getHtmlAnchor($tableName . ".php?op=broken&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start}>&amp;limit=<{$limit}>', $lang, $lang, '', 'btn btn-warning right', '', "\t\t", "\n");
         }
-        $retFoot .= $this->hc->getHtmlDiv($anchors, 'col-sm-12 right', "\t", "\n");
-        $ret     .= $this->hc->getHtmlDiv($retFoot, 'panel-foot');
+        $retFoot     .= $this->hc->getHtmlDiv($anchors, 'col-sm-12 right',"\t");
+        $ret .= $this->hc->getHtmlDiv($retFoot, 'panel-foot');
         if ($tableRate) {
             $rate = $this->sc->getSmartyIncludeFile($moduleDirname, 'rate', false, false, "\t", "\n", 'item=$' . $tableSoleName);
-            $ret  .= $this->sc->getSmartyConditions('rating', '', '', $rate, false);
+            $ret .= $this->sc->getSmartyConditions('rating', '', '', $rate, false);
         }
 
         return $ret;
@@ -213,12 +213,12 @@ class PagesItem extends Files\CreateFile
      */
     public function render()
     {
-        $module          = $this->getModule();
-        $table           = $this->getTable();
-        $moduleDirname   = $module->getVar('mod_dirname');
-        $filename        = $this->getFileName();
-        $language        = $this->getLanguage($moduleDirname, 'MA', '', false);
-        $content         = '';
+        $module = $this->getModule();
+        $table  = $this->getTable();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $filename      = $this->getFileName();
+        $language      = $this->getLanguage($moduleDirname, 'MA', '', false);
+        $content       = '';
         $tableId         = $table->getVar('table_id');
         $tableMid        = $table->getVar('table_mid');
         $tableName       = $table->getVar('table_name');

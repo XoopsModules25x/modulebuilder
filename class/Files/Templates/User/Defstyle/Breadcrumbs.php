@@ -96,11 +96,11 @@ class Breadcrumbs extends Files\CreateFile
         $title      = $this->sc->getSmartyDoubleVar('itm', 'title');
         $titleElse  = $this->sc->getSmartyDoubleVar('itm', 'title', "\t\t\t", "\n");
         $link       = $this->sc->getSmartyDoubleVar('itm', 'link');
-        $glyph      = $this->hc->getHtmlTag('i', ['class' => 'glyphicon glyphicon-home'], '', false, '', '');
+        $glyph      = $this->hc->getHtmlTag('i', ['class' => 'glyphicon glyphicon-home fa fa-home'], '', false, '', '');
         $anchor     = $this->hc->getHtmlAnchor('<{xoAppUrl index.php}>', $glyph, 'home');
         $into       = $this->hc->getHtmlLi($anchor, 'breadcrumb-item', "\t");
         $anchorIf   = $this->hc->getHtmlAnchor($link, $title, $title, '', '', '', "\t\t\t", "\n");
-        $breadcrumb = $this->sc->getSmartyConditions('itm.link', '', '', $anchorIf, $titleElse, false, false, "\t\t", "\n");
+        $breadcrumb = $this->sc->getSmartyConditions('itm.link', '', '', $anchorIf, $titleElse, false, false, "\t\t");
         $foreach    = $this->hc->getHtmlLi($breadcrumb, 'breadcrumb-item', "\t", "\n", true);
         $into       .= $this->sc->getSmartyForeach('itm', 'xoBreadcrumbs', $foreach, 'bcloop', '', "\t");
 

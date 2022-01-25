@@ -14,7 +14,7 @@
     set_author_website_url: 'http://xoops.org'
     set_author_website_name: 'XOOPS Project'
     set_credits: 'XOOPS Development Team'
-    set_license: 'GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)'
+    set_license: 'GPL 2.0 or later'
     set_release_info: release_info
     set_release_file: 'release_info file'
     set_manual: 'link to manual file'
@@ -55,7 +55,7 @@
     set_author_website_url: 'https://xoops.org'
     set_author_website_name: 'XOOPS Project'
     set_credits: 'XOOPS Development Team'
-    set_license: 'GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)'
+    set_license: 'GPL 2.0 or later'
     set_release_info: release_info
     set_release_file: 'release_info file'
     set_manual: 'link to manual file'

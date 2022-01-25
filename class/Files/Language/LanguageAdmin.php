@@ -227,7 +227,7 @@ class LanguageAdmin extends Files\CreateFile
                 if (16 === (int)$fieldElement) {
                     $fieldStatus++;
                 }
-                if (20 === (int)$fieldElement || 20 === (int)$fieldElement) {
+                if (20 === (int)$fieldElement || 22 === (int)$fieldElement) {
                     $fieldSampleListValue++;
                 }
             }

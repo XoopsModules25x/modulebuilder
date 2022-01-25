@@ -6,9 +6,9 @@
     <table class="outer">
         <thead>
         <tr class="head">
-            <th width="80%"><{$smarty.const._AM_MODULEBUILDER_BUILDING_FILES}></th>
-            <th width="10%"><{$smarty.const._AM_MODULEBUILDER_BUILDING_SUCCESS}></th>
-            <th width="10%"><{$smarty.const._AM_MODULEBUILDER_BUILDING_FAILED}></th>
+            <th style="width:80%"><{$smarty.const._AM_MODULEBUILDER_BUILDING_FILES}></th>
+            <th style="width:10%"><{$smarty.const._AM_MODULEBUILDER_BUILDING_SUCCESS}></th>
+            <th style="width:10%"><{$smarty.const._AM_MODULEBUILDER_BUILDING_FAILED}></th>
         </tr>
         </thead>
         <tbody>

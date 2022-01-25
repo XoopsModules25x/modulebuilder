@@ -22,7 +22,7 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org
+ * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
  */
 
@@ -85,7 +85,7 @@ class Categories extends Files\CreateFile
      */
     private function getTemplatesUserCategoriesHeader($moduleDirname)
     {
-        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header') . PHP_EOL;
+        return $this->sc->getSmartyIncludeFile($moduleDirname) . PHP_EOL;
     }
 
     /**
@@ -182,14 +182,14 @@ class Categories extends Files\CreateFile
     private function getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $stuTableName = \mb_strtoupper($tableName);
-        $incl         = $this->sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName) . PHP_EOL;
-        $html         = $this->hc->getHtmlEmpty('<br>') . PHP_EOL;
-        $incl         .= $this->sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$numb_col', $html, false, false, false, '', "\n", true, false) . PHP_EOL;
-        $const        = $this->sc->getSmartyConst($language, $stuTableName . '_TITLE');
-        $div          = $this->hc->getHtmlDiv($const, 'panel-heading') . PHP_EOL;
-        $cont         = $this->hc->getHtmlDiv($incl, 'panel panel-body') . PHP_EOL;
-        $div          .= $this->sc->getSmartyForeach($tableSoleName, $tableName, $cont) . PHP_EOL;
-        $panelType    = $this->sc->getSmartySingleVar('panel_type');
+        $incl      = $this->sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName) . PHP_EOL;
+        $html      = $this->hc->getHtmlEmpty('<br>') . PHP_EOL;
+        $incl      .= $this->sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$numb_col', $html, false, false, false, '',"\n", true, false) . PHP_EOL;
+        $const     = $this->sc->getSmartyConst($language, $stuTableName . '_TITLE');
+        $div       = $this->hc->getHtmlDiv($const, 'panel-heading') . PHP_EOL;
+        $cont      = $this->hc->getHtmlDiv($incl, 'panel panel-body') . PHP_EOL;
+        $div       .= $this->sc->getSmartyForeach($tableSoleName, $tableName, $cont) . PHP_EOL;
+        $panelType = $this->sc->getSmartySingleVar('panel_type');
 
         return $this->hc->getHtmlDiv($div, 'panel panel-' . $panelType) . PHP_EOL;
     }
@@ -211,16 +211,16 @@ class Categories extends Files\CreateFile
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $table         = $this->getTable();
-        $filename      = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tableName     = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
-        $language      = $this->getLanguage($moduleDirname, 'MA', '', false);
-        $content       = $this->getTemplatesUserCategoriesHeader($moduleDirname);
-        $content       .= $this->getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSoleName, $language);
-        $content       .= $this->getTemplatesUserCategoriesFooter($moduleDirname);
+        $module         = $this->getModule();
+        $table          = $this->getTable();
+        $filename       = $this->getFileName();
+        $moduleDirname  = $module->getVar('mod_dirname');
+        $tableName      = $table->getVar('table_name');
+        $tableSoleName  = $table->getVar('table_solename');
+        $language       = $this->getLanguage($moduleDirname, 'MA', '', false);
+        $content        = $this->getTemplatesUserCategoriesHeader($moduleDirname);
+        $content        .= $this->getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSoleName, $language);
+        $content        .= $this->getTemplatesUserCategoriesFooter($moduleDirname);
 
         $this->create($moduleDirname, 'templates', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 

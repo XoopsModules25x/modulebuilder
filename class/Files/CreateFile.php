@@ -208,7 +208,7 @@ class CreateFile extends CreateTableFields
     private function setContent($content): void
     {
         //replace tabs by 4 spaces
-        $this->content = preg_replace('/\t/', $this->tab, $content);
+        $this->content = \preg_replace('/\t/', $this->tab, $content);
     }
 
     /**
@@ -232,10 +232,10 @@ class CreateFile extends CreateTableFields
         if (\mb_strrpos($path, '\\')) {
             $str = \mb_strrpos($path, '\\');
             if (false !== $str) {
-                return mb_substr($path, $str + 1, mb_strlen($path));
+                return \mb_substr($path, $str + 1, mb_strlen($path));
             }
 
-            return mb_substr($path, $str, mb_strlen($path));
+            return \mb_substr($path, $str, mb_strlen($path));
         }
         //return 'root module';
         return false;
@@ -329,7 +329,7 @@ class CreateFile extends CreateTableFields
      */
     public function getLeftString($string)
     {
-        return mb_substr($string, 0, mb_strpos($string, '_'));
+        return \mb_substr($string, 0, mb_strpos($string, '_'));
     }
 
     /**
@@ -504,14 +504,21 @@ class CreateFile extends CreateTableFields
         $copyright = [
             $name           => 'module for xoops',
             ''              => '',
-            '@copyright  '  => '   2021 XOOPS Project (https://xoops.org)',
-            '@license   '   => "    {$license}",
-            '@package   '   => "    {$dirname}",
-            '@since    '    => "     {$since}",
-            '@min_xoops   ' => "  {$minXoops}",
-            '@author    '   => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
-            //            '@version    '  => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$",
+            '@copyright   '  => '2021 XOOPS Project (https://xoops.org)',
+            '@license     '   => $license,
+            '@package     '   => $dirname,
+            '@since       '    => $since,
+            '@min_xoops   ' => $minXoops,
         ];
+        $authorLine = $author;
+        if ('' !== $authorMail) {
+            $authorLine .= ' - Email:' . $authorMail;
+        }
+        if ('' !== $authorWebsiteUrl) {
+            $authorLine .= ' - Website:' . $authorWebsiteUrl;
+        }
+        $copyright['@author      '] = $authorLine;
+
         $ret       .= $pc->getPhpCodeCommentMultiLine($copyright);
 
         return $ret;

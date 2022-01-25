@@ -102,7 +102,8 @@ function presetField(typeId) {
     vselected = eleSelected.value;
     defaultType = xoopsGetElementById('fe_defaulttype[' + vselected +  ']').value;
     defaultValue = xoopsGetElementById('fe_defaultvalue[' + vselected +  ']').value;
-    eleType = xoopsGetElementById('field_type[' + typeId + ']').value = defaultType;
-    eleValue = xoopsGetElementById('field_value[' + typeId + ']').value = defaultValue;
-
+    defaultField = xoopsGetElementById('fe_defaultfield[' + vselected +  ']').value;
+    xoopsGetElementById('field_type[' + typeId + ']').value = defaultType;
+    xoopsGetElementById('field_value[' + typeId + ']').value = defaultValue;
+    xoopsGetElementById('field_default[' + typeId + ']').value = defaultField;
 }

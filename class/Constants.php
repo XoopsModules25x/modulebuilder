@@ -15,7 +15,7 @@ namespace XoopsModules\Modulebuilder;
 /**
  * Modulebuilder module for xoops
  *
- * @copyright      2020 XOOPS Project (https://xoops.org)
+ * @copyright     2020 XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @since          1.0
  * @min_xoops      2.5.11
@@ -27,10 +27,12 @@ namespace XoopsModules\Modulebuilder;
  */
 interface Constants
 {
-    // Constants for morefiles
-    public const MORE_FILES_TYPE_EMPTY    = 1;
-    public const MORE_FILES_TYPE_COPY     = 2;
-    public const FIRST_FIELDELEMENT_TABLE = 30;
+	// Constants for morefiles
+	public const MORE_FILES_TYPE_EMPTY = 1;
+	public const MORE_FILES_TYPE_COPY = 2;
+
+	public const FIRST_FIELDELEMENT_TABLE = 31;
+
     // ------------------- Field elements ---------------------------------
     // --------- The values MUST BE IDENTICAL to fieldelement_id ----------
     public const FIELD_ELE_TEXT           = 2;
@@ -60,4 +62,7 @@ interface Constants
     public const FIELD_ELE_TEXTRATINGS    = 26;
     public const FIELD_ELE_TEXTVOTES      = 27;
     public const FIELD_ELE_TEXTREADS      = 28;
+    public const FIELD_ELE_TEXTINTEGER    = 29;
+    public const FIELD_ELE_TEXTFLOAT      = 30;
+
 }

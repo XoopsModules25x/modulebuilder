@@ -29,7 +29,6 @@ use XoopsModules\Modulebuilder\Common;
 function xoops_module_pre_install_modulebuilder(\XoopsModule $module)
 {
     require \dirname(__DIR__) . '/preloads/autoloader.php';
-    /** @var Modulebuilder\Utility $utility */
     $utility = new Modulebuilder\Utility();
 
     //check for minimum XOOPS version

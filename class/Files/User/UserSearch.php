@@ -112,10 +112,10 @@ class UserSearch extends Files\CreateFile
         }
         if (1 == $table->getVar('table_category')) {
             $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
-            $ret        .= $this->xc->getXcXoopsRequest($ccFieldPid, (string)$fieldPid, '0', 'Int');
+            $ret        .= $this->xc->getXcXoopsRequest($ccFieldPid, (string)$fieldPid, '', 'Int');
         }
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret       .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
+        $ret       .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '', 'Int');
         $ret       .= $this->uxc->getUserTplMain($moduleDirname);
         $ret       .= $this->phpcode->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'header', true);
         $ret       .= $this->getDashComment('Define Stylesheet');
@@ -126,12 +126,9 @@ class UserSearch extends Files\CreateFile
 
     /**
      * @public function getAdminPagesList
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $language
      * @return string
      */
-    public function getUserSearch($moduleDirname, $tableName, $language)
+    public function getUserSearch()
     {
         $ret = <<<'EOT'
 
@@ -187,7 +184,7 @@ EOT;
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserSearchHeader($moduleDirname, $table, $fields);
-        $content       .= $this->getUserSearch($moduleDirname, $tableName, $language);
+        $content       .= $this->getUserSearch();
         $content       .= $this->getUserSearchFooter($moduleDirname, $tableName, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);

@@ -184,7 +184,8 @@ class Fields extends \XoopsObject
         $fieldElements = $helper->getHandler('Fieldelements')->getAll();
         foreach ($fieldElements as $fe) {
             $form->addElement(new \XoopsFormHidden('fe_defaulttype[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_deftype')));
-            $form->addElement(new \XoopsFormHidden('fe_defaultvalue[' . $fe->getVar('fieldelement_id') . ']', "'" . $fe->getVar('fieldelement_defvalue') . "'"));
+            $form->addElement(new \XoopsFormHidden('fe_defaultvalue[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_defvalue')));
+            $form->addElement(new \XoopsFormHidden('fe_defaultfield[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_deffield')));
         }
         $form->addElement(new \XoopsFormHidden('field_id[' . $i . ']', 0));
         $form->addElement(new \XoopsFormHidden('field_mid', $fieldMid));
@@ -229,7 +230,8 @@ class Fields extends \XoopsObject
         $fieldAttributesSelect->addOptionArray($helper->getHandler('Fieldattributes')->getList());
         $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldAttributesSelect->render() . '</td>'));
         // Field Null
-        $value           = (1 == $i) && (1 == $tableAutoincrement) ? '2' : '2';
+        //$value           = (1 == $i) && (1 == $tableAutoincrement) ? '2' : '2';
+        $value = '2';
         $fieldNullSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_FIELD_NULL, 'field_null[' . $i . ']', $value);
         $fieldNullSelect->addOptionArray($helper->getHandler('Fieldnull')->getList());
         $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldNullSelect->render() . '</td>'));
@@ -361,6 +363,7 @@ class Fields extends \XoopsObject
         foreach ($fieldElements as $fe) {
             $form->addElement(new \XoopsFormHidden('fe_defaulttype[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_deftype')));
             $form->addElement(new \XoopsFormHidden('fe_defaultvalue[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_defvalue')));
+            $form->addElement(new \XoopsFormHidden('fe_defaultfield[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_deffield')));
         }
         $id = 1;
         foreach ($fields as $field) {
