@@ -365,7 +365,7 @@ class ClassFiles extends Files\CreateFile
         $contIf .= $this->cxc->getClassXoopsFormCheckBox('groupsCanSubmitCheckbox', $permissionSubmit, "groups_submit_{$tableName}[]", '$fullList', false, "\t\t\t");
         $contIf .= $this->cxc->getClassXoopsFormCheckBox('groupsCanViewCheckbox', $permissionView, "groups_view_{$tableName}[]", '$fullList', false, "\t\t\t");
 
-        $ret .= $this->pc->getPhpCodeConditions('$this->isNew()', null, null, $contIf, $contElse, "\t\t");
+        $ret .= $this->pc->getPhpCodeConditions('$this->isNew()', '', '', $contIf, $contElse, "\t\t");
         $ret .= $this->pc->getPhpCodeCommentLine('To Approve', '', "\t\t");
         $ret .= $this->cxc->getClassAddOptionArray('groupsCanApproveCheckbox', '$groupList');
         $ret .= $this->cxc->getClassAddElement('form', '$groupsCanApproveCheckbox');

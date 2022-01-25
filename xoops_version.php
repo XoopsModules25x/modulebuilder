@@ -65,8 +65,8 @@ $modversion['forum_site_url']      = 'https://xoops.org/modules/newbb/viewtopic.
 $modversion['forum_site_name']     = 'ModuleBuilder 3.03 for Testing';
 $modversion['module_website_name'] = 'Xoops TDM';
 // Admin things
-$modversion['system_menu'] = 1;
-$modversion['hasAdmin']    = 1;
+$modversion['system_menu'] = '1';
+$modversion['hasAdmin']    = '1';
 $modversion['adminindex']  = 'admin/index.php';
 $modversion['adminmenu']   = 'admin/menu.php';
 // Templates admin

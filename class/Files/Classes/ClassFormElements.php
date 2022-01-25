@@ -334,7 +334,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $contIf          .= $this->cxc->getClassAddElement('fileTray', $labelInfo1, $t . "\t");
         $formHidden      = $this->cxc->getClassXoopsFormHidden('', $fieldName, $ccFieldName, true, true, $t, true);
         $contElse        = $this->cxc->getClassAddElement('fileTray', $formHidden, $t . "\t");
-        $ret             .= $this->pc->getPhpCodeConditions('$permissionUpload', null, null, $contIf, $contElse, "\t\t");
+        $ret             .= $this->pc->getPhpCodeConditions('$permissionUpload', '', '', $contIf, $contElse, "\t\t");
         $ret             .= $this->cxc->getClassAddElement('form', "\$fileTray{$required}", $t);
 
         return $ret;
@@ -420,7 +420,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $contIf          .= $this->cxc->getClassAddElement('imageTray', $labelInfo3, $t . "\t");
         $formHidden      = $this->cxc->getClassXoopsFormHidden('', $fieldName, $ccFieldName, true, true, $t, true);
         $contElse        = $this->cxc->getClassAddElement('imageTray', $formHidden, $t . "\t");
-        $ret             .= $this->pc->getPhpCodeConditions('$permissionUpload', null, null, $contIf, $contElse, "\t\t");
+        $ret             .= $this->pc->getPhpCodeConditions('$permissionUpload', '', '', $contIf, $contElse, "\t\t");
         $ret             .= $this->cxc->getClassAddElement('form', "\$imageTray{$required}", $t);
 
         return $ret;
@@ -450,7 +450,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $sprintf        = $this->pc->getPhpCodeSprintf($language . '_UPLOADS', '".{$fileDirectory}/"');
         $xoopsFormLabel = $this->cxc->getClassXoopsFormLabel('', $sprintf, $ccFieldName, true, "\t\t", true);
         $condIf         = $this->cxc->getClassAddElement('fileUploadTray', $xoopsFormLabel, $t . "\t");
-        $uForm          .= $this->pc->getPhpCodeConditions('!$this->isNew()', null, null, $condIf, false, "\t\t\t");
+        $uForm          .= $this->pc->getPhpCodeConditions('!$this->isNew()', '', '', $condIf, false, "\t\t\t");
         $getConfig      = $this->xc->getXcGetConfig('maxsize_file');
         $uForm          .= $this->xc->getXcEqualsOperator('$maxsize', $getConfig,'', "\t\t\t");
         $xoopsFormFile  = $this->cxc->getClassXoopsFormFile('', "''", $fieldName, '$maxsize', true, '');
@@ -462,7 +462,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $formHidden     = $this->cxc->getClassXoopsFormHidden('', $fieldName, $ccFieldName, true, true, "\t\t", true);
         $contElse       = $this->cxc->getClassAddElement('form', $formHidden, $t);
 
-        $ret           .= $this->pc->getPhpCodeConditions('$permissionUpload', null, null, $uForm, $contElse, "\t\t");
+        $ret           .= $this->pc->getPhpCodeConditions('$permissionUpload', '', '', $uForm, $contElse, "\t\t");
 
         return $ret;
     }
@@ -808,7 +808,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $contIf            .= $this->cxc->getClassXoopsMakeSelBox($ccFieldPid, $stlTopicTableName . 'Tree', $fieldPid, $fieldMain, '--', $fieldPid, $t . "\t");
         $formLabel         = $this->cxc->getClassXoopsFormLabel('', $language, "\${$ccFieldPid}", true, '');
         $contIf            .= $this->cxc->getClassAddElement('form', $formLabel, $t . "\t");
-        $ret               .= $this->pc->getPhpCodeConditions("\${$stlTopicTableName}Count", null, null, $contIf, false, $t);
+        $ret               .= $this->pc->getPhpCodeConditions("\${$stlTopicTableName}Count", '', '', $contIf, false, $t);
         $ret               .= $this->pc->getPhpCodeUnset('cr' . $ucfTopicTableName, $t);
 
         return $ret;

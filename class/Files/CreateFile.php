@@ -329,7 +329,7 @@ class CreateFile extends CreateTableFields
      */
     public function getLeftString($string)
     {
-        return \mb_substr($string, 0, mb_strpos($string, '_'));
+        return \mb_substr($string, 0, (int)\mb_strpos($string, '_'));
     }
 
     /**

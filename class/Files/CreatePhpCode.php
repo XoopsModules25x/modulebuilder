@@ -352,7 +352,7 @@ class CreatePhpCode
      * @param string $conditionElse
      * @return string
      */
-    public function getPhpCodeConditions($condition = null, $operator = null, $type = null, $contentIf = null, $contentElse = false, $t = '', $conditionElse = '')
+    public function getPhpCodeConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $t = '', $conditionElse = '')
     {
         if ('==' === \trim($operator) || '===' === \trim($operator) || '!=' === \trim($operator) || '!==' === \trim($operator)) {
             //yoda conditions

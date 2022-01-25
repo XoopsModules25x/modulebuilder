@@ -175,12 +175,12 @@ class UserXoopsCode
     /**
      * @public function getUserModVersionArray
      *
-     * @param int    $eleArray
-     * @param        $descriptions
-     * @param null   $name
-     * @param null   $index
-     * @param bool   $num
-     * @param string $t
+     * @param int          $eleArray
+     * @param string|array $descriptions
+     * @param null         $name
+     * @param null         $index
+     * @param bool         $num
+     * @param string       $t
      *
      * @return string
      */
@@ -212,11 +212,11 @@ class UserXoopsCode
         //search for longest key
         $len = 0;
         foreach ($descs as $key => $desc) {
-            $len = \mb_strlen($key) > $len ? \mb_strlen($key) : $len;
+            $len = \mb_strlen((string)$key) > $len ? \mb_strlen((string)$key) : $len;
         }
 
         foreach ($descs as $key => $desc) {
-            $space = str_repeat(' ', $len - \mb_strlen($key));
+            $space = str_repeat(' ', $len - \mb_strlen((string)$key));
             if ($eleArray < 4) {
                 $ret .= $t . "\t'{$key}'{$space} => {$desc},{$n}";
             } elseif (11 === $eleArray) {

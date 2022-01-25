@@ -116,12 +116,12 @@ class BlocksFiles extends Files\CreateFile
         $contIf  .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t");
         $crit    = $this->xc->getXcCriteria('', "'{$fieldId}'", "{$moduleDirname}_block_addCatSelect(\$options)", "'IN'", true);
         $contIf2 = $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t");
-        $contIf  .= $this->pc->getPhpCodeConditions('1 != (\count(\$options) && 0 == \$options[0])', null, null, $contIf2, false, "\t");
+        $contIf  .= $this->pc->getPhpCodeConditions('1 != (\count(\$options) && 0 == \$options[0])', '', '', $contIf2, false, "\t");
         $crit    = $this->xc->getXcCriteria('', "'{$fieldId}'", '0', "'!='", true);
         $contIf2 = $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t");
         $contIf2 .= $this->xc->getXcCriteriaSetSort($critName, "'{$fieldId}'", "\t\t");
         $contIf2 .= $this->xc->getXcCriteriaSetOrder($critName, "'ASC'", "\t\t");
-        $contIf  .= $this->pc->getPhpCodeConditions('$typeBlock', null, null, $contIf2, false, "\t");
+        $contIf  .= $this->pc->getPhpCodeConditions('$typeBlock', '', '', $contIf2, false, "\t");
 
         //content else: parent
         //search for SelectStatus field
