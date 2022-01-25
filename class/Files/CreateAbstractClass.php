@@ -150,7 +150,7 @@ abstract class CreateAbstractClass
      *
      * @abstract
      */
-    public function render(): void
+    public function render()
     {
     }
 }
