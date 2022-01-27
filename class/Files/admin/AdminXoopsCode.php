@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Admin;
 
@@ -23,7 +23,6 @@ use XoopsModules\Modulebuilder;
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -35,7 +34,6 @@ class AdminXoopsCode
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
@@ -95,10 +93,10 @@ class AdminXoopsCode
         $stuType = \mb_strtoupper($type);
         $aM      = $t . '$adminObject->addItemButton(';
         switch ($type) {
-            case 'add';
+            case 'add':
                 $ret = $aM . "{$language}ADD_{$stuTableSoleName}, '{$tableName}.php{$op}');\n";
             break;
-            case 'samplebutton';
+            case 'samplebutton':
                 $ret = $aM . "{$language}, '{$op}', 'add');\n";
                 break;
             case 'default':
@@ -242,7 +240,7 @@ class AdminXoopsCode
         $post         = $this->pc->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
         $fetchMedia   = $this->getAxcFetchMedia('uploader', $post);
         $expr         = '/^.+\.([^.]+)$/sU';
-        $ifelse       = $this->pc->getPhpCodePregFunzions('extension', $expr, '', "\$filename", 'replace', false, $t . "\t");
+        $ifelse           = $this->pc->getPhpCodePregFunzions('extension', $expr, '', '$filename', 'replace', false, $t . "\t");
         $ifelse       .= $t . "\t\$imgName = \str_replace(' ', '', \$imgNameDef) . '.' . \$extension;\n";
         $ifelse       .= $this->getAxcSetPrefix('uploader', '$imgName', $t . "\t") . ";\n";
         $ifelse       .= $t . "\t{$fetchMedia};\n";
@@ -264,7 +262,7 @@ class AdminXoopsCode
         $contElseInt  = $this->xc->getXcEqualsOperator('$uploaderErrors', "'<br>' . \$uploader->getErrors()", '.', $t . "\t\t");
         $ifelse       .= $this->pc->getPhpCodeConditions('$uploader->upload()', '', '', $contIf, $contElseInt, $t . "\t");
         $ifelseExt    = $this->xc->getXcEqualsOperator('$uploaderErrors', "'<br>' . \$uploader->getErrors()", '.', $t . "\t\t");
-        $contElseExt  = $this->pc->getPhpCodeConditions("\$filename", ' > ', "''", $ifelseExt, false, $t . "\t");
+        $contElseExt      = $this->pc->getPhpCodeConditions('$filename', ' > ', "''", $ifelseExt, false, $t . "\t");
         $contElseExt  .= $this->xc->getXcSetVarObj($tableName, $fieldName, "Request::getString('{$fieldName}')", $t . "\t");
 
         $ret          .= $this->pc->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contElseExt, $t);
@@ -321,7 +319,7 @@ class AdminXoopsCode
         $post        = $this->pc->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
         $fetchMedia  = $this->getAxcFetchMedia('uploader', $post);
         $expr        = '/^.+\.([^.]+)$/sU';
-        $ifelse      = $this->pc->getPhpCodePregFunzions('extension', $expr, '', "\$filename", 'replace', false, $t . "\t");
+        $ifelse      = $this->pc->getPhpCodePregFunzions('extension', $expr, '', '$filename', 'replace', false, $t . "\t");
         $ifelse      .= $t . "\t\$imgName = \str_replace(' ', '', \$imgNameDef) . '.' . \$extension;\n";
         $ifelse      .= $this->getAxcSetPrefix('uploader', '$imgName', $t . "\t") . ";\n";
         $ifelse      .= $t . "\t{$fetchMedia};\n";
@@ -329,7 +327,7 @@ class AdminXoopsCode
         $contElseInt = $this->xc->getXcEqualsOperator('$uploaderErrors', "'<br>' . \$uploader->getErrors()", '.', $t . "\t\t");
         $ifelse      .= $this->pc->getPhpCodeConditions('$uploader->upload()', '', '', $contIf, $contElseInt, $t . "\t");
         $ifelseExt   = $this->xc->getXcEqualsOperator('$uploaderErrors', "'<br>' . \$uploader->getErrors()", '.', $t . "\t\t");
-        $contElseExt = $this->pc->getPhpCodeConditions("\$filename", ' > ', "''", $ifelseExt, false, $t . "\t");
+        $contElseExt = $this->pc->getPhpCodeConditions('$filename', ' > ', "''", $ifelseExt, false, $t . "\t");
         $contElseExt .= $this->xc->getXcSetVarObj($tableName, $fieldName, "Request::getString('{$fieldName}')", $t . "\t");
 
         $ret         .= $this->pc->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contElseExt, $t);
@@ -354,7 +352,6 @@ class AdminXoopsCode
 
         return $ret;
     }
-
 
     /**
      * @public function getAxcSetVarMisc

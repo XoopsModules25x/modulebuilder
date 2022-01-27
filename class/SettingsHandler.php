@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -21,7 +21,6 @@ namespace XoopsModules\Modulebuilder;
  * @since           2.5.7
  *
  * @author          TDM TEAM DEV MODULE
- *
  */
 
 /**

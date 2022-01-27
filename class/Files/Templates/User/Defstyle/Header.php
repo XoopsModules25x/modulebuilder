@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
@@ -24,7 +24,6 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -36,12 +35,10 @@ class Header extends Files\CreateFile
      * @var mixed
      */
     private $cf = null;
-
     /**
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -79,7 +76,7 @@ class Header extends Files\CreateFile
      * @param        $module
      * @param string $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);

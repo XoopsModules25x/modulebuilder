@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\User;
 
@@ -27,7 +27,6 @@ use XoopsModules\Modulebuilder\{
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -39,12 +38,10 @@ class UserPages extends Files\CreateFile
      * @var mixed
      */
     private $uxc = null;
-
     /**
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
@@ -146,9 +143,9 @@ class UserPages extends Files\CreateFile
         $ret       .= $this->pc->getPhpCodeCommentLine('Permissions');
         if (1 == $tablePermissions) {
             $ret .= $this->xc->getXcEqualsOperator('$permEdit', '$permissionsHandler->getPermGlobalSubmit()');
-            $ret .= $this->xc->getXcXoopsTplAssign("permEdit", '$permEdit');
+            $ret .= $this->xc->getXcXoopsTplAssign('permEdit', '$permEdit');
         }
-        $ret       .= $this->xc->getXcXoopsTplAssign("showItem", "\${$ccFieldId} > 0");
+        $ret .= $this->xc->getXcXoopsTplAssign('showItem', "\${$ccFieldId} > 0");
         $ret       .= $this->pc->getPhpCodeBlankLine();
 
         return $ret;
@@ -226,24 +223,21 @@ class UserPages extends Files\CreateFile
         $condIf    .= $this->xc->getXcXoopsTplAssign('numb_col', $numbCol, true, $t . "\t");
         $stripTags      = $this->pc->getPhpCodeStripTags('', "\${$ccFieldMain} . ' - ' . " . "\$GLOBALS['xoopsModule']->getVar('name')", true);
         $condIf2         = $this->xc->getXcXoopsTplAssign('xoops_pagetitle', $stripTags, true, $t . "\t\t");
-        $condIf       .= $this->pc->getPhpCodeConditions("'show' == \$op && '' != \${$ccFieldMain}", '', "", $condIf2, false, $t . "\t");
+        $condIf    .= $this->pc->getPhpCodeConditions("'show' == \$op && '' != \${$ccFieldMain}", '', '', $condIf2, false, $t . "\t");
 
         if ('' !== $fieldReads) {
             $condIf3 = $this->xc->getXcHandlerGetObj($tableName, $ccFieldId, $t . "\t\t");
 
-
             $getVar = $this->xc->getXcGetVar('', "{$tableName}Obj", $fieldReads, true);
-            $condIf3 .= $this->xc->getXcEqualsOperator("\${$ccFieldReads}", "(int)" . $getVar . ' + 1', false, $t . "\t\t");
+            $condIf3 .= $this->xc->getXcEqualsOperator("\${$ccFieldReads}", '(int)' . $getVar . ' + 1', false, $t . "\t\t");
             $condIf3 .= $this->xc->getXcSetVarObj($tableName, $fieldReads, "\${$ccFieldReads}", $t . "\t\t");
             $condIf3 .= $this->pc->getPhpCodeCommentLine('Insert Data', null, $t . "\t\t");
             $insert = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
             $condIf3 .= $this->getSimpleString($insert .';',$t . "\t\t");
             //$contentInsert = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&{$fieldId}=' . \${$ccFieldId}", '', '5', "\${$tableName}Obj->getHtmlErrors()", false, $t . "\t\t\t");
             //$condIf3 .= $this->pc->getPhpCodeConditions('!' . $insert, '', '', $contentInsert, false, $t . "\t\t");
-            $condIf .= $this->pc->getPhpCodeConditions("'show' == \$op", '', "", $condIf3, false, $t . "\t");
-
+            $condIf .= $this->pc->getPhpCodeConditions("'show' == \$op", '', '', $condIf3, false, $t . "\t");
         }
-
 
         $ret       .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf, false, $t);
 
@@ -391,7 +385,7 @@ class UserPages extends Files\CreateFile
         $ret     .= $this->xc->getXcDeleteRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$mid', "\$new{$ucfFieldId}", false, "\t\t\t");
         $content = $this->xc->getXcAddRight('grouppermHandler', "{$moduleDirname}_{$perm}", "\$new{$ucfFieldId}", '$onegroupId', '$mid', false, "\t\t\t\t\t");
         $foreach = $this->pc->getPhpCodeForeach("_POST['groups_{$perm}']", false, false, 'onegroupId', $content, "\t\t\t\t");
-        $ret     .= $this->pc->getPhpCodeConditions("isset(\$_POST['groups_{$perm}'])", null, null, $foreach, false, "\t\t\t");
+        $ret     .= $this->pc->getPhpCodeConditions("isset(\$_POST['groups_{$perm}'])", '', '', $foreach, false, "\t\t\t");
 
         return $ret;
     }
@@ -464,7 +458,7 @@ class UserPages extends Files\CreateFile
             $contIf    = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '\_NOPERM', true, $t . "\t");
             $ret       .= $this->pc->getPhpCodeConditions('!$permissionsHandler->getPermGlobalSubmit()', '', '', $contIf, false, $t);
         }
-        $ret    .= $this->pc->getPhpCodeCommentLine("Request source", '', $t);
+        $ret    .= $this->pc->getPhpCodeCommentLine('Request source', '', $t);
         $ret    .= $this->xc->getXcXoopsRequest($ccFieldId . 'Source', $fieldId . '_source', '', 'Int', false, $t);
         $ret    .= $this->pc->getPhpCodeCommentLine('Check params', '', $t);
         $contIf = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, "{$language}INVALID_PARAM", true, $t . "\t");

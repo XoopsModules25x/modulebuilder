@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -14,8 +14,7 @@ namespace XoopsModules\Modulebuilder;
 
 /**
  * @copyright    XOOPS Project https://xoops.org/
- * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @package
+ * @license      GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @since
  * @author       XOOPS Development Team
  */
@@ -70,7 +69,7 @@ class Helper extends \Xmf\Module\Helper
      */
     public function getHandler($name)
     {
-        $class =  __NAMESPACE__ . '\\' . \ucfirst($name) . 'Handler';
+        $class = __NAMESPACE__ . '\\' . \ucfirst($name) . 'Handler';
         if (!\class_exists($class)) {
             throw new \RuntimeException("Class '$class' not found");
         }

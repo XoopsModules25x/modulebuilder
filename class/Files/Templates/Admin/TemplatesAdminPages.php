@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Templates\Admin;
 
@@ -27,7 +27,6 @@ use XoopsModules\Modulebuilder\{
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -39,7 +38,6 @@ class TemplatesAdminPages extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -77,7 +75,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);

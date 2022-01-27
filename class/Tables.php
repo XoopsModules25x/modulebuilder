@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -22,8 +22,7 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops <webmaster@txmodxoops.org> - <https://xoops.org/>
- *
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <https://xoops.org>
  */
 
 /**
@@ -103,7 +102,7 @@ class Tables extends \XoopsObject
      */
     public function __call($method, $args)
     {
-        $arg = isset($args[0]) ? $args[0] : null;
+        $arg = $args[0] ?? null;
 
         return $this->getVar($method, $arg);
     }
@@ -194,7 +193,7 @@ class Tables extends \XoopsObject
         }
         $imageSelect1->setExtra("onchange='showImgSelected(\"image1\", \"table_image\", \"" . $iconsDirectory . '", "", "' . \XOOPS_URL . "\")'");
         $imgtray1->addElement($imageSelect1, false);
-        $imgtray1->addElement(new \XoopsFormLabel('', "<br><img src='" . \XOOPS_URL . '/' . $iconsDirectory . '/' . $tableImage . "' id='image1' alt='' />"));
+        $imgtray1->addElement(new \XoopsFormLabel('', "<br><img src='" . \XOOPS_URL . '/' . $iconsDirectory . '/' . $tableImage . "' id='image1' alt=''>"));
         $fileseltray1 = new \XoopsFormElementTray('', '<br>');
         $fileseltray1->addElement(new \XoopsFormFile(\_AM_MODULEBUILDER_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize_image')));
         $fileseltray1->addElement(new \XoopsFormLabel(''));

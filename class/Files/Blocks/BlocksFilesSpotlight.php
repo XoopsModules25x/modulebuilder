@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Blocks;
 
@@ -132,7 +132,7 @@ class BlocksFilesSpotlight extends Files\CreateFile
         $crit   = $this->xc->getXcCriteria('', "'{$fieldId}'", "'(' . \implode(',', \$options) . ')'", "'IN'", true);
         $contIf = $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t");
         $contIf .= $this->xc->getXcEqualsOperator('$limit', '0', '',"\t\t");
-        $func   .= $this->pc->getPhpCodeConditions('\count($options) > 0 && (int)$options[0] > 0', null, '', $contIf, false, "\t");
+        $func   .= $this->pc->getPhpCodeConditions('\count($options) > 0 && (int)$options[0] > 0', '', '', $contIf, false, "\t");
         $func   .= $this->pc->getPhpCodeBlankLine();
 
         $func   .= $this->xc->getXcCriteriaSetSort($critName, "'{$fieldId}'","\t");

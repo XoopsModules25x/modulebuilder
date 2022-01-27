@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files;
 
@@ -21,9 +21,8 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 //require \dirname(__DIR__) . '/autoload.php';
@@ -84,7 +83,7 @@ class CreateArchitecture extends CreateStructure
      *
      * @param $module
      */
-    public function setBaseFoldersFiles($module)
+    public function setBaseFoldersFiles($module): void
     {
         // Module
         $modId = $module->getVar('mod_id');
@@ -428,7 +427,7 @@ class CreateArchitecture extends CreateStructure
                 $src_file = TDMC_UPLOAD_FILES_PATH . '/' . $files[$t]->getVar('file_upload');
                 $dst_file = TDMC_UPLOAD_REPOSITORY_PATH . '/' . \mb_strtolower($moduleDirname) . '/';
                 if ('' !== $fileInfolder) {
-                    if ('/' !== \substr($fileInfolder, -1)) {
+                    if ('/' !== \mb_substr($fileInfolder, -1)) {
                         $fileInfolder .= '/';
                     }
                     $dst_file .= $fileInfolder;
@@ -788,7 +787,7 @@ class CreateArchitecture extends CreateStructure
      *
      * @param $module
      */
-    public function setCommonFiles($module)
+    public function setCommonFiles($module): void
     {
         $moduleName = $module->getVar('mod_dirname');
         $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . \mb_strtolower($moduleName);
@@ -864,7 +863,7 @@ class CreateArchitecture extends CreateStructure
      *
      * @param $moduleName
      */
-    private function CopyRatingFiles($moduleName)
+    private function CopyRatingFiles($moduleName): void
     {
         $upl_path = TDMC_UPLOAD_REPOSITORY_PATH . '/' . \mb_strtolower($moduleName);
 

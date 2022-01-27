@@ -1,10 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Language;
 
-use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\{Files,
-    Constants
+use XoopsModules\Modulebuilder\{
+    Files,
+    Constants,
+    Helper
 };
 
 /*
@@ -24,9 +25,8 @@ use XoopsModules\Modulebuilder\{Files,
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -51,7 +51,7 @@ class LanguageAdmin extends Files\CreateFile
     {
         parent::__construct();
         $this->ld = LanguageDefines::getInstance();
-        $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $this->pc = Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -76,7 +76,7 @@ class LanguageAdmin extends Files\CreateFile
      * @param string $tables
      * @param string $filename
      */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $table, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -196,7 +196,7 @@ class LanguageAdmin extends Files\CreateFile
                 $fieldElement = $fields[$f]->getVar('field_element');
                 $rpFieldName  = $this->getRightString($fieldName);
                 if ($fieldElement >= Constants::FIRST_FIELDELEMENT_TABLE) {
-                    $fieldElements    = Modulebuilder\Helper::getInstance()->getHandler('Fieldelements')->get($fieldElement);
+                    $fieldElements    = Helper::getInstance()->getHandler('Fieldelements')->get($fieldElement);
                     $fieldElementName = $fieldElements->getVar('fieldelement_name');
                     $fieldNameDesc    = mb_substr($fieldElementName, \mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
                     $fieldNameDesc    = \str_replace(': ', '', $fieldNameDesc);

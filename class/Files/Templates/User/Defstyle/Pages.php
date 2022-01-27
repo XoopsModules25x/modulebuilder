@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
@@ -24,7 +24,6 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -36,7 +35,6 @@ class Pages extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -74,7 +72,7 @@ class Pages extends Files\CreateFile
      * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -154,7 +152,7 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesTableTfoot()
     {
-        $td = $this->hc->getHtmlTableData("&nbsp;", '', '', '', '');
+        $td = $this->hc->getHtmlTableData('&nbsp;', '', '', '', '');
         $tr = $this->hc->getHtmlTableRow($td, '', '', '');
 
         return $this->hc->getHtmlTableTfoot($tr, '', "\t\t", "\n", false);

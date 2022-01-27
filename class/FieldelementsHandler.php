@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -22,7 +22,6 @@ use XoopsModules\Modulebuilder;
  * @since           2.5.5
  *
  * @author          Txmod Xoops <support@txmodxoops.org>
- *
  */
 
 /**
@@ -143,9 +142,10 @@ class FieldelementsHandler extends \XoopsPersistableObjectHandler
             if (1 == $i) {
                 $fieldele[$i] = '...';
             } else {
-                $fieldele[$i] = constant ('\_AM_MODULEBUILDER_FIELD_ELE_' . $stuFeName);
+                $fieldele[$i] = constant('\_AM_MODULEBUILDER_FIELD_ELE_' . $stuFeName);
             }
         }
+
         return $fieldele;
     }
 }

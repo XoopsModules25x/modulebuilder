@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files;
 
@@ -21,9 +21,8 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -79,7 +78,7 @@ class CreateStructure
      *
      * @param $path
      */
-    protected function setUploadPath($path)
+    protected function setUploadPath($path): void
     {
         $this->uploadPath = $path;
     }
@@ -87,7 +86,7 @@ class CreateStructure
     /**
      * @protected function getUploadPath
      *
-     * @return string $path
+     * @return string
      */
     protected function getUploadPath()
     {
@@ -98,7 +97,7 @@ class CreateStructure
      * @protected function setModuleName
      * @param $moduleName
      */
-    protected function setModuleName($moduleName)
+    protected function setModuleName($moduleName): void
     {
         $this->moduleName = $moduleName;
     }
@@ -106,7 +105,7 @@ class CreateStructure
     /**
      * @protected function getModuleName
      *
-     * @return string $moduleName
+     * @return string
      */
     protected function getModuleName()
     {
@@ -118,14 +117,14 @@ class CreateStructure
      *
      * @param $folderName
      */
-    private function setFolderName($folderName)
+    private function setFolderName($folderName): void
     {
         $this->folderName = $folderName;
     }
 
     /**
      * @private function getFolderName
-     * @return string $folderName
+     * @return string
      */
     private function getFolderName()
     {
@@ -137,7 +136,7 @@ class CreateStructure
      *
      * @param $fileName
      */
-    private function setFileName($fileName)
+    private function setFileName($fileName): void
     {
         $this->fileName = $fileName;
     }
@@ -145,7 +144,7 @@ class CreateStructure
     /**
      * @private function getFileName
      *
-     * @return string $fileName
+     * @return string
      */
     private function getFileName()
     {
@@ -157,7 +156,7 @@ class CreateStructure
      *
      * @param $dname
      */
-    public function isDir($dname)
+    public function isDir($dname): void
     {
         if (!\is_dir($dname)) {
             if (!\mkdir($dname, 0755) && !\is_dir($dname)) {
@@ -174,7 +173,7 @@ class CreateStructure
      *
      * @param string $dir
      */
-    protected function makeDir($dir)
+    protected function makeDir($dir): void
     {
         $this->isDir(\trim($dir));
     }
@@ -228,7 +227,7 @@ class CreateStructure
      *
      * @param string $dirName
      */
-    public function makeDirInModule($dirName)
+    public function makeDirInModule($dirName): void
     {
         $fname = $this->addFolderPath($dirName);
         $this->makeDir($fname);
@@ -241,7 +240,7 @@ class CreateStructure
      * @param string $fromFile
      * @param string $toFile
      */
-    public function makeDirAndCopyFile($folderName, $fromFile, $toFile)
+    public function makeDirAndCopyFile($folderName, $fromFile, $toFile): void
     {
         $dname = $this->addFolderPath($folderName);
         $this->makeDir($dname);
@@ -255,7 +254,7 @@ class CreateStructure
      * @param string $fromFile
      * @param string $toFile
      */
-    public function copyFile($folderName, $fromFile, $toFile)
+    public function copyFile($folderName, $fromFile, $toFile): void
     {
         $dname = $this->addFolderPath($folderName);
         $fname = $this->addFolderPath($folderName, $toFile);
@@ -269,7 +268,7 @@ class CreateStructure
      * @param string $fromFile
      * @param string $fname
      */
-    public function setCopy($dname, $fromFile, $fname)
+    public function setCopy($dname, $fromFile, $fname): void
     {
         if (\is_dir($dname)) {
             chmod($dname, 0777);

@@ -1,10 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
 use XoopsModules\Modulebuilder;
 use XoopsModules\Modulebuilder\Files;
-use XoopsModules\Modulebuilder\Files\Templates\User;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -23,9 +22,8 @@ use XoopsModules\Modulebuilder\Files\Templates\User;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -73,7 +71,7 @@ class CategoriesList extends Files\CreateFile
      * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -87,9 +85,9 @@ class CategoriesList extends Files\CreateFile
     private function getTemplatesUserCategoriesListStartTable()
     {
         $ret = <<<EOT
-<div class="table-responsive">
-    <table class="table table-<{\$table_type}>">\n
-EOT;
+            <div class="table-responsive">
+                <table class="table table-<{\$table_type}>">\n
+            EOT;
 
         return $ret;
     }
@@ -102,9 +100,9 @@ EOT;
     private function getTemplatesUserCategoriesListThead($table)
     {
         $ret    = <<<EOT
-		<thead>
-			<tr>\n
-EOT;
+            		<thead>
+            			<tr>\n
+            EOT;
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (\array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_user')) {
@@ -112,15 +110,15 @@ EOT;
                     $fieldName   = $fields[$f]->getVar('field_name');
                     $rpFieldName = $this->getRightString($fieldName);
                     $ret         .= <<<EOT
-				<th><{\$list.{$rpFieldName}}></th>\n
-EOT;
+                        				<th><{\$list.{$rpFieldName}}></th>\n
+                        EOT;
                 }
             }
         }
         $ret .= <<<EOT
-			</tr>
-		</thead>\n
-EOT;
+            			</tr>
+            		</thead>\n
+            EOT;
 
         return $ret;
     }
@@ -136,9 +134,9 @@ EOT;
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
-		<tbody>
-			<tr>\n
-EOT;
+            		<tbody>
+            			<tr>\n
+            EOT;
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (\array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -150,15 +148,15 @@ EOT;
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
                             $ret         .= <<<EOT
-				<td class="center pad5"><img src="<{\$xoops_icons32_url}>/<{\$list.{$rpFieldName}}>" alt="{$tableName}" /></td>\n
-EOT;
+                                				<td class="center pad5"><img src="<{\$xoops_icons32_url}>/<{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
+                                EOT;
                             break;
                         case 13:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
                             $ret         .= <<<EOT
-				<td class="center pad5"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}" /></td>\n
-EOT;
+                                				<td class="center pad5"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
+                                EOT;
                             break;
                         case 2:
                         case 3:
@@ -166,17 +164,17 @@ EOT;
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
                             $ret         .= <<<EOT
-				<td class="justify pad5"><{\$list.{$rpFieldName}}></td>\n
-EOT;
+                                				<td class="justify pad5"><{\$list.{$rpFieldName}}></td>\n
+                                EOT;
                             break;
                     }
                 }
             }
         }
         $ret .= <<<EOT
-			</tr>
-		</tbody>\n
-EOT;
+            			</tr>
+            		</tbody>\n
+            EOT;
 
         return $ret;
     }
@@ -190,9 +188,9 @@ EOT;
     {
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $ret    = <<<EOT
-		<tfoot>
-			<tr>\n
-EOT;
+            		<tfoot>
+            			<tr>\n
+            EOT;
 
         foreach (\array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_user')) {
@@ -200,15 +198,15 @@ EOT;
                     $fieldName   = $fields[$f]->getVar('field_name');
                     $rpFieldName = $this->getRightString($fieldName);
                     $ret         .= <<<EOT
-				<td class="center"><{\$list.{$rpFieldName}}></td>\n
-EOT;
+                        				<td class="center"><{\$list.{$rpFieldName}}></td>\n
+                        EOT;
                 }
             }
         }
         $ret .= <<<EOT
-			</tr>
-		</tfoot>\n
-EOT;
+            			</tr>
+            		</tfoot>\n
+            EOT;
 
         return $ret;
     }
@@ -222,9 +220,9 @@ EOT;
     private function getTemplatesUserCategoriesListEndTable()
     {
         $ret = <<<EOT
-	</table>
-</div>\n
-EOT;
+            	</table>
+            </div>\n
+            EOT;
 
         return $ret;
     }

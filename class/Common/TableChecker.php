@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Common;
 
@@ -20,28 +20,23 @@ use XoopsModules\Modulebuilder\Common;
  * @category  Table Checker
  * @author    Goffy <webmmaster@wedega.com>
  * @copyright 2021 XOOPS Project (https://xoops.org)
- * @license   GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @license   GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @link      https://xoops.org
  */
-
 class TableChecker extends \XoopsObject
 {
-
     /**
      * @var mixed
      */
     private $after = null;
-
     /**
      * @var mixed
      */
     private $mydirname = null;
-
     /**
      * @var mixed
      */
     private $result = [];
-
     /**
      * @var mixed
      */
@@ -50,10 +45,10 @@ class TableChecker extends \XoopsObject
     public const CHECKTYPE_UPDATE = 1; //update only
     public const CHECKTYPE_UPDATE_REPORT = 2; //update and report
 
-
     /**
      * @param \XoopsModules\Modulebuilder\Common\TableChecker|null
-     * @param int $checktype
+     * @param mixed $mydirname
+     * @param mixed $checktype
      */
     public function __construct($mydirname, $checktype = 0)
     {
@@ -62,12 +57,8 @@ class TableChecker extends \XoopsObject
         $this->result = [];
     }
 
-    /**
-     *
-     */
     public function processSQL()
     {
-
         $tabledefs = $this->readSQLFile();
 
         $this->result[] = 'Tables found in sql:' . \count($tabledefs);
@@ -103,9 +94,6 @@ class TableChecker extends \XoopsObject
         }
     }
 
-    /**
-     *
-     */
     private function readSQLFile()
     {
         $tabledefs = [];
@@ -121,11 +109,11 @@ class TableChecker extends \XoopsObject
             $sqlutil = new \SqlUtility();
             $pieces = [];
             $sql_query = \trim(file_get_contents($sql_file_path));
-            $sqlutil->splitMySqlFile($pieces, $sql_query);
+            $sqlutil::splitMySqlFile($pieces, $sql_query);
 
             $countTable = 0;
             foreach ($pieces as $piece) {
-                $singleSql = $sqlutil->prefixQuery($piece, $GLOBALS['xoopsDB']->prefix());
+                $singleSql = $sqlutil::prefixQuery($piece, $GLOBALS['xoopsDB']->prefix());
                 $lines = \preg_split('/\r\n|\n|\r/', $piece);
                 //var_dump($lines);
                 $needle1 = 'create table';
@@ -139,14 +127,14 @@ class TableChecker extends \XoopsObject
                             $needle2 = 'primary key';
                             $needle3 = 'unique key';
                             $needle4 = 'key';
-                            if (0 === \stripos(\trim($line), $needle2)) {
+                            if (0 === \mb_stripos(\trim($line), $needle2)) {
                                 $tabledefs[$countTable][$needle2] = $line;
-                            } elseif (0 === \stripos(\trim($line), $needle3)) {
+                            } elseif (0 === \mb_stripos(\trim($line), $needle3)) {
                                 $tabledefs[$countTable][$needle3] = $line;
-                            } elseif (0 === \stripos(\trim($line), $needle4)) {
+                            } elseif (0 === \mb_stripos(\trim($line), $needle4)) {
                                 $tabledefs[$countTable][$needle4] = $line;
                             } else {
-                                if (\strpos($line, '`') > 0) {
+                                if (\mb_strpos($line, '`') > 0) {
                                     $tabledefs[$countTable]['fields'][] = $this->extractField($line);
                                 }
                             }
@@ -164,19 +152,19 @@ class TableChecker extends \XoopsObject
         return $tabledefs;
     }
 
-
-    private function extractKey($line) {
+    private function extractKey($line)
+    {
         //todo: split string into single keys
         $needle = '(';
-        $key_text = \substr($line, \strpos($line, $needle) + 1);
+        $key_text = \substr($line, \strpos($line, $needle, 0) + 1);
         $needle = ')';
-        $key_text = \substr($key_text, 0, \strpos($key_text, $needle));
+        $key_text = \substr($key_text, 0, \strpos($key_text, $needle, 0));
 
         return $key_text;
-
     }
 
-    private function extractField($line) {
+    private function extractField($line)
+    {
         //todo
         $counter = 0;
         $clean = mb_substr(\trim($line), 0, -1);
@@ -211,7 +199,6 @@ class TableChecker extends \XoopsObject
         $this->after = $field['name'];
 
         return $field;
-
     }
 
     private function checkTableFields($table, $fields)

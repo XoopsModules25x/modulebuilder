@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Language;
 
@@ -24,7 +24,6 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -36,7 +35,6 @@ class LanguageMain extends Files\CreateFile
      * @var mixed
      */
     private $ld = null;
-
     /**
      * @var mixed
      */
@@ -74,7 +72,7 @@ class LanguageMain extends Files\CreateFile
      * @param mixed  $tables
      * @param string $filename
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -208,6 +206,7 @@ class LanguageMain extends Files\CreateFile
             $ret .= $this->ld->getAboveHeadDefines('Print');
             $ret .= $this->ld->getDefine($language, 'PRINT', 'Print');
         }
+
         return $ret;
     }
 

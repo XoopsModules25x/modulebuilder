@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Includes;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 \defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
@@ -67,7 +66,7 @@ class IncludeJquery extends Files\CreateFile
      * @param string $module
      * @param string $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -85,13 +84,13 @@ class IncludeJquery extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         //$content = $this->getHeaderFilesComments($module, $filename);
         $content = <<<'EOT'
-$(document).ready(function(){
-    $( "button, input:button, input:submit, input:file, input:reset" ).css("color","inherit").button();
-    $( ".check" ).css("color","#fff").button();
-    $( ".radio" ).css("color","#fff").buttonset();
-    $( ".toolbar" ).css("color","#000").buttonset();
-});
-EOT;
+            $(document).ready(function(){
+                $( "button, input:button, input:submit, input:file, input:reset" ).css("color","inherit").button();
+                $( ".check" ).css("color","#fff").button();
+                $( ".radio" ).css("color","#fff").buttonset();
+                $( ".toolbar" ).css("color","#000").buttonset();
+            });
+            EOT;
         $this->tdmcfile->create($moduleDirname, 'assets/js', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -14,13 +14,12 @@
  *
  * @param mixed      $module
  * @param null|mixed $prev_version
- * @package        Modulebuilder
  * @since          1.0
  * @min_xoops      2.5.11
  * @author         Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com>
  * @version        $Id: 1.0 update.php 1 Mon 2018-03-19 10:04:53Z XOOPS Project (www.xoops.org) $
  * @copyright      module for xoops
- * @license        GPL 2.0 or later
+ * @license         GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  */
 
 /**
@@ -39,7 +38,7 @@ function xoops_module_update_modulebuilder($module, $prev_version = null)
     $ret = modulebuilder_check_db($module);
 
     //check upload directory
-	require_once __DIR__ . '/install.php';
+    require_once __DIR__ . '/install.php';
     $ret = xoops_module_install_modulebuilder($module);
 
     $errors = $module->getErrors();
@@ -48,7 +47,6 @@ function xoops_module_update_modulebuilder($module, $prev_version = null)
     }
 
     return $ret;
-
 }
 
 // irmtfan bug fix: solve templates duplicate issue
@@ -64,7 +62,7 @@ function update_modulebuilder_v10($module)
         'SELECT t1.tpl_id FROM ' . $xoopsDB->prefix('tplfile') . ' t1, ' . $xoopsDB->prefix('tplfile') . ' t2 WHERE t1.tpl_refid = t2.tpl_refid AND t1.tpl_module = t2.tpl_module AND t1.tpl_tplset=t2.tpl_tplset AND t1.tpl_file = t2.tpl_file AND t1.tpl_type = t2.tpl_type AND t1.tpl_id > t2.tpl_id'
     );
     $tplids = [];
-    while (list($tplid) = $xoopsDB->fetchRow($result)) {
+    while ([$tplid] = $xoopsDB->fetchRow($result)) {
         $tplids[] = $tplid;
     }
     if (\count($tplids) > 0) {
@@ -84,7 +82,7 @@ function update_modulebuilder_v10($module)
         return false;
     }
     $ret = [];
-    while ($myrow = $xoopsDB->fetchArray($result)) {
+    while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
         $ret[] = $myrow;
     }
     if (!empty($ret)) {
@@ -113,7 +111,7 @@ function update_modulebuilder_v10($module)
 function modulebuilder_check_db($module)
 {
     $ret = true;
-	//insert here code for database check
+    //insert here code for database check
 
     /*
     // Example: update table (add new field)

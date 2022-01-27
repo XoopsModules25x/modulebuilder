@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -16,14 +16,13 @@ use XoopsModules\Modulebuilder;
 /**
  *  ModuleBuilder class.
  *
- * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         https://www.fsf.org/copyleft/gpl.html GNU public license
  *
  * @since           1.0
  *
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Harry Fuecks (PHP Anthology Volume II)
- *
  */
 
 /**
@@ -69,7 +68,7 @@ class Session
      * @param string $name  name of variable
      * @param mixed  $value value of variable
      */
-    public function setSession($name, $value)
+    public function setSession($name, $value): void
     {
         $_SESSION[$name] = $value;
     }
@@ -95,7 +94,7 @@ class Session
      *
      * @param string $name name of variable
      */
-    public function deleteSession($name)
+    public function deleteSession($name): void
     {
         unset($_SESSION[$name]);
     }
@@ -103,7 +102,7 @@ class Session
     /**
      * Destroys the whole session.
      */
-    public function destroySession()
+    public function destroySession(): void
     {
         $_SESSION = [];
         session_destroy();

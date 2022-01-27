@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -18,8 +18,7 @@ namespace XoopsModules\Modulebuilder;
 /**
  * Module:  modulebuilder
  *
- * @package      \module\modulebuilder\class
- * @license      http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @license      https://www.fsf.org/copyleft/gpl.html GNU public license
  * @copyright    https://xoops.org 2001-2017 &copy; XOOPS Project
  * @author       Goffy https://myxoops.org
  * @author       Mamba <mambax7@gmail.com>
@@ -34,13 +33,14 @@ use XoopsModules\Modulebuilder;
 class Devtools
 {
     /* function to add function qualifier to module */
+
     /**
      * @param $src_path
      * @param $dst_path
      * @param $moduleName
      */
-    public static function function_qualifier($src_path, $dst_path, $moduleName) {
-
+    public static function function_qualifier($src_path, $dst_path, $moduleName): void
+    {
         $functions = [];
         $constants = [];
 
@@ -321,22 +321,24 @@ class Devtools
 
         $patKeys   = \array_keys($patterns);
         $patValues = \array_values($patterns);
-        Devtools::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues);
-
+        self::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues);
     }
 
     /* function to add function qualifier to module */
+
     /**
      * @param $src_path
      * @param $dst_path
      */
-    public static function function_tabreplacer($src_path, $dst_path) {
+    public static function function_tabreplacer($src_path, $dst_path): void
+    {
         $patKeys   = [];
         $patValues = [];
-        Devtools::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues, true);
+        self::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues, true);
     }
 
     // recursive cloning script
+
     /**
      * @param $src_path
      * @param $dst_path
@@ -344,7 +346,7 @@ class Devtools
      * @param array $patValues
      * @param bool  $replaceTabs
      */
-    public static function cloneFileFolder($src_path, $dst_path, $patKeys = [], $patValues =[], $replaceTabs = false)
+    public static function cloneFileFolder($src_path, $dst_path, $patKeys = [], $patValues = [], $replaceTabs = false): void
     {
         // open the source directory
         $dir = \opendir($src_path);
@@ -355,9 +357,9 @@ class Devtools
             if (( $file != '.' ) && ( $file != '..' )) {
                 if ( \is_dir($src_path . '/' . $file) ) {
                     // Recursively calling custom copy function for sub directory
-                    Devtools::cloneFileFolder($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs);
+                    self::cloneFileFolder($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs);
                 } else {
-                    Devtools::cloneFile($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs);
+                    self::cloneFile($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs);
                 }
             }
         }
@@ -369,16 +371,16 @@ class Devtools
      * @param $dst_file
      * @param array $patKeys
      * @param array $patValues
-     * @param bool $replaceTabs
+     * @param bool  $replaceTabs
      */
-    private static function cloneFile($src_file, $dst_file, $patKeys = [], $patValues =[], $replaceTabs = false)
+    private static function cloneFile($src_file, $dst_file, $patKeys = [], $patValues = [], $replaceTabs = false): void
     {
         $replace_code = false;
         $changeExtensions = ['php'];
         if (\in_array(\mb_strtolower(\pathinfo($src_file, PATHINFO_EXTENSION)), $changeExtensions)) {
             $replace_code = true;
         }
-        if (\strpos( $dst_file, \basename(__FILE__)) > 0) {
+        if (\mb_strpos($dst_file, \basename(__FILE__)) > 0) {
             //skip myself
             $replace_code = false;
         }
@@ -386,7 +388,7 @@ class Devtools
             // file, read it and replace text
             $content = \file_get_contents($src_file);
             if ($replaceTabs) {
-                $content = \preg_replace("/[\t]+/", "    ", $content);
+                $content = \preg_replace("/[\t]+/", '    ', $content);
             } else {
                 $content = \str_replace($patKeys, $patValues, $content);
             }

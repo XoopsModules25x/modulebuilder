@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Assets\Css\Admin;
 
@@ -21,9 +21,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -60,7 +59,7 @@ class CssAdminStyles extends Files\CreateFile
      * @param $module
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -78,10 +77,10 @@ class CssAdminStyles extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module, '@charset "UTF-8";');
         $content       .= <<<'EOT'
-img {
-	max-width: 200px;
-}
-EOT;
+            img {
+            	max-width: 200px;
+            }
+            EOT;
         $this->create($moduleDirname, 'assets/css/admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();

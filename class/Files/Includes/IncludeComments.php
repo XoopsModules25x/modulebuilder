@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Includes;
 
@@ -24,7 +24,6 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -36,7 +35,6 @@ class IncludeComments extends Files\CreateFile
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
@@ -73,7 +71,7 @@ class IncludeComments extends Files\CreateFile
      * @param string $module
      * @param mixed  $table
      */
-    public function write($module, $table)
+    public function write($module, $table): void
     {
         $this->setModule($module);
         $this->setTable($table);

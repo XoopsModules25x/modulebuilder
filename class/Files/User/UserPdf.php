@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\User;
 
@@ -24,7 +24,6 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -36,12 +35,10 @@ class UserPdf extends Files\CreateFile
      * @var mixed
      */
     private $uxc = null;
-
     /**
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
@@ -80,7 +77,7 @@ class UserPdf extends Files\CreateFile
      * @param mixed  $table
      * @param string $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -167,9 +164,9 @@ class UserPdf extends Files\CreateFile
                     break;
             }
         }
-        $ret       .= $this->pc->getPhpCodeStripTags("pdfData['title']   ", "\$myts->undoHtmlSpecialChars(\$title)");
+        $ret .= $this->pc->getPhpCodeStripTags("pdfData['title']   ", '$myts->undoHtmlSpecialChars($title)');
         $ret       .= $this->pc->getPhpCodeStripTags("pdfData['subject'] ", '$subject');
-        $ret       .= $this->xc->getXcEqualsOperator("\$pdfData['content'] ", "\$myts->undoHtmlSpecialChars(\$content)");
+        $ret .= $this->xc->getXcEqualsOperator("\$pdfData['content'] ", '$myts->undoHtmlSpecialChars($content)');
         $ret       .= $this->xc->getXcEqualsOperator("\$pdfData['fontname']", 'PDF_FONT_NAME_MAIN');
         $ret       .= $this->xc->getXcEqualsOperator("\$pdfData['fontsize']", 'PDF_FONT_SIZE_MAIN');
         $ret       .= $this->pc->getPhpCodeBlankLine();
@@ -242,7 +239,7 @@ class UserPdf extends Files\CreateFile
         $ret = $this->pc->getPhpCodeCommentLine('Add Page document');
         $ret .= $this->getSimpleString('$pdf->AddPage();');
         $ret .= $this->pc->getPhpCodeCommentLine('Output');
-        $ret .= $this->xc->getXcEqualsOperator('$template_path', '\\' . \strtoupper($moduleDirname) . "_PATH . '/templates/" . $moduleDirname . '_' . $tableName . "_pdf.tpl'");
+        $ret .= $this->xc->getXcEqualsOperator('$template_path', '\\' . \mb_strtoupper($moduleDirname) . "_PATH . '/templates/" . $moduleDirname . '_' . $tableName . "_pdf.tpl'");
         $ret .= $this->xc->getXcEqualsOperator('$content', '$pdfTpl->fetch($template_path)');
         $ret .= $this->getSimpleString("\$pdf->writeHTMLCell(\$w=0, \$h=0, \$x='', \$y='', \$content, \$border=0, \$ln=1, \$fill=0, \$reseth=true, \$align='', \$autopadding=true);");
         $ret .= $this->getSimpleString("\$pdf->Output(\$pdfFilename, 'I');");

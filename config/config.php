@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -11,8 +11,7 @@
 
 /**
  * @copyright    XOOPS Project https://xoops.org/
- * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @package
+ * @license      GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @since
  * @author       XOOPS Development Team
  */
@@ -53,7 +52,7 @@ return (object)[
     'copyTestFolders' => [
         [
             \XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/images',
-            \XOOPS_UPLOAD_PATH . '/' . $moduleDirName  . '/images',
+            \XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
         ],
         //            [
         //                \XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/thumbs',

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Admin;
 
@@ -24,7 +24,6 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -36,12 +35,10 @@ class AdminIndex extends Files\CreateFile
      * @var mixed
      */
     private $axc = null;
-
     /**
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
@@ -95,7 +92,6 @@ class AdminIndex extends Files\CreateFile
      */
     private function getAdminIndex($module)
     {
-
         $moduleDirname    = $module->getVar('mod_dirname');
         $tables           = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $language         = $this->getLanguage($moduleDirname, 'AM');
@@ -153,7 +149,7 @@ class AdminIndex extends Files\CreateFile
         $condIf .= $this->pc->getPhpCodeIncludeDir('\dirname(__DIR__)', 'testdata/index', true, '','',"\t");
         $condIf .= $this->axc->getAdminItemButton("\constant('CO_' . \$moduleDirNameUpper . '_ADD_SAMPLEDATA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=load', $type = 'samplebutton', $t = "\t");
         $condIf .= $this->axc->getAdminItemButton("\constant('CO_' . \$moduleDirNameUpper . '_SAVE_SAMPLEDATA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=save', $type = 'samplebutton', $t = "\t");
-        $condIf .= "//" . $this->axc->getAdminItemButton("\constant('CO_' . \$moduleDirNameUpper . '_EXPORT_SCHEMA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=exportschema', $type = 'samplebutton', $t = "\t");
+        $condIf .= '//' . $this->axc->getAdminItemButton("\constant('CO_' . \$moduleDirNameUpper . '_EXPORT_SCHEMA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=exportschema', $type = 'samplebutton', $t = "\t");
         $condIf .= $this->axc->getAdminDisplayButton('left', "\t");
         $cond   = $this->xc->getXcGetConfig('displaySampleButton');
         $ret    .= $this->pc->getPhpCodeConditions($cond, '', '', $condIf, false);

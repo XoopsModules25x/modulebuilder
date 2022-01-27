@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files;
 
-use  XoopsModules\Modulebuilder;
-use  XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -22,9 +22,8 @@ use  XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -149,7 +148,7 @@ class CreateSmartyCode
      * @param string $default
      * @return string
      */
-    public function getSmartySingleVar($var, $t = '', $n = "", $default = 'false')
+    public function getSmartySingleVar($var, $t = '', $n = '', $default = 'false')
     {
         $ret = "{$t}<{\${$var}";
         if ('' !== $default) {
@@ -168,7 +167,7 @@ class CreateSmartyCode
      * @param string $n
      * @return string
      */
-    public function getSmartyDoubleVar($leftVar, $rightVar, $t = '', $n = "")
+    public function getSmartyDoubleVar($leftVar, $rightVar, $t = '', $n = '')
     {
         return "{$t}<{\${$leftVar}.{$rightVar}}>{$n}";
     }
@@ -177,9 +176,9 @@ class CreateSmartyCode
      * @public function getSmartyIncludeFile
      * @param        $moduleDirname
      * @param string $fileName
-     * @param bool $admin
+     * @param bool   $admin
      *
-     * @param bool $q
+     * @param bool   $q
      * @param string $t
      * @param string $n
      * @param string $attributes
@@ -203,10 +202,10 @@ class CreateSmartyCode
 
     /**
      * @public function getSmartyIncludeFileListSection
-     * @param $moduleDirname
-     * @param $fileName
-     * @param $itemName
-     * @param $arrayName
+     * @param        $moduleDirname
+     * @param        $fileName
+     * @param        $itemName
+     * @param        $arrayName
      * @param string $t
      * @param string $n
      * @return string
@@ -218,9 +217,9 @@ class CreateSmartyCode
 
     /**
      * @public function getSmartyIncludeFileListForeach
-     * @param $moduleDirname
-     * @param $fileName
-     * @param $tableFieldName
+     * @param        $moduleDirname
+     * @param        $fileName
+     * @param        $tableFieldName
      * @param string $t
      * @param string $n
      * @return string
@@ -236,13 +235,13 @@ class CreateSmartyCode
      * @param string $operator
      * @param string $type
      * @param string $contentIf
-     * @param mixed $contentElse
-     * @param bool $count
-     * @param bool $noSimbol
+     * @param mixed  $contentElse
+     * @param bool   $count
+     * @param bool   $noSimbol
      * @param string $t
      * @param string $n
-     * @param bool $split
-     * @param mixed $default
+     * @param bool   $split
+     * @param mixed  $default
      * @return string
      */
     public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false, $t = '', $n = "\n", $split = true, $default = 'string')
@@ -258,7 +257,7 @@ class CreateSmartyCode
             if ('string' === $default) {
                 $ret .= "|default:''";
             } elseif ('int' === $default) {
-                $ret .= "|default:0";
+                $ret .= '|default:0';
             }
             $ret .= "{$operator}{$type}}>{$ns}";
         } elseif (!$noSimbol) {
@@ -266,7 +265,7 @@ class CreateSmartyCode
             if ('string' === $default) {
                 $ret .= "|default:''";
             } elseif ('int' === $default) {
-                $ret .= "|default:0";
+                $ret .= '|default:0';
             }
             $ret .= "{$operator}{$type}}>{$ns}";
         } else {
@@ -278,7 +277,6 @@ class CreateSmartyCode
             $ret .= "{$contentElse}";
         }
         $ret .= "{$ts}<{/if}>{$n}";
-
 
         return $ret;
     }
@@ -333,8 +331,8 @@ class CreateSmartyCode
      * @param string $name
      * @param string $loop
      * @param string $content
-     * @param int $start
-     * @param int $step
+     * @param int    $start
+     * @param int    $step
      * @param string $t
      * @param string $n
      * @return string

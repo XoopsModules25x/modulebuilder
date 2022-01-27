@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
@@ -22,17 +22,16 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
  * class Morefiles.
  */
-class Morefiles extends Files\CreateFile
+class MoreFiles extends Files\CreateFile
 {
-    private $folder = null;
+    private $folder    = null;
     private $extension = null;
 
     /**
@@ -66,7 +65,7 @@ class Morefiles extends Files\CreateFile
      * @param        $folder
      * @param        $extension
      */
-    public function write($module, $folder, $filename, $extension)
+    public function write($module, $folder, $filename, $extension): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -83,10 +82,10 @@ class Morefiles extends Files\CreateFile
     private function getTemplatesUserMoreFile()
     {
         $ret = <<<'EOT'
-<div class="panel">
-	Pleace! Enter here your template code here
-</div>
-EOT;
+            <div class="panel">
+            	Pleace! Enter here your template code here
+            </div>
+            EOT;
 
         return $ret;
     }

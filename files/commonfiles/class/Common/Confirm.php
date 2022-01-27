@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Common;
 
@@ -17,7 +17,7 @@ namespace XoopsModules\Modulebuilder\Common;
  *
  * @copyright     2020 XOOPS Project (https://xoops.org)
  * @license        GPL 2.0 or later
- * @package        general
+ * @package        Modulebuilder
  * @since          1.0
  * @min_xoops      2.5.9
  * @author         Goffy - Email:<goffy@myxoops.org> - Website:<https://xoops.org>
@@ -85,7 +85,6 @@ class Confirm
             $this->title = \constant('CO_' . $moduleDirNameUpper . '_DELETE_CONFIRM');
         }
         if ('' === $this->label) {
-
             $this->label = \constant('CO_' . $moduleDirNameUpper . '_DELETE_LABEL');
         }
 
@@ -104,6 +103,7 @@ class Confirm
         $buttonBack->setExtra('onclick="history.go(-1);return true;"');
         $buttonTray->addElement($buttonBack);
         $form->addElement($buttonTray);
+
         return $form;
     }
 }

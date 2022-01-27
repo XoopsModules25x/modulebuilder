@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Language;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -68,7 +67,7 @@ class LanguageBlocks extends Files\CreateFile
      * @param mixed  $tables
      * @param string $filename
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -98,17 +97,17 @@ class LanguageBlocks extends Files\CreateFile
                 $ucfTableSoleName = \ucfirst($tableSoleName);
                 $stuTableName     = \mb_strtoupper($tableName);
                 $stuTableSoleName = \mb_strtoupper($tableSoleName);
-                $ret .= $this->ld->getAboveDefines($ucfTableName);
-                $fields = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
-                $ret .= $this->ld->getDefine($language, $stuTableName . '_TO_DISPLAY', $ucfTableName . ' to Display');
-                $ret .= $this->ld->getDefine($language, 'ALL_' . $stuTableName, 'All ' . $ucfTableName);
+                $ret              .= $this->ld->getAboveDefines($ucfTableName);
+                $fields           = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
+                $ret              .= $this->ld->getDefine($language, $stuTableName . '_TO_DISPLAY', $ucfTableName . ' to Display');
+                $ret              .= $this->ld->getDefine($language, 'ALL_' . $stuTableName, 'All ' . $ucfTableName);
                 foreach (\array_keys($fields) as $f) {
                     if (1 === (int)$fields[$f]->getVar('field_block')) {
-                        $fieldName = $fields[$f]->getVar('field_name');
-                        $stuFieldName = \mb_strtoupper($fieldName);
-                        $rpFieldName = $this->getRightString($fieldName);
+                        $fieldName     = $fields[$f]->getVar('field_name');
+                        $stuFieldName  = \mb_strtoupper($fieldName);
+                        $rpFieldName   = $this->getRightString($fieldName);
                         $fieldNameDesc = \ucfirst($rpFieldName);
-                        $ret .= $this->ld->getDefine($language, $stuFieldName, $fieldNameDesc);
+                        $ret           .= $this->ld->getDefine($language, $stuFieldName, $fieldNameDesc);
                     }
                 }
                 $ret .= $this->ld->getDefine($language, $stuTableSoleName . '_GOTO', 'Goto ' . $ucfTableSoleName);

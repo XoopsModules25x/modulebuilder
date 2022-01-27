@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -17,10 +17,9 @@
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
  */
- 
 \defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 $moduleDirName      = \basename(__DIR__);
@@ -43,7 +42,7 @@ $modversion['release_info']        = 'README';
 $modversion['release_file']        = 'https://github.com/txmodxoops/modulebuilder-1.91/releases';
 $modversion['manual']              = 'MANUAL';
 $modversion['manual_file']         = XOOPS_URL . "/modules/{$moduleDirName}/docs/manual.txt";
-$modversion['image']               = "assets/images/logoModule.png";
+$modversion['image']               = 'assets/images/logoModule.png';
 $modversion['dirname']             = $moduleDirName;
 // Frameworks icons
 $modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
@@ -66,8 +65,8 @@ $modversion['forum_site_url']      = 'https://xoops.org/modules/newbb/viewtopic.
 $modversion['forum_site_name']     = 'ModuleBuilder 3.03 for Testing';
 $modversion['module_website_name'] = 'Xoops TDM';
 // Admin things
-$modversion['system_menu'] = 1;
-$modversion['hasAdmin']    = 1;
+$modversion['system_menu'] = '1';
+$modversion['hasAdmin']    = '1';
 $modversion['adminindex']  = 'admin/index.php';
 $modversion['adminmenu']   = 'admin/menu.php';
 // Templates admin

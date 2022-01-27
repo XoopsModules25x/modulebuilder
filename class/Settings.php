@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -23,7 +23,6 @@ use XoopsModules\Modulebuilder;
  * @since           2.5.7
  *
  * @author          TDM TEAM DEV MODULE
- *
  */
 
 /*
@@ -108,7 +107,7 @@ class Settings extends \XoopsObject
      */
     public function __call($method, $args)
     {
-        $arg = isset($args[0]) ? $args[0] : null;
+        $arg = $args[0] ?? null;
 
         return $this->getVar($method, $arg);
     }
@@ -194,7 +193,7 @@ class Settings extends \XoopsObject
         }
         $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"set_image\", \"" . $uploadDirectory . '", "", "' . \XOOPS_URL . "\")'");
         $imgtray->addElement($imageSelect);
-        $imgtray->addElement(new \XoopsFormLabel('', "<br><img src='" . TDMC_UPLOAD_IMGMOD_URL . '/' . $modImage . "' id='image3' alt='' /><br>"));
+        $imgtray->addElement(new \XoopsFormLabel('', "<br><img src='" . TDMC_UPLOAD_IMGMOD_URL . '/' . $modImage . "' id='image3' alt=''><br>"));
 
         $fileseltray = new \XoopsFormElementTray('', '<br>');
         $fileseltray->addElement(new \XoopsFormFile(\_AM_MODULEBUILDER_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize_image')));

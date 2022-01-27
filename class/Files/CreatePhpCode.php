@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files;
 
@@ -21,9 +21,8 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -111,6 +110,7 @@ class CreatePhpCode
             $ret .= "{$left}";
         }
         $ret .= ", {$right});\n";
+
         return $ret;
     }
 
@@ -256,6 +256,7 @@ class CreatePhpCode
             $ret .= " {$one} ";
         }
         $ret .= ": {$two};\n";
+
         return $ret;
     }
 
@@ -351,7 +352,7 @@ class CreatePhpCode
      * @param string $conditionElse
      * @return string
      */
-    public function getPhpCodeConditions($condition = null, $operator = null, $type = null, $contentIf = null, $contentElse = false, $t = '', $conditionElse = '')
+    public function getPhpCodeConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $t = '', $conditionElse = '')
     {
         if ('==' === \trim($operator) || '===' === \trim($operator) || '!=' === \trim($operator) || '!==' === \trim($operator)) {
             //yoda conditions
@@ -825,7 +826,7 @@ class CreatePhpCode
                 $ret .= "{$dim}";
             }
         }
-        $ret .= ";" . $n;
+        $ret .= ';' . $n;
 
         return $ret;
     }
@@ -848,7 +849,7 @@ class CreatePhpCode
                 $ret .= "{$dim}";
             }
         }
-        $ret .= ";" . $n;
+        $ret .= ';' . $n;
 
         return $ret;
     }
@@ -888,6 +889,7 @@ class CreatePhpCode
     public function getPhpCodeTriggerError($msg, $type, $t = '')
     {
         $ret = "{$t}\\trigger_error($msg, {$type});\n";
+
         return $ret;
     }
 }

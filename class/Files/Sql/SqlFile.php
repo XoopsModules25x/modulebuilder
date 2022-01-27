@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Sql;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -65,7 +64,7 @@ class SqlFile extends Files\CreateFile
      * @param $module
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -90,7 +89,7 @@ class SqlFile extends Files\CreateFile
         $arrayServerInfo = [
             "# SQL Dump for {$moduleName} module",
             '# PhpMyAdmin Version: 4.0.4',
-            '# http://www.phpmyadmin.net',
+            '# https://www.phpmyadmin.net',
             '#',
             "# Host: {$serverName}",
             "# Generated on: {$date} to {$time}",

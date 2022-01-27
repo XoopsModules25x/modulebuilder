@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Admin;
 
@@ -24,7 +24,6 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -36,17 +35,14 @@ class AdminPermissions extends Files\CreateFile
      * @var mixed
      */
     private $axc = null;
-
     /**
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
     private $pc = null;
-
     /**
      * @var mixed
      */
@@ -246,7 +242,7 @@ class AdminPermissions extends Files\CreateFile
 
         $ret       .= $this->pc->getPhpCodeUnset('permform');
         $elseInter = $this->xc->getXcRedirectHeader("'permissions.php'", '', '3', "{$language}NO_PERMISSIONS_SET", false, "\t");
-        $elseInter .= $this->getSimpleString("exit();", "\t");
+        $elseInter .= $this->getSimpleString('exit();', "\t");
         $ret       .= $this->pc->getPhpCodeConditions('$permFound', ' !== ', 'true', $elseInter, false);
 
         return $ret;

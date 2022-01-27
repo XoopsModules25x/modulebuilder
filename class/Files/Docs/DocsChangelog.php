@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Docs;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -61,7 +60,7 @@ class DocsChangelog extends Files\CreateFile
      * @param $module
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -79,11 +78,11 @@ class DocsChangelog extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $date          = date('Y/m/d G:i:s');
         $content       = <<<EOT
-==============================================================
-{$module->getVar('mod_version')} [{$date}]
-==============================================================
- - Original release {$moduleDirname} ({$module->getVar('mod_author')})
-EOT;
+            ==============================================================
+            {$module->getVar('mod_version')} [{$date}]
+            ==============================================================
+             - Original release {$moduleDirname} ({$module->getVar('mod_author')})
+            EOT;
         $this->create($moduleDirname, 'docs', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
