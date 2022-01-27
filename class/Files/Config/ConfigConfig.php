@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Config;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -36,7 +35,6 @@ class ConfigConfig extends Files\CreateFile
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
@@ -49,8 +47,8 @@ class ConfigConfig extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
-        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $this->xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -70,10 +68,10 @@ class ConfigConfig extends Files\CreateFile
     /**
      * @public function write
      * @param string $module
-     * @param $tables
+     * @param        $tables
      * @param string $filename
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setTables($tables);
@@ -88,63 +86,63 @@ class ConfigConfig extends Files\CreateFile
     {
         $tables = $this->getTables();
 
-        $ret    = $this->pc->getPhpCodeCommentMultiLine(['return' => 'object']);
-        $ret    .= $this->getSimpleString('');
-        $ret    .= $this->xc->getXcEqualsOperator('$moduleDirName ', '\basename(\dirname(__DIR__))');
-        $ret    .= $this->xc->getXcEqualsOperator('$moduleDirNameUpper ', '\mb_strtoupper($moduleDirName)');
+        $ret = $this->pc->getPhpCodeCommentMultiLine(['return' => 'object']);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->xc->getXcEqualsOperator('$moduleDirName ', '\basename(\dirname(__DIR__))');
+        $ret .= $this->xc->getXcEqualsOperator('$moduleDirNameUpper ', '\mb_strtoupper($moduleDirName)');
 
-        $ret    .= $this->getSimpleString('return (object)[');
-        $ret    .= $this->getSimpleString("'name'           => \mb_strtoupper(\$moduleDirName) . ' Module Configurator',", "\t");
-        $ret    .= $this->getSimpleString("'paths'          => [", "\t");
-        $ret    .= $this->getSimpleString("'dirname'    => \$moduleDirName,", "\t\t");
-        $ret    .= $this->getSimpleString("'admin'      => \XOOPS_ROOT_PATH . '/modules/' . \$moduleDirName . '/admin',", "\t\t");
-        $ret    .= $this->getSimpleString("'modPath'    => \XOOPS_ROOT_PATH . '/modules/' . \$moduleDirName,", "\t\t");
-        $ret    .= $this->getSimpleString("'modUrl'     => \XOOPS_URL . '/modules/' . \$moduleDirName,", "\t\t");
-        $ret    .= $this->getSimpleString("'uploadPath' => \XOOPS_UPLOAD_PATH . '/' . \$moduleDirName,", "\t\t");
-        $ret    .= $this->getSimpleString("'uploadUrl'  => \XOOPS_UPLOAD_URL . '/' . \$moduleDirName,", "\t\t");
-        $ret    .= $this->getSimpleString("],", "\t");
-        $ret    .= $this->getSimpleString("'uploadFolders'  => [", "\t");
-        $ret    .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName,", "\t\t");
+        $ret .= $this->getSimpleString('return (object)[');
+        $ret .= $this->getSimpleString("'name'           => \mb_strtoupper(\$moduleDirName) . ' Module Configurator',", "\t");
+        $ret .= $this->getSimpleString("'paths'          => [", "\t");
+        $ret .= $this->getSimpleString("'dirname'    => \$moduleDirName,", "\t\t");
+        $ret .= $this->getSimpleString("'admin'      => \XOOPS_ROOT_PATH . '/modules/' . \$moduleDirName . '/admin',", "\t\t");
+        $ret .= $this->getSimpleString("'modPath'    => \XOOPS_ROOT_PATH . '/modules/' . \$moduleDirName,", "\t\t");
+        $ret .= $this->getSimpleString("'modUrl'     => \XOOPS_URL . '/modules/' . \$moduleDirName,", "\t\t");
+        $ret .= $this->getSimpleString("'uploadPath' => \XOOPS_UPLOAD_PATH . '/' . \$moduleDirName,", "\t\t");
+        $ret .= $this->getSimpleString("'uploadUrl'  => \XOOPS_UPLOAD_URL . '/' . \$moduleDirName,", "\t\t");
+        $ret .= $this->getSimpleString('],', "\t");
+        $ret .= $this->getSimpleString("'uploadFolders'  => [", "\t");
+        $ret .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName,", "\t\t");
         foreach (\array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $ret       .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/{$tableName}',", "\t\t");
         }
-        $ret    .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/images',", "\t\t");
+        $ret .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/images',", "\t\t");
         foreach (\array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $ret       .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/images/{$tableName}',", "\t\t");
         }
-        $ret    .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/files',", "\t\t");
+        $ret .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/files',", "\t\t");
         foreach (\array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $ret       .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/files/{$tableName}',", "\t\t");
         }
-        $ret    .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/temp',", "\t\t");
-        $ret    .= $this->getSimpleString("],", "\t");
-        $ret    .= $this->getSimpleString("'copyBlankFiles'  => [", "\t");
-        $ret    .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/images',", "\t\t");
+        $ret .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/temp',", "\t\t");
+        $ret .= $this->getSimpleString('],', "\t");
+        $ret .= $this->getSimpleString("'copyBlankFiles'  => [", "\t");
+        $ret .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/images',", "\t\t");
         foreach (\array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $ret       .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName . '/images/{$tableName}',", "\t\t");
         }
-        $ret    .= $this->getSimpleString("],", "\t");
-        $ret    .= $this->getSimpleString("'copyTestFolders'  => [", "\t");
-        $ret    .= $this->getSimpleString("[\XOOPS_ROOT_PATH . '/modules/' . \$moduleDirName . '/testdata/uploads',", "\t\t");
-        $ret    .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName],", "\t\t");
-        $ret    .= $this->getSimpleString("],", "\t");
-        $ret    .= $this->getSimpleString("'templateFolders'  => [", "\t");
-        $ret    .= $this->getSimpleString("'/templates/',", "\t\t");
-        $ret    .= $this->getSimpleString("],", "\t");
-        $ret    .= $this->getSimpleString("'oldFiles'  => [", "\t");
-        $ret    .= $this->getSimpleString("],", "\t");
-        $ret    .= $this->getSimpleString("'oldFolders'  => [", "\t");
-        $ret    .= $this->getSimpleString("],", "\t");
-        $ret    .= $this->getSimpleString("'renameTables'  => [", "\t");
-        $ret    .= $this->getSimpleString("],", "\t");
-        $ret    .= $this->getSimpleString("'moduleStats'  => [", "\t");
-        $ret    .= $this->getSimpleString("],", "\t");
-        $ret    .= $this->getSimpleString("'modCopyright' => \"<a href='https://xoops.org' title='XOOPS Project' target='_blank'><img src='\" . \XOOPS_ROOT_PATH . '/modules/' . \$moduleDirName . \"/assets/images/logo/logoModule.png' alt='XOOPS Project'></a>\",", "\t");
-        $ret    .= $this->getSimpleString('];');
+        $ret .= $this->getSimpleString('],', "\t");
+        $ret .= $this->getSimpleString("'copyTestFolders'  => [", "\t");
+        $ret .= $this->getSimpleString("[\XOOPS_ROOT_PATH . '/modules/' . \$moduleDirName . '/testdata/uploads',", "\t\t");
+        $ret .= $this->getSimpleString("\XOOPS_UPLOAD_PATH . '/' . \$moduleDirName],", "\t\t");
+        $ret .= $this->getSimpleString('],', "\t");
+        $ret .= $this->getSimpleString("'templateFolders'  => [", "\t");
+        $ret .= $this->getSimpleString("'/templates/',", "\t\t");
+        $ret .= $this->getSimpleString('],', "\t");
+        $ret .= $this->getSimpleString("'oldFiles'  => [", "\t");
+        $ret .= $this->getSimpleString('],', "\t");
+        $ret .= $this->getSimpleString("'oldFolders'  => [", "\t");
+        $ret .= $this->getSimpleString('],', "\t");
+        $ret .= $this->getSimpleString("'renameTables'  => [", "\t");
+        $ret .= $this->getSimpleString('],', "\t");
+        $ret .= $this->getSimpleString("'moduleStats'  => [", "\t");
+        $ret .= $this->getSimpleString('],', "\t");
+        $ret .= $this->getSimpleString("'modCopyright' => \"<a href='https://xoops.org' title='XOOPS Project' target='_blank'><img src='\" . \XOOPS_ROOT_PATH . '/modules/' . \$moduleDirName . \"/assets/images/logo/logoModule.png' alt='XOOPS Project'></a>\",", "\t");
+        $ret .= $this->getSimpleString('];');
 
         return $ret;
     }

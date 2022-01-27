@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Classes;
 
@@ -24,7 +24,6 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -32,22 +31,18 @@ use XoopsModules\Modulebuilder\Files;
  */
 class ClassFiles extends Files\CreateFile
 {
-
     /**
      * @var mixed
      */
     private $cxc = null;
-
     /**
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
     private $pc = null;
-
     /**
      * @var mixed
      */
@@ -91,7 +86,7 @@ class ClassFiles extends Files\CreateFile
      * @param mixed  $tables
      * @param        $filename
      */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $table, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -109,9 +104,7 @@ class ClassFiles extends Files\CreateFile
      */
     private function getInitVar($fieldName, $type = 'INT')
     {
-
         return $this->cxc->getClassInitVar($fieldName, $type);
-
     }
 
     /**
@@ -372,7 +365,7 @@ class ClassFiles extends Files\CreateFile
         $contIf .= $this->cxc->getClassXoopsFormCheckBox('groupsCanSubmitCheckbox', $permissionSubmit, "groups_submit_{$tableName}[]", '$fullList', false, "\t\t\t");
         $contIf .= $this->cxc->getClassXoopsFormCheckBox('groupsCanViewCheckbox', $permissionView, "groups_view_{$tableName}[]", '$fullList', false, "\t\t\t");
 
-        $ret .= $this->pc->getPhpCodeConditions('$this->isNew()', null, null, $contIf, $contElse, "\t\t");
+        $ret .= $this->pc->getPhpCodeConditions('$this->isNew()', '', '', $contIf, $contElse, "\t\t");
         $ret .= $this->pc->getPhpCodeCommentLine('To Approve', '', "\t\t");
         $ret .= $this->cxc->getClassAddOptionArray('groupsCanApproveCheckbox', '$groupList');
         $ret .= $this->cxc->getClassAddElement('form', '$groupsCanApproveCheckbox');
@@ -413,9 +406,9 @@ class ClassFiles extends Files\CreateFile
         foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $rpFieldName  = $this->getRightString($fieldName);
-            $len = \strlen($rpFieldName);
+            $len         = \mb_strlen($rpFieldName);
             if (3 == $fields[$f]->getVar('field_element') || 4 == $fields[$f]->getVar('field_element')) {
-                $len = $len + \strlen('_short');
+                $len = $len + \mb_strlen('_short');
             }
             $lenMaxName = max($len, $lenMaxName);
         }
@@ -423,7 +416,7 @@ class ClassFiles extends Files\CreateFile
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             $rpFieldName  = $this->getRightString($fieldName);
-            $spacer = str_repeat(' ', $lenMaxName - \strlen($rpFieldName));
+            $spacer       = str_repeat(' ', $lenMaxName - \mb_strlen($rpFieldName));
             switch ($fieldElement) {
                 case 3:
                     $getValues .= $this->pc->getPhpCodeStripTags("ret['{$rpFieldName}']{$spacer}", "\$this->getVar('{$fieldName}', 'e')", false, "\t\t");
@@ -432,7 +425,7 @@ class ClassFiles extends Files\CreateFile
                         $configMaxchar = 1;
                     }
                     $truncate  =  "\$utility::truncateHtml(\$ret['{$rpFieldName}'], \$editorMaxchar)";
-                    $spacer = str_repeat(' ', $lenMaxName - \strlen($rpFieldName) - \strlen('_short'));
+                    $spacer    = str_repeat(' ', $lenMaxName - \mb_strlen($rpFieldName) - \mb_strlen('_short'));
                     $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']{$spacer}", $truncate, false, "\t\t");
                     $helper = 1;
                     $utility = 1;
@@ -444,7 +437,7 @@ class ClassFiles extends Files\CreateFile
                         $configMaxchar = 1;
                     }
                     $truncate  =  "\$utility::truncateHtml(\$ret['{$rpFieldName}'], \$editorMaxchar)";
-                    $spacer = str_repeat(' ', $lenMaxName - \strlen($rpFieldName) - \strlen('_short'));
+                    $spacer    = str_repeat(' ', $lenMaxName - \mb_strlen($rpFieldName) - \mb_strlen('_short'));
                     $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']{$spacer}", $truncate, false, "\t\t");
                     $helper = 1;
                     $utility = 1;
@@ -459,9 +452,9 @@ class ClassFiles extends Files\CreateFile
                     $getValues .= $this->xc->getXcFormatTimeStamp("ret['{$rpFieldName}']{$spacer}", "\$this->getVar('{$fieldName}')", 's', "\t\t");
                     break;
                 case 16:
-                    $spacer = str_repeat(' ', $lenMaxName - \strlen('status') + 7);
+                    $spacer                                                  = str_repeat(' ', $lenMaxName - \mb_strlen('status') + 7);
                     $getValues .= $this->xc->getXcGetVar("status{$spacer}", 'this', $fieldName, false, "\t\t");
-                    $spacer = str_repeat(' ', $lenMaxName - \strlen('status'));
+                    $spacer                                                  = str_repeat(' ', $lenMaxName - \mb_strlen('status'));
                     $getValues .= $this->xc->getXcEqualsOperator("\$ret['status']{$spacer}", '$status', false, "\t\t");
                     $contCase1  = $this->xc->getXcEqualsOperator('$status_text', $language . 'STATUS_NONE', false, "\t\t\t\t");
                     $cases[$this->xc->getXcGetConstants('STATUS_NONE')] = [$contCase1];
@@ -479,7 +472,7 @@ class ClassFiles extends Files\CreateFile
                     }
                     $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, false, "\t\t\t", true);
                     $getValues     .= $this->pc->getPhpCodeSwitch('status', $contentSwitch, "\t\t");
-                    $len           = $lenMaxName - \strlen('status_text');
+                    $len           = $lenMaxName - \mb_strlen('status_text');
                     $spacer        = $len > 0 ? str_repeat(' ', $len) : '';
                     $getValues     .= $this->xc->getXcEqualsOperator("\$ret['status_text']{$spacer}", '$status_text',  false, "\t\t");
                     break;

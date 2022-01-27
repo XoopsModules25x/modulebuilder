@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Common;
 
@@ -16,13 +16,12 @@ namespace XoopsModules\Modulebuilder\Common;
  * Modulebuilder module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author          Xoops Development Team
  */
 
 use Xmf\Request;
 use XoopsModules\Modulebuilder;
-
 
 require_once \dirname(__DIR__, 4) . '/mainfile.php';
 $moduleDirName      = \basename(\dirname(__DIR__, 2));
@@ -104,7 +103,7 @@ class DirectoryChecker
     {
         $target = \str_replace('..', '', $target);
 
-        // http://www.php.net/manual/en/function.mkdir.php
+        // https://www.php.net/manual/en/function.mkdir.php
         return \is_dir($target) || (self::createDirectory(\dirname($target), $mode) && !\mkdir($target, $mode) && !\is_dir($target));
     }
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use XoopsModules\Modulebuilder;
 
@@ -20,7 +20,6 @@ use XoopsModules\Modulebuilder;
  * @since           2.5.5
  *
  * @author          Txmod Xoops <support@txmodxoops.org>
- *
  */
 require __DIR__ . '/header.php';
 $funct    = \Xmf\Request::getString('funct', '', 'GET');
@@ -36,7 +35,7 @@ if (\function_exists($funct)) {
 /**
  * @param string $val
  */
-function phpFunction($val = '')
+function phpFunction($val = ''): void
 {
     // create php function here
     echo $val;

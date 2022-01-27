@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Admin;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -74,7 +73,7 @@ class AdminHeader extends Files\CreateFile
      * @param array  $tables
      * @param string $filename
      */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $table, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -110,7 +109,7 @@ class AdminHeader extends Files\CreateFile
         if (\is_object($table) && '' != $table->getVar('table_name')) {
             $ret .= $this->pc->getPhpCodeBlankLine();
             $ret .= $this->pc->getPhpCodeCommentLine('Get instance of module');
-            $ret .= $this->xc->getXcEqualsOperator("\$helper", "\XoopsModules\\{$ucfModuleDirname}\Helper::getInstance()");
+            $ret .= $this->xc->getXcEqualsOperator('$helper', "\XoopsModules\\{$ucfModuleDirname}\Helper::getInstance()");
         }
         if (\is_array($tables)) {
             foreach (\array_keys($tables) as $i) {
@@ -121,7 +120,7 @@ class AdminHeader extends Files\CreateFile
         $ret            .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
         $ret            .= $this->pc->getPhpCodeCommentLine();
         $template       = $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'class/template', true, false, 'require', "\t");
-        $template       .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new \XoopsTpl()', null,"\t");
+        $template       .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new \XoopsTpl()', null, "\t");
         $ret            .= $this->pc->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!\is_object($xoopsTpl)', $template, false);
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->pc->getPhpCodeCommentLine('Load languages');

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -19,7 +19,6 @@
  * @since           2.5.5
  *
  * @author          Txmod Xoops <support@txmodxoops.org>
- *
  */
 
 use Xmf\Request;
@@ -29,6 +28,7 @@ use XoopsModules\Modulebuilder\{
 };
 
 /** @var Helper $helper */
+/** @var Admin $adminObject */
 
 // Define main template
 $templateMain = 'modulebuilder_modules.tpl';
@@ -91,7 +91,6 @@ switch ($op) {
         $form       = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
-
     case 'modules_import':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
         $adminObject->addItemButton(\_AM_MODULEBUILDER_MODULES_LIST, 'modules.php', 'list');
@@ -103,7 +102,6 @@ switch ($op) {
             $GLOBALS['xoopsTpl']->assign('tables_list', $result['tables']);
         }
         break;
-
     case 'save':
         if (!$GLOBALS['xoopsSecurity']->check()) {
             \redirect_header('modules.php', 3, \implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -301,7 +299,7 @@ switch ($op) {
             if (!$resultTables instanceof \mysqli_result) {
                 \trigger_error($GLOBALS['xoopsDB']->error());
             }
-            $num_rows1    = $GLOBALS['xoopsDB']->getRowsNum($resultTables);
+            $num_rows1 = $GLOBALS['xoopsDB']->getRowsNum($resultTables);
             if ($num_rows1 > 0) {
                 while (false !== ($myTables = $GLOBALS['xoopsDB']->fetchArray($resultTables))) {
                     $tableIdSource = $myTables['table_id'];
@@ -333,7 +331,7 @@ switch ($op) {
                     if (!$resultFields instanceof \mysqli_result) {
                         \trigger_error($GLOBALS['xoopsDB']->error());
                     }
-                    $num_rows2    = $GLOBALS['xoopsDB']->getRowsNum($resultFields);
+                    $num_rows2 = $GLOBALS['xoopsDB']->getRowsNum($resultFields);
                     if ($num_rows2 > 0) {
                         while (false !== ($myField = $GLOBALS['xoopsDB']->fetchArray($resultFields))) {
                             $fieldIdSource = $myField['field_id'];

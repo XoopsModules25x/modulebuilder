@@ -24,17 +24,17 @@
                 <td class='center bold'><{$file.upload}></td>
                 <td class='xo-actions txtcenter width5'>
                     <a href="morefiles.php?op=edit&amp;file_id=<{$file.id}>" title="<{$smarty.const._EDIT}>">
-                        <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._EDIT}>"/>
+                        <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._EDIT}>">
                     </a>
                     <a href="morefiles.php?op=delete&amp;file_id=<{$file.id}>" title="<{$smarty.const._DELETE}>">
-                        <img src="<{xoModuleIcons16 delete.png}>" alt="<{$smarty.const._DELETE}>"/>
+                        <img src="<{xoModuleIcons16 delete.png}>" alt="<{$smarty.const._DELETE}>">
                     </a>
                 </td>
             </tr>
         <{/foreach}>
     </table>
-    <br/>
-    <br/>
+    <br>
+    <br>
     <!-- Display files navigation -->
     <div class="clear">&nbsp;</div>
     <{if $pagenav|default:''}>

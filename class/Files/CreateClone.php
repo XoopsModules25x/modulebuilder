@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files;
-
-use XoopsModules\Modulebuilder;
 
 /**
  * Class CreateClone
@@ -29,6 +27,7 @@ class CreateClone
      * }*/
 
     // recursive cloning script
+
     /**
      * @param       $src_path
      * @param       $dst_path
@@ -36,7 +35,7 @@ class CreateClone
      * @param array $patKeys
      * @param array $patValues
      */
-    public static function cloneFileFolder($src_path, $dst_path, $replace_code = false, $patKeys = [], $patValues = [])
+    public static function cloneFileFolder($src_path, $dst_path, $replace_code = false, $patKeys = [], $patValues = []): void
     {
         // open the source directory
         $dir = \opendir($src_path);
@@ -63,7 +62,7 @@ class CreateClone
      * @param array $patKeys
      * @param array $patValues
      */
-    public static function cloneFile($src_file, $dst_file, $replace_code = false, $patKeys = [], $patValues = [])
+    public static function cloneFile($src_file, $dst_file, $replace_code = false, $patKeys = [], $patValues = []): void
     {
         if ($replace_code) {
             $noChangeExtensions = ['jpeg', 'jpg', 'gif', 'png', 'zip', 'ttf'];

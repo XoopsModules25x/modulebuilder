@@ -1,10 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
 use XoopsModules\Modulebuilder;
 use XoopsModules\Modulebuilder\Files;
-use XoopsModules\Modulebuilder\Files\Templates\User;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -25,7 +24,6 @@ use XoopsModules\Modulebuilder\Files\Templates\User;
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -37,7 +35,6 @@ class Categories extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -74,7 +71,7 @@ class Categories extends Files\CreateFile
      * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -88,7 +85,6 @@ class Categories extends Files\CreateFile
      */
     private function getTemplatesUserCategoriesHeader($moduleDirname)
     {
-
         return $this->sc->getSmartyIncludeFile($moduleDirname) . PHP_EOL;
     }
 
@@ -206,7 +202,6 @@ class Categories extends Files\CreateFile
      */
     private function getTemplatesUserCategoriesFooter($moduleDirname)
     {
-
         return $this->sc->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder;
 
@@ -22,7 +22,6 @@ use XoopsModules\Modulebuilder;
  * @since           2.5.5
  *
  * @author          Txmod Xoops <support@txmodxoops.org>
- *
  */
 
 /**
@@ -55,7 +54,7 @@ class Fieldelements extends \XoopsObject
      */
     public function __call($method, $args)
     {
-        $arg = isset($args[0]) ? $args[0] : null;
+        $arg = $args[0] ?? null;
 
         return $this->getVar($method, $arg);
     }

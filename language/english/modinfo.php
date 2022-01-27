@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -18,11 +18,9 @@
  * @since           2.5.0
  *
  * @author          Xoops Team Developement Modules - https://xoops.org
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
-
 \define('_MI_MODULEBUILDER_NAME', 'ModuleBuilder');
 \define('_MI_MODULEBUILDER_DESC', 'Creation modules developed by TDM');
 //Menu

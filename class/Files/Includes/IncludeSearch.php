@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Includes;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -36,12 +35,10 @@ class IncludeSearch extends Files\CreateFile
      * @var mixed
      */
     private $cf = null;
-
     /**
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
@@ -80,7 +77,7 @@ class IncludeSearch extends Files\CreateFile
      * @param mixed  $tables
      * @param string $filename
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -97,31 +94,31 @@ class IncludeSearch extends Files\CreateFile
     {
         $ucfModuleDirname = \ucfirst($moduleDirname);
         $tables           = $this->getTables();
-        $t     = "\t";
-        $ret   = $this->pc->getPhpCodeCommentMultiLine(['search callback functions' => '', '' => '', '@param $queryarray' => '', '@param $andor' => '', '@param $limit' => '', '@param $offset' => '', '@param $userid' => '', '@return' => 'array $itemIds']);
-        $func  = $this->xc->getXcEqualsOperator('$ret', "[]", '', $t);
-        $func .= $this->xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", $t);
+        $t                = "\t";
+        $ret              = $this->pc->getPhpCodeCommentMultiLine(['search callback functions' => '', '' => '', '@param $queryarray' => '', '@param $andor' => '', '@param $limit' => '', '@param $offset' => '', '@param $userid' => '', '@return' => 'array $itemIds']);
+        $func             = $this->xc->getXcEqualsOperator('$ret', '[]', '', $t);
+        $func             .= $this->xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", $t);
 
         if (\is_array($tables)) {
             foreach (\array_keys($tables) as $i) {
-                if(1 === (int) $tables[$i]->getVar('table_search')) {
+                if (1 === (int)$tables[$i]->getVar('table_search')) {
                     $tableId        = $tables[$i]->getVar('table_id');
                     $tableMid       = $tables[$i]->getVar('table_mid');
                     $tableName      = $tables[$i]->getVar('table_name');
                     $tableFieldname = $tables[$i]->getVar('table_fieldname');
-                    $func   .= $this->pc->getPhpCodeCommentLine('search in table', $tableName, $t);
-                    $func   .= $this->pc->getPhpCodeCommentLine('search keywords', '', $t);
-                    $func   .= $this->xc->getXcEqualsOperator('$elementCount', '0', '', $t);
-                    $func   .= $this->xc->getXcHandlerLine($tableName, $t);
-                    $contIf = $this->xc->getXcEqualsOperator('$elementCount', '\count($queryarray)', '', $t . "\t");
-                    $func   .= $this->pc->getPhpCodeConditions('\is_array($queryarray)', '', '', $contIf, false, $t);
-                    $contIf = $this->xc->getXcCriteriaCompo('crKeywords', $t . "\t");
-                    $for    = $this->xc->getXcCriteriaCompo('crKeyword', $t . "\t\t");
+                    $func           .= $this->pc->getPhpCodeCommentLine('search in table', $tableName, $t);
+                    $func           .= $this->pc->getPhpCodeCommentLine('search keywords', '', $t);
+                    $func           .= $this->xc->getXcEqualsOperator('$elementCount', '0', '', $t);
+                    $func           .= $this->xc->getXcHandlerLine($tableName, $t);
+                    $contIf         = $this->xc->getXcEqualsOperator('$elementCount', '\count($queryarray)', '', $t . "\t");
+                    $func           .= $this->pc->getPhpCodeConditions('\is_array($queryarray)', '', '', $contIf, false, $t);
+                    $contIf         = $this->xc->getXcCriteriaCompo('crKeywords', $t . "\t");
+                    $for            = $this->xc->getXcCriteriaCompo('crKeyword', $t . "\t\t");
 
-                    $fields    = $this->getTableFields($tableMid, $tableId);
-                    $fieldId   = '';
-                    $fieldMain = '';
-                    $fieldDate = '';
+                    $fields     = $this->getTableFields($tableMid, $tableId);
+                    $fieldId    = '';
+                    $fieldMain  = '';
+                    $fieldDate  = '';
                     $countField = 0;
                     foreach (\array_keys($fields) as $f) {
                         $fieldName = $fields[$f]->getVar('field_name');
@@ -144,7 +141,7 @@ class IncludeSearch extends Files\CreateFile
                         $for .= $this->xc->getXcCriteriaAdd('crKeywords', '$crKeyword', $t . "\t\t", "\n", '$andor');
                     }
                     $for      .= $this->pc->getPhpCodeUnset('crKeyword', $t . "\t\t");
-                    $contIf   .= $this->pc->getPhpCodeFor( 'i', $for, 'elementCount', '0', ' < ', $t . "\t");
+                    $contIf   .= $this->pc->getPhpCodeFor('i', $for, 'elementCount', '0', ' < ', $t . "\t");
                     $func     .= $this->pc->getPhpCodeConditions('$elementCount', ' > ', '0', $contIf, false, $t);
                     $func     .= $this->pc->getPhpCodeCommentLine('search user(s)', '', $t);
                     $contIf   = $this->xc->getXcEqualsOperator('$userid', "array_map('\intval', \$userid)", '', $t . "\t");
@@ -162,15 +159,15 @@ class IncludeSearch extends Files\CreateFile
                     $contIf   = $this->xc->getXcCriteriaAdd('crSearch', '$crUser', $t . "\t", "\n", "'AND'");
                     $cond     = $this->pc->getPhpCodeIsset('crUser');
                     $func     .= $this->pc->getPhpCodeConditions($cond, '', '', $contIf, false, $t);
-                    $func     .= $this->xc->getXcCriteriaSetStart( 'crSearch', '$offset', $t);
-                    $func     .= $this->xc->getXcCriteriaSetLimit( 'crSearch', '$limit', $t);
+                    $func     .= $this->xc->getXcCriteriaSetStart('crSearch', '$offset', $t);
+                    $func     .= $this->xc->getXcCriteriaSetLimit('crSearch', '$limit', $t);
                     if ('' !== $fieldDate) {
-                        $func .= $this->xc->getXcCriteriaSetSort( 'crSearch', "'{$fieldDate}'", $t);
+                        $func .= $this->xc->getXcCriteriaSetSort('crSearch', "'{$fieldDate}'", $t);
                     } else {
-                        $func .= $this->xc->getXcCriteriaSetSort( 'crSearch', "'{$fieldId}_date'", $t);
+                        $func .= $this->xc->getXcCriteriaSetSort('crSearch', "'{$fieldId}_date'", $t);
                     }
-                    $func .= $this->xc->getXcCriteriaSetOrder( 'crSearch', "'DESC'", $t);
-                    $func .= $this->xc->getXcHandlerAllClear($tableName . 'All', $tableName, '$crSearch', $t);
+                    $func           .= $this->xc->getXcCriteriaSetOrder('crSearch', "'DESC'", $t);
+                    $func           .= $this->xc->getXcHandlerAllClear($tableName . 'All', $tableName, '$crSearch', $t);
                     $contentForeach = $t . "\t\$ret[] = [\n";
                     $contentForeach .= $t . "\t\t'image'  => 'assets/icons/16/{$tableName}.png',\n";
                     $contentForeach .= $t . "\t\t'link'   => '{$tableName}.php?op=show&amp;{$fieldId}=' . \${$tableName}All[\$i]->getVar('{$fieldId}'),\n";
@@ -179,11 +176,11 @@ class IncludeSearch extends Files\CreateFile
                         $contentForeach .= $t . "\t\t'time'   => \${$tableName}All[\$i]->getVar('{$fieldDate}')\n";
                     }
                     $contentForeach .= $t . "\t];\n";
-                    $func .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, "\t");
-                    $func .= $this->pc->getPhpCodeUnset('crKeywords', $t);
-                    $func .= $this->pc->getPhpCodeUnset('crKeyword', $t);
-                    $func .= $this->pc->getPhpCodeUnset('crUser', $t);
-                    $func .= $this->pc->getPhpCodeUnset('crSearch', $t);
+                    $func           .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, "\t");
+                    $func           .= $this->pc->getPhpCodeUnset('crKeywords', $t);
+                    $func           .= $this->pc->getPhpCodeUnset('crKeyword', $t);
+                    $func           .= $this->pc->getPhpCodeUnset('crUser', $t);
+                    $func           .= $this->pc->getPhpCodeUnset('crSearch', $t);
                 }
                 $func .= $this->pc->getPhpCodeBlankLine();
             }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Docs;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -69,7 +68,7 @@ class DocsFiles extends Files\CreateFile
      * @param $module
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -93,11 +92,11 @@ class DocsFiles extends Files\CreateFile
     {
         $date = date('Y/m/d G:i:s');
         $ret  = <<<EOT
-====================================
- {$date} Version {$mod_version}
-====================================
- - Original release {$moduleDirname} created with modulebuilder module by ({$mod_author})
-EOT;
+            ====================================
+             {$date} Version {$mod_version}
+            ====================================
+             - Original release {$moduleDirname} created with modulebuilder module by ({$mod_author})
+            EOT;
 
         return $ret;
     }
@@ -114,17 +113,17 @@ EOT;
     public function getCreditsFile($mod_author, $mod_credits, $mod_author_website_url, $mod_description)
     {
         $ret = <<<EOT
-Read Me First
-=============
+            Read Me First
+            =============
 
-Originally created by the {$mod_author}.
+            Originally created by the {$mod_author}.
 
-Modified by {$mod_credits} ({$mod_author_website_url})
+            Modified by {$mod_credits} ({$mod_author_website_url})
 
-Contributors: {$mod_credits} ({$mod_author_website_url})
+            Contributors: {$mod_credits} ({$mod_author_website_url})
 
-{$mod_description}
-EOT;
+            {$mod_description}
+            EOT;
 
         return $ret;
     }
@@ -137,11 +136,11 @@ EOT;
     public function getInstallFile()
     {
         $ret = <<<'EOT'
-Read Me First
-=============
+            Read Me First
+            =============
 
-Install just like another XOOPS module
-EOT;
+            Install just like another XOOPS module
+            EOT;
 
         return $ret;
     }
@@ -154,12 +153,12 @@ EOT;
     public function getReadmeFile()
     {
         $ret = <<<'EOT'
-Read Me First
-=============
+            Read Me First
+            =============
 
-Please make sure that you download the XOOPS Icon Set, and upload it to uploads/images directory
-Read the table in admin help for the accurate description of the functionality of this module
-EOT;
+            Please make sure that you download the XOOPS Icon Set, and upload it to uploads/images directory
+            Read the table in admin help for the accurate description of the functionality of this module
+            EOT;
 
         return $ret;
     }
@@ -173,11 +172,11 @@ EOT;
     public function getLangDiffFile($mod_version)
     {
         $ret = <<<EOT
-List of added language defines
-=============
+            List of added language defines
+            =============
 
-// {$mod_version}
-EOT;
+            // {$mod_version}
+            EOT;
 
         return $ret;
     }

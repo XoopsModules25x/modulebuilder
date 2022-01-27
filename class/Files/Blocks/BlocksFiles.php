@@ -1,10 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Blocks;
 
 use XoopsModules\Modulebuilder;
 use XoopsModules\Modulebuilder\Files;
-
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -25,7 +24,6 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -33,12 +31,10 @@ use XoopsModules\Modulebuilder\Files;
  */
 class BlocksFiles extends Files\CreateFile
 {
-
     /**
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
@@ -76,7 +72,7 @@ class BlocksFiles extends Files\CreateFile
      * @param mixed  $table
      * @param        $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -120,12 +116,12 @@ class BlocksFiles extends Files\CreateFile
         $contIf  .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t");
         $crit    = $this->xc->getXcCriteria('', "'{$fieldId}'", "{$moduleDirname}_block_addCatSelect(\$options)", "'IN'", true);
         $contIf2 = $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t");
-        $contIf  .= $this->pc->getPhpCodeConditions('1 != (\count(\$options) && 0 == \$options[0])', null, null, $contIf2, false, "\t");
+        $contIf  .= $this->pc->getPhpCodeConditions('1 != (\count(\$options) && 0 == \$options[0])', '', '', $contIf2, false, "\t");
         $crit    = $this->xc->getXcCriteria('', "'{$fieldId}'", '0', "'!='", true);
         $contIf2 = $this->xc->getXcCriteriaAdd($critName, $crit, "\t\t");
         $contIf2 .= $this->xc->getXcCriteriaSetSort($critName, "'{$fieldId}'", "\t\t");
         $contIf2 .= $this->xc->getXcCriteriaSetOrder($critName, "'ASC'", "\t\t");
-        $contIf  .= $this->pc->getPhpCodeConditions('$typeBlock', null, null, $contIf2, false, "\t");
+        $contIf  .= $this->pc->getPhpCodeConditions('$typeBlock', '', '', $contIf2, false, "\t");
 
         //content else: parent
         //search for SelectStatus field
@@ -159,7 +155,7 @@ class BlocksFiles extends Files\CreateFile
         $case1[] = $this->xc->getXcCriteriaSetOrder($critName, "'DESC'","\t\t\t");
         $case2[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} new",'',"\t\t\t");
         $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\time() - 604800', "'>='", true);
-        $case2[] = $this->pc->getPhpCodeCommentLine("new since last week: 7 * 24 * 60 * 60 = 604800",'',"\t\t\t");
+        $case2[] = $this->pc->getPhpCodeCommentLine('new since last week: 7 * 24 * 60 * 60 = 604800', '', "\t\t\t");
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
         $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\time()', "'<='", true);
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
@@ -241,7 +237,7 @@ class BlocksFiles extends Files\CreateFile
         $func .= $this->getSimpleString('return $block;',"\t");
         $func .= $this->pc->getPhpCodeBlankLine();
 
-        $ret  .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_show", '$options', $func, '', false);
+        $ret  .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_show", '$options', $func, '', false, "");
 
         return $ret;
     }
@@ -298,10 +294,9 @@ class BlocksFiles extends Files\CreateFile
         $func .= $this->getSimpleString('return $form;', "\t");
         $func .= $this->pc->getPhpCodeBlankLine();
 
-        $ret .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_edit", '$options', $func, '');
+        $ret .= $this->pc->getPhpCodeFunction("b_{$moduleDirname}_{$tableName}_edit", '$options', $func, '', false, "");
 
         return $ret;
-
     }
 
     /**

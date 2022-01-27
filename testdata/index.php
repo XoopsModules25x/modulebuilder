@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -7,14 +8,14 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       The XOOPS Project https://xoops.org/
  * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package
  * @since           2.5.11
  * @author          Michael Beck (aka Mamba)
  */
 
 use Xmf\Database\TableLoad;
+
 //use Xmf\Module\Helper;
 use Xmf\Request;
 use Xmf\Yaml;
@@ -26,13 +27,12 @@ use XoopsModules\Modulebuilder\{
 /** @var Helper $helper */
 /** @var Utility $utility */
 /** @var Configurator $configurator */
-
 require_once dirname(__DIR__, 3) . '/include/cp_header.php';
 require \dirname(__DIR__) . '/preloads/autoloader.php';
 
 $op = Request::getCmd('op');
 
-$moduleDirName = \basename(\dirname(__DIR__));
+$moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 $helper = Helper::getInstance();
@@ -56,13 +56,22 @@ switch ($op) {
         saveSampleData();
         break;
     case 'clear':
-        clearSampleData();
+        if (Request::hasVar('ok', 'REQUEST') && 1 === Request::getInt('ok', 0)) {
+            if (!$GLOBALS['xoopsSecurity']->check()) {
+                redirect_header($helper->url('admin/index.php'), 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+            }
+            clearSampleData();
+        } else {
+            xoops_cp_header();
+            xoops_confirm(['ok' => 1, 'op' => 'clear'], 'index.php', sprintf(constant('CO_' . $moduleDirNameUpper . '_' . 'CLEAR_SAMPLEDATA')), constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'), true);
+            xoops_cp_footer();
+        }
         break;
 }
 
 // XMF TableLoad for SAMPLE data
 
-function loadSampleData()
+function loadSampleData(): void
 {
     global $xoopsConfig;
     $moduleDirName      = \basename(\dirname(__DIR__));
@@ -103,7 +112,7 @@ function loadSampleData()
     \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_SUCCESS'));
 }
 
-function saveSampleData()
+function saveSampleData(): void
 {
     global $xoopsConfig;
     $moduleDirName      = \basename(\dirname(__DIR__));
@@ -133,7 +142,7 @@ function saveSampleData()
     \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
 }
 
-function exportSchema()
+function exportSchema(): void
 {
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
@@ -202,10 +211,11 @@ function loadTableFromArrayWithReplace($table, $data, $search, $replace)
             }
         }
     }
+
     return $count;
 }
 
-function clearSampleData()
+function clearSampleData(): void
 {
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = \mb_strtoupper($moduleDirName);

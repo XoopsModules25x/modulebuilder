@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\User;
 
@@ -24,7 +24,6 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -36,17 +35,14 @@ class UserRate extends Files\CreateFile
      * @var mixed
      */
     private $xc = null;
-	
 	/**
      * @var mixed
      */
     private $pc = null;
-	
 	/**
      * @var mixed
      */
     private $uxc = null;
-	
 	
 	/**
      * @public function constructor
@@ -279,7 +275,6 @@ class UserRate extends Files\CreateFile
 
         $ret .= $this->pc->getPhpCodeCommentLine('Get Error', null, $t);
         $ret .= $this->getSimpleString("echo 'Error: ' . \$ratingsObj->getHtmlErrors();", $t);
-
 
         return $ret;
     }

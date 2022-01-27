@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\User;
 
@@ -24,7 +24,6 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -36,17 +35,14 @@ class UserXoopsVersion extends Files\CreateFile
      * @var array
      */
     private $kw = [];
-
     /**
      * @var mixed
      */
     private $uxc = null;
-
     /**
      * @var mixed
      */
     private $xc = null;
-
     /**
      * @var mixed
      */
@@ -86,7 +82,7 @@ class UserXoopsVersion extends Files\CreateFile
      * @param mixed $tables
      * @param       $filename
      */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $table, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -102,7 +98,7 @@ class UserXoopsVersion extends Files\CreateFile
      * @public function setKeywords
      * @param mixed $keywords
      */
-    public function setKeywords($keywords)
+    public function setKeywords($keywords): void
     {
         if (\is_array($keywords)) {
             $this->kw = $keywords;
@@ -136,8 +132,8 @@ class UserXoopsVersion extends Files\CreateFile
         $ret  .= $this->xc->getXcEqualsOperator('$moduleDirName     ', '\basename(__DIR__)');
         $ret  .= $this->xc->getXcEqualsOperator('$moduleDirNameUpper', '\mb_strtoupper($moduleDirName)');
         $ret  .= $this->getDashComment('Informations');
-        $ha   = (1 == $module->getVar('mod_admin')) ? 1 : 0;
-        $hm   = (1 == $module->getVar('mod_user')) ? 1 : 0;
+        $ha   = (1 == $module->getVar('mod_admin')) ? '1' : '0';
+        $hm   = (1 == $module->getVar('mod_user')) ? '1' : '0';
 
         $descriptions = [
             'name'                => "{$language}NAME",
@@ -268,7 +264,7 @@ class UserXoopsVersion extends Files\CreateFile
             }
         }
         $ret          = $this->getDashComment('Comments');
-        $ret          .= $this->uxc->getUserModVersionText(1, "1", 'hasComments');
+        $ret          .= $this->uxc->getUserModVersionText(1, '1', 'hasComments');
         $ret          .= $this->uxc->getUserModVersionText(2, "'{$tableName}.php'", 'comments', "'pageName'");
         $ret          .= $this->uxc->getUserModVersionText(2, "'{$fieldId}'", 'comments', "'itemName'");
         $ret          .= Modulebuilder\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('Comment callback functions');
@@ -376,7 +372,7 @@ class UserXoopsVersion extends Files\CreateFile
             $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer');
         }
 
-        $ret .= $this->uxc->getUserModVersionArray(11, $item, "templates");
+        $ret .= $this->uxc->getUserModVersionArray(11, $item, 'templates');
 
         return $ret;
     }
@@ -734,7 +730,7 @@ class UserXoopsVersion extends Files\CreateFile
                 'description' => "'{$language}RATINGBARS_DESC'",
                 'formtype'    => "'select'",
                 'valuetype'   => "'int'",
-                'default'     => "0",
+                'default'     => '0',
                 'options'     => "['{$language}RATING_NONE' => 0, '{$language}RATING_5STARS' => 1, '{$language}RATING_10STARS' => 2, '{$language}RATING_LIKES' => 3, '{$language}RATING_10NUM' => 4]",
             ];
             $ret .= $this->uxc->getUserModVersionArray(2, $mimetypes_image, 'config');
@@ -1078,7 +1074,6 @@ class UserXoopsVersion extends Files\CreateFile
 
         $ret .= $notifyCategory . $notifyEventGlobal . $notifyEventTable;
 
-
         return $ret;
     }
 
@@ -1107,7 +1102,6 @@ class UserXoopsVersion extends Files\CreateFile
 
         return $ret;
     }
-
 
     /**
      * @private function getXoopsVersionNotificationTableName
@@ -1185,7 +1179,7 @@ class UserXoopsVersion extends Files\CreateFile
         $ret  .= $this->pc->getPhpCodeIncludeDir("__DIR__ . '/include/xoops_version.inc.php'", '',true,true);
         $ret  .= $this->xc->getXcEqualsOperator('$iniPostMaxSize      ', "{$moduleDirname}ReturnBytes(\ini_get('post_max_size'))");
         $ret  .= $this->xc->getXcEqualsOperator('$iniUploadMaxFileSize', "{$moduleDirname}ReturnBytes(\ini_get('upload_max_filesize'))");
-        $ret  .= $this->xc->getXcEqualsOperator('$maxSize             ', "min(\$iniPostMaxSize, \$iniUploadMaxFileSize)");
+        $ret   .= $this->xc->getXcEqualsOperator('$maxSize             ', 'min($iniPostMaxSize, $iniUploadMaxFileSize)');
         $cond = $this->xc->getXcEqualsOperator('$increment', '500', null, $t . "\t");
         $ret  .= $this->pc->getPhpCodeConditions('$maxSize', ' > ', '10000 * 1048576', $cond, false, $t);
         $cond = $this->xc->getXcEqualsOperator('$increment', '200', null, $t . "\t");

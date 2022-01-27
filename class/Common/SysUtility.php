@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Common;
 
@@ -16,17 +16,12 @@ namespace XoopsModules\Modulebuilder\Common;
  */
 
 /**
- *
  * @license      https://www.fsf.org/copyleft/gpl.html GNU public license
  * @copyright    https://xoops.org 2000-2020 &copy; XOOPS Project
  * @author       ZySpec <zyspec@yahoo.com>
  * @author       Mamba <mambax7@gmail.com>
  */
 
-use MyTextSanitizer;
-use XoopsFormDhtmlTextArea;
-use XoopsFormTextArea;
-use XoopsModules\Modulebuilder;
 use XoopsModules\Modulebuilder\Helper;
 
 /**
@@ -50,7 +45,6 @@ class SysUtility
      * Access the only instance of this class
      *
      * @return object
-     *
      */
     public static function getInstance()
     {

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Templates\Admin;
 
@@ -22,9 +22,8 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -72,7 +71,7 @@ class TemplatesAdminPermissions extends Files\CreateFile
      * @param string $module
      * @param        $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -98,6 +97,7 @@ class TemplatesAdminPermissions extends Files\CreateFile
     {
         $form = $this->sc->getSmartySingleVar('form');
         $ret  = $this->hc->getHtmlTag('div', ['class' => 'spacer'], $form, '', '', "\n\n");
+
         return $ret;
     }
 

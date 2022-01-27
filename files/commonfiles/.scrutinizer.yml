@@ -15,9 +15,6 @@ build:
       tests:
         override:
           - php-scrutinizer-run --enable-security-analysis
-  environment:
-    php:
-      version: "7.2"
 filter:
   dependency_paths:
     - XoopsCore25/*

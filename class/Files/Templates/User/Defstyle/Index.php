@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
@@ -24,7 +24,6 @@ use XoopsModules\Modulebuilder\Files;
  *
  * @author          Txmod Xoops https://xoops.org 
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -36,7 +35,6 @@ class Index extends Files\CreateFile
      * @var mixed
      */
     private $hc = null;
-
     /**
      * @var mixed
      */
@@ -75,7 +73,7 @@ class Index extends Files\CreateFile
      * @param $tables
      * @param $filename
      */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $table, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -90,7 +88,6 @@ class Index extends Files\CreateFile
      */
     public function getTemplateUserIndexHeader($moduleDirname)
     {
-
         return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', false, false);
     }
 
@@ -156,7 +153,7 @@ class Index extends Files\CreateFile
         $ret     = $this->hc->getHtmlDiv($double, "{$moduleDirname}-linetitle", $t, "\n", false);
         $table   = $this->hc->getHtmlComment("Start show new {$tableName} in index",$t . "\t", "\n");
         $include = $this->sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName, $t . "\t\t\t\t\t", "\n");
-        $td      = $this->hc->getHtmlTableData($include, "col_width<{\$numb_col}> top center", '', $t . "\t\t\t\t", "\n", true);
+        $td      = $this->hc->getHtmlTableData($include, 'col_width<{$numb_col}> top center', '', $t . "\t\t\t\t", "\n", true);
         $tr      = $this->hc->getHtmlEmpty('</tr><tr>', $t . "\t\t\t\t\t", "\n");
         $td      .= $this->sc->getSmartyConditions('smarty.foreach.' . $tableSoleName . '.iteration', ' is div by ', '$divideby', $tr, false, false, false, $t . "\t\t\t\t", "\n", true, false);
         $foreach = $this->hc->getHtmlComment('Start new link loop',$t . "\t\t\t", "\n");

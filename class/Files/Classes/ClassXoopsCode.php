@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Modulebuilder\Files\Classes;
 
@@ -21,9 +21,8 @@ use XoopsModules\Modulebuilder;
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops https://xoops.org 
+ * @author          Txmod Xoops https://xoops.org
  *                  Goffy https://myxoops.org
- *
  */
 
 /**
@@ -337,7 +336,7 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormSelectUser($var, $param1, $param2, $param3, $ccFieldName, $isParam = false, $t = "\t\t")
     {
-        $user             = 'new \XoopsFormSelectUser(';
+        $user = 'new \XoopsFormSelectUser(';
         //$getVarSelectUser = Modulebuilder\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param4, true);
         if (false === $isParam) {
             $ret = "{$t}\${$var} = {$user}{$param1}, '{$param2}', {$param3}, {$ccFieldName});\n";
