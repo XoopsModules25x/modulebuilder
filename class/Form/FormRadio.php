@@ -49,7 +49,7 @@ class FormRadio extends \XoopsFormRadio
                 }
                 $ret .= '<td class="radio">';
             }
-            $ret .= '<input type="radio" name="' . $ele_name . '" id="' . $ele_name . '[' . $value . ']' . $id_ele . '" title = "' . htmlspecialchars($ele_title, ENT_QUOTES) . '" value="' . htmlspecialchars($value, ENT_QUOTES) . '"';
+            $ret .= '<input type="radio" name="' . $ele_name . '" id="' . $ele_name . '[' . $value . ']' . $id_ele . '" title = "' . htmlspecialchars((string)$ele_title, ENT_QUOTES) . '" value="' . htmlspecialchars($value, ENT_QUOTES) . '"';
             if (isset($ele_value) && $value == $ele_value) {
                 $ret .= ' checked';
             }
