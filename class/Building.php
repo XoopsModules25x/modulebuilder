@@ -100,6 +100,18 @@ class Building
                 \unlink($file);
             }
         }
+        $file = $dir . '/.gitignore';
+        if (is_file($file)) {
+            \unlink($file);
+        }
+        $file = $dir . '/.gitattributes';
+        if (is_file($file)) {
+            \unlink($file);
+        }
+        $file = $dir . '/.scrutinizer.yml';
+        if (is_file($file)) {
+            \unlink($file);
+        }
         if (\is_dir($dir)) {
             \rmdir($dir);
         }

@@ -340,12 +340,14 @@ class CreateFile extends CreateTableFields
      */
     public function getRightString($string = null)
     {
-        if (\mb_strpos($string, '_')) {
-            $str = \mb_strpos($string, '_');
-            if (false !== $str) {
-                $ret = \mb_substr($string, $str + 1, \mb_strlen($string));
+        if ('' != \trim($string)) {
+            if (\mb_strpos($string, '_')) {
+                $str = \mb_strpos($string, '_');
+                if (false !== $str) {
+                    $ret = \mb_substr($string, $str + 1, \mb_strlen($string));
 
-                return $ret;
+                    return $ret;
+                }
             }
         }
 

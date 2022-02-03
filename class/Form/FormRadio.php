@@ -31,8 +31,8 @@ class FormRadio extends \XoopsFormRadio
     {
         $ret           = '';
         $ele_name      = $this->getName();
-        $ele_title     = $this->getTitle();
-        $ele_value     = $this->getValue();
+        $ele_title     = (string)$this->getTitle();
+        $ele_value     = (string)$this->getValue();
         $ele_options   = $this->getOptions();
         $ele_extra     = $this->getExtra();
         $ele_delimeter = empty($this->columns) ? $this->getDelimeter() : '';
@@ -41,6 +41,12 @@ class FormRadio extends \XoopsFormRadio
         }
         $i      = 0;
         $id_ele = 0;
+        if ('' != $ele_title) {
+            $ele_title = htmlspecialchars($ele_title, ENT_QUOTES);
+        }
+        if ('' != $ele_value) {
+            $ele_value = htmlspecialchars($ele_value, ENT_QUOTES);
+        }
         foreach ($ele_options as $value => $name) {
             ++$id_ele;
             if (!empty($this->columns)) {
@@ -49,7 +55,7 @@ class FormRadio extends \XoopsFormRadio
                 }
                 $ret .= '<td class="radio">';
             }
-            $ret .= '<input type="radio" name="' . $ele_name . '" id="' . $ele_name . '[' . $value . ']' . $id_ele . '" title = "' . htmlspecialchars((string)$ele_title, ENT_QUOTES) . '" value="' . htmlspecialchars($value, ENT_QUOTES) . '"';
+            $ret .= '<input type="radio" name="' . $ele_name . '" id="' . $ele_name . '[' . $value . ']' . $id_ele . '" title = "' . $ele_title . '" value="' . $ele_value . '"';
             if (isset($ele_value) && $value == $ele_value) {
                 $ret .= ' checked';
             }
