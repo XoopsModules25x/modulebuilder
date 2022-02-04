@@ -85,7 +85,7 @@ class LogoGenerator
 
         // Write text
         $textColor     = imagecolorallocate($imageModule, 0, 0, 0);
-        $spaceToBorder = (92 - mb_strlen($moduleName) * 7.5) / 2;
+        $spaceToBorder = (int)\floor((92 - mb_strlen($moduleName) * 7.5) / 2);
         imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, $moduleName, []);
 
         imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
