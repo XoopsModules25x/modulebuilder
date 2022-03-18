@@ -17,6 +17,9 @@
 - replaced Common/XoopsConfirm by Common/Confirm(mamba/goffy)
 - table renaming in fieldelements (goffy)
 - added new fieldelements integer/float (goffy)
+- uninstall with bak-file creation (mamba/goffy)
+- module update to php8 (mamba)
+- fix bug in type cast (liomj/goffy)
 
 <h5>3.5.1 Beta 1   [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.25, PHP 8.0.12, PHP 8.1.0 Beta 4
  - semantic versioning (mamba)

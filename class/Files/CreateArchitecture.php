@@ -160,6 +160,10 @@ class CreateArchitecture extends CreateStructure
             \copy($copyFile, $copyNewFile);
         } else {
             // Copy file
+            if (!\file_exists($logoPng)) {
+                $logoPng = 'tdmxoops_logo.png';
+                $logoGifFrom = TDMC_UPLOAD_IMGMOD_PATH . '/' . $logoPng;
+            }
             $copyFile    = TDMC_IMAGES_LOGOS_URL . '/' . $logoPng;
             $copyNewFile = $logoGifFrom;
             \copy($copyFile, $copyNewFile);

@@ -329,7 +329,11 @@ class CreateFile extends CreateTableFields
      */
     public function getLeftString($string)
     {
-        return \mb_substr($string, 0, (int)\mb_strpos($string, '_'));
+        $ret = '';
+        if ('' != $string) {
+            $ret .= \mb_substr($string, 0, (int)\mb_strpos($string, '_'));
+        }
+        return $ret;
     }
 
     /**
@@ -340,12 +344,14 @@ class CreateFile extends CreateTableFields
      */
     public function getRightString($string = null)
     {
-        if (\mb_strpos($string, '_')) {
-            $str = \mb_strpos($string, '_');
-            if (false !== $str) {
-                $ret = \mb_substr($string, $str + 1, \mb_strlen($string));
+        if ('' != $string) {
+            if (\mb_strpos($string, '_')) {
+                $str = \mb_strpos($string, '_');
+                if (false !== $str) {
+                    $ret = \mb_substr($string, $str + 1, \mb_strlen($string));
 
-                return $ret;
+                    return $ret;
+                }
             }
         }
 
@@ -382,7 +388,11 @@ class CreateFile extends CreateTableFields
      */
     public function getUcfirst($string)
     {
-        return \ucfirst($string);
+        $ret = '';
+        if ('' != $string) {
+            $ret .= \ucfirst($string);
+        }
+        return $ret;
     }
 
     /**
@@ -393,7 +403,11 @@ class CreateFile extends CreateTableFields
      */
     public function getLcfirst($string)
     {
-        return \lcfirst($string);
+        $ret = '';
+        if ('' != $string) {
+            $ret .= \lcfirst($string);
+        }
+        return $ret;
     }
 
     /**
@@ -404,7 +418,11 @@ class CreateFile extends CreateTableFields
      */
     public function getStrToUpper($string)
     {
-        return \mb_strtoupper($string);
+        $ret = '';
+        if ('' != $string) {
+            $ret .= \mb_strtoupper($string);
+        }
+        return $ret;
     }
 
     /**
@@ -415,7 +433,11 @@ class CreateFile extends CreateTableFields
      */
     public function getStrToLower($string)
     {
-        return \mb_strtolower($string);
+        $ret = '';
+        if ('' != $string) {
+            $ret .= \mb_strtolower($string);
+        }
+        return $ret;
     }
 
     /**
