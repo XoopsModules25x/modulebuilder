@@ -30,21 +30,27 @@ use XoopsModules\Modulebuilder\Helper;
  */
 class TestdataButtons
 {
-    //functions for import buttons
+    /** Button status constants */
+    private const SHOW_BUTTONS = 1;
+    private const HIDE_BUTTONS = 0;
+
     /**
+     * Load the test button configuration
+     *
      * @param \Xmf\Module\Admin $adminObject
+     *
      * @return void
      */
-    public static function loadButtonConfig(\Xmf\Module\Admin $adminObject)
+    public static function loadButtonConfig($adminObject): void
     {
-        $moduleDirName       = \basename(\dirname(__DIR__, 2));
-        $moduleDirNameUpper  = \mb_strtoupper($moduleDirName);
-        $yamlFile            = \dirname(__DIR__, 2) . '/config/admin.yml';
-        $config[]              = Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
-        $displaySampleButton = $config[0]['displaySampleButton'];
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
+        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         $helper              = Helper::getInstance();
+        $yamlFile            = $helper->path('/config/admin.yml');
+        $config             = Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
+        $displaySampleButton = $config['displaySampleButton'];
 
-        if (1 == $displaySampleButton) {
+        if (self::SHOW_BUTTONS == $displaySampleButton) {
             \xoops_loadLanguage('admin/modulesadmin', 'system');
             $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA'), $helper->url('testdata/index.php?op=load'), 'add');
             $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), $helper->url('testdata/index.php?op=save'), 'add');
