@@ -306,7 +306,7 @@ class ClassFiles extends Files\CreateFile
             $getForm  .= $this->pc->getPhpCodeTernaryOperator('permissionUpload', $checkRight, 'true', 'false', "\t\t");
         }
         $getForm .= $this->pc->getPhpCodeCommentLine('Title', '', "\t\t");
-        $getForm .= $this->pc->getPhpCodeTernaryOperator('title', '$this->isNew()', "\sprintf({$language}{$stuTableSoleName}_ADD)", "\sprintf({$language}{$stuTableSoleName}_EDIT)", "\t\t");
+        $getForm .= $this->pc->getPhpCodeTernaryOperator('title', '$this->isNew()', "{$language}{$stuTableSoleName}_ADD", "{$language}{$stuTableSoleName}_EDIT", "\t\t");
         $getForm .= $this->pc->getPhpCodeCommentLine('Get Theme', 'Form', "\t\t");
         $getForm .= $this->xc->getXcXoopsLoad('XoopsFormLoader', "\t\t");
         $getForm .= $this->cxc->getClassXoopsThemeForm('form', 'title', 'form', 'action', 'post');
