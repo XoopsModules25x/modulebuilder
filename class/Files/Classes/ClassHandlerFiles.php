@@ -147,10 +147,10 @@ class ClassHandlerFiles extends Files\CreateFile
      */
     private function getClassGet()
     {
-        $ret   = $this->pc->getPhpCodeCommentMultiLine(['retrieve a' => 'field', '' => '', '@param int' => '$i field id', '@param null' => 'fields', '@return \XoopsObject|null reference to the' => '{@link Get} object'], "\t");
-        $cClhg = $this->getSimpleString('return parent::get($i, $fields);', "\t\t");
+        $ret   = $this->pc->getPhpCodeCommentMultiLine(['retrieve a' => 'field', '' => '', '@param int' => '$id field id', '@param null' => 'fields', '@return \XoopsObject|null reference to the' => '{@link Get} object'], "\t");
+        $cClhg = $this->getSimpleString('return parent::get($id, $fields);', "\t\t");
 
-        $ret .= $this->pc->getPhpCodeFunction('get', '$i = null, $fields = null', $cClhg, 'public ', false, "\t");
+        $ret .= $this->pc->getPhpCodeFunction('get', '$id = null, $fields = null', $cClhg, 'public ', false, "\t");
 
         return $ret;
     }
