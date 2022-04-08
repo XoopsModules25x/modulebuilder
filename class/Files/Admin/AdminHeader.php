@@ -124,8 +124,9 @@ class AdminHeader extends Files\CreateFile
         $ret            .= $this->pc->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!\is_object($xoopsTpl)', $template, false);
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->pc->getPhpCodeCommentLine('Load languages');
-        $ret            .= $this->xc->getXcXoopsLoadLanguage('admin');
-        $ret            .= $this->xc->getXcXoopsLoadLanguage('modinfo');
+        $ret            .= $this->xc->getXcXoopsLoadLanguage('admin', '', $moduleDirname);
+        $ret            .= $this->xc->getXcXoopsLoadLanguage('modinfo', '', $moduleDirname);
+        $ret            .= $this->pc->getPhpCodeCommentLine($this->xc->getXcXoopsLoadLanguage('main', '', $moduleDirname));
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->pc->getPhpCodeCommentLine('Local admin menu class');
         $xoopsPathCond  = $this->xc->getXcXoopsPath('$pathModuleAdmin', 'moduleadmin', true);
