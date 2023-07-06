@@ -199,7 +199,7 @@ class PagesItem extends Files\CreateFile
         $retFoot     .= $this->hc->getHtmlDiv($anchors, 'col-sm-12 right',"\t");
         $ret .= $this->hc->getHtmlDiv($retFoot, 'panel-foot');
         if ($tableRate) {
-            $rate = $this->sc->getSmartyIncludeFile($moduleDirname, 'rate', false, false, "\t", "\n", 'item=$' . $tableSoleName);
+            $rate = $this->sc->getSmartyIncludeFile($moduleDirname, 'rate', false, "\t", "\n", 'item=$' . $tableSoleName);
             $ret .= $this->sc->getSmartyConditions('rating', '', '', $rate, false);
         }
 

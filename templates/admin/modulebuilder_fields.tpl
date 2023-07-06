@@ -1,5 +1,5 @@
 <!-- Header -->
-<{includeq file="db:modulebuilder_header.tpl"}>
+<{include file="db:modulebuilder_header.tpl"}>
 <!-- Display tables list -->
 <{if $tables_list|default:''}>
     <table class='outer width100'>
@@ -43,18 +43,18 @@
                     <td class='center cell cell-width13-2'><img src="<{$modPathIcon16}>/fields.png"></td>
                     <td class='xo-actions center cell cell-width14-2'>
                         <a href="tables.php?op=edit&amp;table_mid=<{$table.mid}>&amp;table_id=<{$table.id}>" title="<{$smarty.const._AM_MODULEBUILDER_TABLES_EDIT}>">
-                            <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._AM_MODULEBUILDER_TABLES_EDIT}>">
+                            <img src="<{xoModuleIcons16 'edit.png'}>" alt="<{$smarty.const._AM_MODULEBUILDER_TABLES_EDIT}>">
                         </a>
                         <a href="fields.php?op=edit&amp;field_mid=<{$table.mid}>&amp;field_tid=<{$table.id}>" title="<{$smarty.const._AM_MODULEBUILDER_FIELDS_EDIT}>">
-                            <img src="<{xoModuleIcons16 inserttable.png}>" alt="<{$smarty.const._AM_MODULEBUILDER_FIELDS_EDIT}>">
+                            <img src="<{xoModuleIcons16 'inserttable.png'}>" alt="<{$smarty.const._AM_MODULEBUILDER_FIELDS_EDIT}>">
                         </a>
                         <a href="tables.php?op=delete&amp;table_id=<{$table.id}>" title="<{$smarty.const._DELETE}>">
-                            <img src="<{xoModuleIcons16 delete.png}>" alt="<{$smarty.const._DELETE}>">
+                            <img src="<{xoModuleIcons16 'delete.png'}>" alt="<{$smarty.const._DELETE}>">
                         </a>
                     </td>
                 </tr>
                 <tr class="toggleChild">
-                    <td class="sortable" colspan="14"><{includeq file="db:modulebuilder_fields_item.tpl" table=$table}></td>
+                    <td class="sortable" colspan="14"><{include file="db:modulebuilder_fields_item.tpl" table=$table}></td>
                 </tr>
             <{/if}>
         <{/foreach}>
@@ -79,4 +79,4 @@
     <div class="spacer"><{$form}></div>
 <{/if}>
 <!-- Footer -->
-<{*<{includeq file="db:modulebuilder_footer.tpl"}>*}>
+<{*<{include file="db:modulebuilder_footer.tpl"}>*}>

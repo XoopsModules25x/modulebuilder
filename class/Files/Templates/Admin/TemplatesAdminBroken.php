@@ -87,7 +87,7 @@ class TemplatesAdminBroken extends Files\CreateFile
     private function getTemplatesAdminBrokenHeader($moduleDirname)
     {
         $ret = $this->hc->getHtmlComment('Header', '', "\n");
-        $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
+        $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', "\n\n");
 
         return $ret;
     }
@@ -132,11 +132,11 @@ class TemplatesAdminBroken extends Files\CreateFile
         $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'main');
         $td      .= $this->hc->getHtmlTableData($double, 'center', '', $t . "\t\t");
         $lang    = $this->sc->getSmartyConst('', '_EDIT');
-        $src     = $this->sc->getSmartyNoSimbol('xoModuleIcons16 edit.png');
+        $src     = $this->sc->getSmartyNoSimbol("xoModuleIcons16 'edit.png'");
         $img     = $this->hc->getHtmlImage($src, $tableName);
         $anchor  = $this->hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$doubleKey}=" . $doubleVal, $img, $lang, '', '', '', $t . "\t\t\t", "\n");
         $lang    = $this->sc->getSmartyConst('', '_DELETE');
-        $src     = $this->sc->getSmartyNoSimbol('xoModuleIcons16 delete.png');
+        $src     = $this->sc->getSmartyNoSimbol("xoModuleIcons16 'delete.png'");
         $img     = $this->hc->getHtmlImage($src, $tableName);
         $anchor  .= $this->hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$doubleKey}=" . $doubleVal, $img, $lang, '', '', '', $t . "\t\t\t", "\n");
         $td      .= $this->hc->getHtmlTableData($anchor, 'center width5', '', $t . "\t\t", "\n", true);
@@ -185,7 +185,7 @@ class TemplatesAdminBroken extends Files\CreateFile
         $div           .= $this->hc->getHtmlDiv('', 'clear spacer', $t . "\t", "\n", false);
         $htmlTable     .= $this->sc->getSmartyConditions('pagenav', '', '', $div, '', '', '', $t);
         $noData        = $this->sc->getSmartySingleVar('nodata' . $ucfTableName, $t . "\t\t");
-        $src           = $this->sc->getSmartyNoSimbol('xoModuleIcons32 button_ok.png');
+        $src           = $this->sc->getSmartyNoSimbol("xoModuleIcons32 'button_ok.png'");
         $noData        .= $this->hc->getHtmlImage($src, $tableName, '', '', "\n");
         $div           = $this->hc->getHtmlDiv($noData, '', $t . "\t", "\n", true);
         $div           .= $this->hc->getHtmlDiv('', 'clear spacer', $t . "\t", "\n", false);

@@ -64,13 +64,13 @@
                 </td>
                 <td class='xo-actions cell cell-width13'>
                     <a href="tables.php?op=edit&amp;table_mid=<{$table.mid}>&amp;table_id=<{$table.id}>" title="<{$smarty.const._EDIT}>">
-                        <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._EDIT}>">
+                        <img src="<{xoModuleIcons16 'edit.png'}>" alt="<{$smarty.const._EDIT}>">
                     </a>
                     <a href="fields.php?op=edit&amp;field_mid=<{$table.mid}>&amp;field_tid=<{$table.id}>" title="<{$smarty.const._EDIT}>">
                         <img src="<{$modPathIcon16}>/editfields.png" alt="<{$smarty.const._EDIT}>">
                     </a>
                     <a href="tables.php?op=delete&amp;table_id=<{$table.id}>" title="<{$smarty.const._DELETE}>">
-                        <img src="<{xoModuleIcons16 delete.png}>" alt="<{$smarty.const._DELETE}>">
+                        <img src="<{xoModuleIcons16 'delete.png'}>" alt="<{$smarty.const._DELETE}>">
                     </a>
                 </td>
             </tr>
