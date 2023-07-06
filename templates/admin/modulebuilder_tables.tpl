@@ -1,5 +1,5 @@
 <!-- Header -->
-<{includeq file="db:modulebuilder_header.tpl"}>
+<{include file="db:modulebuilder_header.tpl"}>
 <!-- Display modules list -->
 <{if $modules_list|default:''}>
     <table class='outer width100'>
@@ -81,21 +81,21 @@
                     </td>
                     <td class='xo-actions txtcenter width6'>
                         <a href="modules.php?op=edit&amp;mod_id=<{$module.id}>" title="<{$smarty.const._EDIT}>">
-                            <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._EDIT}>" alt="<{$smarty.const._EDIT}>">
+                            <img src="<{xoModuleIcons16 'edit.png'}>" alt="<{$smarty.const._EDIT}>" alt="<{$smarty.const._EDIT}>">
                         </a>
                         <a href="modules.php?op=delete&amp;mod_id=<{$module.id}>" title="<{$smarty.const._DELETE}>">
-                            <img src="<{xoModuleIcons16 delete.png}>" alt="<{$smarty.const._DELETE}>" alt="<{$smarty.const._DELETE}>">
+                            <img src="<{xoModuleIcons16 'delete.png'}>" alt="<{$smarty.const._DELETE}>" alt="<{$smarty.const._DELETE}>">
                         </a>
                         <a href="tables.php?op=new&amp;table_mid=<{$module.id}>" title="<{$smarty.const._ADD}>">
-                            <img src="<{xoModuleIcons16 add.png}>" alt="<{$smarty.const._ADD}>" alt="<{$smarty.const._ADD}>">
+                            <img src="<{xoModuleIcons16 'add.png'}>" alt="<{$smarty.const._ADD}>" alt="<{$smarty.const._ADD}>">
                         </a>
-                        <a href="building.php?op=build&amp;mod_id=<{$module.id}>"><img src="<{xoModuleIcons16 forward.png}>"
+                        <a href="building.php?op=build&amp;mod_id=<{$module.id}>"><img src="<{xoModuleIcons16 'forward.png'}>"
                                                                                        alt="<{$smarty.const._AM_MODULEBUILDER_ADMIN_CONST}>"
                                                                                        title="<{$smarty.const._AM_MODULEBUILDER_ADMIN_CONST}>"></a>
                     </td>
                 </tr>
                 <tr class="toggleChild">
-                    <td class="sortable" colspan="13"><{includeq file="db:modulebuilder_tables_item.tpl" module=$module}></td>
+                    <td class="sortable" colspan="13"><{include file="db:modulebuilder_tables_item.tpl" module=$module}></td>
                 </tr>
             <{/if}>
         <{/foreach}>
@@ -120,4 +120,4 @@
     <div class="spacer"><{$form}></div>
 <{/if}>
 <!-- Footer -->
-<{includeq file="db:modulebuilder_footer.tpl"}>
+<{include file="db:modulebuilder_footer.tpl"}>

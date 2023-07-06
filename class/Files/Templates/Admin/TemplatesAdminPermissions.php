@@ -85,7 +85,7 @@ class TemplatesAdminPermissions extends Files\CreateFile
      */
     private function getTemplatesAdminPermissionsHeader($moduleDirname)
     {
-        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
+        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', "\n\n");
     }
 
     /**

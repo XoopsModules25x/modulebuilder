@@ -8,7 +8,7 @@
         padding:20px 0 !important;
     }
 </style>
-<{includeq file="db:modulebuilder_header.tpl"}>
+<{include file="db:modulebuilder_header.tpl"}>
 <!-- Display tables list -->
 <{if $devtools_list|default:''}>
     <table class='outer width100'>
@@ -74,4 +74,4 @@
 <{/if}>
 
 <!-- Footer -->
-<{includeq file="db:modulebuilder_footer.tpl"}>
+<{include file="db:modulebuilder_footer.tpl"}>

@@ -88,7 +88,7 @@ class Index extends Files\CreateFile
      */
     public function getTemplateUserIndexHeader($moduleDirname)
     {
-        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', false, false);
+        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', false);
     }
 
     /**

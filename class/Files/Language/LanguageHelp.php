@@ -88,7 +88,7 @@ class LanguageHelp extends Files\CreateFile
             <div id="help-template" class="outer">
                 <h1 class="head">Help:
                     <a class="ui-corner-all tooltip" href="<{\$xoops_url}>/modules/{$moduleDirname}/admin/index.php"
-                       title="Back to the administration of {$moduleName}"> {$moduleName} <img src="<{xoAdminIcons home.png}>"
+                       title="Back to the administration of {$moduleName}"> {$moduleName} <img src="<{xoAdminIcons 'home.png'}>"
                                                                                    alt="Back to the Administration of {$moduleName}">
                     </a></h1>
                 <!-- -----Help Content ---------- -->

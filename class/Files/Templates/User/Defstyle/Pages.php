@@ -86,7 +86,7 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesHeader($moduleDirname)
     {
-        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', '','','',"\n\n");
+        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', '','',"\n\n");
     }
 
     /**
@@ -134,7 +134,7 @@ class Pages extends Files\CreateFile
     private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName)
     {
         $single  = $this->sc->getSmartySingleVar('panel_type');
-        $include = $this->sc->getSmartyIncludeFile($moduleDirname, $tableName . '_item', false,false, "\t\t\t\t\t\t");
+        $include = $this->sc->getSmartyIncludeFile($moduleDirname, $tableName . '_item', false, "\t\t\t\t\t\t");
         $div     = $this->hc->getHtmlDiv($include, 'panel panel-' . $single, "\t\t\t\t\t");
         $cont    = $this->hc->getHtmlTableData($div, '', '', "\t\t\t\t", "\n", true);
         $html    = $this->hc->getHtmlEmpty('</tr><tr>', "\t\t\t\t\t", "\n");

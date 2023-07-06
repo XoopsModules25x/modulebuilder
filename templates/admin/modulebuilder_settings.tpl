@@ -1,5 +1,5 @@
 <!-- Header -->
-<{includeq file="db:modulebuilder_header.tpl"}>
+<{include file="db:modulebuilder_header.tpl"}>
 <!-- Display settings list -->
 <{if $settings_list|default:''}>
     <form name="setting">
@@ -40,10 +40,10 @@
                     </td>
                     <td class='xo-actions txtcenter width5'>
                         <a href="settings.php?op=edit&amp;set_id=<{$set.id}>" title="<{$smarty.const._EDIT}>">
-                            <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._EDIT}>">
+                            <img src="<{xoModuleIcons16 'edit.png'}>" alt="<{$smarty.const._EDIT}>">
                         </a>
                         <a href="settings.php?op=delete&amp;set_id=<{$set.id}>" title="<{$smarty.const._DELETE}>">
-                            <img src="<{xoModuleIcons16 delete.png}>" alt="<{$smarty.const._DELETE}>">
+                            <img src="<{xoModuleIcons16 'delete.png'}>" alt="<{$smarty.const._DELETE}>">
                         </a>
                     </td>
                 </tr>
@@ -70,4 +70,4 @@
     </div>
 <{/if}>
 <!-- Footer -->
-<{includeq file="db:modulebuilder_footer.tpl"}>
+<{include file="db:modulebuilder_footer.tpl"}>

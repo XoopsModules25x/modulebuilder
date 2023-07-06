@@ -177,24 +177,18 @@ class CreateSmartyCode
      * @param        $moduleDirname
      * @param string $fileName
      * @param bool   $admin
-     *
-     * @param bool   $q
      * @param string $t
      * @param string $n
      * @param string $attributes
      * @return string
      */
-    public function getSmartyIncludeFile($moduleDirname, $fileName = 'header', $admin = false, $q = false, $t = '', $n = "\n", $attributes = '')
+    public function getSmartyIncludeFile($moduleDirname, $fileName = 'header', $admin = false, $t = '', $n = "\n", $attributes = '')
     {
         $ret = '';
-        if (!$admin && !$q) {
+        if (!$admin) {
             $ret = "{$t}<{include file='db:{$moduleDirname}_{$fileName}.tpl' {$attributes}}>{$n}";
-        } elseif ($admin && !$q) {
+        } else {
             $ret = "{$t}<{include file='db:{$moduleDirname}_admin_{$fileName}.tpl' {$attributes}}>{$n}";
-        } elseif (!$admin && $q) {
-            $ret = "{$t}<{includeq file='db:{$moduleDirname}_{$fileName}.tpl' {$attributes}}>{$n}";
-        } elseif ($admin && $q) {
-            $ret = "{$t}<{includeq file='db:{$moduleDirname}_admin_{$fileName}.tpl' {$attributes}}>{$n}";
         }
 
         return $ret;

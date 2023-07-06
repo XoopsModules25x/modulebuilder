@@ -116,11 +116,11 @@ class Footer extends Files\CreateFile
         $contIf  = $this->hc->getHtmlDiv("<a href='<{\$admin}>'><{\$smarty.const.{$language}ADMIN}></a>", 'text-center bold', "\t", "\n", false);
         $ret     .= $this->sc->getSmartyConditions('xoops_isadmin', '', '', $contIf);
         $ret     .= $this->hc->getHtmlEmpty("\n");
-        $contIf  = $this->sc->getSmartyIncludeFile('system_comments', 'flat', false, false, "\t\t\t");
+        $contIf  = $this->sc->getSmartyIncludeFile('system_comments', 'flat', false, "\t\t\t");
         $contIf  .= $this->getSimpleString('<{elseif $comment_mode == "thread"}>', "\t\t");
-        $contIf  .= $this->sc->getSmartyIncludeFile('system_comments', 'thread', false, false, "\t\t\t");
+        $contIf  .= $this->sc->getSmartyIncludeFile('system_comments', 'thread', false, "\t\t\t");
         $contIf  .= $this->getSimpleString('<{elseif $comment_mode == "nest"}>', "\t\t");
-        $contIf  .= $this->sc->getSmartyIncludeFile('system_comments', 'nest', false, false, "\t\t\t");
+        $contIf  .= $this->sc->getSmartyIncludeFile('system_comments', 'nest', false, "\t\t\t");
         $contDiv = $this->sc->getSmartyConditions('comment_mode', ' == ', '"flat"', $contIf, false, '', '', "\t\t", "\n", true, false);
         $contIf  = $this->hc->getHtmlDiv($contDiv, 'pad2 marg2', "\t", "\n", true);
         $ret     .= $this->sc->getSmartyConditions('comment_mode', '', '', $contIf);

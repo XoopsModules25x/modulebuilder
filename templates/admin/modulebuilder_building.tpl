@@ -1,5 +1,5 @@
 <!-- Header -->
-<{includeq file="db:modulebuilder_header.tpl"}>
+<{include file="db:modulebuilder_header.tpl"}>
 <!-- Display building form  -->
 <br>
 <{if $building_directory|default:''}>
@@ -15,24 +15,24 @@
         <tr class="even">
             <{if $base_architecture}>
                 <td style="padding-left: 30px;"><{$smarty.const._AM_MODULEBUILDER_OK_ARCHITECTURE}></td>
-                <td class="center"><img src="<{xoModuleIcons16 on.png}>" alt=""></td>
+                <td class="center"><img src="<{xoModuleIcons16 'on.png'}>" alt=""></td>
                 <td>&nbsp;</td>
             <{else}>
                 <td style="padding-left: 30px;"><{$smarty.const._AM_MODULEBUILDER_NOTOK_ARCHITECTURE}></td>
                 <td>&nbsp;</td>
-                <td class="center"><img src="<{xoModuleIcons16 off.png}>" alt=""></td>
+                <td class="center"><img src="<{xoModuleIcons16 'off.png'}>" alt=""></td>
             <{/if}>
         </tr>
         <{foreach item=build from=$builds}>
             <tr class="<{cycle values='odd, even'}>">
                 <{if $created}>
                     <td style="padding-left: 30px;"><{$build.list}></td>
-                    <td class="center"><img src="<{xoModuleIcons16 on.png}>" alt=""></td>
+                    <td class="center"><img src="<{xoModuleIcons16 'on.png'}>" alt=""></td>
                     <td>&nbsp;</td>
                 <{else}>
                     <td style="padding-left: 30px;"><{$build.list}></td>
                     <td>&nbsp;</td>
-                    <td class="center"><img src="<{xoModuleIcons16 off.png}>" alt=""></td>
+                    <td class="center"><img src="<{xoModuleIcons16 'off.png'}>" alt=""></td>
                 <{/if}>
             </tr>
         <{/foreach}>
@@ -56,11 +56,11 @@
     <{/if}>
     <{if $checkResultsNice|default:''}>
         <h3 class="red"><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_RESULT}></h3>
-        <p><img src="<{xoModuleIcons16 on.png}>" alt=""><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_NOERRORS}></p>
+        <p><img src="<{xoModuleIcons16 'on.png'}>" alt=""><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_NOERRORS}></p>
     <{/if}>
     <{if $form|default:''}>
         <{$form}>
     <{/if}>
 <{/if}>
 <!-- Footer -->
-<{includeq file="db:modulebuilder_footer.tpl"}>
+<{include file="db:modulebuilder_footer.tpl"}>

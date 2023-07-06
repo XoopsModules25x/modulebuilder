@@ -25,9 +25,9 @@
 $moduleDirName      = \basename(__DIR__);
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-$modversion['version']             = '3.6.0';
-$modversion['module_status']       = 'Stable';
-$modversion['release_date']        = '2023/02/28'; // format: yyyy/mm/dd
+$modversion['version']             = '3.7.0';
+$modversion['module_status']       = 'Alpha';
+$modversion['release_date']        = '2023/07/06'; // format: yyyy/mm/dd
 $modversion['name']                = \_MI_MODULEBUILDER_NAME;
 $modversion['description']         = \_MI_MODULEBUILDER_DESC;
 $modversion['author']              = 'Xoops TDM';
@@ -55,14 +55,14 @@ $modversion['targetdir']           = XOOPS_UPLOAD_PATH . "/{$moduleDirName}/repo
 $modversion['module_website_url']  = 'https://github.com/XoopsModules25x/modulebuilder';
 $modversion['module_website_name'] = 'GitHub Xoops';
 $modversion['min_php']             = '7.4';
-$modversion['min_xoops']           = '2.5.11-Beta 2';
+$modversion['min_xoops']           = '2.5.11-RC2';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = ['mysql' => '5.5'];
 //about
 $modversion['demo_site_url']       = 'https://xoops.org/';
 $modversion['demo_site_name']      = 'Xoops TDM';
 $modversion['forum_site_url']      = 'https://xoops.org/modules/newbb/viewtopic.php?post_id=365223';
-$modversion['forum_site_name']     = 'ModuleBuilder 3.03 for Testing';
+$modversion['forum_site_name']     = 'ModuleBuilder for Testing';
 $modversion['module_website_name'] = 'Xoops TDM';
 // Admin things
 $modversion['system_menu'] = '1';

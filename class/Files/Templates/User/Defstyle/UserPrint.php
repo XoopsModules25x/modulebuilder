@@ -87,7 +87,7 @@ class UserPrint extends Files\CreateFile
     private function getTemplatesUserPrintHeader($moduleDirname)
     {
         $ret = $this->hc->getHtmlComment('Header', '', "\n");
-        $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'header', false, '', '', "\n\n");
+        $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'header', false, '', "\n\n");
 
         return $ret;
     }

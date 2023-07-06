@@ -89,7 +89,7 @@ class TemplatesAdminFooter extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $supportName   = $module->getVar('mod_support_name');
         $language      = $this->getLanguage($moduleDirname, 'AM', '', false);
-        $singleNoVar   = $this->sc->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
+        $singleNoVar   = $this->sc->getSmartyNoSimbol("xoModuleIcons32 'xoopsmicrobutton.gif'");
         $img           = $this->hc->getHtmlTag('img', ['src' => $singleNoVar, 'alt' => 'XOOPS'], '', true, '', '');
         $anchor        = $this->hc->getHtmlTag('a', ['href' => 'https://xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'], $img);
         $content       = $this->hc->getHtmlTag('div', ['class' => 'center'], "\n\t" . $anchor);

@@ -1,5 +1,5 @@
 <!-- Header -->
-<{includeq file="db:modulebuilder_header.tpl"}>
+<{include file="db:modulebuilder_header.tpl"}>
 <!-- Display files list -->
 <{if $files_list|default:''}>
     <table class='outer width100'>
@@ -24,10 +24,10 @@
                 <td class='center bold'><{$file.upload}></td>
                 <td class='xo-actions txtcenter width5'>
                     <a href="morefiles.php?op=edit&amp;file_id=<{$file.id}>" title="<{$smarty.const._EDIT}>">
-                        <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._EDIT}>">
+                        <img src="<{xoModuleIcons16 'edit.png'}>" alt="<{$smarty.const._EDIT}>">
                     </a>
                     <a href="morefiles.php?op=delete&amp;file_id=<{$file.id}>" title="<{$smarty.const._DELETE}>">
-                        <img src="<{xoModuleIcons16 delete.png}>" alt="<{$smarty.const._DELETE}>">
+                        <img src="<{xoModuleIcons16 'delete.png'}>" alt="<{$smarty.const._DELETE}>">
                     </a>
                 </td>
             </tr>
@@ -53,4 +53,4 @@
     </div>
 <{/if}>
 <!-- Footer -->
-<{includeq file="db:modulebuilder_footer.tpl"}>
+<{include file="db:modulebuilder_footer.tpl"}>

@@ -90,7 +90,7 @@ class Header extends Files\CreateFile
     public function getTemplatesUserHeader($moduleDirname)
     {
         $ret = '';
-        $cond = $this->sc->getSmartyIncludeFile($moduleDirname, 'breadcrumbs', false, true, "\t");
+        $cond = $this->sc->getSmartyIncludeFile($moduleDirname, 'breadcrumbs', false, "\t");
         $ret .= $this->sc->getSmartyConditions('xoBreadcrumbs', '', '', $cond);
         $var = $this->sc->getSmartySingleVar('ads');
         $div = $this->hc->getHtmlDiv($var, 'center', "\t","\n", false) ;

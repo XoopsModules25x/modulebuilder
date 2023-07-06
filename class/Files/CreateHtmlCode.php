@@ -370,7 +370,12 @@ class CreateHtmlCode
     public function getHtmlImage($src = 'blank.gif', $alt = 'blank.gif', $imgClass = '', $t = '', $n = '')
     {
         $rImgClass = ('' != $imgClass) ? " class='{$imgClass}'" : '';
-        $ret       = "{$t}<img{$rImgClass} src='{$src}' alt='{$alt}' >{$n}";
+        if (strpos($src,"'")) {
+            // function getSmartyNoSimbol is used before
+            $ret = "{$t}<img{$rImgClass} src=\"{$src}\" alt='{$alt}' >{$n}";
+        } else {
+            $ret = "{$t}<img{$rImgClass} src='{$src}' alt='{$alt}' >{$n}";
+        }
 
         return $ret;
     }
