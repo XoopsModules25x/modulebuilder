@@ -120,8 +120,13 @@ class IncludeSearch extends Files\CreateFile
                     $fieldMain  = '';
                     $fieldDate  = '';
                     $countField = 0;
+                    $fieldUser  = '';
                     foreach (\array_keys($fields) as $f) {
-                        $fieldName = $fields[$f]->getVar('field_name');
+                        $fieldName    = $fields[$f]->getVar('field_name');
+                        $fieldElement = $fields[$f]->getVar('field_element');
+                        if (Modulebuilder\Constants::FIELD_ELE_SELECTUSER == $fieldElement) {
+                            $fieldUser = $fieldName;
+                        }
                         if (0 == $f) {
                             $fieldId = $fieldName;
                         }
@@ -143,22 +148,26 @@ class IncludeSearch extends Files\CreateFile
                     $for      .= $this->pc->getPhpCodeUnset('crKeyword', $t . "\t\t");
                     $contIf   .= $this->pc->getPhpCodeFor('i', $for, 'elementCount', '0', ' < ', $t . "\t");
                     $func     .= $this->pc->getPhpCodeConditions('$elementCount', ' > ', '0', $contIf, false, $t);
-                    $func     .= $this->pc->getPhpCodeCommentLine('search user(s)', '', $t);
-                    $contIf   = $this->xc->getXcEqualsOperator('$userid', "array_map('\intval', \$userid)", '', $t . "\t");
-                    $contIf   .= $this->xc->getXcCriteriaCompo('crUser', $t . "\t");
-                    $crit     = $this->xc->getXcCriteria('', "'{$tableFieldname}_submitter'", "'(' . \implode(',', \$userid) . ')'", "'IN'", true, $t . "\t");
-                    $contIf   .= $this->xc->getXcCriteriaAdd('crUser', $crit, $t . "\t", "\n", "'OR'");
-                    $contElse = $this->xc->getXcCriteriaCompo('crUser', $t . "\t");
-                    $crit     = $this->xc->getXcCriteria('', "'{$tableFieldname}_submitter'", '$userid', '', true, $t . "\t");
-                    $contElse .= $this->xc->getXcCriteriaAdd('crUser', $crit, $t . "\t", "\n", "'OR'");
-                    $func     .= $this->pc->getPhpCodeConditions('$userid && \is_array($userid)', '', '', $contIf, $contElse, $t, 'is_numeric($userid) && $userid > 0');
+                    if ('' !== $fieldUser) {
+                        $func .= $this->pc->getPhpCodeCommentLine('search user(s)', '', $t);
+                        $contIf = $this->xc->getXcEqualsOperator('$userid', "array_map('\intval', \$userid)", '', $t . "\t");
+                        $contIf .= $this->xc->getXcCriteriaCompo('crUser', $t . "\t");
+                        $crit = $this->xc->getXcCriteria('', "'{$fieldUser}'", "'(' . \implode(',', \$userid) . ')'", "'IN'", true, $t . "\t");
+                        $contIf .= $this->xc->getXcCriteriaAdd('crUser', $crit, $t . "\t", "\n", "'OR'");
+                        $contElse = $this->xc->getXcCriteriaCompo('crUser', $t . "\t");
+                        $crit = $this->xc->getXcCriteria('', "'{$fieldUser}'", '$userid', '', true, $t . "\t");
+                        $contElse .= $this->xc->getXcCriteriaAdd('crUser', $crit, $t . "\t", "\n", "'OR'");
+                        $func .= $this->pc->getPhpCodeConditions('$userid && \is_array($userid)', '', '', $contIf, $contElse, $t, 'is_numeric($userid) && $userid > 0');
+                    }
                     $func     .= $this->xc->getXcCriteriaCompo('crSearch', $t);
                     $contIf   = $this->xc->getXcCriteriaAdd('crSearch', '$crKeywords', $t . "\t", "\n", "'AND'");
                     $cond     = $this->pc->getPhpCodeIsset('crKeywords');
                     $func     .= $this->pc->getPhpCodeConditions($cond, '', '', $contIf, false, $t);
-                    $contIf   = $this->xc->getXcCriteriaAdd('crSearch', '$crUser', $t . "\t", "\n", "'AND'");
-                    $cond     = $this->pc->getPhpCodeIsset('crUser');
-                    $func     .= $this->pc->getPhpCodeConditions($cond, '', '', $contIf, false, $t);
+                    if ('' !== $fieldUser) {
+                        $contIf   = $this->xc->getXcCriteriaAdd('crSearch', '$crUser', $t . "\t", "\n", "'AND'");
+                        $cond = $this->pc->getPhpCodeIsset('crUser');
+                        $func .= $this->pc->getPhpCodeConditions($cond, '', '', $contIf, false, $t);
+                    }
                     $func     .= $this->xc->getXcCriteriaSetStart('crSearch', '$offset', $t);
                     $func     .= $this->xc->getXcCriteriaSetLimit('crSearch', '$limit', $t);
                     if ('' !== $fieldDate) {
