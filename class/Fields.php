@@ -195,7 +195,8 @@ class Fields extends \XoopsObject
         // Index ID
         $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $i . '</td>'));
         // Field Name
-        $thisFieldName = (!empty($fName) ? ((1 == $i) ? $fName . '_id' : $fName . '_') : '');
+        //$thisFieldName = (!empty($fName) ? ((1 == $i) ? $fName . '_id' : $fName . '_') : '');
+        $thisFieldName = (1 === $i) ? 'id' : '';
         $fieldName     = new \XoopsFormText(\_AM_MODULEBUILDER_FIELD_NAME, 'field_name[' . $i . ']', 15, 255, $thisFieldName);
         $form->addElement(new Modulebuilder\Html\FormLabel('<td class="center">' . $fieldName->render() . '</td>'));
         // Field Element
