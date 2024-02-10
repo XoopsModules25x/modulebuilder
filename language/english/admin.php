@@ -210,9 +210,9 @@
 \define('_AM_MODULEBUILDER_TABLES_NEW_CATEGORY', 'New Category');
 \define('_AM_MODULEBUILDER_TABLE_MODULES', 'Choose a module');
 \define('_AM_MODULEBUILDER_TABLE_NAME', 'Table Name');
-\define('_AM_MODULEBUILDER_TABLE_NAME_DESC', "Unique Name: It's recommended to use plural word (i.e.: <span style='text-decoration: underline;'>categories</span><span class='white bold'>s</span>)");
-\define('_AM_MODULEBUILDER_TABLE_SOLENAME', 'Table Singular Name');
-\define('_AM_MODULEBUILDER_TABLE_SOLENAME_DESC', "Singular  Name: It's recommended to use singular word (i.e.: <span style='text-decoration: underline;'>category</span> for admin buttons)");
+\define('_AM_MODULEBUILDER_TABLE_NAME_DESC', "Unique Name: You can use plural word, but it's recommended to use singular word (i.e.: <span style='text-decoration: underline;'>category</span><span class='white bold'>s</span>)");
+\define('_AM_MODULEBUILDER_TABLE_SOLENAME', 'Table Name');
+\define('_AM_MODULEBUILDER_TABLE_SOLENAME_DESC', "Name: It's recommended to use singular word (i.e.: <span style='text-decoration: underline;'>category</span>)");
 \define('_AM_MODULEBUILDER_TABLE_CATEGORY', 'This table is a category or topic?');
 \define('_AM_MODULEBUILDER_TABLE_CATEGORY_DESC', "<b class='red bold'>WARNING</b>: <i>Once you have used this option for this module, and edit this table,<br>will not be displayed following the creation of other tables</i>");
 \define('_AM_MODULEBUILDER_TABLE_NBFIELDS', 'Number fields');

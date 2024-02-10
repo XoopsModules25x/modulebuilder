@@ -1,6 +1,7 @@
 <h5>3.7.0 RC1   [2024-02-01]</h5>  Dev: XOOPS 2.5.11 Stable, PHP 8.0
  - updated version check for XOOPS 2.5.11 Stable (goffy)
- - removed prefix from table field names (mamba/goffy)
+ - moved to singular table names (mamba/goffy)
+
  
 <h5>3.7.0 Alpha   [2023-07-06]</h5>  Dev: XOOPS 2.5.11 RC2, PHP 8.0
  - implemented smarty 3 (zivXP/goffy)

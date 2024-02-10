@@ -121,3 +121,10 @@
 <{/if}>
 <!-- Footer -->
 <{include file="db:modulebuilder_footer.tpl"}>
+
+<script type='application/javascript'>
+    function changeTablesolename() {
+        document.getElementById('table_name').value=document.getElementById('table_solename').value;
+        document.getElementById('table_name').text=document.getElementById('table_solename').text;
+    }
+</script>
