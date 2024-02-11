@@ -3,7 +3,10 @@
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\{
+    Files,
+    Constants
+};
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -147,18 +150,25 @@ class UserPrint extends Files\CreateFile
             $rpFieldName  = $this->getRightString($fieldName);
             if (1 == $fields[$f]->getVar('field_user')) {
                 switch ($fieldElement) {
-                    case 3:
-                    case 4:
+                    case Constants::FIELD_ELE_RADIOYN:
+                    case Constants::FIELD_ELE_SELECTUSER:
+                    case Constants::FIELD_ELE_DATETIME:
+                    case Constants::FIELD_ELE_TEXTDATESELECT:
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text');
+                        $td     .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t");
+                        break;
+                    case Constants::FIELD_ELE_TEXTAREA:
+                    case Constants::FIELD_ELE_DHTMLTEXTAREA:
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short');
                         $td     .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t");
                         break;
-                    case 5:
+                    case Constants::FIELD_ELE_CHECKBOX:
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $src    = $this->sc->getSmartyNoSimbol('xoModuleIcons16') . $double . '.png';
                         $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
                         $td     .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t");
                         break;
-                    case 9:
+                    case Constants::FIELD_ELE_COLORPICKER:
                         // This is to be reviewed, as it was initially to style = "backgroung-color: #"
                         // Now with HTML5 is not supported inline style in the parameters of the HTML tag
                         // Old code was <span style="background-color: #<{\$list.{$rpFieldName}}>;">...
@@ -166,19 +176,19 @@ class UserPrint extends Files\CreateFile
                         $color  = "<span style='background-color:{$double};'>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
                         $td     .= $this->hc->getHtmlTableData($color, 'center', '', "\t\t\t");
                         break;
-                    case 10:
+                    case Constants::FIELD_ELE_IMAGELIST:
                         $src = $this->sc->getSmartyNoSimbol('xoModuleIcons32');
                         $src .= $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $img = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
                         $td  .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t");
                         break;
-                    case 13:
+                    case Constants::FIELD_ELE_UPLOADIMAGE:
                         $single = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $img    = $this->hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName, 'style' => 'max-width:100px'], '', true, '', '');
                         $td     .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t");
                         break;
-                    case 16:
+                    case Constants::FIELD_ELE_SELECTSTATUS:
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $src    = $this->sc->getSmartyNoSimbol('$modPathIcon16') . 'status' . $double . '.png';
                         $imgAlt = $this->sc->getSmartyDoubleVar($tableSoleName, 'status_text');

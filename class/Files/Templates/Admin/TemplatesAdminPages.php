@@ -194,6 +194,13 @@ class TemplatesAdminPages extends Files\CreateFile
                         $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $imgAlt, 'title' => $imgAlt], '', true,'','');
                         $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
                         break;
+                    case Constants::FIELD_ELE_RADIOYN:
+                    case Constants::FIELD_ELE_SELECTUSER:
+                    case Constants::FIELD_ELE_DATETIME:
+                    case Constants::FIELD_ELE_TEXTDATESELECT:
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text');
+                        $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
+                        break;
                     default:
                         if (0 != $f) {
                             $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);

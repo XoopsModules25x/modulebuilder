@@ -222,7 +222,7 @@
 \define('_AM_MODULEBUILDER_TABLE_FIELDNAME', 'Prefix Field Name');
 \define(
     '_AM_MODULEBUILDER_TABLE_FIELDNAME_DESC',
-    "This is the prefix of field name (optional)<br>If you leave the field blank, doesn't appear anything in the fields of the next screen,<br>otherwise you'll see all the fields with a prefix type (i.e.: <span class='bold'>cat</span> of table <span class='bold'>categories</span>).<br><b class='red bold'>WARNING</b>: It's recommended to use singular word"
+    "This is the prefix of field name. This prefix will also be used for creation of variables.<br>It's recommended to use an appreviation of table name (e.g. cat for table category).<br><b class='red bold'>WARNING</b>: if you change this prefix after creation of table you have to change the prefix in the table field names manually!"
 );
 \define('_AM_MODULEBUILDER_TABLE_OPTIONS_CHECKS_DESC', 'For each table created during building prcedure the relevant files will be created on behalf of this.<br>Selecting one or more of these options to decide which functions and condition should be implemented in your module for this table.');
 \define('_AM_MODULEBUILDER_TABLE_ALL', 'Check All');
