@@ -32,14 +32,94 @@ use XoopsModules\Modulebuilder;
  */
 class Devtools
 {
+
+    /* function to remove prefix from table field names */
+
+    /**
+     * @param $src_path
+     * @param $dst_path
+     * @param $moduleDirName
+     */
+    public static function function_removeprefix($src_path, $dst_path, $moduleDirName): void
+    {
+        $fieldNames = [];
+
+        $helper  = \XoopsModules\Modulebuilder\Helper::getInstance();
+        // get module id
+        $crModules = new \CriteriaCompo();
+        $crModules->add(new \Criteria('mod_dirname', $moduleDirName));
+        $modulesAll  = $helper->getHandler('Modules')->getAll($crModules);
+        $modId = 0;
+        foreach (\array_keys($modulesAll) as $i) {
+            $modId = $modulesAll[$i]->getVar('mod_id');
+        }
+        if (0 === $modId) {
+            \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_INVALID_MOD);
+        }
+        // get module tables
+        $crTables = new \CriteriaCompo();
+        $crTables->add(new \Criteria('table_mid', $modId));
+        $tablesAll  = $helper->getHandler('Tables')->getAll($crTables);
+        $tablesArr  = [];
+        foreach (\array_keys($tablesAll) as $j) {
+            $tablesArr[$j] = $tablesAll[$j]->getVar('table_name');
+        }
+
+        foreach ($tablesArr as $key => $value) {
+            $crFields = new \CriteriaCompo();
+            $crFields->add(new \Criteria('field_tid', $key));
+            $fieldsAll  = $helper->getHandler('Fields')->getAll($crFields);
+            foreach (\array_keys($fieldsAll) as $k) {
+                $fieldName = $fieldsAll[$k]->getVar('field_name');
+                if (\mb_strpos($fieldName, '_')) {
+                    $str = \mb_strpos($fieldName, '_');
+                    if (false !== $str) {
+                        $rpFieldName = \mb_substr($fieldName, $str + 1, \mb_strlen($fieldName));
+                    }
+                }
+                // for getVar, setVar,....
+                $fieldNames["'" .  $fieldName . "'"] = "'" .  $rpFieldName . "'";
+                // for tpl files
+                if ($rpFieldName=='id') echo "<br>v1:" . '<{$' . $value . '.' . $fieldName . '}>';
+                $fieldNames['<{$' . $value . '.' . $fieldName . '}>'] = '<{$' . $value . '.' . $rpFieldName . '}>';
+                // for sql file
+                $fieldNames['`' .  $fieldName . '`'] = '`' .  $rpFieldName . '`';
+            }
+        }
+
+        $fieldNames2 = [];
+        $fieldNames2['<{$testfield.tf_id}>'] =  '<{$testfield.id}>';/**/
+        echo '<br>v2:<{$testfield.tf_id}>';
+
+        // repair known errors
+        $errors = [];
+
+        $patterns = [];
+        foreach ($fieldNames as $key => $value) {
+            $patterns[$key] = $value;
+        }
+        //add errors
+        foreach ($errors as $key => $value) {
+            $patterns[$key] = $value;
+        }
+
+        $patKeys   = \array_keys($patterns);
+        $patValues = \array_values($patterns);
+        $extensions = [];
+        $extensions[] = 'php';
+        $extensions[] = 'tpl';
+        $extensions[] = 'sql';
+        self::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues, false, $extensions);
+    }
+
     /* function to add function qualifier to module */
 
     /**
      * @param $src_path
      * @param $dst_path
-     * @param $moduleName
+     * @param $moduleDirName
      */
-    public static function function_qualifier($src_path, $dst_path, $moduleName): void
+    public static function function_qualifier($src_path, $dst_path, $moduleDirName): void
     {
         $functions = [];
         $constants = [];
@@ -193,14 +273,14 @@ class Devtools
             'XOOPS_GROUP_',
         ];
 
-        $moduleNameUpper = \mb_strtoupper($moduleName);
+        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         // module language defines
         $constants[] = [
-            '_AM_' . $moduleNameUpper .'_',
-            '_MI_' . $moduleNameUpper .'_',
-            '_MB_' . $moduleNameUpper .'_',
-            '_MA_' . $moduleNameUpper .'_',
-            $moduleNameUpper .'_',
+            '_AM_' . $moduleDirNameUpper .'_',
+            '_MI_' . $moduleDirNameUpper .'_',
+            '_MB_' . $moduleDirNameUpper .'_',
+            '_MA_' . $moduleDirNameUpper .'_',
+            $moduleDirNameUpper .'_',
         ];
 
         // xoops objects
@@ -260,16 +340,16 @@ class Devtools
             '\strr\chr('    => '\strrchr(',
             'strf\time('    => 'strftime(',
             'filem\time'     => 'filemtime',
-            "_AM_\\" . $moduleNameUpper .'_' => "_AM_" . $moduleNameUpper .'_',
-            "_MI_\\" . $moduleNameUpper .'_' => "_MI_" . $moduleNameUpper .'_',
-            "_MB_\\" . $moduleNameUpper .'_' => "_MB_" . $moduleNameUpper .'_',
-            "_MA_\\" . $moduleNameUpper .'_' => "_MA_" . $moduleNameUpper .'_',
-            "CO_\\" . $moduleNameUpper .'_' => "CO_" . $moduleNameUpper .'_',
-            "'\\" . $moduleNameUpper .'_' => "'" . $moduleNameUpper .'_',
-            "'\_AM_\\" . $moduleNameUpper .'_' => "'_AM_" . $moduleNameUpper .'_',
-            "'\_MI_\\" . $moduleNameUpper .'_' => "'_MI_" . $moduleNameUpper .'_',
-            "'\_MB_\\" . $moduleNameUpper .'_' => "'_MB_" . $moduleNameUpper .'_',
-            "'\_MA_\\" . $moduleNameUpper .'_' => "'_MA_" . $moduleNameUpper .'_',
+            "_AM_\\" . $moduleDirNameUpper .'_' => "_AM_" . $moduleDirNameUpper .'_',
+            "_MI_\\" . $moduleDirNameUpper .'_' => "_MI_" . $moduleDirNameUpper .'_',
+            "_MB_\\" . $moduleDirNameUpper .'_' => "_MB_" . $moduleDirNameUpper .'_',
+            "_MA_\\" . $moduleDirNameUpper .'_' => "_MA_" . $moduleDirNameUpper .'_',
+            "CO_\\" . $moduleDirNameUpper .'_' => "CO_" . $moduleDirNameUpper .'_',
+            "'\\" . $moduleDirNameUpper .'_' => "'" . $moduleDirNameUpper .'_',
+            "'\_AM_\\" . $moduleDirNameUpper .'_' => "'_AM_" . $moduleDirNameUpper .'_',
+            "'\_MI_\\" . $moduleDirNameUpper .'_' => "'_MI_" . $moduleDirNameUpper .'_',
+            "'\_MB_\\" . $moduleDirNameUpper .'_' => "'_MB_" . $moduleDirNameUpper .'_',
+            "'\_MA_\\" . $moduleDirNameUpper .'_' => "'_MA_" . $moduleDirNameUpper .'_',
             'namespace \XoopsModules' => 'namespace XoopsModules',
             'use \Xoops' => 'use Xoops',
             "'\XOOPS_" => "'XOOPS_",
@@ -346,7 +426,7 @@ class Devtools
      * @param array $patValues
      * @param bool  $replaceTabs
      */
-    public static function cloneFileFolder($src_path, $dst_path, $patKeys = [], $patValues = [], $replaceTabs = false): void
+    public static function cloneFileFolder($src_path, $dst_path, $patKeys = [], $patValues = [], $replaceTabs = false, $extensions = ['php']): void
     {
         // open the source directory
         $dir = \opendir($src_path);
@@ -357,9 +437,9 @@ class Devtools
             if (( $file != '.' ) && ( $file != '..' )) {
                 if ( \is_dir($src_path . '/' . $file) ) {
                     // Recursively calling custom copy function for sub directory
-                    self::cloneFileFolder($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs);
+                    self::cloneFileFolder($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs, $extensions);
                 } else {
-                    self::cloneFile($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs);
+                    self::cloneFile($src_path . '/' . $file, $dst_path . '/' . $file, $patKeys, $patValues, $replaceTabs, $extensions);
                 }
             }
         }
@@ -373,11 +453,10 @@ class Devtools
      * @param array $patValues
      * @param bool  $replaceTabs
      */
-    private static function cloneFile($src_file, $dst_file, $patKeys = [], $patValues = [], $replaceTabs = false): void
+    private static function cloneFile($src_file, $dst_file, $patKeys, $patValues, $replaceTabs, $extensions): void
     {
         $replace_code = false;
-        $changeExtensions = ['php'];
-        if (\in_array(\mb_strtolower(\pathinfo($src_file, PATHINFO_EXTENSION)), $changeExtensions)) {
+        if (\in_array(\mb_strtolower(\pathinfo($src_file, PATHINFO_EXTENSION)), $extensions)) {
             $replace_code = true;
         }
         if (\mb_strpos($dst_file, \basename(__FILE__)) > 0) {
@@ -485,6 +564,35 @@ class Devtools
         $form->addElement($modulesSelect, true);
         // To Save
         $form->addElement(new \XoopsFormHidden('op', 'tab_replacer'));
+        $form->addElement(new \XoopsFormButtonTray('', \_SUBMIT, 'submit', '', false));
+
+        return $form;
+    }
+
+    /**
+     * get form with all existing modules
+     * @param bool $action
+     * @return \XoopsSimpleForm
+     */
+    public static function getFormModulesRemovePrefix($action = false)
+    {
+        if (!$action) {
+            $action = $_SERVER['REQUEST_URI'];
+        }
+        // Get Theme Form
+        \xoops_load('XoopsFormLoader');
+        $form = new \XoopsSimpleForm('', 'form', $action, 'post', true);
+        $form->setExtra('enctype="multipart/form-data"');
+        // Form Select Module
+        $modulesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_DEVTOOLS_RP_MODULE, 'rp_module', '');
+        $modulesArr   = \XoopsLists::getModulesList();
+        $modulesSelect->addOption('', ' ');
+        foreach ($modulesArr as $mod) {
+            $modulesSelect->addOption($mod, $mod);
+        }
+        $form->addElement($modulesSelect, true);
+        // To Save
+        $form->addElement(new \XoopsFormHidden('op', 'remove_prefix'));
         $form->addElement(new \XoopsFormButtonTray('', \_SUBMIT, 'submit', '', false));
 
         return $form;

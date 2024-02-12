@@ -446,6 +446,7 @@
 //
 // ------------------- Devtools --------------------------------- //
 \define('_AM_MODULEBUILDER_DEVTOOLS', 'Developer Tools');
+\define('_AM_MODULEBUILDER_DEVTOOLS_INVALID_MOD', 'No valid module selected');
 \define('_AM_MODULEBUILDER_DEVTOOLS_FQ', 'Add function qualifiers to modules');
 \define('_AM_MODULEBUILDER_DEVTOOLS_FQ_MODULE', 'Select module to add function qualifiers');
 \define('_AM_MODULEBUILDER_DEVTOOLS_FQ_DESC', 'This tool creates a copy of selected module in %s and add function qualifiers to the php functions');
@@ -462,7 +463,11 @@
 \define('_AM_MODULEBUILDER_DEVTOOLS_TAB', 'Replace tab by 4 spaces');
 \define('_AM_MODULEBUILDER_DEVTOOLS_TAB_MODULE', 'Select module to replace tabs');
 \define('_AM_MODULEBUILDER_DEVTOOLS_TAB_DESC', 'This tool creates a copy of selected module in %s and replace tab by 4 spaces');
-
+\define('_AM_MODULEBUILDER_DEVTOOLS_TAB_SUCCESS', 'Function replace tabs successfully added to copy of module');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP', 'Remove prefix from table field names');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_MODULE', 'Select module to remove prefix');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_DESC', 'This tool creates a copy of selected module in %s and remove prefix from table field names');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_SUCCESS', 'Function remove prefix tabs successfully added to copy of module');
 // -------------------- IMPORT MODULE -----------------------------------
 
 \define('_AM_MODULEBUILDER_MODULES_IMPORT', 'Import Module');

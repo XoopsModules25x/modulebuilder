@@ -157,8 +157,8 @@ class UserPrint extends Files\CreateFile
         $noPerm         = $this->xc->getXcRedirectHeader("\\{$stuModuleDirname}_URL . '/index.php'", '', '3', '\_NOPERM', false, "\t");
         $noPerm         .= $this->getSimpleString('exit();', "\t");
         $ret            .= $this->pc->getPhpCodeConditions($gperm, '', '', $noPerm);
-        $ret            .= $this->xc->getXcGetValues($tableName, $tableSoleName, '', true);
-        $ret            .= $this->xc->getXcXoopsTplAppend($tableName . '_list', '$' . $tableSoleName);
+        $ret            .= $this->xc->getXcGetValues($tableName, $tableSoleName . 'List', '', true);
+        $ret            .= $this->xc->getXcXoopsTplAppend($tableName . '_list', '$' . $tableSoleName . 'List');
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->xc->getXcXoopsTplAssign('xoops_sitename', "\$GLOBALS['xoopsConfig']['sitename']");
         $getVar         = $this->xc->getXcGetVar('', $tableName, $fieldMain, true);

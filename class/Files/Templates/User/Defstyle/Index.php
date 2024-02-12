@@ -157,7 +157,7 @@ class Index extends Files\CreateFile
         $trClose = $this->hc->getHtmlEmpty('</tr><tr>', $t . "\t\t\t\t\t", "\n");
         $td      .= $this->sc->getSmartyConditions('smarty.foreach.' . $tableSoleName . '.iteration', ' is div by ', '$divideby', $trClose, false, false, false, $t . "\t\t\t\t", "\n", true, false);
         $foreach = $this->hc->getHtmlComment('Start new link loop',$t . "\t\t\t", "\n");
-        $foreach .= $this->sc->getSmartyForeach($tableSoleName, $tableName, $td, $tableSoleName,'',"\t\t\t");
+        $foreach .= $this->sc->getSmartyForeach($tableSoleName, $tableName . '_list', $td, $tableSoleName,'',"\t\t\t");
         $foreach .= $this->hc->getHtmlComment('End new link loop',$t . "\t\t\t", "\n");
         $tr      = $this->hc->getHtmlTableRow($foreach, '',$t . "\t\t");
 
