@@ -185,7 +185,7 @@ switch ($op) {
         $dst_path = TDMC_UPLOAD_PATH . '/devtools/remove_prefix/' . $modName;
         @\mkdir($dst_path);
 
-        Devtools::function_removeprefix($src_path, $dst_path, $modName);
+        Devtools::function_removeprefix($src_path, $src_path, $modName);
         \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_RP_SUCCESS);
         break;
     case 'list':

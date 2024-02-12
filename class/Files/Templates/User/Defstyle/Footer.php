@@ -108,12 +108,12 @@ class Footer extends Files\CreateFile
      */
     private function getTemplateUserFooterContent($language)
     {
-        $ret     = $this->hc->getHtmlDiv('<{$copyright}>', 'pull-left', '', "\n", false);
+        $ret     = $this->hc->getHtmlDiv('<{$copyright|default:false}>', 'pull-left', '', "\n", false);
         $ret     .= $this->hc->getHtmlEmpty("\n");
         $contIf  = $this->hc->getHtmlDiv('<{$pagenav}>', 'pull-right', "\t", "\n", false);
         $ret     .= $this->sc->getSmartyConditions('pagenav', '', '', $contIf);
         $ret     .= $this->hc->getHtmlEmpty("<br>\n");
-        $contIf  = $this->hc->getHtmlDiv("<a href='<{\$admin}>'><{\$smarty.const.{$language}ADMIN}></a>", 'text-center bold', "\t", "\n", false);
+        $contIf  = $this->hc->getHtmlDiv("<a href='<{\$admin|default:false}>'><{\$smarty.const.{$language}ADMIN}></a>", 'text-center bold', "\t", "\n", false);
         $ret     .= $this->sc->getSmartyConditions('xoops_isadmin', '', '', $contIf);
         $ret     .= $this->hc->getHtmlEmpty("\n");
         $contIf  = $this->sc->getSmartyIncludeFile('system_comments', 'flat', false, "\t\t\t");

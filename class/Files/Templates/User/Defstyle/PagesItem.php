@@ -272,6 +272,7 @@ class PagesItem extends Files\CreateFile
             }
         }
 
+        $keyDouble = $this->sc->getSmartyDoubleVar($tableSoleName, $this->getRightString($fieldId));
         $anchors  = '';
         $lang     = $this->sc->getSmartyConst($language, \mb_strtoupper($tableName) . '_LIST');
         $contIf   =  $this->hc->getHtmlAnchor($tableName . '.php?op=list&amp;start=<{$start}>&amp;limit=<{$limit}>#' .$ccFieldId . '_' . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");

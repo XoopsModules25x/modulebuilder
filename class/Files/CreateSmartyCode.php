@@ -167,9 +167,9 @@ class CreateSmartyCode
      * @param string $n
      * @return string
      */
-    public function getSmartyDoubleVar($leftVar, $rightVar, $t = '', $n = '')
+    public function getSmartyDoubleVar($leftVar, $rightVar, $t = '', $n = '', $default = '')
     {
-        return "{$t}<{\${$leftVar}.{$rightVar}}>{$n}";
+        return "{$t}<{\${$leftVar}.{$rightVar}|default:false}>{$n}";
     }
 
     /**

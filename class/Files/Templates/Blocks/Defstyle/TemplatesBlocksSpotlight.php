@@ -204,7 +204,7 @@ class TemplatesBlocksSpotlight extends Files\CreateFile
         $foreach = $this->sc->getSmartyForeach($tableSoleName, 'block', $tr, '','', "\t\t");
         $tbody   = $this->hc->getHtmlTableTbody($foreach,'' , "\t");
 
-        return $this->sc->getSmartyConditions("block", '', '', $tbody, false, true, true, "\t");
+        return $this->sc->getSmartyConditions("block|default:0", ' > ', '0', $tbody, false, true, true, "\t");
     }
 
     /**

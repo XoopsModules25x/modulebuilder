@@ -42,7 +42,8 @@ class Devtools
      */
     public static function function_removeprefix($src_path, $dst_path, $moduleDirName): void
     {
-        $fieldNames = [];
+        $patKeys = [];
+        $patValues = [];
 
         $helper  = \XoopsModules\Modulebuilder\Helper::getInstance();
         // get module id
@@ -78,33 +79,37 @@ class Devtools
                     }
                 }
                 // for getVar, setVar,....
-                $fieldNames["'" .  $fieldName . "'"] = "'" .  $rpFieldName . "'";
+                $patKeys[] = "'" .  $fieldName . "'";
+                $patValues[] = "'" .  $rpFieldName . "'";
+                $patKeys[] = 'showImgSelected(\"imglabel_' .  $fieldName . '\",';
+                $patValues[] = 'showImgSelected(\"imglabel_' .  $rpFieldName . '\",';
+                $patKeys[] = '\"' .  $fieldName . '\",';
+                $patValues[] = '\"' .  $rpFieldName . '\",';
+                $patKeys[] = "id='imglabel_" .  $fieldName . "' alt=";
+                $patValues[] = "id='imglabel_" .  $rpFieldName . "' alt=";
+                $patKeys[] = "sort = '" .  $fieldName . ' ASC,';
+                $patValues[] = "sort = '" .  $rpFieldName . ' ASC,';
+                $patKeys[] = 'ASC, ' .  $fieldName . "', \$order";
+                $patValues[] = 'ASC, ' .  $rpFieldName . "', \$order";
                 // for tpl files
-                if ($rpFieldName=='id') echo "<br>v1:" . '<{$' . $value . '.' . $fieldName . '}>';
-                $fieldNames['<{$' . $value . '.' . $fieldName . '}>'] = '<{$' . $value . '.' . $rpFieldName . '}>';
+                if ($rpFieldName=='id') {
+                    $patKeys[]   = 'op=edit&amp;' .  $fieldName . '=';
+                    $patValues[] = 'op=edit&amp;' .  $rpFieldName . '=';
+                    $patKeys[]   = 'op=show&amp;' .  $fieldName . '=';
+                    $patValues[] = 'op=show&amp;' .  $rpFieldName . '=';
+                    $patKeys[]   = 'op=delete&amp;' .  $fieldName . '=';
+                    $patValues[] = 'op=delete&amp;' .  $rpFieldName . '=';
+                    $patKeys[]   = 'op=broken&amp;' .  $fieldName . '=';
+                    $patValues[] = 'op=broken&amp;' .  $rpFieldName . '=';
+                    $patKeys[]   = 'op=clone&amp;' .  $fieldName . '_source=';
+                    $patValues[] = 'op=clone&amp;' .  $rpFieldName . '_source=';
+                }
                 // for sql file
-                $fieldNames['`' .  $fieldName . '`'] = '`' .  $rpFieldName . '`';
+                $patKeys[] = '`' .  $fieldName . '`';
+                $patValues[] = '`' .  $rpFieldName . '`';
             }
         }
 
-        $fieldNames2 = [];
-        $fieldNames2['<{$testfield.tf_id}>'] =  '<{$testfield.id}>';/**/
-        echo '<br>v2:<{$testfield.tf_id}>';
-
-        // repair known errors
-        $errors = [];
-
-        $patterns = [];
-        foreach ($fieldNames as $key => $value) {
-            $patterns[$key] = $value;
-        }
-        //add errors
-        foreach ($errors as $key => $value) {
-            $patterns[$key] = $value;
-        }
-
-        $patKeys   = \array_keys($patterns);
-        $patValues = \array_values($patterns);
         $extensions = [];
         $extensions[] = 'php';
         $extensions[] = 'tpl';
