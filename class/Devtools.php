@@ -66,9 +66,9 @@ class Devtools
             $tablesArr[$j] = $tablesAll[$j]->getVar('table_name');
         }
 
-        foreach ($tablesArr as $key => $value) {
+        foreach ($tablesArr as $tid => $tablename) {
             $crFields = new \CriteriaCompo();
-            $crFields->add(new \Criteria('field_tid', $key));
+            $crFields->add(new \Criteria('field_tid', $tid));
             $fieldsAll  = $helper->getHandler('Fields')->getAll($crFields);
             foreach (\array_keys($fieldsAll) as $k) {
                 $fieldName = $fieldsAll[$k]->getVar('field_name');
@@ -104,6 +104,9 @@ class Devtools
                     $patKeys[]   = 'op=clone&amp;' .  $fieldName . '_source=';
                     $patValues[] = 'op=clone&amp;' .  $rpFieldName . '_source=';
                 }
+                //<{$article.art_id|default:false}>
+                $patKeys[]   = '<{$' .  $tablename . '.' .  $fieldName . '|default:false}>';
+                $patValues[] = '<{$' .  $tablename . '.' .  $rpFieldName . '|default:false}>';
                 // for sql file
                 $patKeys[] = '`' .  $fieldName . '`';
                 $patValues[] = '`' .  $rpFieldName . '`';

@@ -161,7 +161,7 @@ class Index extends Files\CreateFile
         $foreach .= $this->hc->getHtmlComment('End new link loop',$t . "\t\t\t", "\n");
         $tr      = $this->hc->getHtmlTableRow($foreach, '',$t . "\t\t");
 
-        $table   .= $this->hc->getHtmlTable($tr, 'table table-<{$table_type}>', $t . "\t");
+        $table   .= $this->hc->getHtmlTable($tr, "table table-<{\$table_type|default:''}>", $t . "\t");
         $ret     .= $this->sc->getSmartyConditions($tableName . 'Count', ' > ','0', $table, false, false, false, '', "\n", true, 'int');
 
         return $ret;

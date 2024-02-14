@@ -167,9 +167,9 @@ class CreateSmartyCode
      * @param string $n
      * @return string
      */
-    public function getSmartyDoubleVar($leftVar, $rightVar, $t = '', $n = '', $default = '')
+    public function getSmartyDoubleVar($leftVar, $rightVar, $t = '', $n = '', $default = 'false')
     {
-        return "{$t}<{\${$leftVar}.{$rightVar}|default:false}>{$n}";
+        return "{$t}<{\${$leftVar}.{$rightVar}|default:{$default}}>{$n}";
     }
 
     /**
@@ -250,6 +250,8 @@ class CreateSmartyCode
             $ret = "{$t}<{if \${$condition}";
             if ('string' === $default) {
                 $ret .= "|default:''";
+            } elseif ('bool' === $default) {
+                $ret .= '|default:false';
             } elseif ('int' === $default) {
                 $ret .= '|default:0';
             }
@@ -258,6 +260,8 @@ class CreateSmartyCode
             $ret = "{$t}<{if {$condition}";
             if ('string' === $default) {
                 $ret .= "|default:''";
+            } elseif ('bool' === $default) {
+                $ret .= '|default:false';
             } elseif ('int' === $default) {
                 $ret .= '|default:0';
             }

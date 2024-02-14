@@ -214,7 +214,7 @@ class TemplatesAdminPages extends Files\CreateFile
         $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
         $src     = $this->sc->getSmartyNoSimbol("xoModuleIcons16 'edit.png'");
         $img     = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $lang . ' ' . $tableName], '', true,'', '');
-        $anchor  = $this->hc->getHtmlTag('a', ['href' => $tableName . ".php?op=edit&amp;{$fieldId}=" . $double . '&amp;start=<{$start}>&amp;limit=<{$limit}>', 'title' => $lang], $img, false, "\t\t\t\t\t");
+        $anchor  = $this->hc->getHtmlTag('a', ['href' => $tableName . ".php?op=edit&amp;{$fieldId}=" . $double . '&amp;start=<{$start|default:0}>&amp;limit=<{$limit|default:0}>', 'title' => $lang], $img, false, "\t\t\t\t\t");
         $lang    = $this->sc->getSmartyConst('', '_CLONE');
         $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
         $src     = $this->sc->getSmartyNoSimbol("xoModuleIcons16 'editcopy.png'");

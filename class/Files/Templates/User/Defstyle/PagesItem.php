@@ -108,7 +108,7 @@ class PagesItem extends Files\CreateFile
             if (0 == $f) {
                 $fieldId = $fields[$f]->getVar('field_name');
                 $ccFieldId = $this->getCamelCase($fieldId, false, true);
-                $keyDouble = $this->sc->getSmartyDoubleVar($tableSoleName, $fieldId);
+                $keyDouble = $this->sc->getSmartyDoubleVar($tableSoleName, $this->getRightString($fieldId));
             }
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_user')) {
@@ -272,29 +272,28 @@ class PagesItem extends Files\CreateFile
             }
         }
 
-        $keyDouble = $this->sc->getSmartyDoubleVar($tableSoleName, $this->getRightString($fieldId));
         $anchors  = '';
         $lang     = $this->sc->getSmartyConst($language, \mb_strtoupper($tableName) . '_LIST');
-        $contIf   =  $this->hc->getHtmlAnchor($tableName . '.php?op=list&amp;start=<{$start}>&amp;limit=<{$limit}>#' .$ccFieldId . '_' . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
+        $contIf   =  $this->hc->getHtmlAnchor($tableName . '.php?op=list&amp;start=<{$start|default:0}>&amp;limit=<{$limit|default:0}>#' .$ccFieldId . '_' . $keyDouble, $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
         $lang     = $this->sc->getSmartyConst($language, 'DETAILS');
-        $contElse =  $this->hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start}>&amp;limit=<{$limit}>', $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
-        $anchors .= $this->sc->getSmartyConditions('showItem', '', '', $contIf, $contElse, '', '', "\t\t");
+        $contElse =  $this->hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start|default:0}>&amp;limit=<{$limit|default:0}>', $lang, $lang, '', 'btn btn-success right', '', "\t\t\t", "\n");
+        $anchors .= $this->sc->getSmartyConditions('showItem', '', '', $contIf, $contElse, '', '', "\t\t", "\n", true, 'bool');
         $lang     = $this->sc->getSmartyConst('', '_EDIT');
-        $contIf   =  $this->hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start}>&amp;limit=<{$limit}>', $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
+        $contIf   =  $this->hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start|default:0}>&amp;limit=<{$limit|default:0}>', $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
         $lang     = $this->sc->getSmartyConst('', '_CLONE');
         $contIf   .=  $this->hc->getHtmlAnchor($tableName . ".php?op=clone&amp;{$fieldId}_source=" . $keyDouble, $lang, $lang, '', 'btn btn-primary right', '', "\t\t\t", "\n");
         $lang     = $this->sc->getSmartyConst('', '_DELETE');
         $contIf   .=  $this->hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$fieldId}=" . $keyDouble, $lang, $lang, '', 'btn btn-danger right', '', "\t\t\t", "\n");
-        $anchors  .= $this->sc->getSmartyConditions('permEdit', '', '', $contIf, false, '', '', "\t\t");
+        $anchors  .= $this->sc->getSmartyConditions('permEdit', '', '', $contIf, false, '', '', "\t\t", "\n", true, 'bool');
         if (1 == $tableBroken) {
             $lang        = $this->sc->getSmartyConst($language, 'BROKEN');
-            $anchors .=  $this->hc->getHtmlAnchor($tableName . ".php?op=broken&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start}>&amp;limit=<{$limit}>', $lang, $lang, '', 'btn btn-warning right', '', "\t\t", "\n");
+            $anchors .=  $this->hc->getHtmlAnchor($tableName . ".php?op=broken&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start|default:0}>&amp;limit=<{$limit|default:0}>', $lang, $lang, '', 'btn btn-warning right', '', "\t\t", "\n");
         }
         $retFoot     .= $this->hc->getHtmlDiv($anchors, 'col-sm-12 right',"\t");
         $ret .= $this->hc->getHtmlDiv($retFoot, 'panel-foot');
         if ($tableRate) {
             $rate = $this->sc->getSmartyIncludeFile($moduleDirname, 'rate', false, "\t", "\n", 'item=$' . $tableSoleName);
-            $ret .= $this->sc->getSmartyConditions('rating', '', '', $rate, false);
+            $ret .= $this->sc->getSmartyConditions('rating', '', '', $rate, false, false, false, '', "\n", true, 'bool');
         }
 
         return $ret;

@@ -86,7 +86,7 @@ class CategoriesList extends Files\CreateFile
     {
         $ret = <<<EOT
             <div class="table-responsive">
-                <table class="table table-<{\$table_type}>">\n
+                <table class="table table-<{\$table_type|default:''}>">\n
             EOT;
 
         return $ret;
