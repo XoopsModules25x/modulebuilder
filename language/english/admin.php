@@ -466,8 +466,12 @@
 \define('_AM_MODULEBUILDER_DEVTOOLS_TAB_SUCCESS', 'Function replace tabs successfully added to copy of module');
 \define('_AM_MODULEBUILDER_DEVTOOLS_RP', 'Remove prefix from table field names');
 \define('_AM_MODULEBUILDER_DEVTOOLS_RP_MODULE', 'Select module to remove prefix');
-\define('_AM_MODULEBUILDER_DEVTOOLS_RP_DESC', 'This tool creates a copy of selected module in %s and remove prefix from table field names');
-\define('_AM_MODULEBUILDER_DEVTOOLS_RP_SUCCESS', 'Function remove prefix tabs successfully added to copy of module');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_DESC', 'This tool removes prefix from table field names');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_DEST', 'Destination');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_DEST1', 'Create a copy of selected module in %s');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_DEST2', 'Overwrite original files');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_SUCCESS', 'Function remove prefix from table field names successfully added to copy of module');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_ERROR', 'Error occured when removing prefix from table field names');
 // -------------------- IMPORT MODULE -----------------------------------
 
 \define('_AM_MODULEBUILDER_MODULES_IMPORT', 'Import Module');

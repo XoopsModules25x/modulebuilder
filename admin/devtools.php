@@ -176,16 +176,25 @@ switch ($op) {
         break;
     case 'remove_prefix':
         $modName = Request::getString('rp_module');
+        $rpDest  = Request::getInt('rp_dest');
         if ('' === $modName) {
             \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_INVALID_MOD);
         }
         $src_path  = \XOOPS_ROOT_PATH . '/modules/' . $modName;
-        $dst_path  = TDMC_UPLOAD_PATH . '/devtools/remove_prefix/';
-        @\mkdir($dst_path);
-        $dst_path = TDMC_UPLOAD_PATH . '/devtools/remove_prefix/' . $modName;
-        @\mkdir($dst_path);
 
-        Devtools::function_removeprefix($src_path, $src_path, $modName);
+        if (1 === $rpDest) {
+            $dst_path  = TDMC_UPLOAD_PATH . '/devtools/remove_prefix/';
+            if (!\mkdir($dst_path) && !\is_dir($dst_path)) {
+                \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_RP_ERROR);
+            }
+            $dst_path = TDMC_UPLOAD_PATH . '/devtools/remove_prefix/' . $modName;
+            if (!\mkdir($dst_path) && !\is_dir($dst_path)) {
+                \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_RP_ERROR);
+            }
+        } else {
+            $dst_path = $src_path;
+        }
+        Devtools::function_removeprefix($src_path, $dst_path, $modName);
         \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_RP_SUCCESS);
         break;
     case 'list':
@@ -205,8 +214,8 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('tab_form', $tab_form->render());
 
         $dst_path = TDMC_UPLOAD_PATH . '/devtools/remove_prefix/';
-        $GLOBALS['xoopsTpl']->assign('rp_desc', \str_replace('%s', $dst_path, \_AM_MODULEBUILDER_DEVTOOLS_RP_DESC));
-        $tab_form = Devtools::getFormModulesRemovePrefix();
+        $GLOBALS['xoopsTpl']->assign('rp_desc',  \_AM_MODULEBUILDER_DEVTOOLS_RP_DESC);
+        $tab_form = Devtools::getFormModulesRemovePrefix($dst_path);
         $GLOBALS['xoopsTpl']->assign('rp_form', $tab_form->render());
 
         $GLOBALS['xoopsTpl']->assign('devtools_list', true);

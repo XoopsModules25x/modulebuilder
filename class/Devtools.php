@@ -71,28 +71,32 @@ class Devtools
             $crFields->add(new \Criteria('field_tid', $tid));
             $fieldsAll  = $helper->getHandler('Fields')->getAll($crFields);
             foreach (\array_keys($fieldsAll) as $k) {
-                $fieldName = $fieldsAll[$k]->getVar('field_name');
+                $fieldName   = $fieldsAll[$k]->getVar('field_name');
+                $rpFieldName = '';
                 if (\mb_strpos($fieldName, '_')) {
                     $str = \mb_strpos($fieldName, '_');
                     if (false !== $str) {
                         $rpFieldName = \mb_substr($fieldName, $str + 1, \mb_strlen($fieldName));
                     }
                 }
-                // for getVar, setVar,....
-                $patKeys[] = "'" .  $fieldName . "'";
+                // for getVar, setVar, forms, ....
+                $patKeys[]   = "'" .  $fieldName . "'";
                 $patValues[] = "'" .  $rpFieldName . "'";
-                $patKeys[] = 'showImgSelected(\"imglabel_' .  $fieldName . '\",';
+                $patKeys[]   = 'showImgSelected(\"imglabel_' .  $fieldName . '\",';
                 $patValues[] = 'showImgSelected(\"imglabel_' .  $rpFieldName . '\",';
-                $patKeys[] = '\"' .  $fieldName . '\",';
+                $patKeys[]   = '\"' .  $fieldName . '\",';
                 $patValues[] = '\"' .  $rpFieldName . '\",';
-                $patKeys[] = "id='imglabel_" .  $fieldName . "' alt=";
+                $patKeys[]   = "id='imglabel_" .  $fieldName . "' alt=";
                 $patValues[] = "id='imglabel_" .  $rpFieldName . "' alt=";
-                $patKeys[] = "sort = '" .  $fieldName . ' ASC,';
+                $patKeys[]   = "sort = '" .  $fieldName . ' ASC,';
                 $patValues[] = "sort = '" .  $rpFieldName . ' ASC,';
-                $patKeys[] = 'ASC, ' .  $fieldName . "', \$order";
+                $patKeys[]   = 'ASC, ' .  $fieldName . "', \$order";
                 $patValues[] = 'ASC, ' .  $rpFieldName . "', \$order";
+                //clone feature
+                $patKeys[]   = "'" .  $fieldName . "_source'";
+                $patValues[] = "'" .  $rpFieldName . "_source'";
                 // for tpl files
-                if ($rpFieldName=='id') {
+                if ($rpFieldName === 'id') {
                     $patKeys[]   = 'op=edit&amp;' .  $fieldName . '=';
                     $patValues[] = 'op=edit&amp;' .  $rpFieldName . '=';
                     $patKeys[]   = 'op=show&amp;' .  $fieldName . '=';
@@ -582,7 +586,7 @@ class Devtools
      * @param bool $action
      * @return \XoopsSimpleForm
      */
-    public static function getFormModulesRemovePrefix($action = false)
+    public static function getFormModulesRemovePrefix($dst_path, $action = false)
     {
         if (!$action) {
             $action = $_SERVER['REQUEST_URI'];
@@ -599,6 +603,10 @@ class Devtools
             $modulesSelect->addOption($mod, $mod);
         }
         $form->addElement($modulesSelect, true);
+        $destradioSelect = new \XoopsFormRadio(\_AM_MODULEBUILDER_DEVTOOLS_RP_DEST, 'rp_dest', 1);
+        $destradioSelect->addOption('1', \str_replace('%s', $dst_path, \_AM_MODULEBUILDER_DEVTOOLS_RP_DEST1));
+        $destradioSelect->addOption('2', \_AM_MODULEBUILDER_DEVTOOLS_RP_DEST2);
+        $form->addElement($destradioSelect);
         // To Save
         $form->addElement(new \XoopsFormHidden('op', 'remove_prefix'));
         $form->addElement(new \XoopsFormButtonTray('', \_SUBMIT, 'submit', '', false));
