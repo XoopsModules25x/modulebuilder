@@ -336,14 +336,11 @@ class ClassHandlerFiles extends Files\CreateFile
         $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldInForm    = [];
         $fieldParentId  = [];
-        $fieldElementId = [];
         $fieldId        = null;
-        $fieldName      = null;
         $fieldMain      = null;
         $fieldElement   = null;
         foreach (\array_keys($fields) as $f) {
             $fieldName       = $fields[$f]->getVar('field_name');
-            $fieldInForm[]   = $fields[$f]->getVar('field_inform');
             $fieldParentId[] = $fields[$f]->getVar('field_parent');
             if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
                 $fieldId = $fieldName; // $fieldId = fields parameter index field
@@ -352,9 +349,6 @@ class ClassHandlerFiles extends Files\CreateFile
                 $fieldMain = $fieldName; // $fieldMain = fields parameter main field
             }
             $fieldElement = $fields[$f]->getVar('field_element');
-
-            $fieldElements    = $this->helper->getHandler('Fieldelements')->get($fieldElement);
-            $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
         }
         $namespace = $this->pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
         $content   = $this->getHeaderFilesComments($module, null, $namespace);

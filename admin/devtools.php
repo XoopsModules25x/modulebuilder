@@ -36,23 +36,28 @@ $op = Request::getString('op', 'list');
 
 switch ($op) {
     case 'fq':
-        $fqModule = Request::getString('fq_module');
-        $src_path = \XOOPS_ROOT_PATH . '/modules/' . $fqModule;
-        $dst_path = TDMC_UPLOAD_PATH . '/devtools/fq/' . $fqModule;
+        $modName = Request::getString('fq_module');
+        if ('' === $modName) {
+            \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_INVALID_MOD);
+        }
+        $src_path = \XOOPS_ROOT_PATH . '/modules/' . $modName;
+        $dst_path = TDMC_UPLOAD_PATH . '/devtools/fq/' . $modName;
 
         $patKeys   = [];
         $patValues = [];
-        //Devtools::cloneFileFolder($src_path, $dst_path, $patKeys, $patValues);
-        Devtools::function_qualifier($src_path, $dst_path, $fqModule);
+        Devtools::function_qualifier($src_path, $dst_path, $modName);
         \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_FQ_SUCCESS);
         break;
     case 'check_lang':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('devtools.php'));
-        $clModuleName      = Request::getString('cl_module');
-        $clModuleNameUpper = \mb_strtoupper($clModuleName);
+        $modName      = Request::getString('cl_module');
+        if ('' === $modName) {
+            \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_INVALID_MOD);
+        }
+        $modNameUpper = \mb_strtoupper($modName);
 
         //scan language files
-        $src_path  = \XOOPS_ROOT_PATH . '/modules/' . $clModuleName . '/language/english/';
+        $src_path  = \XOOPS_ROOT_PATH . '/modules/' . $modName . '/language/english/';
         $langfiles = [];
         foreach (scandir($src_path) as $scan) {
             if (is_file($src_path . $scan) && 'index.html' !== $scan) {
@@ -68,13 +73,13 @@ switch ($op) {
         }
         $constantsAfterInclude = getUserDefinedConstants();
         foreach ($constantsAfterInclude as $constKey => $constValue) {
-            if (mb_strpos($constKey, '_' . $clModuleNameUpper . '_') > 0) {
+            if (mb_strpos($constKey, '_' . $modNameUpper . '_') > 0) {
                 $moduleConstants[$constKey] = $constKey;
             }
         }
 
         //get all php and tpl files from module
-        $check_path = \XOOPS_ROOT_PATH . '/modules/' . $clModuleName;
+        $check_path = \XOOPS_ROOT_PATH . '/modules/' . $modName;
         $Directory  = new RecursiveDirectoryIterator($check_path);
         $Iterator   = new RecursiveIteratorIterator($Directory);
         $regexFiles = new RegexIterator($Iterator, '/^.+\.(php|tpl)$/i', RecursiveRegexIterator::GET_MATCH);
@@ -103,7 +108,7 @@ switch ($op) {
             }
             if (0 == $foundMod) {
                 //search for concatenated string
-                $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_", $constKey);
+                $needle = str_replace('_' . $modNameUpper . '_', "_' . \$moduleDirNameUpper . '_", $constKey);
                 foreach ($modfiles as $modfile) {
                     if (mb_strpos(file_get_contents($modfile), $needle) !== false) {
                         $foundMod = 1;
@@ -114,7 +119,7 @@ switch ($op) {
             }
             if (0 == $foundMod) {
                 //search for concatenated string
-                $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_' . '", $constKey);
+                $needle = str_replace('_' . $modNameUpper . '_', "_' . \$moduleDirNameUpper . '_' . '", $constKey);
                 foreach ($modfiles as $modfile) {
                     if (mb_strpos(file_get_contents($modfile), $needle) !== false) {
                         $foundMod = 1;
@@ -131,7 +136,7 @@ switch ($op) {
             }
             if ('' == $foundLang) {
                 //search for concatenated string
-                $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_", $constKey);
+                $needle = str_replace('_' . $modNameUpper . '_', "_' . \$moduleDirNameUpper . '_", $constKey);
                 foreach ($langfiles as $langfile) {
                     if (mb_strpos(file_get_contents($langfile), $needle) !== false) {
                         $foundLang = $langfile;
@@ -141,7 +146,7 @@ switch ($op) {
             }
             if ('' == $foundLang) {
                 //search for concatenated string
-                $needle = str_replace('_' . $clModuleNameUpper . '_', "_' . \$moduleDirNameUpper . '_' . '", $constKey);
+                $needle = str_replace('_' . $modNameUpper . '_', "_' . \$moduleDirNameUpper . '_' . '", $constKey);
                 foreach ($langfiles as $langfile) {
                     if (mb_strpos(file_get_contents($langfile), $needle) !== false) {
                         $foundLang = $langfile;
@@ -156,15 +161,41 @@ switch ($op) {
 
         break;
     case 'tab_replacer':
-        $tabModule = Request::getString('tab_module');
-        $src_path  = \XOOPS_ROOT_PATH . '/modules/' . $tabModule;
+        $modName = Request::getString('tab_module');
+        if ('' === $modName) {
+            \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_INVALID_MOD);
+        }
+        $src_path  = \XOOPS_ROOT_PATH . '/modules/' . $modName;
         $dst_path  = TDMC_UPLOAD_PATH . '/devtools/tab/';
         @\mkdir($dst_path);
-        $dst_path = TDMC_UPLOAD_PATH . '/devtools/tab/' . $tabModule;
+        $dst_path = TDMC_UPLOAD_PATH . '/devtools/tab/' . $modName;
         @\mkdir($dst_path);
 
         Devtools::function_tabreplacer($src_path, $dst_path);
-        \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_FQ_SUCCESS);
+        \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_TAB_SUCCESS);
+        break;
+    case 'remove_prefix':
+        $modName = Request::getString('rp_module');
+        $rpDest  = Request::getInt('rp_dest');
+        if ('' === $modName) {
+            \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_INVALID_MOD);
+        }
+        $src_path  = \XOOPS_ROOT_PATH . '/modules/' . $modName;
+
+        if (1 === $rpDest) {
+            $dst_path  = TDMC_UPLOAD_PATH . '/devtools/remove_prefix/';
+            if (!\mkdir($dst_path) && !\is_dir($dst_path)) {
+                \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_RP_ERROR);
+            }
+            $dst_path = TDMC_UPLOAD_PATH . '/devtools/remove_prefix/' . $modName;
+            if (!\mkdir($dst_path) && !\is_dir($dst_path)) {
+                \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_RP_ERROR);
+            }
+        } else {
+            $dst_path = $src_path;
+        }
+        Devtools::function_removeprefix($src_path, $dst_path, $modName);
+        \redirect_header('devtools.php', 3, \_AM_MODULEBUILDER_DEVTOOLS_RP_SUCCESS);
         break;
     case 'list':
     default:
@@ -173,12 +204,20 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('fq_desc', \str_replace('%s', $dst_path, \_AM_MODULEBUILDER_DEVTOOLS_FQ_DESC));
         $fq_form = Devtools::getFormModulesFq();
         $GLOBALS['xoopsTpl']->assign('fq_form', $fq_form->render());
+
         $cl_form = Devtools::getFormModulesCl();
         $GLOBALS['xoopsTpl']->assign('cl_form', $cl_form->render());
-        $tab_form = Devtools::getFormModulesTab();
-        $GLOBALS['xoopsTpl']->assign('tab_form', $tab_form->render());
+
         $dst_path = TDMC_UPLOAD_PATH . '/devtools/tab/';
         $GLOBALS['xoopsTpl']->assign('tab_desc', \str_replace('%s', $dst_path, \_AM_MODULEBUILDER_DEVTOOLS_TAB_DESC));
+        $tab_form = Devtools::getFormModulesTab();
+        $GLOBALS['xoopsTpl']->assign('tab_form', $tab_form->render());
+
+        $dst_path = TDMC_UPLOAD_PATH . '/devtools/remove_prefix/';
+        $GLOBALS['xoopsTpl']->assign('rp_desc',  \_AM_MODULEBUILDER_DEVTOOLS_RP_DESC);
+        $tab_form = Devtools::getFormModulesRemovePrefix($dst_path);
+        $GLOBALS['xoopsTpl']->assign('rp_form', $tab_form->render());
+
         $GLOBALS['xoopsTpl']->assign('devtools_list', true);
 
         break;

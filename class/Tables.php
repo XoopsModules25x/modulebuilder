@@ -151,12 +151,16 @@ class Tables extends \XoopsObject
         }
         $form->addElement($modulesSelect, true);
 
+        /*
         $tableNameText = new \XoopsFormText(\_AM_MODULEBUILDER_TABLE_NAME, 'table_name', 40, 150, $tableName);
         $tableNameText->setDescription(\_AM_MODULEBUILDER_TABLE_NAME_DESC);
         $form->addElement($tableNameText, true);
+        */
+        $form->addElement(new \XoopsFormHidden('table_name', $tableName));
 
         $tableSoleNameText = new \XoopsFormText(\_AM_MODULEBUILDER_TABLE_SOLENAME, 'table_solename', 40, 150, $this->getVar('table_solename'));
         $tableSoleNameText->setDescription(\_AM_MODULEBUILDER_TABLE_SOLENAME_DESC);
+        $tableSoleNameText->setExtra('onchange="changeTablesolename()"');
         $form->addElement($tableSoleNameText, true);
 
         $radioCategory = $isNew ? 0 : $this->getVar('table_category');
@@ -166,7 +170,7 @@ class Tables extends \XoopsObject
 
         $tableFieldname = new \XoopsFormText(\_AM_MODULEBUILDER_TABLE_FIELDNAME, 'table_fieldname', 30, 50, $this->getVar('table_fieldname'));
         $tableFieldname->setDescription(\_AM_MODULEBUILDER_TABLE_FIELDNAME_DESC);
-        $form->addElement($tableFieldname);
+        $form->addElement($tableFieldname, true);
 
         $tableNumbFileds = new \XoopsFormText(\_AM_MODULEBUILDER_TABLE_NBFIELDS, 'table_nbfields', 10, 25, $this->getVar('table_nbfields'));
         $tableNumbFileds->setDescription(\_AM_MODULEBUILDER_TABLE_NBFIELDS_DESC);

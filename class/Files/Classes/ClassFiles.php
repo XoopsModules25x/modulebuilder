@@ -3,7 +3,10 @@
 namespace XoopsModules\Modulebuilder\Files\Classes;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\{
+    Files,
+    Constants
+};
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -198,8 +201,7 @@ class ClassFiles extends Files\CreateFile
             $fieldInForm[]    = $fields[$f]->getVar('field_inform');
             $fieldElements    = $this->helper->getHandler('Fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
-            if (13 == $fieldElements->getVar('fieldelement_id') || 14 == $fieldElements->getVar('fieldelement_id')) {
-                //13: UploadImage, 14: UploadFile
+            if (Constants::FIELD_ELE_UPLOADIMAGE == $fieldElements->getVar('fieldelement_id') || Constants::FIELD_ELE_UPLOADFILE == $fieldElements->getVar('fieldelement_id')) {
                 $fieldUpload = true;
             }
             $rpFieldName      = $this->getRightString($fieldName);
@@ -406,13 +408,17 @@ class ClassFiles extends Files\CreateFile
         $configMaxchar    = 0;
         $lenMaxName       = 0;
         foreach (\array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldName    = $fields[$f]->getVar('field_name');
+            $fieldElement = $fields[$f]->getVar('field_element');
             $rpFieldName  = $this->getRightString($fieldName);
-            $len         = \mb_strlen($rpFieldName);
-            if (3 == $fields[$f]->getVar('field_element') || 4 == $fields[$f]->getVar('field_element')) {
-                $len = $len + \mb_strlen('_short');
-            }
+            $len          = \mb_strlen($rpFieldName) + \mb_strlen('_short');
             $lenMaxName = max($len, $lenMaxName);
+            if (Constants::FIELD_ELE_TEXTAREA == $fieldElement || Constants::FIELD_ELE_DHTMLTEXTAREA == $fieldElement) {
+                $configMaxchar = 1;
+            }
+        }
+        if (1 === $configMaxchar) {
+            $getValues .= $this->xc->getXcEqualsOperator('$editorMaxchar', $this->xc->getXcGetConfig('editor_maxchar'), false, "\t\t");
         }
         foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
@@ -420,43 +426,40 @@ class ClassFiles extends Files\CreateFile
             $rpFieldName  = $this->getRightString($fieldName);
             $spacer       = str_repeat(' ', $lenMaxName - \mb_strlen($rpFieldName));
             switch ($fieldElement) {
-                case 3:
-                    $getValues .= $this->pc->getPhpCodeStripTags("ret['{$rpFieldName}']{$spacer}", "\$this->getVar('{$fieldName}', 'e')", false, "\t\t");
-                    if ($configMaxchar == 0) {
-                        $getValues .= $this->xc->getXcEqualsOperator('$editorMaxchar', $this->xc->getXcGetConfig('editor_maxchar'), false, "\t\t");
-                        $configMaxchar = 1;
-                    }
+                case Constants::FIELD_ELE_TEXTAREA:
+                    $spacer    = str_repeat(' ', \max(0, $lenMaxName - 5 - \mb_strlen($rpFieldName)));
+                    $getValues .= $this->pc->getPhpCodeStripTags("ret['{$rpFieldName}_text']{$spacer}", "\$this->getVar('{$fieldName}', 'e')", false, "\t\t");
                     $truncate  =  "\$utility::truncateHtml(\$ret['{$rpFieldName}'], \$editorMaxchar)";
                     $spacer    = str_repeat(' ', $lenMaxName - \mb_strlen($rpFieldName) - \mb_strlen('_short'));
                     $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']{$spacer}", $truncate, false, "\t\t");
                     $helper = 1;
                     $utility = 1;
                     break;
-                case 4:
-                    $getValues .= $this->xc->getXcGetVar("ret['{$rpFieldName}']{$spacer}", 'this', $fieldName, false, "\t\t", ", 'e'");
-                    if ($configMaxchar == 0) {
-                        $getValues .= $this->xc->getXcEqualsOperator('$editorMaxchar', $this->xc->getXcGetConfig('editor_maxchar'), false, "\t\t");
-                        $configMaxchar = 1;
-                    }
+                case Constants::FIELD_ELE_DHTMLTEXTAREA:
+                    $spacer    = str_repeat(' ', \max(0, $lenMaxName - 5 - \mb_strlen($rpFieldName)));
+                    $getValues .= $this->xc->getXcGetVar("ret['{$rpFieldName}_text']{$spacer}", 'this', $fieldName, false, "\t\t", ", 'e'");
                     $truncate  =  "\$utility::truncateHtml(\$ret['{$rpFieldName}'], \$editorMaxchar)";
                     $spacer    = str_repeat(' ', $lenMaxName - \mb_strlen($rpFieldName) - \mb_strlen('_short'));
                     $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']{$spacer}", $truncate, false, "\t\t");
                     $helper = 1;
                     $utility = 1;
                     break;
-                case 6:
-                    $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}']{$spacer}", "(int)\$this->getVar('{$fieldName}') > 0 ? _YES : _NO", false, "\t\t");
+                case Constants::FIELD_ELE_RADIOYN:
+                    $spacer    = str_repeat(' ', \max(0, $lenMaxName - 5 - \mb_strlen($rpFieldName)));
+                    $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}_text']{$spacer}", "(int)\$this->getVar('{$fieldName}') > 0 ? _YES : _NO", false, "\t\t");
                     break;
-                case 8:
-                    $getValues .= $this->xc->getXcXoopsUserUnameFromId("ret['{$rpFieldName}']{$spacer}", "\$this->getVar('{$fieldName}')", "\t\t");
+                case Constants::FIELD_ELE_SELECTUSER:
+                    $spacer    = str_repeat(' ', \max(0, $lenMaxName - 5 - \mb_strlen($rpFieldName)));
+                    $getValues .= $this->xc->getXcXoopsUserUnameFromId("ret['{$rpFieldName}_text']{$spacer}", "\$this->getVar('{$fieldName}')", "\t\t");
                     break;
-                case 15:
-                    $getValues .= $this->xc->getXcFormatTimeStamp("ret['{$rpFieldName}']{$spacer}", "\$this->getVar('{$fieldName}')", 's', "\t\t");
+                case Constants::FIELD_ELE_TEXTDATESELECT:
+                    $spacer    = str_repeat(' ', \max(0, $lenMaxName - 5 - \mb_strlen($rpFieldName)));
+                    $getValues .= $this->xc->getXcFormatTimeStamp("ret['{$rpFieldName}_text']{$spacer}", "\$this->getVar('{$fieldName}')", 's', "\t\t");
                     break;
-                case 16:
-                    $spacer                                                  = str_repeat(' ', $lenMaxName - \mb_strlen('status') + 7);
+                case Constants::FIELD_ELE_SELECTSTATUS:
+                    $spacer    = str_repeat(' ', $lenMaxName - \mb_strlen('status') + 7);
                     $getValues .= $this->xc->getXcGetVar("status{$spacer}", 'this', $fieldName, false, "\t\t");
-                    $spacer                                                  = str_repeat(' ', $lenMaxName - \mb_strlen('status'));
+                    $spacer    = str_repeat(' ', $lenMaxName - \mb_strlen('status'));
                     $getValues .= $this->xc->getXcEqualsOperator("\$ret['status']{$spacer}", '$status', false, "\t\t");
                     $contCase1  = $this->xc->getXcEqualsOperator('$status_text', $language . 'STATUS_NONE', false, "\t\t\t\t");
                     $cases[$this->xc->getXcGetConstants('STATUS_NONE')] = [$contCase1];
@@ -478,8 +481,9 @@ class ClassFiles extends Files\CreateFile
                     $spacer        = $len > 0 ? str_repeat(' ', $len) : '';
                     $getValues     .= $this->xc->getXcEqualsOperator("\$ret['status_text']{$spacer}", '$status_text',  false, "\t\t");
                     break;
-                case 21:
-                    $getValues .= $this->xc->getXcFormatTimeStamp("ret['{$rpFieldName}']{$spacer}", "\$this->getVar('{$fieldName}')", 'm', "\t\t");
+                case Constants::FIELD_ELE_DATETIME:
+                    $spacer    = str_repeat(' ', \max(0, $lenMaxName - 5 - \mb_strlen($rpFieldName)));
+                    $getValues .= $this->xc->getXcFormatTimeStamp("ret['{$rpFieldName}_text']{$spacer}", "\$this->getVar('{$fieldName}')", 'm', "\t\t");
                     break;
                 default:
                     $fieldElements    = $this->helper->getHandler('Fieldelements')->get($fieldElement);

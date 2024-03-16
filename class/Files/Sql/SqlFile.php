@@ -34,7 +34,6 @@ class SqlFile extends Files\CreateFile
     /**
      * @public function constructor
      *
-     * @param null
      */
     public function __construct()
     {
@@ -43,8 +42,6 @@ class SqlFile extends Files\CreateFile
 
     /**
      * @static function getInstance
-     *
-     * @param null
      *
      * @return SqlFile
      */
@@ -184,9 +181,15 @@ class SqlFile extends Files\CreateFile
         $j      = 0;
         $comma  = [];
         $row    = [];
-        //$type          = '';
+        $lenMax = 0;
         $fieldTypeName = '';
         $fields        = $this->getTableFields($tableMid, $tableId);
+        //get max length
+        foreach (\array_keys($fields) as $f) {
+            $len         = \mb_strlen($fields[$f]->getVar('field_name'));
+            $lenMax      = max($len, $lenMax);
+        }
+        //create
         foreach (\array_keys($fields) as $f) {
             // Creation of database table
             $ret            = $this->getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb);
@@ -267,12 +270,6 @@ class SqlFile extends Files\CreateFile
                         $type    = $fieldTypeName;
                         $default = null;
                         break;
-                    case 19:
-                    case 20:
-                    case 21:
-                        $type    = $fieldTypeName . '(' . $fieldValue . ')';
-                        $default = "DEFAULT '{$fieldDefault}'";
-                        break;
                     case 23:
                         $type = $fieldTypeName;
                         if (empty($fieldDefault)) {
@@ -290,39 +287,39 @@ class SqlFile extends Files\CreateFile
                         break;
                 }
                 if ((0 == $f) && (1 == $tableAutoincrement)) {
-                    $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, null, 'AUTO_INCREMENT');
+                    $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, null, 'AUTO_INCREMENT', $lenMax);
                     $comma[$j] = $this->getKey(2, $fieldName);
                     ++$j;
                 } elseif ((0 == $f) && (0 == $tableAutoincrement)) {
-                    $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                    $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default, null, $lenMax);
                     $comma[$j] = $this->getKey(2, $fieldName);
                     ++$j;
                 } else {
                     if (3 == $fieldKey || 4 == $fieldKey || 5 == $fieldKey || 6 == $fieldKey) {
                         switch ($fieldKey) {
                             case 3:
-                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default, null, $lenMax);
                                 $comma[$j] = $this->getKey(3, $fieldName);
                                 ++$j;
                                 break;
                             case 4:
-                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default, null, $lenMax);
                                 $comma[$j] = $this->getKey(4, $fieldName);
                                 ++$j;
                                 break;
                             case 5:
-                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default, null, $lenMax);
                                 $comma[$j] = $this->getKey(5, $fieldName);
                                 ++$j;
                                 break;
                             case 6:
-                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default, null, $lenMax);
                                 $comma[$j] = $this->getKey(6, $fieldName);
                                 ++$j;
                                 break;
                         }
                     } else {
-                        $row[] = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                        $row[] = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default, null, $lenMax);
                     }
                 }
             }
@@ -371,8 +368,6 @@ class SqlFile extends Files\CreateFile
     /**
      * @private function getFootDatabaseTable
      *
-     * @param null
-     *
      * @return string
      */
     private function getFootDatabaseTable()
@@ -389,15 +384,24 @@ class SqlFile extends Files\CreateFile
      * @param $fieldNull
      * @param $fieldDefault
      * @param $autoincrement
+     * @param $lenMax
      *
      * @return string
      */
-    private function getFieldRow($fieldName, $fieldTypeValue, $fieldAttribute = null, $fieldNull = null, $fieldDefault = null, $autoincrement = null)
+    private function getFieldRow($fieldName, $fieldTypeValue, $fieldAttribute = null, $fieldNull = null, $fieldDefault = null, $autoincrement = null, $lenMax = 0)
     {
-        $retAutoincrement  = "  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$autoincrement},";
-        $retFieldAttribute = "  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$fieldDefault},";
-        $fieldDefault      = "  `{$fieldName}` {$fieldTypeValue} {$fieldNull} {$fieldDefault},";
-        $retShort          = "  `{$fieldName}` {$fieldTypeValue},";
+        $fieldNameMax = "  `{$fieldName}`";
+        if ($lenMax > 0) {
+            $fieldNameMax .= \str_repeat(' ', $lenMax - \strlen($fieldName));
+        }
+        $fieldTypeValueMax = $fieldTypeValue;
+        if (\strlen($fieldTypeValue) < 15) {
+            $fieldTypeValueMax .= \str_repeat(' ', 15 - \strlen($fieldTypeValue));
+        }
+        $retAutoincrement  = $fieldNameMax . " {$fieldTypeValueMax} {$fieldAttribute} {$fieldNull} {$autoincrement},";
+        $retFieldAttribute = $fieldNameMax . " {$fieldTypeValueMax} {$fieldAttribute} {$fieldNull} {$fieldDefault},";
+        $fieldDefault      = $fieldNameMax . " {$fieldTypeValueMax} {$fieldNull} {$fieldDefault},";
+        $retShort          = $fieldNameMax . " {$fieldTypeValueMax},";
 
         $ret = $retShort;
         if (null != $autoincrement) {
@@ -445,9 +449,7 @@ class SqlFile extends Files\CreateFile
     /**
      * @public function render
      *
-     * @param null
-     *
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

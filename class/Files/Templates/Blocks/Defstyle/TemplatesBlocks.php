@@ -3,7 +3,10 @@
 namespace XoopsModules\Modulebuilder\Files\Templates\Blocks\Defstyle;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\{
+    Files,
+    Constants
+};
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -138,22 +141,35 @@ class TemplatesBlocks extends Files\CreateFile
                 $rpFieldName  = $this->getRightString($fieldName);
                 if (1 == $fields[$f]->getVar('field_inlist')) {
                     switch ($fieldElement) {
-                        case 9:
+                        case Constants::FIELD_ELE_COLORPICKER:
                             $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $span   = $this->hc->getHtmlTag('span', [], $double);
+                            $span   = $this->hc->getHtmlTag('span', [], $double, false, '', '');
                             $td     .= $this->hc->getHtmlTableData($span, 'center', '', "\t\t\t");
                             break;
-                        case 10:
+                        case Constants::FIELD_ELE_IMAGELIST:
                             $src = $this->sc->getSmartyNoSimbol('xoModuleIcons32');
                             $src .= $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $img = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
                             $td  .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t");
                             break;
-                        case 13:
+                        case Constants::FIELD_ELE_UPLOADIMAGE:
                             $single = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
                             $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $img    = $this->hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName], '', true, '', '');
                             $td     .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t");
+                            break;
+                        case Constants::FIELD_ELE_TEXTAREA:
+                        case Constants::FIELD_ELE_DHTMLTEXTAREA:
+                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short');
+                            $td     .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t");
+                            break;
+                        case Constants::FIELD_ELE_SELECTSTATUS:
+                        case Constants::FIELD_ELE_RADIOYN:
+                        case Constants::FIELD_ELE_SELECTUSER:
+                        case Constants::FIELD_ELE_DATETIME:
+                        case Constants::FIELD_ELE_TEXTDATESELECT:
+                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text');
+                            $td     .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t");
                             break;
                         default:
                             if (0 != $f) {
@@ -186,7 +202,7 @@ class TemplatesBlocks extends Files\CreateFile
         $foreach = $this->sc->getSmartyForeach($tableSoleName, 'block', $tr, '', '', "\t\t");
         $tbody   = $this->hc->getHtmlTableTbody($foreach, '', "\t");
 
-        return $this->sc->getSmartyConditions('block', '', '', $tbody, false, true, true, "\t");
+        return $this->sc->getSmartyConditions('block|default:0', ' > ', '0', $tbody, false, true, true, "\t");
     }
 
     /**

@@ -776,6 +776,9 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $ccFieldName        = $this->cf->getCamelCase($fieldName, false, true);
         $ret                .= $this->xc->getXcHandlerLine($rpFieldelementName, $t);
         $ret                .= $this->cxc->getClassXoopsFormSelect($ccFieldName . 'Select', $language, $fieldName, "this->getVar('{$fieldName}')", null, '', false, $t);
+        if ('' === $required || 'false' === $required) {
+            $ret .= $this->cxc->getClassAddOption($ccFieldName . 'Select', "0, ' '", $t);
+        }
         $ret                .= $this->cxc->getClassAddOptionArray($ccFieldName . 'Select', "\${$rpFieldelementName}Handler->getList()", $t);
         $ret                .= $this->cxc->getClassAddElement('form', "\${$ccFieldName}Select{$required}", $t);
 

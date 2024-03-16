@@ -137,7 +137,7 @@ class UserIndex extends Files\CreateFile
             $contentIf .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true, false, 'require', "\t");
             //$contentIf .= $cc->getClassXoopsObjectTree('mytree', $tableName, $fieldId, $fieldParent, "\t");
             $contentIf .= $this->pc->getPhpCodeArray($tableName, "\t");
-            $foreach   = $this->xc->getXcGetValues($tableName, $tableSoleName . 'Values', $tableFieldname, false, "\t\t");
+            $foreach   = $this->xc->getXcGetValues($tableName.'aaa', $tableSoleName.'bbb' . 'Values', $tableFieldname, false, "\t\t");
             $foreach   .= $this->pc->getPhpCodeArray('acount', ["'count'", '$count']);
             $foreach   .= $this->pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName . 'Values', '$acount');
             $foreach   .= $this->getSimpleString('++$count;', "\t\t");
@@ -170,16 +170,16 @@ class UserIndex extends Files\CreateFile
         $ret       = $this->pc->getPhpCodeCommentLine('Tables');
         $ret       .= $this->xc->getXcHandlerCountObj($tableName);
         $ret       .= $this->xc->getXcXoopsTplAssign($tableName . 'Count', "\${$tableName}Count");
-        $ret       .= $this->getSimpleString('$count = 1;');
+        //$ret       .= $this->getSimpleString('$count = 1;');
         $condIf    = $this->xc->getXcXoopsRequest('start', 'start', '', 'Int', false, "\t");
         $userpager = $this->xc->getXcGetConfig('userpager');
         $condIf    .= $this->xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int', false, "\t");
         $condIf    .= $this->xc->getXcHandlerAllObj($tableName, '', '$start', '$limit', "\t");
         $condIf    .= $this->pc->getPhpCodeCommentLine('Get All', $ucfTableName, "\t");
-        $condIf    .= $this->pc->getPhpCodeArray($tableName, null, false, "\t");
-        $foreach   = $this->xc->getXcGetValues($tableName, $tableSoleName, 'i', false, "\t\t");
-        $foreach   .= $this->pc->getPhpCodeArray('acount', ["'count'", '$count']);
-        $foreach   .= $this->pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName, '$acount');
+        $condIf    .= $this->pc->getPhpCodeArray($tableName . '_list', null, false, "\t");
+        $foreach   = $this->xc->getXcGetValues($tableName, $tableSoleName . '_list[]', 'i', false, "\t\t");
+        //$foreach   .= $this->pc->getPhpCodeArray('acount', ["'count'", '$count']);
+        //$foreach   .= $this->pc->getPhpCodeArrayType($tableName . '_list', 'merge', $tableSoleName . '_list', '$acount');
         // Fields
         $fieldMain = '';
         foreach (\array_keys($fields) as $f) {
@@ -189,9 +189,9 @@ class UserIndex extends Files\CreateFile
             }
         }
         $foreach   .= $this->xc->getXcGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain, false, "\t\t");
-        $foreach   .= $this->getSimpleString('++$count;', "\t\t");
+        //$foreach   .= $this->getSimpleString('++$count;', "\t\t");
         $condIf    .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, "\t");
-        $condIf    .= $this->xc->getXcXoopsTplAssign($tableName, '$' . $tableName, true, "\t");
+        $condIf    .= $this->xc->getXcXoopsTplAssign($tableName . '_list', '$' . $tableName . '_list', true, "\t");
         $condIf    .= $this->pc->getPhpCodeUnset($tableName, "\t");
         $condIf    .= $this->xc->getXcPageNav($tableName, "\t");
         $thereare  = $this->pc->getPhpCodeSprintf("{$language}INDEX_THEREARE", "\${$tableName}Count");
@@ -201,7 +201,7 @@ class UserIndex extends Files\CreateFile
         $numb_col  = $this->xc->getXcGetConfig('numb_col');
         $condIf    .= $this->xc->getXcXoopsTplAssign('numb_col', $numb_col, true, "\t");
         $ret       .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
-        $ret       .= $this->pc->getPhpCodeUnset('count');
+        //$ret       .= $this->pc->getPhpCodeUnset('count');
         $tableType = $this->xc->getXcGetConfig('table_type');
         $ret       .= $this->xc->getXcXoopsTplAssign('table_type', $tableType);
 

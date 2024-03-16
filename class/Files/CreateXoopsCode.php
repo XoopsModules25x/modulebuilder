@@ -1035,9 +1035,12 @@ class CreateXoopsCode
         $pc         = Modulebuilder\Files\CreatePhpCode::getInstance();
         $xc         = Modulebuilder\Files\CreateXoopsCode::getInstance();
 
+        $ccFieldMain = Modulebuilder\Files\CreateFile::getInstance()->getCamelCase($fieldMain, false, true);
+
         $array   = "['ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'start' => \$start, 'limit' => \$limit, 'op' => '{$options}']";
         $server  = $pc->getPhpCodeGlobalsVariables('REQUEST_URI', 'SERVER');
         $getVar  = $this->getXcGetVar('', $tableName . 'Obj', $fieldMain, true);
+        $getVar  = "\${$ccFieldMain}";
         $sprintf = $pc->getPhpCodeSprintf($language . 'FORM_SURE_' . $stuOptions, $getVar);
         $confirm = 'new Common\Confirm(' . "\n";
         $confirm .= $t . "\t" . $array . ",\n";

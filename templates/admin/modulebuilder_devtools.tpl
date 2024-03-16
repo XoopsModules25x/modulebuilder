@@ -36,6 +36,13 @@
             </td>
             <td class='td-padding'><{$tab_form}></td>
         </tr>
+        <tr class='even'>
+            <td class='left td-padding'>
+                <h5><{$smarty.const._AM_MODULEBUILDER_DEVTOOLS_RP}></h5>
+                <p><{$rp_desc}></p>
+            </td>
+            <td class='td-padding'><{$rp_form}></td>
+        </tr>
     </table>
 <{/if}>
 <{if $clresults|default:''}>

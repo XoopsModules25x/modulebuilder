@@ -3,7 +3,10 @@
 namespace XoopsModules\Modulebuilder\Files\Templates\User\Defstyle;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\{
+    Files,
+    Constants
+};
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -108,19 +111,30 @@ class Pdf extends Files\CreateFile
                     $retElem     .= $this->hc->getHtmlDiv($lang . ': ', 'col-sm-3', "\t", "\n", false);
                     switch ($fieldElement) {
                         default:
-                            //case 3:
-                            //case 4:
                             $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $retElem   .= $this->hc->getHtmlDiv($doubleVar, 'col-sm-8', "\t", "\n", false);
                             break;
-                        case 10:
+                        case Constants::FIELD_ELE_TEXTAREA:
+                        case Constants::FIELD_ELE_DHTMLTEXTAREA:
+                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short');
+                            $retElem   .= $this->hc->getHtmlDiv($doubleVar, 'col-sm-8', "\t", "\n", false);
+                            break;
+                        case Constants::FIELD_ELE_SELECTSTATUS:
+                        case Constants::FIELD_ELE_RADIOYN:
+                        case Constants::FIELD_ELE_SELECTUSER:
+                        case Constants::FIELD_ELE_DATETIME:
+                        case Constants::FIELD_ELE_TEXTDATESELECT:
+                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text');
+                            $retElem   .= $this->hc->getHtmlDiv($doubleVar, 'col-sm-8', "\t", "\n", false);
+                            break;
+                        case Constants::FIELD_ELE_IMAGELIST:
                             $singleVar = $this->sc->getSmartySingleVar('xoops_icons32_url');
                             $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $img       = $this->hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
                             $retElem   .= $this->hc->getHtmlDiv($img, 'col-sm-8', "\t", "\n", false);
                             unset($img);
                             break;
-                        case 13:
+                        case Constants::FIELD_ELE_UPLOADIMAGE:
                             $singleVar = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
                             $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $img       = $this->hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);

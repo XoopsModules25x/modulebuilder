@@ -142,7 +142,7 @@ class LanguageMain extends Files\CreateFile
                     $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_CLONE", "Clone {$ucfTableSoleName}");
                 }
                 $ret .= $this->ld->getDefine($language, "{$stuTableSoleName}_DETAILS", "Details {$ucfTableSoleName}");
-                $ret .= $this->ld->getDefine($language, $stuTableName, $ucfTableName);
+                //$ret .= $this->ld->getDefine($language, $stuTableName, $ucfTableName);
                 $ret .= $this->ld->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
                 $ret .= $this->ld->getDefine($language, "{$stuTableName}_TITLE", "{$ucfTableName} title");
                 $ret .= $this->ld->getDefine($language, "{$stuTableName}_DESC", "{$ucfTableName} description");

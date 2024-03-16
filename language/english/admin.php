@@ -210,9 +210,9 @@
 \define('_AM_MODULEBUILDER_TABLES_NEW_CATEGORY', 'New Category');
 \define('_AM_MODULEBUILDER_TABLE_MODULES', 'Choose a module');
 \define('_AM_MODULEBUILDER_TABLE_NAME', 'Table Name');
-\define('_AM_MODULEBUILDER_TABLE_NAME_DESC', "Unique Name: It's recommended to use plural word (i.e.: <span style='text-decoration: underline;'>categories</span><span class='white bold'>s</span>)");
-\define('_AM_MODULEBUILDER_TABLE_SOLENAME', 'Table Singular Name');
-\define('_AM_MODULEBUILDER_TABLE_SOLENAME_DESC', "Singular  Name: It's recommended to use singular word (i.e.: <span style='text-decoration: underline;'>category</span> for admin buttons)");
+\define('_AM_MODULEBUILDER_TABLE_NAME_DESC', "Unique Name: You can use plural word, but it's recommended to use singular word (i.e.: <span style='text-decoration: underline;'>category</span><span class='white bold'>s</span>)");
+\define('_AM_MODULEBUILDER_TABLE_SOLENAME', 'Table Name');
+\define('_AM_MODULEBUILDER_TABLE_SOLENAME_DESC', "Name: It's recommended to use singular word (i.e.: <span style='text-decoration: underline;'>category</span>)");
 \define('_AM_MODULEBUILDER_TABLE_CATEGORY', 'This table is a category or topic?');
 \define('_AM_MODULEBUILDER_TABLE_CATEGORY_DESC', "<b class='red bold'>WARNING</b>: <i>Once you have used this option for this module, and edit this table,<br>will not be displayed following the creation of other tables</i>");
 \define('_AM_MODULEBUILDER_TABLE_NBFIELDS', 'Number fields');
@@ -222,7 +222,7 @@
 \define('_AM_MODULEBUILDER_TABLE_FIELDNAME', 'Prefix Field Name');
 \define(
     '_AM_MODULEBUILDER_TABLE_FIELDNAME_DESC',
-    "This is the prefix of field name (optional)<br>If you leave the field blank, doesn't appear anything in the fields of the next screen,<br>otherwise you'll see all the fields with a prefix type (i.e.: <span class='bold'>cat</span> of table <span class='bold'>categories</span>).<br><b class='red bold'>WARNING</b>: It's recommended to use singular word"
+    "This is the prefix of field name. This prefix will also be used for creation of variables.<br>It's recommended to use an appreviation of table name (e.g. cat for table category).<br><b class='red bold'>WARNING</b>: if you change this prefix after creation of table you have to change the prefix in the table field names manually!"
 );
 \define('_AM_MODULEBUILDER_TABLE_OPTIONS_CHECKS_DESC', 'For each table created during building prcedure the relevant files will be created on behalf of this.<br>Selecting one or more of these options to decide which functions and condition should be implemented in your module for this table.');
 \define('_AM_MODULEBUILDER_TABLE_ALL', 'Check All');
@@ -446,6 +446,7 @@
 //
 // ------------------- Devtools --------------------------------- //
 \define('_AM_MODULEBUILDER_DEVTOOLS', 'Developer Tools');
+\define('_AM_MODULEBUILDER_DEVTOOLS_INVALID_MOD', 'No valid module selected');
 \define('_AM_MODULEBUILDER_DEVTOOLS_FQ', 'Add function qualifiers to modules');
 \define('_AM_MODULEBUILDER_DEVTOOLS_FQ_MODULE', 'Select module to add function qualifiers');
 \define('_AM_MODULEBUILDER_DEVTOOLS_FQ_DESC', 'This tool creates a copy of selected module in %s and add function qualifiers to the php functions');
@@ -462,7 +463,15 @@
 \define('_AM_MODULEBUILDER_DEVTOOLS_TAB', 'Replace tab by 4 spaces');
 \define('_AM_MODULEBUILDER_DEVTOOLS_TAB_MODULE', 'Select module to replace tabs');
 \define('_AM_MODULEBUILDER_DEVTOOLS_TAB_DESC', 'This tool creates a copy of selected module in %s and replace tab by 4 spaces');
-
+\define('_AM_MODULEBUILDER_DEVTOOLS_TAB_SUCCESS', 'Function replace tabs successfully added to copy of module');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP', 'Remove prefix from table field names');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_MODULE', 'Select module to remove prefix');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_DESC', 'This tool removes prefix from table field names');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_DEST', 'Destination');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_DEST1', 'Create a copy of selected module in %s');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_DEST2', 'Overwrite original files');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_SUCCESS', 'Function remove prefix from table field names successfully added to copy of module');
+\define('_AM_MODULEBUILDER_DEVTOOLS_RP_ERROR', 'Error occured when removing prefix from table field names');
 // -------------------- IMPORT MODULE -----------------------------------
 
 \define('_AM_MODULEBUILDER_MODULES_IMPORT', 'Import Module');

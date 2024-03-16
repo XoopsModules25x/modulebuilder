@@ -198,10 +198,10 @@ class UserPages extends Files\CreateFile
         $contIf    .= $this->xc->getXcCriteriaSetLimit($critName, '$limit', $t . "\t");
         $ret       .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' === ', '0', $contIf, false, $t);
         $ret       .= $this->xc->getXcHandlerAllClear($tableName . 'All', $tableName, '$' . $critName, $t);
-        $condIf    = $this->pc->getPhpCodeArray($tableName, null, false, $t . "\t");
+        $condIf    = $this->pc->getPhpCodeArray($tableName . 'List', null, false, $t . "\t");
         $condIf    .= $this->xc->getXcEqualsOperator("\${$ccFieldMain}", "''",'', $t . "\t");
         $condIf    .= $this->pc->getPhpCodeCommentLine('Get All', $ucfTableName, $t . "\t");
-        $foreach   = $this->xc->getXcGetValues($tableName, $tableName . '[$i]', 'i', false, $t . "\t\t");
+        $foreach   = $this->xc->getXcGetValues($tableName, $tableName . 'List' . '[$i]', 'i', false, $t . "\t\t");
         $foreach   .= $this->xc->getXcGetVar($ccFieldMain, "{$tableName}All[\$i]", $fieldMain, false, $t . "\t\t");
         $foreach   .= $this->xc->getXcEqualsOperator('$keywords[$i]', "\${$ccFieldMain}",'', $t . "\t\t");
         if ($tableRate) {
@@ -210,8 +210,8 @@ class UserPages extends Files\CreateFile
             $foreach .= $this->xc->getXcEqualsOperator("\${$tableName}[\$i]['rating']", "\$ratingsHandler->getItemRating({$itemId}, {$const})",'', $t . "\t\t");
         }
         $condIf    .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, $t . "\t");
-        $condIf    .= $this->xc->getXcXoopsTplAssign($tableName, "\${$tableName}", true, $t . "\t");
-        $condIf    .= $this->pc->getPhpCodeUnset($tableName, $t . "\t");
+        $condIf    .= $this->xc->getXcXoopsTplAssign($tableName . '_list', "\${$tableName}List", true, $t . "\t");
+        $condIf    .= $this->pc->getPhpCodeUnset($tableName . 'List', $t . "\t");
         $condIf    .= $this->xc->getXcPageNav($tableName, $t . "\t");
         $config    = $this->xc->getXcGetConfig('table_type');
         $condIf    .= $this->xc->getXcXoopsTplAssign('table_type', $config, true, $t . "\t");
