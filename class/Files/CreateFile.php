@@ -498,8 +498,8 @@ class CreateFile extends CreateTableFields
         $name    = $module->getVar('mod_name');
         $dirname = $module->getVar('mod_dirname');
         //$version          = $module->getVar('mod_version');
-        $since    = $module->getVar('mod_since');
-        $minXoops = $module->getVar('mod_min_xoops');
+        //$since    = $module->getVar('mod_since');
+        //$minXoops = $module->getVar('mod_min_xoops');
         $author   = $module->getVar('mod_author');
         //$credits          = $module->getVar('mod_credits');
         $authorMail       = $module->getVar('mod_author_mail');
@@ -526,11 +526,11 @@ class CreateFile extends CreateTableFields
         $copyright = [
             $name           => 'module for xoops',
             ''              => '',
-            '@copyright   '  => '2021 XOOPS Project (https://xoops.org)',
+            '@copyright   '  => date('Y') . ' XOOPS Project (https://xoops.org)',
             '@license     '   => $license,
             '@package     '   => $dirname,
-            '@since       '    => $since,
-            '@min_xoops   ' => $minXoops,
+            //'@since       '    => $since,
+            //'@min_xoops   ' => $minXoops,
         ];
         $authorLine = $author;
         if ('' !== $authorMail) {
