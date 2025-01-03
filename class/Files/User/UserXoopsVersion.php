@@ -131,7 +131,11 @@ class UserXoopsVersion extends Files\CreateFile
         $ret  .= Modulebuilder\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine();
         $ret  .= $this->xc->getXcEqualsOperator('$moduleDirName     ', '\basename(__DIR__)');
         $ret  .= $this->xc->getXcEqualsOperator('$moduleDirNameUpper', '\mb_strtoupper($moduleDirName)');
+        $ret  .= $this->getSimpleString('');
+        $ret  .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH . ' . "'/modules/'" . ' . $moduleDirName', 'preloads/autoloader', false, false, 'include');
+        $ret  .= $this->getSimpleString('');
         $ret  .= $this->getDashComment('Informations');
+
         $ha   = (1 == $module->getVar('mod_admin')) ? '1' : '0';
         $hm   = (1 == $module->getVar('mod_user')) ? '1' : '0';
 
