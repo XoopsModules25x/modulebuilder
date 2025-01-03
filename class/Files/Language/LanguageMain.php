@@ -99,7 +99,6 @@ class LanguageMain extends Files\CreateFile
         $ret        .= $this->ld->getDefine($language, 'INDEX', 'Overview ' . (string)$module->getVar('mod_name'));
         $ret        .= $this->ld->getDefine($language, 'TITLE', (string)$module->getVar('mod_name'));
         $ret        .= $this->ld->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
-        $ret        .= $this->ld->getDefine($language, 'INDEX_DESC',"Welcome to the homepage of your new module {$moduleName}!<br>This description is only visible on the homepage of this module.");
         $ret        .= $this->ld->getDefine($language, 'NO_PDF_LIBRARY', 'Libraries TCPDF not there yet, upload them in root/Frameworks');
         $ret        .= $this->ld->getDefine($language, 'NO', 'No');
         $ret        .= $this->ld->getDefine($language, 'DETAILS', 'Show details');
