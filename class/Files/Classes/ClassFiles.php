@@ -430,7 +430,7 @@ class ClassFiles extends Files\CreateFile
                 case Constants::FIELD_ELE_TEXTAREA:
                     $spacer    = str_repeat(' ', \max(0, $lenMaxName - 5 - \mb_strlen($rpFieldName)));
                     $getValues .= $this->pc->getPhpCodeStripTags("ret['{$rpFieldName}_text']{$spacer}", "\$this->getVar('{$fieldName}', 'e')", false, "\t\t");
-                    $truncate  =  "\$utility::truncateHtml(\$ret['{$rpFieldName}'], \$editorMaxchar)";
+                    $truncate  =  "\$utility::truncateHtml(\$ret['{$rpFieldName}_text'], \$editorMaxchar)";
                     $spacer    = str_repeat(' ', $lenMaxName - \mb_strlen($rpFieldName) - \mb_strlen('_short'));
                     $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']{$spacer}", $truncate, false, "\t\t");
                     $helper = 1;
@@ -439,7 +439,7 @@ class ClassFiles extends Files\CreateFile
                 case Constants::FIELD_ELE_DHTMLTEXTAREA:
                     $spacer    = str_repeat(' ', \max(0, $lenMaxName - 5 - \mb_strlen($rpFieldName)));
                     $getValues .= $this->xc->getXcGetVar("ret['{$rpFieldName}_text']{$spacer}", 'this', $fieldName, false, "\t\t", ", 'e'");
-                    $truncate  =  "\$utility::truncateHtml(\$ret['{$rpFieldName}'], \$editorMaxchar)";
+                    $truncate  =  "\$utility::truncateHtml(\$ret['{$rpFieldName}_text'], \$editorMaxchar)";
                     $spacer    = str_repeat(' ', $lenMaxName - \mb_strlen($rpFieldName) - \mb_strlen('_short'));
                     $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}_short']{$spacer}", $truncate, false, "\t\t");
                     $helper = 1;
