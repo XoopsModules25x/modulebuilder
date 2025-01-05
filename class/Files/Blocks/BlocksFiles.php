@@ -161,7 +161,7 @@ class BlocksFiles extends Files\CreateFile
         $case1[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldId}'","\t\t\t");
         $case1[] = $this->xc->getXcCriteriaSetOrder($critName, "'DESC'","\t\t\t");
         $case2[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} new",'',"\t\t\t");
-        $case2[] = $this->pc->getPhpCodeCommentLine('new since last week: 7 * 24 * 60 * 60 = 604800', '', "\t\t\t");
+        $case2[] = $this->pc->getPhpCodeCommentLine('New since last week: 7 * 24 * 60 * 60 = 604800', '', "\t\t\t");
         if ('' === $fieldDate) {
             $fieldDate = "{$tableFieldname}_date";
             $case2[] = $this->pc->getPhpCodeCommentLine("Table {$tableName} must have {$tableFieldname}_date or you have to change into corresponding field name",'',"\t\t\t");
