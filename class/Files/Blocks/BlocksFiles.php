@@ -4,6 +4,7 @@ namespace XoopsModules\Modulebuilder\Files\Blocks;
 
 use XoopsModules\Modulebuilder;
 use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\Constants;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -124,16 +125,22 @@ class BlocksFiles extends Files\CreateFile
         $contIf  .= $this->pc->getPhpCodeConditions('$typeBlock', '', '', $contIf2, false, "\t");
 
         //content else: parent
+        $fieldDate   = '';
+        $fieldRating = '';
+        foreach ($fields as $field) {
+            if ($field->getVar('field_element') == Constants::FIELD_ELE_TEXTDATESELECT || $field->getVar('field_element') == Constants::FIELD_ELE_DATETIME) {
+                $fieldDate = $field->getVar('field_name');
+            }
+            if ($field->getVar('field_element') == Constants::FIELD_ELE_TEXTRATINGS || $field->getVar('field_element') == Constants::FIELD_ELE_TEXTVOTES) {
+                $fieldRating = $field->getVar('field_name');
+            }
+        }
         //search for SelectStatus field
         $fieldStatus = '';
-        $fieldDate   = '';
         if (1 == $tablePermissions) {
             foreach ($fields as $field) {
-                if ($field->getVar('field_element') == 16) {
+                if ($field->getVar('field_element') == Constants::FIELD_ELE_SELECTSTATUS) {
                     $fieldStatus = $field->getVar('field_name');
-                }
-                if ($field->getVar('field_element') == 15 || $field->getVar('field_element') == 21) {
-                    $fieldDate = $field->getVar('field_name');
                 }
             }
             if ('' !== $fieldStatus) {
@@ -151,21 +158,28 @@ class BlocksFiles extends Files\CreateFile
         $case4 = [];
         $case5 = [];
         $case1[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} last",'',"\t\t\t");
-        $case1[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldDate}'","\t\t\t");
+        $case1[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldId}'","\t\t\t");
         $case1[] = $this->xc->getXcCriteriaSetOrder($critName, "'DESC'","\t\t\t");
         $case2[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} new",'',"\t\t\t");
-        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\time() - 604800', "'>='", true);
         $case2[] = $this->pc->getPhpCodeCommentLine('new since last week: 7 * 24 * 60 * 60 = 604800', '', "\t\t\t");
+        $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\time() - 604800', "'>='", true);
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
         $crit    = $this->xc->getXcCriteria('', "'{$fieldDate}'", '\time()', "'<='", true);
         $case2[] = $this->xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
         $case2[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldDate}'","\t\t\t");
         $case2[] = $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t\t\t");
         $case3[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} hits",'',"\t\t\t");
+        $case3[] = $this->pc->getPhpCodeCommentLine("Table {$tableName} must have {$tableFieldname}_hits or you have to change into corresponding field name",'',"\t\t\t");
         $case3[] = $this->xc->getXcCriteriaSetSort($critName, "'{$tableFieldname}_hits'","\t\t\t");
         $case3[] = $this->xc->getXcCriteriaSetOrder($critName, "'DESC'","\t\t\t");
-        $case4[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} top",'',"\t\t\t");
-        $case4[] = $this->xc->getXcCriteriaSetSort($critName, "'{$tableFieldname}_top'","\t\t\t");
+        if ('' !== $fieldRating) {
+            $case4[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} top",'',"\t\t\t");
+            $case4[] = $this->xc->getXcCriteriaSetSort($critName, "'{$fieldRating}'","\t\t\t");
+        } else {
+            $case4[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} top",'',"\t\t\t");
+            $case4[] = $this->pc->getPhpCodeCommentLine("Table {$tableName} must have {$tableFieldname}_top or you have to change into corresponding field name",'',"\t\t\t");
+            $case4[] = $this->xc->getXcCriteriaSetSort($critName, "'{$tableFieldname}_top'","\t\t\t");
+        }
         $case4[] = $this->xc->getXcCriteriaSetOrder($critName, "'ASC'","\t\t\t");
         $case5[] = $this->pc->getPhpCodeCommentLine("For the block: {$tableName} random",'',"\t\t\t");
         $case5[] = $this->xc->getXcCriteriaSetSort($critName, "'RAND()'","\t\t\t");
