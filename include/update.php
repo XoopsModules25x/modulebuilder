@@ -846,6 +846,42 @@ function modulebuilder_check_db($module)
         }
     }
 
+    // new form field Radio On-/Offline
+    $fname     = 'RadioOnoffline';
+    $fid       = 31;
+    $fvalue    = 'XoopsFormRadioOnoffline';
+    $fsort     = 7;
+    $fdeftype  = 2;
+    $fdefvalue = 1;
+    $fdeffield = 0;
+    $result = $xoopsDB->query(
+        'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_name = '{$fname}'"
+    );
+    $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
+    if ($num_rows == 0) {
+        $result = $xoopsDB->query(
+            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
+        );
+        $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
+        if ($num_rows > 0) {
+            list($fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue, $fe_deffield) = $xoopsDB->fetchRow($result);
+            //add existing element at end of table
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`, `fieldelement_deffield`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}', '{$fe_sort}', '{$fe_deftype}', '{$fe_defvalue}', '{$fe_deffield}')";
+            $result = $xoopsDB->query($sql);
+            // update table fields to new id of previous 31
+            $newId = $xoopsDB->getInsertId();
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
+            $result = $xoopsDB->query($sql);
+            // update 31 to new element
+            $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}', `fieldelement_sort` = '{$fsort}', `fieldelement_deftype` = '{$fdeftype}', `fieldelement_defvalue` = '{$fdefvalue}', `fieldelement_deffield` = '{$fdeffield}' WHERE `fieldelement_id` = {$fid};";
+            $result = $xoopsDB->query($sql);
+        } else {
+            //add missing element
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`, `fieldelement_deffield`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}', '{$fdeffield}')";
+            $result = $xoopsDB->query($sql);
+        }
+    }
+
     // resorting elements
     $sortElements = [];
     $sortElements[] = 'Text';
@@ -855,6 +891,7 @@ function modulebuilder_check_db($module)
     $sortElements[] = 'DhtmlTextArea';
     $sortElements[] = 'CheckBox';
     $sortElements[] = 'RadioYN';
+    $sortElements[] = 'RadioOnoffline';
     $sortElements[] = 'Radio';
     $sortElements[] = 'SelectBox';
     $sortElements[] = 'SelectCombo';

@@ -300,8 +300,6 @@ class ClassFiles extends Files\CreateFile
         $xModule          = $this->pc->getPhpCodeGlobals('xoopsModule');
         //$getForm          .= $this->pc->getPhpCodeTernaryOperator('isAdmin', '\is_object(' . $xUser . ')', $xUser . '->isAdmin(' . $xModule . '->mid())', 'false', "\t\t");
         $getForm          .= $this->xc->getXcEqualsOperator('$isAdmin', "\is_object(\$GLOBALS['xoopsUser']) && \$GLOBALS['xoopsUser']->isAdmin(\$GLOBALS['xoopsModule']->mid())", null, "\t\t");
-
-
         if ($fieldUpload) {
             $permString = 'upload_groups';
             $getForm          .= $this->pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
@@ -448,6 +446,12 @@ class ClassFiles extends Files\CreateFile
                 case Constants::FIELD_ELE_RADIOYN:
                     $spacer    = str_repeat(' ', \max(0, $lenMaxName - 5 - \mb_strlen($rpFieldName)));
                     $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}_text']{$spacer}", "(int)\$this->getVar('{$fieldName}') > 0 ? _YES : _NO", false, "\t\t");
+                    break;
+                case Constants::FIELD_ELE_RADIO_ONOFFLINE:
+                    $spacer    = str_repeat(' ', \max(0, $lenMaxName - 5 - \mb_strlen($rpFieldName)));
+                    $offline   = $language . \mb_strtoupper($ucfTableName) . '_' . \mb_strtoupper($rpFieldName) . '_OFFLINE';
+                    $online    = $language . \mb_strtoupper($ucfTableName) . '_' . \mb_strtoupper($rpFieldName) . '_ONLINE';
+                    $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}_text']{$spacer}", "(int)\$this->getVar('{$fieldName}') > 0 ? $online : $offline", false, "\t\t");
                     break;
                 case Constants::FIELD_ELE_SELECTUSER:
                     $spacer    = str_repeat(' ', \max(0, $lenMaxName - 5 - \mb_strlen($rpFieldName)));

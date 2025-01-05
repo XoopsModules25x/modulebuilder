@@ -355,7 +355,8 @@ INSERT INTO `modulebuilder_fieldelements` (`fieldelement_id`, `fieldelement_mid`
 (27, 0, 0, 'TextVotes', 'XoopsFormTextVotes', 28, 2, '10', ''),
 (28, 0, 0, 'TextReads', 'XoopsFormTextReads', 29, 2, '10', ''),
 (29, 0, 0, 'TextInteger', 'XoopsFormText', 2, 2, '10', '0'),
-(30, 0, 0, 'TextFloat', 'XoopsFormText', 3, 6, '16,2', '0.00');
+(30, 0, 0, 'TextFloat', 'XoopsFormText', 3, 6, '16,2', '0.00'),
+(31, 0, 0, 'RadioOnoffline', 'XoopsFormRadioOnoffline', 7, 2, '1', '');
 
 #
 # Table structure for table `modulebuilder_morefiles` 5

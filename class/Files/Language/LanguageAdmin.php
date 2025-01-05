@@ -206,23 +206,27 @@ class LanguageAdmin extends Files\CreateFile
                 $ret .= $this->ld->getDefine($language, $tableSoleName . '_' . $rpFieldName, $fieldNameDesc);
 
                 switch ($fieldElement) {
-                    case 10:
+                    case Constants::FIELD_ELE_IMAGELIST:
                         $ret .= $this->ld->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in frameworks images: %s");
                         break;
-                    case 12:
+                    case Constants::FIELD_ELE_URLFILE:
                         $ret .= $this->ld->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in uploads");
                         break;
-                    case 11:
-                    case 13:
-                    case 14:
+                    case Constants::FIELD_ELE_SELECTFILE:
+                    case Constants::FIELD_ELE_UPLOADIMAGE:
+                    case Constants::FIELD_ELE_UPLOADFILE:
                         $ret .= $this->ld->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in %s :");
                         break;
-                    case 16:
+                    case Constants::FIELD_ELE_SELECTSTATUS:
                         $fieldStatus++;
                         break;
-                    case 20:
-                    case 22:
+                    case Constants::FIELD_ELE_RADIO:
+                    case Constants::FIELD_ELE_SELECTCOMBO:
                         $fieldSampleListValue++;
+                        break;
+                    case Constants::FIELD_ELE_RADIO_ONOFFLINE:
+                        $ret .= $this->ld->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_OFFLINE', 'Offline');
+                        $ret .= $this->ld->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_ONLINE', 'Online');
                         break;
                 }
                 if (16 === (int)$fieldElement) {

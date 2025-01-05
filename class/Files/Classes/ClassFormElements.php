@@ -727,6 +727,30 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     }
 
     /**
+     * @private function getXoopsFormRadioOnoffline
+     *
+     * @param $language
+     * @param $moduleDirname
+     * @param $fieldName
+     * @param string $required
+     *
+     * @return string
+     */
+    private function getXoopsFormRadioOnoffline($language, $fieldName, $required = 'false')
+    {
+        $ccFieldName   = $this->cf->getCamelCase($fieldName, false, true);
+        $t             = "\t\t";
+        $ret           = $this->pc->getPhpCodeCommentLine('Form Radio on-/offline', $ccFieldName, $t);
+        $ret           .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', '0', "\$this->getVar('{$fieldName}')", $t);
+        $ret           .= $this->cxc->getClassXoopsFormRadio($ccFieldName . 'Select', $language, $fieldName, "{$ccFieldName}", false, $t);
+        $ret           .= $this->cxc->getClassAddOption($ccFieldName . 'Select', "'0', {$language}_OFFLINE", $t);
+        $ret           .= $this->cxc->getClassAddOption($ccFieldName . 'Select', "'1', {$language}_ONLINE", $t);
+        $ret           .= $this->cxc->getClassAddElement('form', "\${$ccFieldName}Select{$required}", $t);
+
+        return $ret;
+    }
+
+    /**
      * @private function getXoopsFormSelectCombo
      *
      * @param $language
@@ -945,6 +969,9 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
                         break;
                     case Constants::FIELD_ELE_RADIOYN:
                         $ret .= $this->getXoopsFormRadioYN($language, $fieldName, $required);
+                        break;
+                    case Constants::FIELD_ELE_RADIO_ONOFFLINE:
+                        $ret .= $this->getXoopsFormRadioOnoffline($language, $fieldName, $required);
                         break;
                     case Constants::FIELD_ELE_SELECTBOX:
                         $ret .= $this->getXoopsFormSelectBox($language, $tableName, $fieldName, $required);
