@@ -201,6 +201,10 @@ class TemplatesAdminPages extends Files\CreateFile
                         $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text');
                         $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
                         break;
+                    case Constants::FIELD_ELE_RADIO_ONOFFLINE:
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text');
+                        $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
+                        break;
                     default:
                         if (0 != $f) {
                             $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);

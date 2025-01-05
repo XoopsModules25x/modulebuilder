@@ -131,7 +131,11 @@ class UserXoopsVersion extends Files\CreateFile
         $ret  .= Modulebuilder\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine();
         $ret  .= $this->xc->getXcEqualsOperator('$moduleDirName     ', '\basename(__DIR__)');
         $ret  .= $this->xc->getXcEqualsOperator('$moduleDirNameUpper', '\mb_strtoupper($moduleDirName)');
+        $ret  .= $this->getSimpleString('');
+        $ret  .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH . ' . "'/modules/'" . ' . $moduleDirName', 'preloads/autoloader', false, false, 'include');
+        $ret  .= $this->getSimpleString('');
         $ret  .= $this->getDashComment('Informations');
+
         $ha   = (1 == $module->getVar('mod_admin')) ? '1' : '0';
         $hm   = (1 == $module->getVar('mod_user')) ? '1' : '0';
 
@@ -614,6 +618,31 @@ class UserXoopsVersion extends Files\CreateFile
                 $table_rate = 1;
             }
         }
+        //meta descrition
+        $ret          .= $this->pc->getPhpCodeCommentLine('Meta descrition', '');
+        $descr       = [
+            'name'        => "'metadescription'",
+            'title'       => "'{$language}MDESC'",
+            'description' => "'{$language}MDESC_DESC'",
+            'formtype'    => "'textbox'",
+            'valuetype'   => "'text'",
+            'default'     => "{$language}DESC",
+        ];
+        $ret          .= $this->uxc->getUserModVersionArray(2, $descr, 'config');
+        //meta keywords
+        $keyword      = \implode(', ', $this->getKeywords());
+        $ret          .= $this->pc->getPhpCodeCommentLine('Meta Keywords');
+        $arrayKeyword = [
+            'name'        => "'keywords'",
+            'title'       => "'{$language}KEYWORDS'",
+            'description' => "'{$language}KEYWORDS_DESC'",
+            'formtype'    => "'textbox'",
+            'valuetype'   => "'text'",
+            'default'     => "'{$moduleDirname}, {$keyword}'",
+        ];
+        $ret .= $this->uxc->getUserModVersionArray(2, $arrayKeyword, 'config');
+        unset($this->keywords);
+
         if (1 === $table_editors) {
             $ret          .= $this->pc->getPhpCodeCommentLine('Editor Admin', '');
             $ret          .= $this->xc->getXcXoopsLoad('xoopseditorhandler');
@@ -735,19 +764,6 @@ class UserXoopsVersion extends Files\CreateFile
             ];
             $ret .= $this->uxc->getUserModVersionArray(2, $mimetypes_image, 'config');
         }
-
-        $keyword      = \implode(', ', $this->getKeywords());
-        $ret          .= $this->pc->getPhpCodeCommentLine('Keywords');
-        $arrayKeyword = [
-            'name'        => "'keywords'",
-            'title'       => "'{$language}KEYWORDS'",
-            'description' => "'{$language}KEYWORDS_DESC'",
-            'formtype'    => "'textbox'",
-            'valuetype'   => "'text'",
-            'default'     => "'{$moduleDirname}, {$keyword}'",
-        ];
-        $ret .= $this->uxc->getUserModVersionArray(2, $arrayKeyword, 'config');
-        unset($this->keywords);
 
         if (1 === $table_uploadimage || 1 === $table_uploadfile) {
             $ret       .= $this->getXoopsVersionSelectSizeMB($moduleDirname);

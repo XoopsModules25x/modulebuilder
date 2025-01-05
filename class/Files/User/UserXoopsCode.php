@@ -123,7 +123,7 @@ class UserXoopsCode
      */
     public function getUserMetaDesc($moduleDirname, $language, $file = 'INDEX')
     {
-        return "{$moduleDirname}MetaDescription({$language}{$file}_DESC);\n";
+        return $moduleDirname. 'MetaDescription((string)$helper->' . "getConfig('metadescription'));\n";
     }
 
     /**

@@ -295,6 +295,11 @@ class LanguageModinfo extends Files\CreateFile
                 $useTag = true;
             }
         }
+        $ret .= $this->ld->getDefine($language, 'MDESC', 'Meta module description');
+        $ret .= $this->ld->getDefine($language, 'MDESC_DESC', 'Insert here module description which should be shown in meta data description');
+        $ret .= $this->ld->getDefine($language, 'KEYWORDS', 'Meta keywords');
+        $ret .= $this->ld->getDefine($language, 'KEYWORDS_DESC', 'Insert here the keywords (separate by comma) which should be shown in meta data');
+
         if ($fieldEditor) {
             $ret .= $this->ld->getDefine($language, 'EDITOR_ADMIN', 'Editor admin');
             $ret .= $this->ld->getDefine($language, 'EDITOR_ADMIN_DESC', 'Select the editor which should be used in admin area for text area fields');
@@ -303,8 +308,6 @@ class LanguageModinfo extends Files\CreateFile
             $ret .= $this->ld->getDefine($language, 'EDITOR_MAXCHAR', 'Text max characters');
             $ret .= $this->ld->getDefine($language, 'EDITOR_MAXCHAR_DESC', 'Max characters for showing text of a textarea or editor field in admin area');
         }
-        $ret .= $this->ld->getDefine($language, 'KEYWORDS', 'Keywords');
-        $ret .= $this->ld->getDefine($language, 'KEYWORDS_DESC', 'Insert here the keywords (separate by comma)');
 
         if ($fieldImage || $fieldFile) {
             $ret .= $this->ld->getDefine($language, 'SIZE_MB', 'MB');
