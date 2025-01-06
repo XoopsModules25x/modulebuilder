@@ -6,8 +6,14 @@
  - fixed bugs with foreach in tpl caused by singular table names (goffy)
  - added devtool for removing prefix from table field names (mamba/goffy)
  - moved meta description from language file to module config (goffy)
+ - added include autoloader to xoopsversion (goffy)
  - added new fieldelement 'RadioOnoffline' (goffy)
+ - implemented constants for radio on-/offline (goffy)
  - moved meta description/path assignments to footer.php (goffy)
+ - fixed duplicated blank file (goffy)
+ - fixed bug for truncated text (goffy)
+ - added field prefix again (goffy)
+ - fixed bug in block links (goffy)
  
 <h5>3.7.0 Alpha   [2023-07-06]</h5>  Dev: XOOPS 2.5.11 RC2, PHP 8.0
  - implemented smarty 3 (zivXP/goffy)

@@ -197,7 +197,8 @@ class TemplatesBlocksSpotlight extends Files\CreateFile
 		// $td      .= $this->hc->getHtmlTag('td', ['class' => 'center'], "\n" . $anchor . "\t\t\t", false, "\t\t\t");
         $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
         $lang    = $this->sc->getSmartyConst($language, $stuTableSoleName . '_GOTO');
-        $anchor  = $this->hc->getHtmlAnchor($tableName . ".php?op=show&amp;{$fieldId}=" . $double, $lang, $lang);
+        $single = $this->sc->getSmartySingleVar($moduleDirname . '_url');
+        $anchor  = $this->hc->getHtmlAnchor($single . '/' . $tableName . ".php?op=show&amp;{$fieldId}=" . $double, $lang, $lang);
         $td     .= $this->hc->getHtmlTableData($anchor, 'center',  '', "\t\t\t");
 		$cycle   = $this->sc->getSmartyNoSimbol('cycle values="odd, even"');
 		$tr 	 = $this->hc->getHtmlTableRow($td, $cycle, "\t\t");
