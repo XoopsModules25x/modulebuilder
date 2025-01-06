@@ -96,6 +96,7 @@ class BlocksFilesSpotlight extends Files\CreateFile
     {
         $ucfTableName     = \ucfirst($tableName);
         $critName         = 'cr' . $ucfTableName;
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
 
         $ret  = $this->pc->getPhpCodeCommentMultiLine(['Function' => 'show block', '@param  $options' => '', '@return' => 'array']);
 
@@ -184,6 +185,8 @@ class BlocksFilesSpotlight extends Files\CreateFile
         $foreach = $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, "\t\t");
 
         $func .= $this->pc->getPhpCodeConditions("\count(\${$tableName}All)", ' > ', '0', $foreach, false, "\t");
+        $func .= $this->pc->getPhpCodeBlankLine();
+        $func .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "\\{$stuModuleDirname}_URL", true ,"\t");
         $func .= $this->pc->getPhpCodeBlankLine();
         $func .= $this->getSimpleString('return $block;',"\t");
         $func .= $this->pc->getPhpCodeBlankLine();
