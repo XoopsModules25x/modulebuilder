@@ -306,7 +306,7 @@ class LanguageModinfo extends Files\CreateFile
             $ret .= $this->ld->getDefine($language, 'EDITOR_USER', 'Editor user');
             $ret .= $this->ld->getDefine($language, 'EDITOR_USER_DESC', 'Select the editor which should be used in user area for text area fields');
             $ret .= $this->ld->getDefine($language, 'EDITOR_MAXCHAR', 'Text max characters');
-            $ret .= $this->ld->getDefine($language, 'EDITOR_MAXCHAR_DESC', 'Max characters for showing text of a textarea or editor field in admin area');
+            $ret .= $this->ld->getDefine($language, 'EDITOR_MAXCHAR_DESC', 'Max characters for showing text of a textarea or editor field as short version');
         }
 
         if ($fieldImage || $fieldFile) {

@@ -238,7 +238,7 @@ class TemplatesBlocksSpotlight extends Files\CreateFile
         $tbody  .= $this->getTemplatesBlocksTableTfoot();
         $single = $this->sc->getSmartySingleVar('table_type');
 
-        return $this->hc->getHtmlTable($tbody, 'table table-' . $single);
+        return $this->hc->getHtmlTable($tbody, 'table table-responsive table-' . $single);
     }
 
     /**
