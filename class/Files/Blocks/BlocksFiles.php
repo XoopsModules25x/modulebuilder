@@ -3,8 +3,10 @@
 namespace XoopsModules\Modulebuilder\Files\Blocks;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\Files;
-use XoopsModules\Modulebuilder\Constants;
+use XoopsModules\Modulebuilder\{
+    Files,
+    Constants
+};
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -96,22 +98,34 @@ class BlocksFiles extends Files\CreateFile
         $ucfTableName     = \ucfirst($tableName);
         $critName         = 'cr' . $ucfTableName;
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
+        $ucfModuleDirname = \ucfirst($moduleDirname);
+
+        $configMaxchar = 0;
+        foreach (\array_keys($fields) as $f) {
+            $fieldElement = $fields[$f]->getVar('field_element');
+            if (Constants::FIELD_ELE_TEXTAREA == $fieldElement || Constants::FIELD_ELE_DHTMLTEXTAREA == $fieldElement) {
+                $configMaxchar = 1;
+            }
+        }
 
         $ret  = $this->pc->getPhpCodeCommentMultiLine(['Function' => 'show block', '@param  $options' => '', '@return' => 'array']);
-
+        $func = $this->xc->getXcEqualsOperator('$helper       ', 'Helper::getInstance()','',"\t");
+        if (1 === $configMaxchar) {
+            $func .= $this->xc->getXcEqualsOperator('$utility      ', "new \XoopsModules\\{$ucfModuleDirname}\Utility()", '',"\t");
+            $func .= $this->xc->getXcEqualsOperator('$editorMaxchar', $this->xc->getXcGetConfig('editor_maxchar'), false, "\t");
+        }
         //$func .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', '',"\t");
-        $func = $this->xc->getXcEqualsOperator('$block      ', '[]', '',"\t");
-        $func .= $this->xc->getXcEqualsOperator('$typeBlock  ', '$options[0]','',"\t");
-        $func .= $this->xc->getXcEqualsOperator('$limit      ', '$options[1]','',"\t");
-        $func .= $this->xc->getXcEqualsOperator('$lenghtTitle', '$options[2]','',"\t");
-        $func .= $this->xc->getXcEqualsOperator('$helper     ', 'Helper::getInstance()','',"\t");
-        $func .= $this->xc->getXcHandlerLine($tableName, "\t");
-        $func .= $this->xc->getXcCriteriaCompo($critName, "\t");
+        $func .= $this->xc->getXcEqualsOperator('$block        ', '[]', '',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$typeBlock    ', '$options[0]','',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$limit        ', '$options[1]','',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$lenghtTitle  ', '$options[2]','',"\t");
         $func .= $this->pc->getPhpCodeArrayShift('$options', "\t");
         $func .= $this->pc->getPhpCodeArrayShift('$options', "\t");
         $func .= $this->pc->getPhpCodeArrayShift('$options', "\t");
         $func .= $this->pc->getPhpCodeBlankLine();
-
+        $func .= $this->xc->getXcHandlerLine($tableName, "\t");
+        $func .= $this->pc->getPhpCodeBlankLine();
+        $func .= $this->xc->getXcCriteriaCompo($critName, "\t");
         //content if: parent
         $contIf  = $this->xc->getXcEqualsOperator("\${$tableName}", "{$moduleDirname}_getMyItemIds('{$moduleDirname}_view', '{$moduleDirname}')", null, "\t");
         $crit    = $this->xc->getXcCriteria('', "'cid'", "'(' . \implode(',', \${$tableName}) . ')'", "'IN'", true);
@@ -230,12 +244,13 @@ class BlocksFiles extends Files\CreateFile
             }
             if (1 == $fields[$f]->getVar('field_block')) {
                 switch ($fieldElement) {
-                    case 2:
+                    case Constants::FIELD_ELE_TEXT:
                         $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\htmlspecialchars(\${$tableName}All[\$i]->getVar('{$fieldName}'), ENT_QUOTES | ENT_HTML5)", null, "\t\t\t");
                         break;
-                    case 3:
-                    case 4:
-                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
+                    case Constants::FIELD_ELE_TEXTAREA:
+                    case Constants::FIELD_ELE_DHTMLTEXTAREA:
+                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}_text']", "\${$tableName}All[\$i]->getVar('{$fieldName}', 'e')", null, "\t\t\t");
+                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}_short']", "\$utility::truncateHtml(\${$tableName}All[\$i]->getVar('{$fieldName}', 'e'), \$editorMaxchar)", null, "\t\t\t");
                         break;
                     case 8:
                         $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
