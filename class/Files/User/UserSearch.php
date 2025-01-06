@@ -156,11 +156,6 @@ EOT;
         $ret              .= $this->getDashComment('Keywords');
         $ret              .= $this->uxc->getUserMetaKeywords($moduleDirname);
         $ret              .= $this->phpcode->getPhpCodeUnset('keywords');
-        $ret              .= $this->getDashComment('Description');
-        $ret              .= $this->uxc->getUserMetaDesc($moduleDirname, 'DESC', $language);
-        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "\\{$stuModuleDirname}_URL.'/index.php'");
-        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', '\XOOPS_ICONS32_URL');
-        $ret              .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "\\{$stuModuleDirname}_UPLOAD_URL");
         $ret              .= $this->getRequire('footer');
 
         return $ret;

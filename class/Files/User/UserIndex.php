@@ -103,9 +103,6 @@ class UserIndex extends Files\CreateFile
         $ret .= $this->pc->getPhpCodeCommentLine('Keywords');
         $ret .= $this->pc->getPhpCodeArray('keywords', null, false, '');
         $ret .= $this->uxc->getUserBreadcrumbs($language);
-        $ret .= $this->pc->getPhpCodeCommentLine('Paths');
-        $ret .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', '\XOOPS_ICONS32_URL');
-        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "\\{$stuModuleDirname}_URL");
 
         return $ret;
     }
@@ -216,15 +213,9 @@ class UserIndex extends Files\CreateFile
      */
     private function getUserIndexFooter($moduleDirname, $language)
     {
-        $stuModuleDirname = \mb_strtoupper($moduleDirname);
-        $ret              = $this->pc->getPhpCodeCommentLine('Keywords');
+        $ret              = $this->pc->getPhpCodeCommentLine('Meta keywords');
         $ret              .= $this->uxc->getUserMetaKeywords($moduleDirname);
         $ret              .= $this->pc->getPhpCodeUnset('keywords');
-        $ret              .= $this->pc->getPhpCodeCommentLine('Description');
-        $ret              .= $this->uxc->getUserMetaDesc($moduleDirname, $language);
-        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "\\{$stuModuleDirname}_URL.'/index.php'");
-        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', '\XOOPS_ICONS32_URL');
-        $ret              .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "\\{$stuModuleDirname}_UPLOAD_URL");
         $ret              .= $this->getRequire('footer');
 
         return $ret;

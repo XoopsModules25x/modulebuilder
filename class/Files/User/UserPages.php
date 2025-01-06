@@ -134,9 +134,6 @@ class UserPages extends Files\CreateFile
         $ret       .= $this->pc->getPhpCodeBlankLine();
         $ret       .= $this->pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret       .= $this->xc->getXcXoThemeAddStylesheet();
-        $ret       .= $this->pc->getPhpCodeCommentLine('Paths');
-        $ret       .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', '\XOOPS_ICONS32_URL');
-        $ret       .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "\\{$stuModuleDirname}_URL");
         $ret       .= $this->pc->getPhpCodeCommentLine('Keywords');
         $ret       .= $this->pc->getPhpCodeArray('keywords', null, false, '');
         $ret       .= $this->uxc->getUserBreadcrumbs($language, 'index', '', 'index.php');
@@ -567,14 +564,9 @@ class UserPages extends Files\CreateFile
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $stuTableName     = \mb_strtoupper($tableName);
         $ret = $this->pc->getPhpCodeBlankLine();
-        $ret .= $this->pc->getPhpCodeCommentLine('Keywords');
+        $ret .= $this->pc->getPhpCodeCommentLine('Meta keywords');
         $ret .= $this->uxc->getUserMetaKeywords($moduleDirname);
         $ret .= $this->pc->getPhpCodeUnset('keywords');
-        $ret .= $this->pc->getPhpCodeBlankLine();
-        $ret .= $this->pc->getPhpCodeCommentLine('Description');
-        $ret .= $this->uxc->getUserMetaDesc($moduleDirname, $language, $stuTableName);
-        $ret .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "\\{$stuModuleDirname}_URL.'/{$tableName}.php'");
-        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "\\{$stuModuleDirname}_UPLOAD_URL");
         if (1 == $tableComments) {
             $ret .= $this->pc->getPhpCodeBlankLine();
             $ret .= $this->pc->getPhpCodeCommentLine('View comments');

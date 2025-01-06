@@ -34,6 +34,10 @@ class UserFooter extends Files\CreateFile
     /**
      * @var mixed
      */
+    private $uxc = null;
+    /**
+     * @var mixed
+     */
     private $xc = null;
     /**
      * @var mixed
@@ -49,6 +53,7 @@ class UserFooter extends Files\CreateFile
         parent::__construct();
         $this->xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $this->uxc = Modulebuilder\Files\User\UserXoopsCode::getInstance();
     }
 
     /**
@@ -80,23 +85,32 @@ class UserFooter extends Files\CreateFile
     /**
      * @private function getUserFooter
      * @param $moduleDirname
+     * @param $language
      *
      * @return string
      */
-    private function getUserFooter($moduleDirname)
+    private function getUserFooter($moduleDirname, $language)
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $xoBreadcrumbs    = $this->xc->getXcXoopsTplAssign('xoBreadcrumbs', '$xoBreadcrumbs', true, "\t");
         $config           = $this->xc->getXcGetConfig('show_breadcrumbs');
         $ret              = $this->pc->getPhpCodeConditions($config . ' && \count($xoBreadcrumbs) > 0', '', '', $xoBreadcrumbs);
         $ret              .= $this->xc->getXcXoopsTplAssign('adv', "\$helper->getConfig('advertise')");
-        $ret              .= $this->pc->getPhpCodeCommentLine();
+        $ret              .= $this->pc->getPhpCodeBlankLine();
         $ret              .= $this->xc->getXcXoopsTplAssign('bookmarks', "\$helper->getConfig('bookmarks')");
         $ret              .= $this->xc->getXcXoopsTplAssign('fbcomments', "\$helper->getConfig('fbcomments')");
-        $ret              .= $this->pc->getPhpCodeCommentLine();
+        $ret              .= $this->pc->getPhpCodeBlankLine();
         $ret              .= $this->xc->getXcXoopsTplAssign('admin', "\\{$stuModuleDirname}_ADMIN");
         $ret              .= $this->xc->getXcXoopsTplAssign('copyright', '$copyright');
-        $ret              .= $this->pc->getPhpCodeCommentLine();
+        $ret              .= $this->pc->getPhpCodeCommentLine('Meta description');
+        $ret              .= $this->uxc->getUserMetaDesc($moduleDirname, $language);
+        $ret              .= $this->pc->getPhpCodeBlankLine();
+        $ret              .= $this->pc->getPhpCodeCommentLine('Paths');
+        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "\\{$stuModuleDirname}_URL.'/index.php'");
+        $ret              .= $this->xc->getXcXoopsTplAssign('xoops_icons32_url', '\XOOPS_ICONS32_URL');
+        $ret              .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "\\{$stuModuleDirname}_URL");
+        $ret              .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "\\{$stuModuleDirname}_UPLOAD_URL");
+        $ret              .= $this->pc->getPhpCodeBlankLine();
         $ret              .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'footer', true);
 
         return $ret;
@@ -111,9 +125,10 @@ class UserFooter extends Files\CreateFile
     {
         $module        = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
+        $language      = $this->getLanguage($moduleDirname, 'MA');
         $filename      = $this->getFileName();
         $content       = $this->getHeaderFilesComments($module);
-        $content       .= $this->getUserFooter($moduleDirname);
+        $content       .= $this->getUserFooter($moduleDirname, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 

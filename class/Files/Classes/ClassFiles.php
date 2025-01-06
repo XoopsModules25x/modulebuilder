@@ -449,9 +449,10 @@ class ClassFiles extends Files\CreateFile
                     break;
                 case Constants::FIELD_ELE_RADIO_ONOFFLINE:
                     $spacer    = str_repeat(' ', \max(0, $lenMaxName - 5 - \mb_strlen($rpFieldName)));
-                    $offline   = $language . \mb_strtoupper($ucfTableName) . '_' . \mb_strtoupper($rpFieldName) . '_OFFLINE';
-                    $online    = $language . \mb_strtoupper($ucfTableName) . '_' . \mb_strtoupper($rpFieldName) . '_ONLINE';
-                    $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}_text']{$spacer}", "(int)\$this->getVar('{$fieldName}') > 0 ? $online : $offline", false, "\t\t");
+                    $defaultRO = $this->xc->getXcGetConstants('RADIO_OFFLINE');
+                    $offlineRO = $language . \mb_strtoupper($ucfTableName) . '_' . \mb_strtoupper($rpFieldName) . '_OFFLINE';
+                    $onlineRO  = $language . \mb_strtoupper($ucfTableName) . '_' . \mb_strtoupper($rpFieldName) . '_ONLINE';
+                    $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}_text']{$spacer}", "(int)\$this->getVar('{$fieldName}') > $defaultRO ? $onlineRO : $offlineRO", false, "\t\t");
                     break;
                 case Constants::FIELD_ELE_SELECTUSER:
                     $spacer    = str_repeat(' ', \max(0, $lenMaxName - 5 - \mb_strlen($rpFieldName)));

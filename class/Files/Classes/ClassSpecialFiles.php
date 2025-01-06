@@ -3,7 +3,10 @@
 namespace XoopsModules\Modulebuilder\Files\Classes;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\{
+    Files,
+    Constants
+};
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -224,11 +227,27 @@ class ClassSpecialFiles extends Files\CreateFile
         $module           = $this->getModule();
         $filename         = $this->getFileName();
         $tables           = $this->getTables();
-        $tablePermissions = [];
-        $tableRate        = [];
+
+
+        $tablePermissions  = [];
+        $tableRate         = [];
+        $hasRadioOnoffline = false;
+        $hasSelectStatus   = false;
         foreach (\array_keys($tables) as $t) {
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');
             $tableRate[]        = $tables[$t]->getVar('table_rate');
+            $fields             = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
+            foreach (\array_keys($fields) as $f) {
+                $fieldElement = $fields[$f]->getVar('field_element');
+                switch ($fieldElement) {
+                    case Constants::FIELD_ELE_RADIO_ONOFFLINE:
+                        $hasRadioOnoffline = true;
+                        break;
+                    case Constants::FIELD_ELE_SELECTSTATUS:
+                        $hasSelectStatus = true;
+                        break;
+                }
+            }
         }
         $moduleDirname = $module->getVar('mod_dirname');
         $namespace     = $this->pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
@@ -243,13 +262,21 @@ class ClassSpecialFiles extends Files\CreateFile
             $contentClass       .= $this->pc->getPhpCodeConstant('TABLE_' . $stuTableName, $t, "\t", 'public const');
         }
 
-        $contentClass .= $this->pc->getPhpCodeBlankLine();
-        $contentClass .= $this->pc->getPhpCodeCommentLine('Constants for status', '', "\t");
-        $contentClass .= $this->pc->getPhpCodeConstant('STATUS_NONE     ', 0, "\t", 'public const');
-        $contentClass .= $this->pc->getPhpCodeConstant('STATUS_OFFLINE  ', 1, "\t", 'public const');
-        $contentClass .= $this->pc->getPhpCodeConstant('STATUS_SUBMITTED', 2, "\t", 'public const');
-        $contentClass .= $this->pc->getPhpCodeConstant('STATUS_APPROVED ', 3, "\t", 'public const');
-        $contentClass .= $this->pc->getPhpCodeConstant('STATUS_BROKEN   ', 4, "\t", 'public const');
+        if ($hasSelectStatus) {
+            $contentClass .= $this->pc->getPhpCodeBlankLine();
+            $contentClass .= $this->pc->getPhpCodeCommentLine('Constants for status', '', "\t");
+            $contentClass .= $this->pc->getPhpCodeConstant('STATUS_NONE     ', 0, "\t", 'public const');
+            $contentClass .= $this->pc->getPhpCodeConstant('STATUS_OFFLINE  ', 1, "\t", 'public const');
+            $contentClass .= $this->pc->getPhpCodeConstant('STATUS_SUBMITTED', 2, "\t", 'public const');
+            $contentClass .= $this->pc->getPhpCodeConstant('STATUS_APPROVED ', 3, "\t", 'public const');
+            $contentClass .= $this->pc->getPhpCodeConstant('STATUS_BROKEN   ', 4, "\t", 'public const');
+        }
+        if ($hasRadioOnoffline) {
+            $contentClass .= $this->pc->getPhpCodeBlankLine();
+            $contentClass .= $this->pc->getPhpCodeCommentLine('Constants for radio on-/offline', '', "\t");
+            $contentClass .= $this->pc->getPhpCodeConstant('RADIO_OFFLINE', 0, "\t", 'public const');
+            $contentClass .= $this->pc->getPhpCodeConstant('RADIO_ONLINE ', 1, "\t", 'public const');
+        }
         if (\in_array(1, $tablePermissions)) {
             $constPerm    = $this->pc->getPhpCodeBlankLine();
             $constPerm    .= $this->pc->getPhpCodeCommentLine('Constants for permissions', '', "\t");
