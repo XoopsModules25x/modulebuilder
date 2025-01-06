@@ -743,8 +743,10 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $ret           = $this->pc->getPhpCodeCommentLine('Form Radio on-/offline', $ccFieldName, $t);
         $ret           .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', '0', "\$this->getVar('{$fieldName}')", $t);
         $ret           .= $this->cxc->getClassXoopsFormRadio($ccFieldName . 'Select', $language, $fieldName, "{$ccFieldName}", false, $t);
-        $ret           .= $this->cxc->getClassAddOption($ccFieldName . 'Select', "'0', {$language}_OFFLINE", $t);
-        $ret           .= $this->cxc->getClassAddOption($ccFieldName . 'Select', "'1', {$language}_ONLINE", $t);
+        $param         = $this->xc->getXcGetConstants('RADIO_OFFLINE');
+        $ret           .= $this->cxc->getClassAddOption($ccFieldName . 'Select', "{$param}, {$language}_OFFLINE", $t);
+        $param         = $this->xc->getXcGetConstants('RADIO_ONLINE');
+        $ret           .= $this->cxc->getClassAddOption($ccFieldName . 'Select', "{$param}, {$language}_ONLINE", $t);
         $ret           .= $this->cxc->getClassAddElement('form', "\${$ccFieldName}Select{$required}", $t);
 
         return $ret;
