@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Includes;
+namespace XoopsModules\Modulebuilder\Files\Includes;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,15 +15,15 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org 
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -32,12 +32,23 @@ use XoopsModules\Tdmcreate\Files;
 class IncludeComments extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $xc = null;
+    /**
+     * @var mixed
+     */
+    private $pc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -60,7 +71,7 @@ class IncludeComments extends Files\CreateFile
      * @param string $module
      * @param mixed  $table
      */
-    public function write($module, $table)
+    public function write($module, $table): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -75,13 +86,12 @@ class IncludeComments extends Files\CreateFile
      */
     public function renderCommentsIncludes($module, $filename)
     {
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module);
-        $content       .= $pc->getPhpCodeIncludeDir("__DIR__ . '/../../../mainfile.php'",'',true, true);
-        $content       .= $pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/include/{$filename}.php'",'',true, true);
+        $content       .= $this->pc->getPhpCodeIncludeDir("\dirname(__DIR__, 2) . '/mainfile.php'",'',true, true);
+        $content       .= $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH.'/include/{$filename}.php'",'',true, true);
 
-        $this->create($moduleDirname, 'include', $filename . '.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, '', $filename . '.php', $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }
@@ -95,71 +105,29 @@ class IncludeComments extends Files\CreateFile
      */
     public function renderCommentsNew($module, $filename)
     {
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc            = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $table         = $this->getTable();
-        $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
+        $moduleDirname = \mb_strtolower($module->getVar('mod_dirname'));
         $tableName     = $table->getVar('table_name');
         $fields        = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldMain     = '';
-        foreach (array_keys($fields) as $f) {
+        foreach (\array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fields[$f]->getVar('field_name');
             }
         }
         $content = $this->getHeaderFilesComments($module);
-        $content .= $pc->getPhpCodeUseNamespace(['Xmf', 'Request']);
-        $content .= $pc->getPhpCodeIncludeDir("__DIR__ . '/../../../mainfile.php'",'',true, true);
-        $content .= $pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true);
-        $content .= $xc->getXcXoopsRequest('com_itemid', 'com_itemid', '0', 'Int');
-        $contIf  = $xc->getXcEqualsOperator("\${$tableName}Handler", "xoops_getModuleHandler('{$tableName}', '{$moduleDirname}')",'',"\t");
-        $contIf  .= $xc->getXcHandlerGet("{$tableName}", 'com_itemid','Obj', "{$tableName}Handler", false, "\t");
-        $contIf  .= $xc->getXcGetVar('com_replytitle', "{$tableName}Obj", $fieldMain,false, "\t");
-        $contIf  .= $pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/include/{$filename}.php'",'',true, true, '',"\t");
-        $content .= $pc->getPhpCodeConditions('$com_itemid',' > ', '0', $contIf);
+        $content .= $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request']);
+        $content .= $this->pc->getPhpCodeIncludeDir("__DIR__ . '/../../../mainfile.php'",'',true, true);
+        $content .= $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true);
+        $content .= $this->xc->getXcXoopsRequest('com_itemid', 'com_itemid', '', 'Int');
+        $contIf  = $this->xc->getXcEqualsOperator("\${$tableName}Handler", "xoops_getModuleHandler('{$tableName}', '{$moduleDirname}')",'',"\t");
+        $contIf  .= $this->xc->getXcHandlerGet("{$tableName}", 'com_itemid','Obj', "{$tableName}Handler", false, "\t");
+        $contIf  .= $this->xc->getXcGetVar('com_replytitle', "{$tableName}Obj", $fieldMain,false, "\t");
+        $contIf  .= $this->pc->getPhpCodeIncludeDir("\XOOPS_ROOT_PATH.'/include/{$filename}.php'",'',true, true, '',"\t");
+        $content .= $this->pc->getPhpCodeConditions('$com_itemid',' > ', '0', $contIf);
 
-        $this->create($moduleDirname, 'include', $filename . '.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename . '.php', $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }
-
-    /**
-     * @public function render
-     * @param null
-     */
-    /*public function render() {
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $filename = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
-
-        $content = $this->getHeaderFilesComments($module, $filename);
-        switch($filename) {
-            case 'comment_edit.php':
-                $content .= $this->getCommentsIncludes('comment_edit');
-                $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-                return $this->render();
-            break;
-            case 'comment_delete.php':
-                $content .= $this->getCommentsIncludes('comment_delete');
-                $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-                return $this->render();
-            break;
-            case 'comment_post.php':
-                $content .= $this->getCommentsIncludes('comment_post');
-                $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-                return $this->render();
-            break;
-            case 'comment_reply.php':
-                $content .= $this->getCommentsIncludes('comment_reply');
-                $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-                return $this->render();
-            break;
-            case 'comment_new.php':
-                $content .= $this->getCommentsNew($moduleDirname, 'comment_new');
-                $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-                return $this->render();
-            break;
-        }
-    }*/
 }

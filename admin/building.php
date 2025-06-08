@@ -1,6 +1,4 @@
-<?php
-
-use XoopsModules\Tdmcreate;
+<?php declare(strict_types=1);
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -11,61 +9,112 @@ use XoopsModules\Tdmcreate;
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
-$templateMain = 'tdmcreate_building.tpl';
+use Xmf\Request;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
-include __DIR__ . '/header.php';
-$op          = \Xmf\Request::getString('op', 'default');
-$mid         = \Xmf\Request::getInt('mod_id');
-$inroot_copy = \Xmf\Request::getInt('inroot_copy');
-$moduleObj   = $helper->getHandler('Modules')->get($mid);
-$cachePath   = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
-if (!is_dir($cachePath)) {
-    if (!mkdir($cachePath, 0777) && !is_dir($cachePath)) {
-        throw new \RuntimeException(sprintf('Directory "%s" was not created', $cachePath));
+$templateMain = 'modulebuilder_building.tpl';
+
+require __DIR__ . '/header.php';
+$op              = Request::getString('op', 'default');
+$mid             = Request::getInt('mod_id');
+$inrootCopy      = Request::getInt('inroot_copy');
+$testdataRestore = Request::getInt('testdata_restore');
+$checkData       = Request::hasVar('check_data');
+$moduleObj       = $helper->getHandler('Modules')->get($mid);
+
+$cachePath = \XOOPS_VAR_PATH . '/caches/modulebuilder_cache_';
+if (!\is_dir($cachePath)) {
+    if (!\mkdir($cachePath, 0777) && !\is_dir($cachePath)) {
+        throw new \RuntimeException(\sprintf('Directory "%s" was not created', $cachePath));
     }
-    chmod($cachePath, 0777);
+    \chmod($cachePath, 0777);
 }
 // Clear cache
-if (file_exists($cache = $cachePath . '/classpaths.cache')) {
-    unlink($cache);
+if (\file_exists($cache = $cachePath . '/classpaths.cache')) {
+    \unlink($cache);
 }
-if (!file_exists($indexFile = $cachePath . '/index.html')) {
-    copy('index.html', $indexFile);
+if (!\file_exists($indexFile = $cachePath . '/index.php')) {
+    \copy('index.php', $indexFile);
+}
+
+if ($checkData > 0) {
+    $op = 'check_data';
 }
 // Switch option
 switch ($op) {
+    case 'check_data':
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
+        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
+        $checkdata = Modulebuilder\Files\CheckData::getInstance();
+
+        // check data for inconsistences
+        $checkResults = [];
+        $checkResults = $checkdata->getCheckPreBuilding($moduleObj);
+
+        if (\count($checkResults) > 0) {
+            //$GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
+            $GLOBALS['xoopsTpl']->assign('checkResults', $checkResults);
+        } else {
+            $GLOBALS['xoopsTpl']->assign('checkResultsNice', true);
+        }
+
+        break;
     case 'build':
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
+        $building     = Modulebuilder\Building::getInstance();
+        $structure    = Modulebuilder\Files\CreateStructure::getInstance();
+        $architecture = Modulebuilder\Files\CreateArchitecture::getInstance();
+        $checkdata    = Modulebuilder\Files\CheckData::getInstance();
         // Get var module dirname
         $moduleDirname = $moduleObj->getVar('mod_dirname');
+
+        //save test data of selected module before building new version
+        if (1 === $testdataRestore) {
+            // Directories for copy from
+            $fromDir = \XOOPS_ROOT_PATH . '/modules/' . \mb_strtolower($moduleDirname) . '/testdata';
+            if (\is_dir($fromDir)) {
+                // Directories for copy to
+                $toDir = TDMC_UPLOAD_TEMP_PATH . '/' . \mb_strtolower($moduleDirname);
+                $structure->isDir($toDir);
+                $toDir .= '/testdata';
+                if (\is_dir($toDir)) {
+                    $building->clearDir($toDir);
+                } else {
+                    $structure->isDir($toDir);
+                }
+                $building->copyDir($fromDir, $toDir);
+            } else {
+                $testdataRestore = 0;
+            }
+        }
+
         // Directories for copy from to
-        $fromDir = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleDirname);
-        $toDir   = XOOPS_ROOT_PATH . '/modules/' . mb_strtolower($moduleDirname);
-        // include_once TDMC_CLASS_PATH . '/building.php';
+        $fromDir = TDMC_UPLOAD_REPOSITORY_PATH . '/' . \mb_strtolower($moduleDirname);
+        $toDir   = \XOOPS_ROOT_PATH . '/modules/' . \mb_strtolower($moduleDirname);
         if (isset($moduleDirname)) {
             // Clear this module if it's in repository
-            $building = Tdmcreate\Building::getInstance();
-            if (is_dir($fromDir)) {
+            $building = Modulebuilder\Building::getInstance();
+            if (\is_dir($fromDir)) {
                 $building->clearDir($fromDir);
             }
         }
         // Structure
-        // include_once TDMC_CLASS_PATH . '/files/Architecture.php';
-        $handler = Tdmcreate\Files\CreateArchitecture::getInstance();
         // Creation of the structure of folders and files
-        $baseArchitecture = $handler->setBaseFoldersFiles($moduleObj);
+        $baseArchitecture = $architecture->setBaseFoldersFiles($moduleObj);
         if (false !== $baseArchitecture) {
             $GLOBALS['xoopsTpl']->assign('base_architecture', true);
         } else {
@@ -73,7 +122,7 @@ switch ($op) {
         }
         // Get files
         $build = [];
-        $files = $handler->setFilesToBuilding($moduleObj);
+        $files = $architecture->setFilesToBuilding($moduleObj);
         foreach ($files as $file) {
             if ($file) {
                 $build['list'] = $file;
@@ -83,31 +132,41 @@ switch ($op) {
         unset($build);
 
         // Get common files
-        $resCommon = $handler->setCommonFiles($moduleObj);
-        $build['list'] = _AM_TDMCREATE_BUILDING_COMMON;
+        $resCommon     = $architecture->setCommonFiles($moduleObj);
+        $build['list'] = \_AM_MODULEBUILDER_BUILDING_COMMON;
         $GLOBALS['xoopsTpl']->append('builds', $build);
         unset($build);
 
-
         // Directory to saved all files
-		$building_directory = sprintf(_AM_TDMCREATE_BUILDING_DIRECTORY, $moduleDirname);
-        
+        $building_directory = \sprintf(\_AM_MODULEBUILDER_BUILDING_DIRECTORY, $moduleDirname);
+
         // Copy this module in root modules
-        if (1 === $inroot_copy) {
-            $building = Tdmcreate\Building::getInstance();
+        if (1 === $inrootCopy) {
             if (isset($moduleDirname)) {
                 // Clear this module if it's in root/modules
                 // Warning: If you have an older operating module with the same name,
                 // it's good to make a copy in another safe folder,
                 // otherwise it will be deleted irreversibly.
-                if (is_dir($fromDir)) {
+                if (\is_dir($fromDir)) {
                     $building->clearDir($toDir);
                 }
             }
             $building->copyDir($fromDir, $toDir);
-			$building_directory .= sprintf(_AM_TDMCREATE_BUILDING_DIRECTORY_INROOT, $toDir);
+            $building_directory .= \sprintf(\_AM_MODULEBUILDER_BUILDING_DIRECTORY_INROOT, $toDir);
         }
-		$GLOBALS['xoopsTpl']->assign('building_directory', $building_directory);
+        if (1 === $testdataRestore) {
+            // Directories for copy from to
+            $fromDir = TDMC_UPLOAD_TEMP_PATH . '/' . \mb_strtolower($moduleDirname) . '/testdata';
+            $toDir   = \XOOPS_ROOT_PATH . '/modules/' . \mb_strtolower($moduleDirname) . '/testdata';
+            if (\is_dir($toDir)) {
+                $building->clearDir($toDir);
+            }
+            if (\is_dir($fromDir)) {
+                $building->copyDir($fromDir, $toDir);
+            }
+        }
+
+        $GLOBALS['xoopsTpl']->assign('building_directory', $building_directory);
         break;
     case 'default':
     default:
@@ -115,13 +174,13 @@ switch ($op) {
         // Redirect if there aren't modules
         $nbModules = $helper->getHandler('Modules')->getCount();
         if (0 == $nbModules) {
-            redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOTMODULES);
+            \redirect_header('modules.php?op=new', 2, \_AM_MODULEBUILDER_THEREARENT_MODULES2);
         }
         unset($nbModules);
-        // include_once TDMC_CLASS_PATH . '/building.php';
-        $building = Tdmcreate\Building::getInstance();
+        $building = Modulebuilder\Building::getInstance();
         $form     = $building->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
+
         break;
 }
-include __DIR__ . '/footer.php';
+require __DIR__ . '/footer.php';

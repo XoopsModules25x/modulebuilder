@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,17 +15,15 @@ use XoopsModules\Tdmcreate;
  */
 
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
- *
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <https://xoops.org>
  */
-// include __DIR__ . '/autoload.php';
 
 /**
  * Class Tables.
@@ -53,8 +51,9 @@ class Tables extends \XoopsObject
         'print',
         'pdf',
         'rss',
-        'single',
-        'visit',
+        'reads',
+        //'single',
+        //'visit',
     ];
 
     /**
@@ -90,6 +89,7 @@ class Tables extends \XoopsObject
         $this->initVar('table_print', XOBJ_DTYPE_INT);
         $this->initVar('table_pdf', XOBJ_DTYPE_INT);
         $this->initVar('table_rss', XOBJ_DTYPE_INT);
+        $this->initVar('table_reads', XOBJ_DTYPE_INT);
         $this->initVar('table_single', XOBJ_DTYPE_INT);
         $this->initVar('table_visit', XOBJ_DTYPE_INT);
     }
@@ -102,7 +102,7 @@ class Tables extends \XoopsObject
      */
     public function __call($method, $args)
     {
-        $arg = isset($args[0]) ? $args[0] : null;
+        $arg = $args[0] ?? null;
 
         return $this->getVar($method, $arg);
     }
@@ -133,102 +133,106 @@ class Tables extends \XoopsObject
         if (false === $action) {
             $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
-        $helper    = Tdmcreate\Helper::getInstance();
+        $helper    = Modulebuilder\Helper::getInstance();
         $isNew     = $this->isNew();
         $tableName = $this->getVar('table_name');
         $tableMid  = $this->getVar('table_mid');
-        $title     = $isNew ? sprintf(_AM_TDMCREATE_TABLE_NEW) : sprintf(_AM_TDMCREATE_TABLE_EDIT);
+        $title     = $isNew ? \sprintf(\_AM_MODULEBUILDER_TABLES_NEW) : \sprintf(\_AM_MODULEBUILDER_TABLES_EDIT);
 
-        xoops_load('XoopsFormLoader');
+        \xoops_load('XoopsFormLoader');
         $form = new \XoopsThemeForm($title, 'tableform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $modules       = $helper->getHandler('Modules')->getObjects(null);
-        $modulesSelect = new \XoopsFormSelect(_AM_TDMCREATE_TABLE_MODULES, 'table_mid', $tableMid);
-        $modulesSelect->addOption('', _AM_TDMCREATE_TABLE_MODSELOPT);
+        $modules       = $helper->getHandler('Modules')->getObjects();
+        $modulesSelect = new \XoopsFormSelect(\_AM_MODULEBUILDER_TABLE_MODULES, 'table_mid', $tableMid);
+        $modulesSelect->addOption('', \_AM_MODULEBUILDER_TABLE_MODSELOPT);
         foreach ($modules as $mod) {
             $modulesSelect->addOption($mod->getVar('mod_id'), $mod->getVar('mod_name'));
         }
         $form->addElement($modulesSelect, true);
 
-        $tableNameText = new \XoopsFormText(_AM_TDMCREATE_TABLE_NAME, 'table_name', 40, 150, $tableName);
-        $tableNameText->setDescription(_AM_TDMCREATE_TABLE_NAME_DESC);
+        /*
+        $tableNameText = new \XoopsFormText(\_AM_MODULEBUILDER_TABLE_NAME, 'table_name', 40, 150, $tableName);
+        $tableNameText->setDescription(\_AM_MODULEBUILDER_TABLE_NAME_DESC);
         $form->addElement($tableNameText, true);
+        */
+        $form->addElement(new \XoopsFormHidden('table_name', $tableName));
 
-        $tableSoleNameText = new \XoopsFormText(_AM_TDMCREATE_TABLE_SOLENAME, 'table_solename', 40, 150, $this->getVar('table_solename'));
-        $tableSoleNameText->setDescription(_AM_TDMCREATE_TABLE_SOLENAME_DESC);
+        $tableSoleNameText = new \XoopsFormText(\_AM_MODULEBUILDER_TABLE_SOLENAME, 'table_solename', 40, 150, $this->getVar('table_solename'));
+        $tableSoleNameText->setDescription(\_AM_MODULEBUILDER_TABLE_SOLENAME_DESC);
+        $tableSoleNameText->setExtra('onchange="changeTablesolename()"');
         $form->addElement($tableSoleNameText, true);
 
         $radioCategory = $isNew ? 0 : $this->getVar('table_category');
-        $category      = new \XoopsFormRadioYN(_AM_TDMCREATE_TABLE_CATEGORY, 'table_category', $radioCategory);
-        $category->setDescription(_AM_TDMCREATE_TABLE_CATEGORY_DESC);
+        $category      = new \XoopsFormRadioYN(\_AM_MODULEBUILDER_TABLE_CATEGORY, 'table_category', $radioCategory);
+        $category->setDescription(\_AM_MODULEBUILDER_TABLE_CATEGORY_DESC);
         $form->addElement($category);
 
-        $tableFieldname = new \XoopsFormText(_AM_TDMCREATE_TABLE_FIELDNAME, 'table_fieldname', 30, 50, $this->getVar('table_fieldname'));
-        $tableFieldname->setDescription(_AM_TDMCREATE_TABLE_FIELDNAME_DESC);
-        $form->addElement($tableFieldname);
+        $tableFieldname = new \XoopsFormText(\_AM_MODULEBUILDER_TABLE_FIELDNAME, 'table_fieldname', 30, 50, $this->getVar('table_fieldname'));
+        $tableFieldname->setDescription(\_AM_MODULEBUILDER_TABLE_FIELDNAME_DESC);
+        $form->addElement($tableFieldname, true);
 
-        $tableNumbFileds = new \XoopsFormText(_AM_TDMCREATE_TABLE_NBFIELDS, 'table_nbfields', 10, 25, $this->getVar('table_nbfields'));
-        $tableNumbFileds->setDescription(_AM_TDMCREATE_TABLE_NBFIELDS_DESC);
+        $tableNumbFileds = new \XoopsFormText(\_AM_MODULEBUILDER_TABLE_NBFIELDS, 'table_nbfields', 10, 25, $this->getVar('table_nbfields'));
+        $tableNumbFileds->setDescription(\_AM_MODULEBUILDER_TABLE_NBFIELDS_DESC);
         $form->addElement($tableNumbFileds, true);
 
         if (!$isNew) {
-            $tableOrder = new \XoopsFormText(_AM_TDMCREATE_TABLE_ORDER, 'table_order', 5, 10, $this->getVar('table_order'));
-            $tableOrder->setDescription(_AM_TDMCREATE_TABLE_ORDER_DESC);
+            $tableOrder = new \XoopsFormText(\_AM_MODULEBUILDER_TABLE_ORDER, 'table_order', 5, 10, $this->getVar('table_order'));
+            $tableOrder->setDescription(\_AM_MODULEBUILDER_TABLE_ORDER_DESC);
             $form->addElement($tableOrder, true);
         }
 
         $getTableImage    = $this->getVar('table_image');
         $tableImage       = $getTableImage ?: 'blank.gif';
         $icons32Directory = '/Frameworks/moduleclasses/icons/32';
-        $uploadsDirectory = '/uploads/tdmcreate/images/tables';
-        $iconsDirectory   = is_dir(XOOPS_ROOT_PATH . $icons32Directory) ? $icons32Directory : $uploadsDirectory;
+        $uploadsDirectory = '/uploads/modulebuilder/images/tables';
+        $iconsDirectory   = \is_dir(\XOOPS_ROOT_PATH . $icons32Directory) ? $icons32Directory : $uploadsDirectory;
 
-        $imgtray1     = new \XoopsFormElementTray(_AM_TDMCREATE_TABLE_IMAGE, '<br>');
-        $imgpath1     = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, ".{$iconsDirectory}/");
+        $imgtray1     = new \XoopsFormElementTray(\_AM_MODULEBUILDER_TABLE_IMAGE, '<br>');
+        $imgpath1     = \sprintf(\_AM_MODULEBUILDER_FORMIMAGE_PATH, ".{$iconsDirectory}/");
         $imageSelect1 = new \XoopsFormSelect($imgpath1, 'table_image', $tableImage, 10);
-        $imageArray1  = \XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $iconsDirectory);
+        $imageArray1  = \XoopsLists::getImgListAsArray(\XOOPS_ROOT_PATH . $iconsDirectory);
         foreach ($imageArray1 as $image1) {
             $imageSelect1->addOption($image1, $image1);
         }
-        $imageSelect1->setExtra("onchange='showImgSelected(\"image1\", \"table_image\", \"" . $iconsDirectory . '", "", "' . XOOPS_URL . "\")'");
+        $imageSelect1->setExtra("onchange='showImgSelected(\"image1\", \"table_image\", \"" . $iconsDirectory . '", "", "' . \XOOPS_URL . "\")'");
         $imgtray1->addElement($imageSelect1, false);
-        $imgtray1->addElement(new \XoopsFormLabel('', "<br><img src='" . XOOPS_URL . '/' . $iconsDirectory . '/' . $tableImage . "' id='image1' alt='' />"));
+        $imgtray1->addElement(new \XoopsFormLabel('', "<br><img src='" . \XOOPS_URL . '/' . $iconsDirectory . '/' . $tableImage . "' id='image1' alt=''>"));
         $fileseltray1 = new \XoopsFormElementTray('', '<br>');
-        $fileseltray1->addElement(new \XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize_image')));
+        $fileseltray1->addElement(new \XoopsFormFile(\_AM_MODULEBUILDER_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize_image')));
         $fileseltray1->addElement(new \XoopsFormLabel(''));
         $imgtray1->addElement($fileseltray1);
-        $imgtray1->setDescription(_AM_TDMCREATE_TABLE_IMAGE_DESC);
+        $imgtray1->setDescription(\_AM_MODULEBUILDER_TABLE_IMAGE_DESC);
         $form->addElement($imgtray1);
 
         $tableAutoincrement      = $this->isNew() ? 1 : $this->getVar('table_autoincrement');
-        $checkTableAutoincrement = new \XoopsFormRadioYN(_AM_TDMCREATE_TABLE_AUTO_INCREMENT, 'table_autoincrement', $tableAutoincrement);
-        $checkTableAutoincrement->setDescription(_AM_TDMCREATE_TABLE_AUTO_INCREMENT_DESC);
+        $checkTableAutoincrement = new \XoopsFormRadioYN(\_AM_MODULEBUILDER_TABLE_AUTO_INCREMENT, 'table_autoincrement', $tableAutoincrement);
+        $checkTableAutoincrement->setDescription(\_AM_MODULEBUILDER_TABLE_AUTO_INCREMENT_DESC);
         $form->addElement($checkTableAutoincrement);
 
         $optionsTray = new \XoopsFormElementTray(_OPTIONS, '<br>');
 
         $tableCheckAll = new \XoopsFormCheckBox('', 'tablebox', 1);
-        $tableCheckAll->addOption('allbox', _AM_TDMCREATE_TABLE_ALL);
+        $tableCheckAll->addOption('allbox', \_AM_MODULEBUILDER_TABLE_ALL);
         $tableCheckAll->setExtra(' onclick="xoopsCheckAll(\'tableform\', \'tablebox\');" ');
         $tableCheckAll->setClass('xo-checkall');
         $optionsTray->addElement($tableCheckAll);
         // Options
         $checkbox = new \XoopsFormCheckbox(' ', 'table_option', $this->getOptionsTables(), '<br>');
-        $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
+        $checkbox->setDescription(\_AM_MODULEBUILDER_OPTIONS_DESC);
         foreach ($this->options as $option) {
-            $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_TABLE_' . mb_strtoupper($option)));
+            $checkbox->addOption($option, self::getDefinedLanguage('\_AM_MODULEBUILDER_TABLE_' . \mb_strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
 
-        $optionsTray->setDescription(_AM_TDMCREATE_TABLE_OPTIONS_CHECKS_DESC);
+        $optionsTray->setDescription(\_AM_MODULEBUILDER_TABLE_OPTIONS_CHECKS_DESC);
 
         $form->addElement($optionsTray);
 
         $buttonTray = new \XoopsFormElementTray(_REQUIRED . ' <sup class="red bold">*</sup>', '');
         $buttonTray->addElement(new \XoopsFormHidden('op', 'save'));
         $buttonTray->addElement(new \XoopsFormHidden('table_id', ($isNew ? 0 : $this->getVar('table_id'))));
-        $buttonTray->addElement(new \XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
+        $buttonTray->addElement(new \XoopsFormButton('', 'submit', \_SUBMIT, 'submit'));
         $form->addElement($buttonTray);
 
         return $form;
@@ -245,11 +249,17 @@ class Tables extends \XoopsObject
      */
     public function getValuesTables($keys = null, $format = null, $maxDepth = null)
     {
+        $helper = Modulebuilder\Helper::getInstance();
+
         $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
-        $ret['id']            = $this->getVar('table_id');
-        $ret['mid']           = $this->getVar('table_mid');
-        $ret['name']          = ucfirst($this->getVar('table_name'));
+        $ret['id']  = $this->getVar('table_id');
+        $ret['mid'] = $this->getVar('table_mid');
+        $modulesObj = $helper->getHandler('Modules')->get($ret['mid']);
+        if (\is_object($modulesObj)) {
+            $ret['module'] = $modulesObj->getVar('mod_name');
+        }
+        $ret['name']          = \ucfirst($this->getVar('table_name'));
         $ret['image']         = $this->getVar('table_image');
         $ret['nbfields']      = $this->getVar('table_nbfields');
         $ret['order']         = $this->getVar('table_order');
@@ -291,8 +301,8 @@ class Tables extends \XoopsObject
      */
     private static function getDefinedLanguage($lang)
     {
-        if (defined($lang)) {
-            return constant($lang);
+        if (\defined($lang)) {
+            return \constant($lang);
         }
 
         return $lang;

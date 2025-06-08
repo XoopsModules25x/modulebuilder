@@ -16,7 +16,7 @@ function showImgSelected2(imgId, selectId, imgDir, extra, xoopsUrl) {
     if (selectDom.options[selectDom.selectedIndex].value != "") {
         imgDom.src = xoopsUrl + "/" + imgDir + "/" + selectDom.options[selectDom.selectedIndex].value + extra;
     } else {
-        imgDom.src = xoopsUrl + "/modules/tdmcreate/assets/images/blank.png";
+        imgDom.src = xoopsUrl + "/modules/modulebuilder/assets/images/blank.png";
     }
 }
 
@@ -76,7 +76,7 @@ $(document).ready(function () {
     });
 });
 
-function tdmcreate_setStatus(data, img, file) {
+function modulebuilder_setStatus(data, img, file) {
     // Post request
     $.post(file, data, function (reponse, textStatus) {
         if (textStatus == 'success') {
@@ -102,7 +102,8 @@ function presetField(typeId) {
     vselected = eleSelected.value;
     defaultType = xoopsGetElementById('fe_defaulttype[' + vselected +  ']').value;
     defaultValue = xoopsGetElementById('fe_defaultvalue[' + vselected +  ']').value;
-    eleType = xoopsGetElementById('field_type[' + typeId + ']').value = defaultType;
-    eleValue = xoopsGetElementById('field_value[' + typeId + ']').value = defaultValue;
-
+    defaultField = xoopsGetElementById('fe_defaultfield[' + vselected +  ']').value;
+    xoopsGetElementById('field_type[' + typeId + ']').value = defaultType;
+    xoopsGetElementById('field_value[' + typeId + ']').value = defaultValue;
+    xoopsGetElementById('field_default[' + typeId + ']').value = defaultField;
 }

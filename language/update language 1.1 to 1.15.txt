@@ -1,40 +1,40 @@
 admin.php
 
-define("_AM_TDMCREATE_TABLES_FIELDS_MORE_ELEMENTS","Form : Elements");
-define("_AM_TDMCREATE_TABLES_FIELDS_MORE_DISPLAY_ADMIN","Page : Display admin");
-define("_AM_TDMCREATE_TABLES_FIELDS_MORE_DISPLAY_USER","Page :Display user");
-define("_AM_TDMCREATE_TABLES_FIELDS_MORE_BLOC","Block : Display");
-define("_AM_TDMCREATE_TABLES_FIELDS_MORE_MAIN_FIELD","Table : Main Field");
-define("_AM_TDMCREATE_TABLES_FIELDS_MORE_SEARCH","Search : Index");
-define("_AM_TDMCREATE_TABLES_FIELDS_MORE_REQUIRED","Form : Required field");
+define("_AM_MODULEBUILDER_TABLES_FIELDS_MORE_ELEMENTS","Form : Elements");
+define("_AM_MODULEBUILDER_TABLES_FIELDS_MORE_DISPLAY_ADMIN","Page : Display admin");
+define("_AM_MODULEBUILDER_TABLES_FIELDS_MORE_DISPLAY_USER","Page :Display user");
+define("_AM_MODULEBUILDER_TABLES_FIELDS_MORE_BLOC","Block : Display");
+define("_AM_MODULEBUILDER_TABLES_FIELDS_MORE_MAIN_FIELD","Table : Main Field");
+define("_AM_MODULEBUILDER_TABLES_FIELDS_MORE_SEARCH","Search : Index");
+define("_AM_MODULEBUILDER_TABLES_FIELDS_MORE_REQUIRED","Form : Required field");
 
-define("_AM_TDMCREATE_FORMEDIT","Edit");
-define("_AM_TDMCREATE_FORMDEL","Delete");
-define("_AM_TDMCREATE_FORMFIELDS","Edit fields");
-define("_AM_TDMCREATE_FORM_INFO_TABLE","Information on the table");
-define("_AM_TDMCREATE_FORM_INFO_TABLE_FIELD","There are 3 fields added automatically on each tables : table_submitter, table_date_created, table_online");
+define("_AM_MODULEBUILDER_FORMEDIT","Edit");
+define("_AM_MODULEBUILDER_FORMDEL","Delete");
+define("_AM_MODULEBUILDER_FORMFIELDS","Edit fields");
+define("_AM_MODULEBUILDER_FORM_INFO_TABLE","Information on the table");
+define("_AM_MODULEBUILDER_FORM_INFO_TABLE_FIELD","There are 3 fields added automatically on each tables : table_submitter, table_date_created, table_online");
 // 1.15
-define("_AM_TDMCREATE_MODULES_AUTHOR_MAIL", "Author Email");
-define("_AM_TDMCREATE_MODULES_FORUM_SITE_URL","Category URL");
-define("_AM_TDMCREATE_MODULES_FORUM_SITE_NAME","Category URL title");
+define("_AM_MODULEBUILDER_MODULES_AUTHOR_MAIL", "Author Email");
+define("_AM_MODULEBUILDER_MODULES_FORUM_SITE_URL","Category URL");
+define("_AM_MODULEBUILDER_MODULES_FORUM_SITE_NAME","Category URL title");
 
-define("_AM_TDMCREATE_CONST_OK_COMMENTS","Creation files for the coms");
-define("_AM_TDMCREATE_CONST_NOTOK_COMMENTS","Problems : Creation files for the coms");
+define("_AM_MODULEBUILDER_CONST_OK_COMMENTS","Creation files for the coms");
+define("_AM_MODULEBUILDER_CONST_NOTOK_COMMENTS","Problems : Creation files for the coms");
 // 1.15
-define("_AM_TDMCREATE_CONST_OK_MAIN_LANGUAGE", "Creation of main.php file into language folder");
-define("_AM_TDMCREATE_CONST_NOTOK_MAIN_LANGUAGE", "Problems: Creation of main.php file into language folder");
+define("_AM_MODULEBUILDER_CONST_OK_MAIN_LANGUAGE", "Creation of main.php file into language folder");
+define("_AM_MODULEBUILDER_CONST_NOTOK_MAIN_LANGUAGE", "Problems: Creation of main.php file into language folder");
 
-define("_AM_TDMCREATE_TABLES_COMMENTS","Activer les commentaires pour cette table <br><i>Le module peut gerer pour l'instant les coms que sur une table<br>L'option commentaire sera desactivee si vous validez</i>");
+define("_AM_MODULEBUILDER_TABLES_COMMENTS","Activer les commentaires pour cette table <br><i>Le module peut gerer pour l'instant les coms que sur une table<br>L'option commentaire sera desactivee si vous validez</i>");
 
 modinfo.php
 
 //Menu
-define("_MI_TDMCREATE_ADMIN_INDEX","Index");
-define("_MI_TDMCREATE_ADMIN_MODULES","Add a module");
-define("_MI_TDMCREATE_ADMIN_TABLES","Add a table");
-define("_MI_TDMCREATE_ADMIN_CONST","Build the module");
-define("_MI_TDMCREATE_ADMIN_ABOUT","Short About");
-define("_MI_TDMCREATE_ADMIN_PREFERENCES","Preferences");
-define("_MI_TDMCREATE_ADMIN_UPDATE","Update");
+define("_MI_MODULEBUILDER_ADMIN_INDEX","Index");
+define("_MI_MODULEBUILDER_ADMIN_MODULES","Add a module");
+define("_MI_MODULEBUILDER_ADMIN_TABLES","Add a table");
+define("_MI_MODULEBUILDER_ADMIN_CONST","Build the module");
+define("_MI_MODULEBUILDER_ADMIN_ABOUT","Short About");
+define("_MI_MODULEBUILDER_ADMIN_PREFERENCES","Preferences");
+define("_MI_MODULEBUILDER_ADMIN_UPDATE","Update");
 
-define("_MI_TDMCREATE_DESC","Module create of module made by TDM");
+define("_MI_MODULEBUILDER_DESC","Module create of module made by TDM");

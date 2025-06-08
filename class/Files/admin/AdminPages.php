@@ -1,9 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Admin;
+namespace XoopsModules\Modulebuilder\Files\Admin;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder\{
+    Files,
+    Constants
+};
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,15 +17,15 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -32,12 +34,28 @@ use XoopsModules\Tdmcreate\Files;
 class AdminPages extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $axc = null;
+    /**
+     * @var mixed
+     */
+    private $xc = null;
+    /**
+     * @var mixed
+     */
+    private $pc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->xc  = Files\CreateXoopsCode::getInstance();
+        $this->pc  = Files\CreatePhpCode::getInstance();
+        $this->axc = Files\Admin\AdminXoopsCode::getInstance();
     }
 
     /**
@@ -77,17 +95,36 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesHeader($moduleDirname, $fieldId)
     {
-        $pc        = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc        = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret       = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
-        $ret       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
-        $ret       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $ret       .= $this->getInclude();
-        $ret       .= $pc->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
-        $ret       .= $xc->getXcXoopsRequest('op', 'op', 'list');
-        $ret       .= $pc->getPhpCodeCommentLine("Request {$fieldId}");
-        $ret       .= $xc->getXcXoopsRequest($ccFieldId, $fieldId, '', 'Int');
+        $ret       = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants'], '', '');
+        $ret       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Common']);
+        $ret       .= $this->getRequire();
+        $ret       .= $this->pc->getPhpCodeCommentLine('Get all request values');
+        $leftLen   = \strlen($ccFieldId);
+        $leftOp    = 'op';
+        $leftField = $ccFieldId;
+        $leftStart = 'start';
+        $leftLimit = 'limit';
+        if ($leftLen > 5) {
+            $leftOp    .= \str_repeat(' ', $leftLen - 2);
+            $leftStart .= \str_repeat(' ', $leftLen - 5);
+            $leftLimit .= \str_repeat(' ', $leftLen - 5);
+        } else {
+            $leftOp    .= \str_repeat(' ', 3);
+            if (\strlen($ccFieldId) < 5) {
+                $leftField .= \str_repeat(' ', 5 - $leftLen);
+            }
+        }
+        $ret       .= $this->xc->getXcXoopsRequest($leftOp, 'op', 'list', 'Cmd');
+        $ret       .= $this->xc->getXcXoopsRequest($leftField, $fieldId, '', 'Int');
+        $ret       .= $this->xc->getXcXoopsRequest($leftStart, 'start', '', 'Int', false);
+        $config    = $this->xc->getXcGetConfig('adminpager');
+        $ret       .= $this->xc->getXcXoopsRequest($leftLimit, 'limit', $config, 'Int', false);
+        $ret       .= $this->xc->getXcXoopsTplAssign('start', '$start');
+        $ret       .= $this->xc->getXcXoopsTplAssign('limit', '$limit');
+        $ret       .= $this->pc->getPhpCodeBlankLine();
 
         return $ret;
     }
@@ -100,10 +137,9 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesSwitch($cases = [])
     {
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, true, false, "\t");
+        $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, false, "\t");
 
-        return $pc->getPhpCodeSwitch('op', $contentSwitch);
+        return $this->pc->getPhpCodeSwitch('op', $contentSwitch);
     }
 
     /**
@@ -117,44 +153,37 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesList($moduleDirname, $table, $language, $fieldInForm, $t = '')
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
-
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $tableName        = $table->getVar('table_name');
         $tableSoleName    = $table->getVar('table_solename');
-        $stuTableName     = mb_strtoupper($tableName);
-        $stuTableSoleName = mb_strtoupper($tableSoleName);
+        $stuTableName     = \mb_strtoupper($tableName);
+        $stuTableSoleName = \mb_strtoupper($tableSoleName);
 
-        $ret        = $pc->getPhpCodeCommentLine('Define Stylesheet', '', $t);
-        $ret        .= $xc->getXcXoThemeAddStylesheet('style', $t);
-        $ret        .= $xc->getXcXoopsRequest('start', 'start', '0', 'Int', false, $t);
-        $adminpager = $xc->getXcGetConfig('adminpager');
-        $ret        .= $xc->getXcXoopsRequest('limit', 'limit', $adminpager, 'Int', false, $t);
-        $ret        .= $axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
-        $navigation = $axc->getAdminDisplayNavigation($tableName);
-        $ret        .= $xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
+        $ret        = $this->pc->getPhpCodeCommentLine('Define Stylesheet', '', $t);
+        $ret        .= $this->xc->getXcXoThemeAddStylesheet('style', $t);
+        $ret        .= $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
+        $navigation = $this->axc->getAdminDisplayNavigation($tableName);
+        $ret        .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
 
-        if (in_array(1, $fieldInForm)) {
-            $ret .= $axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', $t);
-            $ret .= $xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
+        if (\in_array(1, $fieldInForm)) {
+            $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', $t);
+            $ret .= $this->xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
         }
 
-        $ret .= $xc->getXcHandlerCountObj($tableName, $t);
-        $ret .= $xc->getXcHandlerAllObj($tableName, '', '$start', '$limit', $t);
-        $ret .= $xc->getXcXoopsTplAssign("{$tableName}_count", "\${$tableName}Count", true, $t);
-        $ret .= $xc->getXcXoopsTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL", true, $t);
-        $ret .= $xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL", true, $t);
+        $ret .= $this->xc->getXcHandlerCountObj($tableName, $t);
+        $ret .= $this->xc->getXcHandlerAllObj($tableName, '', '$start', '$limit', $t);
+        $ret .= $this->xc->getXcXoopsTplAssign("{$tableName}_count", "\${$tableName}Count", true, $t);
+        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "\\{$stuModuleDirname}_URL", true, $t);
+        $ret .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "\\{$stuModuleDirname}_UPLOAD_URL", true, $t);
 
-        $ret            .= $pc->getPhpCodeCommentLine('Table view', $tableName, $t);
-        $contentForeach = $xc->getXcGetValues($tableName, $tableSoleName, 'i', false, $t . "\t\t");
-        $contentForeach .= $xc->getXcXoopsTplAppend("{$tableName}_list", "\${$tableSoleName}", $t . "\t\t");
-        $contentForeach .= $pc->getPhpCodeUnset($tableSoleName, $t . "\t\t");
-        $condIf         = $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, $t . "\t");
-        $condIf         .= $xc->getXcPageNav($tableName, $t . "\t");
-        $condElse       = $xc->getXcXoopsTplAssign('error', "{$language}THEREARENT_{$stuTableName}", true, $t . "\t");
-        $ret            .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf, $condElse, $t);
+        $ret            .= $this->pc->getPhpCodeCommentLine('Table view', $tableName, $t);
+        $contentForeach = $this->xc->getXcGetValues($tableName, $tableSoleName, 'i', false, $t . "\t\t");
+        $contentForeach .= $this->xc->getXcXoopsTplAppend("{$tableName}_list", "\${$tableSoleName}", $t . "\t\t");
+        $contentForeach .= $this->pc->getPhpCodeUnset($tableSoleName, $t . "\t\t");
+        $condIf         = $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, $t . "\t");
+        $condIf         .= $this->xc->getXcPageNav($tableName, $t . "\t");
+        $condElse       = $this->xc->getXcXoopsTplAssign('error', "{$language}THEREARENT_{$stuTableName}", true, $t . "\t");
+        $ret            .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf, $condElse, $t);
 
         return $ret;
     }
@@ -170,23 +199,48 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, $t = '')
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
+        $stuTableName = \mb_strtoupper($tableName);
+        $ret          = $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
+        $navigation   = $this->axc->getAdminDisplayNavigation($tableName);
+        $ret          .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
 
-        $stuTableName = mb_strtoupper($tableName);
-        $ret          = $axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
-        $navigation   = $axc->getAdminDisplayNavigation($tableName);
-        $ret          .= $xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
-
-        if (in_array(1, $fieldInForm)) {
-            $ret .= $axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
-            $ret .= $xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
+        if (\in_array(1, $fieldInForm)) {
+            $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
+            $ret .= $this->xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
         }
-        $ret .= $pc->getPhpCodeCommentLine('Get Form', null, $t);
-        $ret .= $xc->getXcHandlerCreateObj($tableName, $t);
-        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
-        $ret .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
+        $ret .= $this->xc->getXcCommonPagesNew($tableName, $t);
+
+        return $ret;
+    }
+
+    /**
+     * @private function getAdminPagesClone
+     * @param        $moduleDirname
+     * @param        $tableName
+     * @param        $tableSoleName
+     * @param        $fieldInForm
+     * @param        $fieldId
+     * @param        $language
+     * @param string $t
+     * @return string
+     */
+    private function getAdminPagesClone($moduleDirname, $tableName, $tableSoleName, $fieldInForm, $fieldId, $language, $t = '')
+    {
+        $stuTableName     = \mb_strtoupper($tableName);
+        $stuTableSoleName = \mb_strtoupper($tableSoleName);
+        $ccFieldId        = $this->getCamelCase($fieldId, false, true);
+        $ret              = $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
+        $navigation       = $this->axc->getAdminDisplayNavigation($tableName);
+        $ret              .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
+
+        if (\in_array(1, $fieldInForm)) {
+            $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
+            $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', $t);
+            $ret .= $this->xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
+        }
+        $ret .= $this->pc->getPhpCodeCommentLine('Request source', '', $t);
+        $ret .= $this->xc->getXcXoopsRequest($ccFieldId . 'Source', $fieldId . '_source', '', 'Int', false, $t);
+        $ret .= $this->xc->getXcCommonPagesClone($tableName, $ccFieldId, $t);
 
         return $ret;
     }
@@ -200,14 +254,11 @@ class AdminPages extends Files\CreateFile
      */
     private function getPermissionsSave($moduleDirname, $perm = 'view')
     {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-
-        $ret     = $pc->getPhpCodeCommentLine('Permission to', $perm, "\t\t\t");
-        $ret     .= $xc->getXcDeleteRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$mid', '$permId', false, "\t\t\t");
-        $content = $xc->getXcAddRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$permId', '$onegroupId', '$mid', false, "\t\t\t\t\t");
-        $foreach = $pc->getPhpCodeForeach("_POST['groups_{$perm}']", false, false, 'onegroupId', $content, "\t\t\t\t");
-        $ret     .= $pc->getPhpCodeConditions("isset(\$_POST['groups_{$perm}'])", null, null, $foreach, false, "\t\t\t");
+        $ret     = $this->pc->getPhpCodeCommentLine('Permission to', $perm, "\t\t\t");
+        $ret     .= $this->xc->getXcDeleteRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$mid', '$permId', false, "\t\t\t");
+        $content = $this->xc->getXcAddRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$permId', '$onegroupId', '$mid', false, "\t\t\t\t\t");
+        $foreach = $this->pc->getPhpCodeForeach("_POST['groups_{$perm}']", false, false, 'onegroupId', $content, "\t\t\t\t");
+        $ret     .= $this->pc->getPhpCodeConditions("isset(\$_POST['groups_{$perm}'])", '', '', $foreach, false, "\t\t\t");
 
         return $ret;
     }
@@ -221,105 +272,98 @@ class AdminPages extends Files\CreateFile
      * @param        $fields
      * @param        $fieldId
      * @param        $fieldMain
-     * @param $tablePerms
+     * @param        $tablePerms
      * @param string $t
      * @return string
      */
     private function getAdminPagesSave($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldMain, $tablePerms, $t = '')
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
-
         $ccFieldId          = $this->getCamelCase($fieldId, false, true);
-        $ret                = $pc->getPhpCodeCommentLine('Security Check','',  $t);
-        $xoopsSecurityCheck = $xc->getXcXoopsSecurityCheck('!');
-        $securityError      = $xc->getXcXoopsSecurityErrors();
-        $implode            = $pc->getPhpCodeImplode(',', $securityError);
-        $redirectError      = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t");
-        $ret                .= $pc->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, $t);
+        $ret                = $this->pc->getPhpCodeCommentLine('Security Check', '', $t);
+        $xoopsSecurityCheck = $this->xc->getXcXoopsSecurityCheck('!');
+        $securityError      = $this->xc->getXcXoopsSecurityErrors();
+        $implode            = $this->pc->getPhpCodeImplode(',', $securityError);
+        $redirectError      = $this->xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t");
+        $ret                .= $this->pc->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, $t);
 
-        $isset       = $pc->getPhpCodeIsset($ccFieldId);
-        $contentIf   = $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t . "\t");
-        $contentElse = $xc->getXcHandlerCreateObj($tableName, "\t\t\t");
-        $ret         .= $pc->getPhpCodeConditions($isset, '', '', $contentIf, $contentElse, $t);
-        $ret         .= $pc->getPhpCodeCommentLine('Set Vars', null, "\t\t");
+        $contentIf     = $this->xc->getXcHandlerGetObj($tableName, $ccFieldId, $t . "\t");
+        $contentElse   = $this->xc->getXcHandlerCreateObj($tableName, $t . "\t");
+        $ret           .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $contentIf, $contentElse, $t);
+        $ret           .= $this->pc->getPhpCodeCommentLine('Set Vars', null, $t);
         $countUploader = 0;
-        foreach (array_keys($fields) as $f) {
+        $fieldLines    = '';
+        foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldType    = $fields[$f]->getVar('field_type');
             $fieldElement = $fields[$f]->getVar('field_element');
-            if (1 == $fields[$f]->getVar('field_main')) {
-                $fieldMain = $fieldName;
-            }
             if ($f > 0) { // If we want to hide field id
                 switch ($fieldElement) {
-                    case 5:
-                    case 6:
-                        $ret .= $xc->getXcSetVarCheckBoxOrRadioYN($tableName, $fieldName, $t);
+                    case Constants::FIELD_ELE_CHECKBOX:
+                    case Constants::FIELD_ELE_RADIOYN:
+                        $fieldLines .= $this->xc->getXcSetVarCheckBoxOrRadioYN($tableName, $fieldName, $t);
                         break;
-                    case 10:
-                        $ret .= $axc->getAxcSetVarImageList($tableName, $fieldName, $t, $countUploader);
+                    case Constants::FIELD_ELE_IMAGELIST:
+                        $fieldLines .= $this->axc->getAxcSetVarImageList($tableName, $fieldName, $t, $countUploader);
                         $countUploader++;
                         break;
-                    case 11:
-                        $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
+                    case Constants::FIELD_ELE_UPLOADFILE:
+                    case Constants::FIELD_ELE_SELECTFILE:
+                        $fieldLines .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
-                    case 12:
-                        $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, true, $t, $countUploader, $fieldMain);
+                    case Constants::FIELD_ELE_URLFILE:
+                        $fieldLines .= $this->axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, true, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
-                    case 13:
-                        $ret .= $axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
+                    case Constants::FIELD_ELE_UPLOADIMAGE:
+                        $fieldLines .= $this->axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
                         $countUploader++;
                         break;
-                    case 14:
-                        $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
-                        $countUploader++;
+                    case Constants::FIELD_ELE_TEXTDATESELECT:
+                        $fieldLines .= $this->xc->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t);
                         break;
-                    case 15:
-                        $ret .= $xc->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t);
+                    case Constants::FIELD_ELE_PASSWORD:
+                        $fieldLines .= $this->axc->getAxcSetVarPassword($tableName, $fieldName, $t);
                         break;
-                    case 17:
-                        $ret .= $axc->getAxcSetVarPassword($tableName, $fieldName, $t);
-                        break;
-                    case 21:
-                        $ret .= $xc->getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t);
+                    case Constants::FIELD_ELE_DATETIME:
+                        $fieldLines .= $this->xc->getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     default:
-                        $ret .= $axc->getAxcSetVarMisc($tableName, $fieldName, $fieldType, $t);
+                        $fieldLines .= $this->axc->getAxcSetVarMisc($tableName, $fieldName, $fieldType, $fieldElement, $t);
                         break;
                 }
             }
         }
-        $ret           .= $pc->getPhpCodeCommentLine('Insert Data', null, "\t\t");
-        $insert        = $xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
+        if ($countUploader > 0) {
+            $ret .= $this->xc->getXcEqualsOperator('$uploaderErrors', "''", null, $t);
+        }
+        $ret           .= $fieldLines;
+        $ret           .= $this->pc->getPhpCodeCommentLine('Insert Data', null, $t);
+        $insert        = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
         $contentInsert = '';
-        //if (1 == $tableCategory) {
         if (1 == $tablePerms) {
-            $ucfTableName  = ucfirst($tableName);
+            $ucfTableName  = \ucfirst($tableName);
             $ucfFieldId    = $this->getCamelCase($fieldId, true);
-            $contentInsert = $xc->getXcEqualsOperator("\$new{$ucfFieldId}", "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", null, $t . "\t");
-            $contentInsert .= $pc->getPhpCodeTernaryOperator('permId', "isset(\$_REQUEST['{$fieldId}'])", "\${$ccFieldId}", "\$new{$ucfFieldId}", $t . "\t");
-            $contentInsert .= $xc->getXcXoopsHandler('groupperm', $t . "\t");
-            $contentInsert .= $xc->getXcEqualsOperator('$mid', "\$GLOBALS['xoopsModule']->getVar('mid')", null, $t . "\t");
+            $contentInsert = $this->xc->getXcEqualsOperator("\$new{$ucfFieldId}", "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", null, $t . "\t");
+            $contentInsert .= $this->pc->getPhpCodeTernaryOperator('permId', "isset(\$_REQUEST['{$fieldId}'])", "\${$ccFieldId}", "\$new{$ucfFieldId}", $t . "\t");
+            $contentInsert .= $this->xc->getXcXoopsHandler('groupperm', $t . "\t");
+            $contentInsert .= $this->xc->getXcEqualsOperator('$mid', "\$GLOBALS['xoopsModule']->getVar('mid')", null, $t . "\t");
             $contentInsert .= $this->getPermissionsSave($moduleDirname, 'view_' . $tableName);
             $contentInsert .= $this->getPermissionsSave($moduleDirname, 'submit_' . $tableName);
             $contentInsert .= $this->getPermissionsSave($moduleDirname, 'approve_' . $tableName);
         }
         if ($countUploader > 0) {
-            $errIf         = $xc->getXcRedirectHeader("'{$tableName}.php?op=edit&{$fieldId}=' . \${$ccFieldId}", '', '5', '$uploaderErrors', false, $t . "\t\t");
-            $errElse       = $xc->getXcRedirectHeader($tableName, '?op=list', '2', "{$language}FORM_OK", true, $t . "\t\t");
-            $contentInsert .= $pc->getPhpCodeConditions("''", ' !== ', '$uploaderErrors', $errIf, $errElse, $t . "\t");
+            $errIf         = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=edit&{$fieldId}=' . \${$ccFieldId}", '', '5', '$uploaderErrors', false, $t . "\t\t");
+            $errElse       = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&amp;start=' . \$start . '&amp;limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
+            $contentInsert .= $this->pc->getPhpCodeConditions('$uploaderErrors', ' !== ', "''", $errIf, $errElse, $t . "\t");
         } else {
-            $contentInsert .= $xc->getXcRedirectHeader($tableName . '', '?op=list', '2', "{$language}FORM_OK", true, $t . "\t");
+            $contentInsert .= $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&amp;start=' . \$start . '&amp;limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
         }
-        $ret .= $pc->getPhpCodeConditions($insert, '', '', $contentInsert, false, $t);
-        $ret .= $pc->getPhpCodeCommentLine('Get Form', null, "\t\t");
-        $ret .= $xc->getXcXoopsTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, $t);
-        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
-        $ret .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
+        $ret .= $this->pc->getPhpCodeConditions($insert, '', '', $contentInsert, false, $t);
+        $ret .= $this->pc->getPhpCodeCommentLine('Get Form', null, $t);
+        $ret .= $this->xc->getXcXoopsTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, $t);
+        $ret .= $this->xc->getXcGetForm('form', $tableName, 'Obj', $t);
+        $ret .= $this->xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
 
         return $ret;
     }
@@ -336,47 +380,45 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, $t = '')
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
+        $tableName        = $table->getVar('table_name');
+        $tableSoleName    = $table->getVar('table_solename');
+        $stuTableName     = \mb_strtoupper($tableName);
+        $stuTableSoleName = \mb_strtoupper($tableSoleName);
+        $ccFieldId        = $this->getCamelCase($fieldId, false, true);
 
-        $tableName         = $table->getVar('table_name');
-        $tableSoleName     = $table->getVar('table_solename');
-        $stuTableName      = mb_strtoupper($tableName);
-        $stuTableSoleName  = mb_strtoupper($tableSoleName);
-        $ccFieldId         = $this->getCamelCase($fieldId, false, true);
+        $ret        = $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
+        $navigation = $this->axc->getAdminDisplayNavigation($tableName);
+        $ret        .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
 
-        $ret        = $axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
-        $navigation = $axc->getAdminDisplayNavigation($tableName);
-        $ret        .= $xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
-
-        if (in_array(1, $fieldInForm)) {
-            $ret .= $axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', $t);
-            $ret .= $axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
-            $ret .= $xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
+        if (\in_array(1, $fieldInForm)) {
+            $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', $t);
+            $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
+            $ret .= $this->xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
         }
-        $ret .= $pc->getPhpCodeCommentLine('Get Form', null, "\t\t");
-        $ret .= $xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
-        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
-        $ret .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
+        $ret .= $this->xc->getXcCommonPagesEdit($tableName, $ccFieldId, $t);
 
         return $ret;
     }
 
     /**
      * @private function getAdminPagesDelete
+     * @param        $moduleDirname
      * @param        $tableName
+     * @param        $tableSoleName
      * @param        $language
      * @param        $fieldId
      * @param        $fieldMain
+     * @param        $tableNotifications
      * @param string $t
      * @return string
      */
-    private function getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain, $t = '')
+    private function getAdminPagesDelete($moduleDirname, $tableName, $tableSoleName, $language, $fieldId, $fieldMain, $tableNotifications, $t = '')
     {
-        $axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
-
-        return $axc->getAdminCodeCaseDelete($language, $tableName, $fieldId, $fieldMain, $t);
+        $ret        = $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
+        $navigation = $this->axc->getAdminDisplayNavigation($tableName);
+        $ret        .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
+        $ret        .= $this->xc->getXcCommonPagesDelete($language, $tableName, $tableSoleName, $fieldId, $fieldMain, $tableNotifications, $t, true);
+        return $ret;
     }
 
     /**
@@ -387,22 +429,23 @@ class AdminPages extends Files\CreateFile
      */
     public function render()
     {
-        $tf  = Tdmcreate\Files\CreateFile::getInstance();
-        $new = $save = $edit = '';
+        $tf  = Files\CreateFile::getInstance();
+        $new = $clone = $save = $edit = '';
 
-        $module        = $this->getModule();
-        $table         = $this->getTable();
-        $filename      = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tableName     = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
-        $tablePerms    = $table->getVar('table_permissions');
-        $language      = $this->getLanguage($moduleDirname, 'AM');
-        $fields        = $tf->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $fieldInForm   = null;
-        $fieldId       = null;
-        $fieldMain     = null;
-        foreach (array_keys($fields) as $f) {
+        $module             = $this->getModule();
+        $table              = $this->getTable();
+        $filename           = $this->getFileName();
+        $moduleDirname      = $module->getVar('mod_dirname');
+        $tableName          = $table->getVar('table_name');
+        $tableSoleName      = $table->getVar('table_solename');
+        $tablePerms         = $table->getVar('table_permissions');
+        $tableNotifications = $table->getVar('table_notifications');
+        $language           = $this->getLanguage($moduleDirname, 'AM');
+        $fields             = $tf->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fieldInForm        = null;
+        $fieldId            = null;
+        $fieldMain          = null;
+        foreach (\array_keys($fields) as $f) {
             $fieldName     = $fields[$f]->getVar('field_name');
             $fieldInForm[] = $fields[$f]->getVar('field_inform');
             if (0 == $f) {
@@ -415,24 +458,26 @@ class AdminPages extends Files\CreateFile
         $content = $this->getHeaderFilesComments($module);
         $content .= $this->getAdminPagesHeader($moduleDirname, $fieldId);
         $list    = $this->getAdminPagesList($moduleDirname, $table, $language, $fieldInForm, "\t\t");
-        if (in_array(1, $fieldInForm)) {
-            $new  = $this->getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, "\t\t");
-            $save = $this->getAdminPagesSave($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldMain, $tablePerms, "\t\t");
-            $edit = $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, "\t\t");
+        if (\in_array(1, $fieldInForm)) {
+            $new   = $this->getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, "\t\t");
+            $clone = $this->getAdminPagesClone($moduleDirname, $tableName, $tableSoleName, $fieldInForm, $fieldId, $language, "\t\t");
+            $save  = $this->getAdminPagesSave($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldMain, $tablePerms, "\t\t");
+            $edit  = $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, "\t\t");
         }
-        $delete = $this->getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain, "\t\t");
+        $delete = $this->getAdminPagesDelete($moduleDirname, $tableName, $tableSoleName, $language, $fieldId, $fieldMain, $tableNotifications, "\t\t");
 
         $cases   = [
             'list'   => [$list],
             'new'    => [$new],
+            'clone'  => [$clone],
             'save'   => [$save],
             'edit'   => [$edit],
             'delete' => [$delete],
         ];
         $content .= $this->getAdminPagesSwitch($cases);
-        $content .= $this->getInclude('footer');
+        $content .= $this->getRequire('footer');
 
-        $tf->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $tf->create($moduleDirname, 'admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $tf->renderFile();
     }

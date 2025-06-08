@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -13,17 +13,15 @@ namespace XoopsModules\Tdmcreate;
  */
 
 /**
- * tdmcreatereate module.
+ * modulebuilderreate module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
- *
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <https://xoops.org>
  */
-//include __DIR__.'/autoload.php';
 
 /**
  * Class FieldsHandler.
@@ -37,7 +35,7 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_fields', Fields::class, 'field_id', 'field_name');
+        parent::__construct($db, 'modulebuilder_fields', Fields::class, 'field_id', 'field_name');
     }
 
     /**
@@ -110,7 +108,6 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
 
     /**
      * Get All Fields By Module & Table Id.
-     * @param        $modId
      * @param        $tabId
      * @param int    $start
      * @param int    $limit
@@ -118,10 +115,9 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
      * @param string $order
      * @return array
      */
-    public function getAllFieldsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'field_order ASC, field_id, field_name', $order = 'ASC')
+    public function getAllFieldsByTableId($tabId, $start = 0, $limit = 0, $sort = 'field_order ASC, field_id, field_name', $order = 'ASC')
     {
         $crAllFieldsByModule = new \CriteriaCompo();
-        $crAllFieldsByModule->add(new \Criteria('field_mid', $modId));
         $crAllFieldsByModule->add(new \Criteria('field_tid', $tabId));
         $crAllFieldsByModule = $this->getFieldsCriteria($crAllFieldsByModule, $start, $limit, $sort, $order);
 

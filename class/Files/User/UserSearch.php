@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\User;
+namespace XoopsModules\Modulebuilder\Files\User;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,15 +15,15 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -34,12 +34,15 @@ class UserSearch extends Files\CreateFile
     /**
      * @var mixed
      */
-    private $usercode = null;
-
+    private $uxc = null;
     /**
-     * @var string
+     * @var mixed
      */
-    private $xoopscode = null;
+    private $xc = null;
+    /**
+     * @var mixed
+     */
+    private $pc = null;
 
     /**
      * @public function constructor
@@ -48,9 +51,9 @@ class UserSearch extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xoopscode = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $this->phpcode   = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $this->usercode  = UserXoopsCode::getInstance();
+        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $this->uxc = UserXoopsCode::getInstance();
     }
 
     /**
@@ -92,12 +95,13 @@ class UserSearch extends Files\CreateFile
      */
     private function getUserSearchHeader($moduleDirname, $table, $fields)
     {
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $ret = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
-        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
-        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $ret .= $this->getInclude();
-        foreach (array_keys($fields) as $f) {
+        $ret      = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret      .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret      .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret      .= $this->getRequire();
+        $fieldId  = 0;
+        $fieldPid = 0;
+        foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
                 $fieldId = $fieldName;
@@ -108,31 +112,28 @@ class UserSearch extends Files\CreateFile
         }
         if (1 == $table->getVar('table_category')) {
             $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
-            $ret        .= $this->xoopscode->getXcXoopsRequest($ccFieldPid, (string)$fieldPid, '0', 'Int');
+            $ret        .= $this->xc->getXcXoopsRequest($ccFieldPid, (string)$fieldPid, '', 'Int');
         }
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret       .= $this->xoopscode->getXcXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
-        $ret       .= $this->usercode->getUserTplMain($moduleDirname);
-        $ret       .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret       .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '', 'Int');
+        $ret       .= $this->uxc->getUserTplMain($moduleDirname);
+        $ret       .= $this->phpcode->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'header', true);
         $ret       .= $this->getDashComment('Define Stylesheet');
-        $ret       .= $this->xoopscode->getXcXoThemeAddStylesheet();
+        $ret       .= $this->xc->getXcXoThemeAddStylesheet();
 
         return $ret;
     }
 
     /**
      * @public function getAdminPagesList
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $language
      * @return string
      */
-    public function getUserSearch($moduleDirname, $tableName, $language)
+    public function getUserSearch()
     {
         $ret = <<<'EOT'
 
 EOT;
-        $ret .= $this->getSimpleString('$keywords = array();');
+        $ret .= $this->getSimpleString('$keywords = [];');
 
         return $ret;
     }
@@ -148,19 +149,14 @@ EOT;
      */
     private function getUserSearchFooter($moduleDirname, $tableName, $language)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $stuTableName     = mb_strtoupper($tableName);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
+        $stuTableName     = \mb_strtoupper($tableName);
         $ret              = $this->getDashComment('Breadcrumbs');
-        $ret              .= $this->usercode->getUserBreadcrumbs((string)$stuTableName, $language);
+        $ret              .= $this->uxc->getUserBreadcrumbs((string)$stuTableName, $language);
         $ret              .= $this->getDashComment('Keywords');
-        $ret              .= $this->usercode->getUserMetaKeywords($moduleDirname);
+        $ret              .= $this->uxc->getUserMetaKeywords($moduleDirname);
         $ret              .= $this->phpcode->getPhpCodeUnset('keywords');
-        $ret              .= $this->getDashComment('Description');
-        $ret              .= $this->usercode->getUserMetaDesc($moduleDirname, 'DESC', $language);
-        $ret              .= $this->xoopscode->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
-        $ret              .= $this->xoopscode->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret              .= $this->xoopscode->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
-        $ret              .= $this->getInclude('footer');
+        $ret              .= $this->getRequire('footer');
 
         return $ret;
     }
@@ -183,10 +179,10 @@ EOT;
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserSearchHeader($moduleDirname, $table, $fields);
-        $content       .= $this->getUserSearch($moduleDirname, $tableName, $language);
+        $content       .= $this->getUserSearch();
         $content       .= $this->getUserSearchFooter($moduleDirname, $tableName, $language);
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

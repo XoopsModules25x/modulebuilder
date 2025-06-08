@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Includes;
+namespace XoopsModules\Modulebuilder\Files\Includes;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,15 +15,15 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -32,12 +32,23 @@ use XoopsModules\Tdmcreate\Files;
 class IncludeNotifications extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $xc = null;
+    /**
+     * @var mixed
+     */
+    private $pc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -61,7 +72,7 @@ class IncludeNotifications extends Files\CreateFile
      * @param mixed  $tables
      * @param string $filename
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setTables($tables);
@@ -76,35 +87,33 @@ class IncludeNotifications extends Files\CreateFile
      */
     public function getNotificationsFunction($moduleDirname)
     {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $tables           = $this->getTables();
-        $t      = "\t";
-        $ret    = $pc->getPhpCodeCommentMultiLine(['comment' => 'callback functions','' => '', '@param  $category' => '', '@param  $item_id' => '', '@return' => 'array item|null']);
-        $func   = $xc->getXcGetGlobal(['xoopsDB'], $t);
-        $func   .= $pc->getPhpCodeBlankLine();
-        $contIf = $pc->getPhpCodeDefine($stuModuleDirname . '_URL',"XOOPS_URL . '/modules/{$moduleDirname}'", $t . "\t");
-        $func   .= $pc->getPhpCodeConditions("!defined('{$stuModuleDirname}_URL')", '','',$contIf, false, $t);
-        $func   .= $pc->getPhpCodeBlankLine();
+        $t                = "\t";
+        $ret              = $this->pc->getPhpCodeCommentMultiLine(['comment' => 'callback functions', '' => '', '@param  $category' => '', '@param  $item_id' => '', '@return' => 'array item|null']);
+        $func             = $this->xc->getXcGetGlobal(['xoopsDB'], $t);
+        $func             .= $this->pc->getPhpCodeBlankLine();
+        $contIf           = $this->pc->getPhpCodeDefine($stuModuleDirname . '_URL', "\XOOPS_URL . '/modules/{$moduleDirname}'", $t . "\t");
+        $func             .= $this->pc->getPhpCodeConditions("!\defined('{$stuModuleDirname}_URL')", '', '', $contIf, false, $t);
+        $func             .= $this->pc->getPhpCodeBlankLine();
 
-        $case[] = $xc->getXcEqualsOperator("\$item['name']", "''",'',$t . "\t\t");
-        $case[] = $xc->getXcEqualsOperator("\$item['url'] ", "''",'',$t . "\t\t");
-        $case[] = $this->getSimpleString('return $item;', $t . "\t\t");
-        $cases  = [
+        $case[]        = $this->xc->getXcEqualsOperator("\$item['name']", "''", '', $t . "\t\t");
+        $case[]        = $this->xc->getXcEqualsOperator("\$item['url'] ", "''", '', $t . "\t\t");
+        $case[]        = $this->getSimpleString('return $item;', $t . "\t\t");
+        $cases         = [
             'global' => $case,
         ];
-        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, false, false, $t . "\t");
+        $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, false, false, $t . "\t");
         unset($case);
 
-        foreach (array_keys($tables) as $i) {
+        foreach (\array_keys($tables) as $i) {
             if (1 === (int)$tables[$i]->getVar('table_notifications')) {
                 $tableName   = $tables[$i]->getVar('table_name');
                 $fieldParent = false;
                 $fields      = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
                 $fieldId     = '';
                 $fieldMain   = '';
-                foreach (array_keys($fields) as $f) {
+                foreach (\array_keys($fields) as $f) {
                     $fieldName = $fields[$f]->getVar('field_name');
                     if ((0 == $f) && (1 == $tables[$i]->getVar('table_autoincrement'))) {
                         $fieldId = $fieldName;
@@ -121,28 +130,28 @@ class IncludeNotifications extends Files\CreateFile
                 } else {
                     $tableSingle = $tableName;
                 }
-                $case[] = $xc->getXcEqualsOperator('$sql         ', "'SELECT {$fieldMain} FROM ' . \$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} = '. \$item_id",'',$t . "\t\t");
-                $case[] = $xc->getXcEqualsOperator('$result      ', '$xoopsDB->query($sql)','',$t . "\t\t");
-                $case[] = $xc->getXcEqualsOperator('$result_array', '$xoopsDB->fetchArray($result)','',$t . "\t\t");
-                $case[] = $xc->getXcEqualsOperator("\$item['name']", "\$result_array['{$fieldMain}']",'',$t . "\t\t");
+                $case[] = $this->xc->getXcEqualsOperator('$sql         ', "'SELECT {$fieldMain} FROM ' . \$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} = '. \$item_id", '', $t . "\t\t");
+                $case[] = $this->xc->getXcEqualsOperator('$result      ', '$xoopsDB->query($sql)', '', $t . "\t\t");
+                $case[] = $this->xc->getXcEqualsOperator('$result_array', '$xoopsDB->fetchArray($result)', '', $t . "\t\t");
+                $case[] = $this->xc->getXcEqualsOperator("\$item['name']", "\$result_array['{$fieldMain}']", '', $t . "\t\t");
                 if ($fieldParent) {
-                    $case[] = $xc->getXcEqualsOperator("\$item['url'] ", "{$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldParent}=' . \$result_array['{$fieldParent}'] . '&amp;{$fieldId}=' . \$item_id",'',$t . "\t\t");
+                    $case[] = $this->xc->getXcEqualsOperator("\$item['url'] ", "\\{$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldParent}=' . \$result_array['{$fieldParent}'] . '&amp;{$fieldId}=' . \$item_id", '', $t . "\t\t");
                 } else {
-                    $case[] = $xc->getXcEqualsOperator("\$item['url'] ", "{$stuModuleDirname}_URL . '/{$tableName}.php?{$fieldId}=' . \$item_id",'',$t . "\t\t");
+                    $case[] = $this->xc->getXcEqualsOperator("\$item['url'] ", "\\{$stuModuleDirname}_URL . '/{$tableName}.php?{$fieldId}=' . \$item_id", '', $t . "\t\t");
                 }
 
-                $case[] = $this->getSimpleString('return $item;', $t . "\t\t");
-                $cases  = [
+                $case[]        = $this->getSimpleString('return $item;', $t . "\t\t");
+                $cases         = [
                     $tableName => $case,
                 ];
-                $contentSwitch .= $pc->getPhpCodeCaseSwitch($cases, false, false, $t . "\t");
+                $contentSwitch .= $this->pc->getPhpCodeCaseSwitch($cases, false, false, $t . "\t");
                 unset($case);
             }
         }
 
-        $func .= $pc->getPhpCodeSwitch('category', $contentSwitch, $t);
-        $func .= $this->getSimpleString('return null;', $t );
-        $ret  .= $pc->getPhpCodeFunction("{$moduleDirname}_notify_iteminfo", '$category, $item_id', $func);
+        $func .= $this->pc->getPhpCodeSwitch('category', $contentSwitch, $t);
+        $func .= $this->getSimpleString('return null;', $t);
+        $ret  .= $this->pc->getPhpCodeFunction("{$moduleDirname}_notify_iteminfo", '$category, $item_id', $func);
 
         return $ret;
     }
@@ -160,7 +169,7 @@ class IncludeNotifications extends Files\CreateFile
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getNotificationsFunction($moduleDirname);
 
-        $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

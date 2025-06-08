@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files;
+namespace XoopsModules\Modulebuilder\Files;
 
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -14,27 +14,26 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
- * Class MoreFiles.
+ * Class CreateMoreFiles.
  */
-class MoreFiles extends Files\CreateFile
+class CreateMoreFiles extends Files\CreateFile
 {
     /**
      * @var mixed
      */
     private $folder = null;
-
     /**
      * @var mixed
      */
@@ -52,7 +51,7 @@ class MoreFiles extends Files\CreateFile
     /**
      * @static function getInstance
      * @param null
-     * @return MoreFiles
+     * @return CreateMorefiles
      */
     public static function getInstance()
     {
@@ -85,26 +84,26 @@ class MoreFiles extends Files\CreateFile
     }
 
     /**
-     * @private function getMoreFilesPhp
+     * @private function getMorefilesPhp
      *
      * @param string $header
      * @return string
      */
-    private function getMoreFilesPhp($header = '')
+    private function getMorefilesPhp($header = '')
     {
         $ret = "<?php\n";
         $ret .= "{$header}\n";
-        $ret .= $this->getInclude();
-        $ret .= $this->getInclude('footer');
+        $ret .= $this->getRequire();
+        $ret .= $this->getRequire('footer');
 
         return $ret;
     }
 
     /**
-     * @private  function getMoreFilesTpl
+     * @private  function getMorefilesTpl
      * @return string
      */
-    private function getMoreFilesTpl()
+    private function getMorefilesTpl()
     {
         $ret = "<div class=\"panel\">\n";
         $ret .= "\tPlease! put your template code here\n";
@@ -114,10 +113,10 @@ class MoreFiles extends Files\CreateFile
     }
 
     /**
-     * @private  function getMoreFilesHtml
+     * @private  function getMorefilesHtml
      * @return string
      */
-    private function getMoreFilesHtml()
+    private function getMorefilesHtml()
     {
         $ret = "<div class=\"panel\">\n";
         $ret .= "\tPlease! put your Html code here\n";
@@ -127,34 +126,34 @@ class MoreFiles extends Files\CreateFile
     }
 
     /**
-     * @private function getMoreFilesText
+     * @private function getMorefilesText
      * @param null
      *
      * @return string
      */
-    private function getMoreFilesText()
+    private function getMorefilesText()
     {
         return "# Please! put your text code here\n";
     }
 
     /**
-     * @private function getMoreFilesSql
+     * @private function getMorefilesSql
      * @param null
      *
      * @return string
      */
-    private function getMoreFilesSql()
+    private function getMorefilesSql()
     {
         return "# Please! put your sql code here\n";
     }
 
     /**
-     * @private function getMoreFilesCss
+     * @private function getMorefilesCss
      * @param $header
      *
      * @return string
      */
-    private function getMoreFilesCss($header = '')
+    private function getMorefilesCss($header = '')
     {
         $ret = "@charset \"UTF-8\"\n";
         $ret .= "{$header}\n\nPlease! put your css code here\n";
@@ -163,12 +162,12 @@ class MoreFiles extends Files\CreateFile
     }
 
     /**
-     * @private function getMoreFilesDefault
+     * @private function getMorefilesDefault
      * @param null
      *
      * @return string
      */
-    private function getMoreFilesDefault()
+    private function getMorefilesDefault()
     {
         return "Default File\n";
     }
@@ -185,29 +184,29 @@ class MoreFiles extends Files\CreateFile
         $header        = $this->getHeaderFilesComments($module, 0);
         switch ($this->extension) {
             case 'php':
-                $content = $this->getMoreFilesPhp($header);
+                $content = $this->getMorefilesPhp($header);
                 break;
             case 'tpl':
-                $content = $this->getMoreFilesTpl();
+                $content = $this->getMorefilesTpl();
                 break;
             case 'html':
-                $content = $this->getMoreFilesHtml();
+                $content = $this->getMorefilesHtml();
                 break;
             case 'text':
-                $content = $this->getMoreFilesText();
+                $content = $this->getMorefilesText();
                 break;
             case 'sql':
-                $content = $this->getMoreFilesSql();
+                $content = $this->getMorefilesSql();
                 break;
             case 'css':
-                $content = $this->getMoreFilesCss($header);
+                $content = $this->getMorefilesCss($header);
                 break;
             default:
-                $content = $this->getMoreFilesDefault();
+                $content = $this->getMorefilesDefault();
                 break;
         }
 
-        $this->create($moduleDirname, $this->folder, $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, $this->folder, $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

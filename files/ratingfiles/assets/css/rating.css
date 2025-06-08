@@ -1,0 +1,135 @@
+@charset "UTF-8";
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*/
+
+/**
+ * modulebuilder module for xoops
+ *
+ * @copyright      module for xoops
+ * @license         GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @package        modulebuilder
+ * @since          1.0
+ * @min_xoops      2.5.9
+ * @author         Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com>
+ * @version        $Id: 1.0 style.css 1 Mon 2018-03-19 10:04:56Z XOOPS Project (www.xoops.org) $
+ */
+
+.modulebuilder_ratingblock {
+    margin:20px 0;
+}
+
+/* star rating */
+.modulebuilder_unit-rating {
+    width: 125px;
+	list-style: none;
+    height: 25px;
+    position: relative;
+    background: url(../images/starrating.png) top left repeat-x;
+    margin: 0;
+    padding: 0;
+}
+.modulebuilder_unit-rating-10 {
+    width: 250px;
+	list-style: none;
+    height: 25px;
+    position: relative;
+    background: url(../images/starrating.png) top left repeat-x;
+    margin: 0;
+    padding: 0;
+}
+.modulebuilder_unit-rating div, .modulebuilder_unit-rating-10 div {
+    text-indent: -90000px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+.modulebuilder_unit-rating div a, .modulebuilder_unit-rating-10 div a {
+    outline: none;
+    display: block;
+    width: 25px;
+    height: 25px;
+    text-decoration: none;
+    text-indent: -9000px;
+    overflow: hidden;
+    z-index: 20;
+    position: absolute;
+    padding: 0;
+}
+.modulebuilder_unit-rating div a:hover, .modulebuilder_unit-rating-10 div a:hover {
+    background: url(../images/starrating.png) left bottom;
+    z-index: 2;
+    left: 0;
+}
+.modulebuilder_unit-rating div.modulebuilder_current-rating, .modulebuilder_unit-rating-10 div.modulebuilder_current-rating {
+    background: url(../images/starrating.png) left center;
+    position: absolute;
+    height: 25px;
+    display: block;
+    text-indent: -9000px;
+    z-index: 1;
+    overflow: hidden;
+}
+.modulebuilder_unit-rating a.modulebuilder_r1-unit {left: 0;}
+.modulebuilder_unit-rating a.modulebuilder_r1-unit:hover {width: 25px;}
+.modulebuilder_unit-rating a.modulebuilder_r2-unit {left: 25px;}
+.modulebuilder_unit-rating a.modulebuilder_r2-unit:hover {width: 50px;}
+.modulebuilder_unit-rating a.modulebuilder_r3-unit {left: 50px;}
+.modulebuilder_unit-rating a.modulebuilder_r3-unit:hover {width: 75px;}
+.modulebuilder_unit-rating a.modulebuilder_r4-unit {left: 75px;}
+.modulebuilder_unit-rating a.modulebuilder_r4-unit:hover {width: 100px;}
+.modulebuilder_unit-rating a.modulebuilder_r5-unit {left: 100px;}
+.modulebuilder_unit-rating a.modulebuilder_r5-unit:hover {width: 125px;}
+
+.modulebuilder_unit-rating-10 a.modulebuilder_r1-unit {left: 0;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r1-unit:hover {width: 25px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r2-unit {left: 25px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r2-unit:hover {width: 50px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r3-unit {left: 50px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r3-unit:hover {width: 75px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r4-unit {left: 75px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r4-unit:hover {width: 100px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r5-unit {left: 100px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r5-unit:hover {width: 125px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r6-unit {left: 125px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r6-unit:hover {width: 150px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r7-unit {left: 150px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r7-unit:hover {width: 175px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r8-unit {left: 175px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r8-unit:hover {width: 200px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r9-unit {left: 200px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r9-unit:hover {width: 225px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r10-unit {left: 225px;}
+.modulebuilder_unit-rating-10 a.modulebuilder_r10-unit:hover {width: 250px;}
+
+/* rating with likes */
+.modulebuilder-rate-dislike {
+    padding-left:20px;
+}
+
+/* numeric rfating */
+.modulebuilder_unit-rating-10numeric {
+    margin:10px 0;
+    line-height:30px;
+}
+.modulebuilder-rater-numeric {
+    border:1px solid #ccc;
+    border-radius:5px;
+    padding:5px 7px;
+    margin:0px;
+    background-color:#ffffff;
+}
+.modulebuilder-rater-numeric:hover {
+    background-color:#337ab7;
+    color:#ffffff;
+}
+.modulebuilder-rater-numeric-active {
+    border:1px solid #d43f3a;
+     background-color:#eea236;
+}

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Assets\Css;
+namespace XoopsModules\Modulebuilder\Files\Assets\Css;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -12,15 +12,15 @@ namespace XoopsModules\Tdmcreate\Files\Assets\Css;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -67,17 +67,17 @@ class CssSelectors
     public function geCssSelector($selector, $content, $t)
     {
         $ret = '';
-        if (is_array($selector)) {
-            $ret .= $t . implode("\n", $selector) . ' {';
+        if (\is_array($selector)) {
+            $ret .= $t . \implode("\n", $selector) . ' {';
         } else {
             $ret .= $selector . ' {';
         }
-        if (is_array($content)) {
-            $ret .= $t . implode("\n", $content) . ';';
+        if (\is_array($content)) {
+            $ret .= $t . \implode("\n", $content) . ';';
         } else {
             $ret .= $content . ';';
         }
-        $ret = '}';
+        $ret .= '}';
 
         return $ret;
     }

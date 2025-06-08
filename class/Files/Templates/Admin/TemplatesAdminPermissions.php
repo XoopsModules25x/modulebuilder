@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Templates\Admin;
+namespace XoopsModules\Modulebuilder\Files\Templates\Admin;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,15 +15,15 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -32,12 +32,23 @@ use XoopsModules\Tdmcreate\Files;
 class TemplatesAdminPermissions extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $hc = null;
+    /**
+     * @var mixed
+     */
+    private $sc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $this->sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
     }
 
     /**
@@ -60,7 +71,7 @@ class TemplatesAdminPermissions extends Files\CreateFile
      * @param string $module
      * @param        $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -74,9 +85,7 @@ class TemplatesAdminPermissions extends Files\CreateFile
      */
     private function getTemplatesAdminPermissionsHeader($moduleDirname)
     {
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
-
-        return $sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
+        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', "\n\n");
     }
 
     /**
@@ -86,10 +95,9 @@ class TemplatesAdminPermissions extends Files\CreateFile
      */
     private function getTemplatesAdminPermissions()
     {
-        $hc   = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc   = Tdmcreate\Files\CreateSmartyCode::getInstance();
-        $form = $sc->getSmartySingleVar('form');
-        $ret  = $hc->getHtmlTag('div', ['class' => 'spacer'], $form, '', '', "\n\n");
+        $form = $this->sc->getSmartySingleVar('form');
+        $ret  = $this->hc->getHtmlTag('div', ['class' => 'spacer'], $form, '', '', "\n\n");
+
         return $ret;
     }
 
@@ -101,8 +109,7 @@ class TemplatesAdminPermissions extends Files\CreateFile
      */
     private function getTemplatesAdminPermissionsFooter($moduleDirname)
     {
-        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
-        return $sc->getSmartyIncludeFile($moduleDirname, 'footer', true);
+        return $this->sc->getSmartyIncludeFile($moduleDirname, 'footer', true);
     }
 
     /**
@@ -119,7 +126,7 @@ class TemplatesAdminPermissions extends Files\CreateFile
         $content       .= $this->getTemplatesAdminPermissions();
         $content       .= $this->getTemplatesAdminPermissionsFooter($moduleDirname);
 
-        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

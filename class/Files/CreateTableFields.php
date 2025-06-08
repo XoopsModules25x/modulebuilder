@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files;
+namespace XoopsModules\Modulebuilder\Files;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,15 +15,15 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -41,7 +41,7 @@ class CreateTableFields extends Files\CreateAbstractClass
     /**
      * @static function getInstance
      *
-     * @return bool|\TDMCreateTableFields
+     * @return bool|\ModuleBuilderTableFields
      */
     public static function getInstance()
     {
@@ -68,7 +68,7 @@ class CreateTableFields extends Files\CreateAbstractClass
         $criteria->add(new \Criteria('table_mid', $mId)); // $mId = module Id
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $tables = Tdmcreate\Helper::getInstance()->getHandler('tables')->getObjects($criteria);
+        $tables = Modulebuilder\Helper::getInstance()->getHandler('Tables')->getObjects($criteria);
         unset($criteria);
 
         return $tables;
@@ -84,21 +84,21 @@ class CreateTableFields extends Files\CreateAbstractClass
      * @param string $order
      * @return mixed
      */
-    public function getTableFields($mId, $tId, $sort = 'field_id ASC, field_name', $order = 'ASC')
+    public function getTableFields($mId, $tId, $sort = 'field_order ASC, field_id', $order = 'ASC')
     {
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('field_mid', $mId)); // $mId = module Id
         $criteria->add(new \Criteria('field_tid', $tId)); // $tId = table Id
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $fields = Tdmcreate\Helper::getInstance()->getHandler('fields')->getObjects($criteria);
+        $fields = Modulebuilder\Helper::getInstance()->getHandler('Fields')->getObjects($criteria);
         unset($criteria);
 
         return $fields;
     }
 
     /**
-     * @public function getTableFieldElements
+     * @public function getTableFieldelements
      *
      * @param        $mId
      * @param        $tId
@@ -107,7 +107,7 @@ class CreateTableFields extends Files\CreateAbstractClass
      * @param string $order
      * @return mixed
      */
-    public function getTableFieldElements($mId = null, $tId = null, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
+    public function getTableFieldelements($mId = null, $tId = null, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
         $criteria = new \CriteriaCompo();
         if (null != $mId) {
@@ -120,14 +120,14 @@ class CreateTableFields extends Files\CreateAbstractClass
             $criteria->setSort($sort);
             $criteria->setOrder($order);
         }
-        $fieldElements = Tdmcreate\Helper::getInstance()->getHandler('fieldelements')->getObjects($criteria);
+        $fieldElements = Modulebuilder\Helper::getInstance()->getHandler('Fieldelements')->getObjects($criteria);
         unset($criteria);
 
         return $fieldElements;
     }
 
     /**
-     * @public function getTableMoreFiles
+     * @public function getTableMorefiles
      *
      * @param        $mId
      *
@@ -135,13 +135,13 @@ class CreateTableFields extends Files\CreateAbstractClass
      * @param string $order
      * @return mixed
      */
-    public function getTableMoreFiles($mId, $sort = 'file_id ASC, file_name', $order = 'ASC')
+    public function getTableMorefiles($mId, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('file_mid', $mId)); // $mId = module Id
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $morefiles = Tdmcreate\Helper::getInstance()->getHandler('morefiles')->getObjects($criteria);
+        $morefiles = Modulebuilder\Helper::getInstance()->getHandler('Morefiles')->getObjects($criteria);
         unset($criteria);
 
         return $morefiles;

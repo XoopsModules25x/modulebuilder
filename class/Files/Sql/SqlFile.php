@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Sql;
+namespace XoopsModules\Modulebuilder\Files\Sql;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,15 +15,15 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -34,7 +34,6 @@ class SqlFile extends Files\CreateFile
     /**
      * @public function constructor
      *
-     * @param null
      */
     public function __construct()
     {
@@ -43,8 +42,6 @@ class SqlFile extends Files\CreateFile
 
     /**
      * @static function getInstance
-     *
-     * @param null
      *
      * @return SqlFile
      */
@@ -64,7 +61,7 @@ class SqlFile extends Files\CreateFile
      * @param $module
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -89,7 +86,7 @@ class SqlFile extends Files\CreateFile
         $arrayServerInfo = [
             "# SQL Dump for {$moduleName} module",
             '# PhpMyAdmin Version: 4.0.4',
-            '# http://www.phpmyadmin.net',
+            '# https://www.phpmyadmin.net',
             '#',
             "# Host: {$serverName}",
             "# Generated on: {$date} to {$time}",
@@ -138,16 +135,29 @@ class SqlFile extends Files\CreateFile
      */
     private function getDatabaseTables($module)
     {
-        $ret           = null;
-        $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
-        $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_id');
-        foreach (array_keys($tables) as $t) {
+        $ret                = null;
+        $moduleDirname      = \mb_strtolower($module->getVar('mod_dirname'));
+        $tables             = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_id');
+        $tableMid           = 0;
+        $tableId            = 0;
+        $tableName          = 0;
+        $tableAutoincrement = 0;
+        $fieldsNumb         = 0;
+        $tableRate          = 0;
+        foreach (\array_keys($tables) as $t) {
             $tableId            = $tables[$t]->getVar('table_id');
             $tableMid           = $tables[$t]->getVar('table_mid');
             $tableName          = $tables[$t]->getVar('table_name');
             $tableAutoincrement = $tables[$t]->getVar('table_autoincrement');
             $fieldsNumb         = $tables[$t]->getVar('table_nbfields');
-            $ret                .= $this->getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb);
+            if (1 === (int)$tables[$t]->getVar('table_rate')) {
+                $tableRate = 1;
+            }
+            $ret .= $this->getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb);
+        }
+
+        if (1 === $tableRate) {
+            $ret .= $this->getTableRatings($moduleDirname);
         }
 
         return $ret;
@@ -166,23 +176,29 @@ class SqlFile extends Files\CreateFile
      */
     private function getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb)
     {
-        $helper        = Tdmcreate\Helper::getInstance();
-        $ret           = null;
-        $j             = 0;
-        $comma         = [];
-        $row           = [];
-        //$type          = '';
+        $helper = Modulebuilder\Helper::getInstance();
+        $ret    = null;
+        $j      = 0;
+        $comma  = [];
+        $row    = [];
+        $lenMax = 0;
         $fieldTypeName = '';
-        $fields = $this->getTableFields($tableMid, $tableId, 'field_id ASC, field_name');
-        foreach (array_keys($fields) as $f) {
+        $fields        = $this->getTableFields($tableMid, $tableId);
+        //get max length
+        foreach (\array_keys($fields) as $f) {
+            $len         = \mb_strlen($fields[$f]->getVar('field_name'));
+            $lenMax      = max($len, $lenMax);
+        }
+        //create
+        foreach (\array_keys($fields) as $f) {
             // Creation of database table
             $ret            = $this->getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb);
             $fieldName      = $fields[$f]->getVar('field_name');
             $fieldType      = $fields[$f]->getVar('field_type');
-            $fieldValue     = $fields[$f]->getVar('field_value');
+            $fieldValue     = \str_replace('&#039;', '', $fields[$f]->getVar('field_value')); //remove single quotes
             $fieldAttribute = $fields[$f]->getVar('field_attribute');
             $fieldNull      = $fields[$f]->getVar('field_null');
-            $fieldDefault   = $fields[$f]->getVar('field_default');
+            $fieldDefault   = \str_replace('&#039;', '', $fields[$f]->getVar('field_default')); //remove single quotes
             $fieldKey       = $fields[$f]->getVar('field_key');
             if ($fieldType > 1) {
                 $fType         = $helper->getHandler('Fieldtype')->get($fieldType);
@@ -220,14 +236,14 @@ class SqlFile extends Files\CreateFile
                     case 8:
                         $type = $fieldTypeName . '(' . $fieldValue . ')';
                         if (empty($fieldDefault)) {
-                            $default = "DEFAULT '0.00'"; // From MySQL 5.7 Manual
+                            $default = "DEFAULT '0'"; // From MySQL 5.7 Manual
                         } else {
                             $default = "DEFAULT '{$fieldDefault}'";
                         }
                         break;
                     case 9:
                     case 10:
-                        $fValues = str_replace(',', "', '", str_replace(' ', '', $fieldValue));
+                        $fValues = \str_replace(',', "', '", \str_replace(' ', '', $fieldValue));
                         $type    = $fieldTypeName . '(\'' . $fValues . '\')'; // Used with comma separator
                         $default = "DEFAULT '{$fieldDefault}'";
                         break;
@@ -242,15 +258,10 @@ class SqlFile extends Files\CreateFile
                     case 12:
                         $type = $fieldTypeName . '(' . $fieldValue . ')';
                         if (empty($fieldDefault)) {
-                            $default = "DEFAULT 'http:\\'";
+                            $default = "DEFAULT 'https:\\'";
                         } else {
                             $default = "DEFAULT '{$fieldDefault}'";
                         }
-                        break;
-                    case 13:
-                    case 14:
-                        $type    = $fieldTypeName . '(' . $fieldValue . ')';
-                        $default = "DEFAULT '{$fieldDefault}'";
                         break;
                     case 15:
                     case 16:
@@ -258,13 +269,6 @@ class SqlFile extends Files\CreateFile
                     case 18:
                         $type    = $fieldTypeName;
                         $default = null;
-                        break;
-                    case 19:
-                    case 20:
-                    case 21:
-                    case 22:
-                        $type    = $fieldTypeName . '(' . $fieldValue . ')';
-                        $default = "DEFAULT '{$fieldDefault}'";
                         break;
                     case 23:
                         $type = $fieldTypeName;
@@ -274,45 +278,48 @@ class SqlFile extends Files\CreateFile
                             $default = "DEFAULT '{$fieldDefault}'";
                         }
                         break;
+                    case 13:
+                    case 14:
+                    case 22:
                     default:
                         $type    = $fieldTypeName . '(' . $fieldValue . ')';
                         $default = "DEFAULT '{$fieldDefault}'";
                         break;
                 }
                 if ((0 == $f) && (1 == $tableAutoincrement)) {
-                    $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, null, 'AUTO_INCREMENT');
+                    $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, null, 'AUTO_INCREMENT', $lenMax);
                     $comma[$j] = $this->getKey(2, $fieldName);
                     ++$j;
                 } elseif ((0 == $f) && (0 == $tableAutoincrement)) {
-                    $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                    $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default, null, $lenMax);
                     $comma[$j] = $this->getKey(2, $fieldName);
                     ++$j;
                 } else {
                     if (3 == $fieldKey || 4 == $fieldKey || 5 == $fieldKey || 6 == $fieldKey) {
                         switch ($fieldKey) {
                             case 3:
-                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default, null, $lenMax);
                                 $comma[$j] = $this->getKey(3, $fieldName);
                                 ++$j;
                                 break;
                             case 4:
-                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default, null, $lenMax);
                                 $comma[$j] = $this->getKey(4, $fieldName);
                                 ++$j;
                                 break;
                             case 5:
-                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default, null, $lenMax);
                                 $comma[$j] = $this->getKey(5, $fieldName);
                                 ++$j;
                                 break;
                             case 6:
-                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default, null, $lenMax);
                                 $comma[$j] = $this->getKey(6, $fieldName);
                                 ++$j;
                                 break;
                         }
                     } else {
-                        $row[] = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                        $row[] = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default, null, $lenMax);
                     }
                 }
             }
@@ -326,7 +333,7 @@ class SqlFile extends Files\CreateFile
             }
         }
         // ================= COMMA CICLE ================= //
-        $ret .= implode("\n", $row);
+        $ret .= \implode("\n", $row);
         unset($j);
         $ret .= $this->getFootDatabaseTable();
 
@@ -334,9 +341,32 @@ class SqlFile extends Files\CreateFile
     }
 
     /**
-     * @private function getFootDatabaseTable
+     * @private function getDatabaseFields
      *
-     * @param null
+     * @param $moduleDirname
+     * @return null|string
+     */
+    private function getTableRatings($moduleDirname)
+    {
+        $row   = [];
+        $ret   = $this->getHeadDatabaseTable($moduleDirname, 'ratings', 6);
+        $row[] = $this->getFieldRow('rate_id', 'INT(8)', 'UNSIGNED', 'NOT NULL', null, 'AUTO_INCREMENT');
+        $row[] = $this->getFieldRow('rate_itemid', 'INT(8)', null, 'NOT NULL', "DEFAULT '0'");
+        $row[] = $this->getFieldRow('rate_source', 'INT(8)', null, 'NOT NULL', "DEFAULT '0'");
+        $row[] = $this->getFieldRow('rate_value', 'INT(1)', null, 'NOT NULL', "DEFAULT '0'");
+        $row[] = $this->getFieldRow('rate_uid', 'INT(8)', null, 'NOT NULL', "DEFAULT '0'");
+        $row[] = $this->getFieldRow('rate_ip', 'VARCHAR(60)', null, 'NOT NULL', "DEFAULT ''");
+        $row[] = $this->getFieldRow('rate_date', 'INT(8)', null, 'NOT NULL', "DEFAULT '0'");
+        $row[] = $this->getKey(2, 'rate_id');
+
+        $ret .= \implode("\n", $row);
+        $ret .= $this->getFootDatabaseTable();
+
+        return $ret;
+    }
+
+    /**
+     * @private function getFootDatabaseTable
      *
      * @return string
      */
@@ -354,15 +384,24 @@ class SqlFile extends Files\CreateFile
      * @param $fieldNull
      * @param $fieldDefault
      * @param $autoincrement
+     * @param $lenMax
      *
      * @return string
      */
-    private function getFieldRow($fieldName, $fieldTypeValue, $fieldAttribute = null, $fieldNull = null, $fieldDefault = null, $autoincrement = null)
+    private function getFieldRow($fieldName, $fieldTypeValue, $fieldAttribute = null, $fieldNull = null, $fieldDefault = null, $autoincrement = null, $lenMax = 0)
     {
-        $retAutoincrement  = "  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$autoincrement},";
-        $retFieldAttribute = "  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$fieldDefault},";
-        $fieldDefault      = "  `{$fieldName}` {$fieldTypeValue} {$fieldNull} {$fieldDefault},";
-        $retShort          = "  `{$fieldName}` {$fieldTypeValue},";
+        $fieldNameMax = "  `{$fieldName}`";
+        if ($lenMax > 0) {
+            $fieldNameMax .= \str_repeat(' ', $lenMax - \strlen($fieldName));
+        }
+        $fieldTypeValueMax = $fieldTypeValue;
+        if (\strlen($fieldTypeValue) < 15) {
+            $fieldTypeValueMax .= \str_repeat(' ', 15 - \strlen($fieldTypeValue));
+        }
+        $retAutoincrement  = $fieldNameMax . " {$fieldTypeValueMax} {$fieldAttribute} {$fieldNull} {$autoincrement},";
+        $retFieldAttribute = $fieldNameMax . " {$fieldTypeValueMax} {$fieldAttribute} {$fieldNull} {$fieldDefault},";
+        $fieldDefault      = $fieldNameMax . " {$fieldTypeValueMax} {$fieldNull} {$fieldDefault},";
+        $retShort          = $fieldNameMax . " {$fieldTypeValueMax},";
 
         $ret = $retShort;
         if (null != $autoincrement) {
@@ -408,35 +447,20 @@ class SqlFile extends Files\CreateFile
     }
 
     /**
-     * @private function getComma
-     *
-     * @param $row
-     * @param $comma
-     *
-     * @return string
-     */
-    private function getComma($row, $comma = null)
-    {
-        return " {$row}{$comma}";
-    }
-
-    /**
      * @public function render
      *
-     * @param null
-     *
-     * @return bool|string
+     * @return string
      */
     public function render()
     {
         $module        = $this->getModule();
         $filename      = $this->getFileName();
-        $moduleName    = mb_strtolower($module->getVar('mod_name'));
-        $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
+        $moduleName    = \mb_strtolower($module->getVar('mod_name'));
+        $moduleDirname = \mb_strtolower($module->getVar('mod_dirname'));
         $content       = $this->getHeaderSqlComments($moduleName);
         $content       .= $this->getDatabaseTables($module);
 
-        $this->create($moduleDirname, 'sql', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'sql', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

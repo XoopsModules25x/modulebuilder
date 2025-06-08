@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Language;
+namespace XoopsModules\Modulebuilder\Files\Language;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,15 +15,15 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -59,12 +59,291 @@ class LanguageMailTpl extends Files\CreateFile
      * @public function write
      *
      * @param $module
+     * @param $table
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $table, $filename): void
     {
         $this->setModule($module);
+        $this->setTable($table);
         $this->setFileName($filename);
+    }
+
+    /**
+     * @public function getTemplateDummy
+     * @param $tableSoleName
+     * @param $line
+     * @return string
+     */
+    public function getTemplateDummy($tableSoleName, $line)
+    {
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('A new ' . $tableSoleName . ' "{ITEM_NAME}" has been added at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this ' . $tableSoleName . ' here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when a new ' . $tableSoleName . ' is added to our site.');
+        $ret .= $this->getSimpleString('');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateTableModify
+     * @param $tableSoleName
+     * @param $line
+     * @return string
+     */
+    public function getTemplateTableModify($tableSoleName, $line)
+    {
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{ITEM_NAME}" has been modified at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this ' . $tableSoleName . ' here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when a ' . $tableSoleName . ' is modified on our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateTableDelete
+     * @param $tableSoleName
+     * @param $line
+     * @return string
+     */
+    public function getTemplateTableDelete($tableSoleName, $line)
+    {
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{ITEM_NAME}" has been deleted from {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when a ' . $tableSoleName . ' is deleted from our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateTableApprove
+     * @param $tableSoleName
+     * @param $line
+     * @return string
+     */
+    public function getTemplateTableApprove($tableSoleName, $line)
+    {
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('A new ' . $tableSoleName . ' "{ITEM_NAME}" is waiting for approval at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this ' . $tableSoleName . ' here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when a ' . $tableSoleName . ' is waitung for approval on our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateTableApprove
+     * @param $tableSoleName
+     * @param $line
+     * @return string
+     */
+    public function getTemplateTableBroken($tableSoleName, $line)
+    {
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('The ' . $tableSoleName . ' "{ITEM_NAME}" has been notified as broken at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this ' . $tableSoleName . ' here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when a ' . $tableSoleName . ' is notified as broken on our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateTableComment
+     * @param $tableSoleName
+     * @param $line
+     * @return string
+     */
+    public function getTemplateTableComment($tableSoleName, $line)
+    {
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('A comment was published for ' . $tableSoleName . ' "{ITEM_NAME}" at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this comment here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when a ' . $tableSoleName . ' is modified on our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateGlobalNew
+     * @param $line
+     * @return string
+     */
+    public function getTemplateGlobalNew($line)
+    {
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('A new item "{ITEM_NAME}" has been added at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this item here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when a new item is added to our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateGlobalModify
+     * @param $line
+     * @return string
+     */
+    public function getTemplateGlobalModify($line)
+    {
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('The item "{ITEM_NAME}" has been modified at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this item here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when an item is modified on our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateGlobalDelete
+     * @param $line
+     * @return string
+     */
+    public function getTemplateGlobalDelete($line)
+    {
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('The item "{ITEM_NAME}" has been deleted from {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when an item is deleted from our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateGlobalApprove
+     * @param $line
+     * @return string
+     */
+    public function getTemplateGlobalApprove($line)
+    {
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('The item "{ITEM_NAME}" is waiting for approval at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this item here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when an item is waitung for approval on our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateGlobalBroken
+     * @param $line
+     * @return string
+     */
+    public function getTemplateGlobalBroken($line)
+    {
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('The item "{ITEM_NAME}" has been notified as broken at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this item here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when an item is notified as broken on our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateGlobalNew
+     * @param $line
+     * @return string
+     */
+    public function getTemplateGlobalComment($line)
+    {
+        $ret = $this->getSimpleString('Hello {X_UNAME},');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('A new comment has been added to "{ITEM_NAME}" at {X_SITENAME}.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You can view this comment here:');
+        $ret .= $this->getSimpleString('{ITEM_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('You are receiving this message because you selected to be notified when a new comment is added to an item of our site.');
+
+        return $ret;
+    }
+
+    /**
+     * @public function getTemplateTableApprove
+     * @param $line
+     * @return string
+     */
+    public function getTemplateTableFooter($line)
+    {
+        $ret = $this->getSimpleString('');
+        $ret .= $this->getSimpleString('If this is an error or you wish not to receive further such notifications, please update your subscriptions by visiting the link below:');
+        $ret .= $this->getSimpleString('{X_UNSUBSCRIBE_URL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('Please do not reply to this message.');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString('{X_SITENAME} ({X_SITEURL})');
+        $ret .= $this->getSimpleString('webmaster');
+        $ret .= $this->getSimpleString('{X_ADMINMAIL}');
+        $ret .= $this->getSimpleString('');
+        $ret .= $this->getSimpleString($line);
+
+        return $ret;
     }
 
     /**
@@ -75,32 +354,57 @@ class LanguageMailTpl extends Files\CreateFile
     {
         $module        = $this->getModule();
         $filename      = $this->getFileName();
+        $table         = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = <<<'EOT'
-// ---------- Templates Mail Content Dummy ---------- //
-Hello {X_UNAME},
+        $tableSoleName = $table->getVar('table_solename');
 
-A new story "{STORY_NAME}" has been added at {X_SITENAME}.
+        $line    = '------------------------------------------------------------------';
+        $content = '';
+        switch ($filename) {
+            case 'category_new_notify.tpl':
+                //$content .= $this->getTemplateCategoryNew('categories', 'CATEGORY', 'CATEGORY', $line);
+                //break;
+            case 'default':
+            default:
+                $content .= $this->getTemplateDummy($tableSoleName, $line);
+                break;
+            case 'global_new_notify.tpl':
+                $content .= $this->getTemplateGlobalNew($line);
+                break;
+            case 'global_modify_notify.tpl':
+                $content .= $this->getTemplateGlobalModify($line);
+                break;
+            case 'global_delete_notify.tpl':
+                $content .= $this->getTemplateGlobalDelete($line);
+                break;
+            case 'global_approve_notify.tpl':
+                $content .= $this->getTemplateGlobalApprove($line);
+                break;
+            case 'global_broken_notify.tpl':
+                $content .= $this->getTemplateGlobalBroken($line);
+                break;
+            case 'global_comment_notify.tpl':
+                $content .= $this->getTemplateGlobalComment($line);
+                break;
+            case $tableSoleName . '_modify_notify.tpl':
+                $content .= $this->getTemplateTableModify($tableSoleName, $line);
+                break;
+            case $tableSoleName . '_delete_notify.tpl':
+                $content .= $this->getTemplateTableDelete($tableSoleName, $line);
+                break;
+            case $tableSoleName . '_approve_notify.tpl':
+                $content .= $this->getTemplateTableApprove($tableSoleName, $line);
+                break;
+            case $tableSoleName . '_broken_notify.tpl':
+                $content .= $this->getTemplateTableBroken($tableSoleName, $line);
+                break;
+            case $tableSoleName . '_comment_notify.tpl':
+                $content .= $this->getTemplateTableComment($tableSoleName, $line);
+                break;
+        }
+        $content .= $this->getTemplateTableFooter($line);
 
-You can view this story here:
-{STORY_URL}
-
------------
-
-You are receiving this message because you selected to be notified when new stories are added to our site.
-
-If this is an error or you wish not to receive further such notifications, please update your subscriptions by visiting the link below:
-{X_UNSUBSCRIBE_URL}
-
-Please do not reply to this message.
-
------------
-
-{X_SITENAME} ({X_SITEURL})
-webmaster
-{X_ADMINMAIL}
-EOT;
-        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'] . '/mail_template', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'] . '/mail_template', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

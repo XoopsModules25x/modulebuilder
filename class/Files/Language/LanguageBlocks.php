@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Language;
+namespace XoopsModules\Modulebuilder\Files\Language;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,15 +15,15 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -34,7 +34,7 @@ class LanguageBlocks extends Files\CreateFile
     /**
      * @var mixed
      */
-    private $defines = null;
+    private $ld = null;
 
     /**
      * @public function constructor
@@ -43,7 +43,7 @@ class LanguageBlocks extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->defines = LanguageDefines::getInstance();
+        $this->ld = LanguageDefines::getInstance();
     }
 
     /**
@@ -67,7 +67,7 @@ class LanguageBlocks extends Files\CreateFile
      * @param mixed  $tables
      * @param string $filename
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -83,29 +83,34 @@ class LanguageBlocks extends Files\CreateFile
     private function getLanguageBlock($language)
     {
         $tables = $this->getTables();
-        $ret    = $this->defines->getAboveDefines('Admin Edit');
-        $ret    .= $this->defines->getDefine($language, 'DISPLAY', 'How Many Tables to Display');
-        $ret    .= $this->defines->getDefine($language, 'TITLE_LENGTH', 'Title Length');
-        $ret    .= $this->defines->getDefine($language, 'CATTODISPLAY', 'Categories to Display');
-        $ret    .= $this->defines->getDefine($language, 'ALLCAT', 'All Categories');
-        foreach (array_keys($tables) as $t) {
+        $ret    = $this->ld->getAboveDefines('Admin Edit');
+        $ret    .= $this->ld->getDefine($language, 'DISPLAY', 'How Many Items to Display');
+        $ret    .= $this->ld->getDefine($language, 'DISPLAY_SPOTLIGHT', "How Many Items to Display (only valid if you select 'all')", true);
+        $ret    .= $this->ld->getDefine($language, 'TITLE_LENGTH', 'Title Length');
+        $ret    .= $this->ld->getDefine($language, 'CATTODISPLAY', 'Categories to Display');
+        $ret    .= $this->ld->getDefine($language, 'ALLCAT', 'All Categories');
+        foreach (\array_keys($tables) as $t) {
             if (1 === (int)$tables[$t]->getVar('table_blocks')) {
-                $tableName = $tables[$t]->getVar('table_name');
-                $ucfTableName = ucfirst($tableName);
-                $ret .= $this->defines->getAboveDefines($ucfTableName);
-                $fields = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
-                $stuTableName = mb_strtoupper($tableName);
-                $ret .= $this->defines->getDefine($language, $stuTableName . '_TO_DISPLAY', $ucfTableName . ' to Display');
-                $ret .= $this->defines->getDefine($language, 'ALL_' . $stuTableName, 'All ' . $ucfTableName);
-                foreach (array_keys($fields) as $f) {
+                $tableName        = $tables[$t]->getVar('table_name');
+                $tableSoleName    = $tables[$t]->getVar('table_solename');
+                $ucfTableName     = \ucfirst($tableName);
+                $ucfTableSoleName = \ucfirst($tableSoleName);
+                $stuTableName     = \mb_strtoupper($tableName);
+                $stuTableSoleName = \mb_strtoupper($tableSoleName);
+                $ret              .= $this->ld->getAboveDefines($ucfTableName);
+                $fields           = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
+                $ret              .= $this->ld->getDefine($language, $stuTableName . '_TO_DISPLAY', $ucfTableName . ' to Display');
+                $ret              .= $this->ld->getDefine($language, 'ALL_' . $stuTableName, 'All ' . $ucfTableName);
+                foreach (\array_keys($fields) as $f) {
                     if (1 === (int)$fields[$f]->getVar('field_block')) {
-                        $fieldName = $fields[$f]->getVar('field_name');
-                        $stuFieldName = mb_strtoupper($fieldName);
-                        $rpFieldName = $this->getRightString($fieldName);
-                        $fieldNameDesc = ucfirst($rpFieldName);
-                        $ret .= $this->defines->getDefine($language, $stuFieldName, $fieldNameDesc);
+                        $fieldName     = $fields[$f]->getVar('field_name');
+                        $stuFieldName  = \mb_strtoupper($fieldName);
+                        $rpFieldName   = $this->getRightString($fieldName);
+                        $fieldNameDesc = \ucfirst($rpFieldName);
+                        $ret           .= $this->ld->getDefine($language, $stuFieldName, $fieldNameDesc);
                     }
                 }
+                $ret .= $this->ld->getDefine($language, $stuTableSoleName . '_GOTO', 'Goto ' . $ucfTableSoleName);
             }
         }
 
@@ -119,8 +124,8 @@ class LanguageBlocks extends Files\CreateFile
      */
     private function getLanguageFooter()
     {
-        $ret = $this->defines->getBelowDefines('End');
-        $ret .= $this->defines->getBlankLine();
+        $ret = $this->ld->getBelowDefines('End');
+        $ret .= $this->ld->getBlankLine();
 
         return $ret;
     }
@@ -135,12 +140,12 @@ class LanguageBlocks extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MB');
+        $language      = $this->getLanguage($moduleDirname, 'MB', '', false);
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getLanguageBlock($language);
         $content       .= $this->getLanguageFooter();
 
-        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

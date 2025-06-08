@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Docs;
+namespace XoopsModules\Modulebuilder\Files\Docs;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,15 +15,15 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -68,7 +68,7 @@ class DocsFiles extends Files\CreateFile
      * @param $module
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -92,11 +92,11 @@ class DocsFiles extends Files\CreateFile
     {
         $date = date('Y/m/d G:i:s');
         $ret  = <<<EOT
-====================================
- {$date} Version {$mod_version}
-====================================
- - Original release {$moduleDirname} created with tdmcreate module by ({$mod_author})
-EOT;
+            ====================================
+             {$date} Version {$mod_version}
+            ====================================
+             - Original release {$moduleDirname} created with modulebuilder module by ({$mod_author})
+            EOT;
 
         return $ret;
     }
@@ -113,17 +113,17 @@ EOT;
     public function getCreditsFile($mod_author, $mod_credits, $mod_author_website_url, $mod_description)
     {
         $ret = <<<EOT
-Read Me First
-=============
+            Read Me First
+            =============
 
-Originally created by the {$mod_author}.
+            Originally created by the {$mod_author}.
 
-Modified by {$mod_credits} ({$mod_author_website_url})
+            Modified by {$mod_credits} ({$mod_author_website_url})
 
-Contributors: {$mod_credits} ({$mod_author_website_url})
+            Contributors: {$mod_credits} ({$mod_author_website_url})
 
-{$mod_description}
-EOT;
+            {$mod_description}
+            EOT;
 
         return $ret;
     }
@@ -136,11 +136,11 @@ EOT;
     public function getInstallFile()
     {
         $ret = <<<'EOT'
-Read Me First
-=============
+            Read Me First
+            =============
 
-Install just like another XOOPS module
-EOT;
+            Install just like another XOOPS module
+            EOT;
 
         return $ret;
     }
@@ -153,12 +153,12 @@ EOT;
     public function getReadmeFile()
     {
         $ret = <<<'EOT'
-Read Me First
-=============
+            Read Me First
+            =============
 
-Please make sure that you download the XOOPS Icon Set, and upload it to uploads/images directory
-Read the table in admin help for the accurate description of the functionality of this module
-EOT;
+            Please make sure that you download the XOOPS Icon Set, and upload it to uploads/images directory
+            Read the table in admin help for the accurate description of the functionality of this module
+            EOT;
 
         return $ret;
     }
@@ -172,11 +172,11 @@ EOT;
     public function getLangDiffFile($mod_version)
     {
         $ret = <<<EOT
-List of added language defines
-=============
+            List of added language defines
+            =============
 
-// {$mod_version}
-EOT;
+            // {$mod_version}
+            EOT;
 
         return $ret;
     }
@@ -213,7 +213,7 @@ EOT;
                 $content .= $this->getLangDiffFile($mod_version);
                 break;
         }
-        $this->create($moduleDirname, 'docs', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'docs', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

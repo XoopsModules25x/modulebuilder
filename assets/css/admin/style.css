@@ -9,11 +9,11 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * modulebuilder module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @package         modulebuilder
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
  */
@@ -362,7 +362,7 @@ tbody.table-list tr td {
     padding: 5px 2px;
     margin-bottom: 3px;
     text-shadow: 1px 1px 1px #fff;
-    color: #ff8400;
+    color: #000000;
 }
 
 .field-list tr td img.move {

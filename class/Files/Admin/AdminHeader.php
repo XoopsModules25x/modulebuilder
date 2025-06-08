@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Admin;
+namespace XoopsModules\Modulebuilder\Files\Admin;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,15 +15,15 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -47,8 +47,8 @@ class AdminHeader extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $this->pc = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $this->xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -73,7 +73,7 @@ class AdminHeader extends Files\CreateFile
      * @param array  $tables
      * @param string $filename
      */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $table, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -89,12 +89,12 @@ class AdminHeader extends Files\CreateFile
      */
     private function getAdminHeader($moduleDirname)
     {
-        $ucfModuleDirname = ucfirst($moduleDirname);
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $ucfModuleDirname = \ucfirst($moduleDirname);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $table            = $this->getTable();
         $tables           = $this->getTables();
-        $ret              = $this->pc->getPhpCodeIncludeDir('dirname(dirname(dirname(__DIR__)))', 'include/cp_header');
-        $ret              .= $this->pc->getPhpCodeIncludeDir('dirname(__DIR__)', 'include/common', true);
+        $ret              = $this->pc->getPhpCodeIncludeDir('\dirname(__DIR__, 3)', 'include/cp_header');
+        $ret              .= $this->pc->getPhpCodeIncludeDir('\dirname(__DIR__)', 'include/common', true);
         $ret              .= $this->pc->getPhpCodeBlankLine();
         $sysicons16       = $this->xc->getXcXoopsModuleGetInfo('', 'sysicons16', true);
         $sysicons32       = $this->xc->getXcXoopsModuleGetInfo('', 'sysicons32', true);
@@ -104,34 +104,35 @@ class AdminHeader extends Files\CreateFile
         $ret              .= $this->xc->getXcEqualsOperator('$sysPathIcon16  ', "'../' . {$sysicons16}");
         $ret              .= $this->xc->getXcEqualsOperator('$sysPathIcon32  ', "'../' . {$sysicons32}");
         $ret              .= $this->xc->getXcEqualsOperator('$pathModuleAdmin', $dirmoduleadmin);
-        $ret              .= $this->xc->getXcEqualsOperator('$modPathIcon16  ', "{$stuModuleDirname}_URL . '/' . {$modicons16} . '/'");
-        $ret              .= $this->xc->getXcEqualsOperator('$modPathIcon32  ', "{$stuModuleDirname}_URL . '/' . {$modicons32} . '/'");
-        if (is_object($table) && '' != $table->getVar('table_name')) {
+        $ret              .= $this->xc->getXcEqualsOperator('$modPathIcon16  ', "\\{$stuModuleDirname}_URL . '/' . {$modicons16} . '/'");
+        $ret              .= $this->xc->getXcEqualsOperator('$modPathIcon32  ', "\\{$stuModuleDirname}_URL . '/' . {$modicons32} . '/'");
+        if (\is_object($table) && '' != $table->getVar('table_name')) {
             $ret .= $this->pc->getPhpCodeBlankLine();
             $ret .= $this->pc->getPhpCodeCommentLine('Get instance of module');
-            $ret .= $this->xc->getXcEqualsOperator("\$helper", "\XoopsModules\\{$ucfModuleDirname}\Helper::getInstance()");
+            $ret .= $this->xc->getXcEqualsOperator('$helper', "\XoopsModules\\{$ucfModuleDirname}\Helper::getInstance()");
         }
-        if (is_array($tables)) {
-            foreach (array_keys($tables) as $i) {
+        if (\is_array($tables)) {
+            foreach (\array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
                 $ret       .= $this->xc->getXcHandlerLine($tableName);
             }
         }
         $ret            .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
         $ret            .= $this->pc->getPhpCodeCommentLine();
-        $template       = $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/template', true, false, 'include', "\t");
-        $template       .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new \XoopsTpl()', null,"\t");
-        $ret            .= $this->pc->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!is_object($xoopsTpl)', $template, false);
+        $template       = $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'class/template', true, false, 'require', "\t");
+        $template       .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new \XoopsTpl()', null, "\t");
+        $ret            .= $this->pc->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!\is_object($xoopsTpl)', $template, false);
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->pc->getPhpCodeCommentLine('Load languages');
-        $ret            .= $this->xc->getXcXoopsLoadLanguage('admin');
-        $ret            .= $this->xc->getXcXoopsLoadLanguage('modinfo');
+        $ret            .= $this->xc->getXcXoopsLoadLanguage('admin', '', $moduleDirname);
+        $ret            .= $this->xc->getXcXoopsLoadLanguage('modinfo', '', $moduleDirname);
+        $ret            .= $this->pc->getPhpCodeCommentLine($this->xc->getXcXoopsLoadLanguage('main', '', $moduleDirname));
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->pc->getPhpCodeCommentLine('Local admin menu class');
         $xoopsPathCond  = $this->xc->getXcXoopsPath('$pathModuleAdmin', 'moduleadmin', true);
         $fileExists     = $this->pc->getPhpCodeFileExists($xoopsPathCond);
-        $moduleadmin    = $this->pc->getPhpCodeIncludeDir($xoopsPathCond, '', true, true, 'include', "\t");
-        $redirectHeader = $this->xc->getXcRedirectHeader("'../../../admin.php'", '', '5', '_AM_MODULEADMIN_MISSING', false, "\t");
+        $moduleadmin    = $this->pc->getPhpCodeIncludeDir($xoopsPathCond, '', true, true, 'require', "\t");
+        $redirectHeader = $this->xc->getXcRedirectHeader("'../../../admin.php'", '', '5', '\_AM_MODULEADMIN_MISSING', false, "\t");
         $ret            .= $this->pc->getPhpCodeConditions($fileExists, '', '', $moduleadmin, $redirectHeader);
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->xc->getXcXoopsCPHeader();
@@ -143,7 +144,7 @@ class AdminHeader extends Files\CreateFile
         $ret            .= $this->xc->getXcXoopsTplAssign('modPathIcon32', '$modPathIcon32');
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->xc->getXcEqualsOperator('$adminObject', '\Xmf\Module\Admin::getInstance()');
-        $ret            .= $this->getSimpleString("\$style = {$stuModuleDirname}_URL . '/assets/css/admin/style.css';");
+        $ret            .= $this->getSimpleString("\$style = \\{$stuModuleDirname}_URL . '/assets/css/admin/style.css';");
 
         return $ret;
     }
@@ -159,9 +160,10 @@ class AdminHeader extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module);
+        $content       .= $this->getSimpleString('');
         $content       .= $this->getAdminHeader($moduleDirname);
 
-        $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

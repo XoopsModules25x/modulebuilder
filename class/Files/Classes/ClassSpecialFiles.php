@@ -1,9 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Classes;
+namespace XoopsModules\Modulebuilder\Files\Classes;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\{
+    Files,
+    Constants
+};
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -18,12 +21,12 @@ use XoopsModules\Tdmcreate\Files;
  * tc module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -31,23 +34,30 @@ use XoopsModules\Tdmcreate\Files;
  */
 class ClassSpecialFiles extends Files\CreateFile
 {
-        
     /**
      * "className" attribute of the files.
      *
      * @var mixed
      */
     public $className = null;
-    
-    
+    /**
+     * @var mixed
+     */
+    private $xc = null;
+    /**
+     * @var mixed
+     */
+    private $pc = null;
+
     /**
      * @public function constructor
-     *
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -73,77 +83,12 @@ class ClassSpecialFiles extends Files\CreateFile
      * @param mixed  $tables
      * @param        $filename
      */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $table, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
         $this->setTables($tables);
         $this->setFileName($filename);
-    }
-
-    /**
-     * @public function renderPermissionsHandler
-     * @param null
-     *
-     * @return bool|string
-     */
-    public function getGlobalPerms($permId)
-    {
-        $pc             = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc             = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $module         = $this->getModule();
-        $moduleDirname  = $module->getVar('mod_dirname');
-
-        $returnTrue     = $this->getSimpleString("return true;", "\t\t\t");
-        $right     = '';
-        $cond      = '';
-        $funcname  = '';
-        $comment   = '';
-        switch ($permId) {
-            case 4:
-                $comment  .= $pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalApprove', 'returns' => 'right for global approve', '' => '', '@param' => 'null', '@return' => 'bool'], "\t");
-                $right    .= $xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', 4, '$my_group_ids', '$mid', true, "\t\t\t");
-                $cond     .= $pc->getPhpCodeConditions($right, '', '', $returnTrue, false, "\t\t");
-                $funcname .= 'getPermGlobalApprove';
-                break;
-            case 8:
-                $comment  .= $pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalSubmit', 'returns' => 'right for global submit', '' => '', '@param' => 'null', '@return' => 'bool'], "\t");
-                $cond     .= $pc->getPhpCodeConditions('$this->getGlobalApprove()', '', '', $returnTrue, false, "\t\t");
-                $right    .= $xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', 8, '$my_group_ids', '$mid', true, "\t\t\t");
-                $cond     .= $pc->getPhpCodeConditions($right, '', '', $returnTrue, false, "\t\t");
-                $funcname .= 'getPermGlobalSubmit';
-                break;
-            case 16:
-                $comment  .= $pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalView', 'returns' => 'right for global view', '' => '', '@param' => 'null', '@return' => 'bool'], "\t");
-                $cond     .= $pc->getPhpCodeConditions('$this->getGlobalApprove()', '', '', $returnTrue, false, "\t\t");
-                $cond     .= $pc->getPhpCodeConditions('$this->getGlobalSubmit()', '', '', $returnTrue, false, "\t\t");
-                $right    .= $xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', 16, '$my_group_ids', '$mid', true, "\t\t\t");
-                $cond     .= $pc->getPhpCodeConditions($right, '', '', $returnTrue, false, "\t\t");
-                $funcname .= 'getPermGlobalView';
-                break;
-            case 0:
-            default:
-                break;
-        }
-        $functions      = $comment;
-        $globalContent  = $xc->getXcGetGlobal(['xoopsUser', 'xoopsModule'], "\t\t");
-        $globalContent  .= $xc->getXcEqualsOperator('$currentuid', '0', null, "\t\t");
-
-        $contIf         = $pc->getPhpCodeConditions("\$xoopsUser->isAdmin(\$xoopsModule->mid())", '', '', "\t" . $returnTrue, false, "\t\t\t");
-        $contIf         .= $xc->getXcEqualsOperator('$currentuid', '$xoopsUser->uid()', null, "\t\t\t");
-        $globalContent  .= $pc->getPhpCodeConditions('isset($xoopsUser)', ' && ', 'is_object($xoopsUser)', $contIf, false, "\t\t");
-        $globalContent  .= $xc->getXcXoopsHandler('groupperm', "\t\t");
-        $globalContent  .= $xc->getXcEqualsOperator('$mid', '$xoopsModule->mid()', null, "\t\t");
-        $globalContent  .= $xc->getXcXoopsHandler('member', "\t\t");
-
-        $contIfInt      = $xc->getXcEqualsOperator('$my_group_ids', '[XOOPS_GROUP_ANONYMOUS]', null, "\t\t\t");
-        $contElseInt    = $xc->getXcEqualsOperator('$my_group_ids', '$memberHandler->getGroupsByUser($currentuid);', null, "\t\t\t");
-        $globalContent  .= $pc->getPhpCodeConditions('0', ' == ', '$currentuid', $contIfInt, $contElseInt, "\t\t");
-        $globalContent  .= $cond;
-        $globalContent  .= $this->getSimpleString("return false;", "\t\t");
-        $functions      .= $pc->getPhpCodeFunction($funcname, '', $globalContent, 'public ', false, "\t");
-
-        return $functions;
     }
 
     /**
@@ -154,32 +99,91 @@ class ClassSpecialFiles extends Files\CreateFile
      */
     public function renderClass()
     {
-        $pc             = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc             = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $module         = $this->getModule();
         $filename       = $this->getFileName();
         $moduleDirname  = $module->getVar('mod_dirname');
-        $namespace      = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
+        $namespace      = $this->pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
         $content        = $this->getHeaderFilesComments($module, null, $namespace);
-        $content        .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
-        $content        .= $pc->getPhpCodeDefined();
-        $content        .= $pc->getPhpCodeCommentMultiLine(['Class Object' => $this->className]);
-        $cCl            = $pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => 'null'], "\t");
+        $content        .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
+        $content        .= $this->pc->getPhpCodeDefined();
+        $content        .= $this->pc->getPhpCodeCommentMultiLine(['Class Object' => $this->className]);
+        $cCl            = $this->pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => 'null'], "\t");
         $constr         = '';
-        $cCl            .= $pc->getPhpCodeFunction('__construct', '', $constr, 'public ', false, "\t");
+        $cCl            .= $this->pc->getPhpCodeFunction('__construct', '', $constr, 'public ', false, "\t");
         $arrGetInstance = ['@static function' => '&getInstance', '' => '', '@param' => 'null'];
-        $cCl            .= $pc->getPhpCodeCommentMultiLine($arrGetInstance, "\t");
-        $getInstance    = $pc->getPhpCodeVariableClass('static', 'instance', 'false', "\t\t");
-        $instance       = $xc->getXcEqualsOperator('$instance', 'new self()', null, "\t\t\t");
-        $getInstance    .= $pc->getPhpCodeConditions('!$instance', '', '', $instance, false, "\t\t");
-        $cCl            .= $pc->getPhpCodeFunction('getInstance', '', $getInstance, 'public static ', false, "\t");
-        $content        .= $pc->getPhpCodeClass($this->className, $cCl, '\XoopsObject');
+        $cCl            .= $this->pc->getPhpCodeCommentMultiLine($arrGetInstance, "\t");
+        $getInstance    = $this->pc->getPhpCodeVariableClass('static', 'instance', 'false', "\t\t");
+        $instance       = $this->xc->getXcEqualsOperator('$instance', 'new self()', null, "\t\t\t");
+        $getInstance    .= $this->pc->getPhpCodeConditions('!$instance', '', '', $instance, false, "\t\t");
+        $cCl            .= $this->pc->getPhpCodeFunction('getInstance', '', $getInstance, 'public static ', false, "\t");
+        $content        .= $this->pc->getPhpCodeClass($this->className, $cCl, '\XoopsObject');
 
-        $this->create($moduleDirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-
-
+        $this->create($moduleDirname, 'class', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
+    }
+
+    /**
+     * @public function getGlobalPerms
+     * @param mixed $permId
+     *
+     * @return bool|string
+     */
+    public function getGlobalPerms($permId)
+    {
+        $module        = $this->getModule();
+        $moduleDirname = $module->getVar('mod_dirname');
+
+        $returnTrue = $this->getSimpleString('return true;', "\t\t\t");
+        $right      = '';
+        $cond       = '';
+        $funcname   = '';
+        $comment    = '';
+        switch ($permId) {
+            case 4:
+                $comment  .= $this->pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalApprove', 'returns' => 'right for global approve', '' => '', '@param' => 'null', '@return' => 'bool'], "\t");
+                $right    .= $this->xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', 4, '$my_group_ids', '$mid', true, "\t\t\t");
+                $cond     .= $this->pc->getPhpCodeConditions($right, '', '', $returnTrue, false, "\t\t");
+                $funcname .= 'getPermGlobalApprove';
+                break;
+            case 8:
+                $comment  .= $this->pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalSubmit', 'returns' => 'right for global submit', '' => '', '@param' => 'null', '@return' => 'bool'], "\t");
+                $cond     .= $this->pc->getPhpCodeConditions('$this->getPermGlobalApprove()', '', '', $returnTrue, false, "\t\t");
+                $right    .= $this->xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', 8, '$my_group_ids', '$mid', true, "\t\t\t");
+                $cond     .= $this->pc->getPhpCodeConditions($right, '', '', $returnTrue, false, "\t\t");
+                $funcname .= 'getPermGlobalSubmit';
+                break;
+            case 16:
+                $comment  .= $this->pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalView', 'returns' => 'right for global view', '' => '', '@param' => 'null', '@return' => 'bool'], "\t");
+                $cond     .= $this->pc->getPhpCodeConditions('$this->getPermGlobalApprove()', '', '', $returnTrue, false, "\t\t");
+                $cond     .= $this->pc->getPhpCodeConditions('$this->getPermGlobalSubmit()', '', '', $returnTrue, false, "\t\t");
+                $right    .= $this->xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', 16, '$my_group_ids', '$mid', true, "\t\t\t");
+                $cond     .= $this->pc->getPhpCodeConditions($right, '', '', $returnTrue, false, "\t\t");
+                $funcname .= 'getPermGlobalView';
+                break;
+            case 0:
+            default:
+                break;
+        }
+        $functions     = $comment;
+        $globalContent = $this->xc->getXcGetGlobal(['xoopsUser', 'xoopsModule'], "\t\t");
+        $globalContent .= $this->xc->getXcEqualsOperator('$currentuid', '0', null, "\t\t");
+
+        $contIf        = $this->pc->getPhpCodeConditions('$xoopsUser->isAdmin($xoopsModule->mid())', '', '', "\t" . $returnTrue, false, "\t\t\t");
+        $contIf        .= $this->xc->getXcEqualsOperator('$currentuid', '$xoopsUser->uid()', null, "\t\t\t");
+        $globalContent .= $this->pc->getPhpCodeConditions('isset($xoopsUser)', ' && ', '\is_object($xoopsUser)', $contIf, false, "\t\t");
+        $globalContent .= $this->xc->getXcXoopsHandler('groupperm', "\t\t");
+        $globalContent .= $this->xc->getXcEqualsOperator('$mid', '$xoopsModule->mid()', null, "\t\t");
+        $globalContent .= $this->xc->getXcXoopsHandler('member', "\t\t");
+
+        $contIfInt     = $this->xc->getXcEqualsOperator('$my_group_ids', '[\XOOPS_GROUP_ANONYMOUS]', null, "\t\t\t");
+        $contElseInt   = $this->xc->getXcEqualsOperator('$my_group_ids', '$memberHandler->getGroupsByUser($currentuid)', null, "\t\t\t");
+        $globalContent .= $this->pc->getPhpCodeConditions('$currentuid', ' == ', '0', $contIfInt, $contElseInt, "\t\t");
+        $globalContent .= $cond;
+        $globalContent .= $this->getSimpleString('return false;', "\t\t");
+        $functions     .= $this->pc->getPhpCodeFunction($funcname, '', $globalContent, 'public ', false, "\t");
+
+        return $functions;
     }
 
     /**
@@ -190,115 +194,114 @@ class ClassSpecialFiles extends Files\CreateFile
      */
     public function renderPermissionsHandler()
     {
-        $pc             = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $module         = $this->getModule();
-        $filename       = $this->getFileName();
-        $moduleDirname  = $module->getVar('mod_dirname');
-        $namespace      = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
-        $content        = $this->getHeaderFilesComments($module, null, $namespace);
-        $content        .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
-        $content        .= $pc->getPhpCodeDefined();
-        $content        .= $pc->getPhpCodeCommentMultiLine(['Class Object' => $this->className]);
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $namespace     = $this->pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
+        $content       = $this->getHeaderFilesComments($module, null, $namespace);
+        $content       .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
+        $content       .= $this->pc->getPhpCodeDefined();
+        $content       .= $this->pc->getPhpCodeCommentMultiLine(['Class Object' => $this->className]);
 
-        $constr         = $pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => 'null'], "\t");
-        $constr         .= $pc->getPhpCodeFunction('__construct', '', '', 'public ', false, "\t");
-        $functions      = $constr;
-        $functions      .= $this->getGlobalPerms(4);
-        $functions      .= $this->getGlobalPerms(8);
-        $functions      .= $this->getGlobalPerms(16);
+        $constr    = $this->pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => 'null'], "\t");
+        $constr    .= $this->pc->getPhpCodeFunction('__construct', '', '', 'public ', false, "\t");
+        $functions = $constr;
+        $functions .= $this->getGlobalPerms(4);
+        $functions .= $this->getGlobalPerms(8);
+        $functions .= $this->getGlobalPerms(16);
 
-        $content        .= $pc->getPhpCodeClass($this->className, $functions, '\XoopsPersistableObjectHandler');
-        $this->create($moduleDirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $content .= $this->pc->getPhpCodeClass($this->className, $functions, '\XoopsPersistableObjectHandler');
+        $this->create($moduleDirname, 'class', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }
 
     /**
-     * @public function renderConstants
+     * @public function renderConstantsInterface
      * @param null
      *
      * @return bool|string
      */
-    public function renderConstants()
+    public function renderConstantsInterface()
     {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-
         $module           = $this->getModule();
         $filename         = $this->getFileName();
         $tables           = $this->getTables();
-        $tablePermissions = [];
-        foreach (array_keys($tables) as $t) {
-            $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
+
+
+        $tablePermissions  = [];
+        $tableRate         = [];
+        $hasRadioOnoffline = false;
+        $hasSelectStatus   = false;
+        foreach (\array_keys($tables) as $t) {
+            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
+            $tableRate[]        = $tables[$t]->getVar('table_rate');
+            $fields             = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
+            foreach (\array_keys($fields) as $f) {
+                $fieldElement = $fields[$f]->getVar('field_element');
+                switch ($fieldElement) {
+                    case Constants::FIELD_ELE_RADIO_ONOFFLINE:
+                        $hasRadioOnoffline = true;
+                        break;
+                    case Constants::FIELD_ELE_SELECTSTATUS:
+                        $hasSelectStatus = true;
+                        break;
+                }
+            }
         }
-        $moduleDirname  = $module->getVar('mod_dirname');
-        $namespace      = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
-        $contentFile    = $this->getHeaderFilesComments($module, null, $namespace);
-        $contentFile    .= $pc->getPhpCodeDefined();
-        $contentFile    .= $pc->getPhpCodeCommentMultiLine(['Class ' => $this->className]);
+        $moduleDirname = $module->getVar('mod_dirname');
+        $namespace     = $this->pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
+        $contentFile   = $this->getHeaderFilesComments($module, null, $namespace);
+        $contentFile   .= $this->pc->getPhpCodeCommentMultiLine(['Interface ' => $this->className]);
 
-        $contentClass   = $pc->getPhpCodeBlankLine();
-        $contentClass .= $pc->getPhpCodeCommentLine('Constants for status', '', "\t");
-        $contentClass .= $pc->getPhpCodeConstant("STATUS_NONE     ", 0, "\t");
-        $contentClass .= $pc->getPhpCodeConstant("STATUS_OFFLINE  ", 1, "\t");
-        $contentClass .= $pc->getPhpCodeConstant("STATUS_SUBMITTED", 2, "\t");
-        $contentClass .= $pc->getPhpCodeConstant("STATUS_APPROVED ", 3, "\t");
+        $contentClass = $this->pc->getPhpCodeBlankLine();
+        $contentClass .= $this->pc->getPhpCodeCommentLine('Constants for tables', '', "\t");
+        foreach (\array_keys($tables) as $t) {
+            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
+            $stuTableName       = \mb_strtoupper($tables[$t]->getVar('table_name'));
+            $contentClass       .= $this->pc->getPhpCodeConstant('TABLE_' . $stuTableName, $t, "\t", 'public const');
+        }
 
-        if (in_array(1, $tablePermissions)) {
-            $constPerm = $pc->getPhpCodeBlankLine();
-            $constPerm .= $pc->getPhpCodeCommentLine('Constants for permissions', '', "\t");
-            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_NONE   ", 0, "\t");
-            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_VIEW   ", 1, "\t");
-            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_SUBMIT ", 2, "\t");
-            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3, "\t");
+        if ($hasSelectStatus) {
+            $contentClass .= $this->pc->getPhpCodeBlankLine();
+            $contentClass .= $this->pc->getPhpCodeCommentLine('Constants for status', '', "\t");
+            $contentClass .= $this->pc->getPhpCodeConstant('STATUS_NONE     ', 0, "\t", 'public const');
+            $contentClass .= $this->pc->getPhpCodeConstant('STATUS_OFFLINE  ', 1, "\t", 'public const');
+            $contentClass .= $this->pc->getPhpCodeConstant('STATUS_SUBMITTED', 2, "\t", 'public const');
+            $contentClass .= $this->pc->getPhpCodeConstant('STATUS_APPROVED ', 3, "\t", 'public const');
+            $contentClass .= $this->pc->getPhpCodeConstant('STATUS_BROKEN   ', 4, "\t", 'public const');
+        }
+        if ($hasRadioOnoffline) {
+            $contentClass .= $this->pc->getPhpCodeBlankLine();
+            $contentClass .= $this->pc->getPhpCodeCommentLine('Constants for radio on-/offline', '', "\t");
+            $contentClass .= $this->pc->getPhpCodeConstant('RADIO_OFFLINE', 0, "\t", 'public const');
+            $contentClass .= $this->pc->getPhpCodeConstant('RADIO_ONLINE ', 1, "\t", 'public const');
+        }
+        if (\in_array(1, $tablePermissions)) {
+            $constPerm    = $this->pc->getPhpCodeBlankLine();
+            $constPerm    .= $this->pc->getPhpCodeCommentLine('Constants for permissions', '', "\t");
+            $constPerm    .= $this->pc->getPhpCodeConstant('PERM_GLOBAL_NONE   ', 0, "\t", 'public const');
+            $constPerm    .= $this->pc->getPhpCodeConstant('PERM_GLOBAL_VIEW   ', 1, "\t", 'public const');
+            $constPerm    .= $this->pc->getPhpCodeConstant('PERM_GLOBAL_SUBMIT ', 2, "\t", 'public const');
+            $constPerm    .= $this->pc->getPhpCodeConstant('PERM_GLOBAL_APPROVE', 3, "\t", 'public const');
             $contentClass .= $constPerm;
         }
-        $contentClass        .= $pc->getPhpCodeBlankLine();
-        $contentFile   .= $pc->getPhpCodeClass($this->className, $contentClass);
+        if (\in_array(1, $tableRate)) {
+            $constRate    = $this->pc->getPhpCodeBlankLine();
+            $constRate    .= $this->pc->getPhpCodeCommentLine('Constants for rating', '', "\t");
+            $constRate    .= $this->pc->getPhpCodeConstant('RATING_NONE    ', 0, "\t", 'public const');
+            $constRate    .= $this->pc->getPhpCodeConstant('RATING_5STARS  ', 1, "\t", 'public const');
+            $constRate    .= $this->pc->getPhpCodeConstant('RATING_10STARS ', 2, "\t", 'public const');
+            $constRate    .= $this->pc->getPhpCodeConstant('RATING_LIKES   ', 3, "\t", 'public const');
+            $constRate    .= $this->pc->getPhpCodeConstant('RATING_10NUM   ', 4, "\t", 'public const');
+            $contentClass .= $constRate;
+        }
+        $contentClass .= $this->pc->getPhpCodeBlankLine();
 
-        $this->create($moduleDirname, 'class', $filename, $contentFile, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $contentFile .= $this->pc->getPhpCodeInterface($this->className, $contentClass);
+
+        $this->create($moduleDirname, 'class', $filename, $contentFile, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }
-
-    public function renderConstantsTestInterface()
-    {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-
-        $module           = $this->getModule();
-        $filename         = $this->getFileName();
-        $tables           = $this->getTables();
-        $tablePermissions = [];
-        foreach (array_keys($tables) as $t) {
-            $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
-        }
-        $moduleDirname  = $module->getVar('mod_dirname');
-        $namespace      = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
-        $contentFile    = $this->getHeaderFilesComments($module, null, $namespace);
-        $contentFile        .= $pc->getPhpCodeDefined();
-        $contentFile        .= $pc->getPhpCodeCommentMultiLine(['Interface ' => $this->className]);
-        $contentClass = '';
-        if (in_array(1, $tablePermissions)) {
-            $constPerm = $pc->getPhpCodeBlankLine();
-            $constPerm .= $pc->getPhpCodeCommentLine('Constants for permissions', '', "\t");
-            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_NONE   ", 0, 'protected static',"\t");
-            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_VIEW   ", 1, 'protected static',"\t");
-            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_SUBMIT ", 2, 'protected static',"\t");
-            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3, 'protected static',"\t");
-            $contentClass .= $constPerm;
-        }
-        $contentClass        .= $pc->getPhpCodeBlankLine();
-        $func = $pc->getPhpCodeCommentLine('trigger a warning if invalid "constant" requested', '', "\t\t");
-        $if  = $pc->getPhpCodeTriggerError("\"Invalid Constant requested ('{\$val}')\"", 'E_USER_WARNING', "\t\t\t");
-        $if  .= $this->getSimpleString("return false;", "\t\t\t");
-        $func     .= $pc->getPhpCodeConditions('!isset($$val)', null, null, $if, false, "\t\t");
-        $func  .= $this->getSimpleString('return self::$$val;', "\t");
-        $contentClass         .= $pc->getPhpCodeFunction('getConstant', '$val', $func, 'final public static ', false, "\t");
-
-        $contentFile   .= $pc->getPhpCodeInterface($this->className, $contentClass);
-
-        $this->create($moduleDirname, 'class', $filename, $contentFile, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-
-        return $this->renderFile();
-    }
-
 }

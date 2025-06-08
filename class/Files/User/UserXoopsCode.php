@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\User;
+namespace XoopsModules\Modulebuilder\Files\User;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -14,15 +14,15 @@ use XoopsModules\Tdmcreate;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -30,6 +30,25 @@ use XoopsModules\Tdmcreate;
  */
 class UserXoopsCode
 {
+    /**
+     * @var mixed
+     */
+    private $xc = null;
+    /**
+     * @var mixed
+     */
+    private $pc = null;
+
+    /**
+     * @public function constructor
+     * @param null
+     */
+    public function __construct()
+    {
+        $this->xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
+    }
+
     /*
     *  @static function getInstance
     *  @param null
@@ -73,11 +92,10 @@ class UserXoopsCode
      */
     public function getUserAddMeta($type, $language, $tableName, $t = '')
     {
-        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $stuTableName = mb_strtoupper($tableName);
-        $stripTags    = $pc->getPhpCodeStripTags('', $language . $stuTableName, true);
+        $stuTableName = \mb_strtoupper($tableName);
+        $stripTags    = $this->pc->getPhpCodeStripTags('', $language . $stuTableName, true);
 
-        return "{$t}\$GLOBALS['xoTheme']->addMeta( 'meta', '{$type}', {$stripTags});\n";
+        return "{$t}\$GLOBALS['xoTheme']->addMeta('meta', '{$type}', {$stripTags});\n";
     }
 
     /**
@@ -89,10 +107,9 @@ class UserXoopsCode
      */
     public function getUserMetaKeywords($moduleDirname)
     {
-        $pc      = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $implode = $pc->getPhpCodeImplode(',', '$keywords');
+        $implode = $this->pc->getPhpCodeImplode(',', '$keywords');
 
-        return "{$moduleDirname}MetaKeywords(\$helper->getConfig('keywords').', '. {$implode});\n";
+        return "{$moduleDirname}MetaKeywords(\$helper->getConfig('keywords') . ', ' . {$implode});\n";
     }
 
     /**
@@ -106,7 +123,7 @@ class UserXoopsCode
      */
     public function getUserMetaDesc($moduleDirname, $language, $file = 'INDEX')
     {
-        return "{$moduleDirname}MetaDescription({$language}{$file}_DESC);\n";
+        return $moduleDirname. 'MetaDescription((string)$helper->' . "getConfig('metadescription'));\n";
     }
 
     /**
@@ -114,35 +131,30 @@ class UserXoopsCode
      *
      * @param        $language
      * @param string $tableName
+     * @param string $op
+     * @param string $link
      * @param string $t
      *
      * @return string
      */
-    public function getUserBreadcrumbs($language, $tableName = 'index', $t = '')
+    public function getUserBreadcrumbs($language, $tableName = 'index', $op = '', $link = '', $t = '')
     {
-        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $stuTableName = mb_strtoupper($tableName);
-        $title        = ["'title'" => "{$language}{$stuTableName}"];
-
-        return $pc->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
-    }
-
-    /**
-     * @public function getUserBreadcrumbs
-     *
-     * @param $moduleDirname
-     *
-     * @param $language
-     * @return string
-     */
-    public function getUserBreadcrumbsHeaderFile($moduleDirname, $language)
-    {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $ret              = $pc->getPhpCodeCommentLine('Breadcrumbs');
-        $ret              .= $pc->getPhpCodeArray('xoBreadcrumbs', null, false, '');
-        $titleLink        = ["'title'" => $language . 'TITLE', "'link'" => "{$stuModuleDirname}_URL . '/'"];
-        $ret              .= $pc->getPhpCodeArray('xoBreadcrumbs[]', $titleLink, false, '');
+        $stuTableName = \mb_strtoupper($tableName);
+        $stuOp        = '';
+        $ret          = $this->pc->getPhpCodeCommentLine('Breadcrumbs', '', $t);
+        if ('' !== $op) {
+            $stuOp = '';
+            if ('' !== $tableName) {
+                $stuOp .= '_';
+            }
+            $stuOp .= \mb_strtoupper($op);
+        }
+        if ('' === $link) {
+            $arrBCrumb = ["'title'" => "{$language}{$stuTableName}{$stuOp}"];
+        } else {
+            $arrBCrumb = ["'title'" => "{$language}{$stuTableName}{$stuOp}", "'link'" => "'{$link}'"];
+        }
+        $ret .= $this->pc->getPhpCodeArray('xoBreadcrumbs[]', $arrBCrumb, false, $t);
 
         return $ret;
     }
@@ -154,10 +166,8 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbsFooterFile()
     {
-        $pc   = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc   = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cond = $xc->getXcXoopsTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
-        $ret  = $pc->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
+        $cond = $this->xc->getXcXoopsTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
+        $ret  = $this->pc->getPhpCodeConditions('\count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
 
         return $ret;
     }
@@ -165,29 +175,29 @@ class UserXoopsCode
     /**
      * @public function getUserModVersionArray
      *
-     * @param int    $eleArray
-     * @param        $descriptions
-     * @param null   $name
-     * @param null   $index
-     * @param bool   $num
-     * @param string $t
+     * @param int          $eleArray
+     * @param string|array $descriptions
+     * @param null         $name
+     * @param null         $index
+     * @param bool         $num
+     * @param string       $t
      *
      * @return string
      */
     public function getUserModVersionArray($eleArray, $descriptions, $name = null, $index = null, $num = false, $t = '')
     {
-        $ret = $t . '$modversion';
+        $ret     = $t . '$modversion';
         $isArray = false;
-        $n = '';
-        if (!is_array($descriptions)) {
+        $n       = '';
+        if (!\is_array($descriptions)) {
             $descs = [$descriptions];
         } else {
-            $descs = $descriptions;
+            $descs   = $descriptions;
             $isArray = true;
-            $n = "\n";
+            $n       = "\n";
         }
         if (0 === $eleArray) {
-            $ret .= " = ";
+            $ret .= ' = ';
         } elseif (1 === $eleArray || 11 === $eleArray) {
             $ret .= "['{$name}'] = ";
         } elseif (2 === $eleArray) {
@@ -196,46 +206,46 @@ class UserXoopsCode
             $ret .= "['{$name}'][{$index}][{$num}] = ";
         }
         if ($isArray) {
-            $ret .= "[";
+            $ret .= '[';
         }
         $ret .= $n;
         //search for longest key
         $len = 0;
         foreach ($descs as $key => $desc) {
-            $len = strlen($key) > $len ? strlen($key) : $len;
+            $len = \mb_strlen((string)$key) > $len ? \mb_strlen((string)$key) : $len;
         }
 
         foreach ($descs as $key => $desc) {
-            $space = str_repeat (  ' ' , $len - strlen($key));
+            $space = str_repeat(' ', $len - \mb_strlen((string)$key));
             if ($eleArray < 4) {
                 $ret .= $t . "\t'{$key}'{$space} => {$desc},{$n}";
             } elseif (11 === $eleArray) {
-                if ('/' === substr($desc, 1, 1)) {
+                if ('/' === \mb_substr($desc, 1, 1)) {
                     $ret .= $t . "\t{$desc}";
                 } else {
                     $ret .= $t . "\t{$desc},{$n}";
                 }
-
             } elseif (12 === $eleArray) {
                 $ret .= $t . "\t{$desc}{$n}";
             }
         }
         $ret .= $t;
         if ($isArray) {
-            $ret .= "]";
+            $ret .= ']';
         }
         $ret .= ";\n";
+
         return $ret;
     }
 
     /**
      * @public function getUserModVersionText
      *
-     * @param int $eleArray
-     * @param $text
-     * @param null $name
-     * @param null $index
-     * @param bool $num
+     * @param int    $eleArray
+     * @param        $text
+     * @param null   $name
+     * @param null   $index
+     * @param bool   $num
      * @param string $t
      *
      * @return string
@@ -245,7 +255,7 @@ class UserXoopsCode
         $ret = $t . '$modversion';
 
         if (0 === $eleArray) {
-            $ret .= " = ";
+            $ret .= ' = ';
         } elseif (1 === $eleArray) {
             $ret .= "['{$name}'] = ";
         } elseif (2 === $eleArray) {
@@ -255,6 +265,7 @@ class UserXoopsCode
         }
 
         $ret .= $t . "{$text};\n";
+
         return $ret;
     }
 }

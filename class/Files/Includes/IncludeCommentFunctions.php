@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Includes;
+namespace XoopsModules\Modulebuilder\Files\Includes;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,15 +15,15 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -32,12 +32,23 @@ use XoopsModules\Tdmcreate\Files;
 class IncludeCommentFunctions extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $xc = null;
+    /**
+     * @var mixed
+     */
+    private $pc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc = Modulebuilder\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -61,7 +72,7 @@ class IncludeCommentFunctions extends Files\CreateFile
      * @param mixed  $table
      * @param        $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -71,33 +82,64 @@ class IncludeCommentFunctions extends Files\CreateFile
     /**
      * @public function getCommentBody
      * @param string $module
-     * @param mixed $table
+     * @param mixed  $table
      * @return string
      */
     public function getCommentBody($module, $table)
     {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $moduleDirname  = $module->getVar('mod_dirname');
+        $tableName      = $table->getVar('table_name');
+        $tableSoleName  = $table->getVar('table_solename');
+        $tableFieldName = $table->getVar('table_fieldname');
+        $fieldId        = '';
+        $ccFieldId      = '';
+        $ccFieldMain    = '';
+        $fieldMain      = '';
+        $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        foreach (\array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            if (0 == $f) {
+                $fieldId   = $fieldName;
+                $ccFieldId = $this->getCamelCase($fieldId, false, true);
+            }
+            if (1 == $fields[$f]->getVar('field_main')) {
+                $fieldMain   = $fieldName; // fieldMain = fields parameters main field
+                $ccFieldMain = $this->getCamelCase($fieldMain, false, true);
+            }
+        }
 
-        $moduleDirname    = $module->getVar('mod_dirname');
-        $tableName        = $table->getVar('table_name');
-        $ucfModuleDirname = ucfirst($moduleDirname);
-        $ucfTableName     = ucfirst($tableName);
+        $t      = "\t";
+        $ret    = $this->pc->getPhpCodeCommentMultiLine(['CommentsUpdate' => '', '' => '', '@param mixed  $itemId' => '', '@param mixed  $itemNumb' => '', '@return' => 'bool']);
+        $func1  = $this->xc->getXcHelperGetInstance($moduleDirname, $t);
+        $func1  .= $this->xc->getXcHandlerLine($tableName, $t);
+        $func1  .= $this->xc->getXcEqualsOperator("\${$ccFieldId}", '(int)$itemId', '', $t);
+        $func1  .= $this->xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
+        $func1  .= $this->xc->getXcSetVarObj($tableName, $tableFieldName . '_comments', '(int)$itemNumb', $t);
+        $insert = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
+        $contIf = $this->getSimpleString('return true;', $t . "\t");
+        $func1  .= $this->pc->getPhpCodeConditions($insert, '', '', $contIf, false, $t);
+        $func1  .= $this->getSimpleString('return false;', $t);
+        $ret    .= $this->pc->getPhpCodeFunction($moduleDirname . 'CommentsUpdate', '$itemId, $itemNumb', $func1);
+        $ret    .= $this->pc->getPhpCodeCommentMultiLine(['CommentsApprove' => '', '' => '', '@param mixed' => '$comment', '@return' => 'bool']);
 
-        $ret    = $pc->getPhpCodeCommentMultiLine(['CommentsUpdate' => '', '' => '', '@param mixed  $itemId' => '', '@param mixed  $itemNumb' => '', '@return' => 'bool']);
-        $func1  = $xc->getXcEqualsOperator('$itemId', '(int)$itemId', '', "\t");
-        $func1  .= $xc->getXcEqualsOperator('$itemNumb', '(int)$itemNumb', '', "\t");
-        $func1  .= $xc->getXcEqualsOperator('$article', "new {$ucfModuleDirname}{$ucfTableName}(\$itemId)", '', "\t");
-        $contIf = $this->getSimpleString('return false;',"\t\t");
-        $func1  .= $pc->getPhpCodeConditions('!$article->updateComments($itemNumb)','','',$contIf, false,"\t");
-        $func1  .= $this->getSimpleString('return true;',"\t");
-        $ret    .= $pc->getPhpCodeFunction($moduleDirname . 'CommentsUpdate', '$itemId, $itemNumb', $func1);
-        $ret    .= $pc->getPhpCodeCommentMultiLine(['CommentsApprove' => '', '' => '', '@param mixed' => '$comment', '@return' => 'bool']);
-        $func2  = $pc->getPhpCodeCommentLine('notification mail here','',"\t");
-        $func2  .= $pc->getPhpCodeBlankLine();
-        $func2  .= $this->getSimpleString('return false;',"\t");
-        $func2  .= $pc->getPhpCodeBlankLine();
-        $ret    .= $pc->getPhpCodeFunction($moduleDirname . 'CommentsApprove', '&$comment', $func2);
+        $func2 = $this->pc->getPhpCodeCommentLine('Notification event', '', $t);
+        $func2 .= $this->xc->getXcHelperGetInstance($moduleDirname, $t);
+        $func2 .= $this->xc->getXcHandlerLine($tableName, $t);
+        $func2 .= $this->xc->getXcGetVar($ccFieldId, 'comment', 'com_itemid', false, $t);
+        $func2 .= $this->xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
+        $func2 .= $this->xc->getXcGetVar($ccFieldMain, "{$tableName}Obj", $fieldMain, false, $t);
+        $func2 .= $this->pc->getPhpCodeBlankLine();
+        $func2 .= $this->pc->getPhpCodeArray('tags', [], false, $t);
+        $func2 .= $this->xc->getXcEqualsOperator("\$tags['ITEM_NAME']", "\${$ccFieldMain}", '', $t);
+        $url   = "\XOOPS_URL . '/modules/{$moduleDirname}/{$tableName}.php?op=show&{$fieldId}=' . \${$ccFieldId}";
+        $func2 .= $this->xc->getXcEqualsOperator("\$tags['ITEM_URL'] ", $url, '', $t);
+        $func2 .= $this->xc->getXcXoopsHandler('notification', $t);
+        $func2 .= $this->pc->getPhpCodeCommentLine('Event modify notification', null, $t);
+        $func2 .= $this->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_comment', \$tags);", $t);
+        $func2 .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \${$ccFieldId}, '{$tableSoleName}_comment', \$tags);", $t);
+        $func2 .= $this->getSimpleString('return true;', $t);
+        $func2 .= $this->pc->getPhpCodeBlankLine();
+        $ret   .= $this->pc->getPhpCodeFunction($moduleDirname . 'CommentsApprove', '$comment', $func2);
 
         return $ret;
     }
@@ -113,11 +155,11 @@ class IncludeCommentFunctions extends Files\CreateFile
         $table         = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
 
-        $filename      = $this->getFileName();
-        $content       = $this->getHeaderFilesComments($module);
-        $content       .= $this->getCommentBody($module, $table);
+        $filename = $this->getFileName();
+        $content  = $this->getHeaderFilesComments($module);
+        $content  .= $this->getCommentBody($module, $table);
 
-        $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

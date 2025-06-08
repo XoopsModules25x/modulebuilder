@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,28 +10,26 @@
 */
 
 /**
- * Tdmcreate module for xoops
+ * Modulebuilder module for xoops
  *
  * @copyright      module for xoops
- * @license        GPL 2.0 or later
- * @package        Tdmcreate
+ * @license         GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @since          1.0
- * @min_xoops      2.5.9
+ * @min_xoops      2.5.11
  * @author         Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com> XOOPS Project (www.xoops.org) $
  */
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Common;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Common;
 
 /**
  * @param \XoopsModule $module
  * @return bool
  */
-function xoops_module_pre_install_tdmcreate(\XoopsModule $module)
+function xoops_module_pre_install_modulebuilder(\XoopsModule $module)
 {
-    require dirname(__DIR__) . '/preloads/autoloader.php';
-    /** @var Tdmcreate\Utility $utility */
-    $utility = new Tdmcreate\Utility();
+    require \dirname(__DIR__) . '/preloads/autoloader.php';
+    $utility = new Modulebuilder\Utility();
 
     //check for minimum XOOPS version
     $xoopsSuccess = $utility::checkVerXoops($module);
@@ -53,15 +51,14 @@ function xoops_module_pre_install_tdmcreate(\XoopsModule $module)
  * @param \XoopsModule $module
  * @return bool|string
  */
-function xoops_module_install_tdmcreate(\XoopsModule $module)
+function xoops_module_install_modulebuilder(\XoopsModule $module)
 {
-    require dirname(__DIR__) . '/preloads/autoloader.php';
+    require \dirname(__DIR__) . '/preloads/autoloader.php';
 
-    /** @var Tdmcreate\Helper $helper */ 
-    /** @var Tdmcreate\Utility $utility */
+    /** @var Modulebuilder\Helper $helper */ /** @var Modulebuilder\Utility $utility */
     /** @var Common\Configurator $configurator */
-    $helper       = Tdmcreate\Helper::getInstance();
-    $utility      = new Tdmcreate\Utility();
+    $helper       = Modulebuilder\Helper::getInstance();
+    $utility      = new Modulebuilder\Utility();
     $configurator = new Common\Configurator();
 
     // Load language files
@@ -70,25 +67,41 @@ function xoops_module_install_tdmcreate(\XoopsModule $module)
     $helper->loadLanguage('common');
 
     //  ---  CREATE FOLDERS ---------------
-    if ($configurator->uploadFolders && is_array($configurator->uploadFolders)) {
-        //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-        foreach (array_keys($configurator->uploadFolders) as $i) {
+    if ($configurator->uploadFolders && \is_array($configurator->uploadFolders)) {
+        //    foreach (\array_keys($GLOBALS['uploadFolders']) as $i) {
+        foreach (\array_keys($configurator->uploadFolders) as $i) {
             $utility::createFolder($configurator->uploadFolders[$i]);
         }
     }
 
     //  ---  COPY blank.gif FILES ---------------
-    if ($configurator->copyBlankFiles && is_array($configurator->copyBlankFiles)) {
-        $file = dirname(__DIR__) . '/assets/images/blank.gif';
-        foreach (array_keys($configurator->copyBlankFiles) as $i) {
+    if ($configurator->copyBlankFiles && \is_array($configurator->copyBlankFiles)) {
+        $file = \dirname(__DIR__) . '/assets/images/blank.gif';
+        foreach (\array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.gif';
             $utility::copyFile($file, $dest);
         }
-		$file = dirname(__DIR__) . '/assets/images/blank.png';
-        foreach (array_keys($configurator->copyBlankFiles) as $i) {
+        $file = \dirname(__DIR__) . '/assets/images/blank.png';
+        foreach (\array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
             $utility::copyFile($file, $dest);
         }
+    }
+    //  ---  COPY empty.png FILES ---------------
+    if ($configurator->copyBlankFiles && \is_array($configurator->copyBlankFiles)) {
+        $file = \dirname(__DIR__) . '/assets/images/modules/empty.png';
+        foreach (\array_keys($configurator->copyBlankFiles) as $i) {
+            $dest = $configurator->copyBlankFiles[$i] . '/empty.png';
+            $utility::copyFile($file, $dest);
+        }
+    }
+
+    //  ---  COPY page_copy.png  ---------------
+    // needed for clone feature of by modulebuilder created modules
+    $dest = \XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32/page_copy.png';
+    if (!\file_exists($dest)) {
+        $file = \dirname(__DIR__) . '/assets/images/icons/32/page_copy.png';
+        $utility::copyFile($file, $dest);
     }
 
     return true;

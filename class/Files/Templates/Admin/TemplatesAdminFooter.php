@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Templates\Admin;
+namespace XoopsModules\Modulebuilder\Files\Templates\Admin;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,15 +15,15 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -32,12 +32,23 @@ use XoopsModules\Tdmcreate\Files;
 class TemplatesAdminFooter extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $hc = null;
+    /**
+     * @var mixed
+     */
+    private $sc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->hc = Modulebuilder\Files\CreateHtmlCode::getInstance();
+        $this->sc = Modulebuilder\Files\CreateSmartyCode::getInstance();
     }
 
     /**
@@ -59,7 +70,7 @@ class TemplatesAdminFooter extends Files\CreateFile
      * @param string $module
      * @param string $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -72,24 +83,22 @@ class TemplatesAdminFooter extends Files\CreateFile
      */
     public function render()
     {
-        $hc            = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $sc            = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleName    = $module->getVar('mod_name');
         $moduleDirname = $module->getVar('mod_dirname');
         $supportName   = $module->getVar('mod_support_name');
-        $language      = $this->getLanguage($moduleDirname, 'AM');
-        $singleNoVar = $sc->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
-        $img         = $hc->getHtmlTag('img', ['src' => $singleNoVar, 'alt' => 'XOOPS'], '', true, '','');
-        $anchor      = $hc->getHtmlTag('a', ['href' => 'https://xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'], $img) ;
-        $content     = $hc->getHtmlTag('div', ['class' => 'center'], "\n\t" . $anchor);
-        $tree        = $hc->getHtmlTag('strong', [], $moduleName, false, '', '');
-        $tree        .= $sc->getSmartyConst($language, 'MAINTAINEDBY');
-        $tree        .= $hc->getHtmlTag('a', ['href' => '<{$maintainedby}>', 'title' => 'Visit ' . $supportName, 'class' => 'tooltip', 'rel' => 'external'], $supportName);
-        $content     .= $hc->getHtmlTag('div', ['class' => 'center smallsmall italic pad5'], "\n\t" . $tree);
+        $language      = $this->getLanguage($moduleDirname, 'AM', '', false);
+        $singleNoVar   = $this->sc->getSmartyNoSimbol("xoModuleIcons32 'xoopsmicrobutton.gif'");
+        $img           = $this->hc->getHtmlTag('img', ['src' => $singleNoVar, 'alt' => 'XOOPS'], '', true, '', '');
+        $anchor        = $this->hc->getHtmlTag('a', ['href' => 'https://xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'], $img);
+        $content       = $this->hc->getHtmlTag('div', ['class' => 'center'], "\n\t" . $anchor);
+        $tree          = $this->hc->getHtmlTag('strong', [], $moduleName, false, '', '');
+        $tree          .= $this->sc->getSmartyConst($language, 'MAINTAINEDBY');
+        $tree          .= $this->hc->getHtmlTag('a', ['href' => '<{$maintainedby}>', 'title' => 'Visit ' . $supportName, 'class' => 'tooltip', 'rel' => 'external'], $supportName);
+        $content       .= $this->hc->getHtmlTag('div', ['class' => 'center smallsmall italic pad5'], "\n\t" . $tree);
 
-        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

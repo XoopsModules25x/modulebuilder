@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -18,12 +18,11 @@ use XoopsModules\Tdmcreate;
  * Building class.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.x
  *
  * @author          TDM TEAM DEV MODULE
- *
  */
 
 /**
@@ -55,25 +54,29 @@ class Building
      */
     public function getForm($action = false)
     {
-        $helper = Tdmcreate\Helper::getInstance();
+        $helper = Modulebuilder\Helper::getInstance();
         if (false === $action) {
             $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
-        xoops_load('XoopsFormLoader');
-        $form = new \XoopsThemeForm(_AM_TDMCREATE_ADMIN_CONST, 'buildform', $action, 'post', true);
+        \xoops_load('XoopsFormLoader');
+        $form = new \XoopsThemeForm(\_AM_MODULEBUILDER_ADMIN_CONST, 'buildform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        $moduleObj  = $helper->getHandler('modules')->getObjects(null);
-        $mod_select = new \XoopsFormSelect(_AM_TDMCREATE_CONST_MODULES, 'mod_id', 'mod_id');
-        $mod_select->addOption('', _AM_TDMCREATE_BUILD_MODSELOPT);
+        $moduleObj  = $helper->getHandler('Modules')->getObjects();
+        $mod_select = new \XoopsFormSelect(\_AM_MODULEBUILDER_CONST_MODULES, 'mod_id', 'mod_id');
+        $mod_select->addOption('', \_AM_MODULEBUILDER_BUILD_MODSELOPT);
         foreach ($moduleObj as $mod) {
             $mod_select->addOption($mod->getVar('mod_id'), $mod->getVar('mod_name'));
         }
         $form->addElement($mod_select, true);
-        
-        $form->addElement(new \XoopsFormRadioYN(_AM_TDMCREATE_MODULE_INROOT_COPY, 'inroot_copy', $helper->getConfig('inroot_copy')));
-        
+
+        $form->addElement(new \XoopsFormRadioYN(\_AM_MODULEBUILDER_BUILDING_INROOT_COPY, 'inroot_copy', $helper->getConfig('inroot_copy')));
+        $form->addElement(new \XoopsFormRadioYN(\_AM_MODULEBUILDER_BUILDING_TEST . \_AM_MODULEBUILDER_BUILDING_TEST_DESC, 'testdata_restore', 0));
+
         $form->addElement(new \XoopsFormHidden('op', 'build'));
-        $form->addElement(new \XoopsFormButton(_REQUIRED . ' <sup class="red bold">*</sup>', 'submit', _SUBMIT, 'submit'));
+        $btnTray = new \XoopsFormElementTray(\_REQUIRED . ' <sup class="red bold">*</sup>', '&nbsp;');
+        $btnTray->addElement(new \XoopsFormButton('', 'submit', \_SUBMIT, 'submit'));
+        $btnTray->addElement(new \XoopsFormButton('', 'check_data', \_AM_MODULEBUILDER_BUILDING_CHECK, 'submit'));
+        $form->addElement($btnTray);
 
         return $form;
     }
@@ -82,23 +85,35 @@ class Building
      * @param string $dir
      * @param string $pattern
      */
-    public function clearDir($dir, $pattern = '*')
+    public function clearDir($dir, $pattern = '*'): void
     {
         // Find all files and folders matching pattern
         $files = glob($dir . "/$pattern");
         // Interate thorugh the files and folders
         foreach ($files as $file) {
             // if it's a directory then re-call clearDir function to delete files inside this directory
-            if (is_dir($file) && !in_array($file, ['..', '.'])) {
+            if (\is_dir($file) && !\in_array($file, ['..', '.'])) {
                 // Remove the directory itself
                 $this->clearDir($file, $pattern);
             } elseif ((__FILE__ != $file) && is_file($file)) {
                 // Make sure you don't delete the current script
-                unlink($file);
+                \unlink($file);
             }
         }
-        if (is_dir($dir)) {
-            rmdir($dir);
+        $file = $dir . '/.gitignore';
+        if (is_file($file)) {
+            \unlink($file);
+        }
+        $file = $dir . '/.gitattributes';
+        if (is_file($file)) {
+            \unlink($file);
+        }
+        $file = $dir . '/.scrutinizer.yml';
+        if (is_file($file)) {
+            \unlink($file);
+        }
+        if (\is_dir($dir)) {
+            \rmdir($dir);
         }
     }
 
@@ -106,23 +121,23 @@ class Building
      * @param string $src
      * @param string $dst
      */
-    public function copyDir($src, $dst)
+    public function copyDir($src, $dst): void
     {
-        $dir = opendir($src);
-        if (!mkdir($dst) && !is_dir($dst)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dst));
+        $dir = \opendir($src);
+        if (!\mkdir($dst) && !\is_dir($dst)) {
+            throw new \RuntimeException(\sprintf('Directory "%s" was not created', $dst));
         }
-        while (false !== ($file = readdir($dir))) {
+        while (false !== ($file = \readdir($dir))) {
             if (('.' !== $file) && ('..' !== $file)) {
-                if (is_dir($src . '/' . $file)) {
+                if (\is_dir($src . '/' . $file)) {
                     // Copy the directory itself
                     $this->copyDir($src . '/' . $file, $dst . '/' . $file);
                 } else {
                     // Make sure you copy the current script
-                    copy($src . '/' . $file, $dst . '/' . $file);
+                    \copy($src . '/' . $file, $dst . '/' . $file);
                 }
             }
         }
-        closedir($dir);
+        \closedir($dir);
     }
 }

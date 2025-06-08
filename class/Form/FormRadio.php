@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Form;
+namespace XoopsModules\Modulebuilder\Form;
 
 /**
  * XOOPS form radio compo.
@@ -13,13 +13,12 @@ namespace XoopsModules\Tdmcreate\Form;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @copyright   The XOOPS project https://xoops.org/
- * @license     GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license     GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since       1.91
  *
- * @author      Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, http://jp.xoops.org/
+ * @author      Kazumi Ono (AKA onokazu) https://www.myweb.ne.jp/, https://jp.xoops.org/
  * @author      Taiwen Jiang <phppp@users.sourceforge.net>
- *
  */
 class FormRadio extends \XoopsFormRadio
 {
@@ -32,8 +31,8 @@ class FormRadio extends \XoopsFormRadio
     {
         $ret           = '';
         $ele_name      = $this->getName();
-        $ele_title     = $this->getTitle();
-        $ele_value     = $this->getValue();
+        $ele_title     = (string)$this->getTitle();
+        $ele_value     = (string)$this->getValue();
         $ele_options   = $this->getOptions();
         $ele_extra     = $this->getExtra();
         $ele_delimeter = empty($this->columns) ? $this->getDelimeter() : '';
@@ -42,6 +41,12 @@ class FormRadio extends \XoopsFormRadio
         }
         $i      = 0;
         $id_ele = 0;
+        if ('' != $ele_title) {
+            $ele_title = htmlspecialchars($ele_title, ENT_QUOTES);
+        }
+        if ('' != $ele_value) {
+            $ele_value = htmlspecialchars($ele_value, ENT_QUOTES);
+        }
         foreach ($ele_options as $value => $name) {
             ++$id_ele;
             if (!empty($this->columns)) {
@@ -50,11 +55,11 @@ class FormRadio extends \XoopsFormRadio
                 }
                 $ret .= '<td class="radio">';
             }
-            $ret .= '<input type="radio" name="' . $ele_name . '" id="' . $ele_name . '[' . $value . ']' . $id_ele . '" title = "' . htmlspecialchars($ele_title, ENT_QUOTES) . '" value="' . htmlspecialchars($value, ENT_QUOTES) . '"';
+            $ret .= '<input type="radio" name="' . $ele_name . '" id="' . $ele_name . '[' . $value . ']' . $id_ele . '" title = "' . $ele_title . '" value="' . $ele_value . '"';
             if (isset($ele_value) && $value == $ele_value) {
                 $ret .= ' checked';
             }
-            $ret .= $ele_extra . ' />' . "<label name='xolb_{$ele_name}' for='" . $ele_name . '[' . $value . ']' . $id_ele . "'><span><span></span></span>" . $name . '</label>' . $ele_delimeter;
+            $ret .= $ele_extra . '>' . "<label name='xolb_{$ele_name}' for='" . $ele_name . '[' . $value . ']' . $id_ele . "'><span><span></span></span>" . $name . '</label>' . $ele_delimeter;
             if (!empty($this->columns)) {
                 $ret .= '</td>';
                 if (0 == ++$i % $this->columns) {

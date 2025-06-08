@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate;
+namespace XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -16,14 +16,12 @@ namespace XoopsModules\Tdmcreate;
  * modules class.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
- *
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <https://xoops.org>
  */
-// include __DIR__ . '/autoload.php';
 
 /**
  * @Class ModulesHandler
@@ -38,7 +36,7 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_modules', Modules::class, 'mod_id', 'mod_name');
+        parent::__construct($db, 'modulebuilder_modules', Modules::class, 'mod_id', 'mod_name');
     }
 
     /**
@@ -87,7 +85,7 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
      *
      * @return int
      */
-    public function getCountModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
+    public function getCountModules($start = 0, $limit = 0, $sort = 'mod_id', $order = 'DESC')
     {
         $crCountModules = new \CriteriaCompo();
         $crCountModules = $this->getModulesCriteria($crCountModules, $start, $limit, $sort, $order);
@@ -105,7 +103,7 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
      *
      * @return array
      */
-    public function getAllModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
+    public function getAllModules($start = 0, $limit = 0, $sort = 'mod_id', $order = 'DESC')
     {
         $crAllModules = new \CriteriaCompo();
         $crAllModules = $this->getModulesCriteria($crAllModules, $start, $limit, $sort, $order);

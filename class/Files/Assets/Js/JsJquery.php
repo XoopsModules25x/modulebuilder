@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Assets\Js;
+namespace XoopsModules\Modulebuilder\Files\Assets\Js;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,17 +15,17 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
-defined('XOOPS_ROOT_PATH') || exit('Restricted access');
+\defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
  * Class JsJquery.
@@ -67,7 +67,7 @@ class JsJquery extends Files\CreateFile
      * @param string $module
      * @param string $filename
      */
-    public function write($module, $filename)
+    public function write($module, $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -83,17 +83,17 @@ class JsJquery extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, 0);
+        $content       = $this->getHeaderFilesComments($module, true);
         $content       .= <<<'EOT'
-$(document).ready(function(){
-    $( "button, input:button, input:submit, input:file, input:reset" ).css("color","inherit").button();
-    $( ".check" ).css("color","#fff").button();
-    $( ".radio" ).css("color","#fff").buttonset();
-    $( ".toolbar" ).css("color","#000").buttonset();
-});
-EOT;
+            $(document).ready(function(){
+                $( "button, input:button, input:submit, input:file, input:reset" ).css("color","inherit").button();
+                $( ".check" ).css("color","#fff").button();
+                $( ".radio" ).css("color","#fff").buttonset();
+                $( ".toolbar" ).css("color","#000").buttonset();
+            });
+            EOT;
 
-        $this->tdmcfile->create($moduleDirname, 'assets/js', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'assets/js', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }

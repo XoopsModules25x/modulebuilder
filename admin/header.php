@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,20 +10,20 @@
  */
 
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
-include dirname(__DIR__) . '/preloads/autoloader.php';
+require \dirname(__DIR__) . '/preloads/autoloader.php';
 
-include_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-include_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__, 3) . '/include/cp_header.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 $thisDirname = $GLOBALS['xoopsModule']->getVar('dirname');
 // Link System Icons
@@ -34,14 +34,13 @@ $modPathIcon16 = $GLOBALS['xoopsModule']->getInfo('modicons16');
 $modPathIcon32 = $GLOBALS['xoopsModule']->getInfo('modicons32');
 //$pathModuleAdmin = $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
 
-/** @var \XoopsModules\Tdmcreate\Helper $helper */
-$helper = \XoopsModules\Tdmcreate\Helper::getInstance();
-$utility = new \XoopsModules\Tdmcreate\Utility();
+$helper  = \XoopsModules\Modulebuilder\Helper::getInstance();
+$utility = new \XoopsModules\Modulebuilder\Utility();
 
 // MyTextSanitizer
 $myts = MyTextSanitizer::getInstance();
-if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
-    include_once XOOPS_ROOT_PATH . '/class/template.php';
+if (!isset($xoopsTpl) || !\is_object($xoopsTpl)) {
+    require_once \XOOPS_ROOT_PATH . '/class/template.php';
     $xoopsTpl = new \XoopsTpl();
 }
 // System Icons

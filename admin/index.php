@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -11,19 +11,30 @@
  */
 
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
-$GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_index.tpl';
 
-include __DIR__ . '/header.php';
+use Xmf\Module\Admin;
+use Xmf\Request;
+use XoopsModules\Modulebuilder\{
+    Common,
+    Common\TestdataButtons,
+    Form,
+    Helper,
+    Utility
+};
+
+$GLOBALS['xoopsOption']['template_main'] = 'modulebuilder_index.tpl';
+
+require __DIR__ . '/header.php';
 $countSettings = $helper->getHandler('Settings')->getCount();
 $countModules  = $helper->getHandler('Modules')->getCount();
 $countTables   = $helper->getHandler('Tables')->getCount();
@@ -31,13 +42,13 @@ $countFields   = $helper->getHandler('Fields')->getCount();
 $countFiles    = $helper->getHandler('Morefiles')->getCount();
 unset($criteria);
 
-//$templateMain = 'tdmcreate_index.tpl';
-$adminObject->addInfoBox(_AM_TDMCREATE_ADMIN_NUMMODULES);
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMSETTINGS . '</label>', $countSettings), 'Blue');
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMMODULES . '</label>', $countModules), 'Green');
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMTABLES . '</label>', $countTables), 'Orange');
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMFIELDS . '</label>', $countFields), 'Gray');
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMFILES . '</label>', $countFiles), 'Red');
+//$templateMain = 'modulebuilder_index.tpl';
+$adminObject->addInfoBox(\_AM_MODULEBUILDER_ADMIN_NUMMODULES);
+$adminObject->addInfoBoxLine(\sprintf('<label>' . \_AM_MODULEBUILDER_THEREARE_NUMSETTINGS . '</label>', $countSettings), 'Blue');
+$adminObject->addInfoBoxLine(\sprintf('<label>' . \_AM_MODULEBUILDER_THEREARE_NUMMODULES . '</label>', $countModules), 'Green');
+$adminObject->addInfoBoxLine(\sprintf('<label>' . \_AM_MODULEBUILDER_THEREARE_NUMTABLES . '</label>', $countTables), 'Orange');
+$adminObject->addInfoBoxLine(\sprintf('<label>' . \_AM_MODULEBUILDER_THEREARE_NUMFIELDS . '</label>', $countFields), 'Gray');
+$adminObject->addInfoBoxLine(\sprintf('<label>' . \_AM_MODULEBUILDER_THEREARE_NUMFILES . '</label>', $countFiles), 'Red');
 // Upload Folders
 $folder = [
     TDMC_UPLOAD_PATH,
@@ -46,89 +57,35 @@ $folder = [
     TDMC_UPLOAD_IMGTAB_PATH,
 ];
 
-// Uploads Folders Created
-foreach (array_keys($folder) as $i) {
-    $adminObject->addConfigBoxLine($folder[$i], 'folder');
-    $adminObject->addConfigBoxLine([$folder[$i], '777'], 'chmod');
+//------ check Upload Folders ---------------
+
+$adminObject->addConfigBoxLine();
+$redirectFile = $_SERVER['SCRIPT_NAME'];
+
+foreach (\array_keys($folder) as $i) {
+    $adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($folder[$i], 0777, $redirectFile));
 }
 
+$adminObject->displayNavigation(\basename(__FILE__));
 
-$adminObject->displayNavigation(basename(__FILE__));
-
-//------------- Test Data ----------------------------
-
+//------------- Test Data Buttons ----------------------------
 if ($helper->getConfig('displaySampleButton')) {
-    $yamlFile            = dirname(__DIR__) . '/config/admin.yml';
-    $config              = loadAdminConfig($yamlFile);
-    $displaySampleButton = $config['displaySampleButton'];
-
-    if (1 == $displaySampleButton) {
-        xoops_loadLanguage('admin/modulesadmin', 'system');
-        require __DIR__ . '/../testdata/index.php';
-
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=load', 'add');
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=save', 'add');
-        //    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA'), '__DIR__ . /../../testdata/index.php?op=exportschema', 'add');
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'HIDE_SAMPLEDATA_BUTTONS'), '?op=hide_buttons', 'delete');
-    } else {
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLEDATA_BUTTONS'), '?op=show_buttons', 'add');
-        $displaySampleButton = $config['displaySampleButton'];
-    }
+    TestdataButtons::loadButtonConfig($adminObject);
     $adminObject->displayButton('left', '');
 }
-
-//------------- End Test Data ----------------------------
-
-$adminObject->displayIndex();
-
-/**
- * @param $yamlFile
- * @return array|bool
- */
-function loadAdminConfig($yamlFile)
-{
-    $config = \Xmf\Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
-    return $config;
-}
-
-/**
- * @param $yamlFile
- */
-function hideButtons($yamlFile)
-{
-    $app['displaySampleButton'] = 0;
-    \Xmf\Yaml::save($app, $yamlFile);
-    redirect_header('index.php', 0, '');
-}
-
-/**
- * @param $yamlFile
- */
-function showButtons($yamlFile)
-{
-    $app['displaySampleButton'] = 1;
-    \Xmf\Yaml::save($app, $yamlFile);
-    redirect_header('index.php', 0, '');
-}
-
-$op = \Xmf\Request::getString('op', 0, 'GET');
-
+$op = Request::getString('op', 0, 'GET');
 switch ($op) {
     case 'hide_buttons':
-        hideButtons($yamlFile);
+        TestdataButtons::hideButtons();
         break;
     case 'show_buttons':
-        showButtons($yamlFile);
+        TestdataButtons::showButtons();
         break;
 }
+//------------- End Test Data Buttons ----------------------------
 
+$adminObject->displayIndex();
 echo $utility::getServerStats();
 
-
-
-
-
-//$GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('index.php'));
-//$GLOBALS['xoopsTpl']->assign('index', $adminObject->displayIndex());
-
-include __DIR__ . '/footer.php';
+//codeDump(__FILE__);
+require __DIR__ . '/footer.php';

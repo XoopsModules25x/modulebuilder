@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files;
+namespace XoopsModules\Modulebuilder\Files;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -14,15 +14,15 @@ use XoopsModules\Tdmcreate;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -36,21 +36,18 @@ abstract class CreateAbstractClass
      * @var mixed
      */
     protected $module;
-
     /**
      * "table" attribute fot files.
      *
      * @var mixed
      */
     protected $table;
-
     /**
      * "tables" attribute fot files.
      *
      * @var mixed
      */
     protected $tables;
-
     /**
      * "fields" attribute fot files.
      *
@@ -63,9 +60,9 @@ abstract class CreateAbstractClass
      *
      * @param mixed $module
      */
-    public function setModule($module)
+    public function setModule($module): void
     {
-        if (is_object($module) && ($module instanceof TDMCreate\Modules)) {
+        if (\is_object($module) && ($module instanceof ModuleBuilder\Modules)) {
             $this->module = $module;
         }
     }
@@ -85,9 +82,9 @@ abstract class CreateAbstractClass
      *
      * @param mixed $table
      */
-    public function setTable($table)
+    public function setTable($table): void
     {
-        if (is_object($table) && ($table instanceof Tdmcreate\Tables)) {
+        if (\is_object($table) && ($table instanceof Modulebuilder\Tables)) {
             $this->table = $table;
         }
     }
@@ -107,9 +104,9 @@ abstract class CreateAbstractClass
      *
      * @param mixed $tables
      */
-    public function setTables($tables)
+    public function setTables($tables): void
     {
-        if (is_array($tables)) {
+        if (\is_array($tables)) {
             $this->tables = $tables;
         }
     }
@@ -129,9 +126,9 @@ abstract class CreateAbstractClass
      *
      * @param mixed $fields
      */
-    public function setFields($fields)
+    public function setFields($fields): void
     {
-        if (is_object($fields) && ($fields instanceof Tdmcreate\Fields)) {
+        if (\is_object($fields) && ($fields instanceof Modulebuilder\Fields)) {
             $this->fields = $fields;
         }
     }

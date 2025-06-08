@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\Classes;
+namespace XoopsModules\Modulebuilder\Files\Classes;
 
-use XoopsModules\Tdmcreate;
+use XoopsModules\Modulebuilder;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -14,15 +14,15 @@ use XoopsModules\Tdmcreate;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -60,9 +60,9 @@ class ClassXoopsCode
      */
     public function getClassInitVar($paramLeft = '', $paramRight = '', $var = 'this', $t = "\t\t")
     {
-        $stuParamRight = mb_strtoupper($paramRight);
+        $stuParamRight = \mb_strtoupper($paramRight);
 
-        return "{$t}\${$var}->initVar('{$paramLeft}', XOBJ_DTYPE_{$stuParamRight});\n";
+        return "{$t}\${$var}->initVar('{$paramLeft}', \XOBJ_DTYPE_{$stuParamRight});\n";
     }
 
     /**
@@ -154,7 +154,7 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormElementTray($var, $param1, $param2 = '', $t = "\t\t")
     {
-        return "{$t}\${$var} = new \XoopsFormElementTray({$param1}, '{$param2}' );\n";
+        return "{$t}\${$var} = new \XoopsFormElementTray({$param1}, '{$param2}');\n";
     }
 
     /**
@@ -162,16 +162,16 @@ class ClassXoopsCode
      *
      * @param        $var
      * @param string $param1
-     * @param null $param2
-     * @param bool $isParam
+     * @param null   $param2
+     * @param bool   $isParam
      * @param string $t
      *
-     * @param bool $useParam
+     * @param bool   $useParam
      * @return string
      */
     public function getClassXoopsFormLabel($var, $param1 = '', $param2 = null, $isParam = false, $t = "\t\t", $useParam = false)
     {
-        $label  = 'new \XoopsFormLabel(';
+        $label = 'new \XoopsFormLabel(';
         if (false === $useParam) {
             $params = null != $param2 ? "{$param1}, {$param2}" : $param1;
         } else {
@@ -200,11 +200,11 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormFile($var, $param1, $param2, $param3, $isParam = false, $t = "\t\t")
     {
-        $file = 'new \XoopsFormFile( ';
+        $file = 'new \XoopsFormFile(';
         if (false === $isParam) {
-            $ret = "{$t}\${$var} = {$file}{$param1}, '{$param2}', {$param3} );\n";
+            $ret = "{$t}\${$var} = {$file}{$param1}, '{$param2}', {$param3});\n";
         } else {
-            $ret = "{$file}{$param1}, '{$param2}', {$param3} )";
+            $ret = "{$file}{$param1}, '{$param2}', {$param3})";
         }
 
         return $ret;
@@ -216,28 +216,28 @@ class ClassXoopsCode
      * @param        $var
      * @param        $param1
      * @param        $param2
-     * @param bool $isForm
-     * @param bool $isParam
+     * @param bool   $isForm
+     * @param bool   $isParam
      * @param string $t
      *
-     * @param bool $useParam
+     * @param bool   $useParam
      * @return string
      */
     public function getClassXoopsFormHidden($var, $param1, $param2, $isForm = false, $isParam = false, $t = "\t\t", $useParam = false)
     {
-        $hidden       = 'new \XoopsFormHidden( ';
-        $getVarHidden = Tdmcreate\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param2, true);
+        $hidden       = 'new \XoopsFormHidden(';
+        $getVarHidden = Modulebuilder\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param2, true);
         $ret          = '';
         if (false === $isParam) {
-            $ret .= "{$t}\${$var} = {$hidden}{$param1}, {$getVarHidden} );\n";
+            $ret .= "{$t}\${$var} = {$hidden}{$param1}, {$getVarHidden});\n";
         } else {
             if (false === $isForm) {
-                $ret .= "{$hidden}{$param1}, {$param2} )";
+                $ret .= "{$hidden}{$param1}, {$param2})";
             } else {
                 if (false === $useParam) {
-                    $ret .= "{$hidden}'{$param1}', '{$param2}' )";
+                    $ret .= "{$hidden}'{$param1}', '{$param2}')";
                 } else {
-                    $ret .= "{$hidden}'{$param1}', \${$param2} )";
+                    $ret .= "{$hidden}'{$param1}', \${$param2})";
                 }
             }
         }
@@ -261,11 +261,11 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormText($var, $param1, $param2, $param3, $param4, $param5, $isParam = false, $t = "\t\t")
     {
-        $text = 'new \XoopsFormText( ';
+        $text = 'new \XoopsFormText(';
         if (false === $isParam) {
-            $ret = "{$t}\${$var} = {$text}{$param1}, '{$param2}', {$param3}, {$param4}, \${$param5} );\n";
+            $ret = "{$t}\${$var} = {$text}{$param1}, '{$param2}', {$param3}, {$param4}, \${$param5});\n";
         } else {
-            $ret = "{$text}{$param1}, '{$param2}', {$param3}, {$param4}, \${$param5} )";
+            $ret = "{$text}{$param1}, '{$param2}', {$param3}, {$param4}, \${$param5})";
         }
 
         return $ret;
@@ -286,12 +286,12 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormTextArea($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
     {
-        $area           = 'new \XoopsFormTextArea( ';
-        $getVarTextArea = Tdmcreate\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param2, true);
+        $area           = 'new \XoopsFormTextArea(';
+        $getVarTextArea = Modulebuilder\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param2, true, '', ", 'e'");
         if (false === $isParam) {
-            $ret = "{$t}\${$var} = {$area}{$param1}, '{$param2}', {$getVarTextArea}, {$param3}, {$param4} );\n";
+            $ret = "{$t}\${$var} = {$area}{$param1}, '{$param2}', {$getVarTextArea}, {$param3}, {$param4});\n";
         } else {
-            $ret = "{$area}{$param1}, '{$param2}', {$getVarTextArea}, {$param3}, {$param4} )";
+            $ret = "{$area}{$param1}, '{$param2}', {$getVarTextArea}, {$param3}, {$param4})";
         }
 
         return $ret;
@@ -311,11 +311,11 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormColorPicker($var, $param1, $param2, $param3, $isParam = false, $t = "\t\t")
     {
-        $picker = 'new \XoopsFormColorPicker( ';
+        $picker = 'new \XoopsFormColorPicker(';
         if (false === $isParam) {
-            $ret = "{$t}\${$var} = {$picker}{$param1}, '{$param2}', {$param3} );\n";
+            $ret = "{$t}\${$var} = {$picker}{$param1}, '{$param2}', {$param3});\n";
         } else {
-            $ret = "{$picker}{$param1}, '{$param2}', {$param3} )";
+            $ret = "{$picker}{$param1}, '{$param2}', {$param3})";
         }
 
         return $ret;
@@ -328,20 +328,20 @@ class ClassXoopsCode
      * @param        $param1
      * @param        $param2
      * @param string $param3
-     * @param        $param4
+     * @param        $ccFieldName
      * @param bool   $isParam
      * @param string $t
      *
      * @return string
      */
-    public function getClassXoopsFormSelectUser($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
+    public function getClassXoopsFormSelectUser($var, $param1, $param2, $param3, $ccFieldName, $isParam = false, $t = "\t\t")
     {
-        $user             = 'new \XoopsFormSelectUser( ';
-        $getVarSelectUser = Tdmcreate\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param4, true);
+        $user = 'new \XoopsFormSelectUser(';
+        //$getVarSelectUser = Modulebuilder\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param4, true);
         if (false === $isParam) {
-            $ret = "{$t}\${$var} = {$user}{$param1}, '{$param2}', {$param3}, {$getVarSelectUser} );\n";
+            $ret = "{$t}\${$var} = {$user}{$param1}, '{$param2}', {$param3}, {$ccFieldName});\n";
         } else {
-            $ret = "{$user}{$param1}, '{$param2}', {$param3}, {$getVarSelectUser} )";
+            $ret = "{$user}{$param1}, '{$param2}', {$param3}, {$ccFieldName})";
         }
 
         return $ret;
@@ -362,12 +362,12 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormTextDateSelect($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
     {
-        $tdate                = 'new \XoopsFormTextDateSelect( ';
-        $getVarTextDateSelect = Tdmcreate\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param3, true);
+        $tdate                = 'new \XoopsFormTextDateSelect(';
+        $getVarTextDateSelect = Modulebuilder\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param3, true);
         if (false === $isParam) {
-            $ret = "{$t}\${$var} = {$tdate}{$param1}, '{$param2}', '', {$getVarTextDateSelect} );\n";
+            $ret = "{$t}\${$var} = {$tdate}{$param1}, '{$param2}', '', {$getVarTextDateSelect});\n";
         } else {
-            $ret = "{$tdate}{$param1}, '{$param2}', '', \${$param4} )";
+            $ret = "{$tdate}{$param1}, '{$param2}', '', \${$param4})";
         }
 
         return $ret;
@@ -388,12 +388,12 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormDateTime($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
     {
-        $tdate                = 'new \XoopsFormDateTime( ';
-        $getVarTextDateSelect = Tdmcreate\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param3, true);
+        $tdate                = 'new \XoopsFormDateTime(';
+        $getVarTextDateSelect = Modulebuilder\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param3, true);
         if (false === $isParam) {
-            $ret = "{$t}\${$var} = {$tdate}{$param1}, '{$param2}', '', {$getVarTextDateSelect} );\n";
+            $ret = "{$t}\${$var} = {$tdate}{$param1}, '{$param2}', '', {$getVarTextDateSelect});\n";
         } else {
-            $ret = "{$tdate}{$param1}, '{$param2}', '', \${$param4} )";
+            $ret = "{$tdate}{$param1}, '{$param2}', '', \${$param4})";
         }
 
         return $ret;
@@ -413,7 +413,7 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormEditor($var, $param1, $param2, $param3, $isParam = false, $t = "\t\t")
     {
-        $editor = 'new \XoopsFormEditor( ';
+        $editor = 'new \XoopsFormEditor(';
         if (false === $isParam) {
             $ret = "{$t}\${$var} = {$editor}{$param1}, '{$param2}', \${$param3});\n";
         } else {
@@ -437,7 +437,7 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormCheckBox($var, $param1, $param2, $param3, $isParam = false, $t = "\t\t")
     {
-        $checkBox = 'new \XoopsFormCheckBox( ';
+        $checkBox = 'new \XoopsFormCheckBox(';
         if (false === $isParam) {
             $ret = "{$t}\${$var} = {$checkBox}{$param1}, '{$param2}', {$param3});\n";
         } else {
@@ -461,7 +461,7 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormRadioYN($var, $param1, $param2, $param3, $isParam = false, $t = "\t\t")
     {
-        $radioYN = 'new \XoopsFormRadioYN( ';
+        $radioYN = 'new \XoopsFormRadioYN(';
         if (false === $isParam) {
             $ret = "{$t}\${$var} = {$radioYN}{$param1}, '{$param2}', \${$param3});\n";
         } else {
@@ -485,7 +485,7 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormRadio($var, $param1, $param2, $param3, $isParam = false, $t = "\t\t")
     {
-        $radioYN = 'new \XoopsFormRadio( ';
+        $radioYN = 'new \XoopsFormRadio(';
         if (false === $isParam) {
             $ret = "{$t}\${$var} = {$radioYN}{$param1}, '{$param2}', \${$param3});\n";
         } else {
@@ -512,7 +512,7 @@ class ClassXoopsCode
     public function getClassXoopsFormSelect($var, $param1, $param2, $param3, $param4 = null, $param5 = null, $isParam = false, $t = "\t\t")
     {
         $otherParam = null != $param4 ? ", {$param4}" : (null != $param5 ? ", {$param5}" : '');
-        $select     = 'new \XoopsFormSelect( ';
+        $select     = 'new \XoopsFormSelect(';
         if (false === $isParam) {
             $ret = "{$t}\${$var} = {$select}{$param1}, '{$param2}', \${$param3}{$otherParam});\n";
         } else {
@@ -538,11 +538,11 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormTag($var, $param1, $param2, $param3, $param4, $param5 = 0, $isParam = false, $t = "\t\t")
     {
-        $tag = 'new \XoopsFormTag( ';
+        $tag = 'new \XoopsFormTag(';
         if (false === $isParam) {
-            $ret = "{$t}\${$var} = {$tag}'{$param1}', {$param2}, {$param3}, \${$param4}, {$param5} );\n";
+            $ret = "{$t}\${$var} = {$tag}'{$param1}', {$param2}, {$param3}, \${$param4}, {$param5});\n";
         } else {
-            $ret = "{$tag}'{$param1}', {$param2}, {$param3}, \${$param4}, {$param5} )";
+            $ret = "{$tag}'{$param1}', {$param2}, {$param3}, \${$param4}, {$param5})";
         }
 
         return $ret;
@@ -563,7 +563,7 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormButton($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
     {
-        $button = 'new \XoopsFormButton( ';
+        $button = 'new \XoopsFormButton(';
         if (false === $isParam) {
             $ret = "{$t}\${$var} = {$button}'{$param1}', '{$param2}', {$param3}, '{$param4}');\n";
         } else {
@@ -588,12 +588,12 @@ class ClassXoopsCode
      */
     public function getClassXoopsFormPassword($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
     {
-        $tpassword                = 'new \XoopsFormPassword( ';
-        $getVarPassword = Tdmcreate\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param3, true);
+        $tpassword      = 'new \XoopsFormPassword(';
+        $getVarPassword = Modulebuilder\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param3, true);
         if (false === $isParam) {
-            $ret = "{$t}\${$var} = {$tpassword}{$param1}, '{$param2}', '', {$getVarPassword} );\n";
+            $ret = "{$t}\${$var} = {$tpassword}{$param1}, '{$param2}', '', {$getVarPassword});\n";
         } else {
-            $ret = "{$tpassword}{$param1}, '{$param2}', {$param3}, {$param4} )";
+            $ret = "{$tpassword}{$param1}, '{$param2}', {$param3}, {$param4})";
         }
 
         return $ret;
@@ -616,7 +616,7 @@ class ClassXoopsCode
     public function getClassXoopsFormSelectCountry($var, $param1, $param2, $param3, $param4 = null, $param5 = null, $isParam = false, $t = "\t\t")
     {
         $otherParam = null != $param4 ? ", {$param4}" : (null != $param5 ? ", {$param5}" : '');
-        $select     = 'new \XoopsFormSelectCountry( ';
+        $select     = 'new \XoopsFormSelectCountry(';
         if (false === $isParam) {
             $ret = "{$t}\${$var} = {$select}{$param1}, '{$param2}', \${$param3}{$otherParam});\n";
         } else {
@@ -659,8 +659,8 @@ class ClassXoopsCode
      */
     public function getClassXoopsMakeSelBox($var, $anchor, $param1, $param2, $param3, $param4, $t = '')
     {
-        $getVar = Tdmcreate\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param4, true);
-        $ret    = "{$t}\${$var} = \${$anchor}->makeSelBox( '{$param1}', '{$param2}', '{$param3}', {$getVar}, true );\n";
+        $getVar = Modulebuilder\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param4, true);
+        $ret    = "{$t}\${$var} = \${$anchor}->makeSelBox('{$param1}', '{$param2}', '{$param3}', {$getVar}, true );\n";
 
         return $ret;
     }

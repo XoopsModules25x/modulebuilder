@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace XoopsModules\Tdmcreate\Files\User;
+namespace XoopsModules\Modulebuilder\Files\User;
 
-use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files;
+use XoopsModules\Modulebuilder;
+use XoopsModules\Modulebuilder\Files;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -15,15 +15,15 @@ use XoopsModules\Tdmcreate\Files;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * modulebuilder module.
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @author          Txmod Xoops https://xoops.org
+ *                  Goffy https://myxoops.org
  */
 
 /**
@@ -32,12 +32,28 @@ use XoopsModules\Tdmcreate\Files;
 class UserHeader extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $uxc = null;
+    /**
+     * @var mixed
+     */
+    private $xc = null;
+    /**
+     * @var mixed
+     */
+    private $pc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
+        $this->uxc = Modulebuilder\Files\User\UserXoopsCode::getInstance();
     }
 
     /**
@@ -62,7 +78,7 @@ class UserHeader extends Files\CreateFile
      * @param array  $tables
      * @param string $filename
      */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $table, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -78,49 +94,48 @@ class UserHeader extends Files\CreateFile
      */
     private function getUserHeader($moduleDirname)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uxc              = UserXoopsCode::getInstance();
-        $ret              = $pc->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
-        $ret              .= $pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
-        $ret              .= $xc->getXcEqualsOperator('$moduleDirName', 'basename(__DIR__)');
-        $language         = $this->getLanguage($moduleDirname, 'MA');
-        $ret              .= $uxc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
+        $stuModuleDirname = \mb_strtoupper($moduleDirname);
+        $tables           = $this->getTables();
 
-        $table  = $this->getTable();
-        $tables = $this->getTables();
-        if (is_object($table) && '' != $table->getVar('table_name')) {
-            $ret .= $xc->getXcHelperGetInstance($moduleDirname);
-        }
-        if (is_array($tables)) {
-            foreach (array_keys($tables) as $i) {
+        $ret         = $this->pc->getPhpCodeIncludeDir('\dirname(__DIR__, 2)', 'mainfile');
+        $ret         .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
+        $ret         .= $this->xc->getXcEqualsOperator('$moduleDirName', '\basename(__DIR__)');
+        $ret         .= $this->pc->getPhpCodeCommentLine('Breadcrumbs');
+        $ret         .= $this->pc->getPhpCodeArray('xoBreadcrumbs', null, false, '');
+        $ret         .= $this->xc->getXcHelperGetInstance($moduleDirname);
+        $permissions = 0;
+        $ratings     = 0;
+        if (\is_array($tables)) {
+            foreach (\array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
-                $ret       .= $xc->getXcHandlerLine($tableName);
+                $ret       .= $this->xc->getXcHandlerLine($tableName);
+                if (1 == $tables[$i]->getVar('table_permissions')) {
+                    $permissions = 1;
+                }
+                if (1 == $tables[$i]->getVar('table_rate')) {
+                    $ratings = 1;
+                }
             }
         }
-        $ret .= $pc->getPhpCodeCommentLine('Permission');
-        $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret .= $xc->getXcXoopsHandler('groupperm');
-
-        $condIf   = $xc->getXcEqualsOperator('$groups ', '$xoopsUser->getGroups()', null, "\t");
-        $condElse = $xc->getXcEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS', null, "\t");
-
-        $ret .= $pc->getPhpCodeConditions('is_object($xoopsUser)', '', '', $condIf, $condElse);
-        $ret .= $pc->getPhpCodeCommentLine();
-        $ret .= $xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
-        $ret .= $pc->getPhpCodeCommentLine('Default Css Style');
-        $ret .= $xc->getXcEqualsOperator('$style', "{$stuModuleDirname}_URL . '/assets/css/style.css'");
-        $ret .= $pc->getPhpCodeConditions('!file_exists($style)', '', '', "\treturn false;\n");
-        $ret .= $pc->getPhpCodeCommentLine('Smarty Default');
-        $ret .= $xc->getXcXoopsModuleGetInfo('sysPathIcon16', 'sysicons16');
-        $ret .= $xc->getXcXoopsModuleGetInfo('sysPathIcon32', 'sysicons32');
-        $ret .= $xc->getXcXoopsModuleGetInfo('pathModuleAdmin', 'dirmoduleadmin');
-        $ret .= $xc->getXcXoopsModuleGetInfo('modPathIcon16', 'modicons16');
-        $ret .= $xc->getXcXoopsModuleGetInfo('modPathIcon32', 'modicons16');
-        $ret .= $pc->getPhpCodeCommentLine('Load Languages');
-        $ret .= $xc->getXcXoopsLoadLanguage('main');
-        $ret .= $xc->getXcXoopsLoadLanguage('modinfo');
+        if (1 == $permissions) {
+            $ret .= $this->xc->getXcHandlerLine('permissions');
+        }
+        if (1 == $ratings) {
+            $ret .= $this->xc->getXcHandlerLine('ratings');
+        }
+        $ret .= $this->pc->getPhpCodeCommentLine();
+        $ret .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
+        $ret .= $this->pc->getPhpCodeCommentLine('Default Css Style');
+        $ret .= $this->xc->getXcEqualsOperator('$style', "\\{$stuModuleDirname}_URL . '/assets/css/style.css'");
+        $ret .= $this->pc->getPhpCodeCommentLine('Smarty Default');
+        $ret .= $this->xc->getXcXoopsModuleGetInfo('sysPathIcon16', 'sysicons16');
+        $ret .= $this->xc->getXcXoopsModuleGetInfo('sysPathIcon32', 'sysicons32');
+        $ret .= $this->xc->getXcXoopsModuleGetInfo('pathModuleAdmin', 'dirmoduleadmin');
+        $ret .= $this->xc->getXcXoopsModuleGetInfo('modPathIcon16', 'modicons16');
+        $ret .= $this->xc->getXcXoopsModuleGetInfo('modPathIcon32', 'modicons16');
+        $ret .= $this->pc->getPhpCodeCommentLine('Load Languages');
+        $ret .= $this->xc->getXcXoopsLoadLanguage('main');
+        $ret .= $this->xc->getXcXoopsLoadLanguage('modinfo');
 
         return $ret;
     }
@@ -138,7 +153,7 @@ class UserHeader extends Files\CreateFile
         $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserHeader($moduleDirname);
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }
