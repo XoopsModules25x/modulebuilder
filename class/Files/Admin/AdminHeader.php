@@ -145,6 +145,7 @@ class AdminHeader extends Files\CreateFile
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->xc->getXcEqualsOperator('$adminObject', '\Xmf\Module\Admin::getInstance()');
         $ret            .= $this->getSimpleString("\$style = \\{$stuModuleDirname}_URL . '/assets/css/admin/style.css';");
+        $ret            .= $this->xc->getXcXoThemeAddStylesheet('style');
 
         return $ret;
     }
