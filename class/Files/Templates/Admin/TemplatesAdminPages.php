@@ -253,7 +253,7 @@ class TemplatesAdminPages extends Files\CreateFile
         $tbody = $this->getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language);
         $tbody .= $this->getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields);
 
-        return $this->hc->getHtmlTable($tbody, 'table table-bordered', "\t");
+        return $this->hc->getHtmlTable($tbody, 'outer', "\t");
     }
 
     /**
