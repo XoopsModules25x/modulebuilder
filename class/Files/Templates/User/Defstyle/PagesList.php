@@ -93,7 +93,7 @@ class PagesList extends Files\CreateFile
      * @param        $language
      * @return string
      */
-    private function getTemplatesUserPagesListPanel(string $moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserPagesListPanel(string $moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language): string
     {
         $fields  = $this->getTableFields($tableMid, $tableId);
         $ret     = '';
@@ -280,7 +280,7 @@ class PagesList extends Files\CreateFile
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         $module = $this->getModule();
         $table  = $this->getTable();

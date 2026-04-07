@@ -84,7 +84,7 @@ class UserPrint extends Files\CreateFile
      *
      * @return string
      */
-    public function getUserPrint(string $moduleDirname, string $language)
+    public function getUserPrint(string $moduleDirname, string $language, int $tablePermissions)
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $table            = $this->getTable();
@@ -122,15 +122,6 @@ class UserPrint extends Files\CreateFile
         $ret            .= $this->pc->getPhpCodeCommentLine('Get Instance of Handler');
         $ret            .= $this->xc->getXcHandlerLine($tableName);
 
-        $ret            .= $this->getSimpleString('$currentuid = 0;');
-        $condIf         = $this->getSimpleString('$currentuid = $xoopsUser->uid();', "\t");
-        $ret            .= $this->pc->getPhpCodeConditions('isset($xoopsUser) && \is_object($xoopsUser)', '', '', $condIf);
-        $ret            .= $this->xc->getXcXoopsHandler('groupperm');
-        $ret            .= $this->xc->getXcXoopsHandler('member');
-        $condIf         = $this->getSimpleString('$my_group_ids = [\XOOPS_GROUP_ANONYMOUS];', "\t");
-        $condElse       = $this->getSimpleString('$my_group_ids = $memberHandler->getGroupsByUser($currentuid);', "\t");
-        $ret            .= $this->pc->getPhpCodeConditions('0', ' === ', '$currentuid', $condIf, $condElse);
-
         $ret            .= $this->pc->getPhpCodeCommentLine('Verify that the article is published');
         if (false !== mb_strpos($fieldName, 'published')) {
             $ret            .= $this->pc->getPhpCodeCommentLine('Not yet', $fieldName);
@@ -156,11 +147,21 @@ class UserPrint extends Files\CreateFile
         $tablenameObj   = $this->pc->getPhpCodeIsobject($tableName . 'Obj');
         $redirectError  = $this->xc->getXcRedirectHeader($tableName, '', '3', "{$language}INVALID_PARAM", true,  "\t");
         $ret            .= $this->pc->getPhpCodeConditions('!' . $tablenameObj, '', '', $redirectError);
-        $gperm          = $this->xc->getXcCheckRight('!$grouppermHandler', "{$moduleDirname}_view_{$tableName}", "\${$tableName}Obj->getVar('{$fieldId}')", '$my_group_ids', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
-        $ret            .= $this->pc->getPhpCodeCommentLine('Verify permissions');
-        $noPerm         = $this->xc->getXcRedirectHeader("\\{$stuModuleDirname}_URL . '/index.php'", '', '3', '\_NOPERM', false, "\t");
-        $noPerm         .= $this->getSimpleString('exit();', "\t");
-        $ret            .= $this->pc->getPhpCodeConditions($gperm, '', '', $noPerm);
+        if (1 === $tablePermissions) {
+            $ret .= $this->getSimpleString('$currentuid = 0;');
+            $condIf = $this->getSimpleString('$currentuid = $xoopsUser->uid();', "\t");
+            $ret .= $this->pc->getPhpCodeConditions('isset($xoopsUser) && \is_object($xoopsUser)', '', '', $condIf);
+            $ret .= $this->xc->getXcXoopsHandler('groupperm');
+            $ret .= $this->xc->getXcXoopsHandler('member');
+            $condIf = $this->getSimpleString('$my_group_ids = [\XOOPS_GROUP_ANONYMOUS];', "\t");
+            $condElse = $this->getSimpleString('$my_group_ids = $memberHandler->getGroupsByUser($currentuid);', "\t");
+            $ret .= $this->pc->getPhpCodeConditions('0', ' === ', '$currentuid', $condIf, $condElse);
+            $gperm = $this->xc->getXcCheckRight('!$grouppermHandler', "{$moduleDirname}_view_{$tableName}", "\${$tableName}Obj->getVar('{$fieldId}')", '$my_group_ids', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
+            $ret .= $this->pc->getPhpCodeCommentLine('Verify permissions');
+            $noPerm = $this->xc->getXcRedirectHeader("\\{$stuModuleDirname}_URL . '/index.php'", '', '3', '\_NOPERM', false, "\t");
+            $noPerm .= $this->getSimpleString('exit();', "\t");
+            $ret .= $this->pc->getPhpCodeConditions($gperm, '', '', $noPerm);
+        }
         $ret            .= $this->xc->getXcGetValues($tableName, $tableSoleName . 'List', '', true, '', 'Obj');
         $ret            .= $this->xc->getXcXoopsTplAppend($tableName . '_list', '$' . $tableSoleName . 'List');
         $ret            .= $this->pc->getPhpCodeBlankLine();
@@ -179,12 +180,14 @@ class UserPrint extends Files\CreateFile
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module);
-        $content       .= $this->getUserPrint($moduleDirname, $language);
+        $module           = $this->getModule();
+        $filename         = $this->getFileName();
+        $table            = $this->getTable();
+        $tablePermissions = (int)$table->getVar('table_permissions');
+        $moduleDirname    = $module->getVar('mod_dirname');
+        $language         = $this->getLanguage($moduleDirname, 'MA');
+        $content          = $this->getHeaderFilesComments($module);
+        $content          .= $this->getUserPrint($moduleDirname, $language, $tablePermissions);
 
         $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 

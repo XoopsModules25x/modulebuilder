@@ -31,10 +31,6 @@ use XoopsModules\Modulebuilder\Files;
  */
 class LanguageHelp extends Files\CreateFile
 {
-    /**
-     * @var mixed
-     */
-    //private $ld = null;
 
     /**
      * @public function constructor
@@ -42,7 +38,6 @@ class LanguageHelp extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        //$this->ld = LanguageDefines::getInstance();
     }
 
     /**

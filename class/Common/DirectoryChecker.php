@@ -104,7 +104,11 @@ class DirectoryChecker
         $target = \str_replace('..', '', $target);
 
         // https://www.php.net/manual/en/function.mkdir.php
-        return \is_dir($target) || (self::createDirectory(\dirname($target), $mode) && !\mkdir($target, $mode) && !\is_dir($target));
+        return \is_dir($target)
+                    || (
+                        self::createDirectory(\dirname($target), $mode)
+                        && (\mkdir($target, $mode) || \is_dir($target))
+                    );
     }
 
     /**
@@ -137,22 +141,20 @@ switch ($op) {
         if (!\Xmf\Request::hasVar('path', 'POST') || !\Xmf\Request::hasVar('redirect', 'POST')) {
             break;
         }
-        $path = $_POST['path'];
-        $redirect = $_POST['redirect'];
+        $path = \Xmf\Request::getString('path', 'POST');
+        $redirect = \Xmf\Request::getString('redirect', 'POST');
         $msg = DirectoryChecker::createDirectory($path) ? \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_DIRCREATED') : \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_DIRNOTCREATED');
         \redirect_header($redirect, 2, $msg . ': ' . $path);
         break;
     case 'setdirperm':
-        if (\Xmf\Request::hasVar('path', 'POST')) {
-            $path = $_POST['path'];
+        if (!\Xmf\Request::hasVar('path', 'POST') || !\Xmf\Request::hasVar('redirect', 'POST') || !\Xmf\Request::hasVar('mode', 'POST')) {
+            break;
         }
-        if (\Xmf\Request::hasVar('redirect', 'POST')) {
-            $redirect = $_POST['redirect'];
-        }
-        if (\Xmf\Request::hasVar('mode', 'POST')) {
-            $mode = $_POST['mode'];
-        }
-        $msg = DirectoryChecker::setDirectoryPermissions($path, (int)$mode) ? \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMSET') : \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMNOTSET');
+        $path = \Xmf\Request::getString('path', 'POST');
+        $redirect = \Xmf\Request::getString('redirect', 'POST');
+        $mode = \Xmf\Request::getInt('mode', 'POST');
+        $msg = DirectoryChecker::setDirectoryPermissions($path, $mode) ? \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMSET') : \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMNOTSET');
+
         \redirect_header($redirect, 2, $msg . ': ' . $path);
         break;
 }

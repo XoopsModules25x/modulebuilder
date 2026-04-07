@@ -166,7 +166,7 @@ class UserPages extends Files\CreateFile
         $ccFieldReads     = $this->getCamelCase($fieldReads, false, true);
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
 
-        $ret = $this->uxc->getUserBreadcrumbs($language, $tableName, 'list', '', "\t\t");
+        $ret = $this->uxc->getUserBreadcrumbs($language, $tableName, 'list', '', $t);
         if ($tableRate) {
             $varRate = '$ratingbars';
             $ret .= $this->xc->getXcEqualsOperator($varRate, '(int)' . $this->xc->getXcGetConfig('ratingbars'),'', $t);
@@ -413,7 +413,7 @@ class UserPages extends Files\CreateFile
      */
     public function getUserPagesNew($tableName, $tableSoleName, $tablePermissions, $language, string $t = '')
     {
-        $ret    = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'add', '', "\t\t");
+        $ret    = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'add', '', $t);
         if (1 == $tablePermissions) {
             $ret    .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
             $contIf = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '\_NOPERM', true, $t . "\t");
@@ -436,7 +436,7 @@ class UserPages extends Files\CreateFile
      */
     public function getUserPagesEdit($tableName, $tableSoleName, $tablePermissions, $fieldId, $language, string $t = '')
     {
-        $ret       = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'edit', '', "\t\t");
+        $ret       = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'edit', '', $t);
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         if (1 == $tablePermissions) {
             $ret       .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
@@ -463,7 +463,7 @@ class UserPages extends Files\CreateFile
      */
     public function getUserPagesClone($tableName, $tableSoleName, $tablePermissions, $fieldId, $language, string $t = '')
     {
-        $ret       = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'clone', '', "\t\t");
+        $ret       = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'clone', '', $t);
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         if (1 == $tablePermissions) {
             $ret       .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
@@ -494,7 +494,7 @@ class UserPages extends Files\CreateFile
      */
     private function getUserPagesDelete($tableName, $tableSoleName, $tablePermissions, $language, $fieldId, $fieldMain, $tableNotifications, string $t = '')
     {
-        $ret       = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'delete', '', "\t\t");
+        $ret       = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'delete', '', $t);
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         if (1 == $tablePermissions) {
             $ret       .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
@@ -526,7 +526,7 @@ class UserPages extends Files\CreateFile
     {
         $ccFieldId   = $this->getCamelCase($fieldId, false, true);
         $ccFieldMain = $this->getCamelCase($fieldMain, false, true);
-        $ret    = $this->uxc->getUserBreadcrumbs($language, '', 'broken', '', "\t\t");
+        $ret    = $this->uxc->getUserBreadcrumbs($language, '', 'broken', '', $t);
         $ret    .= $this->pc->getPhpCodeCommentLine('Check params', '', $t);
         $contIf = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, "{$language}INVALID_PARAM", true, $t . "\t");
         $ret    .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' == ', '0', $contIf, false, $t);
@@ -562,7 +562,7 @@ class UserPages extends Files\CreateFile
         $htmlErrors   = $this->xc->getXcHtmlErrors($tableName, true);
         $internalElse = $this->xc->getXcXoopsTplAssign('error', $htmlErrors, true, $t . "\t\t");
         $condition    .= $this->pc->getPhpCodeConditions($insert, '', '', $contInsert, $internalElse, $t . "\t");
-        $mainElse     = $this->xc->getXcXoopsConfirm($tableName, $language, $fieldId, $fieldMain, 'broken', $t . "\t");
+        $mainElse     = $this->xc->getXcXoopsConfirm($language, $fieldId, $fieldMain, 'broken', $t . "\t");
         $ret          .= $this->pc->getPhpCodeConditions($isset, ' && ', "1 == \${$reqOk}", $condition, $mainElse, $t);
 
         return $ret;

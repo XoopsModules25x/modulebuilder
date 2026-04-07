@@ -93,10 +93,10 @@ class Breadcrumbs extends Files\CreateFile
         $moduleDirname    = $module->getVar('mod_dirname');
         $stuModuleDirname = \strtoupper($moduleDirname);
 
-        $title      = $this->sc->getSmartyDoubleVar('itm', 'title','','','""|escape:"html"');
-        $title2     = $this->sc->getSmartyDoubleVar('itm', 'title','','','""|escape:"htmlattr"');
-        $titleElse  = $this->sc->getSmartyDoubleVar('itm', 'title', "\t\t\t", "\n", '""|escape:"html"');
-        $link       = $this->sc->getSmartyDoubleVar('itm', 'link','','','""|escape:"htmlattr"');
+        $title      = $this->sc->getSmartyDoubleVar('itm', 'title','','',"''", "'html'");
+        $title2     = $this->sc->getSmartyDoubleVar('itm', 'title','','',"''", "'htmlattr'");
+        $titleElse  = $this->sc->getSmartyDoubleVar('itm', 'title', "\t\t\t", "\n", "''", "'html'");
+        $link       = $this->sc->getSmartyDoubleVar('itm', 'link','','',"''", "'htmlattr'");
         $glyph      = $this->hc->getHtmlTag('i', ['class' => 'glyphicon glyphicon-home fa fa-home'], '', false, '', '');
         $langHome   = $this->sc->getSmartyConst('_MA_' . $stuModuleDirname, '_HOME');
         $anchor     = $this->hc->getHtmlAnchor("<{xoAppUrl 'index.php'}>", $glyph, $langHome);

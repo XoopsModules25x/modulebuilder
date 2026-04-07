@@ -134,9 +134,10 @@ class UserPdf extends Files\CreateFile
      * @param $tableName
      * @param $tableSolename
      * @param $fields
+     * @param $tablePermissions
      * @return string
      */
-    public function getUserPdfTcpdf($moduleDirname, $tableName, $tableSolename, $fields)
+    public function getUserPdfTcpdf($moduleDirname, $tableName, $tableSolename, $fields, $tablePermissions)
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
 
@@ -144,21 +145,22 @@ class UserPdf extends Files\CreateFile
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $fieldMain = $this->xc->getXcTableFieldMain($fields);
 
-        $ret      = $this->pc->getPhpCodeCommentLine('Check permissions');
-        $ret      .= $this->getSimpleString('$currentuid = 0;');
-        $condIf   = $this->getSimpleString('$currentuid = $xoopsUser->uid();', "\t");
-        $ret      .= $this->pc->getPhpCodeConditions('isset($xoopsUser) && \is_object($xoopsUser)', '', '', $condIf);
-        $ret      .= $this->xc->getXcXoopsHandler('groupperm');
-        $ret      .= $this->xc->getXcXoopsHandler('member');
-        $condIf   = $this->getSimpleString('$my_group_ids = [\XOOPS_GROUP_ANONYMOUS];', "\t");
-        $condElse = $this->getSimpleString('$my_group_ids = $memberHandler->getGroupsByUser($currentuid);', "\t");
-        $ret      .= $this->pc->getPhpCodeConditions('0', ' === ', '$currentuid', $condIf, $condElse);
-        $gperm    = $this->xc->getXcCheckRight('!$grouppermHandler', "{$moduleDirname}_view_{$tableName}", "\${$ccFieldId}", '$my_group_ids', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
-        $ret      .= $this->pc->getPhpCodeCommentLine('Verify permissions');
-        $noPerm   = $this->xc->getXcRedirectHeader("\\{$stuModuleDirname}_URL . '/index.php'", '', '3', '\_NOPERM', false, "\t");
-        $noPerm   .= $this->getSimpleString('exit();', "\t");
-        $ret      .= $this->pc->getPhpCodeConditions($gperm, '', '', $noPerm);
-
+        if (1 === $tablePermissions) {
+            $ret = $this->pc->getPhpCodeCommentLine('Check permissions');
+            $ret .= $this->getSimpleString('$currentuid = 0;');
+            $condIf = $this->getSimpleString('$currentuid = $xoopsUser->uid();', "\t");
+            $ret .= $this->pc->getPhpCodeConditions('isset($xoopsUser) && \is_object($xoopsUser)', '', '', $condIf);
+            $ret .= $this->xc->getXcXoopsHandler('groupperm');
+            $ret .= $this->xc->getXcXoopsHandler('member');
+            $condIf = $this->getSimpleString('$my_group_ids = [\XOOPS_GROUP_ANONYMOUS];', "\t");
+            $condElse = $this->getSimpleString('$my_group_ids = $memberHandler->getGroupsByUser($currentuid);', "\t");
+            $ret .= $this->pc->getPhpCodeConditions('0', ' === ', '$currentuid', $condIf, $condElse);
+            $gperm = $this->xc->getXcCheckRight('!$grouppermHandler', "{$moduleDirname}_view_{$tableName}", "\${$ccFieldId}", '$my_group_ids', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
+            $ret .= $this->pc->getPhpCodeCommentLine('Verify permissions');
+            $noPerm = $this->xc->getXcRedirectHeader("\\{$stuModuleDirname}_URL . '/index.php'", '', '3', '\_NOPERM', false, "\t");
+            $noPerm .= $this->getSimpleString('exit();', "\t");
+            $ret .= $this->pc->getPhpCodeConditions($gperm, '', '', $noPerm);
+        }
         $ret .= $this->pc->getPhpCodeCommentLine('Set defaults');
         $ret .= $this->xc->getXcEqualsOperator('$pdfFilename', "'$tableName.pdf'");
         $ret .= $this->xc->getXcEqualsOperator('$content    ', "''");
@@ -284,20 +286,21 @@ class UserPdf extends Files\CreateFile
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $table         = $this->getTable();
-        $filename      = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tableId       = $table->getVar('table_id');
-        $tableMid      = $table->getVar('table_mid');
-        $tableName     = $table->getVar('table_name');
-        $tableSolename = $table->getVar('table_solename');
-        $fields        = $this->getTableFields($tableMid, $tableId);
-        $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module);
-        $content       .= $this->getUserPdfHeader($moduleDirname, $tableName, $fields, $language);
-        $content       .= $this->getUserPdfTcpdf($moduleDirname, $tableName, $tableSolename, $fields);
-        $content       .= $this->getUserPdfFooter($moduleDirname, $tableName);
+        $module           = $this->getModule();
+        $table            = $this->getTable();
+        $filename         = $this->getFileName();
+        $moduleDirname    = $module->getVar('mod_dirname');
+        $tableId          = $table->getVar('table_id');
+        $tableMid         = $table->getVar('table_mid');
+        $tableName        = $table->getVar('table_name');
+        $tableSolename    = $table->getVar('table_solename');
+        $tablePermissions = (int)$table->getVar('table_permissions');
+        $fields           = $this->getTableFields($tableMid, $tableId);
+        $language         = $this->getLanguage($moduleDirname, 'MA');
+        $content          = $this->getHeaderFilesComments($module);
+        $content          .= $this->getUserPdfHeader($moduleDirname, $tableName, $fields, $language);
+        $content          .= $this->getUserPdfTcpdf($moduleDirname, $tableName, $tableSolename, $fields, $tablePermissions);
+        $content          .= $this->getUserPdfFooter($moduleDirname, $tableName);
 
         $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 

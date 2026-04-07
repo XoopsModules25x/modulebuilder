@@ -119,12 +119,12 @@ class TemplatesAdminBroken extends Files\CreateFile
     private function getTemplatesAdminBrokenTableTBody(string $tableName, $tableSoleName)
     {
         $td        = '';
-        $doubleKey = $this->sc->getSmartyDoubleVar($tableSoleName, 'key', '', '', "''|escape:'htmlattr'");
-        $doubleVal = $this->sc->getSmartyDoubleVar($tableSoleName, 'keyval', '', '', "''|escape:'htmlattr'");
+        $doubleKey = $this->sc->getSmartyDoubleVar($tableSoleName, 'key', '', '', "''", "'htmlattr'");
+        $doubleVal = $this->sc->getSmartyDoubleVar($tableSoleName, 'keyval', '', '', "''", "'htmlattr'");
 
-        $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'table', '', '', "''|escape:'html'");
+        $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'table', '', '', "''", "'html'");
         $td      .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t\t");
-        $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'main', '', '', "''|escape:'html'");
+        $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'main', '', '', "''", "'html'");
         $td      .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t\t");
         $lang    = $this->sc->getSmartyConst('', '_EDIT');
         $src     = $this->sc->getSmartyNoSimbol("xoModuleIcons16 'edit.png'");

@@ -340,12 +340,12 @@ class ClassFiles extends Files\CreateFile
      * @private function getPermissionsInForm
      *
      * @param string $moduleDirname
-     * @param string $fieldId
+     * @param string|null $fieldId
      *
      * @param $tableName
      * @return string
      */
-    private function getPermissionsInForm(string $moduleDirname, string $fieldId, $tableName)
+    private function getPermissionsInForm(string $moduleDirname, ?string $fieldId, $tableName)
     {
         $permissionApprove = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_APPROVE');
         $permissionSubmit  = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_SUBMIT');

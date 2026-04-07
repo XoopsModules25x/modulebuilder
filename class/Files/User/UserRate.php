@@ -254,7 +254,7 @@ class UserRate extends Files\CreateFile
                 $sql .= $this->getSimpleString(") r ON r.rate_itemid = t." . $fieldId . " and r.rate_source = ' . \$source . '", $t . "\t\t\t");
                 $sql .= $this->getSimpleString('SET', $t . "\t\t\t");
                 $sql .= $this->getSimpleString('t.' . $fieldVotes . ' = COALESCE(r.votes, 0),', $t . "\t\t\t\t");
-                $sql .= $this->getSimpleString('t.' . $fieldRatings . ' = COALESCE(r.avg_rating, 0),', $t . "\t\t\t\t");
+                $sql .= $this->getSimpleString('t.' . $fieldRatings . ' = COALESCE(r.avg_rating, 0)', $t . "\t\t\t\t");
                 $sql .= $this->getSimpleString("WHERE t." . $fieldId . " = ' . \$itemid;", $t . "\t\t\t");
                 $contIfInt = $sql;
 

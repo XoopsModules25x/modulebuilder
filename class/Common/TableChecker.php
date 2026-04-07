@@ -76,7 +76,7 @@ class TableChecker extends \XoopsObject
                 if ($this::CHECKTYPE_UPDATE == $this->checktype || $this::CHECKTYPE_UPDATE_REPORT == $this->checktype) {
                     // create new table
                     $sql = $tabledef['sql'];
-                    if ($this->result = $GLOBALS['xoopsDB']->queryF($sql)) {
+                    if ($GLOBALS['xoopsDB']->queryF($sql)) {
                         $this->result[] = 'Table created:' . $table;
                     } else {
                         \xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);

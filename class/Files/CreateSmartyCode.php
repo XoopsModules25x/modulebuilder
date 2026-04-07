@@ -143,13 +143,17 @@ class CreateSmartyCode
      * @param string $t
      * @param string $n
      * @param string $default
+     * @param string $escape
      * @return string
      */
-    public function getSmartySingleVar(string $var, string $t = '', string $n = '', string $default = 'false')
+    public function getSmartySingleVar(string $var, string $t = '', string $n = '', string $default = 'false', string $escape = '')
     {
         $ret = "{$t}<{\${$var}";
         if ('' !== $default) {
             $ret .= '|default:' . $default;
+        }
+        if ('' !== $escape) {
+            $ret .= '|escape:' . $escape;
         }
         $ret .= "}>{$n}";
 
@@ -162,11 +166,18 @@ class CreateSmartyCode
      * @param string $rightVar
      * @param string $t
      * @param string $n
+     * @param string $default
+     * @param string $escape
      * @return string
      */
-    public function getSmartyDoubleVar(string $leftVar, string $rightVar, string $t = '', string $n = '', $default = 'false')
+    public function getSmartyDoubleVar(string $leftVar, string $rightVar, string $t = '', string $n = '', string $default = 'false', string $escape = '')
     {
-        return "{$t}<{\${$leftVar}.{$rightVar}|default:{$default}}>{$n}";
+        $ret = "{$t}<{\${$leftVar}.{$rightVar}|default:{$default}";
+        if ('' !== $escape) {
+            $ret .= '|escape:' . $escape;
+        }
+        $ret .= "}>{$n}";
+        return $ret;
     }
 
     /**

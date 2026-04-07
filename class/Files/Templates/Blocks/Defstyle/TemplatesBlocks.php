@@ -148,19 +148,19 @@ class TemplatesBlocks extends Files\CreateFile
                             break;
                         case Constants::FIELD_ELE_IMAGELIST:
                             $src = $this->sc->getSmartyNoSimbol('xoModuleIcons32');
-                            $src .= $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''|escape:'html'");
+                            $src .= $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'html'");
                             $img = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
                             $td  .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t");
                             break;
                         case Constants::FIELD_ELE_UPLOADIMAGE:
-                            $single = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url', '', '', "''|escape:'htmlattr'");
-                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''|escape:'html'");
+                            $single = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url', '', '', "''", "'htmlattr'");
+                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'html'");
                             $img    = $this->hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName], '', true, '', '');
                             $td     .= $this->hc->getHtmlTableData($img, 'center', '', "\t\t\t");
                             break;
                         case Constants::FIELD_ELE_TEXTAREA:
                         case Constants::FIELD_ELE_DHTMLTEXTAREA:
-                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short', '', '', "''|escape:'html'");
+                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short', '', '', "''", "'html'");
                             $td     .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t");
                             break;
                         case Constants::FIELD_ELE_SELECTSTATUS:
@@ -169,12 +169,12 @@ class TemplatesBlocks extends Files\CreateFile
                         case Constants::FIELD_ELE_SELECTUSER:
                         case Constants::FIELD_ELE_DATETIME:
                         case Constants::FIELD_ELE_TEXTDATESELECT:
-                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text', '', '', "''|escape:'html'");
+                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text', '', '', "''", "'html'");
                             $td     .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t");
                             break;
                         default:
                             if (0 != $f) {
-                                $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''|escape:'html'");
+                                $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'html'");
                                 $td     .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t");
                             }
                             break;
@@ -196,7 +196,7 @@ class TemplatesBlocks extends Files\CreateFile
         // $td      .= $this->hc->getHtmlTag('td', ['class' => 'center'], "\n" . $anchor . "\t\t\t", false, "\t\t\t");
         $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'id');
         $lang    = $this->sc->getSmartyConst($language, $stuTableSoleName . '_GOTO|escape:"htmlattr"');
-        $single = $this->sc->getSmartySingleVar($moduleDirname . '_url', '', '', "''|escape:'htmlattr'");
+        $single = $this->sc->getSmartySingleVar($moduleDirname . '_url', '', '', "''", "'htmlattr'");
         $anchor  = $this->hc->getHtmlAnchor($single . '/' . $tableName . ".php?op=show&amp;{$fieldId}=" . $double, $lang, $lang);
         $td      .= $this->hc->getHtmlTableData($anchor, 'center', '', "\t\t\t");
         $cycle   = $this->sc->getSmartyNoSimbol('cycle values="odd, even"');

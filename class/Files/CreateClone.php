@@ -39,8 +39,14 @@ class CreateClone
     {
         // open the source directory
         $dir = \opendir($src_path);
+        if (false === $dir) {
+            throw new \RuntimeException("Unable to open source directory: {$src_path}");
+        }
         // Make the destination directory if not exist
-        @\mkdir($dst_path);
+        if (!\is_dir($dst_path) && !\mkdir($dst_path, 0755) && !\is_dir($dst_path)) {
+            throw new \RuntimeException("Unable to create destination directory: {$dst_path}");
+        }
+
         // Loop through the files in source directory
         while ($file = \readdir($dir)) {
             if (($file != '.') && ($file != '..')) {

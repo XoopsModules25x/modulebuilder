@@ -179,7 +179,7 @@ class CreateStructure
      *
      * @return bool
      */
-    public function isDirEmpty(string $dir)
+    public function isDirEmpty(string $dir): bool
     {
         $handle = \opendir($dir);
         if (false === $handle) {
@@ -197,13 +197,13 @@ class CreateStructure
     }
 
     /**
-     * @public function addFolderPath
+     * @private function addFolderPath
      *
      * @param string $folderName
      * @param bool|string $fileName
      * @return string
      */
-    private function addFolderPath(string $folderName, $fileName = false)
+    private function addFolderPath(string $folderName, $fileName = false): string
     {
         $this->setFolderName($folderName);
         if ($fileName) {

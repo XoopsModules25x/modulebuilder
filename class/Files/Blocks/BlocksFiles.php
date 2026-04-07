@@ -157,8 +157,8 @@ class BlocksFiles extends Files\CreateFile
                 }
             }
             if ('' !== $fieldStatus) {
-                $constant = $this->xc->getXcGetConstants('STATUS_OFFLINE');
-                $crit = $this->xc->getXcCriteria('', "'{$fieldStatus}'", $constant, "'>'", true);
+                $constant = $this->xc->getXcGetConstants('STATUS_APPROVED');
+                $crit = $this->xc->getXcCriteria('', "'{$fieldStatus}'", $constant, "'='", true);
                 $func .= $this->pc->getPhpCodeCommentLine("Criteria for status field",'',"\t");
                 $func .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t");
                 $func .= $this->pc->getPhpCodeBlankLine();

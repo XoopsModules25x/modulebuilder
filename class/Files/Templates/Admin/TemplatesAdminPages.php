@@ -155,7 +155,7 @@ class TemplatesAdminPages extends Files\CreateFile
                 switch ($fieldElement) {
                     case Constants::FIELD_ELE_TEXTAREA:
                     case Constants::FIELD_ELE_DHTMLTEXTAREA:
-                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short', '', '', "''|escape:'html'");
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short', '', '', "''", "'html'");
                         $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
                         break;
                     case Constants::FIELD_ELE_CHECKBOX:
@@ -174,20 +174,20 @@ class TemplatesAdminPages extends Files\CreateFile
                         break;
                     case Constants::FIELD_ELE_IMAGELIST:
                         $src = $this->sc->getSmartyNoSimbol('xoModuleIcons32');
-                        $src .= $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''|escape:'htmlattr'");
+                        $src .= $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'htmlattr'");
                         $img = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'','');
                         $td  .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
                         break;
                     case Constants::FIELD_ELE_UPLOADIMAGE:
-                        $single = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url','','',"''|escape:'htmlattr'");
-                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName,'','',"''|escape:'htmlattr'");
+                        $single = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url','','',"''", "'htmlattr'");
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName,'','',"''", "'htmlattr'");
                         $img    = $this->hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName, 'style' => 'max-width:100px'], '', true, '', '');
                         $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
                         break;
                     case Constants::FIELD_ELE_SELECTSTATUS:
-                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, 'status', '', '', "''|escape:'html'");
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, 'status', '', '', "''", "'html'");
                         $src    = $this->sc->getSmartyNoSimbol('$modPathIcon16') . 'status' . $double . '.png';
-                        $imgAlt = $this->sc->getSmartyDoubleVar($tableSoleName, 'status_text', '', '', "''|escape:'html'");
+                        $imgAlt = $this->sc->getSmartyDoubleVar($tableSoleName, 'status_text', '', '', "''", "'html'");
                         $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $imgAlt, 'title' => $imgAlt], '', true,'','');
                         $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
                         break;
@@ -196,12 +196,12 @@ class TemplatesAdminPages extends Files\CreateFile
                     case Constants::FIELD_ELE_DATETIME:
                     case Constants::FIELD_ELE_RADIO_ONOFFLINE:
                     case Constants::FIELD_ELE_TEXTDATESELECT:
-                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text', '', '', "''|escape:'html'");
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text', '', '', "''", "'html'");
                         $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
                         break;
                     default:
                         if (0 != $f) {
-                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''|escape:'html'");
+                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'html'");
                             $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
                         }
                         break;
