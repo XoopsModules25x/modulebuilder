@@ -60,9 +60,9 @@ class CreateTableFields extends Files\CreateAbstractClass
      *
      * @param string $sort
      * @param string $order
-     * @return mixed
+     * @return array
      */
-    public function getTableTables($mId, $sort = 'table_id ASC, table_name', $order = 'ASC')
+    public function getTableTables($mId, string $sort = 'table_id ASC, table_name', string $order = 'ASC')
     {
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('table_mid', $mId)); // $mId = module Id
@@ -82,9 +82,9 @@ class CreateTableFields extends Files\CreateAbstractClass
      *
      * @param string $sort
      * @param string $order
-     * @return mixed
+     * @return array
      */
-    public function getTableFields($mId, $tId, $sort = 'field_order ASC, field_id', $order = 'ASC')
+    public function getTableFields($mId, $tId, string $sort = 'field_order ASC, field_id', string $order = 'ASC')
     {
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('field_mid', $mId)); // $mId = module Id
@@ -105,9 +105,9 @@ class CreateTableFields extends Files\CreateAbstractClass
      *
      * @param string $sort
      * @param string $order
-     * @return mixed
+     * @return array
      */
-    public function getTableFieldelements($mId = null, $tId = null, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
+    public function getTableFieldelements($mId = null, $tId = null, string $sort = 'fieldelement_id ASC, fieldelement_name', string $order = 'ASC')
     {
         $criteria = new \CriteriaCompo();
         if (null != $mId) {
@@ -133,9 +133,9 @@ class CreateTableFields extends Files\CreateAbstractClass
      *
      * @param string $sort
      * @param string $order
-     * @return mixed
+     * @return array
      */
-    public function getTableMorefiles($mId, $sort = 'file_id ASC, file_name', $order = 'ASC')
+    public function getTableMorefiles($mId, string $sort = 'file_id ASC, file_name', string $order = 'ASC')
     {
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('file_mid', $mId)); // $mId = module Id

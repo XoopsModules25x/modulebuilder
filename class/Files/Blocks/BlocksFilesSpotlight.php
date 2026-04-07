@@ -3,7 +3,10 @@
 namespace XoopsModules\Modulebuilder\Files\Blocks;
 
 use XoopsModules\Modulebuilder;
-use XoopsModules\Modulebuilder\Files;
+use XoopsModules\Modulebuilder\{
+    Files,
+    Constants
+};
 
 
 /*
@@ -46,7 +49,6 @@ class BlocksFilesSpotlight extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -57,8 +59,8 @@ class BlocksFilesSpotlight extends Files\CreateFile
 
         /**
      * @static function getInstance
-     * @param null
-     * @return false|BlocksFiles|BlocksFilesSpotlight
+     *
+     * @return BlocksFilesSpotlight|false
      */
     public static function getInstance()
     {
@@ -72,7 +74,7 @@ class BlocksFilesSpotlight extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param mixed  $table
      * @param        $filename
      */
@@ -97,15 +99,27 @@ class BlocksFilesSpotlight extends Files\CreateFile
         $ucfTableName     = \ucfirst($tableName);
         $critName         = 'cr' . $ucfTableName;
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
+        $ucfModuleDirname = \ucfirst($moduleDirname);
+
+        $configMaxchar = 0;
+        foreach (\array_keys($fields) as $f) {
+            $fieldElement = $fields[$f]->getVar('field_element');
+            if (Constants::FIELD_ELE_TEXTAREA == $fieldElement || Constants::FIELD_ELE_DHTMLTEXTAREA == $fieldElement) {
+                $configMaxchar = 1;
+            }
+        }
 
         $ret  = $this->pc->getPhpCodeCommentMultiLine(['Function' => 'show block', '@param  $options' => '', '@return' => 'array']);
 
         //$func .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', '',"\t");
         $func = $this->xc->getXcEqualsOperator('$block      ', '[]', '',"\t");
-        $func .= $this->xc->getXcEqualsOperator('$typeBlock  ', '$options[0]','',"\t");
+        $func .= '//' . $this->xc->getXcEqualsOperator('$typeBlock  ', '$options[0]','',"\t");
         $func .= $this->xc->getXcEqualsOperator('$limit      ', '$options[1]','',"\t");
-        $func .= $this->xc->getXcEqualsOperator('$lenghtTitle', '$options[2]','',"\t");
+        $func .= $this->xc->getXcEqualsOperator('$lenghtTitle  ', '$options[2]','',"\t");
         $func .= $this->xc->getXcEqualsOperator('$helper     ', 'Helper::getInstance()','',"\t");
+        if (1 === $configMaxchar) {
+            $func .= $this->xc->getXcEqualsOperator('$utility      ', "new \XoopsModules\\{$ucfModuleDirname}\Utility()", '',"\t");
+        }
         $func .= $this->xc->getXcHandlerLine($tableName, "\t");
         $func .= $this->xc->getXcCriteriaCompo($critName, "\t");
         $func .= $this->pc->getPhpCodeArrayShift('$options', "\t");
@@ -122,7 +136,7 @@ class BlocksFilesSpotlight extends Files\CreateFile
                 }
             }
             if ('' !== $fieldStatus) {
-                $constant = $this->xc->getXcGetConstants('PERM_GLOBAL_VIEW');
+                $constant = $this->xc->getXcGetConstants('STATUS_OFFLINE');
                 $crit = $this->xc->getXcCriteria('', "'{$fieldStatus}'", $constant, "'>'", true);
                 $func .= $this->pc->getPhpCodeCommentLine("Criteria for status field",'',"\t");
                 $func .= $this->xc->getXcCriteriaAdd($critName, $crit, "\t");
@@ -141,7 +155,7 @@ class BlocksFilesSpotlight extends Files\CreateFile
         $func   .= $this->xc->getXcCriteriaSetLimit($critName, '$limit', "\t");
         $func   .= $this->xc->getXcHandlerAllClear("{$tableName}All", $tableName, "\${$critName}", "\t");
         $func   .= $this->pc->getPhpCodeUnset($critName, "\t");
-        $contentForeach = '';
+        $contentForeach = $this->xc->getXcEqualsOperator("\${$tableName}","\${$tableName}All[\$i]->getValues{$ucfTableName}()", '', "\t\t\t");
         $contentForeach .= $this->pc->getPhpCodeCommentMultiLine([
             'If you want to use the parameter for limits you have to adapt the line where it should be applied' => '',
             'e.g. change' => '',
@@ -153,31 +167,64 @@ class BlocksFilesSpotlight extends Files\CreateFile
             "\t" . '}' => '',
             "\t\$block[\$i]['title'] = " => '$myTitle;',
         ], "\t\t\t", false);
+
+
+        $lenName = 0;
+        foreach (\array_keys($fields) as $f) {
+            $fieldName    = $fields[$f]->getVar('field_name');
+            $fieldElement = $fields[$f]->getVar('field_element');
+            if (1 == $fields[$f]->getVar('field_block')) {
+                switch ($fieldElement) {
+                    case Constants::FIELD_ELE_TEXTAREA:
+                    case Constants::FIELD_ELE_DHTMLTEXTAREA:
+                        $lenName  = max(strlen($this->getRightString($fieldName)) + 6, $lenName);
+                        break;
+                    case Constants::FIELD_ELE_SELECTUSER:
+                    case Constants::FIELD_ELE_TEXTDATESELECT:
+                    case Constants::FIELD_ELE_SELECTSTATUS:
+                    case Constants::FIELD_ELE_RADIOYN:
+                    case Constants::FIELD_ELE_RADIO_ONOFFLINE:
+                    case Constants::FIELD_ELE_DATETIME:
+                        $lenName  = max(strlen($this->getRightString($fieldName)) + 5, $lenName);
+                        break;
+                    case 0:
+                    default:
+                        $lenName  = max(strlen($this->getRightString($fieldName)), $lenName);
+                        break;
+                }
+            }
+        }
+        $lenName += 15;
         foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $rpFieldName  = $this->getRightString($fieldName);
             $fieldElement = $fields[$f]->getVar('field_element');
 
             if (0 == $f) {
-                $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['id']", "\${$tableName}All[\$i]->getVar('{$fieldId}')", null, "\t\t\t");
+                $contentForeach .= $this->xc->getXcEqualsOperator(str_pad("\$block[\$i]['id']", $lenName), "\${$tableName}['{$fieldId}']", null, "\t\t\t");
             }
             if (1 == $fields[$f]->getVar('field_block')) {
                 switch ($fieldElement) {
-                    case 2:
-                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\htmlspecialchars(\${$tableName}All[\$i]->getVar('{$fieldName}'), ENT_QUOTES | ENT_HTML5)", null, "\t\t\t");
+                    case Constants::FIELD_ELE_TEXTAREA:
+                    case Constants::FIELD_ELE_DHTMLTEXTAREA:
+                        $contentForeach .= $this->xc->getXcEqualsOperator(str_pad("\$block[\$i]['{$rpFieldName}_text']", $lenName), "\${$tableName}['{$rpFieldName}_text']", null, "\t\t\t");
+                        $truncate  =  "\$utility::truncateHtml(\$block[\$i]['{$rpFieldName}_text'], \$lenghtTitle)";
+                        $contentForeach .= $this->xc->getXcEqualsOperator(str_pad("\$block[\$i]['{$rpFieldName}_short']", $lenName), $truncate, false, "\t\t\t");
                         break;
-                    case 3:
-                    case 4:
-                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
+                    case Constants::FIELD_ELE_TEXTDATESELECT:
+                    case Constants::FIELD_ELE_DATETIME:
+                    case Constants::FIELD_ELE_SELECTUSER:
+                        $contentForeach .= $this->xc->getXcEqualsOperator(str_pad("\$block[\$i]['{$rpFieldName}_text']", $lenName), "\${$tableName}['{$rpFieldName}_text']", null, "\t\t\t");
                         break;
-                    case 8:
-                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
+                    case Constants::FIELD_ELE_SELECTSTATUS:
+                    case Constants::FIELD_ELE_RADIOYN:
+                    case Constants::FIELD_ELE_RADIO_ONOFFLINE:
+                        $contentForeach .= $this->xc->getXcEqualsOperator(str_pad("\$block[\$i]['{$rpFieldName}_text']", $lenName),"\${$tableName}['{$rpFieldName}_text']", null, "\t\t\t");
                         break;
-                    case 15:
-                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']","\\formatTimestamp(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
-                        break;
+                    case 0:
+                    case Constants::FIELD_ELE_TEXT:
                     default:
-                        $contentForeach .= $this->xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']","\${$tableName}All[\$i]->getVar('{$fieldName}')", null, "\t\t\t");
+                        $contentForeach .= $this->xc->getXcEqualsOperator(str_pad("\$block[\$i]['{$rpFieldName}']", $lenName),"\${$tableName}['{$rpFieldName}']", null, "\t\t\t");
                         break;
                 }
             }
@@ -187,6 +234,9 @@ class BlocksFilesSpotlight extends Files\CreateFile
         $func .= $this->pc->getPhpCodeConditions("\count(\${$tableName}All)", ' > ', '0', $foreach, false, "\t");
         $func .= $this->pc->getPhpCodeBlankLine();
         $func .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_url", "\\{$stuModuleDirname}_URL", true ,"\t");
+        $config = $this->xc->getXcGetConfig('table_type');
+        $func .= $this->xc->getXcXoopsTplAssign('table_type', $config, true, "\t");
+
         $func .= $this->pc->getPhpCodeBlankLine();
         $func .= $this->getSimpleString('return $block;',"\t");
         $func .= $this->pc->getPhpCodeBlankLine();
@@ -206,7 +256,7 @@ class BlocksFilesSpotlight extends Files\CreateFile
      *
      * @return string
      */
-    private function getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language)
+    private function getBlocksEdit(string $moduleDirname, string $tableName, string $fieldId, string $fieldMain, string $language)
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $stuTableName     = \mb_strtoupper($tableName);
@@ -216,7 +266,7 @@ class BlocksFilesSpotlight extends Files\CreateFile
         $ret  = $this->pc->getPhpCodeCommentMultiLine(['Function' => 'edit block', '@param  $options' => '', '@return' => 'string']);
         $func = $this->xc->getXcEqualsOperator('$helper', 'Helper::getInstance()', '',"\t");
 		$func .= $this->xc->getXcHandlerLine($tableName, "\t");
-        $func .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url","\\{$stuModuleDirname}_UPLOAD_URL",'',"\t");
+        $func .= $this->xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url","\\{$stuModuleDirname}_UPLOAD_URL",true,"\t");
         $func .= $this->xc->getXcEqualsOperator('$form', "{$language}DISPLAY_SPOTLIGHT . ' : '", '',"\t");
         $func .= $this->xc->getXcEqualsOperator('$form', "\"<input type='hidden' name='options[0]' value='\".\$options[0].\"' >\"", '.',"\t");
         $func .= $this->xc->getXcEqualsOperator('$form', "\"<input type='text' name='options[1]' size='5' maxlength='255' value='\" . \$options[1] . \"' >&nbsp;<br>\"", '.',"\t");
@@ -235,7 +285,8 @@ class BlocksFilesSpotlight extends Files\CreateFile
         $func .= $this->xc->getXcEqualsOperator('$form', "{$language}{$stuTableName}_TO_DISPLAY . \"<br><select name='options[]' multiple='multiple' size='5'>\"", '.',"\t");
         $func .= $this->xc->getXcEqualsOperator('$form', "\"<option value='0' \" . (!\in_array(0, \$options) && !\in_array('0', \$options) ? '' : \"selected='selected'\") . '>' . {$language}ALL_{$stuTableName} . '</option>'", '.',"\t");
         $contentForeach = $this->xc->getXcEqualsOperator("\${$fieldId}", "\${$tableName}All[\$i]->getVar('{$fieldId}')", '',"\t\t");
-        $contentForeach .= $this->xc->getXcEqualsOperator('$form', "\"<option value='\" . \${$fieldId} . \"' \" . (!\in_array(\${$fieldId}, \$options) ? '' : \"selected='selected'\") . '>' . \${$tableName}All[\$i]->getVar('{$fieldMain}') . '</option>'", '.',"\t\t");
+        $contentForeach .= $this->xc->getXcEqualsOperator("\${$fieldMain}", '\htmlspecialchars((string)' . "\${$tableName}All[\$i]->getVar('{$fieldMain}'), ENT_QUOTES | ENT_HTML5)", '',"\t\t");
+        $contentForeach .= $this->xc->getXcEqualsOperator('$form', "\"<option value='\" . \${$fieldId} . \"' \" . (!\in_array(\${$fieldId}, \$options) ? '' : \"selected='selected'\") . '>' . \${$fieldMain} . '</option>'", '.',"\t\t");
         $func .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, "\t");
         $func .= $this->xc->getXcEqualsOperator('$form', "'</select>'", '.',"\t");
         $func .= $this->pc->getPhpCodeBlankLine();
@@ -250,9 +301,8 @@ class BlocksFilesSpotlight extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
      *
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

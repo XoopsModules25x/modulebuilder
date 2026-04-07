@@ -58,7 +58,6 @@ class Tables extends \XoopsObject
 
     /**
      * @public function constructor class
-     * @param null
      */
     public function __construct()
     {
@@ -96,11 +95,11 @@ class Tables extends \XoopsObject
 
     /**
      * @param string $method
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed
      */
-    public function __call($method, $args)
+    public function __call(string $method, array $args)
     {
         $arg = $args[0] ?? null;
 
@@ -109,7 +108,6 @@ class Tables extends \XoopsObject
 
     /**
      * @static function getInstance
-     * @param null
      * @return Tables
      */
     public static function getInstance()
@@ -137,7 +135,7 @@ class Tables extends \XoopsObject
         $isNew     = $this->isNew();
         $tableName = $this->getVar('table_name');
         $tableMid  = $this->getVar('table_mid');
-        $title     = $isNew ? \sprintf(\_AM_MODULEBUILDER_TABLES_NEW) : \sprintf(\_AM_MODULEBUILDER_TABLES_EDIT);
+        $title     = $isNew ? \_AM_MODULEBUILDER_TABLES_NEW : \_AM_MODULEBUILDER_TABLES_EDIT;
 
         \xoops_load('XoopsFormLoader');
         $form = new \XoopsThemeForm($title, 'tableform', $action, 'post', true);
@@ -196,7 +194,7 @@ class Tables extends \XoopsObject
             $imageSelect1->addOption($image1, $image1);
         }
         $imageSelect1->setExtra("onchange='showImgSelected(\"image1\", \"table_image\", \"" . $iconsDirectory . '", "", "' . \XOOPS_URL . "\")'");
-        $imgtray1->addElement($imageSelect1, false);
+        $imgtray1->addElement($imageSelect1);
         $imgtray1->addElement(new \XoopsFormLabel('', "<br><img src='" . \XOOPS_URL . '/' . $iconsDirectory . '/' . $tableImage . "' id='image1' alt=''>"));
         $fileseltray1 = new \XoopsFormElementTray('', '<br>');
         $fileseltray1->addElement(new \XoopsFormFile(\_AM_MODULEBUILDER_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize_image')));

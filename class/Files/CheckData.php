@@ -52,7 +52,6 @@ class CheckData
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -61,8 +60,6 @@ class CheckData
 
     /**
      * @static function getInstance
-     *
-     * @param null
      *
      * @return Modulebuilder\Files\CheckData
      */
@@ -102,9 +99,9 @@ class CheckData
     /**
      * @public function getCheckBroken
      *
-     * @return array|bool
+     * @return void
      */
-    private function getCheckBroken()
+    private function getCheckBroken(): void
     {
         foreach (\array_keys($this->tables) as $t) {
             if (1 == $this->tables[$t]->getVar('table_broken')) {
@@ -126,16 +123,14 @@ class CheckData
                 }
             }
         }
-
-        return true;
     }
 
     /**
      * @private function getCheckUserpage
      *
-     * @return array|bool
+     * @return void
      */
-    private function getCheckUserpage()
+    private function getCheckUserpage(): void
     {
         //check field params: minimum one param is selected
         foreach (\array_keys($this->tables) as $t) {
@@ -258,15 +253,14 @@ class CheckData
             }
         }
 
-        return true;
     }
 
     /**
      * @private function getCheckBlock
      *
-     * @return array|bool
+     * @return void
      */
-    private function getCheckBlock()
+    private function getCheckBlock(): void
     {
         //use in block but no field selected
         foreach (\array_keys($this->tables) as $t) {
@@ -306,15 +300,14 @@ class CheckData
             }
         }
 
-        return true;
     }
 
     /**
      * @private function getCheckComments
      *
-     * @return array|bool
+     * @return void
      */
-    private function getCheckComments()
+    private function getCheckComments(): void
     {
         //use comments in multiple tables
         $count         = 0;
@@ -350,15 +343,14 @@ class CheckData
             }
         }
 
-        return true;
     }
 
     /**
      * @private function getCheckRatings
      *
-     * @return array|bool
+     * @return void
      */
-    private function getCheckRating()
+    private function getCheckRating(): void
     {
         foreach (\array_keys($this->tables) as $t) {
             if (1 == $this->tables[$t]->getVar('table_rate')) {
@@ -376,27 +368,26 @@ class CheckData
                     }
                 }
                 // check whether each table with handling "rating" has also a field "rating"
-                if (0 == (int)$fieldRatings) {
+                if (0 == $fieldRatings) {
                     $info          = \str_replace('%t', $tableName, \_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS1);
                     $this->infos[] = ['icon' => 'error', 'info' => $info];
                 }
                 // check whether each table with handling "rating" has also a field "votes"
-                if (0 == (int)$fieldVotes) {
+                if (0 == $fieldVotes) {
                     $info          = \str_replace('%t', $tableName, \_AM_MODULEBUILDER_BUILDING_CHECK_RATINGS2);
                     $this->infos[] = ['icon' => 'error', 'info' => $info];
                 }
             }
         }
 
-        return true;
     }
 
     /**
      * @private function getCheckReads
      *
-     * @return array|bool
+     * @return void
      */
-    private function getCheckReads()
+    private function getCheckReads(): void
     {
         foreach (\array_keys($this->tables) as $t) {
             if (1 == $this->tables[$t]->getVar('table_reads')) {
@@ -410,22 +401,21 @@ class CheckData
                     }
                 }
                 // check whether each table with handling "reads" has also a field "reads"
-                if (0 == (int)$fieldReads) {
+                if (0 == $fieldReads) {
                     $info          = \str_replace('%t', $tableName, \_AM_MODULEBUILDER_BUILDING_CHECK_READS1);
                     $this->infos[] = ['icon' => 'error', 'info' => $info];
                 }
             }
         }
 
-        return true;
     }
 
     /**
      * @private function getCheckSql
      *
-     * @return array|bool
+     * @return void
      */
-    private function getCheckSql()
+    private function getCheckSql(): void
     {
         foreach (\array_keys($this->tables) as $t) {
             $tableId   = $this->tables[$t]->getVar('table_id');
@@ -449,6 +439,5 @@ class CheckData
             }
         }
 
-        return true;
     }
 }

@@ -47,7 +47,6 @@ class Breadcrumbs extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -76,7 +75,7 @@ class Breadcrumbs extends Files\CreateFile
      * @param        $module
      * @param string $filename
      */
-    public function write($module, $filename): void
+    public function write($module, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -84,22 +83,25 @@ class Breadcrumbs extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
+        $module           = $this->getModule();
+        $filename         = $this->getFileName();
+        $moduleDirname    = $module->getVar('mod_dirname');
+        $stuModuleDirname = \strtoupper($moduleDirname);
 
-        $title      = $this->sc->getSmartyDoubleVar('itm', 'title');
-        $titleElse  = $this->sc->getSmartyDoubleVar('itm', 'title', "\t\t\t", "\n");
-        $link       = $this->sc->getSmartyDoubleVar('itm', 'link');
+        $title      = $this->sc->getSmartyDoubleVar('itm', 'title','','','""|escape:"html"');
+        $title2     = $this->sc->getSmartyDoubleVar('itm', 'title','','','""|escape:"htmlattr"');
+        $titleElse  = $this->sc->getSmartyDoubleVar('itm', 'title', "\t\t\t", "\n", '""|escape:"html"');
+        $link       = $this->sc->getSmartyDoubleVar('itm', 'link','','','""|escape:"htmlattr"');
         $glyph      = $this->hc->getHtmlTag('i', ['class' => 'glyphicon glyphicon-home fa fa-home'], '', false, '', '');
-        $anchor     = $this->hc->getHtmlAnchor("<{xoAppUrl 'index.php'}>", $glyph, 'home');
+        $langHome   = $this->sc->getSmartyConst('_MA_' . $stuModuleDirname, '_HOME');
+        $anchor     = $this->hc->getHtmlAnchor("<{xoAppUrl 'index.php'}>", $glyph, $langHome);
         $into       = $this->hc->getHtmlLi($anchor, 'breadcrumb-item', "\t");
-        $anchorIf   = $this->hc->getHtmlAnchor($link, $title, $title, '', '', '', "\t\t\t", "\n");
+        $anchorIf   = $this->hc->getHtmlAnchor($link, $title, $title2, '', '', '', "\t\t\t", "\n");
         $breadcrumb = $this->sc->getSmartyConditions('itm.link', '', '', $anchorIf, $titleElse, false, false, "\t\t");
         $foreach    = $this->hc->getHtmlLi($breadcrumb, 'breadcrumb-item', "\t", "\n", true);
         $into       .= $this->sc->getSmartyForeach('itm', 'xoBreadcrumbs', $foreach, 'bcloop', '', "\t");

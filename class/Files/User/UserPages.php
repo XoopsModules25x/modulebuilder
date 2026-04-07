@@ -49,7 +49,6 @@ class UserPages extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -61,7 +60,6 @@ class UserPages extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
      * @return UserPages
      */
     public static function getInstance()
@@ -98,7 +96,6 @@ class UserPages extends Files\CreateFile
      */
     private function getUserPagesHeader($moduleDirname, $tableName, $fieldId, $tablePermissions, $language)
     {
-        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $ccFieldId        = $this->getCamelCase($fieldId, false, true);
 
         $ret       = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
@@ -160,7 +157,7 @@ class UserPages extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    private function getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $fieldReads, $language, $t = '')
+    private function getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $fieldReads, $language, string $t = '')
     {
         $ucfTableName     = \ucfirst($tableName);
         $stuTableName     = \mb_strtoupper($tableName);
@@ -169,8 +166,7 @@ class UserPages extends Files\CreateFile
         $ccFieldReads     = $this->getCamelCase($fieldReads, false, true);
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
 
-        $ret = '';
-        $ret .= $this->uxc->getUserBreadcrumbs($language, $tableName, 'list', '', "\t\t");
+        $ret = $this->uxc->getUserBreadcrumbs($language, $tableName, 'list', '', "\t\t");
         if ($tableRate) {
             $varRate = '$ratingbars';
             $ret .= $this->xc->getXcEqualsOperator($varRate, '(int)' . $this->xc->getXcGetConfig('ratingbars'),'', $t);
@@ -190,7 +186,7 @@ class UserPages extends Files\CreateFile
         $contIf    = $this->xc->getXcCriteriaAdd($critName, $crit, $t . "\t");
         $ret       .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $contIf, false, $t);
         $ret       .= $this->xc->getXcHandlerCountClear($tableName . 'Count', $tableName, '$' . $critName, $t);
-        $ret       .= $this->xc->getXcXoopsTplAssign($tableName . 'Count', "\${$tableName}Count", '', $t);
+        $ret       .= $this->xc->getXcXoopsTplAssign($tableName . 'Count', "\${$tableName}Count", true, $t);
         $contIf    = $this->xc->getXcCriteriaSetStart($critName, '$start', $t . "\t");
         $contIf    .= $this->xc->getXcCriteriaSetLimit($critName, '$limit', $t . "\t");
         $ret       .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' === ', '0', $contIf, false, $t);
@@ -203,8 +199,11 @@ class UserPages extends Files\CreateFile
         $foreach   .= $this->xc->getXcEqualsOperator('$keywords[$i]', "\${$ccFieldMain}",'', $t . "\t\t");
         if ($tableRate) {
             $itemId   = $this->xc->getXcGetVar($ccFieldId, "{$tableName}All[\$i]", $fieldId, true);
-            $const  = $this->xc->getXcGetConstants('TABLE_' . $stuTableName);
-            $foreach .= $this->xc->getXcEqualsOperator("\${$tableName}[\$i]['rating']", "\$ratingsHandler->getItemRating({$itemId}, {$const})",'', $t . "\t\t");
+            $const    = $this->xc->getXcGetConstants('TABLE_' . $stuTableName);
+            $foreach  .= $this->xc->getXcEqualsOperator("\${$tableName}List[\$i]['rating']", "\$ratingsHandler->getItemRating({$itemId}, {$const})",'', $t . "\t\t");
+            $foreach  .= $this->xc->getXcEqualsOperator("\${$tableName}List[\$i]['rating_source']", "{$const}",'', $t . "\t\t");
+            $foreach  .= $this->xc->getXcEqualsOperator("\$token", "\$GLOBALS['xoopsSecurity']->createToken()",'', $t . "\t\t");
+            $foreach  .= $this->xc->getXcXoopsTplAssign('xoops_token', '$token', true, $t . "\t\t");
         }
         $condIf    .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, $t . "\t");
         $condIf    .= $this->xc->getXcXoopsTplAssign($tableName . '_list', "\${$tableName}List", true, $t . "\t");
@@ -223,9 +222,18 @@ class UserPages extends Files\CreateFile
         $condIf    .= $this->pc->getPhpCodeConditions("'show' == \$op && '' != \${$ccFieldMain}", '', '', $condIf2, false, $t . "\t");
 
         if ('' !== $fieldReads) {
-            $condIf3 = $this->xc->getXcHandlerGetObj($tableName, $ccFieldId, $t . "\t\t");
+            $redirectError = $this->xc->getXcRedirectHeader($tableName, '', '3', "{$language}INVALID_PARAM", true, $t . "\t\t\t");
+            $condIf3       = $this->pc->getPhpCodeConditions('0 === $' . $ccFieldId, '', '', $redirectError, false, $t . "\t\t");
+
+            $condIf3 .= $this->xc->getXcHandlerGetObj($tableName, $ccFieldId, $t . "\t\t");
 
             $getVar = $this->xc->getXcGetVar('', "{$tableName}Obj", $fieldReads, true);
+
+            $tablenameObj  = $this->pc->getPhpCodeIsobject($tableName . 'Obj');
+                        $condIf3           .= $this->pc->getPhpCodeConditions('!' . $tablenameObj, '', '', $redirectError, false, $t . "\t\t");
+
+
+
             $condIf3 .= $this->xc->getXcEqualsOperator("\${$ccFieldReads}", '(int)' . $getVar . ' + 1', false, $t . "\t\t");
             $condIf3 .= $this->xc->getXcSetVarObj($tableName, $fieldReads, "\${$ccFieldReads}", $t . "\t\t");
             $condIf3 .= $this->pc->getPhpCodeCommentLine('Insert Data', null, $t . "\t\t");
@@ -253,7 +261,7 @@ class UserPages extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    public function getUserPagesSave($moduleDirname, $fields, $tableName, $tableSoleName, $tablePermissions, $tableNotifications, $language, $t = '')
+    public function getUserPagesSave(string $moduleDirname, $fields, string $tableName, $tableSoleName, $tablePermissions, $tableNotifications, $language, string $t = '')
     {
         $ucfTableName  = \ucfirst($tableName);
         $countUploader = 0;
@@ -290,6 +298,7 @@ class UserPages extends Files\CreateFile
         $implode            = $this->pc->getPhpCodeImplode(',', $securityError);
         $redirectError      = $this->xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t");
         $ret                .= $this->pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectError, false, $t);
+
         if (1 == $tablePermissions) {
             $ret                .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
             $contIf             = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, '\_NOPERM', true, $t . "\t");
@@ -298,6 +307,9 @@ class UserPages extends Files\CreateFile
         $getObj             = $this->xc->getXcHandlerGetObj($tableName, $ccFieldId,  $t . "\t");
         $createObj          = $this->xc->getXcHandlerCreateObj($tableName, $t . "\t");
         $ret                .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $getObj, $createObj, $t);
+        $tablenameObj       = $this->pc->getPhpCodeIsobject($tableName . 'Obj');
+        $redirectError      = $this->xc->getXcRedirectHeader($tableName, '', '3', "{$language}INVALID_PARAM", true, $t . "\t");
+        $ret                .= $this->pc->getPhpCodeConditions('!' . $tablenameObj, '', '', $redirectError, false, $t);
         $ret                .= $this->xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $fields, $t);
         $ret                .= $this->pc->getPhpCodeCommentLine('Insert Data', null, $t);
         $insert             = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
@@ -323,7 +335,10 @@ class UserPages extends Files\CreateFile
             }
             $contentInsert .= $this->pc->getPhpCodeArray('tags', [], false, $t . "\t");
             $contentInsert .= $this->xc->getXcEqualsOperator("\$tags['ITEM_NAME']", "\${$ccFieldMain}", '', $t . "\t");
-            $url = "\XOOPS_URL . '/modules/{$moduleDirname}/{$tableName}.php?op=show&{$fieldId}=' . \${$ccFieldId}";
+            $url = "\XOOPS_URL . '/modules/{$moduleDirname}/{$tableName}.php?op=show&{$fieldId}=' . \$new{$ucfFieldId}";
+
+
+
             $contentInsert .= $this->xc->getXcEqualsOperator("\$tags['ITEM_URL'] ", $url, '', $t . "\t");
             $contentInsert .= $this->xc->getXcXoopsHandler('notification', $t . "\t");
             if ('' === $fieldStatus) {
@@ -345,17 +360,17 @@ class UserPages extends Files\CreateFile
                 $not2Else      = $this->pc->getPhpCodeCommentLine('Event new notification', null, $t . "\t\t\t");
                 $not2Else      .= $this->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_new', \$tags);", $t . "\t\t\t");
                 $not1Else      = $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $not2If, $not2Else, $t . "\t\t");
-                $contentInsert .= $this->pc->getPhpCodeConditions("\${$ccFieldStatus}", ' == ', $this->xc->getXcGetConstants('STATUS_SUBMITTED'), $not1If, $not1Else, $t . "\t");
+                $contentInsert .= $this->pc->getPhpCodeConditions("\${$ccFieldStatus}", ' == ', $this->xc->getXcGetConstants('STATUS_APPROVED'), $not1If, $not1Else, $t . "\t");
             }
         }
 
         $contentInsert .= $this->pc->getPhpCodeCommentLine('redirect after insert', null, $t . "\t");
         if ($countUploader > 0) {
             $errIf     = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=edit&{$fieldId}=' . \$new{$ucfFieldId}", '', '5', '$uploaderErrors', false, $t . "\t\t");
-            $errElse   = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&amp;start=' . \$start . '&amp;limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
+            $errElse   = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&start=' . \$start . '&limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
             $confirmOk = $this->pc->getPhpCodeConditions('$uploaderErrors', ' !== ', "''", $errIf, $errElse, $t . "\t");
         } else {
-            $confirmOk = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&amp;start=' . \$start . '&amp;limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
+            $confirmOk = $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&start=' . \$start . '&limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
         }
         $contentInsert .= $confirmOk;
         $ret           .= $this->pc->getPhpCodeConditions($insert, '', '', $contentInsert, false, $t);
@@ -376,7 +391,7 @@ class UserPages extends Files\CreateFile
      *
      * @return string
      */
-    private function getPermissionsSave($moduleDirname, $ucfFieldId, $perm = 'view')
+    private function getPermissionsSave($moduleDirname, $ucfFieldId, string $perm = 'view')
     {
         $ret     = $this->pc->getPhpCodeCommentLine('Permission to', $perm, "\t\t\t");
         $ret     .= $this->xc->getXcDeleteRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$mid', "\$new{$ucfFieldId}", false, "\t\t\t");
@@ -396,7 +411,7 @@ class UserPages extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    public function getUserPagesNew($tableName, $tableSoleName, $tablePermissions, $language, $t = '')
+    public function getUserPagesNew($tableName, $tableSoleName, $tablePermissions, $language, string $t = '')
     {
         $ret    = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'add', '', "\t\t");
         if (1 == $tablePermissions) {
@@ -419,7 +434,7 @@ class UserPages extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    public function getUserPagesEdit($tableName, $tableSoleName, $tablePermissions, $fieldId, $language, $t = '')
+    public function getUserPagesEdit($tableName, $tableSoleName, $tablePermissions, $fieldId, $language, string $t = '')
     {
         $ret       = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'edit', '', "\t\t");
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
@@ -431,7 +446,7 @@ class UserPages extends Files\CreateFile
         $ret       .= $this->pc->getPhpCodeCommentLine('Check params', '', $t);
         $contIf    = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, "{$language}INVALID_PARAM", true, $t . "\t");
         $ret       .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' == ', '0', $contIf, false, $t);
-        $ret       .= $this->xc->getXcCommonPagesEdit($tableName, $ccFieldId, $t);
+        $ret       .= $this->xc->getXcCommonPagesEdit($tableName, $ccFieldId, $t, $language);
 
         return $ret;
     }
@@ -446,7 +461,7 @@ class UserPages extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    public function getUserPagesClone($tableName, $tableSoleName, $tablePermissions, $fieldId, $language, $t = '')
+    public function getUserPagesClone($tableName, $tableSoleName, $tablePermissions, $fieldId, $language, string $t = '')
     {
         $ret       = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'clone', '', "\t\t");
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
@@ -460,7 +475,7 @@ class UserPages extends Files\CreateFile
         $ret    .= $this->pc->getPhpCodeCommentLine('Check params', '', $t);
         $contIf = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, "{$language}INVALID_PARAM", true, $t . "\t");
         $ret    .= $this->pc->getPhpCodeConditions("\${$ccFieldId}Source", ' == ', '0', $contIf, false, $t);
-        $ret    .= $this->xc->getXcCommonPagesClone($tableName, $ccFieldId, $t);
+        $ret    .= $this->xc->getXcCommonPagesClone($tableName, $ccFieldId, $t, $language);
 
         return $ret;
     }
@@ -477,7 +492,7 @@ class UserPages extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    private function getUserPagesDelete($tableName, $tableSoleName, $tablePermissions, $language, $fieldId, $fieldMain, $tableNotifications, $t = '')
+    private function getUserPagesDelete($tableName, $tableSoleName, $tablePermissions, $language, $fieldId, $fieldMain, $tableNotifications, string $t = '')
     {
         $ret       = $this->uxc->getUserBreadcrumbs($language, $tableSoleName, 'delete', '', "\t\t");
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
@@ -507,7 +522,7 @@ class UserPages extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    private function getUserPagesBroken($language, $moduleDirname, $tableName, $tableSoleName, $fieldId, $fieldStatus, $fieldMain, $tableNotifications, $t = '')
+    private function getUserPagesBroken($language, $moduleDirname, $tableName, $tableSoleName, $fieldId, $fieldStatus, $fieldMain, $tableNotifications, string $t = '')
     {
         $ccFieldId   = $this->getCamelCase($fieldId, false, true);
         $ccFieldMain = $this->getCamelCase($fieldMain, false, true);
@@ -517,6 +532,9 @@ class UserPages extends Files\CreateFile
         $ret    .= $this->pc->getPhpCodeConditions("\${$ccFieldId}", ' == ', '0', $contIf, false, $t);
 
         $ret                  .= $this->xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
+        $tablenameObj         = $this->pc->getPhpCodeIsobject($tableName . 'Obj');
+        $redirectError        = $this->xc->getXcRedirectHeader($tableName, '', '3', "{$language}INVALID_PARAM", true, $t . "\t");
+        $ret                 .= $this->pc->getPhpCodeConditions('!' . $tablenameObj, '', '', $redirectError, false, $t);
         $ret                  .= $this->xc->getXcGetVar($ccFieldMain, "{$tableName}Obj", $fieldMain, false, $t);
         $reqOk                = "_REQUEST['ok']";
         $isset                = $this->pc->getPhpCodeIsset($reqOk);
@@ -540,7 +558,7 @@ class UserPages extends Files\CreateFile
             $contInsert .= $this->getSimpleString("\$notificationHandler->triggerEvent('global', 0, 'global_broken', \$tags);", $t . "\t\t");
             $contInsert .= $this->getSimpleString("\$notificationHandler->triggerEvent('{$tableName}', \${$ccFieldId}, '{$tableSoleName}_broken', \$tags);", $t . "\t\t");
         }
-        $contInsert   .= $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&amp;start=' . \$start . '&amp;limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
+        $contInsert   .= $this->xc->getXcRedirectHeader("'{$tableName}.php?op=list&start=' . \$start . '&limit=' . \$limit", '', '2', "{$language}FORM_OK", false, $t . "\t\t");
         $htmlErrors   = $this->xc->getXcHtmlErrors($tableName, true);
         $internalElse = $this->xc->getXcXoopsTplAssign('error', $htmlErrors, true, $t . "\t\t");
         $condition    .= $this->pc->getPhpCodeConditions($insert, '', '', $contInsert, $internalElse, $t . "\t");
@@ -553,16 +571,12 @@ class UserPages extends Files\CreateFile
     /**
      * @private function getUserPagesFooter
      * @param $moduleDirname
-     * @param $tableName
      * @param $tableComments
-     * @param $language
      *
      * @return string
      */
-    private function getUserPagesFooter($moduleDirname, $tableName, $tableComments, $language)
+    private function getUserPagesFooter($moduleDirname, $tableComments)
     {
-        $stuModuleDirname = \mb_strtoupper($moduleDirname);
-        $stuTableName     = \mb_strtoupper($tableName);
         $ret = $this->pc->getPhpCodeBlankLine();
         $ret .= $this->pc->getPhpCodeCommentLine('Meta keywords');
         $ret .= $this->uxc->getUserMetaKeywords($moduleDirname);
@@ -570,7 +584,7 @@ class UserPages extends Files\CreateFile
         if (1 == $tableComments) {
             $ret .= $this->pc->getPhpCodeBlankLine();
             $ret .= $this->pc->getPhpCodeCommentLine('View comments');
-            $ret .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'include/comment_view', true, false);
+            $ret .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'include/comment_view', true);
         }
         $ret .= $this->pc->getPhpCodeBlankLine();
         $ret .= $this->getRequire('footer');
@@ -595,32 +609,30 @@ class UserPages extends Files\CreateFile
      * @param $tableRate
      * @param $fieldReads
      * @param $language
-     * @param $t
      * @return string
      */
-    private function getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $tableRate, $fieldReads, $language, $t)
+    private function getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $tableRate, $fieldReads, $language)
     {
         $fields = $this->getTableFields($tableMid, $tableId);
         $cases['show'] = [];
-        $cases['list'] = [$this->getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $fieldReads, $language,$t . "\t")];
+        $cases['list'] = [$this->getUserPagesList($moduleDirname, $tableName, $fieldId, $fieldMain, $tableRate, $fieldReads, $language, "\t\t")];
         if (1 == $tableSubmit) {
-            $cases['save']   = [$this->getUserPagesSave($moduleDirname, $fields, $tableName, $tableSoleName, $tablePermissions, $tableNotifications, $language, $t . "\t")];
-            $cases['new']    = [$this->getUserPagesNew($tableName, $tableSoleName, $tablePermissions, $language, $t . "\t")];
-            $cases['edit']   = [$this->getUserPagesEdit($tableName, $tableSoleName, $tablePermissions, $fieldId, $language, $t . "\t")];
-            $cases['clone']  = [$this->getUserPagesClone($tableName, $tableSoleName, $tablePermissions, $fieldId, $language, $t . "\t")];
-            $cases['delete'] = [$this->getUserPagesDelete($tableName, $tableSoleName, $tablePermissions, $language, $fieldId, $fieldMain, $tableNotifications,$t . "\t")];
+            $cases['save']   = [$this->getUserPagesSave($moduleDirname, $fields, $tableName, $tableSoleName, $tablePermissions, $tableNotifications, $language, "\t\t")];
+            $cases['new']    = [$this->getUserPagesNew($tableName, $tableSoleName, $tablePermissions, $language, "\t\t")];
+            $cases['edit']   = [$this->getUserPagesEdit($tableName, $tableSoleName, $tablePermissions, $fieldId, $language, "\t\t")];
+            $cases['clone']  = [$this->getUserPagesClone($tableName, $tableSoleName, $tablePermissions, $fieldId, $language, "\t\t")];
+            $cases['delete'] = [$this->getUserPagesDelete($tableName, $tableSoleName, $tablePermissions, $language, $fieldId, $fieldMain, $tableNotifications, "\t\t")];
         }
         if (1 == $tableBroken) {
-            $cases['broken']  = [$this->getUserPagesBroken($language, $moduleDirname, $tableName, $tableSoleName, $fieldId, $fieldStatus, $fieldMain, $tableNotifications, $t . "\t")];
+            $cases['broken']  = [$this->getUserPagesBroken($language, $moduleDirname, $tableName, $tableSoleName, $fieldId, $fieldStatus, $fieldMain, $tableNotifications, "\t\t")];
         }
 
-        return $this->xc->getXcSwitch('op', $cases, true, false);
+        return $this->xc->getXcSwitch('op', $cases, true);
     }
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     * @return string
      */
     public function render()
     {
@@ -663,8 +675,8 @@ class UserPages extends Files\CreateFile
         }
         $content = $this->getHeaderFilesComments($module);
         $content .= $this->getUserPagesHeader($moduleDirname, $tableName, $fieldId, $tablePermissions, $language);
-        $content .= $this->getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $tableRate, $fieldReads, $language, "\t");
-        $content .= $this->getUserPagesFooter($moduleDirname, $tableName, $tableComments, $language);
+        $content .= $this->getUserPagesSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $tableBroken, $fieldId, $fieldMain, $fieldStatus, $tableNotifications, $tableRate, $fieldReads, $language);
+        $content .= $this->getUserPagesFooter($moduleDirname, $tableComments);
 
         $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 

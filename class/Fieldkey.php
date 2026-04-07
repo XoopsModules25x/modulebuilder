@@ -31,7 +31,6 @@ class Fieldkey extends \XoopsObject
 {
     /**
      * @public function constructor class
-     * @param null
      */
     public function __construct()
     {
@@ -42,7 +41,7 @@ class Fieldkey extends \XoopsObject
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return Fieldkey
      */
     public static function getInstance()

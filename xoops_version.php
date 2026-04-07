@@ -25,9 +25,9 @@
 $moduleDirName      = \basename(__DIR__);
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-$modversion['version']             = '3.7.0';
+$modversion['version']             = '3.7.1';
 $modversion['module_status']       = 'Alpha';
-$modversion['release_date']        = '2023/07/06'; // format: yyyy/mm/dd
+$modversion['release_date']        = '2026/04/05'; // format: yyyy/mm/dd
 $modversion['name']                = \_MI_MODULEBUILDER_NAME;
 $modversion['description']         = \_MI_MODULEBUILDER_DESC;
 $modversion['author']              = 'Xoops TDM';
@@ -54,8 +54,8 @@ $modversion['modicons32']          = 'assets/images/icons/32';
 $modversion['targetdir']           = XOOPS_UPLOAD_PATH . "/{$moduleDirName}/repository/";
 $modversion['module_website_url']  = 'https://github.com/XoopsModules25x/modulebuilder';
 $modversion['module_website_name'] = 'GitHub Xoops';
-$modversion['min_php']             = '7.4';
-$modversion['min_xoops']           = '2.5.11-RC2';
+$modversion['min_php']             = '8.3';
+$modversion['min_xoops']           = '2.5.11';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = ['mysql' => '5.5'];
 //about

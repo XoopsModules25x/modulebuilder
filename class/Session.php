@@ -68,7 +68,7 @@ class Session
      * @param string $name  name of variable
      * @param mixed  $value value of variable
      */
-    public function setSession($name, $value): void
+    public function setSession(string $name, $value): void
     {
         $_SESSION[$name] = $value;
     }
@@ -80,7 +80,7 @@ class Session
      *
      * @return mixed value of session variable
      */
-    public function getSession($name)
+    public function getSession(string $name)
     {
         if (isset($_SESSION[$name])) {
             return $_SESSION[$name];
@@ -94,7 +94,7 @@ class Session
      *
      * @param string $name name of variable
      */
-    public function deleteSession($name): void
+    public function deleteSession(string $name): void
     {
         unset($_SESSION[$name]);
     }

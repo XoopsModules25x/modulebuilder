@@ -46,7 +46,6 @@ class TableChecker extends \XoopsObject
     public const CHECKTYPE_UPDATE_REPORT = 2; //update and report
 
     /**
-     * @param \XoopsModules\Modulebuilder\Common\TableChecker|null
      * @param mixed $mydirname
      * @param mixed $checktype
      */
@@ -72,7 +71,7 @@ class TableChecker extends \XoopsObject
             if ($numRows) {
                 //table exist
                 $this->result[] = 'Table exist:' . $table;
-                $ret = $this->checkTableFields($table, $tabledef['fields']);
+                //$ret = $this->checkTableFields($table, $tabledef['fields']);
             } else {
                 if ($this::CHECKTYPE_UPDATE == $this->checktype || $this::CHECKTYPE_UPDATE_REPORT == $this->checktype) {
                     // create new table
@@ -92,6 +91,8 @@ class TableChecker extends \XoopsObject
         if (self::CHECKTYPE_REPORT == $this->checktype || self::CHECKTYPE_UPDATE_REPORT == $this->checktype) {
             return $this->result;
         }
+
+        return [];
     }
 
     private function readSQLFile()
@@ -156,11 +157,9 @@ class TableChecker extends \XoopsObject
     {
         //todo: split string into single keys
         $needle = '(';
-        $key_text = \substr($line, \strpos($line, $needle, 0) + 1);
+        $key_text = \substr($line, \strpos($line, $needle) + 1);
         $needle = ')';
-        $key_text = \substr($key_text, 0, \strpos($key_text, $needle, 0));
-
-        return $key_text;
+        return \substr($key_text, 0, \strpos($key_text, $needle));
     }
 
     private function extractField($line)
@@ -191,7 +190,7 @@ class TableChecker extends \XoopsObject
         if (\count($params) > $counter) {
             if ('default' == \mb_strtolower($params[$counter])) {
                 $field['default'] = $params[$counter] . ' ' . $params[$counter + 1];
-                $counter = $counter + 2;
+                //$counter = $counter + 2;
             }
         }
 
@@ -211,7 +210,7 @@ class TableChecker extends \XoopsObject
             $numRows   = $GLOBALS['xoopsDB']->getRowsNum($check);
             if ($numRows) {
                 //field exist
-                $this->checkField($table, $field);
+                $this->checkField($field);
             } else {
                 if (self::CHECKTYPE_UPDATE == $this->checktype || self::CHECKTYPE_UPDATE_REPORT == $this->checktype) {
                     // create new field
@@ -219,7 +218,7 @@ class TableChecker extends \XoopsObject
                     if ('' !== (string)$field['after']) {
                         $sql .=  ' AFTER `' . $field['after'] . '`;';
                     }
-                    if ($result = $GLOBALS['xoopsDB']->queryF($sql)) {
+                    if ($GLOBALS['xoopsDB']->queryF($sql)) {
                         $this->result[] = 'Field added:' . $fieldname;
                     } else {
                         \xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
@@ -234,11 +233,10 @@ class TableChecker extends \XoopsObject
         return true;
     }
 
-    private function checkField($table, $field)
+    private function checkField($field): void
     {
         //to be created
         $this->result[] = 'Field exist:' . $field['name'] . ' - no changes';
 
-        return true;
     }
 }

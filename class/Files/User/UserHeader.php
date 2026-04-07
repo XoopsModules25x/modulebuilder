@@ -34,10 +34,6 @@ class UserHeader extends Files\CreateFile
     /**
      * @var mixed
      */
-    private $uxc = null;
-    /**
-     * @var mixed
-     */
     private $xc = null;
     /**
      * @var mixed
@@ -46,19 +42,16 @@ class UserHeader extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
         parent::__construct();
         $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $this->uxc = Modulebuilder\Files\User\UserXoopsCode::getInstance();
     }
 
     /**
      * @static function getInstance
-     * @param null
      * @return UserHeader
      */
     public static function getInstance()
@@ -73,12 +66,12 @@ class UserHeader extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param mixed  $table
      * @param array  $tables
      * @param string $filename
      */
-    public function write($module, $table, $tables, $filename): void
+    public function write($module, $table, array $tables, string $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -142,8 +135,7 @@ class UserHeader extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

@@ -46,7 +46,6 @@ class Header extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -58,7 +57,7 @@ class Header extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return Header
      */
     public static function getInstance()
@@ -76,7 +75,7 @@ class Header extends Files\CreateFile
      * @param        $module
      * @param string $filename
      */
-    public function write($module, $filename): void
+    public function write($module, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -85,7 +84,7 @@ class Header extends Files\CreateFile
     /**
      * @public function getTemplatesUserHeader
      * @param $moduleDirname
-     * @return bool|string
+     * @return string
      */
     public function getTemplatesUserHeader($moduleDirname)
     {
@@ -101,13 +100,12 @@ class Header extends Files\CreateFile
 
     /**
      * @public function getTemplateFooterFacebbokSDK
-     * @param null
      *
-     * @return bool|string
+     * @return string
      */
     public function getTemplateUserHeaderFacebbokSDK()
     {
-        $ret = <<<'EOT'
+        return <<<'EOT'
 	<!-- Load Facebook SDK for JavaScript -->
 	<div id="fb-root"></div>
 	<script>(function(d, s, id) {
@@ -118,14 +116,12 @@ class Header extends Files\CreateFile
 	  fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));</script>
 EOT;
-
-        return $ret;
     }
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

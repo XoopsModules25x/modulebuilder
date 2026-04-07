@@ -51,7 +51,6 @@ class CreateArchitecture extends CreateStructure
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -63,8 +62,6 @@ class CreateArchitecture extends CreateStructure
 
     /**
      * @static function getInstance
-     *
-     * @param null
      *
      * @return Modulebuilder\Files\CreateArchitecture
      */
@@ -156,8 +153,6 @@ class CreateArchitecture extends CreateStructure
         if (!\file_exists($logoGifFrom)) {
             // Rename file
             $copyFile    = TDMC_IMAGES_LOGOS_URL . '/xoopsdevelopmentteam_logo.gif';
-            $copyNewFile = $logoGifFrom;
-            \copy($copyFile, $copyNewFile);
         } else {
             // Copy file
             if (!\file_exists($logoPng)) {
@@ -165,9 +160,9 @@ class CreateArchitecture extends CreateStructure
                 $logoGifFrom = TDMC_UPLOAD_IMGMOD_PATH . '/' . $logoPng;
             }
             $copyFile    = TDMC_IMAGES_LOGOS_URL . '/' . $logoPng;
-            $copyNewFile = $logoGifFrom;
-            \copy($copyFile, $copyNewFile);
         }
+        $copyNewFile = $logoGifFrom;
+        \copy($copyFile, $copyNewFile);
 
         // Creation of 'module_author_logo.gif' file
         $this->copyFile('assets/images', $copyNewFile, $logoPng);
@@ -207,7 +202,7 @@ class CreateArchitecture extends CreateStructure
     /**
      * @public function setFilesToBuilding
      *
-     * @param string $module
+     * @param $module
      *
      * @return array
      */
@@ -220,7 +215,7 @@ class CreateArchitecture extends CreateStructure
         $tables        = $this->cf->getTableTables($modId);
         $files         = $this->cf->getTableMorefiles($modId);
         $ret           = [];
-        $templateType  = 'defstyle';
+        $templateType  = 'defstyle'; // currently no other template style is implemented
 
         $patterns        = [
             \mb_strtolower('modulebuilder')           => \mb_strtolower($moduleDirname),
@@ -231,9 +226,9 @@ class CreateArchitecture extends CreateStructure
         $this->patValues = \array_values($patterns);
 
         $table         = null;
-        $tableCategory = [];
+        //$tableCategory = [];
         //$tableName          = [];
-        $tableAdmin         = [];
+        //$tableAdmin         = [];
         $tableUser          = [];
         $tableBlocks        = [];
         $tableSearch        = [];
@@ -246,17 +241,17 @@ class CreateArchitecture extends CreateStructure
         $tablePrint         = [];
         $tableRate          = [];
         $tableRss           = [];
-        $tableSingle        = [];
-        $tableSubmit        = [];
-        $tableVisit         = [];
+        //$tableSingle        = [];
+        //$tableSubmit        = [];
+        //$tableVisit         = [];
         $tableTag           = [];
         foreach (\array_keys($tables) as $t) {
             $tableId              = $tables[$t]->getVar('table_id');
             $tableName            = $tables[$t]->getVar('table_name');
             $tableSoleName        = $tables[$t]->getVar('table_solename');
-            $tableCategory[]      = $tables[$t]->getVar('table_category');
+            //$tableCategory[]      = $tables[$t]->getVar('table_category');
             $tableImage           = $tables[$t]->getVar('table_image');
-            $tableAdmin[]         = $tables[$t]->getVar('table_admin');
+            //$tableAdmin[]         = $tables[$t]->getVar('table_admin');
             $tableUser[]          = $tables[$t]->getVar('table_user');
             $tableBlocks[]        = $tables[$t]->getVar('table_blocks');
             $tableSearch[]        = $tables[$t]->getVar('table_search');
@@ -269,9 +264,9 @@ class CreateArchitecture extends CreateStructure
             $tablePrint[]         = $tables[$t]->getVar('table_print');
             $tableRate[]          = $tables[$t]->getVar('table_rate');
             $tableRss[]           = $tables[$t]->getVar('table_rss');
-            $tableSingle[]        = $tables[$t]->getVar('table_single');
-            $tableSubmit[]        = $tables[$t]->getVar('table_submit');
-            $tableVisit[]         = $tables[$t]->getVar('table_visit');
+            //$tableSingle[]        = $tables[$t]->getVar('table_single');
+            //$tableSubmit[]        = $tables[$t]->getVar('table_submit');
+            //$tableVisit[]         = $tables[$t]->getVar('table_visit');
             $tableTag[]           = $tables[$t]->getVar('table_tag');
 
             // Get Table Object
@@ -301,11 +296,11 @@ class CreateArchitecture extends CreateStructure
                 $blocksFiles->write($module, $table, $tableName . '.php');
                 $ret[] = $blocksFiles->render();
                 // Templates Blocks Files
-                if ($templateType == 'bootstrap') {
+/*                if ($templateType == 'bootstrap') {
                     $templatesBlocks = Modulebuilder\Files\Templates\Blocks\Bootstrap\TemplatesBlocks::getInstance();
-                } else {
+                } else {*/
                     $templatesBlocks = Modulebuilder\Files\Templates\Blocks\Defstyle\TemplatesBlocks::getInstance();
-                }
+                /*}*/
                 $templatesBlocks->write($module, $table, $moduleDirname . '_block_' . $tableName . '.tpl');
                 $ret[] = $templatesBlocks->render();
                 // Spotlight block
@@ -314,11 +309,11 @@ class CreateArchitecture extends CreateStructure
                 $blocksFiles->write($module, $table, $tableName . '_spotlight.php');
                 $ret[] = $blocksFiles->render();
                 // Templates Blocks Files
-                if ($templateType == 'bootstrap') {
+/*                if ($templateType == 'bootstrap') {
                     $templatesBlocks = Modulebuilder\Files\Templates\Blocks\Bootstrap\TemplatesBlocksSpotlight::getInstance();
-                } else {
+                } else {*/
                     $templatesBlocks = Modulebuilder\Files\Templates\Blocks\Defstyle\TemplatesBlocksSpotlight::getInstance();
-                }
+                /*}*/
                 $templatesBlocks->write($module, $table, $moduleDirname . '_block_' . $tableName . '_spotlight.tpl');
                 $ret[] = $templatesBlocks->render();
             }
@@ -343,27 +338,27 @@ class CreateArchitecture extends CreateStructure
                 $userPages->write($module, $table, $tableName . '.php');
                 $ret[] = $userPages->render();
                 // User Templates File
-                if ($templateType == 'bootstrap') {
+/*                if ($templateType == 'bootstrap') {
                     $userTemplatesPages = Modulebuilder\Files\Templates\User\Bootstrap\Pages::getInstance();
-                } else {
+                } else {*/
                     $userTemplatesPages = Modulebuilder\Files\Templates\User\Defstyle\Pages::getInstance();
-                }
+                /*}*/
                 $userTemplatesPages->write($module, $table, $moduleDirname . '_' . $tableName . '.tpl');
                 $ret[] = $userTemplatesPages->render();
                 // User List Templates File
-                if ($templateType == 'bootstrap') {
+/*                if ($templateType == 'bootstrap') {
                     $userTemplatesPagesList = Modulebuilder\Files\Templates\User\Bootstrap\PagesList::getInstance();
-                } else {
+                } else {*/
                     $userTemplatesPagesList = Modulebuilder\Files\Templates\User\Defstyle\PagesList::getInstance();
-                }
+                /*}*/
                 $userTemplatesPagesList->write($module, $table, $tables, $moduleDirname . '_' . $tableName . '_list' . '.tpl');
                 $ret[] = $userTemplatesPagesList->render();
                 // User Item Templates File
-                if ($templateType == 'bootstrap') {
+/*                if ($templateType == 'bootstrap') {
                     $userTemplatesPagesItem = Modulebuilder\Files\Templates\User\Bootstrap\PagesItem::getInstance();
-                } else {
+                } else {*/
                     $userTemplatesPagesItem = Modulebuilder\Files\Templates\User\Defstyle\PagesItem::getInstance();
-                }
+                /*}*/
                 $userTemplatesPagesItem->write($module, $table, $tables, $moduleDirname . '_' . $tableName . '_item' . '.tpl');
                 $ret[] = $userTemplatesPagesItem->render();
                 if (1 === (int)$tables[$t]->getVar('table_category')) {
@@ -591,6 +586,11 @@ class CreateArchitecture extends CreateStructure
         if (\in_array(1, $tableComments)) {
             // Include Comments File
             $includeComments = Modulebuilder\Files\Includes\IncludeComments::getInstance();
+            foreach (\array_keys($tables) as $t) {
+                if (1 == (int)$tables[$t]->getVar('table_comments')) {
+                    $table = $tables[$t];
+                }
+            }
             $includeComments->write($module, $table);
             $ret[] = $includeComments->renderCommentsIncludes($module, 'comment_edit');
             // Include Comments File
@@ -618,27 +618,27 @@ class CreateArchitecture extends CreateStructure
         if ((1 == $module->getVar('mod_user')) && \in_array(1, $tableUser)) {
             // Creation of user template files
             // Templates Index File
-            if ($templateType == 'bootstrap') {
+/*            if ($templateType == 'bootstrap') {
                 $userTemplatesIndex = Modulebuilder\Files\Templates\User\Bootstrap\Index::getInstance();
-            } else {
+            } else {*/
                 $userTemplatesIndex = Modulebuilder\Files\Templates\User\Defstyle\Index::getInstance();
-            }
+            /*}*/
             $userTemplatesIndex->write($module, $table, $tables, $moduleDirname . '_index.tpl');
             $ret[] = $userTemplatesIndex->render();
             // Templates Footer File
-            if ($templateType == 'bootstrap') {
+/*            if ($templateType == 'bootstrap') {
                 $userTemplatesFooter = Modulebuilder\Files\Templates\User\Bootstrap\Footer::getInstance();
-            } else {
+            } else {*/
                 $userTemplatesFooter = Modulebuilder\Files\Templates\User\Defstyle\Footer::getInstance();
-            }
+            /*}*/
             $userTemplatesFooter->write($module, $table, $moduleDirname . '_footer.tpl');
             $ret[] = $userTemplatesFooter->render();
             // Templates Header File
-            if ($templateType == 'bootstrap') {
+/*            if ($templateType == 'bootstrap') {
                 $userTemplatesHeader = Modulebuilder\Files\Templates\User\Bootstrap\Header::getInstance();
-            } else {
+            } else {*/
                 $userTemplatesHeader = Modulebuilder\Files\Templates\User\Defstyle\Header::getInstance();
-            }
+            /*}*/
             $userTemplatesHeader->write($module, $moduleDirname . '_header.tpl');
             $ret[] = $userTemplatesHeader->render();
 
@@ -666,11 +666,11 @@ class CreateArchitecture extends CreateStructure
                         $userPdf->write($module, $table, $tableName . '_pdf.php');
                         $ret[] = $userPdf->render();
                         // User Templates Pdf File
-                        if ($templateType == 'bootstrap') {
+                        /*if ($templateType == 'bootstrap') {
                             $userTemplatesPdf = Modulebuilder\Files\Templates\User\Bootstrap\Pdf::getInstance();
-                        } else {
+                        } else {*/
                             $userTemplatesPdf = Modulebuilder\Files\Templates\User\Defstyle\Pdf::getInstance();
-                        }
+                        /*}*/
                         $userTemplatesPdf->write($module, $table, $moduleDirname . '_' . $tableName . '_pdf.tpl');
                         $ret[] = $userTemplatesPdf->render();
                     }
@@ -685,11 +685,11 @@ class CreateArchitecture extends CreateStructure
                         $userPrint->write($module, $table, $tableName . '_print.php');
                         $ret[] = $userPrint->render();
                         // User Templates Print File
-                        if ($templateType == 'bootstrap') {
+                        /*if ($templateType == 'bootstrap') {
                             $userTemplatesPrint = Modulebuilder\Files\Templates\User\Bootstrap\UserPrint::getInstance();
-                        } else {
+                        } else {*/
                             $userTemplatesPrint = Modulebuilder\Files\Templates\User\Defstyle\UserPrint::getInstance();
-                        }
+                        /*}*/
                         $userTemplatesPrint->write($module, $table, $moduleDirname . '_' . $tableName . '_print.tpl');
                         $ret[] = $userTemplatesPrint->render();
                     }
@@ -714,11 +714,11 @@ class CreateArchitecture extends CreateStructure
                 $userRss->write($module, $table, 'rss.php');
                 $ret[] = $userRss->render();
                 // User Templates Rss File
-                if ($templateType == 'bootstrap') {
+                /*if ($templateType == 'bootstrap') {
                     $userTemplatesRss = Modulebuilder\Files\Templates\User\Bootstrap\Rss::getInstance();
-                } else {
+                } else {*/
                     $userTemplatesRss = Modulebuilder\Files\Templates\User\Defstyle\Rss::getInstance();
-                }
+                /*}*/
                 $userTemplatesRss->write($module, $moduleDirname . '_rss.tpl');
                 $ret[] = $userTemplatesRss->render();
             }
@@ -741,11 +741,11 @@ class CreateArchitecture extends CreateStructure
             $languageMain->write($module, $tables, 'main.php');
             $ret[] = $languageMain->render();
             // User Templates Breadcrumbs File
-            if ($templateType == 'bootstrap') {
+            /*if ($templateType == 'bootstrap') {
                 $userTemplatesUserBreadcrumbs = Modulebuilder\Files\Templates\User\Bootstrap\Breadcrumbs::getInstance();
-            } else {
+            } else {*/
                 $userTemplatesUserBreadcrumbs = Modulebuilder\Files\Templates\User\Defstyle\Breadcrumbs::getInstance();
-            }
+            /*}*/
             $userTemplatesUserBreadcrumbs->write($module, $moduleDirname . '_breadcrumbs.tpl');
             $ret[] = $userTemplatesUserBreadcrumbs->render();
         }

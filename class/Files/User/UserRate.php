@@ -39,28 +39,21 @@ class UserRate extends Files\CreateFile
      * @var mixed
      */
     private $pc = null;
-	/**
-     * @var mixed
-     */
-    private $uxc = null;
-	
+
 	/**
      * @public function constructor
      *
-     * @param null
      */
     public function __construct()
     {
         parent::__construct();
         $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $this->uxc = UserXoopsCode::getInstance();
     }
 
     /**
      * @static function getInstance
      *
-     * @param null
      *
      * @return UserRate
      */
@@ -76,11 +69,11 @@ class UserRate extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param $module
      * @param $tables
      * @param string $filename
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $tables, string $filename)
     {
         $this->setModule($module);
         $this->setTables($tables);
@@ -109,14 +102,15 @@ class UserRate extends Files\CreateFile
      * @private function getUserRateSwitch
      * @param $tables
      * @param $language
+     * @param $moduleDirname
      * @return string
      */
-    private function getUserRateSwitch($tables, $language)
+    private function getUserRateSwitch($tables, $language, $moduleDirname)
     {
         $t = "\t\t";
         $cases  = [
             'list' => [$this->getUserRateDefault( $t)],
-            'save' => [$this->getUserRateSave($tables, $language,  $t)],
+            'save' => [$this->getUserRateSave($tables, $language,  $t, $moduleDirname)],
         ];
 
         return $this->xc->getXcSwitch('op', $cases, true);
@@ -127,7 +121,7 @@ class UserRate extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    public function getUserRateDefault($t = '')
+    public function getUserRateDefault(string $t = '')
     {
         $ret = $this->pc->getPhpCodeCommentLine('default should not happen','', $t);
         $ret .= $this->xc->getXcRedirectHeader('index', '', '3', '\_NOPERM', true, $t);
@@ -140,16 +134,17 @@ class UserRate extends Files\CreateFile
      * @param $tables
      * @param $language
      * @param $t
+     * @param $moduleDirname
      * @return string
      */
-    public function getUserRateSave($tables, $language, $t)
+    public function getUserRateSave($tables, $language, $t, $moduleDirname)
     {
         $ret                = $this->pc->getPhpCodeCommentLine('Security Check', '', $t);
         $xoopsSecurityCheck = $this->xc->getXcXoopsSecurityCheck();
         $securityError      = $this->xc->getXcXoopsSecurityErrors();
         $implode            = $this->pc->getPhpCodeImplode(',', $securityError);
         $redirectError      = $this->xc->getXcRedirectHeader('index', '', '3', $implode, true, $t . "\t");
-        $ret                .= $this->pc->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, $t);
+        $ret                .= $this->pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectError, false, $t);
 
         $ret .= $this->xc->getXcXoopsRequest('rating', 'rating', '', 'Int', false, $t);
         $ret .= $this->xc->getXcEqualsOperator('$itemid', '0','', $t);
@@ -166,17 +161,19 @@ class UserRate extends Files\CreateFile
                     }
                 }
                 $contIf = $this->xc->getXcXoopsRequest('itemid', $fieldId, '', 'Int', false, $t . "\t");
-                $contIf .= $this->xc->getXcEqualsOperator('$redir', "'{$tableName}.php?op=show&amp;{$fieldId}=' . \$itemid",'', $t . "\t");
+                $contIf .= $this->xc->getXcEqualsOperator('$redir', "'{$tableName}.php?op=show&{$fieldId}=' . \$itemid",'', $t . "\t");
                 $const = $this->xc->getXcGetConstants('TABLE_' . $stuTableName);
                 $ret .= $this->pc->getPhpCodeConditions('$source', ' === ', $const, $contIf, false, $t);
             }
         }
+        $redirectError = $this->xc->getXcRedirectHeader('$redir', '', '3', "{$language}INVALID_PARAM", false, $t . "\t");
+        $ret           .= $this->pc->getPhpCodeConditions('(int)$itemid', ' === ', '0', $redirectError, false, $t);
 
         $ret    .= $this->pc->getPhpCodeBlankLine();
         $ret    .= $this->pc->getPhpCodeCommentLine('Check permissions', '', $t);
         $ret    .= $this->xc->getXcEqualsOperator('$rate_allowed', 'false','', $t);
         $xUser  = $this->pc->getPhpCodeGlobals('xoopsUser');
-        $ret    .= $this->pc->getPhpCodeTernaryOperator('groups', '(isset(' . $xUser . ') && \is_object(' . $xUser . '))', $xUser . '->getGroups()', '\XOOPS_GROUP_ANONYMOUS', "\t\t");
+        $ret    .= $this->pc->getPhpCodeTernaryOperator('groups', '(isset(' . $xUser . ') && \is_object(' . $xUser . '))', $xUser . '->getGroups()', '[\XOOPS_GROUP_ANONYMOUS]', "\t\t");
         $contIf = $this->xc->getXcEqualsOperator('$rate_allowed', 'true','', $t . "\t\t");
         $contIf .= $this->getSimpleString('break;', $t . "\t\t");
         $cond   = '\XOOPS_GROUP_ADMIN == $group || \in_array($group, $helper->getConfig(\'ratingbar_groups\'))';
@@ -195,7 +192,7 @@ class UserRate extends Files\CreateFile
         $contIf        = $this->xc->getXcRedirectHeader('index', '', '3', $language . 'RATING_VOTE_BAD', true, $t . "\t\t\t");
         $contIf        .= $this->getSimpleString('exit;', $t . "\t\t\t");
         $const         = $this->xc->getXcGetConstants('RATING_LIKES');
-        $cases[$const] = [$this->pc->getPhpCodeConditions('$rating > 1 || $rating < -1', '', '', $contIf, false, $t . "\t\t")];
+        $cases[$const] = [$this->pc->getPhpCodeConditions('!\in_array($rating, [-1, 1], true)', '', '', $contIf, false, $t . "\t\t")];
         $const         = $this->xc->getXcGetConstants('RATING_5STARS');
         $cases[$const] = [$this->pc->getPhpCodeConditions('$rating > 5 || $rating < 1', '', '', $contIf, false, $t . "\t\t")];
         $const         = $this->xc->getXcGetConstants('RATING_10STARS');
@@ -227,38 +224,41 @@ class UserRate extends Files\CreateFile
         $contIf   = $this->pc->getPhpCodeUnset('ratingsObj', $t . "\t");
 
         $contIf       .= $this->pc->getPhpCodeCommentLine('Calc average rating value', null, $t . "\t");
-        $contIf       .= $this->xc->getXcEqualsOperator('$nb_ratings    ', '0','', $t . "\t");
-        $contIf       .= $this->xc->getXcEqualsOperator('$avg_rate_value', '0','', $t . "\t");
-        $contIf       .= $this->xc->getXcEqualsOperator('$current_rating', '0','', $t . "\t");
-        $tableName    = 'ratings';
-        $ucfTableName = \ucfirst($tableName);
-        $critName     = 'cr' . $ucfTableName;
-        $contIf       .= $this->xc->getXcCriteriaCompo($critName, $t . "\t");
-        $crit         = $this->xc->getXcCriteria('', "'rate_source'", '$source','',true);
-        $contIf       .= $this->xc->getXcCriteriaAdd($critName, $crit, $t . "\t");
-        $crit         = $this->xc->getXcCriteria('', "'rate_itemid'", '$itemid','',true);
-        $contIf       .= $this->xc->getXcCriteriaAdd($critName, $crit, $t . "\t");
-        $contIf       .= $this->xc->getXcHandlerCountClear($tableName . 'Count', $tableName, '$' . $critName, $t . "\t");
-        $contIf       .= $this->xc->getXcHandlerAllClear($tableName . 'All', $tableName, '$' . $critName, $t . "\t");
-        $contFe       = $this->xc->getXcEqualsOperator('$current_rating', "\$ratingsAll[\$i]->getVar('rate_value')",'+', $t . "\t\t");
-        $contIf       .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contFe, $t . "\t");
-        $contIf       .= $this->pc->getPhpCodeUnset($tableName . 'All', $t . "\t");
-        $contIfInt    = $this->xc->getXcEqualsOperator('$avg_rate_value', 'number_format($current_rating / $ratingsCount, 2)','', $t . "\t\t");
-        $contIf       .= $this->pc->getPhpCodeConditions('$ratingsCount', ' > ', '0', $contIfInt, false, $t . "\t");
-
-        $contIf .= $this->pc->getPhpCodeCommentLine('Update related table', null, $t . "\t");
         foreach ($tables as $table) {
             $tableName      = $table->getVar('table_name');
-            $tableFieldName = $table->getVar('table_fieldname');
             $stuTableName   = \mb_strtoupper($tableName);
             if (1 == $table->getVar('table_rate')) {
-                //$contIfInt = $this->xc->getXcEqualsOperator('$tableName', "'{$tableName}'",'', $t . "\t\t");
-                //$contIfInt .= $this->xc->getXcEqualsOperator('$fieldRatings', "'{$tableFieldName}_ratings'",'', $t . "\t\t");
-                //$contIfInt .= $this->xc->getXcEqualsOperator('$fieldVotes  ', "'{$tableFieldName}_votes'",'', $t . "\t\t");
-                $contIfInt = $this->xc->getXcHandlerGetObj($tableName, 'itemid', $t . "\t\t");
-                $contIfInt .= $this->xc->getXcSetVarObj($tableName, "{$tableFieldName}_ratings", '$avg_rate_value', $t . "\t\t");
-                $contIfInt .= $this->xc->getXcSetVarObj($tableName, "{$tableFieldName}_votes", '$ratingsCount', $t . "\t\t");
-                $insertInt = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
+                $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+                $fieldId      = '';
+                $fieldRatings = '';
+                $fieldVotes   = '';
+                foreach (\array_keys($fields) as $f) {
+                    if (0 == $f) {
+                        $fieldId = $fields[$f]->getVar('field_name');
+                    }
+                    $fieldElement = $fields[$f]->getVar('field_element');
+                    if($fieldElement == Modulebuilder\Constants::FIELD_ELE_TEXTRATINGS) {
+                        $fieldRatings = $fields[$f]->getVar('field_name');
+                    }
+                    if($fieldElement == Modulebuilder\Constants::FIELD_ELE_TEXTVOTES) {
+                        $fieldVotes = $fields[$f]->getVar('field_name');
+                    }
+                }
+                $sql = $this->getSimpleString("\$sql = '", $t . "\t\t");
+                $sql .= $this->getSimpleString("UPDATE ' . \$GLOBALS['xoopsDB']->prefix('" . $moduleDirname . '_' . $tableName . "') . ' t", $t . "\t\t\t");
+                $sql .= $this->getSimpleString('LEFT JOIN (', $t . "\t\t\t");
+                $sql .= $this->getSimpleString('SELECT', $t . "\t\t\t\t");
+                $sql .= $this->getSimpleString('rate_itemid, rate_source, COUNT(*) AS votes, ROUND(AVG(rate_value), 2) AS avg_rating', $t . "\t\t\t\t\t");
+                $sql .= $this->getSimpleString("FROM ' . \$GLOBALS['xoopsDB']->prefix('{$moduleDirname}_ratings') . '", $t . "\t\t\t\t");
+                $sql .= $this->getSimpleString('GROUP BY rate_itemid, rate_source', $t . "\t\t\t\t");
+                $sql .= $this->getSimpleString(") r ON r.rate_itemid = t." . $fieldId . " and r.rate_source = ' . \$source . '", $t . "\t\t\t");
+                $sql .= $this->getSimpleString('SET', $t . "\t\t\t");
+                $sql .= $this->getSimpleString('t.' . $fieldVotes . ' = COALESCE(r.votes, 0),', $t . "\t\t\t\t");
+                $sql .= $this->getSimpleString('t.' . $fieldRatings . ' = COALESCE(r.avg_rating, 0),', $t . "\t\t\t\t");
+                $sql .= $this->getSimpleString("WHERE t." . $fieldId . " = ' . \$itemid;", $t . "\t\t\t");
+                $contIfInt = $sql;
+
+                $insertInt = "\$GLOBALS['xoopsDB']->queryF(\$sql)";
 
                 $insertOK  = $this->xc->getXcRedirectHeader('$redir', '', '2', "{$language}RATING_VOTE_THANKS", false, $t . "\t\t\t");
                 $insertErr = $this->xc->getXcRedirectHeader($tableName, '', '3', "{$language}RATING_ERROR1", true, $t . "\t\t\t");
@@ -270,7 +270,7 @@ class UserRate extends Files\CreateFile
         }
 
         $contIf .= $this->pc->getPhpCodeBlankLine();
-        $contIf .= $this->xc->getXcRedirectHeader('index', '', '2', "{$language}RATING_VOTE_THANKS", true, $t . "\t");
+        $contIf .= $this->xc->getXcRedirectHeader('index', '', '2', "{$language}INVALID_PARAM", true, $t . "\t");
         $ret    .= $this->pc->getPhpCodeConditions($insert, '', '', $contIf, false, $t);
 
         $ret .= $this->pc->getPhpCodeCommentLine('Get Error', null, $t);
@@ -290,8 +290,7 @@ class UserRate extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     * @return string
      */
     public function render()
     {
@@ -302,7 +301,7 @@ class UserRate extends Files\CreateFile
         $language           = $this->getLanguage($moduleDirname, 'MA');
         $content            = $this->getHeaderFilesComments($module);
         $content            .= $this->getUserRateHeader($moduleDirname);
-        $content            .= $this->getUserRateSwitch($tables, $language);
+        $content            .= $this->getUserRateSwitch($tables, $language, $moduleDirname);
         $content            .= $this->getUserRateFooter();
 
         $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);

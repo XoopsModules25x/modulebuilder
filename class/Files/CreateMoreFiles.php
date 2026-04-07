@@ -41,7 +41,6 @@ class CreateMoreFiles extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -50,7 +49,7 @@ class CreateMoreFiles extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return CreateMorefiles
      */
     public static function getInstance()
@@ -65,13 +64,13 @@ class CreateMoreFiles extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param string $filename
      *
      * @param        $folder
      * @param        $extension
      */
-    public function write($module, $filename, $folder, $extension)
+    public function write($module, string $filename, $folder, $extension)
     {
         $this->setModule($module);
         $this->extension = $extension;
@@ -89,7 +88,7 @@ class CreateMoreFiles extends Files\CreateFile
      * @param string $header
      * @return string
      */
-    private function getMorefilesPhp($header = '')
+    private function getMorefilesPhp(string $header = '')
     {
         $ret = "<?php\n";
         $ret .= "{$header}\n";
@@ -127,7 +126,6 @@ class CreateMoreFiles extends Files\CreateFile
 
     /**
      * @private function getMorefilesText
-     * @param null
      *
      * @return string
      */
@@ -138,7 +136,6 @@ class CreateMoreFiles extends Files\CreateFile
 
     /**
      * @private function getMorefilesSql
-     * @param null
      *
      * @return string
      */
@@ -149,11 +146,11 @@ class CreateMoreFiles extends Files\CreateFile
 
     /**
      * @private function getMorefilesCss
-     * @param $header
+     * @param string $header
      *
      * @return string
      */
-    private function getMorefilesCss($header = '')
+    private function getMorefilesCss(string $header = '')
     {
         $ret = "@charset \"UTF-8\"\n";
         $ret .= "{$header}\n\nPlease! put your css code here\n";
@@ -163,7 +160,6 @@ class CreateMoreFiles extends Files\CreateFile
 
     /**
      * @private function getMorefilesDefault
-     * @param null
      *
      * @return string
      */
@@ -174,7 +170,7 @@ class CreateMoreFiles extends Files\CreateFile
 
     /**
      * @public   function render
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

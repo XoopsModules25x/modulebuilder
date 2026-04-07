@@ -38,7 +38,6 @@ class LanguageBlocks extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -48,7 +47,7 @@ class LanguageBlocks extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return LanguageBlocks
      */
     public static function getInstance()
@@ -63,11 +62,11 @@ class LanguageBlocks extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param mixed  $tables
      * @param string $filename
      */
-    public function write($module, $tables, $filename): void
+    public function write($module, $tables, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -80,7 +79,7 @@ class LanguageBlocks extends Files\CreateFile
      *
      * @return string
      */
-    private function getLanguageBlock($language)
+    private function getLanguageBlock(string $language)
     {
         $tables = $this->getTables();
         $ret    = $this->ld->getAboveDefines('Admin Edit');
@@ -119,7 +118,7 @@ class LanguageBlocks extends Files\CreateFile
 
     /**
      * @private function getFooter
-     * @param null
+     *
      * @return string
      */
     private function getLanguageFooter()
@@ -132,8 +131,8 @@ class LanguageBlocks extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

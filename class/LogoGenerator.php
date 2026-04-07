@@ -28,7 +28,7 @@ require_once \dirname(__DIR__, 3) . '/mainfile.php';
 /**
  * @param string $val
  */
-function phpFunction($val = ''): void
+function phpFunction(string $val = ''): void
 {
     // create php function here
     echo $val;
@@ -86,7 +86,7 @@ class LogoGenerator
         // Write text
         $textColor     = imagecolorallocate($imageModule, 0, 0, 0);
         $spaceToBorder = (int)\floor((92 - mb_strlen($moduleName) * 7.5) / 2);
-        imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, $moduleName, []);
+        imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, $moduleName);
 
         imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
 

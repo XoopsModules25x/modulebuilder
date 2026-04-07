@@ -42,7 +42,6 @@ class TemplatesAdminBroken extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -53,7 +52,7 @@ class TemplatesAdminBroken extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return TemplatesAdminBroken
      */
     public static function getInstance()
@@ -68,7 +67,7 @@ class TemplatesAdminBroken extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param        $tables
      * @param        $filename
      */
@@ -84,7 +83,7 @@ class TemplatesAdminBroken extends Files\CreateFile
      * @param string $moduleDirname
      * @return string
      */
-    private function getTemplatesAdminBrokenHeader($moduleDirname)
+    private function getTemplatesAdminBrokenHeader(string $moduleDirname)
     {
         $ret = $this->hc->getHtmlComment('Header', '', "\n");
         $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', "\n\n");
@@ -95,57 +94,51 @@ class TemplatesAdminBroken extends Files\CreateFile
     /**
      * @private  function getTemplatesAdminBrokenTableThead
      * @param string $language
-     * @param        $t
      * @return string
      */
-    private function getTemplatesAdminBrokenTableThead($language, $t)
+    private function getTemplatesAdminBrokenTableThead(string $language)
     {
         $th   = '';
         $lang = $this->sc->getSmartyConst($language, 'BROKEN_TABLE');
-        $th   .= $this->hc->getHtmlTableHead($lang, 'center', '', $t . "\t\t");
+        $th   .= $this->hc->getHtmlTableHead($lang, 'center', '', "\t\t\t\t");
         $lang = $this->sc->getSmartyConst($language, 'BROKEN_MAIN');
-        $th   .= $this->hc->getHtmlTableHead($lang, 'center', '', $t . "\t\t");
+        $th   .= $this->hc->getHtmlTableHead($lang, 'center', '', "\t\t\t\t");
         $lang = $this->sc->getSmartyConst($language, 'FORM_ACTION');
-        $th   .= $this->hc->getHtmlTableHead($lang, 'center width5', '', $t . "\t\t");
-        $tr   = $this->hc->getHtmlTableRow($th, 'head', $t . "\t");
-        $ret  = $this->hc->getHtmlTableThead($tr, '', $t);
-
-        return $ret;
+        $th   .= $this->hc->getHtmlTableHead($lang, 'center width5', '', "\t\t\t\t");
+        $tr   = $this->hc->getHtmlTableRow($th, 'head', "\t\t" . "\t");
+        return $this->hc->getHtmlTableThead($tr, '', "\t\t");
     }
 
     /**
      * @private  function getTemplatesAdminBrokenTableTBody
      * @param string $tableName
      * @param        $tableSoleName
-     * @param        $t
      * @return string
      * @internal param string $language
      */
-    private function getTemplatesAdminBrokenTableTBody($tableName, $tableSoleName, $t)
+    private function getTemplatesAdminBrokenTableTBody(string $tableName, $tableSoleName)
     {
         $td        = '';
-        $doubleKey = $this->sc->getSmartyDoubleVar($tableSoleName, 'key');
-        $doubleVal = $this->sc->getSmartyDoubleVar($tableSoleName, 'keyval');
+        $doubleKey = $this->sc->getSmartyDoubleVar($tableSoleName, 'key', '', '', "''|escape:'htmlattr'");
+        $doubleVal = $this->sc->getSmartyDoubleVar($tableSoleName, 'keyval', '', '', "''|escape:'htmlattr'");
 
-        $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'table');
-        $td      .= $this->hc->getHtmlTableData($double, 'center', '', $t . "\t\t");
-        $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'main');
-        $td      .= $this->hc->getHtmlTableData($double, 'center', '', $t . "\t\t");
+        $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'table', '', '', "''|escape:'html'");
+        $td      .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t\t");
+        $double  = $this->sc->getSmartyDoubleVar($tableSoleName, 'main', '', '', "''|escape:'html'");
+        $td      .= $this->hc->getHtmlTableData($double, 'center', '', "\t\t\t\t");
         $lang    = $this->sc->getSmartyConst('', '_EDIT');
         $src     = $this->sc->getSmartyNoSimbol("xoModuleIcons16 'edit.png'");
         $img     = $this->hc->getHtmlImage($src, $tableName);
-        $anchor  = $this->hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$doubleKey}=" . $doubleVal, $img, $lang, '', '', '', $t . "\t\t\t", "\n");
+        $anchor  = $this->hc->getHtmlAnchor($tableName . ".php?op=edit&amp;{$doubleKey}=" . $doubleVal, $img, $lang, '', '', '', "\t\t" . "\t\t\t", "\n");
         $lang    = $this->sc->getSmartyConst('', '_DELETE');
         $src     = $this->sc->getSmartyNoSimbol("xoModuleIcons16 'delete.png'");
         $img     = $this->hc->getHtmlImage($src, $tableName);
-        $anchor  .= $this->hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$doubleKey}=" . $doubleVal, $img, $lang, '', '', '', $t . "\t\t\t", "\n");
-        $td      .= $this->hc->getHtmlTableData($anchor, 'center width5', '', $t . "\t\t", "\n", true);
+        $anchor  .= $this->hc->getHtmlAnchor($tableName . ".php?op=delete&amp;{$doubleKey}=" . $doubleVal, $img, $lang, '', '', '', "\t\t" . "\t\t\t", "\n");
+        $td      .= $this->hc->getHtmlTableData($anchor, 'center width5', '', "\t\t\t\t", "\n", true);
         $cycle   = $this->sc->getSmartyNoSimbol('cycle values=\'odd, even\'');
-        $tr      = $this->hc->getHtmlTableRow($td, $cycle, $t . "\t");
-        $foreach = $this->sc->getSmartyForeach($tableSoleName, $tableName . '_list', $tr, '', '', $t . "\t");
-        $tbody   = $this->hc->getHtmlTableTbody($foreach, '', $t);
-
-        return $tbody;
+        $tr      = $this->hc->getHtmlTableRow($td, $cycle, "\t\t" . "\t");
+        $foreach = $this->sc->getSmartyForeach($tableSoleName, $tableName . '_list', $tr, '', '', "\t\t" . "\t");
+        return $this->hc->getHtmlTableTbody($foreach, '', "\t\t");
     }
 
     /**
@@ -155,13 +148,11 @@ class TemplatesAdminBroken extends Files\CreateFile
      * @param string $language
      * @return string
      */
-    private function getTemplatesAdminBrokenTable($tableName, $tableSoleName, $language)
+    private function getTemplatesAdminBrokenTable(string $tableName, $tableSoleName, string $language)
     {
-        $tbody = $this->getTemplatesAdminBrokenTableThead($language, "\t\t");
-        $tbody .= $this->getTemplatesAdminBrokenTableTBody($tableName, $tableSoleName, "\t\t");
-        $ret   = $this->hc->getHtmlTable($tbody, 'table table-bordered', "\t");
-
-        return $ret;
+        $tbody = $this->getTemplatesAdminBrokenTableThead($language);
+        $tbody .= $this->getTemplatesAdminBrokenTableTBody($tableName, $tableSoleName);
+        return $this->hc->getHtmlTable($tbody, 'table table-bordered', "\t");
     }
 
     /**
@@ -171,28 +162,28 @@ class TemplatesAdminBroken extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    private function getTemplatesAdminBrokenList($table, $language, $t = '')
+    private function getTemplatesAdminBrokenList($table, string $language, string $t = '')
     {
         $tableName     = $table->getVar('table_name');
         $tableSoleName = $table->getVar('table_solename');
         $ucfTableName  = \ucfirst($tableName);
         $double        = $this->sc->getSmartySingleVar($tableName . '_result');
-        $ret           = $this->hc->getHtmlHNumb($double, 3);
+        $ret           = $this->hc->getHtmlHNumb($double, '3');
         $htmlTable     = $this->getTemplatesAdminBrokenTable($tableName, $tableSoleName, $language);
         $htmlTable     .= $this->hc->getHtmlDiv('&nbsp;', 'clear', $t, "\n", false);
-        $single        = $this->sc->getSmartySingleVar('pagenav');
+        $single        = $this->sc->getSmartySingleVar('pagenav_' . $tableName, '', '', '');
         $div           = $this->hc->getHtmlDiv($single, 'xo-pagenav floatright', $t . "\t", "\n", false);
         $div           .= $this->hc->getHtmlDiv('', 'clear spacer', $t . "\t", "\n", false);
-        $htmlTable     .= $this->sc->getSmartyConditions('pagenav', '', '', $div, '', '', '', $t);
+        $htmlTable     .= $this->sc->getSmartyConditions('pagenav_' . $tableName, '', '', $div, '', '', '', $t);
         $noData        = $this->sc->getSmartySingleVar('nodata' . $ucfTableName, $t . "\t\t");
         $src           = $this->sc->getSmartyNoSimbol("xoModuleIcons32 'button_ok.png'");
         $noData        .= $this->hc->getHtmlImage($src, $tableName, '', '', "\n");
-        $div           = $this->hc->getHtmlDiv($noData, '', $t . "\t", "\n", true);
+        $div           = $this->hc->getHtmlDiv($noData, '', $t . "\t");
         $div           .= $this->hc->getHtmlDiv('', 'clear spacer', $t . "\t", "\n", false);
-        $div           .= $this->hc->getHtmlBr('2', '', $t . "\t");
+        $div           .= $this->hc->getHtmlBr(2, '', $t . "\t");
         $contElse      = $this->sc->getSmartyConditions('nodata' . $ucfTableName, '', '', $div, false, '', '', $t);
         $ret           .= $this->sc->getSmartyConditions($tableName . '_count', '', '', $htmlTable, $contElse);
-        $ret           .= $this->hc->getHtmlBr('3');
+        $ret           .= $this->hc->getHtmlBr(3);
 
         return $ret;
     }
@@ -202,7 +193,7 @@ class TemplatesAdminBroken extends Files\CreateFile
      * @param string $moduleDirname
      * @return string
      */
-    private function getTemplatesAdminBrokenFooter($moduleDirname)
+    private function getTemplatesAdminBrokenFooter(string $moduleDirname)
     {
         $single = $this->sc->getSmartySingleVar('error');
         $strong = $this->hc->getHtmlTag('strong', [], $single, false, '', '');
@@ -217,8 +208,8 @@ class TemplatesAdminBroken extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

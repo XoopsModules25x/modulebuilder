@@ -33,7 +33,6 @@ class Search extends Files\CreateFile
 {
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -42,7 +41,6 @@ class Search extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
      * @return Search
      */
     public static function getInstance()
@@ -61,7 +59,7 @@ class Search extends Files\CreateFile
      * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename): void
+    public function write($module, $table, string $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -71,12 +69,12 @@ class Search extends Files\CreateFile
     /**
      * @private function getTemplatesUserSearchHeader
      * @param string $moduleDirname
-     * @param string $table
+     * @param        $table
      * @param string $language
      *
      * @return string
      */
-    private function getTemplatesUserSearchHeader($moduleDirname, $table, $language)
+    private function getTemplatesUserSearchHeader(string $moduleDirname, $table, string $language)
     {
         $ret    = <<<EOT
             <{include file="db:{$moduleDirname}_header.tpl"}>
@@ -105,11 +103,11 @@ class Search extends Files\CreateFile
     /**
      * @private function getTemplatesUserSearchBody
      * @param string $moduleDirname
-     * @param string $table
+     * @param        $table
      *
      * @return string
      */
-    private function getTemplatesUserSearchBody($moduleDirname, $table)
+    private function getTemplatesUserSearchBody(string $moduleDirname, $table)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -160,11 +158,11 @@ class Search extends Files\CreateFile
     /**
      * @private function getTemplatesUserSearchBodyFieldnameEmpty
      * @param string $moduleDirname
-     * @param string $table
+     * @param        $table
      *
      * @return string
      */
-    private function getTemplatesUserSearchBodyFieldnameEmpty($moduleDirname, $table)
+    private function getTemplatesUserSearchBodyFieldnameEmpty(string $moduleDirname, $table)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -211,19 +209,16 @@ class Search extends Files\CreateFile
      * @param string $moduleDirname
      * @return string
      */
-    private function getTemplatesUserSearchFooter($moduleDirname)
+    private function getTemplatesUserSearchFooter(string $moduleDirname)
     {
-        $ret = <<<EOT
+        return <<<EOT
             <{include file="db:{$moduleDirname}_footer.tpl"}>
             EOT;
-
-        return $ret;
     }
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

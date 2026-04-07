@@ -34,21 +34,20 @@ class LanguageHelp extends Files\CreateFile
     /**
      * @var mixed
      */
-    private $ld = null;
+    //private $ld = null;
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
         parent::__construct();
-        $this->ld = LanguageDefines::getInstance();
+        //$this->ld = LanguageDefines::getInstance();
     }
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return LanguageHelp
      */
     public static function getInstance()
@@ -63,10 +62,10 @@ class LanguageHelp extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param string $filename
      */
-    public function write($module, $filename): void
+    public function write($module, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -74,8 +73,8 @@ class LanguageHelp extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

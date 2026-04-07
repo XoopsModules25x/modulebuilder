@@ -45,7 +45,6 @@ class LanguageAdmin extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -56,7 +55,7 @@ class LanguageAdmin extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return LanguageAdmin
      */
     public static function getInstance()
@@ -71,12 +70,12 @@ class LanguageAdmin extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param        $table
-     * @param string $tables
+     * @param        $tables
      * @param string $filename
      */
-    public function write($module, $table, $tables, $filename): void
+    public function write($module, $table, $tables, string $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -87,10 +86,10 @@ class LanguageAdmin extends Files\CreateFile
     /**
      * @public function getLanguageAdminIndex
      * @param string $language
-     * @param array  $tables
+     * @param array $tables
      * @return string
      */
-    public function getLanguageAdminIndex($language, $tables)
+    public function getLanguageAdminIndex(string $language, array $tables)
     {
         $thereare  = '';
         $tableUser = 0;
@@ -120,18 +119,18 @@ class LanguageAdmin extends Files\CreateFile
     /**
      * @public function getLanguageAdminPages
      * @param string $language
-     * @param array  $tables
+     * @param array $tables
      * @return string
      */
-    public function getLanguageAdminPages($language, $tables)
+    public function getLanguageAdminPages(string $language, array $tables)
     {
         $ret = $this->ld->getAboveHeadDefines('Admin Files');
-        $ret .= $this->ld->getAboveDefines('There aren\'t');
+        $ret .= $this->ld->getAboveDefines('There are no');
         foreach (\array_keys($tables) as $t) {
             $tableName    = $tables[$t]->getVar('table_name');
             $stuTableName = \mb_strtoupper($tableName);
             $stlTableName = \mb_strtolower($tableName);
-            $ret          .= $this->ld->getDefine($language, "THEREARENT_{$stuTableName}", "There aren't {$stlTableName}", true);
+            $ret          .= $this->ld->getDefine($language, "THEREARENO_{$stuTableName}", "There are no {$stlTableName}", true);
         }
         $ret .= $this->ld->getAboveDefines('Save/Delete');
         $ret .= $this->ld->getDefine($language, 'FORM_OK', 'Successfully saved');
@@ -161,10 +160,10 @@ class LanguageAdmin extends Files\CreateFile
     /**
      * @public function getLanguageAdminClass
      * @param string $language
-     * @param array  $tables
+     * @param array $tables
      * @return string
      */
-    public function getLanguageAdminClass($language, $tables)
+    public function getLanguageAdminClass(string $language, array $tables)
     {
         $ret                  = $this->ld->getAboveHeadDefines('Admin Classes');
         $fieldStatus          = 0;
@@ -237,6 +236,9 @@ class LanguageAdmin extends Files\CreateFile
                 }
             }
         }
+        $ret .= $this->ld->getAboveDefines('Errors');
+        $ret .= $this->ld->getDefine($language, 'INVALID_DATE', 'Invalid date');
+        $ret .= $this->ld->getDefine($language, 'INVALID_PARAM', 'Invalid parameter');
         $ret .= $this->ld->getAboveDefines('General');
         $ret .= $this->ld->getDefine($language, 'FORM_UPLOAD', 'Upload file');
         $ret .= $this->ld->getDefine($language, 'FORM_UPLOAD_NEW', 'Upload new file: ');
@@ -248,10 +250,12 @@ class LanguageAdmin extends Files\CreateFile
         $ret .= $this->ld->getDefine($language, 'FORM_ACTION', 'Action');
         $ret .= $this->ld->getDefine($language, 'FORM_EDIT', 'Modification');
         $ret .= $this->ld->getDefine($language, 'FORM_DELETE', 'Clear');
+
         if ($fieldStatus > 0) {
             $ret .= $this->ld->getAboveDefines('Status');
             $ret .= $this->ld->getDefine($language, 'STATUS_NONE', 'No status');
             $ret .= $this->ld->getDefine($language, 'STATUS_OFFLINE', 'Offline');
+            $ret .= $this->ld->getDefine($language, 'STATUS_ONLINE', 'Online');
             $ret .= $this->ld->getDefine($language, 'STATUS_SUBMITTED', 'Submitted');
             $ret .= $this->ld->getDefine($language, 'STATUS_APPROVED', 'Approved');
             $ret .= $this->ld->getDefine($language, 'STATUS_BROKEN', 'Broken');
@@ -291,7 +295,7 @@ class LanguageAdmin extends Files\CreateFile
      * @param string $language
      * @return string
      */
-    public function getLanguageAdminPermissions($language)
+    public function getLanguageAdminPermissions(string $language)
     {
         $ret = $this->ld->getAboveHeadDefines('Admin Permissions');
         $ret .= $this->ld->getAboveDefines('Permissions');
@@ -316,7 +320,7 @@ class LanguageAdmin extends Files\CreateFile
      * @param string $language
      * @return string
      */
-    public function getLanguageAdminFoot($language)
+    public function getLanguageAdminFoot(string $language)
     {
         $ret = $this->ld->getAboveHeadDefines('Admin Others');
         $ret .= $this->ld->getDefine($language, 'ABOUT_MAKE_DONATION', 'Submit');
@@ -331,8 +335,8 @@ class LanguageAdmin extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

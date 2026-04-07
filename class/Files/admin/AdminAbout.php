@@ -42,8 +42,8 @@ class AdminAbout extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
+     
     public function __construct()
     {
         parent::__construct();
@@ -53,7 +53,7 @@ class AdminAbout extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+
      * @return AdminAbout
      */
     public static function getInstance()
@@ -68,8 +68,8 @@ class AdminAbout extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
-     * @param string $filename
+     * @param $module
+     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -79,8 +79,8 @@ class AdminAbout extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+
+     * @return string
      */
     public function render()
     {
@@ -93,7 +93,7 @@ class AdminAbout extends Files\CreateFile
         $content         .= $this->getRequire();
         $content         .= $this->axc->getAdminTemplateMain($moduleDirname, 'about');
         $content         .= $this->xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('about.php')");
-        $content         .= $this->getSimpleString("\$adminObject->setPaypal('{$moduleDonations}');");
+        $content         .= $this->getSimpleString("\$adminObject->setPaypal('$moduleDonations');");
         $content         .= $this->xc->getXcXoopsTplAssign('about', "\$adminObject->renderAbout(false)");
         $content         .= $this->getRequire('footer');
 

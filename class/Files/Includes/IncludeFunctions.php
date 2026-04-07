@@ -42,7 +42,6 @@ class IncludeFunctions extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -53,7 +52,7 @@ class IncludeFunctions extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return IncludeFunctions
      */
     public static function getInstance()
@@ -84,7 +83,7 @@ class IncludeFunctions extends Files\CreateFile
      *
      * @return string
      */
-    private function getFunctionBlock($moduleDirname)
+    private function getFunctionBlock(string $moduleDirname)
     {
         $t      = "\t";
         $ret    = $this->pc->getPhpCodeCommentMultiLine(['function' => 'add selected cats to block', '' => '', '@param  $cats' => '', '@return' => 'string']);
@@ -107,7 +106,7 @@ class IncludeFunctions extends Files\CreateFile
      *
      * @return string
      */
-    private function getFunctionGetMyItemIds($moduleDirname)
+    private function getFunctionGetMyItemIds(string $moduleDirname)
     {
         $t      = "\t";
         $ret    = $this->pc->getPhpCodeCommentMultiLine(['Get the permissions ids' => '', '' => '', '@param  $permtype' => '', '@param  $dirname' => '', '@return' => 'mixed $itemIds']);
@@ -117,6 +116,10 @@ class IncludeFunctions extends Files\CreateFile
         $func   .= $this->pc->getPhpCodeConditions('\is_array($permissions) && \array_key_exists($permtype, $permissions)', '', '', $contIf, false, $t);
         $func   .= $this->xc->getXcXoopsHandler('module', $t);
         $func   .= $this->xc->getXcEqualsOperator("\${$moduleDirname}Module", '$moduleHandler->getByDirname($dirname)', '', $t);
+        $condIf = $this->getSimpleString('return [];', $t . "\t");
+        $func    .= $this->pc->getPhpCodeConditions("!\is_object(\${$moduleDirname}Module)", '', '', $condIf, false, $t);
+
+
         $func   .= $this->pc->getPhpCodeTernaryOperator('groups', '\is_object($xoopsUser)', '$xoopsUser->getGroups()', '\XOOPS_GROUP_ANONYMOUS', $t);
         $func   .= $this->xc->getXcXoopsHandler('groupperm', $t);
         $func   .= $this->xc->getXcEqualsOperator('$itemIds', "\$grouppermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'))", '', $t);
@@ -136,7 +139,7 @@ class IncludeFunctions extends Files\CreateFile
      *
      * @return string
      */
-    private function getFunctionNumbersOfEntries($moduleDirname, $tableMid, $tableId, $tableName)
+    private function getFunctionNumbersOfEntries(string $moduleDirname, $tableMid, $tableId, $tableName)
     {
         $fields  = $this->getTableFields($tableMid, $tableId);
         $fieldId = '';
@@ -146,7 +149,7 @@ class IncludeFunctions extends Files\CreateFile
                 $fieldId = $fieldName; // fieldMain = fields parameters main field
             }
         }
-        $ret = <<<EOT
+        return <<<EOT
             \n/**
              * Get the number of {$tableName} from the sub categories of a category or sub topics of or topic
              * @param \$mytree
@@ -174,8 +177,6 @@ class IncludeFunctions extends Files\CreateFile
                 return \$count;
             }\n
             EOT;
-
-        return $ret;
     }
 
     /**
@@ -185,9 +186,9 @@ class IncludeFunctions extends Files\CreateFile
      *
      * @return string
      */
-    private function getFunctionMetaKeywords($moduleDirname)
+    private function getFunctionMetaKeywords(string $moduleDirname)
     {
-        $ret = <<<EOT
+        return <<<EOT
             \n/**
              * Add content as meta tag to template
              * @param \$content
@@ -205,8 +206,6 @@ class IncludeFunctions extends Files\CreateFile
                 }
             }\n
             EOT;
-
-        return $ret;
     }
 
     /**
@@ -216,9 +215,9 @@ class IncludeFunctions extends Files\CreateFile
      *
      * @return string
      */
-    private function getFunctionMetaDescription($moduleDirname)
+    private function getFunctionMetaDescription(string $moduleDirname)
     {
-        $ret = <<<EOT
+        return <<<EOT
             \n/**
              * Add content as meta description to template
              * @param \$content
@@ -236,22 +235,18 @@ class IncludeFunctions extends Files\CreateFile
                 }
             }\n
             EOT;
-
-        return $ret;
     }
 
     /**
      * @private function getRewriteUrl
-     *
      * @param string $moduleDirname
-     * @param string $tableName
      *
      * @return string
      */
-    private function getRewriteUrl($moduleDirname, $tableName)
+    private function getRewriteUrl(string $moduleDirname)
     {
         $ucfModuleDirname = \ucfirst($moduleDirname);
-        $ret              = <<<EOT
+        return <<<EOT
             \n/**
              * Rewrite all url
              *
@@ -264,7 +259,6 @@ class IncludeFunctions extends Files\CreateFile
             {
                 \$comment = '';
                 \$helper = \XoopsModules\\{$ucfModuleDirname}\Helper::getInstance();
-                \${$tableName}Handler = \$helper->getHandler('{$tableName}');
                 \$lenght_id = \$helper->getConfig('lenght_id');
                 \$rewrite_url = \$helper->getConfig('rewrite_url');
 
@@ -342,22 +336,18 @@ class IncludeFunctions extends Files\CreateFile
                 return null;
             }
             EOT;
-
-        return $ret;
     }
 
     /**
      * @private function getRewriteFilter
-     *
      * @param string $moduleDirname
-     * @param string $tableName
      *
      * @return string
      */
-    private function getRewriteFilter($moduleDirname, $tableName)
+    private function getRewriteFilter(string $moduleDirname)
     {
         $ucfModuleDirname = \ucfirst($moduleDirname);
-        $ret              = <<<EOT
+        return <<<EOT
             \n/**
              * Replace all escape, character, ... for display a correct url
              *
@@ -369,29 +359,24 @@ class IncludeFunctions extends Files\CreateFile
 
                 // Get regular expression from module setting. default setting is : `[^a-z0-9]`i
                 \$helper = \XoopsModules\\{$ucfModuleDirname}\Helper::getInstance();
-                \${$tableName}Handler = \$helper->getHandler('{$tableName}');
                 \$regular_expression = \$helper->getConfig('regular_expression');
 
                 \$url = \strip_tags(\$url);
-                \$url .= \preg_replace('`\[.*\]`U', '', \$url);
-                \$url .= \preg_replace('`&(amp;)?#?[a-z0-9]+;`i', '-', \$url);
-                \$url .= \htmlentities(\$url, ENT_COMPAT, 'utf-8');
-                \$url .= \preg_replace('`&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig);`i', "\\1", \$url);
-                \$url .= \preg_replace([\$regular_expression, '`[-]+`'], '-', \$url);
+                \$url = \preg_replace('`\[.*\]`U', '', \$url);
+                \$url = \preg_replace('`&(amp;)?#?[a-z0-9]+;`i', '-', \$url);
+                \$url = \htmlentities(\$url, ENT_COMPAT, 'utf-8');
+                \$url = \preg_replace('`&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig);`i', '$1', \$url);
+                \$url = \preg_replace([\$regular_expression, '`[-]+`'], '-', \$url);
                 \$url = ('' == \$url) ? \$type : \strtolower(\\trim(\$url, '-'));
                 return \$url;
             }
             EOT;
-
-        return $ret;
     }
 
     /**
      * @public function render
      *
-     * @param null
-     *
-     * @return bool|string
+     * @return string
      */
     public function render()
     {
@@ -425,8 +410,8 @@ class IncludeFunctions extends Files\CreateFile
         }
         $content .= $this->getFunctionMetaKeywords($moduleDirname);
         $content .= $this->getFunctionMetaDescription($moduleDirname);
-        $content .= $this->getRewriteUrl($moduleDirname, $tableName);
-        $content .= $this->getRewriteFilter($moduleDirname, $tableName);
+        $content .= $this->getRewriteUrl($moduleDirname);
+        $content .= $this->getRewriteFilter($moduleDirname);
 
         $this->create($moduleDirname, 'include', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 

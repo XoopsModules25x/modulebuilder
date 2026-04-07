@@ -32,7 +32,6 @@ class CssStyles extends Files\CreateFile
 {
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -41,7 +40,7 @@ class CssStyles extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return CssStyles
      */
     public static function getInstance()
@@ -67,8 +66,8 @@ class CssStyles extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

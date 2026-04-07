@@ -31,11 +31,11 @@ class CreateClone
     /**
      * @param       $src_path
      * @param       $dst_path
-     * @param bool  $replace_code
+     * @param bool $replace_code
      * @param array $patKeys
      * @param array $patValues
      */
-    public static function cloneFileFolder($src_path, $dst_path, $replace_code = false, $patKeys = [], $patValues = []): void
+    public static function cloneFileFolder($src_path, $dst_path, bool $replace_code = false, array $patKeys = [], array $patValues = []): void
     {
         // open the source directory
         $dir = \opendir($src_path);
@@ -58,11 +58,11 @@ class CreateClone
     /**
      * @param       $src_file
      * @param       $dst_file
-     * @param bool  $replace_code
+     * @param bool $replace_code
      * @param array $patKeys
      * @param array $patValues
      */
-    public static function cloneFile($src_file, $dst_file, $replace_code = false, $patKeys = [], $patValues = []): void
+    public static function cloneFile($src_file, $dst_file, bool $replace_code = false, array $patKeys = [], array $patValues = []): void
     {
         if ($replace_code) {
             $noChangeExtensions = ['jpeg', 'jpg', 'gif', 'png', 'zip', 'ttf'];

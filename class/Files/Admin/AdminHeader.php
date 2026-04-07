@@ -42,7 +42,6 @@ class AdminHeader extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -53,7 +52,7 @@ class AdminHeader extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+
      * @return AdminHeader
      */
     public static function getInstance()
@@ -68,12 +67,12 @@ class AdminHeader extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param mixed  $table
-     * @param array  $tables
+     * @param array $tables
      * @param string $filename
      */
-    public function write($module, $table, $tables, $filename): void
+    public function write($module, $table, array $tables, string $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -121,7 +120,7 @@ class AdminHeader extends Files\CreateFile
         $ret            .= $this->pc->getPhpCodeCommentLine();
         $template       = $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'class/template', true, false, 'require', "\t");
         $template       .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new \XoopsTpl()', null, "\t");
-        $ret            .= $this->pc->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!\is_object($xoopsTpl)', $template, false);
+        $ret            .= $this->pc->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!\is_object($xoopsTpl)', $template);
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->pc->getPhpCodeCommentLine('Load languages');
         $ret            .= $this->xc->getXcXoopsLoadLanguage('admin', '', $moduleDirname);
@@ -145,14 +144,15 @@ class AdminHeader extends Files\CreateFile
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->xc->getXcEqualsOperator('$adminObject', '\Xmf\Module\Admin::getInstance()');
         $ret            .= $this->getSimpleString("\$style = \\{$stuModuleDirname}_URL . '/assets/css/admin/style.css';");
+        $ret            .= $this->xc->getXcXoThemeAddStylesheet();
 
         return $ret;
     }
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+
+     * @return string
      */
     public function render()
     {

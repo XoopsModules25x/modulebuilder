@@ -41,7 +41,6 @@ class UserXoopsCode
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -75,7 +74,7 @@ class UserXoopsCode
      *
      * @return string
      */
-    public function getUserTplMain($moduleDirname, $tableName = 'index')
+    public function getUserTplMain($moduleDirname, string $tableName = 'index')
     {
         return "\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';\n";
     }
@@ -90,7 +89,7 @@ class UserXoopsCode
      * @param string $t
      * @return string
      */
-    public function getUserAddMeta($type, $language, $tableName, $t = '')
+    public function getUserAddMeta(string $type, $language, $tableName, string $t = '')
     {
         $stuTableName = \mb_strtoupper($tableName);
         $stripTags    = $this->pc->getPhpCodeStripTags('', $language . $stuTableName, true);
@@ -115,13 +114,11 @@ class UserXoopsCode
     /**
      * @public function getUserMetaDesc
      *
-     * @param        $moduleDirname
-     * @param        $language
-     * @param string $file
+     * @param string $moduleDirname
      *
      * @return string
      */
-    public function getUserMetaDesc($moduleDirname, $language, $file = 'INDEX')
+    public function getUserMetaDesc(string $moduleDirname)
     {
         return $moduleDirname. 'MetaDescription((string)$helper->' . "getConfig('metadescription'));\n";
     }
@@ -137,7 +134,7 @@ class UserXoopsCode
      *
      * @return string
      */
-    public function getUserBreadcrumbs($language, $tableName = 'index', $op = '', $link = '', $t = '')
+    public function getUserBreadcrumbs($language, string $tableName = 'index', string $op = '', string $link = '', string $t = '')
     {
         $stuTableName = \mb_strtoupper($tableName);
         $stuOp        = '';
@@ -167,24 +164,22 @@ class UserXoopsCode
     public function getUserBreadcrumbsFooterFile()
     {
         $cond = $this->xc->getXcXoopsTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
-        $ret  = $this->pc->getPhpCodeConditions('\count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
-
-        return $ret;
+        return $this->pc->getPhpCodeConditions('\count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
     }
 
     /**
      * @public function getUserModVersionArray
      *
-     * @param int          $eleArray
+     * @param int $eleArray
      * @param string|array $descriptions
-     * @param null         $name
-     * @param null         $index
-     * @param bool         $num
-     * @param string       $t
+     * @param null $name
+     * @param null $index
+     * @param null $num
+     * @param string $t
      *
      * @return string
      */
-    public function getUserModVersionArray($eleArray, $descriptions, $name = null, $index = null, $num = false, $t = '')
+    public function getUserModVersionArray(int $eleArray, $descriptions, $name = null, $index = null, $num = null, string $t = '')
     {
         $ret     = $t . '$modversion';
         $isArray = false;
@@ -241,16 +236,16 @@ class UserXoopsCode
     /**
      * @public function getUserModVersionText
      *
-     * @param int    $eleArray
+     * @param int $eleArray
      * @param        $text
      * @param null   $name
      * @param null   $index
-     * @param bool   $num
+     * @param null   $num
      * @param string $t
      *
      * @return string
      */
-    public function getUserModVersionText($eleArray, $text, $name = null, $index = null, $num = false, $t = '')
+    public function getUserModVersionText(int $eleArray, $text, $name = null, $index = null, $num = null, string $t = '')
     {
         $ret = $t . '$modversion';
 

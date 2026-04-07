@@ -45,7 +45,6 @@ class PagesList extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -56,7 +55,7 @@ class PagesList extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return PagesList
      */
     public static function getInstance()
@@ -76,7 +75,7 @@ class PagesList extends Files\CreateFile
      * @param string $filename
      * @param        $tables
      */
-    public function write($module, $table, $tables, $filename): void
+    public function write($module, $table, $tables, string $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -94,7 +93,7 @@ class PagesList extends Files\CreateFile
      * @param        $language
      * @return string
      */
-    private function getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserPagesListPanel(string $moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
         $fields  = $this->getTableFields($tableMid, $tableId);
         $ret     = '';
@@ -278,8 +277,8 @@ class PagesList extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

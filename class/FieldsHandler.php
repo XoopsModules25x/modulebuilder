@@ -51,21 +51,19 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve a field.
      *
-     * @param int  $i field id
+     * @param int  $id field id
      * @param null $fields
      *
-     * @return mixed reference to the <a href='psi_element://Fields'>Fields</a> object
+     * @return \XoopsObject|null reference to the <a href='psi_element://Fields'>Fields</a> object
      *               object
      */
-    public function get($i = null, $fields = null)
+    public function get($id = null, $fields = null)
     {
-        return parent::get($i, $fields);
+        return parent::get($id, $fields);
     }
 
     /**
      * get inserted id.
-     *
-     * @param null
      *
      * @return int reference to the {@link Fields} object
      */
@@ -76,13 +74,13 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
 
     /**
      * Get Count Fields.
-     * @param int    $start
-     * @param int    $limit
+     * @param int $start
+     * @param int $limit
      * @param string $sort
      * @param string $order
      * @return int
      */
-    public function getCountFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
+    public function getCountFields(int $start = 0, int $limit = 0, string $sort = 'field_id ASC, field_name', string $order = 'ASC')
     {
         $crCountFields = new \CriteriaCompo();
         $crCountFields = $this->getFieldsCriteria($crCountFields, $start, $limit, $sort, $order);
@@ -92,13 +90,13 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
 
     /**
      * Get All Fields.
-     * @param int    $start
-     * @param int    $limit
+     * @param int $start
+     * @param int $limit
      * @param string $sort
      * @param string $order
      * @return array
      */
-    public function getAllFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
+    public function getAllFields(int $start = 0, int $limit = 0, string $sort = 'field_id ASC, field_name', string $order = 'ASC')
     {
         $crAllFields = new \CriteriaCompo();
         $crAllFields = $this->getFieldsCriteria($crAllFields, $start, $limit, $sort, $order);
@@ -109,13 +107,13 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
     /**
      * Get All Fields By Module & Table Id.
      * @param        $tabId
-     * @param int    $start
-     * @param int    $limit
+     * @param int $start
+     * @param int $limit
      * @param string $sort
      * @param string $order
      * @return array
      */
-    public function getAllFieldsByTableId($tabId, $start = 0, $limit = 0, $sort = 'field_order ASC, field_id, field_name', $order = 'ASC')
+    public function getAllFieldsByTableId($tabId, int $start = 0, int $limit = 0, string $sort = 'field_order ASC, field_id, field_name', string $order = 'ASC')
     {
         $crAllFieldsByModule = new \CriteriaCompo();
         $crAllFieldsByModule->add(new \Criteria('field_tid', $tabId));

@@ -42,18 +42,18 @@ class ClassHandlerFiles extends Files\CreateFile
     /**
      * @var mixed
      */
-    private $helper = null;
+    //private $helper = null;
 
     /**
      * @public function constructor
-     * @param null
+     *
      */
     public function __construct()
     {
         parent::__construct();
         $this->xc     = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $this->pc     = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $this->helper = Modulebuilder\Helper::getInstance();
+        //$this->helper = Modulebuilder\Helper::getInstance();
     }
 
     /**
@@ -74,8 +74,8 @@ class ClassHandlerFiles extends Files\CreateFile
     /**
      * @public function write
      *
-     * @param string $module
-     * @param string $table
+     * @param        $module
+     * @param        $table
      * @param mixed  $tables
      * @param        $filename
      */
@@ -91,14 +91,14 @@ class ClassHandlerFiles extends Files\CreateFile
      * @public function getClassHandler
      *
      * @param string $moduleDirname
-     * @param string $table
+     * @param        $table
      * @param string $fieldId
      * @param string $fieldMain
      * @param        $fieldParentId
      * @param        $fieldElement
      * @return string
      */
-    private function getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldMain, $fieldParentId, $fieldElement)
+    private function getClassObjectHandler(string $moduleDirname, $table, string $fieldId, string $fieldMain, $fieldParentId, $fieldElement)
     {
         $tableName      = $table->getVar('table_name');
         $ucfTableName   = \ucfirst($tableName);
@@ -162,7 +162,7 @@ class ClassHandlerFiles extends Files\CreateFile
      */
     private function getClassGetInsertId()
     {
-        $ret     = $this->pc->getPhpCodeCommentMultiLine(['get inserted' => 'id', '' => '', '@param' => 'null', '@return int reference to the' => '{@link Get} object'], "\t");
+        $ret     = $this->pc->getPhpCodeCommentMultiLine(['get inserted' => 'id', '' => '', '@return int reference to the' => '{@link Get} object'], "\t");
         $cClhgid = $this->getSimpleString('return $this->db->getInsertId();', "\t\t");
 
         $ret .= $this->pc->getPhpCodeFunction('getInsertId', '', $cClhgid, 'public ', false, "\t");
@@ -182,13 +182,13 @@ class ClassHandlerFiles extends Files\CreateFile
     private function getClassCounter($tableName, $fieldId, $fieldMain)
     {
         $ucfTableName = \ucfirst($tableName);
-        $ret          = $this->pc->getPhpCodeCommentMultiLine(['Get Count ' . $ucfTableName => 'in the database', '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'int'], "\t");
+        $ret          = $this->pc->getPhpCodeCommentMultiLine(['Get Count ' . $ucfTableName => 'in the database', '@param string $sort' => '', '@param string $order' => '', '@return' => 'int'], "\t");
 
         $critCount  = $this->xc->getXcCriteriaCompo('crCount' . $ucfTableName, "\t\t");
-        $paramsCrit = "\$this->get{$ucfTableName}Criteria(\$crCount{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
+        $paramsCrit = "\$this->get{$ucfTableName}Criteria(\$crCount{$ucfTableName}, 0, 0, \$sort, \$order)";
         $critCount  .= $this->xc->getXcEqualsOperator('$crCount' . $ucfTableName, $paramsCrit, null, "\t\t");
         $critCount  .= $this->getSimpleString("return \$this->getCount(\$crCount{$ucfTableName});", "\t\t");
-        $params     = "\$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC'";
+        $params     = "\$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC'";
 
         $ret .= $this->pc->getPhpCodeFunction('getCount' . $ucfTableName, $params, $critCount, 'public ', false, "\t");
 
@@ -278,12 +278,12 @@ class ClassHandlerFiles extends Files\CreateFile
     private function getClassCriteria($tableName)
     {
         $ucfTableName = \ucfirst($tableName);
-        $ret          = $this->pc->getPhpCodeCommentMultiLine(['Get' => 'Criteria ' . $ucfTableName, '@param       ' => "\$cr{$ucfTableName}", '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'int'], "\t");
+        $ret          = $this->pc->getPhpCodeCommentMultiLine(['Get' => 'Criteria ' . $ucfTableName, '@param       ' => "\$cr{$ucfTableName}", '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => '\CriteriaCompo'], "\t");
 
         $paramsAllCriteria = "\$cr{$ucfTableName}, \$start, \$limit, \$sort, \$order";
-
-        $critSets = $this->xc->getXcCriteriaSetStart('cr' . $ucfTableName, '$start', "\t\t");
-        $critSets .= $this->xc->getXcCriteriaSetLimit('cr' . $ucfTableName, '$limit', "\t\t");
+        $condIf   = $this->xc->getXcCriteriaSetStart('cr' . $ucfTableName, '$start', "\t\t\t");
+        $condIf   .= $this->xc->getXcCriteriaSetLimit('cr' . $ucfTableName, '$limit', "\t\t\t");
+        $critSets = $this->pc->getPhpCodeConditions('$limit', ' > ', '0', $condIf, false, "\t\t");
         $critSets .= $this->xc->getXcCriteriaSetSort('cr' . $ucfTableName, '$sort', "\t\t");
         $critSets .= $this->xc->getXcCriteriaSetOrder('cr' . $ucfTableName, '$order', "\t\t");
         $critSets .= $this->getSimpleString("return \$cr{$ucfTableName};", "\t\t");
@@ -323,9 +323,8 @@ class ClassHandlerFiles extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
      *
-     * @return bool|string
+     * @return string
      */
     public function render()
     {
@@ -334,7 +333,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $filename       = $this->getFileName();
         $moduleDirname  = $module->getVar('mod_dirname');
         $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $fieldInForm    = [];
+        //$fieldInForm    = [];
         $fieldParentId  = [];
         $fieldId        = null;
         $fieldMain      = null;

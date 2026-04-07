@@ -49,15 +49,19 @@ class ClassFiles extends Files\CreateFile
     /**
      * @var mixed
      */
+    private $cf = null;
+    /**
+     * @var mixed
+     */
     private $helper = null;
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
         parent::__construct();
+        $this->cf     = Modulebuilder\Files\CreateFile::getInstance();
         $this->xc     = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $this->pc     = Modulebuilder\Files\CreatePhpCode::getInstance();
         $this->cxc    = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
@@ -66,8 +70,6 @@ class ClassFiles extends Files\CreateFile
 
     /**
      * @static function getInstance
-     *
-     * @param null
      *
      * @return ClassFiles
      */
@@ -84,9 +86,9 @@ class ClassFiles extends Files\CreateFile
     /**
      * @public function write
      *
-     * @param string $module
-     * @param string $table
-     * @param mixed  $tables
+     * @param        $module
+     * @param        $table
+     * @param        $tables
      * @param        $filename
      */
     public function write($module, $table, $tables, $filename): void
@@ -105,7 +107,7 @@ class ClassFiles extends Files\CreateFile
      *
      * @return string
      */
-    private function getInitVar($fieldName, $type = 'INT')
+    private function getInitVar(string $fieldName, string $type = 'INT')
     {
         return $this->cxc->getClassInitVar($fieldName, $type);
     }
@@ -117,13 +119,14 @@ class ClassFiles extends Files\CreateFile
      *
      * @return string
      */
-    private function getInitVars($fields)
+    private function getInitVars(array $fields)
     {
         $ret = '';
         // Creation of the initVar functions list
         foreach (\array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldType = $fields[$f]->getVar('field_type');
+            //Attention: field_type is not the same as field_ele_type
             switch ($fieldType) {
                 case 2:
                 case 3:
@@ -226,14 +229,15 @@ class ClassFiles extends Files\CreateFile
         $cCl              .= $this->pc->getPhpCodeVariableClass('public', 'start', '0', "\t");
         $cCl              .= $this->pc->getPhpCodeCommentMultiLine(['@var' => 'int'], "\t");
         $cCl              .= $this->pc->getPhpCodeVariableClass('public', 'limit', '0', "\t");
-        $cCl              .= $this->pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => 'null'], "\t");
+        $cCl              .= $this->pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => ''], "\t");
         $constr           = $this->getInitVars($fields);
         $cCl              .= $this->pc->getPhpCodeFunction('__construct', '', $constr, 'public ', false, "\t");
-        $arrayGetInstance = ['@static function' => '&getInstance', '' => '', '@param' => 'null'];
+        $arrayGetInstance = ['@static function' => 'getInstance', '' => ''];
         $cCl              .= $this->pc->getPhpCodeCommentMultiLine($arrayGetInstance, "\t");
         $getInstance      = $this->pc->getPhpCodeVariableClass('static', 'instance', 'false', "\t\t");
         $instance         = $this->xc->getXcEqualsOperator('$instance', 'new self()', null, "\t\t\t");
         $getInstance      .= $this->pc->getPhpCodeConditions('!$instance', '', '', $instance, false, "\t\t");
+        $getInstance      .= $this->cf->getSimpleString('return $instance;', "\t\t");
         $cCl              .= $this->pc->getPhpCodeFunction('getInstance', '', $getInstance, 'public static ', false, "\t");
 
         $cCl .= $this->getNewInsertId($table);
@@ -262,7 +266,7 @@ class ClassFiles extends Files\CreateFile
     {
         $tableName     = $table->getVar('table_name');
         $ucfTableName  = \ucfirst($tableName);
-        $ret           = $this->pc->getPhpCodeCommentMultiLine(['The new inserted' => '$Id', '@return' => 'inserted id'], "\t");
+        $ret           = $this->pc->getPhpCodeCommentMultiLine(['The new inserted' => '$Id', '@return' => 'int'], "\t");
         $getInsertedId = $this->xc->getXcEqualsOperator('$newInsertedId', "\$GLOBALS['xoopsDB']->getInsertId()", null, "\t\t");
         $getInsertedId .= $this->getSimpleString('return $newInsertedId;', "\t\t");
 
@@ -274,8 +278,8 @@ class ClassFiles extends Files\CreateFile
     /**
      * @private function getFunctionForm
      *
-     * @param string $module
-     * @param string $table
+     * @param        $module
+     * @param        $table
      * @param        $fieldId
      * @param        $fieldInForm
      * @param        $fieldUpload
@@ -298,14 +302,13 @@ class ClassFiles extends Files\CreateFile
         $getForm          .= $this->pc->getPhpCodeConditions('!', '', '$action', $action, false, "\t\t");
         $xUser            = $this->pc->getPhpCodeGlobals('xoopsUser');
         $xModule          = $this->pc->getPhpCodeGlobals('xoopsModule');
-        //$getForm          .= $this->pc->getPhpCodeTernaryOperator('isAdmin', '\is_object(' . $xUser . ')', $xUser . '->isAdmin(' . $xModule . '->mid())', 'false', "\t\t");
         $getForm          .= $this->xc->getXcEqualsOperator('$isAdmin', "\is_object(\$GLOBALS['xoopsUser']) && \$GLOBALS['xoopsUser']->isAdmin(\$GLOBALS['xoopsModule']->mid())", null, "\t\t");
         if ($fieldUpload) {
             $permString = 'upload_groups';
             $getForm          .= $this->pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
             $getForm          .= $this->xc->getXcXoopsHandler('groupperm', "\t\t");
-            $getForm          .= $this->pc->getPhpCodeTernaryOperator('groups', '\is_object(' . $xUser . ')', $xUser . '->getGroups()', '\XOOPS_GROUP_ANONYMOUS', "\t\t");
-            $checkRight       = $this->xc->getXcCheckRight('$grouppermHandler', $permString, 32, '$groups', $xModule . '->getVar(\'mid\')', true);
+            $getForm          .= $this->pc->getPhpCodeTernaryOperator('groups', '\is_object(' . $xUser . ')', $xUser . '->getGroups()', '[\XOOPS_GROUP_ANONYMOUS]', "\t\t");
+            $checkRight       = $this->xc->getXcCheckRight('$grouppermHandler', $permString, '32', '$groups', $xModule . '->getVar(\'mid\')', true);
             $getForm  .= $this->pc->getPhpCodeTernaryOperator('permissionUpload', $checkRight, 'true', 'false', "\t\t");
         }
         $getForm .= $this->pc->getPhpCodeCommentLine('Title', '', "\t\t");
@@ -342,7 +345,7 @@ class ClassFiles extends Files\CreateFile
      * @param $tableName
      * @return string
      */
-    private function getPermissionsInForm($moduleDirname, $fieldId, $tableName)
+    private function getPermissionsInForm(string $moduleDirname, string $fieldId, $tableName)
     {
         $permissionApprove = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_APPROVE');
         $permissionSubmit  = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_SUBMIT');
@@ -355,13 +358,10 @@ class ClassFiles extends Files\CreateFile
         $fId               = $this->xc->getXcGetVar('', 'this', $fieldId, true);
         $mId               = $this->xc->getXcGetVar('', "GLOBALS['xoopsModule']", 'mid', true);
         $contElse          = $this->xc->getXcGetGroupIds('groupsIdsApprove', 'grouppermHandler', "'{$moduleDirname}_approve_{$tableName}'", $fId, $mId, "\t\t\t");
-        $contElse          .= $this->pc->getPhpCodeArrayType('groupsIdsApprove', 'values', 'groupsIdsApprove', null, false, "\t\t\t");
         $contElse          .= $this->cxc->getClassXoopsFormCheckBox('groupsCanApproveCheckbox', $permissionApprove, "groups_approve_{$tableName}[]", '$groupsIdsApprove', false, "\t\t\t");
         $contElse          .= $this->xc->getXcGetGroupIds('groupsIdsSubmit', 'grouppermHandler', "'{$moduleDirname}_submit_{$tableName}'", $fId, $mId, "\t\t\t");
-        $contElse          .= $this->pc->getPhpCodeArrayType('groupsIdsSubmit', 'values', 'groupsIdsSubmit', null, false, "\t\t\t");
         $contElse          .= $this->cxc->getClassXoopsFormCheckBox('groupsCanSubmitCheckbox', $permissionSubmit, "groups_submit_{$tableName}[]", '$groupsIdsSubmit', false, "\t\t\t");
         $contElse          .= $this->xc->getXcGetGroupIds('groupsIdsView', 'grouppermHandler', "'{$moduleDirname}_view_{$tableName}'", $fId, $mId, "\t\t\t");
-        $contElse          .= $this->pc->getPhpCodeArrayType('groupsIdsView', 'values', 'groupsIdsView', null, false, "\t\t\t");
         $contElse          .= $this->cxc->getClassXoopsFormCheckBox('groupsCanViewCheckbox', $permissionView, "groups_view_{$tableName}[]", '$groupsIdsView', false, "\t\t\t");
 
         $contIf = $this->cxc->getClassXoopsFormCheckBox('groupsCanApproveCheckbox', $permissionApprove, "groups_approve_{$tableName}[]", '$fullList', false, "\t\t\t");
@@ -394,7 +394,7 @@ class ClassFiles extends Files\CreateFile
     private function getValuesInObject($moduleDirname, $table, $fields)
     {
         $ucfTableName     = \ucfirst($table->getVar('table_name'));
-        $ret              = $this->pc->getPhpCodeCommentMultiLine(['Get' => 'Values', '@param null $keys' => '', '@param null $format' => '', '@param null $maxDepth' => '', '@return' => 'array'], "\t");
+        $ret              = $this->pc->getPhpCodeCommentMultiLine(['Get' => 'Values', '@param string $keys' => '', '@param string $format' => '', '@param string $maxDepth' => '', '@return' => 'array'], "\t");
         $ucfModuleDirname = \ucfirst($moduleDirname);
         $language         = $this->getLanguage($moduleDirname, 'AM');
         $getValues        = $this->xc->getXcEqualsOperator('$ret', '$this->getValues($keys, $format, $maxDepth)', null, "\t\t");
@@ -450,8 +450,8 @@ class ClassFiles extends Files\CreateFile
                 case Constants::FIELD_ELE_RADIO_ONOFFLINE:
                     $spacer    = str_repeat(' ', \max(0, $lenMaxName - 5 - \mb_strlen($rpFieldName)));
                     $defaultRO = $this->xc->getXcGetConstants('RADIO_OFFLINE');
-                    $offlineRO = $language . \mb_strtoupper($ucfTableName) . '_' . \mb_strtoupper($rpFieldName) . '_OFFLINE';
-                    $onlineRO  = $language . \mb_strtoupper($ucfTableName) . '_' . \mb_strtoupper($rpFieldName) . '_ONLINE';
+                    $offlineRO = $language . 'STATUS_OFFLINE';
+                    $onlineRO  = $language . 'STATUS_ONLINE';
                     $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}_text']{$spacer}", "(int)\$this->getVar('{$fieldName}') > $defaultRO ? $onlineRO : $offlineRO", false, "\t\t");
                     break;
                 case Constants::FIELD_ELE_SELECTUSER:
@@ -506,12 +506,17 @@ class ClassFiles extends Files\CreateFile
                                 $fieldMainTopic = $fieldNameTopic;
                             }
                         }
-                        $getValues .= $this->xc->getXcHandlerLine($topicTableName, "\t\t");
+                        $getValues     .= $this->xc->getXcHandlerLine($topicTableName, "\t\t");
                         $getTopicTable = "\${$topicTableName}Handler->get(\$this->getVar('{$fieldName}'))";
-                        $getValues .= $this->xc->getXcEqualsOperator("\${$topicTableName}Obj", $getTopicTable, null, "\t\t");
-                        $fMainTopic = "\${$topicTableName}Obj->getVar('{$fieldMainTopic}')";
-                        $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}']{$spacer}", $fMainTopic, null, "\t\t");
-                        $helper = 1;
+                        $getValues     .= $this->xc->getXcEqualsOperator("\${$topicTableName}Obj", $getTopicTable, null, "\t\t");
+                        $fMainTopic    = "\${$topicTableName}Obj->getVar('{$fieldMainTopic}')";
+                        $ccFieldName   = $this->cf->getCamelCase($fieldName, false, true);
+                        $getValues     .= $this->xc->getXcEqualsOperator("\${$ccFieldName}", "''", null, "\t\t");
+                        $condIf        = $this->xc->getXcEqualsOperator("\${$ccFieldName}", $fMainTopic, null, "\t\t\t");
+                        $tablenameObj  = $this->pc->getPhpCodeIsobject($topicTableName . 'Obj');
+                        $getValues     .= $this->pc->getPhpCodeConditions($tablenameObj, '', '', $condIf, false, "\t\t");
+                        $getValues     .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}']{$spacer}", "\${$ccFieldName}", null, "\t\t");
+                        $helper        = 1;
                     } else {
                         $getValues .= $this->xc->getXcGetVar("ret['{$rpFieldName}']{$spacer}", 'this', $fieldName, false, "\t\t");
                     }
@@ -593,9 +598,8 @@ class ClassFiles extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
      *
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

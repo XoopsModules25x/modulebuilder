@@ -42,7 +42,6 @@ class TemplatesAdminFooter extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -67,10 +66,10 @@ class TemplatesAdminFooter extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param string $filename
      */
-    public function write($module, $filename): void
+    public function write($module, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -78,8 +77,8 @@ class TemplatesAdminFooter extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {
@@ -91,11 +90,11 @@ class TemplatesAdminFooter extends Files\CreateFile
         $language      = $this->getLanguage($moduleDirname, 'AM', '', false);
         $singleNoVar   = $this->sc->getSmartyNoSimbol("xoModuleIcons32 'xoopsmicrobutton.gif'");
         $img           = $this->hc->getHtmlTag('img', ['src' => $singleNoVar, 'alt' => 'XOOPS'], '', true, '', '');
-        $anchor        = $this->hc->getHtmlTag('a', ['href' => 'https://xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'], $img);
+        $anchor        = $this->hc->getHtmlTag('a', ['href' => 'https://xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank', 'rel' => 'noopener noreferrer'], $img);
         $content       = $this->hc->getHtmlTag('div', ['class' => 'center'], "\n\t" . $anchor);
         $tree          = $this->hc->getHtmlTag('strong', [], $moduleName, false, '', '');
         $tree          .= $this->sc->getSmartyConst($language, 'MAINTAINEDBY');
-        $tree          .= $this->hc->getHtmlTag('a', ['href' => '<{$maintainedby}>', 'title' => 'Visit ' . $supportName, 'class' => 'tooltip', 'rel' => 'external'], $supportName);
+        $tree          .= $this->hc->getHtmlTag('a', ['href' => '<{$maintainedby|default:\'#\'|escape:\'htmlattr\'}>', 'title' => 'Visit ' . $supportName, 'class' => 'tooltip', 'rel' => 'external'], $supportName);
         $content       .= $this->hc->getHtmlTag('div', ['class' => 'center smallsmall italic pad5'], "\n\t" . $tree);
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);

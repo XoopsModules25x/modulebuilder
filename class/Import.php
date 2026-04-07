@@ -74,7 +74,7 @@ class Import
         if ($modulesHandler->insert($newModuleObj)) {
             // get the ID of the new module
             $criteria     = new \Criteria('mod_name', $moduleNewName);
-            $moduleObject = $modulesHandler->getObjects($criteria, false, true);
+            $moduleObject = $modulesHandler->getObjects($criteria);
             $moduleId     = $moduleObject[0]->getVar('mod_id');
             $tables = self::importTables($moduleId, $moduleName);
             if (null === $tables) {
@@ -258,7 +258,7 @@ class Import
      *
      * @return array
      */
-    public static function importFields($tableName)
+    public static function importFields(string $tableName)
     {
         $table  = $GLOBALS['xoopsDB']->prefix((string)$tableName);
         $sql    = 'SHOW COLUMNS FROM ' . $table;
