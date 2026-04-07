@@ -51,7 +51,7 @@ class ClassSpecialFiles extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
+     *
      */
     public function __construct()
     {
@@ -78,12 +78,12 @@ class ClassSpecialFiles extends Files\CreateFile
     /**
      * @public function write
      *
-     * @param string $module
+     * @param        $module
      * @param string $table
      * @param mixed  $tables
      * @param        $filename
      */
-    public function write($module, $table, $tables, $filename): void
+    public function write($module, string $table, $tables, $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -93,9 +93,8 @@ class ClassSpecialFiles extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
      *
-     * @return bool|string
+     * @return string
      */
     public function renderClass()
     {
@@ -107,10 +106,10 @@ class ClassSpecialFiles extends Files\CreateFile
         $content        .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
         $content        .= $this->pc->getPhpCodeDefined();
         $content        .= $this->pc->getPhpCodeCommentMultiLine(['Class Object' => $this->className]);
-        $cCl            = $this->pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => 'null'], "\t");
+        $cCl            = $this->pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => ''], "\t");
         $constr         = '';
         $cCl            .= $this->pc->getPhpCodeFunction('__construct', '', $constr, 'public ', false, "\t");
-        $arrGetInstance = ['@static function' => '&getInstance', '' => '', '@param' => 'null'];
+        $arrGetInstance = ['@static function' => 'getInstance', '' => ''];
         $cCl            .= $this->pc->getPhpCodeCommentMultiLine($arrGetInstance, "\t");
         $getInstance    = $this->pc->getPhpCodeVariableClass('static', 'instance', 'false', "\t\t");
         $instance       = $this->xc->getXcEqualsOperator('$instance', 'new self()', null, "\t\t\t");
@@ -127,7 +126,7 @@ class ClassSpecialFiles extends Files\CreateFile
      * @public function getGlobalPerms
      * @param mixed $permId
      *
-     * @return bool|string
+     * @return string
      */
     public function getGlobalPerms($permId)
     {
@@ -141,23 +140,23 @@ class ClassSpecialFiles extends Files\CreateFile
         $comment    = '';
         switch ($permId) {
             case 4:
-                $comment  .= $this->pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalApprove', 'returns' => 'right for global approve', '' => '', '@param' => 'null', '@return' => 'bool'], "\t");
-                $right    .= $this->xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', 4, '$my_group_ids', '$mid', true, "\t\t\t");
+                $comment  .= $this->pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalApprove', 'returns' => 'right for global approve', '' => '', '@return' => 'bool'], "\t");
+                $right    .= $this->xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', '4', '$my_group_ids', '$mid', true, "\t\t\t");
                 $cond     .= $this->pc->getPhpCodeConditions($right, '', '', $returnTrue, false, "\t\t");
                 $funcname .= 'getPermGlobalApprove';
                 break;
             case 8:
-                $comment  .= $this->pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalSubmit', 'returns' => 'right for global submit', '' => '', '@param' => 'null', '@return' => 'bool'], "\t");
+                $comment  .= $this->pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalSubmit', 'returns' => 'right for global submit', '' => '', '@return' => 'bool'], "\t");
                 $cond     .= $this->pc->getPhpCodeConditions('$this->getPermGlobalApprove()', '', '', $returnTrue, false, "\t\t");
-                $right    .= $this->xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', 8, '$my_group_ids', '$mid', true, "\t\t\t");
+                $right    .= $this->xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', '8', '$my_group_ids', '$mid', true, "\t\t\t");
                 $cond     .= $this->pc->getPhpCodeConditions($right, '', '', $returnTrue, false, "\t\t");
                 $funcname .= 'getPermGlobalSubmit';
                 break;
             case 16:
-                $comment  .= $this->pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalView', 'returns' => 'right for global view', '' => '', '@param' => 'null', '@return' => 'bool'], "\t");
+                $comment  .= $this->pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalView', 'returns' => 'right for global view', '' => '', '@return' => 'bool'], "\t");
                 $cond     .= $this->pc->getPhpCodeConditions('$this->getPermGlobalApprove()', '', '', $returnTrue, false, "\t\t");
                 $cond     .= $this->pc->getPhpCodeConditions('$this->getPermGlobalSubmit()', '', '', $returnTrue, false, "\t\t");
-                $right    .= $this->xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', 16, '$my_group_ids', '$mid', true, "\t\t\t");
+                $right    .= $this->xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', '16', '$my_group_ids', '$mid', true, "\t\t\t");
                 $cond     .= $this->pc->getPhpCodeConditions($right, '', '', $returnTrue, false, "\t\t");
                 $funcname .= 'getPermGlobalView';
                 break;
@@ -188,9 +187,8 @@ class ClassSpecialFiles extends Files\CreateFile
 
     /**
      * @public function renderPermissionsHandler
-     * @param null
      *
-     * @return bool|string
+     * @return string
      */
     public function renderPermissionsHandler()
     {
@@ -203,8 +201,8 @@ class ClassSpecialFiles extends Files\CreateFile
         $content       .= $this->pc->getPhpCodeDefined();
         $content       .= $this->pc->getPhpCodeCommentMultiLine(['Class Object' => $this->className]);
 
-        $constr    = $this->pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => 'null'], "\t");
-        $constr    .= $this->pc->getPhpCodeFunction('__construct', '', '', 'public ', false, "\t");
+        $constr    = $this->pc->getPhpCodeCommentMultiLine(['Constructor' => '', '@param' => '\XoopsDatabase $db'], "\t");
+        $constr    .= $this->pc->getPhpCodeFunction('__construct', '\XoopsDatabase $db', '', 'public ', false, "\t");
         $functions = $constr;
         $functions .= $this->getGlobalPerms(4);
         $functions .= $this->getGlobalPerms(8);
@@ -218,9 +216,8 @@ class ClassSpecialFiles extends Files\CreateFile
 
     /**
      * @public function renderConstantsInterface
-     * @param null
      *
-     * @return bool|string
+     * @return string
      */
     public function renderConstantsInterface()
     {

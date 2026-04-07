@@ -48,7 +48,7 @@ class FormTabTray extends \XoopsFormElementTray
      * @param string $uiTheme   Theme to use for jquery UI (remove? now set by theme)
      * @param string $delimiter delimiter
      */
-    public function __construct($caption, $name, $uiTheme = 'base', $delimiter = '&nbsp;')
+    public function __construct($caption, $name, $uiTheme = 'base', string $delimiter = '&nbsp;')
     {
         $this->setName($name);
         $this->setCaption($caption);

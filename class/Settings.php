@@ -52,7 +52,6 @@ class Settings extends \XoopsObject
     /**
      * @public function constructor class
      *
-     * @param null
      */
     public function __construct()
     {
@@ -101,11 +100,11 @@ class Settings extends \XoopsObject
 
     /**
      * @param string $method
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed
      */
-    public function __call($method, $args)
+    public function __call(string $method, array $args)
     {
         $arg = $args[0] ?? null;
 
@@ -115,7 +114,6 @@ class Settings extends \XoopsObject
     /**
      * @static function getInstance
      *
-     * @param null
      *
      * @return Settings
      */
@@ -143,7 +141,7 @@ class Settings extends \XoopsObject
         }
 
         $isNew = $this->isNew();
-        $title = $isNew ? \sprintf(\_AM_MODULEBUILDER_SETTING_NEW) : \sprintf(\_AM_MODULEBUILDER_SETTING_EDIT);
+        $title = $isNew ? \_AM_MODULEBUILDER_SETTING_NEW : \_AM_MODULEBUILDER_SETTING_EDIT;
 
         require_once \XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 

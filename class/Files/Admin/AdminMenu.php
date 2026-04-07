@@ -38,7 +38,6 @@ class AdminMenu extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -48,7 +47,7 @@ class AdminMenu extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+
      * @return AdminMenu
      */
     public static function getInstance()
@@ -63,10 +62,10 @@ class AdminMenu extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param string $filename
      */
-    public function write($module, $filename): void
+    public function write($module, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -75,10 +74,10 @@ class AdminMenu extends Files\CreateFile
     /**
      * @private function getAdminMenuArray
      * @param array $param
-     * @param bool  $adminObject
+     * @param bool $adminObject
      * @return string
      */
-    private function getAdminMenuArray($param = [], $adminObject = false)
+    private function getAdminMenuArray(array $param = [], bool $adminObject = false)
     {
         $ret = '';
         if ($adminObject) {
@@ -98,7 +97,7 @@ class AdminMenu extends Files\CreateFile
 
     /**
      * @private function getAdminMenuHeader
-     * @param null
+
      * @return string
      */
     private function getAdminMenuHeader()
@@ -120,28 +119,26 @@ class AdminMenu extends Files\CreateFile
     /**
      * @private function getAdminMenuDashboard
      * @param string $language
-     * @param int    $menu
+     * @param int $menu
      *
      * @return string
      */
-    private function getAdminMenuDashboard($language, $menu)
+    private function getAdminMenuDashboard(string $language, int $menu)
     {
         $param = ['title' => "{$language}{$menu}", 'link' => "'admin/index.php'", 'icon' => "\$sysPathIcon32.'/dashboard.png'"];
-        $ret   = $this->getAdminMenuArray($param, true);
-
-        return $ret;
+        return $this->getAdminMenuArray($param, true);
     }
 
     /**
      * @private function getAdminMenuList
-     * @param string $module
+     * @param        $module
      * @param string $language
      * @param string $langAbout
-     * @param int    $menu
+     * @param int $menu
      *
      * @return string
      */
-    private function getAdminMenuList($module, $language, $langAbout, $menu)
+    private function getAdminMenuList($module, string $language, string $langAbout, int $menu)
     {
         $ret              = '';
         $tables           = $this->getTableTables($module->getVar('mod_id'), 'table_order');
@@ -181,8 +178,8 @@ class AdminMenu extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+
+     * @return string
      */
     public function render()
     {

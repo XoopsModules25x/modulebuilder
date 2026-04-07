@@ -33,7 +33,6 @@ class LanguageMailTpl extends Files\CreateFile
 {
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -42,7 +41,7 @@ class LanguageMailTpl extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return LanguageMailTpl
      */
     public static function getInstance()
@@ -348,7 +347,7 @@ class LanguageMailTpl extends Files\CreateFile
 
     /**
      * @public   function renderFile
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

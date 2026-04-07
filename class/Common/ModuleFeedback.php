@@ -36,8 +36,6 @@ class ModuleFeedback extends \XoopsObject
 
     /**
      * Constructor
-     *
-     * @param null
      */
     public function __construct()
     {
@@ -45,8 +43,6 @@ class ModuleFeedback extends \XoopsObject
 
     /**
      * @static function &getInstance
-     *
-     * @param null
      */
     public static function getInstance(): void
     {
@@ -70,7 +66,9 @@ class ModuleFeedback extends \XoopsObject
         $form = new \XoopsThemeForm(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_FORM_TITLE'), 'formfeedback', 'feedback.php', 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $recipient = new \XoopsFormText(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_RECIPIENT'), 'recipient', 50, 255, $GLOBALS['xoopsModule']->getInfo('author_mail'));
+        $xoopsModule = $GLOBALS['xoopsModule'] ?? null;
+        $authorMail  = $xoopsModule ? (string)$xoopsModule->getInfo('author_mail') : '';
+        $recipient   = new \XoopsFormText(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_RECIPIENT'), 'recipient', 50, 255, $authorMail);
         $recipient->setExtra('disabled="disabled"');
         $form->addElement($recipient);
         $your_name = new \XoopsFormText(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_NAME'), 'your_name', 50, 255, $this->name);

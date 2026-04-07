@@ -28,16 +28,14 @@ namespace XoopsModules\Modulebuilder\Common;
  */
 class ModuleFeedback extends \XoopsObject
 {
-    public $name    = '';
-    public $email   = '';
-    public $site    = '';
-    public $type    = '';
-    public $content = '';
+    public string $name    = '';
+    public string $email   = '';
+    public string $site    = '';
+    public string $type    = '';
+    public string $content = '';
 
     /**
      * Constructor
-     *
-     * @param null
      */
     public function __construct()
     {
@@ -45,15 +43,14 @@ class ModuleFeedback extends \XoopsObject
 
     /**
      * @static function &getInstance
-     *
-     * @param null
      */
-    public static function getInstance(): void
+    public static function getInstance(): self
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+        return $instance;
     }
 
     /**
@@ -61,7 +58,7 @@ class ModuleFeedback extends \XoopsObject
      * provide form for sending a feedback to module author
      * @return \XoopsThemeForm
      */
-    public function getFormFeedback()
+    public function getFormFeedback(): \XoopsThemeForm
     {
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
@@ -70,7 +67,9 @@ class ModuleFeedback extends \XoopsObject
         $form = new \XoopsThemeForm(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_FORM_TITLE'), 'formfeedback', 'feedback.php', 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $recipient = new \XoopsFormText(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_RECIPIENT'), 'recipient', 50, 255, $GLOBALS['xoopsModule']->getInfo('author_mail'));
+        $xoopsModule = $GLOBALS['xoopsModule'] ?? null;
+        $authorMail  = $xoopsModule ? (string)$xoopsModule->getInfo('author_mail') : '';
+        $recipient   = new \XoopsFormText(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_RECIPIENT'), 'recipient', 50, 255, $authorMail);
         $recipient->setExtra('disabled="disabled"');
         $form->addElement($recipient);
         $your_name = new \XoopsFormText(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_NAME'), 'your_name', 50, 255, $this->name);
@@ -102,7 +101,7 @@ class ModuleFeedback extends \XoopsObject
         $moduleHandler           = \xoops_getHandler('module');
         $module                  = $moduleHandler->getByDirname('system');
         $configHandler           = \xoops_getHandler('config');
-        $config                  = &$configHandler->getConfigsByCat(0, $module->getVar('mid'));
+        $config                  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
         $editorConfigs['editor'] = $config['general_editor'];
         $editor                  = new \XoopsFormEditor(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_TYPE_CONTENT'), 'fb_content', $editorConfigs);
         $form->addElement($editor, true);

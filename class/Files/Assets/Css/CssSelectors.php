@@ -30,7 +30,6 @@ class CssSelectors
 {
     /**
      * @static function getInstance
-     * @param null
      *
      * @return CssSelectors
      */
@@ -52,19 +51,17 @@ class CssSelectors
      */
     public function geCssComment($comment, $t)
     {
-        $ret = ('' != $comment) ? "{$t}/* {$comment} */" : '';
-
-        return $ret;
+        return ('' != $comment) ? "{$t}/* {$comment} */" : '';
     }
 
     /**
      * @public function geCssSelector
-     * @param string $selector
+     * @param mixed  $selector
      * @param mixed  $content
      * @param string $t
      * @return string
      */
-    public function geCssSelector($selector, $content, $t)
+    public function geCssSelector($selector, $content, string $t)
     {
         $ret = '';
         if (\is_array($selector)) {

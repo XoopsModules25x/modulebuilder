@@ -42,7 +42,6 @@ class Index extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -53,7 +52,7 @@ class Index extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return Index
      */
     public static function getInstance()
@@ -84,18 +83,18 @@ class Index extends Files\CreateFile
     /**
      * @public function getTemplateUserIndexHeader
      * @param $moduleDirname
-     * @return bool|string
+     * @return string
      */
     public function getTemplateUserIndexHeader($moduleDirname)
     {
-        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', false);
+        return $this->sc->getSmartyIncludeFile($moduleDirname);
     }
 
     /**
      * @public function getTemplatesUserIndexBodyDefault
      * @param $module
      * @param $language
-     * @return bool|string
+     * @return string
      */
     public function getTemplatesUserIndexIntro($module, $language)
     {
@@ -145,9 +144,9 @@ class Index extends Files\CreateFile
      * @param $tableSoleName
      * @param $language
      * @param string $t
-     * @return bool|string
+     * @return string
      */
-    public function getTemplateUserIndexTable($moduleDirname, $tableName, $tableSoleName, $language, $t = '')
+    public function getTemplateUserIndexTable($moduleDirname, $tableName, $tableSoleName, $language, string $t = '')
     {
         $double  = $this->sc->getSmartyConst($language, 'INDEX_LATEST_LIST');
         $ret     = $this->hc->getHtmlDiv($double, "{$moduleDirname}-linetitle", $t, "\n", false);
@@ -170,7 +169,7 @@ class Index extends Files\CreateFile
     /**
      * @public function getTemplateUserIndexFooter
      * @param $moduleDirname
-     * @return bool|string
+     * @return string
      */
     public function getTemplateUserIndexFooter($moduleDirname)
     {
@@ -179,8 +178,8 @@ class Index extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

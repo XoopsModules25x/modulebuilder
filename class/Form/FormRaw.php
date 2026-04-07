@@ -34,7 +34,7 @@ class FormRaw extends \XoopsFormElement
      *
      * @param string $value value
      */
-    public function __construct($value = '')
+    public function __construct(string $value = '')
     {
         $this->setValue($value);
     }

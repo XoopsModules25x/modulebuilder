@@ -123,7 +123,7 @@ switch ($op) {
                 'set_subversion'     => \Xmf\Request::getString('set_subversion', '', 'POST'),
             ]
         );
-        $settingOption = \Xmf\Request::getArray('setting_option', []);
+        $settingOption = \Xmf\Request::getArray('setting_option');
         $settingsObj->setVar('set_admin', \in_array('admin', $settingOption));
         $settingsObj->setVar('set_user', \in_array('user', $settingOption));
         $settingsObj->setVar('set_blocks', \in_array('blocks', $settingOption));

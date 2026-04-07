@@ -30,8 +30,6 @@ class Ratings extends \XoopsObject
 {
     /**
      * Constructor
-     *
-     * @param null
      */
     public function __construct()
     {
@@ -46,16 +44,16 @@ class Ratings extends \XoopsObject
 
     /**
      * @static function &getInstance
-     *
-     * @param null
+     * @return Ratings
      */
-    public static function getInstance(): void
+    public static function getInstance(): self
     {
-        static $instance = false;
-        if (!$instance) {
+        static $instance = null;
+        if (null === $instance) {
             $instance = new self();
         }
-    }
+        return $instance;
+     }
 
     /**
      * The new inserted $Id
@@ -63,9 +61,7 @@ class Ratings extends \XoopsObject
      */
     public function getNewInsertedIdRatings()
     {
-        $newInsertedId = $GLOBALS['xoopsDB']->getInsertId();
-
-        return $newInsertedId;
+        return $GLOBALS['xoopsDB']->getInsertId();
     }
 
     /**
@@ -99,7 +95,7 @@ class Ratings extends \XoopsObject
         $ret  = [];
         $vars = $this->getVars();
         foreach (\array_keys($vars) as $var) {
-            $ret[$var] = $this->getVar('"{$var}"');
+            $ret[$var] = $this->getVar($var);
         }
 
         return $ret;

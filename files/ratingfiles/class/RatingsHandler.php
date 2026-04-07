@@ -50,13 +50,13 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve a field
      *
-     * @param int   $i field id
+     * @param int   $id field id
      * @param array $fields
      * @return \XoopsObject|null reference to the {@link Get} object
      */
-    public function get($i = null, $fields = null)
+    public function get($id = null, $fields = null)
     {
-        return parent::get($i, $fields);
+        return parent::get($id, $fields);
     }
 
     /**
@@ -76,7 +76,7 @@ class RatingsHandler extends \XoopsPersistableObjectHandler
      * @param int $source
      * @return array
      */
-    public function getItemRating($itemid = 0, $source = 0)
+    public function getItemRating(int $itemid = 0, int $source = 0)
     {
         $helper = \XoopsModules\Modulebuilder\Helper::getInstance();
 

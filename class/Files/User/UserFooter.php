@@ -46,7 +46,6 @@ class UserFooter extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -58,7 +57,6 @@ class UserFooter extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
      * @return UserFooter
      */
     public static function getInstance()
@@ -73,10 +71,10 @@ class UserFooter extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param string $filename
      */
-    public function write($module, $filename): void
+    public function write($module, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -103,7 +101,7 @@ class UserFooter extends Files\CreateFile
         $ret              .= $this->xc->getXcXoopsTplAssign('admin', "\\{$stuModuleDirname}_ADMIN");
         $ret              .= $this->xc->getXcXoopsTplAssign('copyright', '$copyright');
         $ret              .= $this->pc->getPhpCodeCommentLine('Meta description');
-        $ret              .= $this->uxc->getUserMetaDesc($moduleDirname, $language);
+        $ret              .= $this->uxc->getUserMetaDesc($moduleDirname);
         $ret              .= $this->pc->getPhpCodeBlankLine();
         $ret              .= $this->pc->getPhpCodeCommentLine('Paths');
         $ret              .= $this->xc->getXcXoopsTplAssign('xoops_mpageurl', "\\{$stuModuleDirname}_URL.'/index.php'");
@@ -118,8 +116,7 @@ class UserFooter extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

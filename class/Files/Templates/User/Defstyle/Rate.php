@@ -36,7 +36,6 @@ class Rate extends Files\CreateFile
 {
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -45,7 +44,6 @@ class Rate extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
      * @return Rate
      */
     public static function getInstance()
@@ -64,7 +62,7 @@ class Rate extends Files\CreateFile
      * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename): void
+    public function write($module, $table, string $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -74,12 +72,12 @@ class Rate extends Files\CreateFile
     /**
      * @private function getTemplatesUserRateHeader
      * @param string $moduleDirname
-     * @param string $table
+     * @param        $table
      * @param string $language
      *
      * @return string
      */
-    private function getTemplatesUserRateHeader($moduleDirname, $table, $language)
+    private function getTemplatesUserRateHeader(string $moduleDirname, $table, string $language)
     {
         $ret    = <<<EOT
             <{include file="db:{$moduleDirname}_header.tpl"}>
@@ -108,11 +106,11 @@ class Rate extends Files\CreateFile
     /**
      * @private function getTemplatesUserRateBody
      * @param string $moduleDirname
-     * @param string $table
+     * @param        $table
      *
      * @return string
      */
-    private function getTemplatesUserRateBody($moduleDirname, $table)
+    private function getTemplatesUserRateBody(string $moduleDirname, $table)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -163,11 +161,11 @@ class Rate extends Files\CreateFile
     /**
      * @private function getTemplatesUserRateBodyFieldnameEmpty
      * @param string $moduleDirname
-     * @param string $table
+     * @param        $table
      *
      * @return string
      */
-    private function getTemplatesUserRateBodyFieldnameEmpty($moduleDirname, $table)
+    private function getTemplatesUserRateBodyFieldnameEmpty(string $moduleDirname, $table)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -215,19 +213,16 @@ class Rate extends Files\CreateFile
      *
      * @return string
      */
-    private function getTemplatesUserRateFooter($moduleDirname)
+    private function getTemplatesUserRateFooter(string $moduleDirname)
     {
-        $ret = <<<EOT
+        return <<<EOT
             <{include file="db:{$moduleDirname}_footer.tpl"}>
             EOT;
-
-        return $ret;
     }
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

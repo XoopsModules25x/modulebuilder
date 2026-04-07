@@ -36,7 +36,6 @@ class Fieldattributes extends \XoopsObject
 {
     /**
      * @public function constructor class
-     * @param null
      */
     public function __construct()
     {
@@ -47,7 +46,7 @@ class Fieldattributes extends \XoopsObject
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return Fieldattributes
      */
     public static function getInstance()

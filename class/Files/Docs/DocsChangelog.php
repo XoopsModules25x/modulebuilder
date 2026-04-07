@@ -33,7 +33,6 @@ class DocsChangelog extends Files\CreateFile
 {
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -42,7 +41,7 @@ class DocsChangelog extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return DocsChangelog
      */
     public static function getInstance()
@@ -68,8 +67,8 @@ class DocsChangelog extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

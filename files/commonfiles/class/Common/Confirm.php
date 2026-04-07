@@ -40,11 +40,11 @@ namespace XoopsModules\Modulebuilder\Common;
  */
 class Confirm
 {
-    private $hiddens = [];
-    private $action  = '';
-    private $title   = '';
-    private $label   = '';
-    private $object  = '';
+    private array $hiddens = [];
+    private string $action  = '';
+    private string $title   = '';
+    private string $label   = '';
+    private string $object  = '';
 
     /**
      * @public function constructor class
@@ -54,7 +54,7 @@ class Confirm
      * @param string $title
      * @param string $label
      */
-    public function __construct($hiddens, $action, $object, $title = '', $label = '')
+    public function __construct($hiddens, $action, $object, string $title = '', string $label = '')
     {
         $this->hiddens = $hiddens;
         $this->action  = $action;
@@ -67,9 +67,9 @@ class Confirm
      * @public function getFormConfirm
      * @return \XoopsThemeForm
      */
-    public function getFormConfirm()
+    public function getFormConfirm(): \XoopsThemeForm
     {
-        $moduleDirName      = \basename(__DIR__);
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         //in order to be accessable from user and admin area this should be place in language common.php
         if (!\defined('CO_' . $moduleDirNameUpper . '_DELETE_CONFIRM')) {

@@ -42,7 +42,6 @@ class LanguageModinfo extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -53,7 +52,7 @@ class LanguageModinfo extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return LanguageModinfo
      */
     public static function getInstance()
@@ -167,7 +166,7 @@ class LanguageModinfo extends Files\CreateFile
      *
      * @return string
      */
-    private function getLanguageSubmenu($language, $tables)
+    private function getLanguageSubmenu($language, array $tables)
     {
         $ret         = $this->ld->getAboveDefines('Submenu');
         $ret         .= $this->ld->getDefine($language, 'SMNAME1', 'Index page');
@@ -203,7 +202,7 @@ class LanguageModinfo extends Files\CreateFile
      *
      * @return string
      */
-    private function getLanguageBlocks($tables, $language)
+    private function getLanguageBlocks(array $tables, $language)
     {
         $ret = $this->ld->getAboveDefines('Blocks');
         foreach (\array_keys($tables) as $i) {
@@ -500,7 +499,7 @@ class LanguageModinfo extends Files\CreateFile
 
     /**
      * @private function getFooter
-     * @param null
+     *
      * @return string
      */
     private function getLanguageFooter()
@@ -513,8 +512,8 @@ class LanguageModinfo extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

@@ -29,7 +29,7 @@ class FormLabel extends \XoopsFormElement
     /**
      * @param string $caption
      */
-    public function __construct($caption = '')
+    public function __construct(string $caption = '')
     {
         $this->setCaption($caption);
     }

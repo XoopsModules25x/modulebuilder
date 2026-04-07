@@ -1,0 +1,92 @@
+-
+    fieldtype_id: '1'
+    fieldtype_name: ...
+    fieldtype_value: ''
+-
+    fieldtype_id: '2'
+    fieldtype_name: INT
+    fieldtype_value: INT
+-
+    fieldtype_id: '3'
+    fieldtype_name: TINYINT
+    fieldtype_value: TINYINT
+-
+    fieldtype_id: '4'
+    fieldtype_name: MEDIUMINT
+    fieldtype_value: MEDIUMINT
+-
+    fieldtype_id: '5'
+    fieldtype_name: SMALLINT
+    fieldtype_value: SMALLINT
+-
+    fieldtype_id: '6'
+    fieldtype_name: FLOAT
+    fieldtype_value: FLOAT
+-
+    fieldtype_id: '7'
+    fieldtype_name: DOUBLE
+    fieldtype_value: DOUBLE
+-
+    fieldtype_id: '8'
+    fieldtype_name: DECIMAL
+    fieldtype_value: DECIMAL
+-
+    fieldtype_id: '9'
+    fieldtype_name: SET
+    fieldtype_value: SET
+-
+    fieldtype_id: '10'
+    fieldtype_name: ENUM
+    fieldtype_value: ENUM
+-
+    fieldtype_id: '11'
+    fieldtype_name: EMAIL
+    fieldtype_value: EMAIL
+-
+    fieldtype_id: '12'
+    fieldtype_name: URL
+    fieldtype_value: URL
+-
+    fieldtype_id: '13'
+    fieldtype_name: CHAR
+    fieldtype_value: CHAR
+-
+    fieldtype_id: '14'
+    fieldtype_name: VARCHAR
+    fieldtype_value: VARCHAR
+-
+    fieldtype_id: '15'
+    fieldtype_name: TEXT
+    fieldtype_value: TEXT
+-
+    fieldtype_id: '16'
+    fieldtype_name: TINYTEXT
+    fieldtype_value: TINYTEXT
+-
+    fieldtype_id: '17'
+    fieldtype_name: MEDIUMTEXT
+    fieldtype_value: MEDIUMTEXT
+-
+    fieldtype_id: '18'
+    fieldtype_name: LONGTEXT
+    fieldtype_value: LONGTEXT
+-
+    fieldtype_id: '19'
+    fieldtype_name: DATE
+    fieldtype_value: DATE
+-
+    fieldtype_id: '20'
+    fieldtype_name: DATETIME
+    fieldtype_value: DATETIME
+-
+    fieldtype_id: '21'
+    fieldtype_name: TIMESTAMP
+    fieldtype_value: TIMESTAMP
+-
+    fieldtype_id: '22'
+    fieldtype_name: TIME
+    fieldtype_value: TIME
+-
+    fieldtype_id: '23'
+    fieldtype_name: YEAR
+    fieldtype_value: YEAR

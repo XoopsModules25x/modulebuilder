@@ -54,7 +54,7 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 
 This software was created to be free of defects and is designed to
-function on PC computers only. While this software has been tested 
+function on PC only. While this software has been tested
 and proven to run accurately, in the unlikely event of any user or 
 computer incompatibility issues, the end user assumes complete 
 liability of usage. This software contains no adware, scumware or 

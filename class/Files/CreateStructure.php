@@ -49,8 +49,6 @@ class CreateStructure
 
     /**
      * @public function constructor class
-     *
-     * @param null
      */
     public function __construct()
     {
@@ -58,8 +56,6 @@ class CreateStructure
 
     /**
      * @static function getInstance
-     *
-     * @param null
      *
      * @return Modulebuilder\Files\CreateStructure
      */
@@ -162,10 +158,8 @@ class CreateStructure
             if (!\mkdir($dname, 0755) && !\is_dir($dname)) {
                 throw new \RuntimeException(\sprintf('Directory "%s" was not created', $dname));
             }
-            chmod($dname, 0755);
-        } else {
-            chmod($dname, 0755);
         }
+        chmod($dname, 0755);
     }
 
     /**
@@ -173,7 +167,7 @@ class CreateStructure
      *
      * @param string $dir
      */
-    protected function makeDir($dir): void
+    protected function makeDir(string $dir): void
     {
         $this->isDir(\trim($dir));
     }
@@ -183,9 +177,9 @@ class CreateStructure
      *
      * @param string $dir
      *
-     * @return string
+     * @return bool
      */
-    public function isDirEmpty($dir)
+    public function isDirEmpty(string $dir)
     {
         $content = [];
         $handle  = \opendir($dir);
@@ -205,11 +199,11 @@ class CreateStructure
     /**
      * @public function addFolderPath
      *
-     * @param string      $folderName
+     * @param string $folderName
      * @param bool|string $fileName
      * @return string
      */
-    private function addFolderPath($folderName, $fileName = false)
+    private function addFolderPath(string $folderName, $fileName = false)
     {
         $this->setFolderName($folderName);
         if ($fileName) {
@@ -227,7 +221,7 @@ class CreateStructure
      *
      * @param string $dirName
      */
-    public function makeDirInModule($dirName): void
+    public function makeDirInModule(string $dirName): void
     {
         $fname = $this->addFolderPath($dirName);
         $this->makeDir($fname);
@@ -240,7 +234,7 @@ class CreateStructure
      * @param string $fromFile
      * @param string $toFile
      */
-    public function makeDirAndCopyFile($folderName, $fromFile, $toFile): void
+    public function makeDirAndCopyFile(string $folderName, string $fromFile, string $toFile): void
     {
         $dname = $this->addFolderPath($folderName);
         $this->makeDir($dname);
@@ -254,7 +248,7 @@ class CreateStructure
      * @param string $fromFile
      * @param string $toFile
      */
-    public function copyFile($folderName, $fromFile, $toFile): void
+    public function copyFile(string $folderName, string $fromFile, string $toFile): void
     {
         $dname = $this->addFolderPath($folderName);
         $fname = $this->addFolderPath($folderName, $toFile);
@@ -268,14 +262,13 @@ class CreateStructure
      * @param string $fromFile
      * @param string $fname
      */
-    public function setCopy($dname, $fromFile, $fname): void
+    public function setCopy(string $dname, string $fromFile, string $fname): void
     {
         if (\is_dir($dname)) {
             chmod($dname, 0777);
-            \copy($fromFile, $fname);
         } else {
             $this->makeDir($dname);
-            \copy($fromFile, $fname);
         }
+        \copy($fromFile, $fname);
     }
 }

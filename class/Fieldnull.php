@@ -31,7 +31,6 @@ class Fieldnull extends \XoopsObject
 {
     /**
      * @public function constructor class
-     * @param null
      */
     public function __construct()
     {
@@ -42,7 +41,7 @@ class Fieldnull extends \XoopsObject
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return Fieldnull
      */
     public static function getInstance()

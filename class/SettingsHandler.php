@@ -49,21 +49,20 @@ class SettingsHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve a field.
      *
-     * @param int  $i field id
+     * @param int  $id field id
      * @param null $fields
      *
-     * @return mixed reference to the <a href='psi_element://Settings'>Settings</a> object
+     * @return \XoopsObject|null reference to the <a href='psi_element://Settings'>Settings</a> object
      *               object
      */
-    public function get($i = null, $fields = null)
+    public function get($id = null, $fields = null)
     {
-        return parent::get($i, $fields);
+        return parent::get($id, $fields);
     }
 
     /**
      * get inserted id.
      *
-     * @param null
      *
      * @return int reference to the {@link Tables} object
      */
@@ -75,14 +74,14 @@ class SettingsHandler extends \XoopsPersistableObjectHandler
     /**
      * Get Count Settings.
      *
-     * @param int    $start
-     * @param int    $limit
+     * @param int $start
+     * @param int $limit
      * @param string $sort
      * @param string $order
      *
      * @return int
      */
-    public function getCountSettings($start = 0, $limit = 0, $sort = 'set_id ASC, set_name', $order = 'ASC')
+    public function getCountSettings(int $start = 0, int $limit = 0, string $sort = 'set_id ASC, set_name', string $order = 'ASC')
     {
         $crCountSettings = new \CriteriaCompo();
         $crCountSettings = $this->getSettingsCriteria($crCountSettings, $start, $limit, $sort, $order);
@@ -93,14 +92,14 @@ class SettingsHandler extends \XoopsPersistableObjectHandler
     /**
      * Get All Settings.
      *
-     * @param int    $start
-     * @param int    $limit
+     * @param int $start
+     * @param int $limit
      * @param string $sort
      * @param string $order
      *
      * @return array
      */
-    public function getAllSettings($start = 0, $limit = 0, $sort = 'set_id ASC, set_name', $order = 'ASC')
+    public function getAllSettings(int $start = 0, int $limit = 0, string $sort = 'set_id ASC, set_name', string $order = 'ASC')
     {
         $crAllSettings = new \CriteriaCompo();
         $crAllSettings = $this->getSettingsCriteria($crAllSettings, $start, $limit, $sort, $order);

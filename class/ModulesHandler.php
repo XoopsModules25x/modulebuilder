@@ -52,21 +52,20 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve a field.
      *
-     * @param int  $i field id
+     * @param int  $id field id
      * @param null $fields
      *
-     * @return mixed reference to the <a href='psi_element://Fields'>Fields</a> object
+     * @return \XoopsObject|null reference to the <a href='psi_element://Fields'>Fields</a> object
      *               object
      */
-    public function get($i = null, $fields = null)
+    public function get($id = null, $fields = null)
     {
-        return parent::get($i, $fields);
+        return parent::get($id, $fields);
     }
 
     /**
      * get inserted id.
      *
-     * @param null
      *
      * @return int reference to the {@link Tables} object
      */
@@ -78,14 +77,14 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
     /**
      * Get Count Modules.
      *
-     * @param int    $start
-     * @param int    $limit
+     * @param int $start
+     * @param int $limit
      * @param string $sort
      * @param string $order
      *
      * @return int
      */
-    public function getCountModules($start = 0, $limit = 0, $sort = 'mod_id', $order = 'DESC')
+    public function getCountModules(int $start = 0, int $limit = 0, string $sort = 'mod_id', string $order = 'DESC')
     {
         $crCountModules = new \CriteriaCompo();
         $crCountModules = $this->getModulesCriteria($crCountModules, $start, $limit, $sort, $order);
@@ -96,14 +95,14 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
     /**
      * Get All Modules.
      *
-     * @param int    $start
-     * @param int    $limit
+     * @param int $start
+     * @param int $limit
      * @param string $sort
      * @param string $order
      *
      * @return array
      */
-    public function getAllModules($start = 0, $limit = 0, $sort = 'mod_id', $order = 'DESC')
+    public function getAllModules(int $start = 0, int $limit = 0, string $sort = 'mod_id', string $order = 'DESC')
     {
         $crAllModules = new \CriteriaCompo();
         $crAllModules = $this->getModulesCriteria($crAllModules, $start, $limit, $sort, $order);

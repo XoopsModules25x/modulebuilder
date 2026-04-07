@@ -46,7 +46,6 @@ class AdminIndex extends Files\CreateFile
     
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -58,7 +57,7 @@ class AdminIndex extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+
      * @return AdminIndex
      */
     public static function getInstance()
@@ -73,11 +72,11 @@ class AdminIndex extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param mixed  $tables
      * @param string $filename
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $tables, string $filename)
     {
         $this->setModule($module);
         $this->setTables($tables);
@@ -131,30 +130,35 @@ class AdminIndex extends Files\CreateFile
         if (\is_array($tables) && \in_array(1, $tableInstall)) {
             $ret       .= $this->pc->getPhpCodeBlankLine();
             $ret       .= $this->pc->getPhpCodeCommentLine('Upload Folders');
+            $ret       .= $this->pc->getPhpCodeArray('folder',null,false,'');
             $ret       .= $this->xc->getXcEqualsOperator('$configurator', 'new Common\Configurator()');
             $cond      = '$configurator->uploadFolders && \is_array($configurator->uploadFolders)';
             $fe_action = $this->xc->getXcEqualsOperator('$folder[]', '$configurator->uploadFolders[$i]', '',"\t\t");
             $condIf    = $this->pc->getPhpCodeForeach('configurator->uploadFolders', true, false, 'i', $fe_action, "\t");
-            $ret       .= $this->pc->getPhpCodeConditions($cond, '', '', $condIf, false);
+            $ret       .= $this->pc->getPhpCodeConditions($cond, '', '', $condIf);
 
             $ret       .= $this->pc->getPhpCodeCommentLine('Uploads Folders Created');
-            $boxLine   = $this->axc->getAxcAddConfigBoxLine('$folder[$i]', 'folder', '', "\t");
-            $boxLine   .= $this->axc->getAxcAddConfigBoxLine("[\$folder[\$i], '777']", 'chmod', '', "\t");
-            $ret       .= $this->pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine) . PHP_EOL;
+            $boxLine   = $this->axc->getAxcAddConfigBoxLine('$folder[$i]', 'folder', '', "\t\t");
+            $boxLine   .= $this->axc->getAxcAddConfigBoxLine("[\$folder[\$i], '777']", 'chmod', '', "\t\t");
+            $cond      = '$folder';
+            $condIf    = $this->pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine, "\t");
+            $ret       .= $this->pc->getPhpCodeConditions($cond, '', '', $condIf);
+            $ret       .= $this->pc->getPhpCodeBlankLine();
         }
+
         $ret    .= $this->pc->getPhpCodeCommentLine('Render Index');
         $ret    .= $this->xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('index.php')");
-        $ret    .= $this->pc->getPhpCodeCommentLine('Test Data');
         $condIf = $this->xc->getXcXoopsLoadLanguage('admin/modulesadmin',"\t", 'system');
-        $condIf .= $this->pc->getPhpCodeIncludeDir('\dirname(__DIR__)', 'testdata/index', true, '','',"\t");
-        $condIf .= $this->axc->getAdminItemButton("\constant('CO_' . \$moduleDirNameUpper . '_ADD_SAMPLEDATA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=load', $type = 'samplebutton', $t = "\t");
-        $condIf .= $this->axc->getAdminItemButton("\constant('CO_' . \$moduleDirNameUpper . '_SAVE_SAMPLEDATA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=save', $type = 'samplebutton', $t = "\t");
-        $condIf .= '//' . $this->axc->getAdminItemButton("\constant('CO_' . \$moduleDirNameUpper . '_EXPORT_SCHEMA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=exportschema', $type = 'samplebutton', $t = "\t");
+        $condIf .= $this->pc->getPhpCodeIncludeDir('\dirname(__DIR__)', 'testdata/index', true, false,'',"\t");
+        $condIf .= $this->axc->getAdminItemButton("\constant('CO_' . \$moduleDirNameUpper . '_ADD_SAMPLEDATA')", '', '', '../testdata/index.php?op=load', 'samplebutton', "\t");
+        $condIf .= $this->axc->getAdminItemButton("\constant('CO_' . \$moduleDirNameUpper . '_SAVE_SAMPLEDATA')", '', '', '../testdata/index.php?op=save', 'samplebutton', "\t");
+        $condIf .= '//' . $this->axc->getAdminItemButton("\constant('CO_' . \$moduleDirNameUpper . '_EXPORT_SCHEMA')", '', '', '../testdata/index.php?op=exportschema', 'samplebutton', "\t");
         $condIf .= $this->axc->getAdminDisplayButton('left', "\t");
         $cond   = $this->xc->getXcGetConfig('displaySampleButton');
-        $ret    .= $this->pc->getPhpCodeConditions($cond, '', '', $condIf, false);
+        $ret    .= $this->pc->getPhpCodeConditions($cond, '', '', $condIf);
         $ret    .= $this->xc->getXcXoopsTplAssign('index', '$adminObject->displayIndex()');
-        $ret    .= $this->pc->getPhpCodeCommentLine('End Test Data');
+
+        $ret       .= $this->pc->getPhpCodeBlankLine();
 
         $ret    .= $this->getRequire('footer');
 
@@ -163,8 +167,8 @@ class AdminIndex extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+
+     * @return string
      */
     public function render()
     {

@@ -24,16 +24,16 @@ namespace XoopsModules\Modulebuilder\Common;
  */
 class Resizer
 {
-    public $sourceFile    = '';
-    public $endFile       = '';
-    public $maxWidth      = 0;
-    public $maxHeight     = 0;
-    public $imageMimetype = '';
-    public $jpgQuality    = 90;
-    public $mergeType     = 0;
-    public $mergePos      = 0;
-    public $degrees       = 0;
-    public $error         = '';
+    public string $sourceFile    = '';
+    public string $endFile       = '';
+    public int $maxWidth      = 0;
+    public int $maxHeight     = 0;
+    public string $imageMimetype = '';
+    public int $jpgQuality    = 90;
+    public int $mergeType     = 0;
+    public int $mergePos      = 0;
+    public int $degrees       = 0;
+    public string $error         = '';
 
     /**
      * resize image if size exceed given width/height
@@ -45,15 +45,24 @@ class Resizer
         switch ($this->imageMimetype) {
             case 'image/png':
                 $img = \imagecreatefrompng($this->sourceFile);
+                if (!$img) {
+                    return false;
+                }
                 break;
             case 'image/jpeg':
                 $img = \imagecreatefromjpeg($this->sourceFile);
                 if (!$img) {
                     $img = \imagecreatefromstring(file_get_contents($this->sourceFile));
                 }
+                if (!$img) {
+                    return false;
+                }
                 break;
             case 'image/gif':
                 $img = \imagecreatefromgif($this->sourceFile);
+                if (!$img) {
+                    return false;
+                }
                 break;
             default:
                 return 'Unsupported format';
@@ -83,12 +92,12 @@ class Resizer
             }
 
             // Create a new temporary image.
-            $tmpimg = \imagecreatetruecolor($new_width, $new_height);
+            $tmpimg = \imagecreatetruecolor((int)$new_width, (int)$new_height);
             \imagealphablending($tmpimg, false);
             \imagesavealpha($tmpimg, true);
 
             // Copy and resize old image into new image.
-            \imagecopyresampled($tmpimg, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+            \imagecopyresampled($tmpimg, $img, 0, 0, 0, 0, (int)$new_width, (int)$new_height, (int)$width, (int)$height);
 
             \unlink($this->endFile);
             //compressing the file
@@ -185,8 +194,29 @@ class Resizer
 
     public function mergeImage(): void
     {
-        $dest = \imagecreatefromjpeg($this->endFile);
-        $src  = \imagecreatefromjpeg($this->sourceFile);
+        $dest = null;
+        $src = null;
+        switch ($this->imageMimetype) {
+            case 'image/png':
+                $dest = \imagecreatefrompng($this->endFile);
+                $src = \imagecreatefrompng($this->sourceFile);
+                break;
+            case 'image/jpeg':
+                $dest = \imagecreatefromjpeg($this->endFile);
+                $src = \imagecreatefromjpeg($this->sourceFile);
+                break;
+            case 'image/gif':
+                $dest = \imagecreatefromgif($this->endFile);
+                $src = \imagecreatefromgif($this->sourceFile);
+                break;
+            default:
+                $this->error = 'Unsupported format';
+                return;
+        }
+        if (!$dest || !$src) {
+            $this->error = 'Failed to load images';
+            return;
+        }
         if (4 == $this->mergeType) {
             $imgWidth  = (int)\round($this->maxWidth / 2 - 1);
             $imgHeight = (int)\round($this->maxHeight / 2 - 1);

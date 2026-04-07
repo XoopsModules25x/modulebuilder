@@ -85,8 +85,8 @@ switch ($op) {
         $regexFiles = new RegexIterator($Iterator, '/^.+\.(php|tpl)$/i', RecursiveRegexIterator::GET_MATCH);
         //$files = new RegexIterator($flattened, '#^(?:[A-Z]:)?(?:/(?!\.Trash)[^/]+)+/[^/]+\.(?:php|html)$#Di');
         $modfiles = [];
-        foreach ($regexFiles as $regexFiles) {
-            $file = str_replace('\\', '/', $regexFiles[0]);
+        foreach ($regexFiles as $regexFile) {
+            $file = str_replace('\\', '/', $regexFile[0]);
             if (!\in_array($file, $langfiles)) {
                 $modfiles[] = $file;
             }

@@ -21,7 +21,7 @@
 $moduleDirName      = \basename(\dirname(__DIR__, 2));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-\define('CO_' . $moduleDirNameUpper . '_' . 'FB_FORM_TITLE', 'Send a feedback');
+\define('CO_' . $moduleDirNameUpper . '_' . 'FB_FORM_TITLE', 'Send feedback');
 \define('CO_' . $moduleDirNameUpper . '_' . 'FB_RECIPIENT', 'Recipient');
 \define('CO_' . $moduleDirNameUpper . '_' . 'FB_NAME', 'Name');
 \define('CO_' . $moduleDirNameUpper . '_' . 'FB_NAME_PLACEHOLER', 'Please enter your name');
@@ -38,4 +38,4 @@ $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 \define('CO_' . $moduleDirNameUpper . '_' . 'FB_TYPE_CONTENT', 'Feedback content');
 \define('CO_' . $moduleDirNameUpper . '_' . 'FB_SEND_FOR', 'Feedback for module ');
 \define('CO_' . $moduleDirNameUpper . '_' . 'FB_SEND_SUCCESS', 'Feedback successfully sent');
-\define('CO_' . $moduleDirNameUpper . '_' . 'FB_SEND_ERROR', 'An errror occured when feedback was sent!');
+\define('CO_' . $moduleDirNameUpper . '_' . 'FB_SEND_ERROR', 'An errror occured while sending feedback!');

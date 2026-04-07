@@ -8,14 +8,9 @@ namespace XoopsModules\Modulebuilder\Files;
  *
  * @return string
  */
-function nl($tabs = 0)
+function nl(int $tabs = 0)
 {
-    $r = "\n";
-    for ($i = 0; $i < $tabs; ++$i) {
-        $r .= '   ';
-    }
-
-    return $r;
+    return "\n" . str_repeat('   ', $tabs);
 }
 
 /* Usage example */

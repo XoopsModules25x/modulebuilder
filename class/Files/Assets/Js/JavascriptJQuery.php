@@ -33,7 +33,6 @@ class JavascriptJQuery extends Files\CreateFile
 {
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -42,7 +41,7 @@ class JavascriptJQuery extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return JavascriptJQuery
      */
     public static function getInstance()
@@ -57,10 +56,10 @@ class JavascriptJQuery extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param string $filename
      */
-    public function write($module, $filename): void
+    public function write($module, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -68,13 +67,12 @@ class JavascriptJQuery extends Files\CreateFile
 
     /**
      * @public function getJavascriptJQueryButtons
-     * @param null
      *
      * @return string
      */
     public function getJavascriptJQueryButtons()
     {
-        $ret = <<<EOT
+        return <<<EOT
             $(document).ready(function(){
                 $( "button, input:button, input:submit, input:file, input:reset" ).css("color","inherit").button();
                 $( ".check" ).css("color","#fff").button();
@@ -82,19 +80,16 @@ class JavascriptJQuery extends Files\CreateFile
                 $( ".toolbar" ).css("color","#000").buttonset();
             });\n\n
             EOT;
-
-        return $ret;
     }
 
     /**
      * @public function getJavascriptJQueryPrint
-     * @param null
      *
      * @return string
      */
     public function getJavascriptJQueryPrint()
     {
-        $ret = <<<'EOT'
+        return <<<'EOT'
             // <![CDATA[
             /*------------------------------------------------------------------------------
             Excerpts from the jsUtilities Library
@@ -160,15 +155,12 @@ class JavascriptJQuery extends Files\CreateFile
             }
             // ]]>
             EOT;
-
-        return $ret;
     }
 
     /**
      * @public function render
-     * @param null
      *
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

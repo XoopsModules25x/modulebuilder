@@ -42,7 +42,6 @@ class Pages extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -53,7 +52,7 @@ class Pages extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return Pages
      */
     public static function getInstance()
@@ -72,7 +71,7 @@ class Pages extends Files\CreateFile
      * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename): void
+    public function write($module, $table, string $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -84,9 +83,9 @@ class Pages extends Files\CreateFile
      * @param string $moduleDirname
      * @return string
      */
-    private function getTemplatesUserPagesHeader($moduleDirname)
+    private function getTemplatesUserPagesHeader(string $moduleDirname)
     {
-        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', '','',"\n\n");
+        return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', false,'',"\n\n");
     }
 
     /**
@@ -97,7 +96,7 @@ class Pages extends Files\CreateFile
      * @param string $language
      * @return string
      */
-    private function getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserPagesTable(string $moduleDirname, string $tableName, $tableSoleName, string $language)
     {
         $tbody  = $this->getTemplatesUserPagesTableThead($tableName, $language);
         $tbody  .= $this->getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName);
@@ -113,7 +112,7 @@ class Pages extends Files\CreateFile
      * @param        $tableName
      * @return string
      */
-    private function getTemplatesUserPagesTableThead($tableName, $language)
+    private function getTemplatesUserPagesTableThead($tableName, string $language)
     {
         $stuTableName = \mb_strtoupper($tableName);
         $single       = $this->sc->getSmartySingleVar('divideby');
@@ -131,7 +130,7 @@ class Pages extends Files\CreateFile
      * @param        $tableSoleName
      * @return string
      */
-    private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName)
+    private function getTemplatesUserPagesTableTbody(string $moduleDirname, $tableName, $tableSoleName)
     {
         $single  = $this->sc->getSmartySingleVar('panel_type');
         $include = $this->sc->getSmartyIncludeFile($moduleDirname, $tableName . '_item', false, "\t\t\t\t\t\t", "\n", $tableSoleName . '=$' . $tableSoleName);
@@ -147,7 +146,7 @@ class Pages extends Files\CreateFile
 
     /**
      * @private function getTemplatesUserPagesTfoot
-     * @param null
+     *
      * @return string
      */
     private function getTemplatesUserPagesTableTfoot()
@@ -176,24 +175,22 @@ class Pages extends Files\CreateFile
 
     /**
      * @private function getTemplatesUserPagesForm
-     * @param string $t
      * @return string
      */
-    private function getTemplatesUserPagesForm($t = "\t")
+    private function getTemplatesUserPagesForm()
     {
-        $var  = $this->sc->getSmartySingleVar('form', $t, "\n");
+        $var  = $this->sc->getSmartySingleVar('form', "\t", "\n");
 
         return $this->sc->getSmartyConditions('form', '', '', $var, false, false, true);
     }
 
     /**
      * @private function getTemplatesUserPagesError
-     * @param string $t
      * @return string
      */
-    private function getTemplatesUserPagesError($t = "\t")
+    private function getTemplatesUserPagesError()
     {
-        $var  = $this->sc->getSmartySingleVar('error', $t, "\n");
+        $var  = $this->sc->getSmartySingleVar('error', "\t", "\n");
 
         return $this->sc->getSmartyConditions('error', '', '', $var, false, false, true);
     }
@@ -204,7 +201,7 @@ class Pages extends Files\CreateFile
      *
      * @return string
      */
-    private function getTemplatesUserPagesFooter($moduleDirname)
+    private function getTemplatesUserPagesFooter(string $moduleDirname)
     {
         $ret = $this->hc->getHtmlEmpty('', '', "\n");
         $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'footer');
@@ -214,9 +211,8 @@ class Pages extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
      *
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

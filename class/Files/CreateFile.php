@@ -84,7 +84,6 @@ class CreateFile extends CreateTableFields
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -94,7 +93,7 @@ class CreateFile extends CreateTableFields
 
     /**
      * @public static function getInstance
-     * @param null
+     *
      * @return Modulebuilder\Files\CreateFile
      */
     public static function getInstance()
@@ -113,12 +112,12 @@ class CreateFile extends CreateTableFields
      * @param $moduleDirname
      * @param $subdir
      * @param $fileName
-     * @param $content
+     * @param string $content
      * @param $created
      * @param $notCreated
-     * @param $mode
+     * @param string $mode
      */
-    public function create($moduleDirname, $subdir = null, $fileName = null, $content = '', $created = null, $notCreated = null, $mode = 'w+'): void
+    public function create($moduleDirname, $subdir = null, $fileName = null, string $content = '', $created = null, $notCreated = null, string $mode = 'w+'): void
     {
         $this->setFileName($fileName);
         $this->created    = $created;
@@ -147,14 +146,14 @@ class CreateFile extends CreateTableFields
      * @private function setRepositoryPath
      * @param string $moduleDirname
      */
-    private function setRepositoryPath($moduleDirname): void
+    private function setRepositoryPath(string $moduleDirname): void
     {
         $this->uploadPath = TDMC_UPLOAD_REPOSITORY_PATH . '/' . $moduleDirname;
     }
 
     /**
      * @private function getRepositoryPath
-     * @param null
+     *
      * @return string
      */
     private function getRepositoryPath()
@@ -173,7 +172,7 @@ class CreateFile extends CreateTableFields
 
     /**
      * @private function getSubDir
-     * @param null
+     *
      * @return string
      */
     private function getSubDir()
@@ -193,7 +192,7 @@ class CreateFile extends CreateTableFields
 
     /**
      * @public function getFileName
-     * @param null
+     *
      * @return mixed
      */
     public function getFileName()
@@ -213,7 +212,7 @@ class CreateFile extends CreateTableFields
 
     /**
      * @private function setContent
-     * @param null
+     *
      * @return string
      */
     private function getContent()
@@ -223,7 +222,7 @@ class CreateFile extends CreateTableFields
 
     /**
      * @private function getFolderName
-     * @param null
+     *
      * @return string
      */
     private function getFolderName()
@@ -243,7 +242,7 @@ class CreateFile extends CreateTableFields
 
     /**
      * @public function getUploadPath
-     * @param null
+     *
      * @return string
      */
     private function getUploadPath()
@@ -259,7 +258,7 @@ class CreateFile extends CreateTableFields
 
     /**
      * @private function getCreated
-     * @param null
+     *
      * @return bool
      */
     private function getCreated()
@@ -269,7 +268,7 @@ class CreateFile extends CreateTableFields
 
     /**
      * @private function getNotCreated
-     * @param null
+     *
      * @return bool
      */
     private function getNotCreated()
@@ -288,7 +287,7 @@ class CreateFile extends CreateTableFields
 
     /**
      * @private function getMode
-     * @param null
+     *
      * @return string
      */
     private function getMode()
@@ -301,10 +300,10 @@ class CreateFile extends CreateTableFields
      * @param string $moduleDirname
      * @param string $prefix
      * @param string $suffix
-     * @param bool   $addFq //add function qualifier
+     * @param bool $addFq //add function qualifier
      * @return string
      */
-    public function getLanguage($moduleDirname, $prefix = '', $suffix = '', $addFq = true)
+    public function getLanguage(string $moduleDirname, string $prefix = '', string $suffix = '', bool $addFq = true)
     {
         $lang = '';
         if ($addFq) {
@@ -327,7 +326,7 @@ class CreateFile extends CreateTableFields
      *
      * @return string
      */
-    public function getLeftString($string)
+    public function getLeftString(string $string)
     {
         $ret = '';
         if ('' != $string) {
@@ -348,9 +347,7 @@ class CreateFile extends CreateTableFields
             if (\mb_strpos($string, '_')) {
                 $str = \mb_strpos($string, '_');
                 if (false !== $str) {
-                    $ret = \mb_substr($string, $str + 1, \mb_strlen($string));
-
-                    return $ret;
+                    return \mb_substr($string, $str + 1, \mb_strlen($string));
                 }
             }
         }
@@ -361,12 +358,12 @@ class CreateFile extends CreateTableFields
     /**
      * @public function getCamelCase
      * @param $string
-     * @param $ucfirst
-     * @param $lcfirst
+     * @param bool $ucfirst
+     * @param bool $lcfirst
      *
      * @return string
      */
-    public function getCamelCase($string, $ucfirst = false, $lcfirst = false)
+    public function getCamelCase($string, bool $ucfirst = false, bool $lcfirst = false)
     {
         $rightString = $this->getRightString($string);
         $leftString  = $this->getLeftString($string);
@@ -442,20 +439,20 @@ class CreateFile extends CreateTableFields
 
     /**
      * @public function getRequire
-     * @param $filename
+     * @param string $filename
      * @return string
      */
-    public function getRequire($filename = 'header')
+    public function getRequire(string $filename = 'header')
     {
         return "require __DIR__ . '/{$filename}.php';\n";
     }
 
     /**
      * @public function getRequireOnce
-     * @param $filename
+     * @param string $filename
      * @return string
      */
-    public function getRequireOnce($filename = 'header')
+    public function getRequireOnce(string $filename = 'header')
     {
         return "require_once __DIR__ . '/{$filename}.php';\n";
     }
@@ -479,20 +476,20 @@ class CreateFile extends CreateTableFields
      * @param string $t
      * @return string
      */
-    public function getSimpleString($string, $t = '')
+    public function getSimpleString($string, string $t = '')
     {
         return "{$t}{$string}\n";
     }
 
     /**
      * @public function getHeaderFilesComments
-     * @param string $module
+     * @param        $module
      * @param        $noPhpFile
      *
      * @param string $namespace
      * @return string
      */
-    public function getHeaderFilesComments($module, $noPhpFile = null, $namespace = '')
+    public function getHeaderFilesComments($module, $noPhpFile = null, string $namespace = '')
     {
         $pc      = Modulebuilder\Files\CreatePhpCode::getInstance();
         $name    = $module->getVar('mod_name');
@@ -548,7 +545,7 @@ class CreateFile extends CreateTableFields
 
     /**
      * @public function renderFile
-     * @param null
+     *
      * @return string
      */
     public function renderFile()

@@ -32,7 +32,6 @@ class LanguageDefines
 {
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -40,7 +39,7 @@ class LanguageDefines
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return LanguageDefines
      */
     public static function getInstance()
@@ -58,7 +57,7 @@ class LanguageDefines
      * @param string $string
      * @return string
      */
-    public function getAboveHeadDefines($string)
+    public function getAboveHeadDefines(string $string)
     {
         return "// ---------------- {$string} ----------------\n";
     }
@@ -68,7 +67,7 @@ class LanguageDefines
      * @param string $string
      * @return string
      */
-    public function getAboveDefines($string)
+    public function getAboveDefines(string $string)
     {
         return "// {$string}\n";
     }
@@ -78,10 +77,10 @@ class LanguageDefines
      * @param string $language
      * @param string $defined
      * @param string $description
-     * @param bool   $usedoubleqoute
+     * @param bool $usedoubleqoute
      * @return string
      */
-    public function getDefine($language, $defined, $description, $usedoubleqoute = false)
+    public function getDefine(string $language, string $defined, string $description, bool $usedoubleqoute = false)
     {
         $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
 
@@ -102,7 +101,7 @@ class LanguageDefines
      *
      * @return string
      */
-    public function getBelowDefines($string)
+    public function getBelowDefines(string $string)
     {
         return "// ---------------- {$string} ----------------";
     }
