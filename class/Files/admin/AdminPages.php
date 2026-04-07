@@ -136,7 +136,7 @@ class AdminPages extends Files\CreateFile
      */
     private function getAdminPagesSwitch(array $cases = [])
     {
-        $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, false, "\t");
+        $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, "\t");
 
         return $this->pc->getPhpCodeSwitch('op', $contentSwitch);
     }
@@ -238,7 +238,7 @@ class AdminPages extends Files\CreateFile
             $ret .= $this->xc->getXcXoopsTplAssign('buttons', '$adminObject->displayButton(\'left\')', true, $t);
         }
         $ret .= $this->pc->getPhpCodeCommentLine('Request source', '', $t);
-        $ret .= $this->xc->getXcXoopsRequest($ccFieldId . 'Source', $fieldId . '_source', '', 'Int', false, $t);
+        $ret .= $this->xc->getXcXoopsRequest($ccFieldId . 'Source', $fieldId . '_source', '', 'Int', $t);
 
         $ret    .= $this->pc->getPhpCodeCommentLine('Check params', '', $t);
         $contIf = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, "{$language}INVALID_PARAM", true, $t . "\t");

@@ -68,20 +68,29 @@ class CreateClone
             $noChangeExtensions = ['jpeg', 'jpg', 'gif', 'png', 'zip', 'ttf'];
             if (\in_array(\mb_strtolower(\pathinfo($src_file, PATHINFO_EXTENSION)), $noChangeExtensions)) {
                 // image
-                \copy($src_file, $dst_file);
+                if (!\copy($src_file, $dst_file)) {
+                    throw new \RuntimeException("Unable to copy {$src_file} to {$dst_file}");
+                }
             } else {
                 // file, read it and replace text
-                $content = file_get_contents($src_file);
+                $content = \file_get_contents($src_file);
+                if (false === $content) {
+                    throw new \RuntimeException("Unable to read source file: {$src_file}");
+                }
                 $content = \str_replace($patKeys, $patValues, $content);
                 //check file name whether it contains replace code
                 $path_parts = \pathinfo($dst_file);
                 $path       = $path_parts['dirname'];
                 $file       = $path_parts['basename'];
                 $dst_file   = $path . '/' . \str_replace($patKeys, $patValues, $file);
-                file_put_contents($dst_file, $content);
+                if (false === \file_put_contents($dst_file, $content)) {
+                    throw new \RuntimeException("Unable to write destination file: {$dst_file}");
+                }
             }
         } else {
-            \copy($src_file, $dst_file);
+            if (!\copy($src_file, $dst_file)) {
+                throw new \RuntimeException("Unable to copy {$src_file} to {$dst_file}");
+            }
         }
     }
 }

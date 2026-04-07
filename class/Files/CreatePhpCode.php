@@ -470,13 +470,11 @@ class CreatePhpCode
      *
      * @param array $cases
      * @param bool $defaultAfterCase
-     * @param bool $default
      * @param string $t
-     *
      * @param bool $isConst
      * @return string
      */
-    public function getPhpCodeCaseSwitch(array $cases = [], bool $defaultAfterCase = false, bool $default = false, string $t = '', bool $isConst = false)
+    public function getPhpCodeCaseSwitch(array $cases = [], bool $defaultAfterCase = false, string $t = '', bool $isConst = false)
     {
         $ret = '';
         $def = "{$t}default:\n";
@@ -501,11 +499,6 @@ class CreatePhpCode
                 }
                 $defaultAfterCase = false;
             }
-        }
-        if (false !== $default) {
-            $ret .= $def;
-            $ret .= "{$t}{$default}\n";
-            $ret .= "{$t}\tbreak;\n";
         }
 
         return $ret;
@@ -791,10 +784,10 @@ class CreatePhpCode
     /**
      * @public function getPhpCodeHtmlentities
      * @param $entitiesVar
-     * @param bool $entitiesQuote
+     * @param int|string|false $entitiesQuote
      * @return string
      */
-    public function getPhpCodeHtmlentities($entitiesVar, bool $entitiesQuote = false)
+    public function getPhpCodeHtmlentities($entitiesVar, int|string|false $entitiesQuote = false)
     {
         $entitiesVar = (false !== $entitiesQuote) ? $entitiesVar . ', ' . $entitiesQuote : $entitiesVar;
         return "htmlentities({$entitiesVar})";
@@ -803,10 +796,10 @@ class CreatePhpCode
     /**
      * @public function getPhpCodeHtmlspecialchars
      * @param $specialVar
-     * @param bool $specialQuote
+     * @param int|string|false $specialQuote
      * @return string
      */
-    public function getPhpCodeHtmlspecialchars($specialVar, bool $specialQuote = false)
+    public function getPhpCodeHtmlspecialchars($specialVar, int|string|false $specialQuote = false)
     {
         $specialVar   = (false !== $specialQuote) ? $specialVar . ', ' . $specialQuote : $specialVar;
         return "htmlspecialchars({$specialVar})";

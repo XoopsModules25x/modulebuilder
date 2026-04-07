@@ -481,7 +481,7 @@ class ClassFiles extends Files\CreateFile
                         $contCase5 = $this->xc->getXcEqualsOperator('$status_text', $language . 'STATUS_BROKEN', false, "\t\t\t\t");
                         $cases[$this->xc->getXcGetConstants('STATUS_BROKEN')] = [$contCase5];
                     }
-                    $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, false, "\t\t\t", true);
+                    $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, "\t\t\t", true);
                     $getValues     .= $this->pc->getPhpCodeSwitch('status', $contentSwitch, "\t\t");
                     $len           = $lenMaxName - \mb_strlen('status_text');
                     $spacer        = $len > 0 ? str_repeat(' ', $len) : '';

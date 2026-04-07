@@ -152,7 +152,7 @@ class TemplatesAdminBroken extends Files\CreateFile
     {
         $tbody = $this->getTemplatesAdminBrokenTableThead($language);
         $tbody .= $this->getTemplatesAdminBrokenTableTBody($tableName, $tableSoleName);
-        return $this->hc->getHtmlTable($tbody, 'table table-bordered', "\t");
+        return $this->hc->getHtmlTable($tbody, 'outer', "\t");
     }
 
     /**

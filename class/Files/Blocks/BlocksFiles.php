@@ -206,7 +206,7 @@ class BlocksFiles extends Files\CreateFile
             'top'    => $case4,
             'random' => $case5,
         ];
-        $contSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, false, "\t\t");
+        $contSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, "\t\t");
         $contElse   = $this->pc->getPhpCodeSwitch('typeBlock', $contSwitch, "\t");
         //end: content else: parent
         if (1 == $fieldParent) {

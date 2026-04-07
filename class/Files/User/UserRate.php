@@ -146,7 +146,7 @@ class UserRate extends Files\CreateFile
         $redirectError      = $this->xc->getXcRedirectHeader('index', '', '3', $implode, true, $t . "\t");
         $ret                .= $this->pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectError, false, $t);
 
-        $ret .= $this->xc->getXcXoopsRequest('rating', 'rating', '', 'Int', false, $t);
+        $ret .= $this->xc->getXcXoopsRequest('rating', 'rating', '', 'Int', $t);
         $ret .= $this->xc->getXcEqualsOperator('$itemid', '0','', $t);
         $ret .= $this->xc->getXcEqualsOperator('$redir ', "\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')",'', $t);
         foreach ($tables as $table) {
@@ -160,7 +160,7 @@ class UserRate extends Files\CreateFile
                         $fieldId = $fields[$f]->getVar('field_name');
                     }
                 }
-                $contIf = $this->xc->getXcXoopsRequest('itemid', $fieldId, '', 'Int', false, $t . "\t");
+                $contIf = $this->xc->getXcXoopsRequest('itemid', $fieldId, '', 'Int', $t . "\t");
                 $contIf .= $this->xc->getXcEqualsOperator('$redir', "'{$tableName}.php?op=show&{$fieldId}=' . \$itemid",'', $t . "\t");
                 $const = $this->xc->getXcGetConstants('TABLE_' . $stuTableName);
                 $ret .= $this->pc->getPhpCodeConditions('$source', ' === ', $const, $contIf, false, $t);
@@ -200,7 +200,7 @@ class UserRate extends Files\CreateFile
         $const         = $this->xc->getXcGetConstants('RATING_10NUM');
         $cases[$const] = [$this->pc->getPhpCodeConditions('$rating > 10 || $rating < 1', '', '', $contIf, false, $t . "\t\t")];
         $config        = '(int)' . $this->xc->getXcGetConfig('ratingbars');
-        $ret           .= $this->xc->getXcSwitch($config, $cases, true, false, $t, false, true);
+        $ret           .= $this->xc->getXcSwitch($config, $cases, true, $t, false, true);
 
         $ret .= $this->pc->getPhpCodeBlankLine();
         $ret .= $this->pc->getPhpCodeCommentLine('Get existing rating', null, $t);

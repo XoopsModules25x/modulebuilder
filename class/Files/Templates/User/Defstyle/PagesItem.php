@@ -254,7 +254,7 @@ class PagesItem extends Files\CreateFile
                             $singleVar   = $this->sc->getSmartySingleVar('xoops_icons32_url', '', '', "''|escape:'htmlattr'");
                             $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''|escape:'htmlattr'");
                             $img         = $this->hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
-                            //$retElem     .= $this->hc->getHtmlSpan($img, 'block-pie justify', "\t");
+                            $retFoot     .= $this->hc->getHtmlSpan($img, 'block-pie justify', "\t");
                             unset($img);
                             break;
                         case Constants::FIELD_ELE_UPLOADIMAGE:
@@ -263,7 +263,7 @@ class PagesItem extends Files\CreateFile
                             $singleVar   = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url', '', '', "''|escape:'htmlattr'");
                             $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''|escape:'htmlattr'");
                             $img         = $this->hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
-                            //$retElem     .= $this->hc->getHtmlSpan($img, 'block-pie justify',"\t");
+                            $retFoot     .= $this->hc->getHtmlSpan($img, 'block-pie justify',"\t");
                             unset($img);
                             break;
                     }

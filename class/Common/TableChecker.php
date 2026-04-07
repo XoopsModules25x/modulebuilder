@@ -71,7 +71,7 @@ class TableChecker extends \XoopsObject
             if ($numRows) {
                 //table exist
                 $this->result[] = 'Table exist:' . $table;
-                //$ret = $this->checkTableFields($table, $tabledef['fields']);
+                $this->checkTableFields($table, $tabledef['fields']);
             } else {
                 if ($this::CHECKTYPE_UPDATE == $this->checktype || $this::CHECKTYPE_UPDATE_REPORT == $this->checktype) {
                     // create new table

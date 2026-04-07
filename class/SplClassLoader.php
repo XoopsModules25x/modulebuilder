@@ -79,9 +79,9 @@ class SplClassLoader
     /**
      * Sets the base include path for all class files in the namespace of this class loader.
      *
-     * @param string $includePath
+     * @param string|null $includePath
      */
-    public function setIncludePath(string $includePath): void
+    public function setIncludePath(?string $includePath): void
     {
         $this->_includePath = $includePath;
     }

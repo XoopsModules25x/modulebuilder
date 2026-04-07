@@ -46,11 +46,11 @@ class Building
     }
 
     /**
-     * @param bool $action
+     * @param string|bool $action
      *
      * @return \XoopsThemeForm
      */
-    public function getForm(bool $action = false)
+    public function getForm(string|bool $action = false)
     {
         $helper = Modulebuilder\Helper::getInstance();
         if (false === $action) {

@@ -182,7 +182,7 @@ class AdminPermissions extends Files\CreateFile
                 ];
             }
         }
-        $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, false, "\t");
+        $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true,"\t");
 
         return $this->pc->getPhpCodeSwitch('op', $contentSwitch);
     }

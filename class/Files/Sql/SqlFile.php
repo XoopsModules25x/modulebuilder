@@ -149,7 +149,7 @@ class SqlFile extends Files\CreateFile
             $tableMid           = $tables[$t]->getVar('table_mid');
             $tableName          = $tables[$t]->getVar('table_name');
             $tableAutoincrement = $tables[$t]->getVar('table_autoincrement');
-            $fieldsNumb         = $tables[$t]->getVar('table_nbfields');
+            $fieldsNumb         = (int)$tables[$t]->getVar('table_nbfields');
             if (1 === (int)$tables[$t]->getVar('table_rate')) {
                 $tableRate = 1;
             }

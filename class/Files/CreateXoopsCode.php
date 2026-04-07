@@ -50,17 +50,15 @@ class CreateXoopsCode
      * @param string $op
      * @param array $cases
      * @param bool $defaultAfterCase
-     * @param bool $default
-     * @param string $t - Indentation
-     *
+     * @param string $t
      * @param bool $isString
      * @param bool $isConst
      * @return string
      */
-    public function getXcSwitch(string $op = '', array $cases = [], bool $defaultAfterCase = false, bool $default = false, string $t = '', bool $isString = true, bool $isConst = false)
+    public function getXcSwitch(string $op = '', array $cases = [], bool $defaultAfterCase = false, string $t = '', bool $isString = true, bool $isConst = false)
     {
         $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t . "\t", $isConst);
+        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $t . "\t", $isConst);
 
         return $pc->getPhpCodeSwitch($op, $contentSwitch, $t, $isString);
     }
@@ -642,11 +640,10 @@ class CreateXoopsCode
      * @param string $var1
      * @param string $var2
      * @param string $type
-     * @param bool $method
      * @param string $t
      * @return string
      */
-    public function getXcXoopsRequest(string $left = '', string $var1 = '', string $var2 = '', string $type = 'String', bool $method = false, string $t = '')
+    public function getXcXoopsRequest(string $left = '', string $var1 = '', string $var2 = '', string $type = 'String', string $t = '')
     {
         $ret        = '';
         $intVars    = ('' != $var2) ? "'{$var1}', {$var2}" : "'{$var1}'";
@@ -654,11 +651,7 @@ class CreateXoopsCode
         if ('String' === $type) {
             $ret .= "{$t}\${$left} = Request::getString({$stringVars});\n";
         } elseif ('Int' === $type) {
-            if (false !== $method) {
-                $ret .= "{$t}\${$left} = Request::getInt({$intVars}, '{$method}');\n";
-            } else {
-                $ret .= "{$t}\${$left} = Request::getInt({$intVars});\n";
-            }
+            $ret .= "{$t}\${$left} = Request::getInt({$intVars});\n";
         } else {
             $ret .= "{$t}\${$left} = Request::get{$type}('{$var1}', '{$var2}');\n";
         }

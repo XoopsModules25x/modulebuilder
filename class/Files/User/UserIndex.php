@@ -164,9 +164,9 @@ class UserIndex extends Files\CreateFile
         $ret       .= $this->xc->getXcHandlerCountObj($tableName);
         $ret       .= $this->xc->getXcXoopsTplAssign($tableName . 'Count', "\${$tableName}Count");
         //$ret       .= $this->getSimpleString('$count = 1;');
-        $condIf    = $this->xc->getXcXoopsRequest('start', 'start', '', 'Int', false, "\t");
+        $condIf    = $this->xc->getXcXoopsRequest('start', 'start', '', 'Int', "\t");
         $userpager = $this->xc->getXcGetConfig('userpager');
-        $condIf    .= $this->xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int', false, "\t");
+        $condIf    .= $this->xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int', "\t");
         $condIf    .= $this->xc->getXcHandlerAllObj($tableName, '', '$start', '$limit', "\t");
         $condIf    .= $this->pc->getPhpCodeCommentLine('Get All', $ucfTableName, "\t");
         $condIf    .= $this->pc->getPhpCodeArray($tableName . '_list', null, false, "\t");

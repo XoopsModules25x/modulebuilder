@@ -98,8 +98,8 @@ class Categories extends Files\CreateFile
     private function getTemplatesUserCategoriesTable($moduleDirname, $tableName, $tableSoleName, string $language)
     {
         $single = $this->sc->getSmartySingleVar('table_type');
-        $table  = $this->getTemplatesAdminPagesTableThead($tableName, $language);
-        $table  .= $this->getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $language);
+        $table  = $this->getTemplatesUserCategoriesThead($tableName, $language);
+        $table  .= $this->getTemplatesUserCategoriesTbody($moduleDirname, $tableName, $tableSoleName);
 
         return $this->hc->getHtmlTable($table, 'table table-' . $single) . PHP_EOL;
     }

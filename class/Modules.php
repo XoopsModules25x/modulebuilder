@@ -100,7 +100,7 @@ class Modules extends \XoopsObject
      *
      * @return mixed
      */
-    public function __call(string $method, array $args)
+    public function __call(string $method, array $args): mixed
     {
         $arg = $args[0] ?? null;
 

@@ -122,7 +122,7 @@ class UserPdf extends Files\CreateFile
         $ret            .= $this->pc->getPhpCodeConditions('!' . $tablenameObj, '', '', $redirectError);
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
-        $ret            .= $this->cf->getSimpleString("\$pdfTpl->assign('wgtestmb_upload_url', \\" .  strtoupper($moduleDirname) . '_UPLOAD_URL);');
+        $ret            .= $this->cf->getSimpleString("\$pdfTpl->assign('" .  $moduleDirname . "_upload_url', \\" .  strtoupper($moduleDirname) . '_UPLOAD_URL);');
         $ret            .= $this->pc->getPhpCodeBlankLine();
 
         return $ret;
@@ -202,7 +202,7 @@ class UserPdf extends Files\CreateFile
         $ret .= $this->pc->getPhpCodeBlankLine();
         $ret .= $this->pc->getPhpCodeCommentLine('Get Config');
         $ret .= $this->xc->getXcEqualsOperator("\$pdfData['creator']  ", "\$GLOBALS['xoopsConfig']['sitename']");
-        $ret .= $this->xc->getXcEqualsOperator("\$pdfData['subject']  ", "\$GLOBALS['xoopsConfig']['slogan']");
+        //$ret .= $this->xc->getXcEqualsOperator("\$pdfData['subject']  ", "\$GLOBALS['xoopsConfig']['slogan']");
         $ret .= $this->xc->getXcEqualsOperator("\$pdfData['keywords'] ", "\$helper->getConfig('keywords')");
         $ret .= $this->pc->getPhpCodeBlankLine();
         $ret .= $this->pc->getPhpCodeCommentLine('Defines');

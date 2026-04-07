@@ -134,12 +134,11 @@ class DirectoryChecker
 $op = Request::getString('op', '', 'POST');
 switch ($op) {
     case 'createdir':
-        if (\Xmf\Request::hasVar('path', 'POST')) {
-            $path = $_POST['path'];
+        if (!\Xmf\Request::hasVar('path', 'POST') || !\Xmf\Request::hasVar('redirect', 'POST')) {
+            break;
         }
-        if (\Xmf\Request::hasVar('redirect', 'POST')) {
-            $redirect = $_POST['redirect'];
-        }
+        $path = $_POST['path'];
+        $redirect = $_POST['redirect'];
         $msg = DirectoryChecker::createDirectory($path) ? \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_DIRCREATED') : \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_DIRNOTCREATED');
         \redirect_header($redirect, 2, $msg . ': ' . $path);
         break;
@@ -153,7 +152,7 @@ switch ($op) {
         if (\Xmf\Request::hasVar('mode', 'POST')) {
             $mode = $_POST['mode'];
         }
-        $msg = DirectoryChecker::setDirectoryPermissions($path, $mode) ? \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMSET') : \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMNOTSET');
+        $msg = DirectoryChecker::setDirectoryPermissions($path, (int)$mode) ? \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMSET') : \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMNOTSET');
         \redirect_header($redirect, 2, $msg . ': ' . $path);
         break;
 }

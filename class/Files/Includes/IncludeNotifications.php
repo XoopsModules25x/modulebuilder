@@ -103,7 +103,7 @@ class IncludeNotifications extends Files\CreateFile
         $cases         = [
             'global' => $case,
         ];
-        $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, false, false, $t . "\t");
+        $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, false, $t . "\t");
         unset($case);
 
         foreach (\array_keys($tables) as $i) {
@@ -133,9 +133,9 @@ class IncludeNotifications extends Files\CreateFile
                 $case[] = $this->xc->getXcEqualsOperator('$sql   ', "'SELECT {$fieldMain} FROM ' . \$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} = '. \$itemId", '', $t . "\t\t");
                 $case[] = $this->xc->getXcEqualsOperator('$result', '$xoopsDB->query($sql)', '', $t . "\t\t");
                 $condIf = $this->getSimpleString('return [];', $t . "\t\t\t");
-                $case[] .= $this->pc->getPhpCodeConditions('!$result', '', '', $condIf, false, $t . "\t\t");
+                $case[] = $this->pc->getPhpCodeConditions('!$result', '', '', $condIf, false, $t . "\t\t");
                 $case[] = $this->xc->getXcEqualsOperator('$result_array', '$xoopsDB->fetchArray($result)', '', $t . "\t\t");
-                $case[] .= $this->pc->getPhpCodeConditions('!$result_array', '', '', $condIf, false, $t . "\t\t");
+                $case[] = $this->pc->getPhpCodeConditions('!$result_array', '', '', $condIf, false, $t . "\t\t");
                 $case[] = $this->xc->getXcEqualsOperator("\$item['name']", "\$result_array['{$fieldMain}']", '', $t . "\t\t");
                 if ($fieldParent) {
                     $case[] = $this->xc->getXcEqualsOperator("\$item['url'] ", "\\{$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldParent}=' . \$result_array['{$fieldParent}'] . '&amp;{$fieldId}=' . \$itemId", '', $t . "\t\t");
@@ -147,7 +147,7 @@ class IncludeNotifications extends Files\CreateFile
                 $cases         = [
                     $tableName => $case,
                 ];
-                $contentSwitch .= $this->pc->getPhpCodeCaseSwitch($cases, false, false, $t . "\t");
+                $contentSwitch .= $this->pc->getPhpCodeCaseSwitch($cases, false, $t . "\t");
                 unset($case);
             }
         }

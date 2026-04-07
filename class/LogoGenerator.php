@@ -38,7 +38,9 @@ $myfunction = '\\XoopsModules\\Modulebuilder\\' . $_GET['f'];
 
 if (\function_exists($myfunction)) {
     $ret = \XoopsModules\Modulebuilder\LogoGenerator::createLogo($_GET['iconName'], $_GET['caption']);
-    phpFunction($ret);
+    if (false !== $ret) {
+        phpFunction($ret);
+    }
 } else {
     echo 'Method Not Exist';
 }

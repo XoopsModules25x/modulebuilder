@@ -31,8 +31,8 @@ class FormRadio extends \XoopsFormRadio
     {
         $ret           = '';
         $ele_name      = $this->getName();
-        $ele_title     = $this->getTitle();
-        $ele_value     = $this->getValue();
+        $ele_title     = (string)$this->getTitle();
+        $ele_value     = (string)$this->getValue();
         $ele_options   = $this->getOptions();
         $ele_extra     = $this->getExtra();
         $ele_delimeter = empty($this->columns) ? $this->getDelimeter() : '';

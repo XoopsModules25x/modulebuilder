@@ -122,9 +122,9 @@ class AdminBroken extends Files\CreateFile
                 $ucfTableName  = \ucfirst($tableName);
                 $ret           .= $this->pc->getPhpCodeBlankLine();
                 $ret           .= $this->pc->getPhpCodeCommentLine('Check table', $tableName, '');
-                $ret           .= $this->xc->getXcXoopsRequest('start', 'start' . $ucfTableName, '', 'Int', false, '');
+                $ret           .= $this->xc->getXcXoopsRequest('start', 'start' . $ucfTableName, '', 'Int', '');
                 $adminpager    = $this->xc->getXcGetConfig('adminpager');
-                $ret           .= $this->xc->getXcXoopsRequest('limit', 'limit' . $ucfTableName, $adminpager, 'Int', false, '');
+                $ret           .= $this->xc->getXcXoopsRequest('limit', 'limit' . $ucfTableName, $adminpager, 'Int', '');
                 $critName      = 'cr' . $ucfTableName;
 
                 $fields     = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));

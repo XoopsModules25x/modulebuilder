@@ -173,7 +173,7 @@ class CreateStructure
     }
 
     /**
-     * @protected function isDirEmpty
+     * function isDirEmpty
      *
      * @param string $dir
      *
@@ -181,19 +181,19 @@ class CreateStructure
      */
     public function isDirEmpty(string $dir)
     {
-        $content = [];
-        $handle  = \opendir($dir);
+        $handle = \opendir($dir);
+        if (false === $handle) {
+            throw new \RuntimeException(\sprintf('Directory "%s" cannot be opened', $dir));
+        }
         while (false !== ($entry = \readdir($handle))) {
             if ('.' !== $entry && '..' !== $entry) {
-                $content[] = $entry;
+                \closedir($handle);
+                return false;
             }
         }
         \closedir($handle);
-        if (\count($content) > 0) {
-            return true;
-        }
 
-        return false;
+        return true;
     }
 
     /**
@@ -269,6 +269,8 @@ class CreateStructure
         } else {
             $this->makeDir($dname);
         }
-        \copy($fromFile, $fname);
+        if (!\copy($fromFile, $fname)) {
+            throw new \RuntimeException(\sprintf('Failed to copy "%s" to "%s"', $fromFile, $fname));
+        }
     }
 }

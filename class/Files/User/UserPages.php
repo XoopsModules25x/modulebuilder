@@ -471,7 +471,7 @@ class UserPages extends Files\CreateFile
             $ret       .= $this->pc->getPhpCodeConditions('!$permissionsHandler->getPermGlobalSubmit()', '', '', $contIf, false, $t);
         }
         $ret    .= $this->pc->getPhpCodeCommentLine('Request source', '', $t);
-        $ret    .= $this->xc->getXcXoopsRequest($ccFieldId . 'Source', $fieldId . '_source', '', 'Int', false, $t);
+        $ret    .= $this->xc->getXcXoopsRequest($ccFieldId . 'Source', $fieldId . '_source', '', 'Int', $t);
         $ret    .= $this->pc->getPhpCodeCommentLine('Check params', '', $t);
         $contIf = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, "{$language}INVALID_PARAM", true, $t . "\t");
         $ret    .= $this->pc->getPhpCodeConditions("\${$ccFieldId}Source", ' == ', '0', $contIf, false, $t);

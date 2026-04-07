@@ -30,7 +30,7 @@ class Helper extends \Xmf\Module\Helper
     /**
      * @param bool $debug
      */
-    public function __construct($debug = false)
+    public function __construct(bool $debug = false)
     {
         $this->debug   = $debug;
         $moduleDirName = \basename(\dirname(__DIR__));
