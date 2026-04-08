@@ -1,6 +1,6 @@
 <h5>3.7.1 Alpha [2026-04-05]</h5>  Dev: XOOPS 2.5.11 Stable, PHP 8.0
  - updated creation code to generate module with no errors from coderabbitai (goffy)
- - checked modulebuilder code by PHPStorm > Inspect code (goffy)
+ - reviewed modulebuilder code by PHPStorm > Inspect code (goffy)
 
 <h5>3.7.0 RC1   [2024-02-01]</h5>  Dev: XOOPS 2.5.11 Stable, PHP 8.0
  - updated version check for XOOPS 2.5.11 Stable (goffy)

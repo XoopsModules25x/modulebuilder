@@ -64,7 +64,7 @@
     fieldelement_tid: '0'
     fieldelement_name: SelectBox
     fieldelement_value: XoopsFormSelect
-    fieldelement_sort: '9'
+    fieldelement_sort: '10'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '10'
     fieldelement_deffield: ''
@@ -74,7 +74,7 @@
     fieldelement_tid: '0'
     fieldelement_name: SelectUser
     fieldelement_value: XoopsFormSelectUser
-    fieldelement_sort: '11'
+    fieldelement_sort: '12'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '10'
     fieldelement_deffield: ''
@@ -84,7 +84,7 @@
     fieldelement_tid: '0'
     fieldelement_name: ColorPicker
     fieldelement_value: XoopsFormColorPicker
-    fieldelement_sort: '23'
+    fieldelement_sort: '24'
     fieldelement_deftype: '14'
     fieldelement_defvalue: '7'
     fieldelement_deffield: ''
@@ -94,7 +94,7 @@
     fieldelement_tid: '0'
     fieldelement_name: ImageList
     fieldelement_value: XoopsFormImageList
-    fieldelement_sort: '12'
+    fieldelement_sort: '13'
     fieldelement_deftype: '14'
     fieldelement_defvalue: '255'
     fieldelement_deffield: ''
@@ -104,7 +104,7 @@
     fieldelement_tid: '0'
     fieldelement_name: SelectFile
     fieldelement_value: XoopsFormSelectFile
-    fieldelement_sort: '13'
+    fieldelement_sort: '14'
     fieldelement_deftype: '14'
     fieldelement_defvalue: '255'
     fieldelement_deffield: ''
@@ -114,7 +114,7 @@
     fieldelement_tid: '0'
     fieldelement_name: UrlFile
     fieldelement_value: XoopsFormUrlFile
-    fieldelement_sort: '16'
+    fieldelement_sort: '17'
     fieldelement_deftype: '14'
     fieldelement_defvalue: '255'
     fieldelement_deffield: ''
@@ -124,7 +124,7 @@
     fieldelement_tid: '0'
     fieldelement_name: UploadImage
     fieldelement_value: XoopsFormUploadImage
-    fieldelement_sort: '14'
+    fieldelement_sort: '15'
     fieldelement_deftype: '14'
     fieldelement_defvalue: '255'
     fieldelement_deffield: ''
@@ -134,7 +134,7 @@
     fieldelement_tid: '0'
     fieldelement_name: UploadFile
     fieldelement_value: XoopsFormUploadFile
-    fieldelement_sort: '15'
+    fieldelement_sort: '16'
     fieldelement_deftype: '14'
     fieldelement_defvalue: '255'
     fieldelement_deffield: ''
@@ -144,7 +144,7 @@
     fieldelement_tid: '0'
     fieldelement_name: TextDateSelect
     fieldelement_value: XoopsFormTextDateSelect
-    fieldelement_sort: '18'
+    fieldelement_sort: '19'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '11'
     fieldelement_deffield: ''
@@ -154,7 +154,7 @@
     fieldelement_tid: '0'
     fieldelement_name: SelectStatus
     fieldelement_value: XoopsFormSelectStatus
-    fieldelement_sort: '19'
+    fieldelement_sort: '20'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '1'
     fieldelement_deffield: ''
@@ -164,7 +164,7 @@
     fieldelement_tid: '0'
     fieldelement_name: Password
     fieldelement_value: XoopsFormPassword
-    fieldelement_sort: '22'
+    fieldelement_sort: '23'
     fieldelement_deftype: '14'
     fieldelement_defvalue: '255'
     fieldelement_deffield: ''
@@ -174,7 +174,7 @@
     fieldelement_tid: '0'
     fieldelement_name: SelectCountry
     fieldelement_value: XoopsFormSelectCountry
-    fieldelement_sort: '20'
+    fieldelement_sort: '21'
     fieldelement_deftype: '14'
     fieldelement_defvalue: '3'
     fieldelement_deffield: ''
@@ -184,7 +184,7 @@
     fieldelement_tid: '0'
     fieldelement_name: SelectLang
     fieldelement_value: XoopsFormSelectLang
-    fieldelement_sort: '21'
+    fieldelement_sort: '22'
     fieldelement_deftype: '14'
     fieldelement_defvalue: '100'
     fieldelement_deffield: ''
@@ -194,7 +194,7 @@
     fieldelement_tid: '0'
     fieldelement_name: Radio
     fieldelement_value: XoopsFormRadio
-    fieldelement_sort: '8'
+    fieldelement_sort: '9'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '10'
     fieldelement_deffield: ''
@@ -204,7 +204,7 @@
     fieldelement_tid: '0'
     fieldelement_name: DateTime
     fieldelement_value: XoopsFormDateTime
-    fieldelement_sort: '17'
+    fieldelement_sort: '18'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '11'
     fieldelement_deffield: ''
@@ -214,7 +214,7 @@
     fieldelement_tid: '0'
     fieldelement_name: SelectCombo
     fieldelement_value: XoopsFormSelectCombo
-    fieldelement_sort: '10'
+    fieldelement_sort: '11'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '10'
     fieldelement_deffield: ''
@@ -224,7 +224,7 @@
     fieldelement_tid: '0'
     fieldelement_name: TextUuid
     fieldelement_value: XoopsFormTextUuid
-    fieldelement_sort: '24'
+    fieldelement_sort: '25'
     fieldelement_deftype: '14'
     fieldelement_defvalue: '45'
     fieldelement_deffield: ''
@@ -234,7 +234,7 @@
     fieldelement_tid: '0'
     fieldelement_name: TextIp
     fieldelement_value: XoopsFormTextIp
-    fieldelement_sort: '25'
+    fieldelement_sort: '26'
     fieldelement_deftype: '14'
     fieldelement_defvalue: '45'
     fieldelement_deffield: ''
@@ -244,7 +244,7 @@
     fieldelement_tid: '0'
     fieldelement_name: TextComments
     fieldelement_value: XoopsFormTextComments
-    fieldelement_sort: '26'
+    fieldelement_sort: '27'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '10'
     fieldelement_deffield: ''
@@ -254,7 +254,7 @@
     fieldelement_tid: '0'
     fieldelement_name: TextRatings
     fieldelement_value: XoopsFormTextRatings
-    fieldelement_sort: '27'
+    fieldelement_sort: '28'
     fieldelement_deftype: '7'
     fieldelement_defvalue: '10, 2'
     fieldelement_deffield: ''
@@ -264,7 +264,7 @@
     fieldelement_tid: '0'
     fieldelement_name: TextVotes
     fieldelement_value: XoopsFormTextVotes
-    fieldelement_sort: '28'
+    fieldelement_sort: '29'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '10'
     fieldelement_deffield: ''
@@ -274,7 +274,7 @@
     fieldelement_tid: '0'
     fieldelement_name: TextReads
     fieldelement_value: XoopsFormTextReads
-    fieldelement_sort: '29'
+    fieldelement_sort: '30'
     fieldelement_deftype: '2'
     fieldelement_defvalue: '10'
     fieldelement_deffield: ''
@@ -300,61 +300,11 @@
     fieldelement_deffield: '0.00'
 -
     fieldelement_id: '31'
-    fieldelement_mid: '1'
-    fieldelement_tid: '1'
-    fieldelement_name: 'Table : Categories'
-    fieldelement_value: XoopsFormTables-Categories
-    fieldelement_sort: '0'
+    fieldelement_mid: '0'
+    fieldelement_tid: '0'
+    fieldelement_name: RadioOnoffline
+    fieldelement_value: XoopsFormRadioOnoffline
+    fieldelement_sort: '8'
     fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
-    fieldelement_deffield: ''
--
-    fieldelement_id: '32'
-    fieldelement_mid: '1'
-    fieldelement_tid: '2'
-    fieldelement_name: 'Table : Articles'
-    fieldelement_value: XoopsFormTables-Articles
-    fieldelement_sort: '0'
-    fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
-    fieldelement_deffield: ''
--
-    fieldelement_id: '33'
-    fieldelement_mid: '1'
-    fieldelement_tid: '3'
-    fieldelement_name: 'Table : Testfields'
-    fieldelement_value: XoopsFormTables-Testfields
-    fieldelement_sort: '0'
-    fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
-    fieldelement_deffield: ''
--
-    fieldelement_id: '34'
-    fieldelement_mid: '2'
-    fieldelement_tid: '4'
-    fieldelement_name: 'Table : Categories'
-    fieldelement_value: XoopsFormTables-Categories
-    fieldelement_sort: '0'
-    fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
-    fieldelement_deffield: ''
--
-    fieldelement_id: '35'
-    fieldelement_mid: '2'
-    fieldelement_tid: '5'
-    fieldelement_name: 'Table : Articles'
-    fieldelement_value: XoopsFormTables-Articles
-    fieldelement_sort: '0'
-    fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
-    fieldelement_deffield: ''
--
-    fieldelement_id: '36'
-    fieldelement_mid: '2'
-    fieldelement_tid: '6'
-    fieldelement_name: 'Table : Testfields'
-    fieldelement_value: XoopsFormTables-Testfields
-    fieldelement_sort: '0'
-    fieldelement_deftype: '2'
-    fieldelement_defvalue: '10'
-    fieldelement_deffield: ''
+    fieldelement_defvalue: '1'
+    fieldelement_deffield: '0'

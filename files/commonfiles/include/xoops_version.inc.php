@@ -39,14 +39,13 @@ function modulebuilderReturnBytes($val): int
     $number = (float)\substr($raw, 0, -1);
 
     switch ($unit) {
-    case 'K':
+        case 'K':
             return (int)\round($number * 1024);
-         case 'M':
+        case 'M':
             return (int)\round($number * 1048576);
-         case 'G':
-
+        case 'G':
             return (int)\round($number * 1073741824);
-         default:
+        default:
             return (int)$raw;
      }
  }

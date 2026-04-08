@@ -202,14 +202,14 @@ switch ($op) {
         break;
     case 'order':
         // Initialize fields handler
-        $fieldsObj = $helper->getHandler('Fields');
+        $fieldsHandler = $helper->getHandler('Fields');
         if (isset($_POST['forder'])) {
             $i = 0;
             foreach ($_POST['forder'] as $order) {
                 if ($order > 0) {
-                    $fieldOrder = $fieldsObj->get($order);
-                    $fieldOrder->setVar('field_order', $i);
-                    if (!$fieldsObj->insert()) {
+                    $fieldsObj = $fieldsHandler->get($order);
+                    $fieldsObj->setVar('field_order', $i);
+                    if ($fieldsHandler->insert($fieldsObj)) {
                         $error = true;
                     }
                     ++$i;

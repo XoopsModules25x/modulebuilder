@@ -27,7 +27,9 @@ $iconName = \Xmf\Request::getString('iconName', '', 'GET');
 $caption  = \Xmf\Request::getString('caption', '', 'GET');
 if (\function_exists($funct)) {
     $ret = Modulebuilder\Logo::getInstance()->createLogo($iconName, $caption);
-    phpFunction($ret);
+    if (false !== $ret) {
+        phpFunction($ret);
+    }
 } else {
     \redirect_header('logo.php', 3, 'Method Not Exist');
 }

@@ -48,13 +48,13 @@ class Confirm
 
     /**
      * @public function constructor class
-     * @param        $hiddens
-     * @param        $action
-     * @param        $object
+     * @param array  $hiddens
+     * @param string $action
+     * @param string $object
      * @param string $title
      * @param string $label
      */
-    public function __construct($hiddens, $action, $object, string $title = '', string $label = '')
+    public function __construct(array $hiddens, string $action, string $object, string $title = '', string $label = '')
     {
         $this->hiddens = $hiddens;
         $this->action  = $action;

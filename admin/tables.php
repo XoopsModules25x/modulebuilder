@@ -238,14 +238,14 @@ switch ($op) {
         break;
     case 'order':
         // Initialize tables handler
-        $tablesObj = $helper->getHandler('Tables');
+        $tablesHandler = $helper->getHandler('Tables');
         if (isset($_POST['torder'])) {
             $i = 0;
             foreach ($_POST['torder'] as $order) {
                 if ($order > 0) {
-                    $tableOrder = $tablesObj->get($order);
-                    $tableOrder->setVar('table_order', $i);
-                    if (!$tablesObj->insert()) {
+                    $tablesObj = $tablesHandler->get($order);
+                    $tablesObj->setVar('table_order', $i);
+                    if (!$tablesHandler->insert($tablesObj)) {
                         $error = true;
                     }
                     ++$i;

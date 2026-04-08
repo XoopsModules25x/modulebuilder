@@ -49,6 +49,8 @@ function xoops_module_install_modulebuilder(\XoopsModule $module)
 {
     require \dirname(__DIR__) . '/preloads/autoloader.php';
 
+    /** @var Modulebuilder\Helper $helper */ /** @var Modulebuilder\Utility $utility */
+    /** @var Common\Configurator $configurator */
     $helper       = Modulebuilder\Helper::getInstance();
     $utility      = new Modulebuilder\Utility();
     $configurator = new Common\Configurator();
@@ -63,9 +65,12 @@ function xoops_module_install_modulebuilder(\XoopsModule $module)
     if ($configurator->uploadFolders && \is_array($configurator->uploadFolders)) {
         foreach (\array_keys($configurator->uploadFolders) as $i) {
             $path = $configurator->uploadFolders[$i];
-            if (!\is_dir($path) && !$utility::createFolder($path)) {
-                $success = false;
-                continue;
+            if (!\is_dir($path)) {
+                $utility::createFolder($path);
+                if (!\is_dir($path)) {
+                    $success = false;
+                    continue;
+                }
             }
             if (!\chmod($path, 0775) && !\is_writable($path)) {
                 $success = false;

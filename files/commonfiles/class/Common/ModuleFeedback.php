@@ -28,11 +28,11 @@ namespace XoopsModules\Modulebuilder\Common;
  */
 class ModuleFeedback extends \XoopsObject
 {
-    public string $name    = '';
-    public string $email   = '';
-    public string $site    = '';
-    public string $type    = '';
-    public string $content = '';
+    public $name    = '';
+    public $email   = '';
+    public $site    = '';
+    public $type    = '';
+    public $content = '';
 
     /**
      * Constructor
@@ -44,13 +44,12 @@ class ModuleFeedback extends \XoopsObject
     /**
      * @static function &getInstance
      */
-    public static function getInstance(): self
+    public static function getInstance(): void
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
-        return $instance;
     }
 
     /**
@@ -58,7 +57,7 @@ class ModuleFeedback extends \XoopsObject
      * provide form for sending a feedback to module author
      * @return \XoopsThemeForm
      */
-    public function getFormFeedback(): \XoopsThemeForm
+    public function getFormFeedback()
     {
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
@@ -101,7 +100,7 @@ class ModuleFeedback extends \XoopsObject
         $moduleHandler           = \xoops_getHandler('module');
         $module                  = $moduleHandler->getByDirname('system');
         $configHandler           = \xoops_getHandler('config');
-        $config                  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+        $config                  = &$configHandler->getConfigsByCat(0, $module->getVar('mid'));
         $editorConfigs['editor'] = $config['general_editor'];
         $editor                  = new \XoopsFormEditor(\constant('CO_' . $moduleDirNameUpper . '_' . 'FB_TYPE_CONTENT'), 'fb_content', $editorConfigs);
         $form->addElement($editor, true);

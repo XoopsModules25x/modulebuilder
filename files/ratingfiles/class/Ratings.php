@@ -53,7 +53,7 @@ class Ratings extends \XoopsObject
             $instance = new self();
         }
         return $instance;
-     }
+    }
 
     /**
      * The new inserted $Id

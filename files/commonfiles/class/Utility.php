@@ -158,6 +158,9 @@ class Utility
     public static function getEditor(\Xmf\Module\Helper $helper = null, array $options = null)
     {
         /** @var Modulebuilder\Helper $helper */
+        if (null === $helper) {
+            $helper = Helper::getInstance();
+        }
         if (null === $options) {
             $options           = [];
             $options['name']   = 'Editor';
@@ -179,8 +182,6 @@ class Utility
         } else {
             $descEditor = new \XoopsFormDhtmlTextArea(\ucfirst($options['name']), $options['name'], $options['value'], '100%', '100%');
         }
-
-        //        $form->addElement($descEditor);
 
         return $descEditor;
     }
@@ -230,7 +231,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                     $donationform[$key],
                     $GLOBALS['xoopsConfig']['sitename'] . ' - ' . ('' != $GLOBALS['xoopsUser']->getVar('name') ? $GLOBALS['xoopsUser']->getVar('name') . ' [' . $GLOBALS['xoopsUser']->getVar('uname') . ']' : $GLOBALS['xoopsUser']->getVar('uname')),
                     $GLOBALS['xoopsUser']->getVar('email'),
-                    \XOOPS_LICENSE_KEY,
+                    \defined('XOOPS_LICENSE_KEY') ? \XOOPS_LICENSE_KEY : '',
                     \mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')),
                     \mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')) . ' ' . $GLOBALS['xoopsModule']->getVar('name')
                 );

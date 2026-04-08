@@ -130,6 +130,9 @@ function modulebuilder_check_db($module)
 	//insert here code for database check
     global $xoopsDB;
 
+    $sqlQueryFid = 'SELECT fieldelement_mid, fieldelement_tid, fieldelement_name, fieldelement_value, fieldelement_sort, fieldelement_deftype, fieldelement_defvalue, fieldelement_deffield
+                        FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . ' as fe WHERE fe.fieldelement_id =%s';
+
     // new form field SelectStatus
     $fname  = 'SelectStatus';
     $fid    = 16;
@@ -139,8 +142,6 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $sqlQueryFid = 'SELECT fieldelement_mid, fieldelement_tid, fieldelement_name, fieldelement_value, fieldelement_sort, fieldelement_deftype, fieldelement_defvalue, fieldelement_deffield
-                        FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . ' as fe WHERE fe.fieldelement_id =%s';
         $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
@@ -158,7 +159,7 @@ function modulebuilder_check_db($module)
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
         }
-        $result = $xoopsDB->query($sql);
+        $xoopsDB->query($sql);
     }
 
     // new form field Password
@@ -187,7 +188,7 @@ function modulebuilder_check_db($module)
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
         }
-        $result = $xoopsDB->query($sql);
+        $xoopsDB->query($sql);
     }
 
     // new form field SelectCountry
@@ -216,7 +217,7 @@ function modulebuilder_check_db($module)
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
         }
-        $result = $xoopsDB->query($sql);
+        $xoopsDB->query($sql);
     }
 
     // new form field SelectLanguage
@@ -245,7 +246,7 @@ function modulebuilder_check_db($module)
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
         }
-        $result = $xoopsDB->query($sql);
+        $xoopsDB->query($sql);
     }
 
     // new form field Radio
@@ -274,7 +275,7 @@ function modulebuilder_check_db($module)
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
         }
-        $result = $xoopsDB->query($sql);
+        $xoopsDB->query($sql);
     }
 
     // new form field DateTime
@@ -303,7 +304,7 @@ function modulebuilder_check_db($module)
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
         }
-        $result = $xoopsDB->query($sql);
+        $xoopsDB->query($sql);
     }
 
     // new form field DateTime
@@ -480,7 +481,7 @@ function modulebuilder_check_db($module)
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}')";
         }
-        $result = $xoopsDB->query($sql);
+        $xoopsDB->query($sql);
     }
 
     // new form field text IP
@@ -518,7 +519,7 @@ function modulebuilder_check_db($module)
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}')";
         }
-        $result = $xoopsDB->query($sql);
+        $xoopsDB->query($sql);
     }
 
     // update table 'modulebuilder_fieldelements'
@@ -566,7 +567,7 @@ function modulebuilder_check_db($module)
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}')";
         }
-        $result = $xoopsDB->query($sql);
+        $xoopsDB->query($sql);
     }
     // new form field text ratings
     $fname     = 'TextRatings';
@@ -603,7 +604,7 @@ function modulebuilder_check_db($module)
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}')";
         }
-        $result = $xoopsDB->query($sql);
+        $xoopsDB->query($sql);
     }
     // new form field text votes
     $fname     = 'TextVotes';
@@ -640,7 +641,7 @@ function modulebuilder_check_db($module)
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}')";
         }
-        $result = $xoopsDB->query($sql);
+        $xoopsDB->query($sql);
     }
     // new form field text votes
     $fname     = 'TextReads';
@@ -677,7 +678,7 @@ function modulebuilder_check_db($module)
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}')";
         }
-        $result = $xoopsDB->query($sql);
+        $xoopsDB->query($sql);
     }
 
     // update table 'modulebuilder_tables'
@@ -768,7 +769,7 @@ function modulebuilder_check_db($module)
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`, `fieldelement_deffield`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}', '{$fdeffield}')";
         }
-        $result = $xoopsDB->query($sql);
+        $xoopsDB->query($sql);
     }
     // new form field text votes
     $fname     = 'TextFloat';
@@ -833,7 +834,7 @@ function modulebuilder_check_db($module)
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`, `fieldelement_deffield`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}', '{$fdeffield}')";
         }
-        $result = $xoopsDB->query($sql);
+        $xoopsDB->query($sql);
     }
 
     // resorting elements
