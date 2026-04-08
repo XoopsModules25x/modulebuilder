@@ -163,7 +163,7 @@ switch ($op) {
         }
         $tablesObj->setVar('table_autoincrement', (1 == $_REQUEST['table_autoincrement']) ? 1 : 0);
         // Options
-        $tableOption = \Xmf\Request::getArray('table_option', []);
+        $tableOption = \Xmf\Request::getArray('table_option');
         $tablesObj->setVar('table_install', \in_array('install', $tableOption));
         $tablesObj->setVar('table_index', \in_array('index', $tableOption));
         $tablesObj->setVar('table_blocks', \in_array('blocks', $tableOption));
@@ -237,21 +237,29 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'order':
+        $error = false;
         // Initialize tables handler
-        $tablesObj = $helper->getHandler('Tables');
+        $tablesHandler = $helper->getHandler('Tables');
         if (isset($_POST['torder'])) {
             $i = 0;
             foreach ($_POST['torder'] as $order) {
                 if ($order > 0) {
-                    $tableOrder = $tablesObj->get($order);
-                    $tableOrder->setVar('table_order', $i);
-                    if (!$tablesObj->insert($tableOrder)) {
+                    $tablesObj = $tablesHandler->get((int)$order);
+                    if ($tablesObj instanceof \XoopsObject) {
+                        $tablesObj->setVar('table_order', $i);
+                        if (!$tablesHandler->insert($tablesObj)) {
+                            $error = true;
+                        }
+                    } else {
                         $error = true;
+                        continue;
                     }
                     ++$i;
                 }
             }
-            \redirect_header('tables.php', 5, \_AM_MODULEBUILDER_TABLE_ORDER_ERROR);
+            if ($error) {
+                \redirect_header('tables.php', 5, \_AM_MODULEBUILDER_TABLE_ORDER_ERROR);
+            }
             unset($i);
         }
         exit;

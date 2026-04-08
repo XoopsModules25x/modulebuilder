@@ -43,7 +43,7 @@ class FileChecker
      *
      * @return bool|string
      */
-    public static function getFileStatus(string $file_path, string $redirectFile, string $original_file_path = null)
+    public static function getFileStatus(string $file_path, string $redirectFile, ?string $original_file_path = null)
     {
         $pathIcon16 = \Xmf\Module\Admin::iconUrl('', '16');
 
@@ -151,9 +151,9 @@ if ($op == 'copyfile') {
         || !\Xmf\Request::hasVar('redirect', 'POST')) {
             return;
         }
-    $original_file_path = $_POST['original_file_path'];
-    $file_path = $_POST['file_path'];
-    $redirect = $_POST['redirect'];
+    $original_file_path = \Xmf\Request::getString('original_file_path');
+    $file_path = \Xmf\Request::getString('file_path');
+    $redirect =\Xmf\Request::getString('redirect');
     $msg = FileChecker::copyFile($original_file_path, $file_path) ? \constant('CO_' . $moduleDirNameUpper . '_' . 'FC_FILECOPIED') : \constant('CO_' . $moduleDirNameUpper . '_' . 'FC_FILENOTCOPIED');
     \redirect_header($redirect, 2, $msg . ': ' . $file_path);
 }

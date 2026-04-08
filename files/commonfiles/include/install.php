@@ -38,13 +38,6 @@ function xoops_module_pre_install_modulebuilder(\XoopsModule $module)
     // check for minimum PHP version
     $phpSuccess = $utility::checkVerPhp($module);
 
-    if ($xoopsSuccess && $phpSuccess) {
-        $moduleTables = &$module->getInfo('tables');
-        foreach ($moduleTables as $table) {
-            $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
-        }
-    }
-
     return $xoopsSuccess && $phpSuccess;
 }
 
@@ -56,6 +49,8 @@ function xoops_module_install_modulebuilder(\XoopsModule $module)
 {
     require \dirname(__DIR__) . '/preloads/autoloader.php';
 
+    /** @var Modulebuilder\Helper $helper */ /** @var Modulebuilder\Utility $utility */
+    /** @var Common\Configurator $configurator */
     $helper       = Modulebuilder\Helper::getInstance();
     $utility      = new Modulebuilder\Utility();
     $configurator = new Common\Configurator();
@@ -66,10 +61,24 @@ function xoops_module_install_modulebuilder(\XoopsModule $module)
     $helper->loadLanguage('common');
 
     //  ---  CREATE FOLDERS ---------------
+    $success = true;
     if ($configurator->uploadFolders && \is_array($configurator->uploadFolders)) {
         foreach (\array_keys($configurator->uploadFolders) as $i) {
-            $utility::createFolder($configurator->uploadFolders[$i]);
-            chmod($configurator->uploadFolders[$i], 0777);
+            $path = $configurator->uploadFolders[$i];
+            if (!\is_dir($path)) {
+                $utility::createFolder($path);
+                if (!\is_dir($path)) {
+                    $success = false;
+                    continue;
+                }
+            }
+            if (!@\is_writable($path)) {
+                \chmod($path, 0775);
+                \clearstatcache(false, $path);
+                if (!@\is_writable($path)) {
+                    $success = false;
+                }
+            }
         }
     }
 
@@ -78,9 +87,11 @@ function xoops_module_install_modulebuilder(\XoopsModule $module)
         $file = \dirname(__DIR__) . '/assets/images/blank.gif';
         foreach (\array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.gif';
-            $utility::copyFile($file, $dest);
+            if (!$utility::copyFile($file, $dest)) {
+                $success = false;
+            }
         }
     }
 
-    return true;
+    return $success;
 }

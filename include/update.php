@@ -33,22 +33,27 @@
  */
 function xoops_module_update_modulebuilder($module, $prev_version = null)
 {
-    $ret = null;
-    if ($prev_version < 191) {
-        update_modulebuilder_v191($module);
+    $ret = true;
+
+    if ($prev_version < 191 && !update_modulebuilder_v191($module)) {
+        $ret = false;
     }
 
 	if (!modulebuilder_check_db($module)) {
+        $ret = false;
         print_r($module->getErrors());
     }
 
     if (!clean_index_files()) {
+        $ret = false;
         print_r($module->getErrors());
     }
 	
 	//check upload directory
 	require_once __DIR__ . '/install.php';
-    xoops_module_install_modulebuilder($module);
+    if (!xoops_module_install_modulebuilder($module)) {
+        $ret = false;
+    }
 	
     $errors = $module->getErrors();
     if (!empty($errors)) {
@@ -104,7 +109,7 @@ function update_modulebuilder_v191($module)
         return true;
     }
     $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tplfile') . ' ADD UNIQUE tpl_refid_module_set_file_type ( tpl_refid, tpl_module, tpl_tplset, tpl_file, tpl_type )';
-    if (!$result = $xoopsDB->queryF($sql)) {
+    if (!$xoopsDB->queryF($sql)) {
         xoops_error($xoopsDB->error() . '<br>' . $sql);
         $module->setErrors(
             "'tpl_refid_module_set_file_type' unique index is not added to 'tplfile' table. Warning: do not use XOOPS until you add this unique index."
@@ -130,6 +135,9 @@ function modulebuilder_check_db($module)
 	//insert here code for database check
     global $xoopsDB;
 
+    $sqlQueryFid = 'SELECT fieldelement_mid, fieldelement_tid, fieldelement_name, fieldelement_value, fieldelement_sort, fieldelement_deftype, fieldelement_defvalue, fieldelement_deffield
+                        FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . ' as fe WHERE fe.fieldelement_id =%s';
+
     // new form field SelectStatus
     $fname  = 'SelectStatus';
     $fid    = 16;
@@ -139,27 +147,24 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            [$fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value] = $xoopsDB->fetchRow($result);
+            [$fe_mid, $fe_tid, $fe_name, $fe_value] = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 16
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 16 to new element
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
 
     // new form field Password
@@ -171,27 +176,24 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            [$fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value] = $xoopsDB->fetchRow($result);
+            [$fe_mid, $fe_tid, $fe_name, $fe_value] = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 17
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 17 to new element
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
 
     // new form field SelectCountry
@@ -203,27 +205,24 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            [$fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value] = $xoopsDB->fetchRow($result);
+            [$fe_mid, $fe_tid, $fe_name, $fe_value] = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 18
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 18 to new element
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
 
     // new form field SelectLanguage
@@ -235,27 +234,24 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            [$fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value] = $xoopsDB->fetchRow($result);
+            [$fe_mid, $fe_tid, $fe_name, $fe_value] = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 19
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 19 to new element
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
 
     // new form field Radio
@@ -267,27 +263,24 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            [$fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value] = $xoopsDB->fetchRow($result);
+            [$fe_mid, $fe_tid, $fe_name, $fe_value] = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 20
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 20 to new element
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
 
     // new form field DateTime
@@ -299,27 +292,24 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            [$fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value] = $xoopsDB->fetchRow($result);
+            [$fe_mid, $fe_tid, $fe_name, $fe_value] = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 21
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 21 to new element
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
 
     // new form field DateTime
@@ -331,27 +321,24 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            [$fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value] = $xoopsDB->fetchRow($result);
+            [$fe_mid, $fe_tid, $fe_name, $fe_value] = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 22
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 22 to new element
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
 
     // update table 'modulebuilder_fieldelements'
@@ -361,7 +348,7 @@ function modulebuilder_check_db($module)
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
     if (!$numRows) {
         $sql = "ALTER TABLE `$table` ADD `$field` INT(8) NOT NULL DEFAULT '0' AFTER `fieldelement_value`;";
-        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+        if (!$GLOBALS['xoopsDB']->queryF($sql)) {
             xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
             $module->setErrors("Error when adding '$field' to table '$table'.");
             $ret = false;
@@ -375,7 +362,7 @@ function modulebuilder_check_db($module)
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
     if (!$numRows) {
         $sql = "ALTER TABLE `$table` ADD `$field` INT(10) NOT NULL DEFAULT '0' AFTER `fieldelement_sort`;";
-        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+        if (!$GLOBALS['xoopsDB']->queryF($sql)) {
             xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
             $module->setErrors("Error when adding '$field' to table '$table'.");
             $ret = false;
@@ -389,7 +376,7 @@ function modulebuilder_check_db($module)
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
     if (!$numRows) {
         $sql = "ALTER TABLE `$table` ADD `$field` int(10) NULL DEFAULT '0' AFTER `fieldelement_deftype`;";
-        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+        if (!$GLOBALS['xoopsDB']->queryF($sql)) {
             xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
             $module->setErrors("Error when adding '$field' to table '$table'.");
             $ret = false;
@@ -403,7 +390,7 @@ function modulebuilder_check_db($module)
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
     if (!$numRows) {
         $sql = "ALTER TABLE `$table` ADD `$field` INT(8) NOT NULL DEFAULT '0' AFTER `field_user`;";
-        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+        if (!$GLOBALS['xoopsDB']->queryF($sql)) {
             xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
             $module->setErrors("Error when adding '$field' to table '$table'.");
             $ret = false;
@@ -416,7 +403,7 @@ function modulebuilder_check_db($module)
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
     if (!$numRows) {
         $sql = "ALTER TABLE `$table` ADD `$field` INT(8) NOT NULL DEFAULT '0' AFTER `field_user`;";
-        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+        if (!$GLOBALS['xoopsDB']->queryF($sql)) {
             xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
             $module->setErrors("Error when adding '$field' to table '$table'.");
             $ret = false;
@@ -429,7 +416,7 @@ function modulebuilder_check_db($module)
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
     if (!$numRows) {
         $sql = "ALTER TABLE `$table` ADD `$field` INT(8) NOT NULL DEFAULT '0' AFTER `field_user`;";
-        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+        if (!$GLOBALS['xoopsDB']->queryF($sql)) {
             xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
             $module->setErrors("Error when adding '$field' to table '$table'.");
             $ret = false;
@@ -443,7 +430,7 @@ function modulebuilder_check_db($module)
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
     if (!$numRows) {
         $sql = "ALTER TABLE `$table` ADD `$field` INT(8) NOT NULL DEFAULT '0' AFTER `file_mid`;";
-        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+        if (!$GLOBALS['xoopsDB']->queryF($sql)) {
             xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
             $module->setErrors("Error when adding '$field' to table '$table'.");
             $ret = false;
@@ -457,7 +444,7 @@ function modulebuilder_check_db($module)
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
     if (!$numRows) {
         $sql = "ALTER TABLE `$table` ADD `$field` varchar(255) NOT NULL DEFAULT '' AFTER `file_extension`;";
-        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+        if (!$GLOBALS['xoopsDB']->queryF($sql)) {
             xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
             $module->setErrors("Error when adding '$field' to table '$table'.");
             $ret = false;
@@ -476,33 +463,30 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            [$fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue] = $xoopsDB->fetchRow($result);
+            [$fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue] = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql    = 'INSERT INTO `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}', '{$fe_sort}', '{$fe_deftype}', '{$fe_defvalue}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 23
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 23 to new element
             $sql    = 'UPDATE `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}', `fieldelement_sort` = '{$fsort}', `fieldelement_deftype` = '{$fdeftype}', `fieldelement_defvalue` = '{$fdefvalue}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql    = 'INSERT INTO `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
 
     // new form field text IP
@@ -517,40 +501,37 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            [$fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue] = $xoopsDB->fetchRow($result);
+            [$fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue] = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql    = 'INSERT INTO `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}', '{$fe_sort}', '{$fe_deftype}', '{$fe_defvalue}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 23
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 23 to new element
             $sql    = 'UPDATE `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}', `fieldelement_sort` = '{$fsort}', `fieldelement_deftype` = '{$fdeftype}', `fieldelement_defvalue` = '{$fdefvalue}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql    = 'INSERT INTO `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
 
     // update table 'modulebuilder_fieldelements'
     $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_fieldelements');
     $field   = 'fieldelement_defvalue';
     $sql = "ALTER TABLE `$table` CHANGE `$field` `$field` varchar(5) NULL DEFAULT NULL;";
-    if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+    if (!$GLOBALS['xoopsDB']->queryF($sql)) {
         xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
         $module->setErrors("Error when changing '$field' in table '$table'.");
         $ret = false;
@@ -568,33 +549,30 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            [$fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue] = $xoopsDB->fetchRow($result);
+            [$fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue] = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql    = 'INSERT INTO `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}', '{$fe_sort}', '{$fe_deftype}', '{$fe_defvalue}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 25
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 25 to new element
             $sql    = 'UPDATE `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}', `fieldelement_sort` = '{$fsort}', `fieldelement_deftype` = '{$fdeftype}', `fieldelement_defvalue` = '{$fdefvalue}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql    = 'INSERT INTO `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
     // new form field text ratings
     $fname     = 'TextRatings';
@@ -608,33 +586,30 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            [$fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue] = $xoopsDB->fetchRow($result);
+            [$fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue] = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql    = 'INSERT INTO `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}', '{$fe_sort}', '{$fe_deftype}', '{$fe_defvalue}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 26
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 26 to new element
             $sql    = 'UPDATE `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}', `fieldelement_sort` = '{$fsort}', `fieldelement_deftype` = '{$fdeftype}', `fieldelement_defvalue` = '{$fdefvalue}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql    = 'INSERT INTO `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
     // new form field text votes
     $fname     = 'TextVotes';
@@ -648,33 +623,30 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            [$fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue] = $xoopsDB->fetchRow($result);
+            [$fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue] = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql    = 'INSERT INTO `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}', '{$fe_sort}', '{$fe_deftype}', '{$fe_defvalue}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 27
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 27 to new element
             $sql    = 'UPDATE `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}', `fieldelement_sort` = '{$fsort}', `fieldelement_deftype` = '{$fdeftype}', `fieldelement_defvalue` = '{$fdefvalue}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql    = 'INSERT INTO `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
     // new form field text votes
     $fname     = 'TextReads';
@@ -688,33 +660,30 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            [$fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue] = $xoopsDB->fetchRow($result);
+            [$fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue] = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql    = 'INSERT INTO `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}', '{$fe_sort}', '{$fe_deftype}', '{$fe_defvalue}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 28
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 28 to new element
             $sql    = 'UPDATE `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}', `fieldelement_sort` = '{$fsort}', `fieldelement_deftype` = '{$fdeftype}', `fieldelement_defvalue` = '{$fdefvalue}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql    = 'INSERT INTO `'
                       . $xoopsDB->prefix('modulebuilder_fieldelements')
                       . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
 
     // update table 'modulebuilder_tables'
@@ -724,7 +693,7 @@ function modulebuilder_check_db($module)
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
     if (!$numRows) {
         $sql = "ALTER TABLE `$table` ADD `$field` TINYINT(1) NOT NULL DEFAULT '0' AFTER `table_rss`;";
-        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+        if (!$GLOBALS['xoopsDB']->queryF($sql)) {
             xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
             $module->setErrors("Error when adding '$field' to table '$table'.");
             $ret = false;
@@ -735,7 +704,7 @@ function modulebuilder_check_db($module)
     $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_settings');
     $field   = 'set_min_xoops';
     $sql = "ALTER TABLE `$table` CHANGE `$field` `$field` varchar(15) NOT NULL DEFAULT '1.0';";
-    if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+    if (!$GLOBALS['xoopsDB']->queryF($sql)) {
         xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
         $module->setErrors("Error when changing '$field' in table '$table'.");
         $ret = false;
@@ -745,7 +714,7 @@ function modulebuilder_check_db($module)
     $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_modules');
     $field   = 'mod_min_xoops';
     $sql = "ALTER TABLE `$table` CHANGE `$field` `$field` varchar(15) NOT NULL DEFAULT '1.0';";
-    if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+    if (!$GLOBALS['xoopsDB']->queryF($sql)) {
         xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
         $module->setErrors("Error when changing '$field' in table '$table'.");
         $ret = false;
@@ -755,7 +724,7 @@ function modulebuilder_check_db($module)
     $table   = $GLOBALS['xoopsDB']->prefix('modulebuilder_modules');
     $field   = 'mod_since';
     $sql = "ALTER TABLE `$table` CHANGE `$field` `$field` varchar(10) NOT NULL DEFAULT '1.0';";
-    if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+    if (!$GLOBALS['xoopsDB']->queryF($sql)) {
         xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
         $module->setErrors("Error when changing '$field' in table '$table'.");
         $ret = false;
@@ -768,7 +737,7 @@ function modulebuilder_check_db($module)
     $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
     if (!$numRows) {
         $sql = "ALTER TABLE `$table` ADD `$field` VARCHAR(5) NOT NULL DEFAULT '' AFTER `fieldelement_defvalue`;";
-        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+        if (!$GLOBALS['xoopsDB']->queryF($sql)) {
             xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
             $module->setErrors("Error when adding '$field' to table '$table'.");
             $ret = false;
@@ -788,27 +757,24 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            list($fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue, $fe_deffield) = $xoopsDB->fetchRow($result);
+            list($fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue, $fe_deffield) = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`, `fieldelement_deffield`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}', '{$fe_sort}', '{$fe_deftype}', '{$fe_defvalue}', '{$fe_deffield}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 29
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 29 to new element
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}', `fieldelement_sort` = '{$fsort}', `fieldelement_deftype` = '{$fdeftype}', `fieldelement_defvalue` = '{$fdefvalue}', `fieldelement_deffield` = '{$fdeffield}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`, `fieldelement_deffield`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}', '{$fdeffield}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
     // new form field text votes
     $fname     = 'TextFloat';
@@ -823,27 +789,24 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            list($fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue, $fe_deffield) = $xoopsDB->fetchRow($result);
+            list($fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue, $fe_deffield) = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`, `fieldelement_deffield`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}', '{$fe_sort}', '{$fe_deftype}', '{$fe_defvalue}', '{$fe_deffield}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 30
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 30 to new element
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}', `fieldelement_sort` = '{$fsort}', `fieldelement_deftype` = '{$fdeftype}', `fieldelement_defvalue` = '{$fdefvalue}', `fieldelement_deffield` = '{$fdeffield}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`, `fieldelement_deffield`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}', '{$fdeffield}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
 
     // new form field Radio On-/Offline
@@ -859,27 +822,24 @@ function modulebuilder_check_db($module)
     );
     $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($num_rows == 0) {
-        $result = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('modulebuilder_fieldelements') . " as fe WHERE fe.fieldelement_id ={$fid}"
-        );
+        $result = $xoopsDB->query(sprintf($sqlQueryFid, $fid));
         $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
         if ($num_rows > 0) {
-            list($fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue, $fe_deffield) = $xoopsDB->fetchRow($result);
+            list($fe_mid, $fe_tid, $fe_name, $fe_value, $fe_sort, $fe_deftype, $fe_defvalue, $fe_deffield) = $xoopsDB->fetchRow($result);
             //add existing element at end of table
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`, `fieldelement_deffield`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}', '{$fe_sort}', '{$fe_deftype}', '{$fe_defvalue}', '{$fe_deffield}')";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update table fields to new id of previous 31
             $newId = $xoopsDB->getInsertId();
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('modulebuilder_fields') . "`.`field_element` = '{$fid}';";
-            $result = $xoopsDB->query($sql);
+            if (!$xoopsDB->query($sql)) { $ret = false; }
             // update 31 to new element
             $sql = 'UPDATE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = '{$fname}', `fieldelement_value` = '{$fvalue}', `fieldelement_sort` = '{$fsort}', `fieldelement_deftype` = '{$fdeftype}', `fieldelement_defvalue` = '{$fdefvalue}', `fieldelement_deffield` = '{$fdeffield}' WHERE `fieldelement_id` = {$fid};";
-            $result = $xoopsDB->query($sql);
         } else {
             //add missing element
             $sql = 'INSERT INTO `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`, `fieldelement_deffield`) VALUES (NULL, '0', '0', '{$fname}', '{$fvalue}', '{$fsort}', '{$fdeftype}', '{$fdefvalue}', '{$fdeffield}')";
-            $result = $xoopsDB->query($sql);
         }
+        if (!$xoopsDB->query($sql)) { $ret = false; }
     }
 
     // resorting elements
@@ -915,8 +875,9 @@ function modulebuilder_check_db($module)
     $sortElements[] = 'TextVotes';
     $sortElements[] = 'TextReads';
     foreach ($sortElements as $key => $sortElement) {
-        $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('modulebuilder_fieldelements') . ' SET `fieldelement_sort` = ' . ($key + 1) . ' WHERE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "`.`fieldelement_name` = '" . $sortElement . "'");
-
+        if (!$xoopsDB->query('UPDATE ' . $xoopsDB->prefix('modulebuilder_fieldelements') . ' SET `fieldelement_sort` = ' . ($key + 1) . ' WHERE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "`.`fieldelement_name` = '" . $sortElement . "'")) {
+            $ret = false;
+        }
     }
 
     return $ret;

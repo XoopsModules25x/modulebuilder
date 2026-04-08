@@ -46,8 +46,9 @@ function xoops_module_uninstall_modulebuilder(\XoopsModule $module)
     $dirInfo = new \SplFileInfo($uploadDirectory);
     if ($dirInfo->isDir()) {
         // The directory exists so rename it
-        $date = date('Y-m-d');
-        if (!rename($uploadDirectory, $uploadDirectory . "_bak_$date")) {
+        $suffix = \date('Y-m-d_His');
+        $target = $uploadDirectory . "_bak_$suffix";
+        if (!\rename($uploadDirectory, $target)) {
             $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_DEL_PATH'), $uploadDirectory));
             $success = false;
         }

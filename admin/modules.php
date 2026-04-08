@@ -167,7 +167,7 @@ switch ($op) {
                 'mod_subversion'     => Request::getString('mod_subversion', '', 'POST'),
             ]
         );
-        $moduleOption = Request::getArray('module_option', []);
+        $moduleOption = Request::getArray('module_option');
         $modulesObj->setVar('mod_admin', \in_array('admin', $moduleOption));
         $modulesObj->setVar('mod_user', \in_array('user', $moduleOption));
         $modulesObj->setVar('mod_blocks', \in_array('blocks', $moduleOption));

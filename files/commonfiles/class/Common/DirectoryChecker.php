@@ -41,7 +41,7 @@ class DirectoryChecker
      *
      * @return bool|string
      */
-    public static function getDirectoryStatus($path, $mode = 0777, $redirectFile = null)
+    public static function getDirectoryStatus($path, int $mode = 0777, $redirectFile = null)
     {
         $pathIcon16 = \Xmf\Module\Admin::iconUrl('', '16');
 
@@ -99,12 +99,16 @@ class DirectoryChecker
      *
      * @return bool
      */
-    public static function createDirectory($target, $mode = 0777)
+    public static function createDirectory($target, int $mode = 0777)
     {
         $target = \str_replace('..', '', $target);
 
         // https://www.php.net/manual/en/function.mkdir.php
-        return \is_dir($target) || (self::createDirectory(\dirname($target), $mode) && !\mkdir($target, $mode) && !\is_dir($target));
+        return \is_dir($target)
+                    || (
+                        self::createDirectory(\dirname($target), $mode)
+                        && (\mkdir($target, $mode) || \is_dir($target))
+                    );
     }
 
     /**
@@ -113,7 +117,7 @@ class DirectoryChecker
      *
      * @return bool
      */
-    public static function setDirectoryPermissions($target, $mode = 0777)
+    public static function setDirectoryPermissions($target, int $mode = 0777)
     {
         $target = \str_replace('..', '', $target);
 
@@ -134,26 +138,23 @@ class DirectoryChecker
 $op = Request::getString('op', '', 'POST');
 switch ($op) {
     case 'createdir':
-        if (\Xmf\Request::hasVar('path', 'POST')) {
-            $path = $_POST['path'];
+        if (!\Xmf\Request::hasVar('path', 'POST') || !\Xmf\Request::hasVar('redirect', 'POST')) {
+            break;
         }
-        if (\Xmf\Request::hasVar('redirect', 'POST')) {
-            $redirect = $_POST['redirect'];
-        }
+        $path = \Xmf\Request::getString('path','', 'POST');
+        $redirect = \Xmf\Request::getString('redirect','', 'POST');
         $msg = DirectoryChecker::createDirectory($path) ? \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_DIRCREATED') : \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_DIRNOTCREATED');
         \redirect_header($redirect, 2, $msg . ': ' . $path);
         break;
     case 'setdirperm':
-        if (\Xmf\Request::hasVar('path', 'POST')) {
-            $path = $_POST['path'];
+        if (!\Xmf\Request::hasVar('path', 'POST') || !\Xmf\Request::hasVar('redirect', 'POST') || !\Xmf\Request::hasVar('mode', 'POST')) {
+            break;
         }
-        if (\Xmf\Request::hasVar('redirect', 'POST')) {
-            $redirect = $_POST['redirect'];
-        }
-        if (\Xmf\Request::hasVar('mode', 'POST')) {
-            $mode = $_POST['mode'];
-        }
+        $path = \Xmf\Request::getString('path','', 'POST');
+        $redirect = \Xmf\Request::getString('redirect','', 'POST');
+        $mode = \Xmf\Request::getInt('mode',0 , 'POST');
         $msg = DirectoryChecker::setDirectoryPermissions($path, $mode) ? \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMSET') : \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMNOTSET');
+
         \redirect_header($redirect, 2, $msg . ': ' . $path);
         break;
 }

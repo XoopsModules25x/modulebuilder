@@ -30,7 +30,7 @@ class Helper extends \Xmf\Module\Helper
     /**
      * @param bool $debug
      */
-    public function __construct($debug = false)
+    public function __construct(bool $debug = false)
     {
         $this->debug   = $debug;
         $moduleDirName = \basename(\dirname(__DIR__));
@@ -42,7 +42,7 @@ class Helper extends \Xmf\Module\Helper
      *
      * @return \XoopsModules\Modulebuilder\Helper
      */
-    public static function getInstance($debug = false)
+    public static function getInstance(bool $debug = false)
     {
         static $instance;
         if (null === $instance) {
