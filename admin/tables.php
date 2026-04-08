@@ -237,21 +237,30 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'order':
+        $error = false;
         // Initialize tables handler
         $tablesHandler = $helper->getHandler('Tables');
         if (isset($_POST['torder'])) {
             $i = 0;
             foreach ($_POST['torder'] as $order) {
                 if ($order > 0) {
-                    $tablesObj = $tablesHandler->get($order);
+                    $tablesObj = $tablesHandler->get((int)$order);
                     $tablesObj->setVar('table_order', $i);
-                    if (!$tablesHandler->insert($tablesObj)) {
+                    if ($tablesObj instanceof \XoopsObject) {
+                        $tablesObj->setVar('field_order', $i);
+                        if (!$tablesHandler->insert($tablesObj)) {
+                            $error = true;
+                        }
+                    } else {
                         $error = true;
+                        continue;
                     }
                     ++$i;
                 }
             }
-            \redirect_header('tables.php', 5, \_AM_MODULEBUILDER_TABLE_ORDER_ERROR);
+            if ($error) {
+                \redirect_header('tables.php', 5, \_AM_MODULEBUILDER_TABLE_ORDER_ERROR);
+            }
             unset($i);
         }
         exit;

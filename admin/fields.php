@@ -201,21 +201,29 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'order':
+        $error = false;
         // Initialize fields handler
         $fieldsHandler = $helper->getHandler('Fields');
         if (isset($_POST['forder'])) {
             $i = 0;
             foreach ($_POST['forder'] as $order) {
                 if ($order > 0) {
-                    $fieldsObj = $fieldsHandler->get($order);
-                    $fieldsObj->setVar('field_order', $i);
-                    if (!$fieldsHandler->insert($fieldsObj)) {
+                    $fieldsObj = $fieldsHandler->get((int)$order);
+                    if ($fieldsObj instanceof \XoopsObject) {
+                        $fieldsObj->setVar('field_order', $i);
+                        if (!$fieldsHandler->insert($fieldsObj)) {
+                            $error = true;
+                        }
+                    } else {
                         $error = true;
+                        continue;
                     }
                     ++$i;
                 }
             }
-            \redirect_header('fields.php', 5, \_AM_MODULEBUILDER_FIELD_ORDER_ERROR);
+            if ($error) {
+                \redirect_header('fields.php', 5, \_AM_MODULEBUILDER_FIELD_ORDER_ERROR);
+            }
             unset($i);
         }
         exit;
