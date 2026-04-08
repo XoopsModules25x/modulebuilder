@@ -875,8 +875,9 @@ function modulebuilder_check_db($module)
     $sortElements[] = 'TextVotes';
     $sortElements[] = 'TextReads';
     foreach ($sortElements as $key => $sortElement) {
-        $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('modulebuilder_fieldelements') . ' SET `fieldelement_sort` = ' . ($key + 1) . ' WHERE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "`.`fieldelement_name` = '" . $sortElement . "'");
-
+        if (!$xoopsDB->query('UPDATE ' . $xoopsDB->prefix('modulebuilder_fieldelements') . ' SET `fieldelement_sort` = ' . ($key + 1) . ' WHERE `' . $xoopsDB->prefix('modulebuilder_fieldelements') . "`.`fieldelement_name` = '" . $sortElement . "'")) {
+            $ret = false;
+        }
     }
 
     return $ret;

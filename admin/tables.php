@@ -245,9 +245,8 @@ switch ($op) {
             foreach ($_POST['torder'] as $order) {
                 if ($order > 0) {
                     $tablesObj = $tablesHandler->get((int)$order);
-                    $tablesObj->setVar('table_order', $i);
                     if ($tablesObj instanceof \XoopsObject) {
-                        $tablesObj->setVar('field_order', $i);
+                        $tablesObj->setVar('table_order', $i);
                         if (!$tablesHandler->insert($tablesObj)) {
                             $error = true;
                         }
