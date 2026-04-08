@@ -203,7 +203,15 @@ class Resizer
                 $dest = \imagecreatefromjpeg($this->endFile);
                 $src = \imagecreatefromjpeg($this->sourceFile);
                 break;
-            // ... etc
+            case 'image/gif':
+                $dest = \imagecreatefromgif($this->endFile);
+                $src = \imagecreatefromgif($this->sourceFile);
+                break;
+            default:
+                return;
+         }
+        if (!$dest || !$src) {
+            return;
         }
         if (4 == $this->mergeType) {
             $imgWidth  = (int)\round($this->maxWidth / 2 - 1);
@@ -253,7 +261,18 @@ class Resizer
                     break;
             }
         }
-        \imagejpeg($dest, $this->endFile);
+        // image output
+        switch ($this->imageMimetype) {
+            case 'image/png':
+                \imagepng($dest, $this->endFile, 0);
+                break;
+            case 'image/jpeg':
+                \imagejpeg($dest, $this->endFile, $this->jpgQuality);
+                break;
+            case 'image/gif':
+                \imagegif($dest, $this->endFile);
+                break;
+        }
 
         \imagedestroy($src);
         \imagedestroy($dest);

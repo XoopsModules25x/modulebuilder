@@ -33,29 +33,33 @@
  */
 function xoops_module_update_modulebuilder($module, $prev_version = null)
 {
-    $ret = null;
+    $ret = true;
     if ($prev_version < 191) {
         update_modulebuilder_v191($module);
     }
 
 	if (!modulebuilder_check_db($module)) {
+        $ret = false;
         print_r($module->getErrors());
     }
 
     if (!clean_index_files()) {
+        $ret = false;
         print_r($module->getErrors());
     }
 	
 	//check upload directory
 	require_once __DIR__ . '/install.php';
-    xoops_module_install_modulebuilder($module);
+    if (!xoops_module_install_modulebuilder($module)) {
+        $ret = false;
+    }
 	
     $errors = $module->getErrors();
     if (!empty($errors)) {
         print_r($errors);
     }
 
-    return null;
+    return $ret;
 }
 
 // irmtfan bug fix: solve templates duplicate issue

@@ -72,8 +72,12 @@ function xoops_module_install_modulebuilder(\XoopsModule $module)
                     continue;
                 }
             }
-            if (!\chmod($path, 0775) && !\is_writable($path)) {
-                $success = false;
+            if (!@\is_writable($path)) {
+                \chmod($path, 0775);
+                \clearstatcache(false, $path);
+                if (!@\is_writable($path)) {
+                    $success = false;
+                }
             }
         }
     }
