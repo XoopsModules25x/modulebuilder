@@ -152,7 +152,7 @@ switch ($op) {
         }
         $path = \Xmf\Request::getString('path','', 'POST');
         $redirect = \Xmf\Request::getString('redirect','', 'POST');
-        $mode = \Xmf\Request::getInt('mode','', 'POST');
+        $mode = \Xmf\Request::getInt('mode',0 , 'POST');
         $msg = DirectoryChecker::setDirectoryPermissions($path, $mode) ? \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMSET') : \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMNOTSET');
 
         \redirect_header($redirect, 2, $msg . ': ' . $path);

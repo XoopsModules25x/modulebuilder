@@ -57,7 +57,7 @@ class LanguageHelp extends Files\CreateFile
 
     /**
      * @public function write
-     * @param        $module
+     * @param Modulebuilder\Modules $module
      * @param string $filename
      */
     public function write(Modulebuilder\Modules $module, string $filename): void
