@@ -39,7 +39,6 @@ class Morefiles extends \XoopsObject
     /**
      * @public function constructor class
      *
-     * @param null
      */
     public function __construct()
     {
@@ -54,11 +53,11 @@ class Morefiles extends \XoopsObject
 
     /**
      * @param string $method
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed
      */
-    public function __call($method, $args)
+    public function __call(string $method, array $args)
     {
         $arg = $args[0] ?? null;
 
@@ -68,7 +67,6 @@ class Morefiles extends \XoopsObject
     /**
      * @static function getInstance
      *
-     * @param null
      *
      * @return Morefiles
      */
@@ -96,7 +94,7 @@ class Morefiles extends \XoopsObject
         }
 
         $isNew = $this->isNew();
-        $title = $isNew ? \sprintf(\_AM_MODULEBUILDER_MORE_FILES_NEW) : \sprintf(\_AM_MODULEBUILDER_MORE_FILES_EDIT);
+        $title = $isNew ? \_AM_MODULEBUILDER_MORE_FILES_NEW : \_AM_MODULEBUILDER_MORE_FILES_EDIT;
 
         \xoops_load('XoopsFormLoader');
 
@@ -137,7 +135,7 @@ class Morefiles extends \XoopsObject
                 $fileSelect->addOption("{$file1}", $file1);
             }
         }
-        $fileTray->addElement($fileSelect, false);
+        $fileTray->addElement($fileSelect);
         $form->addElement($fileTray);
 
         $fileInfolder = new \XoopsFormText(\_AM_MODULEBUILDER_MORE_FILES_INFOLDER, 'file_infolder', 50, 255, $this->getVar('file_infolder'));

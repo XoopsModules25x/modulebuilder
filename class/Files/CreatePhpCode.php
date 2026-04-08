@@ -32,7 +32,7 @@ class CreatePhpCode
 {
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return CreatePhpCode
      */
     public static function getInstance()
@@ -53,22 +53,20 @@ class CreatePhpCode
      * @param string $n
      * @return string
      */
-    public function getPhpCodeCommentLine($comment = null, $var = null, $t = '', $n = "\n")
+    public function getPhpCodeCommentLine($comment = null, $var = null, string $t = '', string $n = "\n")
     {
         $value = !empty($var) ? ' ' . $var : '';
-        $ret   = "{$t}// {$comment}{$value}{$n}";
-
-        return $ret;
+        return "{$t}// {$comment}{$value}{$n}";
     }
 
     /**
      * @public function getPhpCodeCommentMultiLine
-     * @param array  $multiLine
+     * @param array $multiLine
      * @param string $t
-     * @param bool   $blankLineBefore
+     * @param bool $blankLineBefore
      * @return string
      */
-    public function getPhpCodeCommentMultiLine($multiLine = [], $t = '', $blankLineBefore = true)
+    public function getPhpCodeCommentMultiLine(array $multiLine = [], string $t = '', bool $blankLineBefore = true)
     {
         $values = !empty($multiLine) ? $multiLine : [];
         $ret = '';
@@ -98,10 +96,10 @@ class CreatePhpCode
      * @param        $right
      *
      * @param string $t
-     * @param bool   $leftstr
+     * @param bool $leftstr
      * @return string
      */
-    public function getPhpCodeDefine($left, $right, $t = '', $leftstr = true)
+    public function getPhpCodeDefine($left, $right, string $t = '', bool $leftstr = true)
     {
         $ret = "{$t}\define(";
         if ($leftstr) {
@@ -116,12 +114,12 @@ class CreatePhpCode
 
     /**
      * @public function getPhpCodeDefine
-     * @param $left
-     * @param $right
+     * @param string $left
+     * @param string $right
      *
      * @return string
      */
-    public function getPhpCodeDefined($left = 'XOOPS_ROOT_PATH', $right = 'Restricted access')
+    public function getPhpCodeDefined(string $left = 'XOOPS_ROOT_PATH', string $right = 'Restricted access')
     {
         return "\defined('{$left}') || die('{$right}');\n";
     }
@@ -129,11 +127,11 @@ class CreatePhpCode
     /**
      * @public function getPhpCodeGlobals
      * @param $var
-     * @param $value
+     * @param string $value
      *
      * @return string
      */
-    public function getPhpCodeGlobals($var, $value = '')
+    public function getPhpCodeGlobals($var, string $value = '')
     {
         if ('' != $value) {
             $ret = "\$GLOBALS['{$var}'] = \${$value};\n";
@@ -147,11 +145,11 @@ class CreatePhpCode
     /**
      * @public function getPhpCodeGlobalsVariables
      * @param $var
-     * @param $type
+     * @param string $type
      *
      * @return string
      */
-    public function getPhpCodeGlobalsVariables($var = null, $type = 'REQUEST')
+    public function getPhpCodeGlobalsVariables($var = null, string $type = 'REQUEST')
     {
         $type = \mb_strtoupper($type);
         switch ($type) {
@@ -189,7 +187,7 @@ class CreatePhpCode
      * @param string $r
      * @return string
      */
-    public function getPhpCodeRemoveCarriageReturn($string, $n = "\n", $r = "\r")
+    public function getPhpCodeRemoveCarriageReturn($string, string $n = "\n", string $r = "\r")
     {
         return \str_replace([(string)$n, (string)$r], '', $string);
     }
@@ -209,14 +207,14 @@ class CreatePhpCode
      * @public function getPhpCodeIncludeDir
      * @param        $directory
      * @param        $filename
-     * @param bool   $once
-     * @param bool   $isPath
+     * @param bool $once
+     * @param bool $isPath
      *
      * @param string $type
      * @param string $t
      * @return string
      */
-    public function getPhpCodeIncludeDir($directory = null, $filename = null, $once = false, $isPath = false, $type = 'require', $t = '')
+    public function getPhpCodeIncludeDir($directory = null, $filename = null, bool $once = false, bool $isPath = false, string $type = 'require', string $t = '')
     {
         if ('' === $type) {
             $type = 'require';
@@ -244,11 +242,11 @@ class CreatePhpCode
      * @param $condition
      * @param $one
      * @param $two
-     * @param $t - Indentation
+     * @param string $t - Indentation
      *
      * @return string
      */
-    public function getPhpCodeTernaryOperator($return, $condition, $one, $two, $t = '')
+    public function getPhpCodeTernaryOperator($return, $condition, $one, $two, string $t = '')
     {
         $ret = "{$t}\${$return} = {$condition} ?";
         if ('' != $one) {
@@ -285,14 +283,14 @@ class CreatePhpCode
 
     /**
      * @public function getPhpCodeClass
-     * @param $type
+     * @param string $type
      * @param $name
-     * @param $assign
-     * @param $t - Indentation
+     * @param string $assign
+     * @param string $t - Indentation
      *
      * @return string
      */
-    public function getPhpCodeVariableClass($type = 'private', $name = null, $assign = 'null', $t = '')
+    public function getPhpCodeVariableClass(string $type = 'private', $name = null, string $assign = 'null', string $t = '')
     {
         return "{$t}{$type} \${$name} = {$assign};\n";
     }
@@ -324,11 +322,11 @@ class CreatePhpCode
      * @param        $params
      * @param        $content
      * @param        $method
-     * @param bool   $isRef
+     * @param bool $isRef
      * @param string $t - Indentation
      * @return string
      */
-    public function getPhpCodeFunction($name = null, $params = null, $content = null, $method = null, $isRef = false, $t = '')
+    public function getPhpCodeFunction($name = null, $params = null, $content = null, $method = null, bool $isRef = false, string $t = '')
     {
         $inClass = (null != $method) ? $method : '';
         $ref     = (false !== $isRef) ? '&' : '';
@@ -352,7 +350,7 @@ class CreatePhpCode
      * @param string $conditionElse
      * @return string
      */
-    public function getPhpCodeConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $t = '', $conditionElse = '')
+    public function getPhpCodeConditions(string $condition = '', string $operator = '', string $type = '', string $contentIf = '', $contentElse = false, string $t = '', string $conditionElse = '')
     {
         if ('==' === \trim($operator) || '===' === \trim($operator) || '!=' === \trim($operator) || '!==' === \trim($operator)) {
             //yoda conditions
@@ -362,13 +360,9 @@ class CreatePhpCode
             $left  = $condition;
             $right = $type;
         }
-        if (false === $contentElse) {
-            $ret = "{$t}if ({$left}{$operator}{$right}) {\n";
-            $ret .= $contentIf;
-            $ret .= "{$t}}\n";
-        } else {
-            $ret = "{$t}if ({$left}{$operator}{$right}) {\n";
-            $ret .= $contentIf;
+        $ret = "{$t}if ({$left}{$operator}{$right}) {\n";
+        $ret .= $contentIf;
+        if (false !== $contentElse) {
             if ('' !== $conditionElse) {
                 $ret .= "{$t}} elseif ({$conditionElse}) {\n";
             } else {
@@ -376,24 +370,24 @@ class CreatePhpCode
             }
 
             $ret .= $contentElse;
-            $ret .= "{$t}}\n";
         }
+        $ret .= "{$t}}\n";
 
         return $ret;
     }
 
     /**
      * @public function getPhpCodeForeach
-     * @param string      $array
+     * @param string $array
      * @param bool|string $arrayKey
      * @param bool|string $key
      * @param bool|string $value
-     * @param string      $content
+     * @param string|null $content
      *
-     * @param string      $t
+     * @param string $t
      * @return string
      */
-    public function getPhpCodeForeach($array, $arrayKey = false, $key = false, $value = false, $content = null, $t = '')
+    public function getPhpCodeForeach(string $array, $arrayKey = false, $key = false, $value = false, string $content = null, string $t = '')
     {
         $vars  = '';
         $value = '' !== $value ? $value : 'i';
@@ -423,7 +417,7 @@ class CreatePhpCode
      * @param string $t
      * @return string
      */
-    public function getPhpCodeFor($var = null, $content = null, $value = null, $initVal = null, $operator = null, $t = '')
+    public function getPhpCodeFor($var = null, $content = null, $value = null, $initVal = null, $operator = null, string $t = '')
     {
         $ret = "{$t}for (\${$var} = {$initVal}; \${$var} {$operator} \${$value}; \${$var}++) {\n";
         $ret .= "{$content}";
@@ -438,11 +432,11 @@ class CreatePhpCode
      * @param $content
      * @param $value
      * @param $operator
-     * @param $t
+     * @param string $t
      *
      * @return string
      */
-    public function getPhpCodeWhile($var = null, $content = null, $value = null, $operator = null, $t = '')
+    public function getPhpCodeWhile($var = null, $content = null, $value = null, $operator = null, string $t = '')
     {
         $ret = "{$t}while (\${$var} {$operator} {$value}) {\n";
         $ret .= "{$t}{$content}";
@@ -458,10 +452,10 @@ class CreatePhpCode
      * @param        $content
      * @param string $t
      *
-     * @param bool   $isParam
+     * @param bool $isParam
      * @return string
      */
-    public function getPhpCodeSwitch($op = null, $content = null, $t = '', $isParam = true)
+    public function getPhpCodeSwitch($op = null, $content = null, string $t = '', bool $isParam = true)
     {
         $value = $isParam ? "\${$op}" : $op;
         $ret   = "{$t}switch ({$value}) {\n";
@@ -474,15 +468,13 @@ class CreatePhpCode
     /**
      * @public function getPhpCodeCaseSwitch
      *
-     * @param array  $cases
-     * @param bool   $defaultAfterCase
-     * @param bool   $default
+     * @param array $cases
+     * @param bool $defaultAfterCase
      * @param string $t
-     *
-     * @param bool   $isConst
+     * @param bool $isConst
      * @return string
      */
-    public function getPhpCodeCaseSwitch($cases = [], $defaultAfterCase = false, $default = false, $t = '', $isConst = false)
+    public function getPhpCodeCaseSwitch(array $cases = [], bool $defaultAfterCase = false, string $t = '', bool $isConst = false)
     {
         $ret = '';
         $def = "{$t}default:\n";
@@ -495,19 +487,18 @@ class CreatePhpCode
                 if (false !== $defaultAfterCase) {
                     $ret .= $def;
                 }
+                $lastContent = '';
                 if (\is_array($value)) {
                     foreach ($value as $content) {
                         $ret .= "{$content}";
+                        $lastContent = $content;
                     }
                 }
-                $ret              .= "{$t}\tbreak;\n";
+                if (0 == strpos(strtolower($lastContent), "\treturn ")) {
+                    $ret .= "{$t}\tbreak;\n";
+                }
                 $defaultAfterCase = false;
             }
-        }
-        if (false !== $default) {
-            $ret .= $def;
-            $ret .= "{$t}{$default}\n";
-            $ret .= "{$t}\tbreak;\n";
         }
 
         return $ret;
@@ -524,12 +515,22 @@ class CreatePhpCode
     }
 
     /**
+     * @public function getPhpCodeIsset
+     * @param $var
+     * @return string
+     */
+    public function getPhpCodeIsobject($var)
+    {
+        return "\is_object(\${$var})";
+    }
+
+    /**
      * @public function getPhpCodeUnset
      * @param string $var
      * @param string $t
      * @return string
      */
-    public function getPhpCodeUnset($var = '', $t = '')
+    public function getPhpCodeUnset(string $var = '', string $t = '')
     {
         return "{$t}unset(\${$var});\n";
     }
@@ -573,7 +574,7 @@ class CreatePhpCode
      * @param string $t
      * @return string
      */
-    public function getPhpCodeChmod($var, $perm = '0777', $t = '')
+    public function getPhpCodeChmod($var, string $perm = '0777', string $t = '')
     {
         return "{$t}chmod(\${$var}, {$perm});\n";
     }
@@ -585,7 +586,7 @@ class CreatePhpCode
      * @param string $t
      * @return string
      */
-    public function getPhpCodeMkdir($var, $perm = '0777', $t = '')
+    public function getPhpCodeMkdir($var, string $perm = '0777', string $t = '')
     {
         return "{$t}\mkdir(\${$var}, {$perm});\n";
     }
@@ -597,7 +598,7 @@ class CreatePhpCode
      * @param string $t
      * @return string
      */
-    public function getPhpCodeCopy($file, $newfile = '', $t = '')
+    public function getPhpCodeCopy($file, string $newfile = '', string $t = '')
     {
         return "{$t}\copy({$file}, {$newfile});\n";
     }
@@ -606,12 +607,12 @@ class CreatePhpCode
      * @public function getPhpCodeArray
      * @param        $var
      * @param        $array
-     * @param bool   $isParam
+     * @param bool $isParam
      *
      * @param string $t
      * @return string
      */
-    public function getPhpCodeArray($var, $array = null, $isParam = false, $t = "\t\t")
+    public function getPhpCodeArray($var, $array = null, bool $isParam = false, string $t = "\t\t")
     {
         $retArray = [];
         if (\is_array($array) && !empty($array)) {
@@ -643,12 +644,12 @@ class CreatePhpCode
      * @param        $type
      * @param        $left
      * @param        $right
-     * @param bool   $isParam
+     * @param bool $isParam
      *
      * @param string $t
      * @return string
      */
-    public function getPhpCodeArrayType($var, $type, $left, $right = null, $isParam = false, $t = "\t\t")
+    public function getPhpCodeArrayType($var, $type, $left, $right = null, bool $isParam = false, string $t = "\t\t")
     {
         $vars = (null != $right) ? "\${$left}, {$right}" : "\${$left}";
         if (!$isParam) {
@@ -666,7 +667,7 @@ class CreatePhpCode
      * @param string $t
      * @return string
      */
-    public function getPhpCodeArrayShift($var, $t = '')
+    public function getPhpCodeArrayShift($var, string $t = '')
     {
         return "{$t}\array_shift({$var});\n";
     }
@@ -719,12 +720,12 @@ class CreatePhpCode
      * @param        $str
      * @param        $val
      * @param string $type
-     * @param bool   $isParam
+     * @param bool $isParam
      *
      * @param string $t
      * @return string
      */
-    public function getPhpCodePregFunzions($var, $exp, $str, $val, $type = 'match', $isParam = false, $t = "\t")
+    public function getPhpCodePregFunzions($var, $exp, $str, $val, string $type = 'match', bool $isParam = false, string $t = "\t")
     {
         $pregFunz = "\preg_{$type}('";
         if (!$isParam) {
@@ -743,12 +744,12 @@ class CreatePhpCode
      * @param        $str
      * @param        $value
      * @param string $type
-     * @param bool   $isParam
+     * @param bool $isParam
      *
      * @param string $t
      * @return string
      */
-    public function getPhpCodeStrType($left, $var, $str, $value, $type = 'replace', $isParam = false, $t = "\t")
+    public function getPhpCodeStrType($left, $var, $str, $value, string $type = 'replace', bool $isParam = false, string $t = "\t")
     {
         $strType = "\str_{$type}('";
         if (!$isParam) {
@@ -764,15 +765,15 @@ class CreatePhpCode
      * @public function getPhpCodeStripTags
      * @param        $left
      * @param        $value
-     * @param bool   $isParam
-     *
+     * @param bool $isParam
+     * @param string $operator
      * @param string $t
      * @return string
      */
-    public function getPhpCodeStripTags($left, $value, $isParam = false, $t = '')
+    public function getPhpCodeStripTags($left, $value, bool $isParam = false, string $t = '', string $operator = '=')
     {
         if (!$isParam) {
-            $ret = "{$t}\${$left} = \strip_tags({$value});\n";
+            $ret = "{$t}\${$left} " . $operator . " \strip_tags({$value});\n";
         } else {
             $ret = "\strip_tags({$value})";
         }
@@ -783,29 +784,25 @@ class CreatePhpCode
     /**
      * @public function getPhpCodeHtmlentities
      * @param $entitiesVar
-     * @param $entitiesQuote
+     * @param int|string|false $entitiesQuote
      * @return string
      */
-    public function getPhpCodeHtmlentities($entitiesVar, $entitiesQuote = false)
+    public function getPhpCodeHtmlentities($entitiesVar, int|string|false $entitiesQuote = false)
     {
         $entitiesVar = (false !== $entitiesQuote) ? $entitiesVar . ', ' . $entitiesQuote : $entitiesVar;
-        $entities    = "htmlentities({$entitiesVar})";
-
-        return $entities;
+        return "htmlentities({$entitiesVar})";
     }
 
     /**
      * @public function getPhpCodeHtmlspecialchars
      * @param $specialVar
-     * @param $specialQuote
+     * @param int|string|false $specialQuote
      * @return string
      */
-    public function getPhpCodeHtmlspecialchars($specialVar, $specialQuote = false)
+    public function getPhpCodeHtmlspecialchars($specialVar, int|string|false $specialQuote = false)
     {
         $specialVar   = (false !== $specialQuote) ? $specialVar . ', ' . $specialQuote : $specialVar;
-        $specialchars = "htmlspecialchars({$specialVar})";
-
-        return $specialchars;
+        return "htmlspecialchars({$specialVar})";
     }
 
     /**
@@ -815,7 +812,7 @@ class CreatePhpCode
      * @param string $n
      * @return string
      */
-    public function getPhpCodeNamespace($dimensions, $t = '', $n = "\n\n")
+    public function getPhpCodeNamespace($dimensions, string $t = '', string $n = "\n\n")
     {
         $ret = "\n{$t}namespace ";
         foreach ($dimensions as $key => $dim) {
@@ -838,7 +835,7 @@ class CreatePhpCode
      * @param string $n
      * @return string
      */
-    public function getPhpCodeUseNamespace($dimensions, $t = '', $n = "\n\n")
+    public function getPhpCodeUseNamespace($dimensions, string $t = '', string $n = "\n\n")
     {
         $ret = "\n{$t}use ";
         foreach ($dimensions as $key => $dim) {
@@ -873,7 +870,7 @@ class CreatePhpCode
      * @param string $type
      * @return string
      */
-    public function getPhpCodeConstant($const, $value, $t = '', $type = 'const')
+    public function getPhpCodeConstant($const, $value, string $t = '', string $type = 'const')
     {
         return "{$t}{$type} {$const} = {$value};\n";
     }
@@ -886,10 +883,8 @@ class CreatePhpCode
      * @param string $t
      * @return string
      */
-    public function getPhpCodeTriggerError($msg, $type, $t = '')
+    public function getPhpCodeTriggerError($msg, $type, string $t = '')
     {
-        $ret = "{$t}\\trigger_error($msg, {$type});\n";
-
-        return $ret;
+        return "{$t}\\trigger_error($msg, {$type});\n";
     }
 }

@@ -42,7 +42,6 @@ class TemplatesAdminAbout extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -78,8 +77,8 @@ class TemplatesAdminAbout extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

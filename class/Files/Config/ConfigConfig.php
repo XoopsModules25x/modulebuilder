@@ -42,7 +42,6 @@ class ConfigConfig extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -67,11 +66,11 @@ class ConfigConfig extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param        $tables
      * @param string $filename
      */
-    public function write($module, $tables, $filename): void
+    public function write($module, $tables, string $filename): void
     {
         $this->setModule($module);
         $this->setTables($tables);
@@ -141,7 +140,7 @@ class ConfigConfig extends Files\CreateFile
         $ret .= $this->getSimpleString('],', "\t");
         $ret .= $this->getSimpleString("'moduleStats'  => [", "\t");
         $ret .= $this->getSimpleString('],', "\t");
-        $ret .= $this->getSimpleString("'modCopyright' => \"<a href='https://xoops.org' title='XOOPS Project' target='_blank'><img src='\" . \XOOPS_ROOT_PATH . '/modules/' . \$moduleDirName . \"/assets/images/logo/logoModule.png' alt='XOOPS Project'></a>\",", "\t");
+        $ret .= $this->getSimpleString("'modCopyright' => \"<a href='https://xoops.org' title='XOOPS Project' target='_blank' rel='noopener noreferrer'><img src='\" . \XOOPS_ROOT_PATH . '/modules/' . \$moduleDirName . \"/assets/images/logo/logoModule.png' alt='XOOPS Project'></a>\",", "\t");
         $ret .= $this->getSimpleString('];');
 
         return $ret;
@@ -149,8 +148,8 @@ class ConfigConfig extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

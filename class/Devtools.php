@@ -436,9 +436,10 @@ class Devtools
      * @param $dst_path
      * @param array $patKeys
      * @param array $patValues
-     * @param bool  $replaceTabs
+     * @param bool $replaceTabs
+     * @param string[] $extensions
      */
-    public static function cloneFileFolder($src_path, $dst_path, $patKeys = [], $patValues = [], $replaceTabs = false, $extensions = ['php']): void
+    public static function cloneFileFolder($src_path, $dst_path, array $patKeys = [], array $patValues = [], bool $replaceTabs = false, $extensions = ['php']): void
     {
         // open the source directory
         $dir = \opendir($src_path);
@@ -463,9 +464,10 @@ class Devtools
      * @param $dst_file
      * @param array $patKeys
      * @param array $patValues
-     * @param bool  $replaceTabs
+     * @param bool $replaceTabs
+     * @param $extensions
      */
-    private static function cloneFile($src_file, $dst_file, $patKeys, $patValues, $replaceTabs, $extensions): void
+    private static function cloneFile($src_file, $dst_file, array $patKeys, array $patValues, bool $replaceTabs, $extensions): void
     {
         $replace_code = false;
         if (\in_array(\mb_strtolower(\pathinfo($src_file, PATHINFO_EXTENSION)), $extensions)) {
@@ -496,10 +498,10 @@ class Devtools
 
     /**
      * get form with all existing modules
-     * @param bool $action
+     * @param string|false $action
      * @return \XoopsSimpleForm
      */
-    public static function getFormModulesFq($action = false)
+    public static function getFormModulesFq(string|false $action = false)
     {
         if (!$action) {
             $action = $_SERVER['REQUEST_URI'];
@@ -525,10 +527,10 @@ class Devtools
 
     /**
      * get form with all existing modules
-     * @param bool $action
+     * @param string|false $action
      * @return \XoopsSimpleForm
      */
-    public static function getFormModulesCl($action = false)
+    public static function getFormModulesCl(string|false $action = false)
     {
         if (!$action) {
             $action = $_SERVER['REQUEST_URI'];
@@ -554,10 +556,10 @@ class Devtools
 
     /**
      * get form with all existing modules
-     * @param bool $action
+     * @param string|false $action
      * @return \XoopsSimpleForm
      */
-    public static function getFormModulesTab($action = false)
+    public static function getFormModulesTab(string|false $action = false)
     {
         if (!$action) {
             $action = $_SERVER['REQUEST_URI'];
@@ -583,10 +585,11 @@ class Devtools
 
     /**
      * get form with all existing modules
-     * @param bool $action
+     * @param string       $dst_path
+     * @param string|false $action
      * @return \XoopsSimpleForm
      */
-    public static function getFormModulesRemovePrefix($dst_path, $action = false)
+    public static function getFormModulesRemovePrefix(string $dst_path, string|false $action = false)
     {
         if (!$action) {
             $action = $_SERVER['REQUEST_URI'];

@@ -45,7 +45,6 @@ class TemplatesAdminPages extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -56,7 +55,7 @@ class TemplatesAdminPages extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return TemplatesAdminPages
      */
     public static function getInstance()
@@ -75,7 +74,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename): void
+    public function write($module, $table, string $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -87,7 +86,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @param string $moduleDirname
      * @return string
      */
-    private function getTemplatesAdminPagesHeader($moduleDirname)
+    private function getTemplatesAdminPagesHeader(string $moduleDirname)
     {
         $ret = $this->hc->getHtmlComment('Header', '',"\n");
         $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', "\n\n");
@@ -103,7 +102,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @param string $language
      * @return string
      */
-    private function getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language)
+    private function getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, array $fields, string $language)
     {
         $th         = '';
         $langHeadId = \mb_strtoupper($tableSoleName) . '_ID';
@@ -124,9 +123,7 @@ class TemplatesAdminPages extends Files\CreateFile
         $lang = $this->sc->getSmartyConst($language, 'FORM_ACTION');
         $th   .= $this->hc->getHtmlTag('th', ['class' => 'center width5'], $lang, false, "\t\t\t\t");
         $tr   = $this->hc->getHtmlTableRow($th, 'head', "\t\t\t");
-        $ret  = $this->hc->getHtmlTableThead($tr, '', "\t\t");
-
-        return $ret;
+        return $this->hc->getHtmlTableThead($tr, '', "\t\t");
     }
 
     /**
@@ -139,7 +136,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @return string
      * @internal param string $language
      */
-    private function getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields)
+    private function getTemplatesAdminPagesTableTBody(string $moduleDirname, string $tableName, $tableSoleName, $tableAutoincrement, array $fields)
     {
         $td = '';
         if (1 == $tableAutoincrement) {
@@ -158,7 +155,7 @@ class TemplatesAdminPages extends Files\CreateFile
                 switch ($fieldElement) {
                     case Constants::FIELD_ELE_TEXTAREA:
                     case Constants::FIELD_ELE_DHTMLTEXTAREA:
-                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short');
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short', '', '', "''", "'html'");
                         $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
                         break;
                     case Constants::FIELD_ELE_CHECKBOX:
@@ -177,37 +174,34 @@ class TemplatesAdminPages extends Files\CreateFile
                         break;
                     case Constants::FIELD_ELE_IMAGELIST:
                         $src = $this->sc->getSmartyNoSimbol('xoModuleIcons32');
-                        $src .= $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                        $src .= $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'htmlattr'");
                         $img = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'','');
                         $td  .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
                         break;
                     case Constants::FIELD_ELE_UPLOADIMAGE:
-                        $single = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
-                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                        $single = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url','','',"''", "'htmlattr'");
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName,'','',"''", "'htmlattr'");
                         $img    = $this->hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName, 'style' => 'max-width:100px'], '', true, '', '');
                         $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
                         break;
                     case Constants::FIELD_ELE_SELECTSTATUS:
-                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, 'status');
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, 'status', '', '', "''", "'html'");
                         $src    = $this->sc->getSmartyNoSimbol('$modPathIcon16') . 'status' . $double . '.png';
-                        $imgAlt = $this->sc->getSmartyDoubleVar($tableSoleName, 'status_text');
+                        $imgAlt = $this->sc->getSmartyDoubleVar($tableSoleName, 'status_text', '', '', "''", "'html'");
                         $img    = $this->hc->getHtmlTag('img', ['src' => $src, 'alt' => $imgAlt, 'title' => $imgAlt], '', true,'','');
                         $td     .= $this->hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
                         break;
                     case Constants::FIELD_ELE_RADIOYN:
                     case Constants::FIELD_ELE_SELECTUSER:
                     case Constants::FIELD_ELE_DATETIME:
-                    case Constants::FIELD_ELE_TEXTDATESELECT:
-                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text');
-                        $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
-                        break;
                     case Constants::FIELD_ELE_RADIO_ONOFFLINE:
-                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text');
+                    case Constants::FIELD_ELE_TEXTDATESELECT:
+                        $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text', '', '', "''", "'html'");
                         $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
                         break;
                     default:
                         if (0 != $f) {
-                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $double = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'html'");
                             $td     .= $this->hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
                         }
                         break;
@@ -248,12 +242,12 @@ class TemplatesAdminPages extends Files\CreateFile
      * @param string $language
      * @return string
      */
-    private function getTemplatesAdminPagesTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
+    private function getTemplatesAdminPagesTable(string $moduleDirname, string $tableName, $tableSoleName, $tableAutoincrement, $fields, string $language)
     {
         $tbody = $this->getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language);
         $tbody .= $this->getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields);
 
-        return $this->hc->getHtmlTable($tbody, 'table table-bordered', "\t");
+        return $this->hc->getHtmlTable($tbody, 'outer', "\t");
     }
 
     /**
@@ -266,7 +260,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @param string $language
      * @return string
      */
-    private function getTemplatesAdminPages($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
+    private function getTemplatesAdminPages(string $moduleDirname, string $tableName, $tableSoleName, $tableAutoincrement, $fields, string $language)
     {
         $htmlTable = $this->getTemplatesAdminPagesTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language);
         $htmlTable .= $this->hc->getHtmlTag('div', ['class' => 'clear'], '&nbsp;', false, "\t");
@@ -291,7 +285,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @param string $moduleDirname
      * @return string
      */
-    private function getTemplatesAdminPagesFooter($moduleDirname)
+    private function getTemplatesAdminPagesFooter(string $moduleDirname)
     {
         $ret = $this->hc->getHtmlComment('Footer', '', "\n");
         $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'footer', true);
@@ -301,8 +295,8 @@ class TemplatesAdminPages extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

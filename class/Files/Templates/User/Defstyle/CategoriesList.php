@@ -42,7 +42,6 @@ class CategoriesList extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -71,7 +70,7 @@ class CategoriesList extends Files\CreateFile
      * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename): void
+    public function write($module, $table, string $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -84,12 +83,10 @@ class CategoriesList extends Files\CreateFile
      */
     private function getTemplatesUserCategoriesListStartTable()
     {
-        $ret = <<<EOT
+        return <<<EOT
             <div class="table-responsive">
                 <table class="table table-<{\$table_type|default:''}>">\n
             EOT;
-
-        return $ret;
     }
 
     /**
@@ -126,11 +123,11 @@ class CategoriesList extends Files\CreateFile
     /**
      * @private function getTemplatesUserCategoriesListTbody
      * @param string $moduleDirname
-     * @param string $table
+     * @param        $table
      *
      * @return string
      */
-    private function getTemplatesUserCategoriesListTbody($moduleDirname, $table)
+    private function getTemplatesUserCategoriesListTbody(string $moduleDirname, $table)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -181,7 +178,7 @@ class CategoriesList extends Files\CreateFile
 
     /**
      * @private function getTemplatesUserCategoriesListTfoot
-     * @param string $table
+     * @param $table
      * @return string
      */
     private function getTemplatesUserCategoriesListTfoot($table)
@@ -213,18 +210,15 @@ class CategoriesList extends Files\CreateFile
 
     /**
      * @private function getTemplatesUserCategoriesListEndTable
-     * @param null
      *
      * @return string
      */
     private function getTemplatesUserCategoriesListEndTable()
     {
-        $ret = <<<EOT
+        return <<<EOT
             	</table>
             </div>\n
             EOT;
-
-        return $ret;
     }
 
     /**
@@ -236,7 +230,7 @@ class CategoriesList extends Files\CreateFile
      * @param        $tableSoleName
      * @return string
      */
-    private function getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName)
+    private function getTemplatesUserCategoriesListPanel(string $moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName)
     {
         $fields  = $this->getTableFields($tableMid, $tableId);
         $ret     = '';
@@ -286,7 +280,7 @@ class CategoriesList extends Files\CreateFile
 
     /**
      * @public function render
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

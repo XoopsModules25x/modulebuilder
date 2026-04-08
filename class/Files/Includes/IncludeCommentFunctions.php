@@ -42,7 +42,6 @@ class IncludeCommentFunctions extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -53,7 +52,7 @@ class IncludeCommentFunctions extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return IncludeCommentFunctions
      */
     public static function getInstance()
@@ -68,7 +67,7 @@ class IncludeCommentFunctions extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param mixed  $table
      * @param        $filename
      */
@@ -81,8 +80,8 @@ class IncludeCommentFunctions extends Files\CreateFile
 
     /**
      * @public function getCommentBody
-     * @param string $module
-     * @param mixed  $table
+     * @param $module
+     * @param $table
      * @return string
      */
     public function getCommentBody($module, $table)
@@ -91,6 +90,8 @@ class IncludeCommentFunctions extends Files\CreateFile
         $tableName      = $table->getVar('table_name');
         $tableSoleName  = $table->getVar('table_solename');
         $tableFieldName = $table->getVar('table_fieldname');
+        $language       = '\_MA_' . strtoupper($moduleDirname) . '_';
+
         $fieldId        = '';
         $ccFieldId      = '';
         $ccFieldMain    = '';
@@ -114,6 +115,9 @@ class IncludeCommentFunctions extends Files\CreateFile
         $func1  .= $this->xc->getXcHandlerLine($tableName, $t);
         $func1  .= $this->xc->getXcEqualsOperator("\${$ccFieldId}", '(int)$itemId', '', $t);
         $func1  .= $this->xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
+        $tablenameObj  = $this->pc->getPhpCodeIsobject($tableName . 'Obj');
+        $redirectError = $this->xc->getXcRedirectHeader($tableName, '', '3', "{$language}INVALID_PARAM", true, $t . "\t");
+        $func1   .= $this->pc->getPhpCodeConditions('!' . $tablenameObj, '', '', $redirectError, false, $t);
         $func1  .= $this->xc->getXcSetVarObj($tableName, $tableFieldName . '_comments', '(int)$itemNumb', $t);
         $insert = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj');
         $contIf = $this->getSimpleString('return true;', $t . "\t");
@@ -125,9 +129,13 @@ class IncludeCommentFunctions extends Files\CreateFile
         $func2 = $this->pc->getPhpCodeCommentLine('Notification event', '', $t);
         $func2 .= $this->xc->getXcHelperGetInstance($moduleDirname, $t);
         $func2 .= $this->xc->getXcHandlerLine($tableName, $t);
-        $func2 .= $this->xc->getXcGetVar($ccFieldId, 'comment', 'com_itemid', false, $t);
+        $func2  .= $this->getSimpleString('$' . $ccFieldId . " = (int)\$comment->getVar('com_itemid');", $t);
         $func2 .= $this->xc->getXcHandlerGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);
+        $tablenameObj  = $this->pc->getPhpCodeIsobject($tableName . 'Obj');
+        $redirectError = $this->xc->getXcRedirectHeader($tableName, '', '3', "{$language}INVALID_PARAM", true, $t . "\t");
+        $func2           .= $this->pc->getPhpCodeConditions('!' . $tablenameObj, '', '', $redirectError, false, $t);
         $func2 .= $this->xc->getXcGetVar($ccFieldMain, "{$tableName}Obj", $fieldMain, false, $t);
+
         $func2 .= $this->pc->getPhpCodeBlankLine();
         $func2 .= $this->pc->getPhpCodeArray('tags', [], false, $t);
         $func2 .= $this->xc->getXcEqualsOperator("\$tags['ITEM_NAME']", "\${$ccFieldMain}", '', $t);
@@ -146,8 +154,8 @@ class IncludeCommentFunctions extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

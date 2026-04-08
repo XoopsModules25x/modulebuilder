@@ -52,21 +52,20 @@ class MorefilesHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve a field.
      *
-     * @param int  $i field id
+     * @param int  $id field id
      * @param null $fields
      *
-     * @return mixed reference to the <a href='psi_element://Fields'>Fields</a> object
+     * @return \XoopsObject|null reference to the <a href='psi_element://Fields'>Fields</a> object
      *               object
      */
-    public function get($i = null, $fields = null)
+    public function get($id = null, $fields = null)
     {
-        return parent::get($i, $fields);
+        return parent::get($id, $fields);
     }
 
     /**
      * get inserted id.
      *
-     * @param null
      *
      * @return int reference to the {@link Tables} object
      */
@@ -78,14 +77,14 @@ class MorefilesHandler extends \XoopsPersistableObjectHandler
     /**
      * Get Count Morefiles.
      *
-     * @param int    $start
-     * @param int    $limit
+     * @param int $start
+     * @param int $limit
      * @param string $sort
      * @param string $order
      *
      * @return int
      */
-    public function getCountMorefiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
+    public function getCountMorefiles(int $start = 0, int $limit = 0, string $sort = 'file_id ASC, file_name', string $order = 'ASC')
     {
         $crMorefilesCount = new \CriteriaCompo();
         $crMorefilesCount = $this->getMorefilesCriteria($crMorefilesCount, $start, $limit, $sort, $order);
@@ -96,14 +95,14 @@ class MorefilesHandler extends \XoopsPersistableObjectHandler
     /**
      * Get All Morefiles.
      *
-     * @param int    $start
-     * @param int    $limit
+     * @param int $start
+     * @param int $limit
      * @param string $sort
      * @param string $order
      *
      * @return array
      */
-    public function getAllMorefiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
+    public function getAllMorefiles(int $start = 0, int $limit = 0, string $sort = 'file_id ASC, file_name', string $order = 'ASC')
     {
         $crMorefilesAdd = new \CriteriaCompo();
         $crMorefilesAdd = $this->getMorefilesCriteria($crMorefilesAdd, $start, $limit, $sort, $order);
@@ -115,14 +114,14 @@ class MorefilesHandler extends \XoopsPersistableObjectHandler
      * Get All Morefiles By Module Id.
      *
      * @param        $modId
-     * @param int    $start
-     * @param int    $limit
+     * @param int $start
+     * @param int $limit
      * @param string $sort
      * @param string $order
      *
      * @return array
      */
-    public function getAllMorefilesByModuleId($modId, $start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
+    public function getAllMorefilesByModuleId($modId, int $start = 0, int $limit = 0, string $sort = 'file_id ASC, file_name', string $order = 'ASC')
     {
         $crMorefilesByModuleId = new \CriteriaCompo();
         $crMorefilesByModuleId->add(new \Criteria('file_mid', $modId));

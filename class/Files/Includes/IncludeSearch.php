@@ -46,7 +46,6 @@ class IncludeSearch extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -58,7 +57,7 @@ class IncludeSearch extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return IncludeSearch
      */
     public static function getInstance()
@@ -73,11 +72,11 @@ class IncludeSearch extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param mixed  $tables
      * @param string $filename
      */
-    public function write($module, $tables, $filename): void
+    public function write($module, $tables, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -105,7 +104,6 @@ class IncludeSearch extends Files\CreateFile
                     $tableId        = $tables[$i]->getVar('table_id');
                     $tableMid       = $tables[$i]->getVar('table_mid');
                     $tableName      = $tables[$i]->getVar('table_name');
-                    $tableFieldname = $tables[$i]->getVar('table_fieldname');
                     $func           .= $this->pc->getPhpCodeCommentLine('search in table', $tableName, $t);
                     $func           .= $this->pc->getPhpCodeCommentLine('search keywords', '', $t);
                     $func           .= $this->xc->getXcEqualsOperator('$elementCount', '0', '', $t);
@@ -203,8 +201,8 @@ class IncludeSearch extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

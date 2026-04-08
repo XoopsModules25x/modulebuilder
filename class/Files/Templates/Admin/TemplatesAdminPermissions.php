@@ -42,7 +42,6 @@ class TemplatesAdminPermissions extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -53,7 +52,7 @@ class TemplatesAdminPermissions extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return TemplatesAdminPermissions
      */
     public static function getInstance()
@@ -68,7 +67,7 @@ class TemplatesAdminPermissions extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param        $filename
      */
     public function write($module, $filename): void
@@ -83,22 +82,20 @@ class TemplatesAdminPermissions extends Files\CreateFile
      *
      * @return string
      */
-    private function getTemplatesAdminPermissionsHeader($moduleDirname)
+    private function getTemplatesAdminPermissionsHeader(string $moduleDirname)
     {
         return $this->sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', "\n\n");
     }
 
     /**
      * @private function getTemplatesAdminPermissions
-     * @param null
+     *
      * @return string
      */
     private function getTemplatesAdminPermissions()
     {
         $form = $this->sc->getSmartySingleVar('form');
-        $ret  = $this->hc->getHtmlTag('div', ['class' => 'spacer'], $form, '', '', "\n\n");
-
-        return $ret;
+        return $this->hc->getHtmlTag('div', ['class' => 'spacer'], $form, false, '', "\n\n");
     }
 
     /**
@@ -107,15 +104,15 @@ class TemplatesAdminPermissions extends Files\CreateFile
      *
      * @return string
      */
-    private function getTemplatesAdminPermissionsFooter($moduleDirname)
+    private function getTemplatesAdminPermissionsFooter(string $moduleDirname)
     {
         return $this->sc->getSmartyIncludeFile($moduleDirname, 'footer', true);
     }
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

@@ -49,10 +49,10 @@ class SplClassLoader
      * Creates a new <tt>SplClassLoader</tt> that loads classes of the
      * specified namespace.
      *
-     * @param string $ns The namespace to use
+     * @param string|null $ns The namespace to use
      * @param null   $includePath
      */
-    public function __construct($ns = null, $includePath = null)
+    public function __construct(string $ns = null, $includePath = null)
     {
         $this->_namespace   = $ns;
         $this->_includePath = $includePath;
@@ -63,7 +63,7 @@ class SplClassLoader
      *
      * @param string $sep The separator to use
      */
-    public function setNamespaceSeparator($sep): void
+    public function setNamespaceSeparator(string $sep): void
     {
         $this->_namespaceSeparator = $sep;
     }
@@ -79,9 +79,9 @@ class SplClassLoader
     /**
      * Sets the base include path for all class files in the namespace of this class loader.
      *
-     * @param string $includePath
+     * @param string|null $includePath
      */
-    public function setIncludePath($includePath): void
+    public function setIncludePath(?string $includePath): void
     {
         $this->_includePath = $includePath;
     }
@@ -89,7 +89,7 @@ class SplClassLoader
     /**
      * Gets the base include path for all class files in the namespace of this class loader.
      *
-     * @return string
+     * @return string|null
      */
     public function getIncludePath()
     {
@@ -101,7 +101,7 @@ class SplClassLoader
      *
      * @param string $fileExtension
      */
-    public function setFileExtension($fileExtension): void
+    public function setFileExtension(string $fileExtension): void
     {
         $this->_fileExtension = $fileExtension;
     }
@@ -137,7 +137,7 @@ class SplClassLoader
      *
      * @param string $className The name of the class to load
      */
-    public function loadClass($className): void
+    public function loadClass(string $className): void
     {
         if (null === $this->_namespace || $this->_namespace . $this->_namespaceSeparator === mb_substr($className, 0, mb_strlen($this->_namespace . $this->_namespaceSeparator))) {
             $fileName  = '';

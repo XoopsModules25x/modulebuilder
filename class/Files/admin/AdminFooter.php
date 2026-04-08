@@ -42,7 +42,6 @@ class AdminFooter extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -67,8 +66,8 @@ class AdminFooter extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
-     * @param string $filename
+     * @param $module
+     * @param $filename
      */
     public function write($module, $filename): void
     {
@@ -78,8 +77,8 @@ class AdminFooter extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+
+     * @return string
      */
     public function render()
     {
@@ -91,7 +90,7 @@ class AdminFooter extends Files\CreateFile
         $isset         = $this->pc->getPhpCodeIsset('templateMain');
         $display       = "\t" . $this->xc->getXcXoopsTplAssign('maintainedby', "\$helper->getConfig('maintainedby')");
         $display       .= "\t" . $this->xc->getXcXoopsTplDisplay();
-        $content       .= $this->pc->getPhpCodeConditions($isset, '', '', $display, false) . PHP_EOL;
+        $content       .= $this->pc->getPhpCodeConditions($isset, '', '', $display) . PHP_EOL;
         $content       .= $this->xc->getXcXoopsCPFooter();
 
         $this->create($moduleDirname, 'admin', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);

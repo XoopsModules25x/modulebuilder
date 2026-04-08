@@ -32,8 +32,6 @@ class Fields extends \XoopsObject
 {
     /**
      * @public function constructor class
-     *
-     * @param null
      */
     public function __construct()
     {
@@ -68,11 +66,11 @@ class Fields extends \XoopsObject
 
     /**
      * @param string $method
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed
      */
-    public function __call($method, $args)
+    public function __call(string $method, array $args)
     {
         $arg = $args[0] ?? null;
 
@@ -101,14 +99,14 @@ class Fields extends \XoopsObject
      * @param      $prefix
      * @return Modulebuilder\Form\ThemeForm
      */
-    private function getHeaderForm($prefix, $action = false)
+    private function getHeaderForm($prefix, bool $action = false)
     {
         if (false === $action) {
             $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
 
         $isNew = $this->isNew();
-        $title = $isNew ? \sprintf(\_AM_MODULEBUILDER_FIELDS_NEW) : \sprintf(\_AM_MODULEBUILDER_FIELDS_EDIT);
+        $title = $isNew ? \_AM_MODULEBUILDER_FIELDS_NEW : \_AM_MODULEBUILDER_FIELDS_EDIT;
 
         $form = new Modulebuilder\Form\ThemeForm(null, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
@@ -145,7 +143,7 @@ class Fields extends \XoopsObject
      * @param bool $action
      * @return mixed
      */
-    public function getFormNew($fieldMid = null, $fieldTid = null, $fieldNumb = null, $fieldName = null, $action = false)
+    public function getFormNew($fieldMid = null, $fieldTid = null, $fieldNumb = null, $fieldName = null, bool $action = false)
     {
         $helper = Modulebuilder\Helper::getInstance();
         // Get handler tables
@@ -338,7 +336,7 @@ class Fields extends \XoopsObject
      * @param bool $action
      * @return mixed
      */
-    public function getFormEdit($fieldMid = null, $fieldTid = null, $action = false)
+    public function getFormEdit($fieldMid = null, $fieldTid = null, bool $action = false)
     {
         $helper        = Modulebuilder\Helper::getInstance();
         $tablesHandler = $helper->getHandler('Tables');

@@ -45,7 +45,6 @@ class PagesItem extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -56,7 +55,7 @@ class PagesItem extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return PagesItem
      */
     public static function getInstance()
@@ -73,10 +72,10 @@ class PagesItem extends Files\CreateFile
      * @public function write
      * @param        $module
      * @param        $table
-     * @param string $filename
      * @param        $tables
+     * @param string $filename
      */
-    public function write($module, $table, $tables, $filename): void
+    public function write($module, $table, $tables, string $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -96,7 +95,7 @@ class PagesItem extends Files\CreateFile
      * @param        $language
      * @return string
      */
-    private function getTemplatesUserPagesItemPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableRate, $tableBroken, $language)
+    private function getTemplatesUserPagesItemPanel(string $moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableRate, $tableBroken, $language)
     {
         $fields  = $this->getTableFields($tableMid, $tableId);
         $ret     = '';
@@ -117,14 +116,14 @@ class PagesItem extends Files\CreateFile
                         default:
                             $fieldName = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'html'");
                             $retNumb .= $this->hc->getHtmlHNumb($doubleVar, '3', 'panel-title', "\t");
                             break;
                         case Constants::FIELD_ELE_TEXTAREA:
                         case Constants::FIELD_ELE_DHTMLTEXTAREA:
                             $fieldName = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short');
+                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short', '', '', "''", "'html'");
                             $retNumb .= $this->hc->getHtmlHNumb($doubleVar, '3', 'panel-title', "\t");
                             break;
                         case Constants::FIELD_ELE_SELECTSTATUS:
@@ -134,14 +133,14 @@ class PagesItem extends Files\CreateFile
                         case Constants::FIELD_ELE_TEXTDATESELECT:
                             $fieldName = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text');
+                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text', '', '', "''", "'html'");
                             $retNumb .= $this->hc->getHtmlHNumb($doubleVar, '3', 'panel-title', "\t");
                             break;
                         case Constants::FIELD_ELE_IMAGELIST:
                             $fieldName = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar = $this->sc->getSmartySingleVar('xoops_icons32_url');
-                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $singleVar = $this->sc->getSmartySingleVar('xoops_icons32_url', '', '', "''", "'htmlattr'");
+                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'htmlattr'");
                             $img = $this->hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
                             $retNumb .= $this->hc->getHtmlHNumb($doubleVar, '3', 'panel-title', "\t");
                             unset($img);
@@ -149,8 +148,8 @@ class PagesItem extends Files\CreateFile
                         case Constants::FIELD_ELE_UPLOADIMAGE:
                             $fieldName = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
-                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $singleVar = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url', '', '', "''", "'htmlattr'");
+                            $doubleVar = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'htmlattr'");
                             $img = $this->hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
                             $retNumb .= $this->hc->getHtmlHNumb($doubleVar, '3', 'panel-title', "\t");
                             unset($img);
@@ -170,14 +169,14 @@ class PagesItem extends Files\CreateFile
                         default:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'html'");
                             $retElem     .= $this->hc->getHtmlSpan($doubleVar, 'col-sm-9 justify', "\t");
                             break;
                         case Constants::FIELD_ELE_TEXTAREA:
                         case Constants::FIELD_ELE_DHTMLTEXTAREA:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short');
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short', '', '', "''", "'html'");
                             $retElem     .= $this->hc->getHtmlSpan($doubleVar, 'col-sm-9 justify', "\t");
                             break;
                         case Constants::FIELD_ELE_SELECTSTATUS:
@@ -187,14 +186,14 @@ class PagesItem extends Files\CreateFile
                         case Constants::FIELD_ELE_TEXTDATESELECT:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text');
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text', '', '', "''", "'html'");
                             $retElem     .= $this->hc->getHtmlSpan($doubleVar, 'col-sm-9 justify', "\t");
                             break;
                         case Constants::FIELD_ELE_IMAGELIST:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar   = $this->sc->getSmartySingleVar('xoops_icons32_url');
-                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $singleVar   = $this->sc->getSmartySingleVar('xoops_icons32_url', '', '', "''", "'htmlattr'");
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'htmlattr'");
                             $img         = $this->hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
                             $retElem     .= $this->hc->getHtmlSpan($img, 'col-sm-9 justify', "\t");
                             unset($img);
@@ -202,8 +201,8 @@ class PagesItem extends Files\CreateFile
                         case Constants::FIELD_ELE_UPLOADIMAGE:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar   = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
-                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $singleVar   = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url', '', '', "''", "'htmlattr'");
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'htmlattr'");
                             $img         = $this->hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
                             $retElem     .= $this->hc->getHtmlSpan($img, 'col-sm-9 justify',"\t");
                             unset($img);
@@ -225,7 +224,7 @@ class PagesItem extends Files\CreateFile
                             $rpFieldName = $this->getRightString($fieldName);
                             $langConst   = \mb_strtoupper($tableSoleName) . '_' . \mb_strtoupper($rpFieldName);
                             $lang        = $this->sc->getSmartyConst($language, $langConst);
-                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'html'");
                             $retFoot     .= $this->hc->getHtmlSpan($lang . ': ' . $doubleVar, 'block-pie justify',"\t");
                             break;
                         case Constants::FIELD_ELE_TEXTAREA:
@@ -234,7 +233,7 @@ class PagesItem extends Files\CreateFile
                             $rpFieldName = $this->getRightString($fieldName);
                             $langConst   = \mb_strtoupper($tableSoleName) . '_' . \mb_strtoupper($rpFieldName);
                             $lang        = $this->sc->getSmartyConst($language, $langConst);
-                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short');
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_short', '', '', "''", "'html'");
                             $retFoot     .= $this->hc->getHtmlSpan($lang . ': ' . $doubleVar, 'block-pie justify',"\t");
                             break;
                         case Constants::FIELD_ELE_SELECTSTATUS:
@@ -246,25 +245,25 @@ class PagesItem extends Files\CreateFile
                             $rpFieldName = $this->getRightString($fieldName);
                             $langConst   = \mb_strtoupper($tableSoleName) . '_' . \mb_strtoupper($rpFieldName);
                             $lang        = $this->sc->getSmartyConst($language, $langConst);
-                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text');
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text', '', '', "''", "'html'");
                             $retFoot     .= $this->hc->getHtmlSpan($lang . ': ' . $doubleVar, 'block-pie justify',"\t");
                             break;
                         case Constants::FIELD_ELE_IMAGELIST:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar   = $this->sc->getSmartySingleVar('xoops_icons32_url');
-                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $singleVar   = $this->sc->getSmartySingleVar('xoops_icons32_url', '', '', "''", "'htmlattr'");
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'htmlattr'");
                             $img         = $this->hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
-                            $retElem     .= $this->hc->getHtmlSpan($img, 'block-pie justify', "\t");
+                            $retFoot     .= $this->hc->getHtmlSpan($img, 'block-pie justify', "\t");
                             unset($img);
                             break;
                         case Constants::FIELD_ELE_UPLOADIMAGE:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar   = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url');
-                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $singleVar   = $this->sc->getSmartySingleVar($moduleDirname . '_upload_url', '', '', "''", "'htmlattr'");
+                            $doubleVar   = $this->sc->getSmartyDoubleVar($tableSoleName, $rpFieldName, '', '', "''", "'htmlattr'");
                             $img         = $this->hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
-                            $retElem     .= $this->hc->getHtmlSpan($img, 'block-pie justify',"\t");
+                            $retFoot     .= $this->hc->getHtmlSpan($img, 'block-pie justify',"\t");
                             unset($img);
                             break;
                     }
@@ -290,7 +289,7 @@ class PagesItem extends Files\CreateFile
             $anchors .=  $this->hc->getHtmlAnchor($tableName . ".php?op=broken&amp;{$fieldId}=" . $keyDouble . '&amp;start=<{$start|default:0}>&amp;limit=<{$limit|default:0}>', $lang, $lang, '', 'btn btn-warning right', '', "\t\t", "\n");
         }
         $retFoot     .= $this->hc->getHtmlDiv($anchors, 'col-sm-12 right',"\t");
-        $ret .= $this->hc->getHtmlDiv($retFoot, 'panel-foot');
+        $ret .= $this->hc->getHtmlDiv($retFoot, 'panel-footer');
         if ($tableRate) {
             $rate = $this->sc->getSmartyIncludeFile($moduleDirname, 'rate', false, "\t", "\n", 'item=$' . $tableSoleName);
             $ret .= $this->sc->getSmartyConditions('rating', '', '', $rate, false, false, false, '', "\n", true, 'bool');
@@ -301,8 +300,8 @@ class PagesItem extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

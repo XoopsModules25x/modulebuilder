@@ -34,31 +34,19 @@ class UserRss extends Files\CreateFile
     /**
      * @var mixed
      */
-    private $uxc = null;
-    /**
-     * @var mixed
-     */
-    private $xc = null;
-    /**
-     * @var mixed
-     */
     private $pc = null;
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
         parent::__construct();
-        $this->xc  = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $this->pc  = Modulebuilder\Files\CreatePhpCode::getInstance();
-        $this->uxc = UserXoopsCode::getInstance();
     }
 
     /**
      * @static function getInstance
-     * @param null
      * @return UserRss
      */
     public static function getInstance()
@@ -73,11 +61,11 @@ class UserRss extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param mixed  $table
      * @param string $filename
      */
-    public function write($module, $table, $filename): void
+    public function write($module, $table, string $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -89,7 +77,7 @@ class UserRss extends Files\CreateFile
      * @param string $moduleDirname
      * @return string
      */
-    public function getUserRss($moduleDirname)
+    public function getUserRss(string $moduleDirname)
     {
         $table     = $this->getTable();
         $tableName = $table->getVar('table_name');
@@ -153,11 +141,11 @@ class UserRss extends Files\CreateFile
                 \$tpl->assign('channel_title', \htmlspecialchars(\$title, ENT_QUOTES));
                 \$tpl->assign('channel_link', \XOOPS_URL.'/');
                 \$tpl->assign('channel_desc', \htmlspecialchars(\$xoopsConfig['slogan'], ENT_QUOTES));
-                \$tpl->assign('channel_lastbuild', \\formatTimestamp(\time(), 'rss'));
+                \$tpl->assign('channel_lastbuild', \\formatTimestamp(\\time(), 'rss'));
                 \$tpl->assign('channel_webmaster', \$xoopsConfig['adminmail']);
                 \$tpl->assign('channel_editor', \$xoopsConfig['adminmail']);
                 \$tpl->assign('channel_category', 'Event');
-                \$tpl->assign('channel_generator', 'XOOPS - ' . \htmlspecialchars(\$xoopsModule->getVar('{$fpmf}'), ENT_QUOTES));
+                \$tpl->assign('channel_generator', 'XOOPS - ' . \htmlspecialchars(\$xoopsModule->getVar('name'), ENT_QUOTES));
                 \$tpl->assign('channel_language', _LANGCODE);
                 if ( 'fr' == _LANGCODE ) {
                     \$tpl->assign('docs', 'https://www.scriptol.fr/rss/RSS-2.0.html');
@@ -165,16 +153,17 @@ class UserRss extends Files\CreateFile
                     \$tpl->assign('docs', 'https://cyber.law.harvard.edu/rss/rss.html');
                 }
                 \$tpl->assign('image_url', \XOOPS_URL . \$xoopsModuleConfig['logorss']);
-                \$dimention = \getimagesize(\XOOPS_ROOT_PATH . \$xoopsModuleConfig['logorss']);
-                if (empty(\$dimention[0])) {
-                    \$width = 88;
-                } else {
-                   \$width = (\$dimention[0] > 144) ? 144 : \$dimention[0];
-                }
-                if (empty(\$dimention[1])) {
-                    \$height = 31;
-                } else {
-                    \$height = (\$dimention[1] > 400) ? 400 : \$dimention[1];
+                \$logoPath = \XOOPS_ROOT_PATH . \$xoopsModuleConfig['logorss'];
+                \$width = 88;
+                \$height = 31;
+                if (\\file_exists(\$logoPath)) {
+                    \$dimension = \getimagesize(\$logoPath);
+                    if (!empty(\$dimension[0])) {
+                       \$width = (\$dimension[0] > 144) ? 144 : \$dimension[0];
+                    }
+                    if (!empty(\$dimension[1])) {
+                        \$height = (\$dimension[1] > 400) ? 400 : \$dimension[1];
+                    }
                 }
                 \$tpl->assign('image_width', \$width);
                 \$tpl->assign('image_height', \$height);
@@ -187,8 +176,8 @@ class UserRss extends Files\CreateFile
                         \$description_short = \substr(\$description,0,\strpos(\$description,'[pagebreak]'));
                     }
                     \$tpl->append('items', ['title' => \htmlspecialchars(\${$tableName}Arr[\$i]->getVar('{$fpmf}'), ENT_QUOTES),
-                                                'link' => \XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
-                                                'guid' => \XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
+                                                'link' => \XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
+                                                'guid' => \XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
                                                 'pubdate' => \\formatTimestamp(\${$tableName}Arr[\$i]->getVar('date'), 'rss'),
                                                 'description' => \htmlspecialchars(\$description_short, ENT_QUOTES)
                                             ]);
@@ -204,8 +193,7 @@ class UserRss extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

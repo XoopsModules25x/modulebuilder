@@ -110,7 +110,7 @@ class SqlFile extends Files\CreateFile
      *
      * @return string
      */
-    private function getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb)
+    private function getHeadDatabaseTable($moduleDirname, $tableName, int $fieldsNumb)
     {
         $ret          = null;
         $arrayDbTable = [
@@ -149,7 +149,7 @@ class SqlFile extends Files\CreateFile
             $tableMid           = $tables[$t]->getVar('table_mid');
             $tableName          = $tables[$t]->getVar('table_name');
             $tableAutoincrement = $tables[$t]->getVar('table_autoincrement');
-            $fieldsNumb         = $tables[$t]->getVar('table_nbfields');
+            $fieldsNumb         = (int)$tables[$t]->getVar('table_nbfields');
             if (1 === (int)$tables[$t]->getVar('table_rate')) {
                 $tableRate = 1;
             }
@@ -384,11 +384,11 @@ class SqlFile extends Files\CreateFile
      * @param $fieldNull
      * @param $fieldDefault
      * @param $autoincrement
-     * @param $lenMax
+     * @param int $lenMax
      *
      * @return string
      */
-    private function getFieldRow($fieldName, $fieldTypeValue, $fieldAttribute = null, $fieldNull = null, $fieldDefault = null, $autoincrement = null, $lenMax = 0)
+    private function getFieldRow($fieldName, $fieldTypeValue, $fieldAttribute = null, $fieldNull = null, $fieldDefault = null, $autoincrement = null, int $lenMax = 0)
     {
         $fieldNameMax = "  `{$fieldName}`";
         if ($lenMax > 0) {

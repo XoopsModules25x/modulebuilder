@@ -71,17 +71,15 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
             5 => '</form>',
         ];
         for ($key = 0; $key <= 4; ++$key) {
-            switch ($key) {
-                case 2:
-                    $donationform[$key] = \sprintf(
-                        $donationform[$key],
-                        $GLOBALS['xoopsConfig']['sitename'] . ' - ' . ('' != $GLOBALS['xoopsUser']->getVar('name') ? $GLOBALS['xoopsUser']->getVar('name') . ' [' . $GLOBALS['xoopsUser']->getVar('uname') . ']' : $GLOBALS['xoopsUser']->getVar('uname')),
-                        $GLOBALS['xoopsUser']->getVar('email'),
-                        \XOOPS_LICENSE_KEY,
-                        \mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')),
-                        \mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')) . ' ' . $GLOBALS['xoopsModule']->getVar('name')
-                    );
-                    break;
+            if ($key == 2) {
+                $donationform[$key] = \sprintf(
+                    $donationform[$key],
+                    $GLOBALS['xoopsConfig']['sitename'] . ' - ' . ('' != $GLOBALS['xoopsUser']->getVar('name') ? $GLOBALS['xoopsUser']->getVar('name') . ' [' . $GLOBALS['xoopsUser']->getVar('uname') . ']' : $GLOBALS['xoopsUser']->getVar('uname')),
+                    $GLOBALS['xoopsUser']->getVar('email'),
+                    \defined('XOOPS_LICENSE_KEY') ? \XOOPS_LICENSE_KEY : '',
+                    \mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')),
+                    \mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')) . ' ' . $GLOBALS['xoopsModule']->getVar('name')
+                );
             }
         }
         $aboutRes = '';

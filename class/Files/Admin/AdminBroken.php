@@ -46,7 +46,6 @@ class AdminBroken extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -58,7 +57,7 @@ class AdminBroken extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+
      *
      * @return AdminBroken
      */
@@ -88,22 +87,21 @@ class AdminBroken extends Files\CreateFile
     /**
      * @private function getAdminBrokenHeader
      * @param        $moduleDirname
-     * @param        $tableName
-     * @param string $t
      * @return string
      */
-    private function getAdminBrokenHeader($moduleDirname, $tableName, $t = '')
+    private function getAdminBrokenHeader($moduleDirname)
     {
+        $tableName  = 'broken';
         $ret        = $this->pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret        .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret        .= $this->pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $ret        .= $this->getRequire();
         $ret        .= $this->pc->getPhpCodeBlankLine();
-        $ret        .= $this->pc->getPhpCodeCommentLine('Define Stylesheet', '', $t);
-        $ret        .= $this->xc->getXcXoThemeAddStylesheet('style', $t);
-        $ret        .= $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
+        $ret        .= $this->pc->getPhpCodeCommentLine('Define Stylesheet', '');
+        $ret        .= $this->xc->getXcXoThemeAddStylesheet();
+        $ret        .= $this->axc->getAdminTemplateMain($moduleDirname, $tableName);
         $navigation = $this->axc->getAdminDisplayNavigation($tableName);
-        $ret        .= $this->xc->getXcXoopsTplAssign('navigation', $navigation, true, $t);
+        $ret        .= $this->xc->getXcXoopsTplAssign('navigation', $navigation);
 
         return $ret;
     }
@@ -111,11 +109,10 @@ class AdminBroken extends Files\CreateFile
     /**
      * @private  function getAdminBrokenList
      * @param        $tables
-     * @param        $language
-     * @param string $t
+     * @param string $language
      * @return string
      */
-    private function getAdminBrokenList($tables, $language, $t = '')
+    private function getAdminBrokenList($tables, string $language)
     {
         $ret = '';
         foreach (\array_keys($tables) as $i) {
@@ -124,10 +121,10 @@ class AdminBroken extends Files\CreateFile
                 $tableSoleName = $tables[$i]->getVar('table_solename');
                 $ucfTableName  = \ucfirst($tableName);
                 $ret           .= $this->pc->getPhpCodeBlankLine();
-                $ret           .= $this->pc->getPhpCodeCommentLine('Check table', $tableName, $t);
-                $ret           .= $this->xc->getXcXoopsRequest('start', 'start' . $ucfTableName, '', 'Int', false, $t);
+                $ret           .= $this->pc->getPhpCodeCommentLine('Check table', $tableName, '');
+                $ret           .= $this->xc->getXcXoopsRequest('start', 'start' . $ucfTableName, '', 'Int', '');
                 $adminpager    = $this->xc->getXcGetConfig('adminpager');
-                $ret           .= $this->xc->getXcXoopsRequest('limit', 'limit' . $ucfTableName, $adminpager, 'Int', false, $t);
+                $ret           .= $this->xc->getXcXoopsRequest('limit', 'limit' . $ucfTableName, $adminpager, 'Int', '');
                 $critName      = 'cr' . $ucfTableName;
 
                 $fields     = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
@@ -147,30 +144,30 @@ class AdminBroken extends Files\CreateFile
                     }
                 }
 
-                $ret      .= $this->xc->getXcCriteriaCompo($critName, $t);
+                $ret      .= $this->xc->getXcCriteriaCompo($critName, '');
                 $constant = $this->xc->getXcGetConstants('STATUS_BROKEN');
-                $crit     = $this->xc->getXcCriteria('', "'{$fieldSatus}'", $constant, '', true);
-                $ret      .= $this->xc->getXcCriteriaAdd($critName, $crit, $t);
-                $ret      .= $this->xc->getXcHandlerCountClear($tableName . 'Count', $tableName, '$' . $critName, $t);
-                $ret      .= $this->xc->getXcXoopsTplAssign($tableName . '_count', "\${$tableName}Count", true, $t);
+                $crit     = $this->xc->getXcCriteria('', "'$fieldSatus'", $constant, '', true);
+                $ret      .= $this->xc->getXcCriteriaAdd($critName, $crit, '');
+                $ret      .= $this->xc->getXcHandlerCountClear($tableName . 'Count', $tableName, '$' . $critName, '');
+                $ret      .= $this->xc->getXcXoopsTplAssign($tableName . '_count', "\${$tableName}Count", true, '');
                 $sprintf  = $this->pc->getPhpCodeSprintf($language . 'BROKEN_RESULT', "'{$ucfTableName}'");
-                $ret      .= $this->xc->getXcXoopsTplAssign($tableName . '_result', $sprintf, true, $t);
+                $ret      .= $this->xc->getXcXoopsTplAssign($tableName . '_result', $sprintf, true, '');
 
-                $ret      .= $this->xc->getXcCriteriaSetStart($critName, '$start', $t);
-                $ret      .= $this->xc->getXcCriteriaSetLimit($critName, '$limit', $t);
-                $contIf   = $this->xc->getXcHandlerAllClear("{$tableName}All", $tableName, "\${$critName}", $t . "\t");
-                $foreach  = $this->xc->getXcEqualsOperator("\${$tableSoleName}['table']", "'{$ucfTableName}'", '', $t . "\t\t");
-                $foreach  .= $this->xc->getXcEqualsOperator("\${$tableSoleName}['key']", "'{$fieldId}'", '', $t . "\t\t");
-                $foreach  .= $this->xc->getXcGetVar("{$tableSoleName}['keyval']", "{$tableName}All[\$i]", "{$fieldId}", false, $t . "\t\t");
-                $foreach  .= $this->xc->getXcGetVar("{$tableSoleName}['main']", "{$tableName}All[\$i]", "{$fieldMain}", false, $t . "\t\t");
-                $foreach  .= $this->xc->getXcXoopsTplAppend("{$tableName}_list", "\${$tableSoleName}", $t . "\t\t");
-                $contIf   .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, $t . "\t");
-                $contIf   .= $this->xc->getXcPageNav($tableName, $t . "\t", 'start' . $ucfTableName, "'op=list&limit{$ucfTableName}=' . \$limit");
+                $ret      .= $this->xc->getXcCriteriaSetStart($critName, '$start', '');
+                $ret      .= $this->xc->getXcCriteriaSetLimit($critName, '$limit', '');
+                $contIf   = $this->xc->getXcHandlerAllClear("{$tableName}All", $tableName, "\${$critName}", '' . "\t");
+                $foreach  = $this->xc->getXcEqualsOperator("\${$tableSoleName}['table']", "'{$ucfTableName}'", '', '' . "\t\t");
+                $foreach  .= $this->xc->getXcEqualsOperator("\${$tableSoleName}['key']", "'{$fieldId}'", '', '' . "\t\t");
+                $foreach  .= $this->xc->getXcGetVar("{$tableSoleName}['keyval']", "{$tableName}All[\$i]", "{$fieldId}", false, '' . "\t\t");
+                $foreach  .= $this->xc->getXcGetVar("{$tableSoleName}['main']", "{$tableName}All[\$i]", "{$fieldMain}", false, '' . "\t\t");
+                $foreach  .= $this->xc->getXcXoopsTplAppend("{$tableName}_list", "\${$tableSoleName}", '' . "\t\t");
+                $contIf   .= $this->pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, '' . "\t");
+                $contIf   .= $this->xc->getXcPageNav($tableName, '' . "\t", 'start' . $ucfTableName, "'op=list&limit{$ucfTableName}=' . \$limit", 'pagenav_' . $tableName);
                 $sprintf  = $this->pc->getPhpCodeSprintf($language . 'BROKEN_NODATA', "'{$ucfTableName}'");
-                $contElse = $this->xc->getXcXoopsTplAssign('nodata' . $ucfTableName, $sprintf, true, $t . "\t");
+                $contElse = $this->xc->getXcXoopsTplAssign('nodata' . $ucfTableName, $sprintf, true, '' . "\t");
 
-                $ret .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $contIf, $contElse, $t);
-                $ret .= $this->pc->getPhpCodeUnset($critName, $t);
+                $ret .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $contIf, $contElse, '');
+                $ret .= $this->pc->getPhpCodeUnset($critName, '');
             }
         }
 
@@ -181,9 +178,9 @@ class AdminBroken extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
+
      *
-     * @return bool|string
+     * @return string
      */
     public function render()
     {
@@ -196,7 +193,7 @@ class AdminBroken extends Files\CreateFile
         $language      = $this->getLanguage($moduleDirname, 'AM');
 
         $content = $this->getHeaderFilesComments($module);
-        $content .= $this->getAdminBrokenHeader($moduleDirname, 'broken');
+        $content .= $this->getAdminBrokenHeader($moduleDirname);
         $content .= $this->getAdminBrokenList($tables, $language);
         $content .= $this->getRequire('footer');
 

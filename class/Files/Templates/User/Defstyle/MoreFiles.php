@@ -36,7 +36,6 @@ class MoreFiles extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -45,7 +44,7 @@ class MoreFiles extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return Morefiles
      */
     public static function getInstance()
@@ -61,11 +60,11 @@ class MoreFiles extends Files\CreateFile
     /**
      * @public function write
      * @param        $module
-     * @param string $filename
      * @param        $folder
+     * @param string $filename
      * @param        $extension
      */
-    public function write($module, $folder, $filename, $extension): void
+    public function write($module, $folder, string $filename, $extension): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -75,25 +74,22 @@ class MoreFiles extends Files\CreateFile
 
     /**
      * @private function getTemplatesUserMoreFile
-     * @param null
      *
      * @return string
      */
     private function getTemplatesUserMoreFile()
     {
-        $ret = <<<'EOT'
+        return <<<'EOT'
             <div class="panel">
             	Pleace! Enter here your template code here
             </div>
             EOT;
-
-        return $ret;
     }
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

@@ -31,7 +31,6 @@ class Fieldelements extends \XoopsObject
 {
     /**
      * @public function constructor class
-     * @param null
      */
     public function __construct()
     {
@@ -48,11 +47,11 @@ class Fieldelements extends \XoopsObject
 
     /**
      * @param string $method
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed
      */
-    public function __call($method, $args)
+    public function __call(string $method, array $args)
     {
         $arg = $args[0] ?? null;
 
@@ -61,7 +60,7 @@ class Fieldelements extends \XoopsObject
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return Fieldelements
      */
     public static function getInstance()

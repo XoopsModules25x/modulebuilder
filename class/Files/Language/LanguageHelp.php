@@ -31,24 +31,18 @@ use XoopsModules\Modulebuilder\Files;
  */
 class LanguageHelp extends Files\CreateFile
 {
-    /**
-     * @var mixed
-     */
-    private $ld = null;
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
         parent::__construct();
-        $this->ld = LanguageDefines::getInstance();
     }
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return LanguageHelp
      */
     public static function getInstance()
@@ -63,10 +57,10 @@ class LanguageHelp extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param Modulebuilder\Modules $module
      * @param string $filename
      */
-    public function write($module, $filename): void
+    public function write(Modulebuilder\Modules $module, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -74,10 +68,10 @@ class LanguageHelp extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
-    public function render()
+    public function render(): string
     {
         $module        = $this->getModule();
         $filename      = $this->getFileName();
@@ -115,8 +109,11 @@ class LanguageHelp extends Files\CreateFile
             EOT;
         if ('english' !== $language) {
             $this->create($moduleDirname, 'language/' . $language . '/help', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
+            if (!$this->renderFile()) {
+                throw new \RuntimeException("The {$filename} file in 'language/" . $language . "/help' could not be created.");
+            }
         }
-        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'] . '/help', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/english/help', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

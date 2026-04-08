@@ -33,8 +33,6 @@ class Building
     /**
      * @static function getInstance
      *
-     * @param null
-     *
      * @return Building
      */
     public static function getInstance()
@@ -48,11 +46,11 @@ class Building
     }
 
     /**
-     * @param bool $action
+     * @param string|bool $action
      *
      * @return \XoopsThemeForm
      */
-    public function getForm($action = false)
+    public function getForm(string|bool $action = false)
     {
         $helper = Modulebuilder\Helper::getInstance();
         if (false === $action) {
@@ -85,7 +83,7 @@ class Building
      * @param string $dir
      * @param string $pattern
      */
-    public function clearDir($dir, $pattern = '*'): void
+    public function clearDir(string $dir, string $pattern = '*'): void
     {
         // Find all files and folders matching pattern
         $files = glob($dir . "/$pattern");
@@ -121,7 +119,7 @@ class Building
      * @param string $src
      * @param string $dst
      */
-    public function copyDir($src, $dst): void
+    public function copyDir(string $src, string $dst): void
     {
         $dir = \opendir($src);
         if (!\mkdir($dst) && !\is_dir($dst)) {

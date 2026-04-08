@@ -45,7 +45,6 @@ class Pdf extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -56,7 +55,7 @@ class Pdf extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return Pdf
      */
     public static function getInstance()
@@ -93,7 +92,7 @@ class Pdf extends Files\CreateFile
      * @param        $language
      * @return string
      */
-    private function getTemplatesUserPdfBody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserPdfBody(string $moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
         $fields         = $this->getTableFields($tableMid, $tableId);
         $ret            = '';
@@ -152,8 +151,8 @@ class Pdf extends Files\CreateFile
 
     /**
      * @public   function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

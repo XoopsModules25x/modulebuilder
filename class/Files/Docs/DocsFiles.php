@@ -33,7 +33,6 @@ class DocsFiles extends Files\CreateFile
 {
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -42,10 +41,7 @@ class DocsFiles extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
-     */
-
-    /**
+     * 
      * @return DocsFiles
      */
     public static function getInstance()
@@ -60,11 +56,6 @@ class DocsFiles extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
-     * @param string $filename
-     */
-
-    /**
      * @param $module
      * @param $filename
      */
@@ -91,14 +82,12 @@ class DocsFiles extends Files\CreateFile
     public function getChangeLogFile($moduleDirname, $mod_version, $mod_author)
     {
         $date = date('Y/m/d G:i:s');
-        $ret  = <<<EOT
+        return <<<EOT
             ====================================
              {$date} Version {$mod_version}
             ====================================
              - Original release {$moduleDirname} created with modulebuilder module by ({$mod_author})
             EOT;
-
-        return $ret;
     }
 
     /**
@@ -112,7 +101,7 @@ class DocsFiles extends Files\CreateFile
      */
     public function getCreditsFile($mod_author, $mod_credits, $mod_author_website_url, $mod_description)
     {
-        $ret = <<<EOT
+        return <<<EOT
             Read Me First
             =============
 
@@ -124,43 +113,37 @@ class DocsFiles extends Files\CreateFile
 
             {$mod_description}
             EOT;
-
-        return $ret;
     }
 
     /**
      * @public function getInstallFile
-     * @param null
+     *
      * @return string
      */
     public function getInstallFile()
     {
-        $ret = <<<'EOT'
+        return <<<'EOT'
             Read Me First
             =============
 
             Install just like another XOOPS module
             EOT;
-
-        return $ret;
     }
 
     /**
      * @public function getReadmeFile
-     * @param null
+     *
      * @return string
      */
     public function getReadmeFile()
     {
-        $ret = <<<'EOT'
+        return <<<'EOT'
             Read Me First
             =============
 
             Please make sure that you download the XOOPS Icon Set, and upload it to uploads/images directory
             Read the table in admin help for the accurate description of the functionality of this module
             EOT;
-
-        return $ret;
     }
 
     /**
@@ -171,20 +154,18 @@ class DocsFiles extends Files\CreateFile
      */
     public function getLangDiffFile($mod_version)
     {
-        $ret = <<<EOT
+        return <<<EOT
             List of added language defines
             =============
 
             // {$mod_version}
             EOT;
-
-        return $ret;
     }
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

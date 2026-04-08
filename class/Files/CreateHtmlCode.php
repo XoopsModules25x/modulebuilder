@@ -33,8 +33,6 @@ class CreateHtmlCode
     /**
      * @static function getInstance
      *
-     * @param null
-     *
      * @return CreateHtmlCode
      */
     public static function getInstance()
@@ -50,15 +48,15 @@ class CreateHtmlCode
     /**
      * @public function getHtmlTag
      * @param string $tag
-     * @param array  $attributes
+     * @param array $attributes
      * @param string $content
-     * @param bool   $noClosed
+     * @param bool $noClosed
      * @param string $t
      * @param string $n
-     * @param bool   $multiLine
+     * @param bool $multiLine
      * @return string
      */
-    public function getHtmlTag($tag = '', $attributes = [], $content = '', $noClosed = false, $t = '', $n = "\n", $multiLine = false)
+    public function getHtmlTag(string $tag = '', array $attributes = [], string $content = '', bool $noClosed = false, string $t = '', string $n = "\n", bool $multiLine = false)
     {
         if (empty($attributes)) {
             $attributes = [];
@@ -88,7 +86,7 @@ class CreateHtmlCode
      * @param array $attributes
      * @return string
      */
-    private function getAttributes($attributes)
+    private function getAttributes(array $attributes)
     {
         $str = '';
         foreach ($attributes as $name => $value) {
@@ -107,7 +105,7 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlEmpty($empty = '', $t = '', $n = '')
+    public function getHtmlEmpty(string $empty = '', string $t = '', string $n = '')
     {
         return "{$t}{$empty}{$n}";
     }
@@ -119,28 +117,23 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlComment($htmlComment = '', $t = '', $n = '')
+    public function getHtmlComment(string $htmlComment = '', string $t = '', string $n = '')
     {
         return "{$t}<!-- {$htmlComment} -->{$n}";
     }
 
     /**
      * @public function getHtmlBr
-     * @param int    $brNumb
+     * @param int $brNumb
      * @param string $htmlClass
      * @param string $t
      * @param string $n
      * @return string
      */
-    public function getHtmlBr($brNumb = 1, $htmlClass = '', $t = '', $n = "\n")
+    public function getHtmlBr(int $brNumb = 1, string $htmlClass = '', string $t = '', string $n = "\n")
     {
         $brClass = ('' != $htmlClass) ? " class='{$htmlClass}'" : '';
-        $ret     = '';
-        for ($i = 0; $i < $brNumb; ++$i) {
-            $ret .= "{$t}<br{$brClass}>{$n}";
-        }
-
-        return $ret;
+        return str_repeat("{$t}<br{$brClass}>{$n}", $brNumb);
     }
 
     /**
@@ -152,12 +145,10 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlHNumb($content = '', $l = '1', $htmlHClass = '', $t = '', $n = "\n")
+    public function getHtmlHNumb(string $content = '', string $l = '1', string $htmlHClass = '', string $t = '', string $n = "\n")
     {
         $hClass = ('' != $htmlHClass) ? " class='{$htmlHClass}'" : '';
-        $ret    = "{$t}<h{$l}{$hClass}>{$content}</h{$l}>{$n}";
-
-        return $ret;
+        return "{$t}<h{$l}{$hClass}>{$content}</h{$l}>{$n}";
     }
 
     /**
@@ -166,10 +157,10 @@ class CreateHtmlCode
      * @param string $divClass
      * @param string $t
      * @param string $n
-     * @param bool   $split
+     * @param bool $split
      * @return string
      */
-    public function getHtmlDiv($content = '', $divClass = '', $t = '', $n = "\n", $split = true)
+    public function getHtmlDiv(string $content = '', string $divClass = '', string $t = '', string $n = "\n", bool $split = true)
     {
         $rDivClass = ('' != $divClass) ? " class='{$divClass}'" : '';
 
@@ -192,7 +183,7 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlPre($content = '', $preClass = '', $t = '', $n = "\n")
+    public function getHtmlPre(string $content = '', string $preClass = '', string $t = '', string $n = "\n")
     {
         $rPreClass = ('' != $preClass) ? " class='{$preClass}'" : '';
         $ret       = "{$t}<pre{$rPreClass}>{$n}";
@@ -208,10 +199,10 @@ class CreateHtmlCode
      * @param string $spanClass
      * @param string $t
      * @param string $n
-     * @param bool   $split
+     * @param bool $split
      * @return string
      */
-    public function getHtmlSpan($content = '', $spanClass = '', $t = '', $n = "\n", $split = false)
+    public function getHtmlSpan(string $content = '', string $spanClass = '', string $t = '', string $n = "\n", bool $split = false)
     {
         $rSpanClass = ('' != $spanClass) ? " class='{$spanClass}'" : '';
         $ret        = "{$t}<span{$rSpanClass}>";
@@ -235,7 +226,7 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlParagraph($content = '', $pClass = '', $t = '', $n = "\n")
+    public function getHtmlParagraph(string $content = '', string $pClass = '', string $t = '', string $n = "\n")
     {
         $rPClass = ('' != $pClass) ? " class='{$pClass}'" : '';
         $ret     = "{$t}<p{$rPClass}>{$n}";
@@ -254,13 +245,11 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlI($content = '', $iClass = '', $iId = '', $t = '', $n = "\n")
+    public function getHtmlI(string $content = '', string $iClass = '', string $iId = '', string $t = '', string $n = "\n")
     {
         $rIClass = ('' != $iClass) ? " class='{$iClass}'" : '';
         $rIId    = ('' != $iId) ? " id='{$iId}'" : '';
-        $ret     = "{$t}<i{$rIClass}{$rIId}>{$content}</i>{$n}";
-
-        return $ret;
+        return "{$t}<i{$rIClass}{$rIId}>{$content}</i>{$n}";
     }
 
     /**
@@ -271,7 +260,7 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlUl($content = '', $ulClass = '', $t = '', $n = "\n")
+    public function getHtmlUl(string $content = '', string $ulClass = '', string $t = '', string $n = "\n")
     {
         $rUlClass = ('' != $ulClass) ? " class='{$ulClass}'" : '';
         $ret      = "{$t}<ul{$rUlClass}>{$n}";
@@ -289,7 +278,7 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlOl($content = '', $olClass = '', $t = '', $n = "\n")
+    public function getHtmlOl(string $content = '', string $olClass = '', string $t = '', string $n = "\n")
     {
         $rOlClass = ('' != $olClass) ? " class='{$olClass}'" : '';
         $ret      = "{$t}<ol{$rOlClass}>{$n}";
@@ -305,10 +294,10 @@ class CreateHtmlCode
      * @param string $liClass
      * @param string $t
      * @param string $n
-     * @param bool   $split
+     * @param bool $split
      * @return string
      */
-    public function getHtmlLi($content = '', $liClass = '', $t = '', $n = "\n", $split = false)
+    public function getHtmlLi(string $content = '', string $liClass = '', string $t = '', string $n = "\n", bool $split = false)
     {
         $rLiClass = ('' != $liClass) ? " class='{$liClass}'" : '';
         if ($split) {
@@ -330,7 +319,7 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlStrong($content = '', $strongClass = '', $t = '', $n = '')
+    public function getHtmlStrong(string $content = '', string $strongClass = '', string $t = '', string $n = '')
     {
         $rStrongClass = ('' != $strongClass) ? " class='{$strongClass}'" : '';
 
@@ -349,7 +338,7 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlAnchor($url = '#', $content = '&nbsp;', $title = '', $target = '', $aClass = '', $rel = '', $t = '', $n = '')
+    public function getHtmlAnchor(string $url = '#', string $content = '&nbsp;', string $title = '', string $target = '', string $aClass = '', string $rel = '', string $t = '', string $n = '')
     {
         $target  = ('' != $target) ? " target='{$target}'" : '';
         $rAClass = ('' != $aClass) ? " class='{$aClass}'" : '';
@@ -367,7 +356,7 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlImage($src = 'blank.gif', $alt = 'blank.gif', $imgClass = '', $t = '', $n = '')
+    public function getHtmlImage(string $src = 'blank.gif', string $alt = 'blank.gif', string $imgClass = '', string $t = '', string $n = '')
     {
         $rImgClass = ('' != $imgClass) ? " class='{$imgClass}'" : '';
         if (strpos($src,"'")) {
@@ -388,7 +377,7 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlTable($content = '', $tableClass = '', $t = '', $n = "\n")
+    public function getHtmlTable(string $content = '', string $tableClass = '', string $t = '', string $n = "\n")
     {
         $rTableClass = ('' != $tableClass) ? " class='{$tableClass}'" : '';
         $ret         = "{$t}<table{$rTableClass}>{$n}";
@@ -406,7 +395,7 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlTableThead($content = '', $theadClass = '', $t = '', $n = "\n")
+    public function getHtmlTableThead(string $content = '', string $theadClass = '', string $t = '', string $n = "\n")
     {
         $rTheadClass = ('' != $theadClass) ? " class='{$theadClass}'" : '';
         $ret         = "{$t}<thead{$rTheadClass}>{$n}";
@@ -425,7 +414,7 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlTableTbody($content = '', $tbodyClass = '', $t = '', $n = "\n")
+    public function getHtmlTableTbody(string $content = '', string $tbodyClass = '', string $t = '', string $n = "\n")
     {
         $rTbodyClass = ('' != $tbodyClass) ? " class='{$tbodyClass}'" : '';
         $ret         = "{$t}<tbody{$rTbodyClass}>{$n}";
@@ -442,10 +431,10 @@ class CreateHtmlCode
      *
      * @param string $t
      * @param string $n
-     * @param bool   $split
+     * @param bool $split
      * @return string
      */
-    public function getHtmlTableTfoot($content = '', $tfootClass = '', $t = '', $n = "\n", $split = true)
+    public function getHtmlTableTfoot(string $content = '', string $tfootClass = '', string $t = '', string $n = "\n", bool $split = true)
     {
         $rTfootClass = ('' != $tfootClass) ? " class='{$tfootClass}'" : '';
         if ($split) {
@@ -467,7 +456,7 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlTableRow($content = '', $trClass = '', $t = '', $n = "\n")
+    public function getHtmlTableRow(string $content = '', string $trClass = '', string $t = '', string $n = "\n")
     {
         $rTrClass = ('' != $trClass) ? " class='{$trClass}'" : '';
         $ret      = "{$t}<tr{$rTrClass}>{$n}";
@@ -484,10 +473,10 @@ class CreateHtmlCode
      * @param string $colspan
      * @param string $t
      * @param string $n
-     * @param bool   $split
+     * @param bool $split
      * @return string
      */
-    public function getHtmlTableHead($content = '', $thClass = '', $colspan = '', $t = '', $n = "\n", $split = false)
+    public function getHtmlTableHead(string $content = '', string $thClass = '', string $colspan = '', string $t = '', string $n = "\n", bool $split = false)
     {
         $rThClass = ('' != $thClass) ? " class='{$thClass}'" : '';
         $colspan  = ('' != $colspan) ? " colspan='{$colspan}'" : '';
@@ -509,10 +498,10 @@ class CreateHtmlCode
      * @param string $colspan
      * @param string $t
      * @param string $n
-     * @param bool   $split
+     * @param bool $split
      * @return string
      */
-    public function getHtmlTableData($content = '', $tdClass = '', $colspan = '', $t = '', $n = "\n", $split = false)
+    public function getHtmlTableData(string $content = '', string $tdClass = '', string $colspan = '', string $t = '', string $n = "\n", bool $split = false)
     {
         $rTdClass = ('' != $tdClass) ? " class='{$tdClass}'" : '';
         $colspan  = ('' != $colspan) ? " colspan='{$colspan}'" : '';

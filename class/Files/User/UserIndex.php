@@ -46,7 +46,6 @@ class UserIndex extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -58,7 +57,6 @@ class UserIndex extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
      * @return UserIndex
      */
     public static function getInstance()
@@ -73,11 +71,11 @@ class UserIndex extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, string $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -93,8 +91,6 @@ class UserIndex extends Files\CreateFile
      */
     private function getUserIndexHeader($language, $moduleDirname)
     {
-        $stuModuleDirname = \mb_strtoupper($moduleDirname);
-
         $ret = $this->getRequire();
         $ret .= $this->uxc->getUserTplMain($moduleDirname);
         $ret .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'header', true);
@@ -130,7 +126,7 @@ class UserIndex extends Files\CreateFile
             $ret .= $this->pc->getPhpCodeCommentLine('If there are ', $tableName);
             $ret .= $this->getSimpleString('$count = 1;');
 
-            $contentIf = $this->xc->getXcHandlerAllObj($tableName, '', 0, 0, "\t");
+            $contentIf = $this->xc->getXcHandlerAllObj($tableName, '', '0', '0', "\t");
             $contentIf .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true, false, 'require', "\t");
             //$contentIf .= $cc->getClassXoopsObjectTree('mytree', $tableName, $fieldId, $fieldParent, "\t");
             $contentIf .= $this->pc->getPhpCodeArray($tableName, "\t");
@@ -143,7 +139,7 @@ class UserIndex extends Files\CreateFile
             $contentIf .= $this->pc->getPhpCodeUnset($tableName, "\t");
             $getConfig = $this->xc->getXcGetConfig('numb_col');
             $contentIf .= $this->xc->getXcXoopsTplAssign('numb_col', $getConfig, true, "\t");
-            $ret       .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $contentIf, false);
+            $ret       .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $contentIf);
             $ret       .= $this->pc->getPhpCodeUnset('count');
         }
         unset($fieldParentId);
@@ -154,27 +150,27 @@ class UserIndex extends Files\CreateFile
     /**
      * @private function getBodyPagesIndex
      * @param $tableName
-     * @param $tableSoleName
      * @param $language
+     * @param $tableMid
+     * @param $tableId
      * @return string
      */
-    private function getBodyPagesIndex($tableName, $tableSoleName, $language)
+    private function getBodyPagesIndex($tableName, $language, $tableMid, $tableId)
     {
         $ucfTableName = \ucfirst($tableName);
-        $table        = $this->getTable();
-        $fields       = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields       = $this->getTableFields($tableMid, $tableId);
 
         $ret       = $this->pc->getPhpCodeCommentLine('Tables');
         $ret       .= $this->xc->getXcHandlerCountObj($tableName);
         $ret       .= $this->xc->getXcXoopsTplAssign($tableName . 'Count', "\${$tableName}Count");
         //$ret       .= $this->getSimpleString('$count = 1;');
-        $condIf    = $this->xc->getXcXoopsRequest('start', 'start', '', 'Int', false, "\t");
+        $condIf    = $this->xc->getXcXoopsRequest('start', 'start', '', 'Int', "\t");
         $userpager = $this->xc->getXcGetConfig('userpager');
-        $condIf    .= $this->xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int', false, "\t");
+        $condIf    .= $this->xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int', "\t");
         $condIf    .= $this->xc->getXcHandlerAllObj($tableName, '', '$start', '$limit', "\t");
         $condIf    .= $this->pc->getPhpCodeCommentLine('Get All', $ucfTableName, "\t");
         $condIf    .= $this->pc->getPhpCodeArray($tableName . '_list', null, false, "\t");
-        $foreach   = $this->xc->getXcGetValues($tableName, $tableSoleName . '_list[]', 'i', false, "\t\t");
+        $foreach   = $this->xc->getXcGetValues($tableName, $tableName . '_list[]', 'i', false, "\t\t");
         //$foreach   .= $this->pc->getPhpCodeArray('acount', ["'count'", '$count']);
         //$foreach   .= $this->pc->getPhpCodeArrayType($tableName . '_list', 'merge', $tableSoleName . '_list', '$acount');
         // Fields
@@ -208,10 +204,10 @@ class UserIndex extends Files\CreateFile
     /**
      * @private  function getUserPagesFooter
      * @param $moduleDirname
-     * @param $language
+     *
      * @return string
      */
-    private function getUserIndexFooter($moduleDirname, $language)
+    private function getUserIndexFooter($moduleDirname)
     {
         $ret              = $this->pc->getPhpCodeCommentLine('Meta keywords');
         $ret              .= $this->uxc->getUserMetaKeywords($moduleDirname);
@@ -223,8 +219,7 @@ class UserIndex extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     * @return string
      */
     public function render()
     {
@@ -252,10 +247,10 @@ class UserIndex extends Files\CreateFile
                 $content .= $this->getBodyCategoriesIndex($tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname);
             }
             if (0 == $tableCategory && 1 == $tableIndex) {
-                $content .= $this->getBodyPagesIndex($tableName, $tableSoleName, $language);
+                $content .= $this->getBodyPagesIndex($tableName, $language, $tableMid, $tableId);
             }
         }
-        $content .= $this->getUserIndexFooter($moduleDirname, $language);
+        $content .= $this->getUserIndexFooter($moduleDirname);
 
         $this->create($moduleDirname, '/', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 

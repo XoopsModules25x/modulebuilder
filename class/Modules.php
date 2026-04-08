@@ -46,7 +46,6 @@ class Modules extends \XoopsObject
 
     /**
      * @public function constructor class
-     * @param null
      */
     public function __construct()
     {
@@ -97,11 +96,11 @@ class Modules extends \XoopsObject
 
     /**
      * @param string $method
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed
      */
-    public function __call($method, $args)
+    public function __call(string $method, array $args): mixed
     {
         $arg = $args[0] ?? null;
 
@@ -110,7 +109,6 @@ class Modules extends \XoopsObject
 
     /**
      * @static function getInstance
-     * @param null
      * @return Modules
      */
     public static function getInstance()
@@ -179,7 +177,7 @@ class Modules extends \XoopsObject
         }
 
         $isNew = $this->isNew();
-        $title = $isNew ? \sprintf(\_AM_MODULEBUILDER_MODULE_NEW) : \sprintf(\_AM_MODULEBUILDER_MODULE_EDIT);
+        $title = $isNew ? \_AM_MODULEBUILDER_MODULE_NEW : \_AM_MODULEBUILDER_MODULE_EDIT;
 
         require_once \XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
@@ -353,45 +351,6 @@ class Modules extends \XoopsObject
         $form->addElement($buttonTray);
 
         return $form;
-    }
-
-    /**
-     * @private static function createLogo
-     * @param mixed  $logoIcon
-     * @param string $moduleDirname
-     *
-     * @return bool|string
-     */
-    private static function createLogo($logoIcon, $moduleDirname)
-    {
-        if (!\extension_loaded('gd')) {
-            return false;
-        }
-        $requiredFunctions = ['imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate'];
-        foreach ($requiredFunctions as $func) {
-            if (!\function_exists($func)) {
-                return false;
-            }
-        }
-
-        if (!\file_exists($imageBase = TDMC_IMAGES_LOGOS_PATH . '/empty.png')
-            || !\file_exists($font = TDMC_FONTS_PATH . '/VeraBd.ttf')
-            || !\file_exists($iconFile = XOOPS_ICONS32_PATH . '/' . \basename($logoIcon))) {
-            return false;
-        }
-        $imageModule = \imagecreatefrompng($imageBase);
-        $imageIcon   = \imagecreatefrompng($iconFile);
-        // Write text
-        $textColor   = imagecolorallocate($imageModule, 0, 0, 0);
-        $spaceBorder = (92 - mb_strlen($moduleDirname) * 7.5) / 2;
-        imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, \ucfirst($moduleDirname), []);
-        imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
-        $logoImg = '/' . 'logoModule.png';
-        \imagepng($imageModule, TDMC_UPLOAD_IMGMOD_PATH . $logoImg);
-        \imagedestroy($imageModule);
-        \imagedestroy($imageIcon);
-
-        return TDMC_UPLOAD_IMGMOD_URL . $logoImg;
     }
 
     /**

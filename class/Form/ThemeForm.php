@@ -51,7 +51,7 @@ class ThemeForm extends \XoopsForm
         //$ret = ($this->getTitle() ? '<div class=" center head ">' . $this->getTitle() . '</div>' : '');
         $ret    = NWLINE . '<form name="' . $ele_name . '" id="' . $ele_name . '" action="' . $this->getAction() . '" method="' . $this->getMethod() . '" onsubmit="return xoopsFormValidate_' . $ele_name . '();"' . $this->getExtra() . '>' . NWLINE;
         $hidden = '';
-        $class  = 'even';
+        //$class  = 'even';
         foreach ($this->getElements() as $ele) {
             if (!is_object($ele)) {
                 $ret .= $ele;
@@ -64,7 +64,7 @@ class ThemeForm extends \XoopsForm
             }
         }
         $ret .= NWLINE . ' ' . $hidden . NWLINE . '</form>';
-        $ret .= $this->renderValidationJS(true);
+        $ret .= $this->renderValidationJS();
 
         return $ret;
     }

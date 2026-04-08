@@ -62,7 +62,7 @@ abstract class CreateAbstractClass
      */
     public function setModule($module): void
     {
-        if (\is_object($module) && ($module instanceof ModuleBuilder\Modules)) {
+        if (($module instanceof ModuleBuilder\Modules)) {
             $this->module = $module;
         }
     }
@@ -84,7 +84,7 @@ abstract class CreateAbstractClass
      */
     public function setTable($table): void
     {
-        if (\is_object($table) && ($table instanceof Modulebuilder\Tables)) {
+        if (($table instanceof Modulebuilder\Tables)) {
             $this->table = $table;
         }
     }
@@ -128,7 +128,7 @@ abstract class CreateAbstractClass
      */
     public function setFields($fields): void
     {
-        if (\is_object($fields) && ($fields instanceof Modulebuilder\Fields)) {
+        if (($fields instanceof Modulebuilder\Fields)) {
             $this->fields = $fields;
         }
     }

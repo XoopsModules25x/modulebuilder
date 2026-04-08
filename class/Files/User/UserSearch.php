@@ -46,7 +46,6 @@ class UserSearch extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -58,7 +57,6 @@ class UserSearch extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
      * @return UserSearch
      */
     public static function getInstance()
@@ -73,11 +71,11 @@ class UserSearch extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param mixed  $table
      * @param string $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, string $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -130,12 +128,10 @@ class UserSearch extends Files\CreateFile
      */
     public function getUserSearch()
     {
-        $ret = <<<'EOT'
+        /*$ret = <<<'EOT'
 
-EOT;
-        $ret .= $this->getSimpleString('$keywords = [];');
-
-        return $ret;
+EOT;*/
+        return $this->getSimpleString('$keywords = [];');
     }
 
     /**
@@ -149,7 +145,6 @@ EOT;
      */
     private function getUserSearchFooter($moduleDirname, $tableName, $language)
     {
-        $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $stuTableName     = \mb_strtoupper($tableName);
         $ret              = $this->getDashComment('Breadcrumbs');
         $ret              .= $this->uxc->getUserBreadcrumbs((string)$stuTableName, $language);
@@ -163,8 +158,7 @@ EOT;
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

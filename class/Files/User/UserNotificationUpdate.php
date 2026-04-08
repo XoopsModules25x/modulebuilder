@@ -38,7 +38,6 @@ class UserNotificationUpdate extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -48,7 +47,6 @@ class UserNotificationUpdate extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
      * @return UserNotificationUpdate
      */
     public static function getInstance()
@@ -63,10 +61,10 @@ class UserNotificationUpdate extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param string $filename
      */
-    public function write($module, $filename): void
+    public function write($module, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -74,8 +72,7 @@ class UserNotificationUpdate extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

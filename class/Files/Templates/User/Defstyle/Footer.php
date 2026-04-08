@@ -42,7 +42,6 @@ class Footer extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -53,7 +52,7 @@ class Footer extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return Footer
      */
     public static function getInstance()
@@ -72,7 +71,7 @@ class Footer extends Files\CreateFile
      * @param mixed  $table
      * @param string $filename
      */
-    public function write($module, $table, $filename): void
+    public function write($module, $table, string $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -81,9 +80,8 @@ class Footer extends Files\CreateFile
 
     /**
      * @public function getTemplateUserFooterFacebookLikeButton
-     * @param null
      *
-     * @return bool|string
+     * @return string
      */
     public function getTemplateUserFooterFacebookLikeButton()
     {
@@ -92,9 +90,8 @@ class Footer extends Files\CreateFile
 
     /**
      * @public function getTemplateUserFooterFacebookShareButton
-     * @param null
      *
-     * @return bool|string
+     * @return string
      */
     public function getTemplateUserFooterFacebookShareButton()
     {
@@ -104,7 +101,7 @@ class Footer extends Files\CreateFile
     /**
      * @public function render
      * @param $language
-     * @return bool|string
+     * @return string
      */
     private function getTemplateUserFooterContent($language)
     {
@@ -122,7 +119,7 @@ class Footer extends Files\CreateFile
         $contIf  .= $this->getSimpleString('<{elseif $comment_mode == "nest"}>', "\t\t");
         $contIf  .= $this->sc->getSmartyIncludeFile('system_comments', 'nest', false, "\t\t\t");
         $contDiv = $this->sc->getSmartyConditions('comment_mode', ' == ', '"flat"', $contIf, false, '', '', "\t\t", "\n", true, false);
-        $contIf  = $this->hc->getHtmlDiv($contDiv, 'pad2 marg2', "\t", "\n", true);
+        $contIf  = $this->hc->getHtmlDiv($contDiv, 'pad2 marg2', "\t");
         $ret     .= $this->sc->getSmartyConditions('comment_mode', '', '', $contIf);
         $ret     .= $this->sc->getSmartyIncludeFile('system_notification', 'select');
 
@@ -131,8 +128,8 @@ class Footer extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

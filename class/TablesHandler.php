@@ -54,21 +54,20 @@ class TablesHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve a field.
      *
-     * @param int  $i field id
+     * @param int  $id field id
      * @param null $fields
      *
-     * @return mixed reference to the <a href='psi_element://Fields'>Fields</a> object
+     * @return \XoopsObject|null reference to the <a href='psi_element://Fields'>Fields</a> object
      *               object
      */
-    public function get($i = null, $fields = null)
+    public function get($id = null, $fields = null)
     {
-        return parent::get($i, $fields);
+        return parent::get($id, $fields);
     }
 
     /**
      * get inserted id.
      *
-     * @param null
      *
      * @return int reference to the {@link Tables} object
      */
@@ -80,14 +79,14 @@ class TablesHandler extends \XoopsPersistableObjectHandler
     /**
      * Get Count Modules.
      *
-     * @param int    $start
-     * @param int    $limit
+     * @param int $start
+     * @param int $limit
      * @param string $sort
      * @param string $order
      *
      * @return int
      */
-    public function getCountTables($start = 0, $limit = 0, $sort = 'table_id ASC, table_name', $order = 'ASC')
+    public function getCountTables(int $start = 0, int $limit = 0, string $sort = 'table_id ASC, table_name', string $order = 'ASC')
     {
         $crCountTables = new \CriteriaCompo();
         $crCountTables = $this->getTablesCriteria($crCountTables, $start, $limit, $sort, $order);
@@ -98,14 +97,14 @@ class TablesHandler extends \XoopsPersistableObjectHandler
     /**
      * Get All Modules.
      *
-     * @param int    $start
-     * @param int    $limit
+     * @param int $start
+     * @param int $limit
      * @param string $sort
      * @param string $order
      *
      * @return array
      */
-    public function getAllTables($start = 0, $limit = 0, $sort = 'table_mid DESC, table_order ASC, table_id', $order = 'DESC')
+    public function getAllTables(int $start = 0, int $limit = 0, string $sort = 'table_mid DESC, table_order ASC, table_id', string $order = 'DESC')
     {
         $crAllTables = new \CriteriaCompo();
         $crAllTables = $this->getTablesCriteria($crAllTables, $start, $limit, $sort, $order);
@@ -117,14 +116,14 @@ class TablesHandler extends \XoopsPersistableObjectHandler
      * Get All Tables By Module Id.
      *
      * @param        $modId
-     * @param int    $start
-     * @param int    $limit
+     * @param int $start
+     * @param int $limit
      * @param string $sort
      * @param string $order
      *
      * @return array
      */
-    public function getAllTablesByModuleId($modId, $start = 0, $limit = 0, $sort = 'table_order ASC, table_id, table_name', $order = 'ASC')
+    public function getAllTablesByModuleId($modId, int $start = 0, int $limit = 0, string $sort = 'table_order ASC, table_id, table_name', string $order = 'ASC')
     {
         $crAllTablesByModuleId = new \CriteriaCompo();
         $crAllTablesByModuleId->add(new \Criteria('table_mid', $modId));

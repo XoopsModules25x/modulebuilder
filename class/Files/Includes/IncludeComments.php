@@ -42,7 +42,6 @@ class IncludeComments extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -53,7 +52,7 @@ class IncludeComments extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return IncludeComments
      */
     public static function getInstance()
@@ -68,8 +67,8 @@ class IncludeComments extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
-     * @param mixed  $table
+     * @param       $module
+     * @param mixed $table
      */
     public function write($module, $table): void
     {
@@ -79,12 +78,12 @@ class IncludeComments extends Files\CreateFile
 
     /**
      * @public function getCommentsIncludes
-     * @param string $module
+     * @param        $module
      * @param string $filename
      *
-     * @return bool|string
+     * @return string
      */
-    public function renderCommentsIncludes($module, $filename)
+    public function renderCommentsIncludes($module, string $filename)
     {
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module);
@@ -98,12 +97,12 @@ class IncludeComments extends Files\CreateFile
 
     /**
      * @public function getCommentsNew
-     * @param string $module
+     * @param        $module
      * @param string $filename
      *
-     * @return bool|string
+     * @return string
      */
-    public function renderCommentsNew($module, $filename)
+    public function renderCommentsNew($module, string $filename)
     {
         $table         = $this->getTable();
         $moduleDirname = \mb_strtolower($module->getVar('mod_dirname'));

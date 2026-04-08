@@ -42,10 +42,6 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
     /**
      * @var mixed
      */
-    private $uxc = null;
-    /**
-     * @var mixed
-     */
     private $cxc = null;
     /**
      * @var mixed
@@ -62,7 +58,6 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -71,13 +66,11 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $this->xc     = Modulebuilder\Files\CreateXoopsCode::getInstance();
         $this->pc     = Modulebuilder\Files\CreatePhpCode::getInstance();
         $this->tf     = Modulebuilder\Files\CreateTableFields::getInstance();
-        $this->uxc    = Modulebuilder\Files\User\UserXoopsCode::getInstance();
         $this->cxc    = Modulebuilder\Files\Classes\ClassXoopsCode::getInstance();
     }
 
     /**
      * @static function getInstance
-     * @param null
      *
      * @return ClassFormElements
      */
@@ -112,19 +105,17 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @param string $required
      * @return string
      */
-    private function getXoopsFormText($language, $fieldName, $fieldDefault, $required = 'false')
+    private function getXoopsFormText($language, $fieldName, $fieldDefault, string $required = 'false')
     {
         $ccFieldName  = $this->cf->getCamelCase($fieldName, false, true);
+        $ret      = $this->pc->getPhpCodeCommentLine('Form Text', $ccFieldName, "\t\t");
         if ('' != $fieldDefault) {
-            $ret      = $this->pc->getPhpCodeCommentLine('Form Text', $ccFieldName, "\t\t");
             $ret      .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', "'{$fieldDefault}'", "\$this->getVar('{$fieldName}')", "\t\t");
             $formText = $this->cxc->getClassXoopsFormText('', $language, $fieldName, 20, 150, $ccFieldName, true);
-            $ret      .= $this->cxc->getClassAddElement('form', $formText . $required);
         } else {
-            $ret      = $this->pc->getPhpCodeCommentLine('Form Text', $ccFieldName, "\t\t");
             $formText = $this->cxc->getClassXoopsFormText('', $language, $fieldName, 50, 255, "this->getVar('{$fieldName}')", true);
-            $ret      .= $this->cxc->getClassAddElement('form', $formText . $required);
         }
+        $ret      .= $this->cxc->getClassAddElement('form', $formText . $required);
 
         return $ret;
     }
@@ -134,11 +125,11 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      *
      * @param $language
      * @param $fieldName
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormTextArea($language, $fieldName, $required = 'false')
+    private function getXoopsFormTextArea($language, $fieldName, string $required = 'false')
     {
         $ccFieldName  = $this->cf->getCamelCase($fieldName, false, true);
         $ret          = $this->pc->getPhpCodeCommentLine('Form Editor', 'TextArea ' . $ccFieldName, "\t\t");
@@ -153,11 +144,11 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      *
      * @param $language
      * @param $fieldName
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormDhtmlTextArea($language, $fieldName, $required = 'false')
+    private function getXoopsFormDhtmlTextArea($language, $fieldName, string $required = 'false')
     {
         $ccFieldName = $this->cf->getCamelCase($fieldName, false, true);
         $ret         = $this->pc->getPhpCodeCommentLine('Form Editor', 'DhtmlTextArea ' . $ccFieldName, "\t\t");
@@ -196,7 +187,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @param string $required
      * @return string
      */
-    private function getXoopsFormCheckBox($language, $tableSoleName, $fieldName, $fieldElementId, $required = 'false')
+    private function getXoopsFormCheckBox($language, $tableSoleName, $fieldName, $fieldElementId, string $required = 'false')
     {
         $stuTableSoleName = \mb_strtoupper($tableSoleName);
         $ucfFieldName     = $this->cf->getCamelCase($fieldName, true);
@@ -209,17 +200,15 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
             $foreach .= $this->cxc->getClassSetDescription('check' . $ucfFieldName, "{$language}{$stuTableSoleName}_OPTIONS_DESC", $t . "\t");
             $foreach .= $this->cxc->getClassAddOption('check' . $ucfFieldName, "\$option, {$language}{$stuTableSoleName}_ . strtoupper(\$option)", $t . "\t");
             $ret     .= $this->pc->getPhpCodeForeach("{$tableSoleName}All", false, false, 'option', $foreach, $t);
-            $intElem = "\$check{$ucfFieldName}{$required}";
-            $ret     .= $this->cxc->getClassAddElement('form', $intElem, $t);
         } else {
             $ret     = $this->pc->getPhpCodeCommentLine('Form Check Box', $ccFieldName, $t);
             $ret     .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', 0, "\$this->getVar('{$fieldName}')", $t);
             $ret     .= $this->cxc->getClassXoopsFormCheckBox('check' . $ucfFieldName, $language, $fieldName, "\${$ccFieldName}", false, $t);
             $option  = "1, {$language}";
             $ret     .= $this->cxc->getClassAddOption('check' . $ucfFieldName, $option, $t);
-            $intElem = "\$check{$ucfFieldName}{$required}";
-            $ret     .= $this->cxc->getClassAddElement('form', $intElem, $t);
         }
+        $intElem = "\$check{$ucfFieldName}{$required}";
+        $ret     .= $this->cxc->getClassAddElement('form', $intElem, $t);
 
         return $ret;
     }
@@ -248,11 +237,11 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @param $language
      * @param $moduleDirname
      * @param $fieldName
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormImageList($language, $moduleDirname, $fieldName, $required = 'false')
+    private function getXoopsFormImageList($language, $moduleDirname, $fieldName, string $required = 'false')
     {
         $ucfFieldName    = $this->cf->getCamelCase($fieldName, true);
         $ccFieldName     = $this->cf->getCamelCase($fieldName, false, true);
@@ -296,11 +285,11 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @param $moduleDirname
      * @param $tableName
      * @param $fieldName
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormSelectFile($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
+    private function getXoopsFormSelectFile($language, $moduleDirname, $tableName, $fieldName, string $required = 'false')
     {
         $ucfFieldName    = $this->cf->getCamelCase($fieldName, true);
         $ccFieldName     = $this->cf->getCamelCase($fieldName, false, true);
@@ -348,11 +337,11 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @param   $moduleDirname
      * @param   $fieldName
      * @param   $fieldDefault
-     * @param   $required
+     * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormUrlFile($language, $moduleDirname, $fieldName, $fieldDefault, $required = 'false')
+    private function getXoopsFormUrlFile($language, $moduleDirname, $fieldName, $fieldDefault, string $required = 'false')
     {
         $ccFieldName    = $this->cf->getCamelCase($fieldName, false, true);
         $languageShort = \mb_substr($language, 0, 5) . \mb_strtoupper($moduleDirname) . '_';
@@ -381,7 +370,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @param string $required
      * @return string
      */
-    private function getXoopsFormUploadImage($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
+    private function getXoopsFormUploadImage($language, $moduleDirname, $tableName, $fieldName, string $required = 'false')
     {
         $ucfFieldName    = $this->cf->getCamelCase($fieldName, true);
         $ccFieldName     = $this->cf->getCamelCase($fieldName, false, true);
@@ -418,9 +407,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $getConfig       = $this->xc->getXcGetConfig('maxheight_image');
         $labelInfo3      = $this->cxc->getClassXoopsFormLabel('',  $languageShort . 'FORM_UPLOAD_IMG_HEIGHT', $getConfig . " . ' px'", true, '');
         $contIf          .= $this->cxc->getClassAddElement('imageTray', $labelInfo3, $t . "\t");
-        $formHidden      = $this->cxc->getClassXoopsFormHidden('', $fieldName, $ccFieldName, true, true, $t, true);
-        $contElse        = $this->cxc->getClassAddElement('imageTray', $formHidden, $t . "\t");
-        $ret             .= $this->pc->getPhpCodeConditions('$permissionUpload', '', '', $contIf, $contElse, "\t\t");
+        $ret             .= $this->pc->getPhpCodeConditions('$permissionUpload', '', '', $contIf, false, "\t\t");
         $ret             .= $this->cxc->getClassAddElement('form', "\$imageTray{$required}", $t);
 
         return $ret;
@@ -438,7 +425,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @param string $required
      * @return string
      */
-    private function getXoopsFormUploadFile($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
+    private function getXoopsFormUploadFile($language, $moduleDirname, $tableName, $fieldName, string $required = 'false')
     {
         $ccFieldName    = $this->cf->getCamelCase($fieldName, false, true);
         $languageShort  = \mb_substr($language, 0, 5) . \mb_strtoupper($moduleDirname) . '_';
@@ -476,7 +463,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @param string $required
      * @return string
      */
-    private function getXoopsFormColorPicker($language, $fieldName, $required = 'false')
+    private function getXoopsFormColorPicker($language, $fieldName, string $required = 'false')
     {
         $ccFieldName   = $this->cf->getCamelCase($fieldName, false, true);
         $t             = "\t\t";
@@ -494,11 +481,11 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @param $language
      * @param $tableName
      * @param $fieldName
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormSelectBox($language, $tableName, $fieldName, $required = 'false')
+    private function getXoopsFormSelectBox($language, $tableName, $fieldName, string $required = 'false')
     {
         $ucfTableName = \ucfirst($tableName);
         $ccFieldName  = $this->cf->getCamelCase($fieldName, false, true);
@@ -522,7 +509,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @param string $required
      * @return string
      */
-    private function getXoopsFormSelectUser($language, $fieldName, $required = 'false')
+    private function getXoopsFormSelectUser($language, $fieldName, string $required = 'false')
     {
         $ccFieldName     = $this->cf->getCamelCase($fieldName, false, true);
         $t               = "\t\t";
@@ -541,11 +528,11 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      *
      * @param $language
      * @param $fieldName
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormRadioYN($language, $fieldName, $required = 'false')
+    private function getXoopsFormRadioYN($language, $fieldName, string $required = 'false')
     {
         $ccFieldName  = $this->cf->getCamelCase($fieldName, false, true);
         $t            = "\t\t";
@@ -562,11 +549,11 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      *
      * @param $language
      * @param $fieldName
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormTextDateSelect($language, $fieldName, $required = 'false')
+    private function getXoopsFormTextDateSelect($language, $fieldName, string $required = 'false')
     {
         $t                   = "\t\t";
         $ccFieldName         = $this->cf->getCamelCase($fieldName, false, true);
@@ -583,11 +570,11 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      *
      * @param $language
      * @param $fieldName
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormDateTime($language, $fieldName, $required = 'false')
+    private function getXoopsFormDateTime($language, $fieldName, string $required = 'false')
     {
         $t                   = "\t\t";
         $ccFieldName         = $this->cf->getCamelCase($fieldName, false, true);
@@ -610,7 +597,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      *
      * @return string
      */
-    private function getXoopsFormSelectStatus($language, $moduleDirname, $fieldName, $tablePermissions, $required = 'false')
+    private function getXoopsFormSelectStatus($language, $moduleDirname, $fieldName, $tablePermissions, string $required = 'false')
     {
         $ccFieldName  = $this->cf->getCamelCase($fieldName, false, true);
         $languageShort = \mb_substr($language, 0, 5) . \mb_strtoupper($moduleDirname) . '_';
@@ -638,16 +625,16 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      *
      * @param $language
      * @param $fieldName
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormPassword($language, $fieldName, $required = 'false')
+    private function getXoopsFormPassword($language, $fieldName, string $required = 'false')
     {
         $t             = "\t\t";
         $ccFieldName   = $this->cf->getCamelCase($fieldName, false, true);
         $ret           = $this->pc->getPhpCodeCommentLine('Form Text', 'Enter Password ' . $ccFieldName, $t);
-        $xoopsPassword = $this->cxc->getClassXoopsFormPassword('', $language, $fieldName, 10, 32, true, $t);
+        $xoopsPassword = $this->cxc->getClassXoopsFormPassword('', $language, $fieldName, '10', '32', true, $t);
         $ret           .= $this->cxc->getClassAddElement('form', $xoopsPassword . $required, $t);
 
         return $ret;
@@ -662,7 +649,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      *
      * @return string
      */
-    private function getXoopsFormSelectCountry($language, $fieldName, $required = 'false')
+    private function getXoopsFormSelectCountry($language, $fieldName, string $required = 'false')
     {
         $ccFieldName  = $this->cf->getCamelCase($fieldName, false, true);
         $t            = "\t\t";
@@ -685,7 +672,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      *
      * @return string
      */
-    private function getXoopsFormSelectLang($language, $fieldName, $required = 'false')
+    private function getXoopsFormSelectLang($language, $fieldName, string $required = 'false')
     {
         $ccFieldName  = $this->cf->getCamelCase($fieldName, false, true);
         $t            = "\t\t";
@@ -709,7 +696,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      *
      * @return string
      */
-    private function getXoopsFormRadio($language, $moduleDirname, $fieldName, $required = 'false')
+    private function getXoopsFormRadio($language, $moduleDirname, $fieldName, string $required = 'false')
     {
         $ccFieldName   = $this->cf->getCamelCase($fieldName, false, true);
         $languageShort = \mb_substr($language, 0, 5) . \mb_strtoupper($moduleDirname) . '_';
@@ -730,13 +717,12 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @private function getXoopsFormRadioOnoffline
      *
      * @param $language
-     * @param $moduleDirname
      * @param $fieldName
      * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormRadioOnoffline($language, $fieldName, $required = 'false')
+    private function getXoopsFormRadioOnoffline($language, $fieldName, string $required = 'false')
     {
         $ccFieldName   = $this->cf->getCamelCase($fieldName, false, true);
         $t             = "\t\t";
@@ -763,7 +749,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      *
      * @return string
      */
-    private function getXoopsFormSelectCombo($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
+    private function getXoopsFormSelectCombo($language, $moduleDirname, $tableName, $fieldName, string $required = 'false')
     {
         $ucfTableName  = \ucfirst($tableName);
         $ccFieldName   = $this->cf->getCamelCase($fieldName, false, true);
@@ -788,11 +774,11 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @param $language
      * @param $fieldName
      * @param $fieldElement
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormTable($language,$fieldName, $fieldElement, $required = 'false')
+    private function getXoopsFormTable($language, $fieldName, $fieldElement, string $required = 'false')
     {
         $t   = "\t\t";
         $ret = '';
@@ -847,11 +833,11 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @private function getXoopsFormTag
      *
      * @param $fieldId
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormTag($fieldId, $required = 'false')
+    private function getXoopsFormTag($fieldId, string $required = 'false')
     {
         $t         = "\t\t";
         $ret       = $this->pc->getPhpCodeCommentLine('Use tag', 'module', $t);
@@ -859,7 +845,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $ret       .= $this->pc->getPhpCodeTernaryOperator('dirTag', $isDir, 'true', 'false', $t);
         $paramIf   = '(' . $this->xc->getXcGetConfig('usetag') . ' == 1)';
         $condIf    = $this->pc->getPhpCodeTernaryOperator('tagId', '$this->isNew()', '0', "\$this->getVar('{$fieldId}')", $t . "\t");
-        $condIf    .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'modules/tag/include/formtag', true, false, $type = 'require', $t . "\t");
+        $condIf    .= $this->pc->getPhpCodeIncludeDir('\XOOPS_ROOT_PATH', 'modules/tag/include/formtag', true, false, 'require', $t . "\t");
         $paramElem = $this->cxc->getClassXoopsFormTag('', 'tag', 60, 255, 'tagId', 0, true, '');
         $condIf    .= $this->cxc->getClassAddElement('form', $paramElem . $required, $t . "\t");
         $ret       .= $this->pc->getPhpCodeConditions($paramIf, ' && ', '$dirTag', $condIf, false, $t);
@@ -875,7 +861,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @param string $required
      * @return string
      */
-    private function getXoopsFormTextUuid($language, $fieldName, $required = 'false')
+    private function getXoopsFormTextUuid($language, $fieldName, string $required = 'false')
     {
         $ccFieldName  = $this->cf->getCamelCase($fieldName, false, true);
         $ret      = $this->pc->getPhpCodeCommentLine('Form Text Uuid', $ccFieldName, "\t\t");
@@ -894,12 +880,17 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
      * @param string $required
      * @return string
      */
-    private function getXoopsFormTextIp($language, $fieldName, $required = 'false')
+    private function getXoopsFormTextIp($language, $fieldName, string $required = 'false')
     {
         $ccFieldName  = $this->cf->getCamelCase($fieldName, false, true);
 
         $ret      = $this->pc->getPhpCodeCommentLine('Form Text IP', $ccFieldName, "\t\t");
         $ret      .= $this->xc->getXcEqualsOperator('$' . $ccFieldName, "\$_SERVER['REMOTE_ADDR']", null, "\t\t");
+
+        $ret      .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', "(\$_SERVER['REMOTE_ADDR'] ?? '')", "\$this->getVar('{$fieldName}')", "\t\t");
+
+
+
         $formText = $this->cxc->getClassXoopsFormText('', $language, $fieldName, 20, 150, $ccFieldName, true);
         $ret      .= $this->cxc->getClassAddElement('form', $formText . $required);
 
@@ -908,7 +899,7 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
 
     /**
      * @public function renderElements
-     * @param null
+     *
      * @return string
      */
     public function renderElements()
@@ -927,7 +918,6 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
         $fieldPidTopic     = '';
         $fieldMainTopic    = '';
         $fieldElementId    = [];
-        $counter           = 0;
         $tagDone           = false;
         foreach (\array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
@@ -946,7 +936,6 @@ class ClassFormElements extends Modulebuilder\Files\CreateAbstractClass
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
 
             if (1 == $fieldInForm) {
-                $counter++;
                 // Switch elements
                 switch ($fieldElement) {
                     case 1:

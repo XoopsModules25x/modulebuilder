@@ -45,7 +45,6 @@ class UserPrint extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -56,7 +55,6 @@ class UserPrint extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
      * @return UserPrint
      */
     public static function getInstance()
@@ -75,7 +73,7 @@ class UserPrint extends Files\CreateFile
      * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename): void
+    public function write($module, $table, string $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -87,7 +85,7 @@ class UserPrint extends Files\CreateFile
      * @param string $moduleDirname
      * @return string
      */
-    private function getTemplatesUserPrintHeader($moduleDirname)
+    private function getTemplatesUserPrintHeader(string $moduleDirname)
     {
         $ret = $this->hc->getHtmlComment('Header', '', "\n");
         $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'header', false, '', "\n\n");
@@ -99,11 +97,11 @@ class UserPrint extends Files\CreateFile
      * @private  function getTemplatesUserPrintTableThead
      * @param        $tableSoleName
      * @param        $tableAutoincrement
-     * @param array  $fields
+     * @param array $fields
      * @param string $language
      * @return string
      */
-    private function getTemplatesUserPrintTableThead($tableSoleName, $tableAutoincrement, $fields, $language)
+    private function getTemplatesUserPrintTableThead($tableSoleName, $tableAutoincrement, array $fields, string $language)
     {
         $th         = '';
         $langHeadId = \mb_strtoupper($tableSoleName) . '_ID';
@@ -122,9 +120,7 @@ class UserPrint extends Files\CreateFile
         }
 
         $tr  = $this->hc->getHtmlTableRow($th, 'head', "\t\t");
-        $ret = $this->hc->getHtmlTableThead($tr, '', "\t");
-
-        return $ret;
+        return $this->hc->getHtmlTableThead($tr, '', "\t");
     }
 
     /**
@@ -133,11 +129,11 @@ class UserPrint extends Files\CreateFile
      * @param string $tableName
      * @param        $tableSoleName
      * @param        $tableAutoincrement
-     * @param array  $fields
+     * @param array $fields
      * @return string
      * @internal param string $language
      */
-    private function getTemplatesUserPrintTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields)
+    private function getTemplatesUserPrintTableTBody(string $moduleDirname, string $tableName, $tableSoleName, $tableAutoincrement, array $fields)
     {
         $td = '';
         if (1 == $tableAutoincrement) {
@@ -207,9 +203,7 @@ class UserPrint extends Files\CreateFile
         $cycle   = $this->sc->getSmartyNoSimbol('cycle values=\'odd, even\'');
         $tr      = $this->hc->getHtmlTableRow($td, $cycle, "\t\t");
         $foreach = $this->sc->getSmartyForeach($tableSoleName, $tableName . '_list', $tr, '', '', "\t\t");
-        $tbody   = $this->hc->getHtmlTableTbody($foreach, '', "\t");
-
-        return $tbody;
+        return $this->hc->getHtmlTableTbody($foreach, '', "\t");
     }
 
     /**
@@ -222,7 +216,7 @@ class UserPrint extends Files\CreateFile
      * @param string $language
      * @return string
      */
-    private function getTemplatesUserPrintTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
+    private function getTemplatesUserPrintTable(string $moduleDirname, string $tableName, $tableSoleName, $tableAutoincrement, $fields, string $language)
     {
         $tbody = $this->getTemplatesUserPrintTableThead($tableSoleName, $tableAutoincrement, $fields, $language);
         $tbody .= $this->getTemplatesUserPrintTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields);
@@ -240,11 +234,9 @@ class UserPrint extends Files\CreateFile
      * @param string $language
      * @return string
      */
-    private function getTemplatesUserPrint($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
+    private function getTemplatesUserPrint(string $moduleDirname, string $tableName, $tableSoleName, $tableAutoincrement, $fields, string $language)
     {
-        $htmlTable = $this->getTemplatesUserPrintTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language);
-
-        return $htmlTable;
+        return $this->getTemplatesUserPrintTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language);
     }
 
     /**
@@ -252,18 +244,17 @@ class UserPrint extends Files\CreateFile
      * @param string $moduleDirname
      * @return string
      */
-    private function getTemplatesUserPrintFooter($moduleDirname)
+    private function getTemplatesUserPrintFooter(string $moduleDirname)
     {
         $ret = $this->hc->getHtmlComment('Footer', '', "\n");
-        $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'footer', false);
+        $ret .= $this->sc->getSmartyIncludeFile($moduleDirname, 'footer');
 
         return $ret;
     }
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

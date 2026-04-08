@@ -42,7 +42,6 @@ class Categories extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -71,7 +70,7 @@ class Categories extends Files\CreateFile
      * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename): void
+    public function write($module, $table, string $filename): void
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -83,7 +82,7 @@ class Categories extends Files\CreateFile
      * @param string $moduleDirname
      * @return string
      */
-    private function getTemplatesUserCategoriesHeader($moduleDirname)
+    private function getTemplatesUserCategoriesHeader(string $moduleDirname): string
     {
         return $this->sc->getSmartyIncludeFile($moduleDirname) . PHP_EOL;
     }
@@ -96,11 +95,11 @@ class Categories extends Files\CreateFile
      * @param        $tableSoleName
      * @return string
      */
-    private function getTemplatesUserCategoriesTable($moduleDirname, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserCategoriesTable($moduleDirname, $tableName, $tableSoleName, string $language): string
     {
         $single = $this->sc->getSmartySingleVar('table_type');
-        $table  = $this->getTemplatesAdminPagesTableThead($tableName, $language);
-        $table  .= $this->getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $language);
+        $table  = $this->getTemplatesUserCategoriesThead($tableName, $language);
+        $table  .= $this->getTemplatesUserCategoriesTbody($moduleDirname, $tableName, $tableSoleName);
 
         return $this->hc->getHtmlTable($table, 'table table-' . $single) . PHP_EOL;
     }
@@ -111,7 +110,7 @@ class Categories extends Files\CreateFile
      * @param        $tableName
      * @return string
      */
-    private function getTemplatesUserCategoriesThead($tableName, $language)
+    private function getTemplatesUserCategoriesThead($tableName, string $language): string
     {
         $stuTableName = \mb_strtoupper($tableName);
         $lang         = $this->sc->getSmartyConst($language, $stuTableName . '_TITLE');
@@ -129,7 +128,7 @@ class Categories extends Files\CreateFile
      * @param        $tableSoleName
      * @return string
      */
-    private function getTemplatesUserCategoriesTbody($moduleDirname, $tableName, $tableSoleName)
+    private function getTemplatesUserCategoriesTbody(string $moduleDirname, $tableName, $tableSoleName): string
     {
         $single  = $this->sc->getSmartySingleVar('panel_type');
         $include = $this->sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName);
@@ -147,7 +146,7 @@ class Categories extends Files\CreateFile
      * @private function getTemplatesUserCategoriesTfoot
      * @return string
      */
-    private function getTemplatesUserCategoriesTfoot()
+    private function getTemplatesUserCategoriesTfoot(): string
     {
         $td = $this->hc->getHtmlTableData('&nbsp;') . PHP_EOL;
         $tr = $this->hc->getHtmlTableRow($td) . PHP_EOL;
@@ -163,7 +162,7 @@ class Categories extends Files\CreateFile
      * @param $language
      * @return string
      */
-    private function getTemplatesUserCategories($moduleDirname, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserCategories($moduleDirname, $tableName, $tableSoleName, $language): string
     {
         $tab = $this->getTemplatesUserCategoriesTable($moduleDirname, $tableName, $tableSoleName, $language) . PHP_EOL;
         $div = $this->hc->getHtmlDiv($tab, 'table-responsive') . PHP_EOL;
@@ -179,7 +178,7 @@ class Categories extends Files\CreateFile
      * @param        $language
      * @return string
      */
-    private function getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserCategoriesPanel(string $moduleDirname, string $tableName, $tableSoleName, $language): string
     {
         $stuTableName = \mb_strtoupper($tableName);
         $incl      = $this->sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName) . PHP_EOL;
@@ -200,16 +199,16 @@ class Categories extends Files\CreateFile
      *
      * @return string
      */
-    private function getTemplatesUserCategoriesFooter($moduleDirname)
+    private function getTemplatesUserCategoriesFooter(string $moduleDirname): string
     {
         return $this->sc->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 
     /**
      * @public function render
-     * @return bool|string
+     * @return string
      */
-    public function render()
+    public function render(): string
     {
         $module         = $this->getModule();
         $table          = $this->getTable();

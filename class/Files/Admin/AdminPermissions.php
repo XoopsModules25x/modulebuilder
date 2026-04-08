@@ -50,7 +50,6 @@ class AdminPermissions extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -64,7 +63,7 @@ class AdminPermissions extends Files\CreateFile
     /**
      * @static function getInstance
      *
-     * @param null
+
      *
      * @return AdminPermissions
      */
@@ -81,13 +80,13 @@ class AdminPermissions extends Files\CreateFile
     /**
      * @public function write
      *
-     * @param string $module
+     * @param        $module
      * @param mixed  $tables
      * @param string $filename
      *
      * @return null
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $tables, string $filename)
     {
         $this->setModule($module);
         $this->setTables($tables);
@@ -183,7 +182,7 @@ class AdminPermissions extends Files\CreateFile
                 ];
             }
         }
-        $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true, false, "\t");
+        $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, true,"\t");
 
         return $this->pc->getPhpCodeSwitch('op', $contentSwitch);
     }
@@ -191,12 +190,12 @@ class AdminPermissions extends Files\CreateFile
     /**
      * @private function getPermissionsBody
      *
-     * @param string $module
+     * @param        $module
      * @param string $language
      *
      * @return string
      */
-    private function getPermissionsBody($module, $language)
+    private function getPermissionsBody($module, string $language)
     {
         $tables   = $this->getTableTables($module->getVar('mod_id'));
 
@@ -207,7 +206,7 @@ class AdminPermissions extends Files\CreateFile
         $if1      = $this->pc->getPhpCodeForeach('globalPerms', false, 'gPermId', 'gPermName', $foreach1, "\t");
         $if1      .= $this->xc->getXcXoopsTplAssign('form', '$permform->render()', true, "\t");
         $if1      .= $this->xc->getXcEqualsOperator('$permFound', 'true', null, "\t");
-        $ret      .= $this->pc->getPhpCodeConditions("'global'", ' === ', '$op', $if1, false);
+        $ret      .= $this->pc->getPhpCodeConditions("'global'", ' === ', '$op', $if1);
 
         foreach (\array_keys($tables) as $t) {
             if (1 == $tables[$t]->getVar('table_permissions')) {
@@ -215,18 +214,9 @@ class AdminPermissions extends Files\CreateFile
                 $tableMid  = $tables[$t]->getVar('table_mid');
                 $tableName = $tables[$t]->getVar('table_name');
                 $fields    = $this->getTableFields($tableMid, $tableId);
-                $fieldId   = 'id';
-                $fieldMain = 'title';
-                foreach (\array_keys($fields) as $f) {
-                    $fieldName = $fields[$f]->getVar('field_name');
-                    if (0 == $f) {
-                        $fieldId = $fieldName;
-                    }
-                    if (1 == $fields[$f]->getVar('field_main')) {
-                        $fieldMain = $fieldName;
-                    }
-                }
-                $if_count   = $this->xc->getXcHandlerAllObj($tableName, $fieldMain, 0, 0, "\t\t");
+                $fieldId   = $this->xc->getXcTableFieldId($fields);
+                $fieldMain = $this->xc->getXcTableFieldMain($fields);
+                $if_count   = $this->xc->getXcHandlerAllObj($tableName, $fieldMain, '0', '0', "\t\t");
                 $getVar1    = $this->xc->getXcGetVar('', "{$tableName}All[\$i]", $fieldId, true);
                 $getVar2    = $this->xc->getXcGetVar('', "{$tableName}All[\$i]", $fieldMain, true);
                 $fe_content = $this->xc->getXcAddItem('permform', $getVar1, $getVar2, "\t\t\t");
@@ -236,14 +226,14 @@ class AdminPermissions extends Files\CreateFile
                 $if_table   .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $if_count, false, "\t");
                 $if_table   .= $this->xc->getXcEqualsOperator('$permFound', 'true', null, "\t");
                 $cond       = "'approve_{$tableName}' === \$op || 'submit_{$tableName}' === \$op || 'view_{$tableName}' === \$op";
-                $ret        .= $this->pc->getPhpCodeConditions($cond, '', '', $if_table, false);
+                $ret        .= $this->pc->getPhpCodeConditions($cond, '', '', $if_table);
             }
         }
 
         $ret       .= $this->pc->getPhpCodeUnset('permform');
         $elseInter = $this->xc->getXcRedirectHeader("'permissions.php'", '', '3', "{$language}NO_PERMISSIONS_SET", false, "\t");
         $elseInter .= $this->getSimpleString('exit();', "\t");
-        $ret       .= $this->pc->getPhpCodeConditions('$permFound', ' !== ', 'true', $elseInter, false);
+        $ret       .= $this->pc->getPhpCodeConditions('$permFound', ' !== ', 'true', $elseInter);
 
         return $ret;
     }
@@ -251,9 +241,9 @@ class AdminPermissions extends Files\CreateFile
     /**
      * @public function render
      *
-     * @param null
+
      *
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

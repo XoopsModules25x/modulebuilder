@@ -42,7 +42,6 @@ class IncludeNotifications extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -53,7 +52,7 @@ class IncludeNotifications extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return IncludeNotifications
      */
     public static function getInstance()
@@ -68,11 +67,11 @@ class IncludeNotifications extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param mixed  $tables
      * @param string $filename
      */
-    public function write($module, $tables, $filename): void
+    public function write($module, $tables, string $filename): void
     {
         $this->setModule($module);
         $this->setTables($tables);
@@ -85,7 +84,7 @@ class IncludeNotifications extends Files\CreateFile
      *
      * @return string
      */
-    public function getNotificationsFunction($moduleDirname)
+    public function getNotificationsFunction(string $moduleDirname)
     {
         $stuModuleDirname = \mb_strtoupper($moduleDirname);
         $tables           = $this->getTables();
@@ -97,13 +96,14 @@ class IncludeNotifications extends Files\CreateFile
         $func             .= $this->pc->getPhpCodeConditions("!\defined('{$stuModuleDirname}_URL')", '', '', $contIf, false, $t);
         $func             .= $this->pc->getPhpCodeBlankLine();
 
+        $func          .= $this->xc->getXcEqualsOperator("\$itemId", "(int)\$item_id", '', $t);
         $case[]        = $this->xc->getXcEqualsOperator("\$item['name']", "''", '', $t . "\t\t");
         $case[]        = $this->xc->getXcEqualsOperator("\$item['url'] ", "''", '', $t . "\t\t");
         $case[]        = $this->getSimpleString('return $item;', $t . "\t\t");
         $cases         = [
             'global' => $case,
         ];
-        $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, false, false, $t . "\t");
+        $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, false, $t . "\t");
         unset($case);
 
         foreach (\array_keys($tables) as $i) {
@@ -130,21 +130,24 @@ class IncludeNotifications extends Files\CreateFile
                 } else {
                     $tableSingle = $tableName;
                 }
-                $case[] = $this->xc->getXcEqualsOperator('$sql         ', "'SELECT {$fieldMain} FROM ' . \$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} = '. \$item_id", '', $t . "\t\t");
-                $case[] = $this->xc->getXcEqualsOperator('$result      ', '$xoopsDB->query($sql)', '', $t . "\t\t");
+                $case[] = $this->xc->getXcEqualsOperator('$sql   ', "'SELECT {$fieldMain} FROM ' . \$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} = '. \$itemId", '', $t . "\t\t");
+                $case[] = $this->xc->getXcEqualsOperator('$result', '$xoopsDB->query($sql)', '', $t . "\t\t");
+                $condIf = $this->getSimpleString('return [];', $t . "\t\t\t");
+                $case[] = $this->pc->getPhpCodeConditions('!$result', '', '', $condIf, false, $t . "\t\t");
                 $case[] = $this->xc->getXcEqualsOperator('$result_array', '$xoopsDB->fetchArray($result)', '', $t . "\t\t");
+                $case[] = $this->pc->getPhpCodeConditions('!$result_array', '', '', $condIf, false, $t . "\t\t");
                 $case[] = $this->xc->getXcEqualsOperator("\$item['name']", "\$result_array['{$fieldMain}']", '', $t . "\t\t");
                 if ($fieldParent) {
-                    $case[] = $this->xc->getXcEqualsOperator("\$item['url'] ", "\\{$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldParent}=' . \$result_array['{$fieldParent}'] . '&amp;{$fieldId}=' . \$item_id", '', $t . "\t\t");
+                    $case[] = $this->xc->getXcEqualsOperator("\$item['url'] ", "\\{$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldParent}=' . \$result_array['{$fieldParent}'] . '&amp;{$fieldId}=' . \$itemId", '', $t . "\t\t");
                 } else {
-                    $case[] = $this->xc->getXcEqualsOperator("\$item['url'] ", "\\{$stuModuleDirname}_URL . '/{$tableName}.php?{$fieldId}=' . \$item_id", '', $t . "\t\t");
+                    $case[] = $this->xc->getXcEqualsOperator("\$item['url'] ", "\\{$stuModuleDirname}_URL . '/{$tableName}.php?{$fieldId}=' . \$itemId", '', $t . "\t\t");
                 }
 
                 $case[]        = $this->getSimpleString('return $item;', $t . "\t\t");
                 $cases         = [
                     $tableName => $case,
                 ];
-                $contentSwitch .= $this->pc->getPhpCodeCaseSwitch($cases, false, false, $t . "\t");
+                $contentSwitch .= $this->pc->getPhpCodeCaseSwitch($cases, false, $t . "\t");
                 unset($case);
             }
         }
@@ -158,8 +161,8 @@ class IncludeNotifications extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

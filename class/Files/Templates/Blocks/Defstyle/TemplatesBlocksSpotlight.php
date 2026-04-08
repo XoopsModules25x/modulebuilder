@@ -47,7 +47,6 @@ class TemplatesBlocksSpotlight extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -58,8 +57,8 @@ class TemplatesBlocksSpotlight extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
-     * @return false|TemplatesBlocks|TemplatesBlocksSpotlight
+     *
+     * @return false|TemplatesBlocksSpotlight
      */
     public static function getInstance()
     {
@@ -73,11 +72,11 @@ class TemplatesBlocksSpotlight extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
-     * @param string $table
+     * @param        $module
+     * @param        $table
      * @param string $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, string $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
@@ -92,7 +91,7 @@ class TemplatesBlocksSpotlight extends Files\CreateFile
      * @param $tableAutoincrement
      * @return string
      */
-    private function getTemplatesBlocksTableThead($tableId, $tableMid, $language, $tableAutoincrement)
+    private function getTemplatesBlocksTableThead($tableId, $tableMid, string $language, $tableAutoincrement)
     {
         $th     = '';
 		if (1 == $tableAutoincrement) {
@@ -107,6 +106,7 @@ class TemplatesBlocksSpotlight extends Files\CreateFile
                 $th           .= $this->hc->getHtmlTableHead($lang, 'center', '', "\t\t\t");
             }
         }
+        $th .= $this->hc->getHtmlTableHead('&nbsp;', '', '', "\t\t\t");
         $tr = $this->hc->getHtmlTableRow($th, 'head', "\t\t");
 
         return $this->hc->getHtmlTableThead($tr, '', "\t");
@@ -123,7 +123,7 @@ class TemplatesBlocksSpotlight extends Files\CreateFile
      * @param        $language
      * @return string
      */
-    private function getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
+    private function getTemplatesBlocksTableTbody(string $moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
         $td = '';
         $fieldId = '';
@@ -231,7 +231,7 @@ class TemplatesBlocksSpotlight extends Files\CreateFile
      * @param string $language
      * @return string
      */
-    private function getTemplatesBlocksTable($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
+    private function getTemplatesBlocksTable(string $moduleDirname, $tableId, $tableMid, string $tableName, $tableSoleName, $tableAutoincrement, string $language)
     {
         $tbody  = $this->getTemplatesBlocksTableThead($tableId, $tableMid, $language, $tableAutoincrement);
         $tbody  .= $this->getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language);
@@ -243,9 +243,8 @@ class TemplatesBlocksSpotlight extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
      *
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

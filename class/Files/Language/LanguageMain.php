@@ -42,7 +42,6 @@ class LanguageMain extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -53,7 +52,7 @@ class LanguageMain extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
+     *
      * @return LanguageMain
      */
     public static function getInstance()
@@ -68,11 +67,11 @@ class LanguageMain extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param mixed  $tables
      * @param string $filename
      */
-    public function write($module, $tables, $filename): void
+    public function write($module, $tables, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -81,22 +80,22 @@ class LanguageMain extends Files\CreateFile
 
     /**
      * @private function getLanguageMain
-     * @param string $module
+     * @param        $module
      * @param string $language
      *
      * @return string
      */
-    private function getLanguageMain($module, $language)
+    private function getLanguageMain($module, string $language)
     {
         $utility = new \XoopsModules\Modulebuilder\Utility();
 
-        $moduleName = $module->getVar('mod_name');
         $tables     = $this->getTables();
         $ret        = $this->ld->getBlankLine();
         $ret        .= $this->pc->getPhpCodeIncludeDir('__DIR__', 'admin', true);
         $ret        .= $this->ld->getBlankLine();
         $ret        .= $this->ld->getAboveHeadDefines('Main');
-        $ret        .= $this->ld->getDefine($language, 'INDEX', 'Overview ' . (string)$module->getVar('mod_name'));
+        $ret        .= $this->ld->getDefine($language, 'HOME', 'Home');
+        $ret        .= $this->ld->getDefine($language, 'INDEX', 'Overview ' . $module->getVar('mod_name'));
         $ret        .= $this->ld->getDefine($language, 'TITLE', (string)$module->getVar('mod_name'));
         $ret        .= $this->ld->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
         $ret        .= $this->ld->getDefine($language, 'NO_PDF_LIBRARY', 'Libraries TCPDF not there yet, upload them in root/Frameworks');
@@ -105,9 +104,6 @@ class LanguageMain extends Files\CreateFile
         $ret        .= $this->ld->getDefine($language, 'BROKEN', 'Notify broken');
         $ret        .= $this->ld->getAboveHeadDefines('Contents');
         $ucfTableName     = '';
-        $ucfTableSoleName = '';
-        $stuTableSoleName = '';
-        $tableSoleName    = '';
         $tableSubmit      = 0;
         $tableBroken      = 0;
         $tableRate        = 0;
@@ -170,7 +166,6 @@ class LanguageMain extends Files\CreateFile
             if (1 === $tableBroken) {
                 $ret .= $this->ld->getDefine($language, 'FORM_SURE_BROKEN', "Are you sure to notify as broken: <b><span style='color : Red;'>%s </span></b>", true);
             }
-            $ret .= $this->ld->getDefine($language, 'INVALID_PARAM', 'Invalid parameter');
         }
         if (1 === $tableRate) {
             $ret .= $this->ld->getAboveHeadDefines('Ratings');
@@ -205,6 +200,9 @@ class LanguageMain extends Files\CreateFile
             $ret .= $this->ld->getAboveHeadDefines('Print');
             $ret .= $this->ld->getDefine($language, 'PRINT', 'Print');
         }
+        $ret .= $this->ld->getAboveDefines('Errors');
+        $ret .= $this->ld->getDefine($language, 'INVALID_DATE', 'Invalid date');
+        $ret .= $this->ld->getDefine($language, 'INVALID_PARAM', 'Invalid parameter');
 
         return $ret;
     }
@@ -215,7 +213,7 @@ class LanguageMain extends Files\CreateFile
      *
      * @return string
      */
-    private function getLanguageMainFooter($language)
+    private function getLanguageMainFooter(string $language)
     {
         $ret = $this->ld->getAboveDefines('Admin link');
         $ret .= $this->ld->getDefine($language, 'ADMIN', 'Admin');
@@ -227,8 +225,8 @@ class LanguageMain extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {

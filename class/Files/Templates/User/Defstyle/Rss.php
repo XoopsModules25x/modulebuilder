@@ -33,7 +33,6 @@ class Rss extends Files\CreateFile
 {
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -42,7 +41,6 @@ class Rss extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
      * @return Rss
      */
     public static function getInstance()
@@ -60,7 +58,7 @@ class Rss extends Files\CreateFile
      * @param        $module
      * @param string $filename
      */
-    public function write($module, $filename): void
+    public function write($module, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -68,54 +66,50 @@ class Rss extends Files\CreateFile
 
     /**
      * @private function getTemplatesUserRssXml
-     * @param null
      * @return string
      */
     private function getTemplatesUserRssXml()
     {
-        $ret = <<<EOT
+        return <<<EOT
             <?xml version="1.0" encoding="UTF-8"?>
             <rss version="2.0">
               <channel>
-                <title><{\$channel_title}></title>
-                <link><{\$channel_link}></link>
-                <description><{\$channel_desc}></description>
-                <lastBuildDate><{\$channel_lastbuild}></lastBuildDate>
-                <docs>https://backend.userland.com/rss/</docs>
-                <generator><{\$channel_generator}></generator>
-                <category><{\$channel_category}></category>
-                <managingEditor><{\$channel_editor}></managingEditor>
-                <webMaster><{\$channel_webmaster}></webMaster>
-                <language><{\$channel_language}></language>
+                <title><{\$channel_title|escape:'html':'UTF-8'}></title>
+                <link><{\$channel_link|escape:'html':'UTF-8'}></link>
+                <description><{\$channel_desc|escape:'html':'UTF-8'}></description>
+                <lastBuildDate><{\$channel_lastbuild|escape:'html':'UTF-8'}></lastBuildDate>
+                <docs><{\$docs|escape:'html':'UTF-8'}></docs>
+                <generator><{\$channel_generator|escape:'html':'UTF-8'}></generator>
+                <category><{\$channel_category|escape:'html':'UTF-8'}></category>
+                <managingEditor><{\$channel_editor|escape:'html':'UTF-8'}></managingEditor>
+                <webMaster><{\$channel_webmaster|escape:'html':'UTF-8'}></webMaster>
+                <language><{\$channel_language|escape:'html':'UTF-8'}></language>
                 <{if \$image_url != ""}>
                 <image>
-                  <title><{\$channel_title}></title>
-                  <url><{\$image_url}></url>
-                  <link><{\$channel_link}></link>
+                  <title><{\$channel_title|escape:'html':'UTF-8'}></title>
+                  <url><{\$image_url|escape:'html':'UTF-8'}></url>
+                  <link><{\$channel_link|escape:'html':'UTF-8'}></link>
                   <width><{\$image_width}></width>
                   <height><{\$image_height}></height>
                 </image>
                 <{/if}>
                 <{foreach item=item from=\$items}>
                 <item>
-                  <title><{\$item.title}></title>
-                  <link><{\$item.link}></link>
-                  <description><{\$item.description}></description>
-                  <pubDate><{\$item.pubdate}></pubDate>
-                  <guid><{\$item.guid}></guid>
+                  <title><{\$item.title|escape:'html':'UTF-8'}></title>
+                  <link><{\$item.link|escape:'html':'UTF-8'}></link>
+                  <description><{\$item.description|escape:'html':'UTF-8'}></description>
+                  <pubDate><{\$item.pubdate|escape:'html':'UTF-8'}></pubDate>
+                  <guid><{\$item.guid|escape:'html':'UTF-8'}></guid>
                 </item>
                 <{/foreach}>
               </channel>
             </rss>\n
             EOT;
-
-        return $ret;
     }
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     * @return string
      */
     public function render()
     {

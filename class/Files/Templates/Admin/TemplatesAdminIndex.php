@@ -42,7 +42,6 @@ class TemplatesAdminIndex extends Files\CreateFile
 
     /**
      * @public function constructor
-     * @param null
      */
     public function __construct()
     {
@@ -67,10 +66,10 @@ class TemplatesAdminIndex extends Files\CreateFile
 
     /**
      * @public function write
-     * @param string $module
+     * @param        $module
      * @param string $filename
      */
-    public function write($module, $filename): void
+    public function write($module, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -78,8 +77,8 @@ class TemplatesAdminIndex extends Files\CreateFile
 
     /**
      * @public function render
-     * @param null
-     * @return bool|string
+     *
+     * @return string
      */
     public function render()
     {
