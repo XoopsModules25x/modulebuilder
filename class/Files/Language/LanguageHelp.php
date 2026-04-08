@@ -60,7 +60,7 @@ class LanguageHelp extends Files\CreateFile
      * @param        $module
      * @param string $filename
      */
-    public function write($module, string $filename): void
+    public function write(Modulebuilder\Modules $module, string $filename): void
     {
         $this->setModule($module);
         $this->setFileName($filename);
@@ -109,6 +109,9 @@ class LanguageHelp extends Files\CreateFile
             EOT;
         if ('english' !== $language) {
             $this->create($moduleDirname, 'language/' . $language . '/help', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
+            if (!$this->renderFile()) {
+                throw new \RuntimeException("The help.tpl file in 'language/" . $language . "/help' could not be created.");
+            }
         }
         $this->create($moduleDirname, 'language/english/help', $filename, $content, \_AM_MODULEBUILDER_FILE_CREATED, \_AM_MODULEBUILDER_FILE_NOTCREATED);
 

@@ -145,8 +145,9 @@ class UserPdf extends Files\CreateFile
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $fieldMain = $this->xc->getXcTableFieldMain($fields);
 
+        $ret = '';
         if (1 === $tablePermissions) {
-            $ret = $this->pc->getPhpCodeCommentLine('Check permissions');
+            $ret .= $this->pc->getPhpCodeCommentLine('Check permissions');
             $ret .= $this->getSimpleString('$currentuid = 0;');
             $condIf = $this->getSimpleString('$currentuid = $xoopsUser->uid();', "\t");
             $ret .= $this->pc->getPhpCodeConditions('isset($xoopsUser) && \is_object($xoopsUser)', '', '', $condIf);

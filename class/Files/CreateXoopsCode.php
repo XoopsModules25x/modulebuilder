@@ -177,11 +177,12 @@ class CreateXoopsCode
      * @param        $tableName
      * @param        $tableSoleName
      * @param        $fieldName
-     * @param string $t
      * @param string $language
+     * @param string $t
+     *
      * @return string
      */
-    public function getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, string $t = '', string $language = ''): string
+    public function getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, string $language, string $t = ''): string
     {
         $cf            = Modulebuilder\Files\CreateFile::getInstance();
         $pc            = Modulebuilder\Files\CreatePhpCode::getInstance();
@@ -622,10 +623,10 @@ class CreateXoopsCode
                 $ret .= $axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, '', $countUploader);
                 $countUploader++;
             } elseif (14 == $fieldElement) {
-                $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, '', '', $countUploader);
+                $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, '', $countUploader);
                 $countUploader++;
             } elseif (15 == $fieldElement) {
-                $ret .= $this->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, '', $language);
+                $ret .= $this->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $language);
             } else {
                 $ret .= $this->getXcSetVarObj($tableName, $fieldName, "\$_POST['{$fieldName}']");
             }
@@ -947,11 +948,11 @@ class CreateXoopsCode
                         $countUploader++;
                         break;
                     case 14:
-                        $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $countUploader, $fieldMain);
+                        $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, '', $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case 15:
-                        $ret .= $this->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, '', $language);
+                        $ret .= $this->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $language);
                         break;
                     default:
                         $ret .= $this->getXcSetVarObj($tableName, $fieldName, "\$_POST['{$fieldName}']");
@@ -1222,7 +1223,7 @@ class CreateXoopsCode
                         $countUploader++;
                         break;
                     case 15:
-                        $fieldLines .= $this->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t, $language);
+                        $fieldLines .= $this->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $language, $t);
                         break;
                     case 17:
                         $fieldLines .= $axc->getAxcSetVarPassword($tableName, $fieldName, $t);

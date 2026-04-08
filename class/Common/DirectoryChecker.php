@@ -150,9 +150,9 @@ switch ($op) {
         if (!\Xmf\Request::hasVar('path', 'POST') || !\Xmf\Request::hasVar('redirect', 'POST') || !\Xmf\Request::hasVar('mode', 'POST')) {
             break;
         }
-        $path = \Xmf\Request::getString('path', 'POST');
-        $redirect = \Xmf\Request::getString('redirect', 'POST');
-        $mode = \Xmf\Request::getInt('mode', 'POST');
+        $path = \Xmf\Request::getString('path');
+        $redirect = \Xmf\Request::getString('redirect');
+        $mode = \Xmf\Request::getInt('mode');
         $msg = DirectoryChecker::setDirectoryPermissions($path, $mode) ? \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMSET') : \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMNOTSET');
 
         \redirect_header($redirect, 2, $msg . ': ' . $path);

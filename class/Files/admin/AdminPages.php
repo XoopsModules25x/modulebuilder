@@ -328,7 +328,7 @@ class AdminPages extends Files\CreateFile
                         $countUploader++;
                         break;
                     case Constants::FIELD_ELE_TEXTDATESELECT:
-                        $fieldLines .= $this->xc->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t, $language);
+                        $fieldLines .= $this->xc->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $language, $t);
                         break;
                     case Constants::FIELD_ELE_PASSWORD:
                         $fieldLines .= $this->axc->getAxcSetVarPassword($tableName, $fieldName, $t);
