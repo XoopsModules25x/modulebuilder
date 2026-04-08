@@ -209,7 +209,7 @@ switch ($op) {
                 if ($order > 0) {
                     $fieldOrder = $fieldsObj->get($order);
                     $fieldOrder->setVar('field_order', $i);
-                    if (!$fieldsObj->insert($fieldOrder)) {
+                    if (!$fieldsObj->insert()) {
                         $error = true;
                     }
                     ++$i;

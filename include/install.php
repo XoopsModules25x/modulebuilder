@@ -49,7 +49,7 @@ function xoops_module_pre_install_modulebuilder(\XoopsModule $module)
 
 /**
  * @param \XoopsModule $module
- * @return bool|string
+ * @return true
  */
 function xoops_module_install_modulebuilder(\XoopsModule $module)
 {

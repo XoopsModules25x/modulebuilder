@@ -10,7 +10,7 @@
  */
 
 /**
- * Wfdownloads module
+ * Modulebuilder module
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -23,7 +23,7 @@ $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 \define('CO_' . $moduleDirNameUpper . '_GDLIBSTATUS', 'GD library support: ');
 \define('CO_' . $moduleDirNameUpper . '_GDLIBVERSION', 'GD Library version: ');
 \define('CO_' . $moduleDirNameUpper . '_GDOFF', "<span style='font-weight: bold;'>Disabled</span> (No thumbnails available)");
-\define('CO_' . $moduleDirNameUpper . '_GDON', "<span style='font-weight: bold;'>Enabled</span> (Thumbsnails available)");
+\define('CO_' . $moduleDirNameUpper . '_GDON', "<span style='font-weight: bold;'>Enabled</span> (Thumbnails available)");
 \define('CO_' . $moduleDirNameUpper . '_IMAGEINFO', 'Server status');
 \define('CO_' . $moduleDirNameUpper . '_MAXPOSTSIZE', 'Max post size permitted (post_max_size directive in php.ini): ');
 \define('CO_' . $moduleDirNameUpper . '_MAXUPLOADSIZE', 'Max upload size permitted (upload_max_filesize directive in php.ini): ');

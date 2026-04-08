@@ -35,7 +35,7 @@ if (\function_exists($funct)) {
 /**
  * @param string $val
  */
-function phpFunction($val = ''): void
+function phpFunction(string $val = ''): void
 {
     // create php function here
     echo $val;

@@ -176,7 +176,7 @@ function createLogo($dirname)
     // Write text
     $textColor     = \imagecolorallocate($imageModule, 0, 0, 0);
     $spaceToBorder = (int)((80 - \mb_strlen($dirname) * 6.5) / 2);
-    \imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, \ucfirst($dirname), []);
+    \imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, \ucfirst($dirname));
 
     // Set transparency color
     //$white = imagecolorallocatealpha($imageModule, 255, 255, 255, 127);

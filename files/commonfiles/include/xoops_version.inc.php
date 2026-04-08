@@ -18,21 +18,35 @@
 
 /**
  * @param $val
- * @return float|int
+ * @return int
  */
-function modulebuilderReturnBytes($val)
+
+function modulebuilderReturnBytes($val): int
 {
-    switch (\mb_substr($val, -1)) {
-        case 'K':
-        case 'k':
-            return (int)$val * 1024;
-        case 'M':
-        case 'm':
-            return (int)$val * 1048576;
-        case 'G':
-        case 'g':
-            return (int)$val * 1073741824;
-        default:
-            return $val;
+
+    $raw = \trim((string)$val);
+    if ($raw === '') {
+        return 0;
     }
-}
+    if ($raw === '-1') {
+        return -1;
+    }
+    if (\is_numeric($raw)) {
+        return (int)$raw;
+    }
+
+    $unit = \strtoupper(\substr($raw, -1));
+    $number = (float)\substr($raw, 0, -1);
+
+    switch ($unit) {
+    case 'K':
+            return (int)\round($number * 1024);
+         case 'M':
+            return (int)\round($number * 1048576);
+         case 'G':
+
+            return (int)\round($number * 1073741824);
+         default:
+            return (int)$raw;
+     }
+ }

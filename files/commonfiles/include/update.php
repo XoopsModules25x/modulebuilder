@@ -57,7 +57,6 @@ function xoops_module_update_modulebuilder($module, $prev_version = null)
  */
 function modulebuilder_check_db($module)
 {
-    $ret = true;
     //insert here code for database check
 
     /*
@@ -95,5 +94,5 @@ function modulebuilder_check_db($module)
         }
     }
     */
-    return $ret;
+    return true;
 }

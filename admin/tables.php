@@ -163,7 +163,7 @@ switch ($op) {
         }
         $tablesObj->setVar('table_autoincrement', (1 == $_REQUEST['table_autoincrement']) ? 1 : 0);
         // Options
-        $tableOption = \Xmf\Request::getArray('table_option', []);
+        $tableOption = \Xmf\Request::getArray('table_option');
         $tablesObj->setVar('table_install', \in_array('install', $tableOption));
         $tablesObj->setVar('table_index', \in_array('index', $tableOption));
         $tablesObj->setVar('table_blocks', \in_array('blocks', $tableOption));
@@ -245,7 +245,7 @@ switch ($op) {
                 if ($order > 0) {
                     $tableOrder = $tablesObj->get($order);
                     $tableOrder->setVar('table_order', $i);
-                    if (!$tablesObj->insert($tableOrder)) {
+                    if (!$tablesObj->insert()) {
                         $error = true;
                     }
                     ++$i;

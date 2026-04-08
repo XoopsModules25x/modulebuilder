@@ -57,6 +57,7 @@
     <{if $checkResultsNice|default:''}>
         <h3 class="red"><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_RESULT}></h3>
         <p><img src="<{xoModuleIcons16 'on.png'}>" alt=""><{$smarty.const._AM_MODULEBUILDER_BUILDING_CHECK_NOERRORS}></p>
+        <div class="xo-buttons"><a href="building.php"><{$smarty.const._BACK}></a></div>
     <{/if}>
     <{if $form|default:''}>
         <{$form}>

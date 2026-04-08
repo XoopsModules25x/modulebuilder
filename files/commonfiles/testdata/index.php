@@ -45,7 +45,7 @@ switch ($op) {
             loadSampleData();
         } else {
             xoops_cp_header();
-            xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', \sprintf(\constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA_OK')), \constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'));
+            xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', \constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA_OK'), \constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'));
             xoops_cp_footer();
         }
         break;
@@ -159,16 +159,15 @@ function exportSchema(): void
  *
  * @param string $table  value with should be used insead of original value of $search
  *
- * @param array  $data   array of rows to insert
+ * @param array $data   array of rows to insert
  *                       Each element of the outer array represents a single table row.
  *                       Each row is an associative array in 'column' => 'value' format.
  * @param string $search name of column for which the value should be replaced
  * @param        $replace
  * @return int number of rows inserted
  */
-function loadTableFromArrayWithReplace($table, $data, $search, $replace)
+function loadTableFromArrayWithReplace(string $table, array $data, string $search, $replace)
 {
-    /** @var \XoopsDatabase $db */
     $db            = \XoopsDatabaseFactory::getDatabaseConnection();
     $prefixedTable = $db->prefix($table);
     $count         = 0;
