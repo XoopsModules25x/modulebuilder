@@ -71,7 +71,7 @@ class LanguageHelp extends Files\CreateFile
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         $module        = $this->getModule();
         $filename      = $this->getFileName();
