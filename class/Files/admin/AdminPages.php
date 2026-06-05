@@ -244,7 +244,7 @@ class AdminPages extends Files\CreateFile
         $contIf = $this->xc->getXcRedirectHeader($tableName, '?op=list', 3, "{$language}INVALID_PARAM", true, $t . "\t");
         $ret    .= $this->pc->getPhpCodeConditions("\${$ccFieldId}Source", ' === ', '0', $contIf, false, $t);
 
-        $ret .= $this->xc->getXcCommonPagesClone($tableName, $ccFieldId, $t, $language);
+        $ret .= $this->xc->getXcCommonPagesClone($tableName, $fieldId, $ccFieldId, $t, $language);
 
         return $ret;
     }

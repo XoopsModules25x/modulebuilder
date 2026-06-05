@@ -1800,15 +1800,17 @@ class CreateXoopsCode
     /**
      * @public  function getXcCommonPagesClone
      * @param        $tableName
+     * @param        $fieldId
      * @param        $ccFieldId
      * @param string $t
      * @param string $language
      * @return string
      */
-    public function getXcCommonPagesClone($tableName, $ccFieldId, string $t = '', string $language = ''): string
+    public function getXcCommonPagesClone($tableName, $fieldId, $ccFieldId, string $t = '', string $language = ''): string
     {
         $pc = Modulebuilder\Files\CreatePhpCode::getInstance();
         $xc = Modulebuilder\Files\CreateXoopsCode::getInstance();
+        $cf = Modulebuilder\Files\CreateFile::getInstance();
 
         $ret = $pc->getPhpCodeCommentLine('Get Form', null, "\t\t");
         $ret .= $xc->getXcHandlerGet($tableName, $ccFieldId . 'Source', 'ObjSource', $tableName . 'Handler', false, $t);
@@ -1816,6 +1818,8 @@ class CreateXoopsCode
         $redirectError      = $xc->getXcRedirectHeader($tableName, '', '3', "{$language}INVALID_PARAM", true, $t . "\t");
         $ret                .= $pc->getPhpCodeConditions('!' . $tablenameObj, '', '', $redirectError, false, $t);
         $ret .= $xc->getXcEqualsOperator('$' . $tableName . 'Obj', '$' . $tableName . 'ObjSource->xoopsClone()', null, $t);
+        $ret .= $cf->getSimpleString('$' . $tableName . 'Obj->setNew();', "\t\t");
+        $ret .= $this->getXcSetVarObj($tableName, $fieldId, 0, "\t\t");
         $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
         $ret .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
 
